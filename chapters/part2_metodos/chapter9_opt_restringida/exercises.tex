@@ -173,6 +173,53 @@ Probar que existe $\delta > 0$ tal que, si $\|x^0 - \bar{x}\| < \delta$, entonce
     Probar las afirmaciones del Teorema 4.3.1, suponiendo que $f$ y $\psi$ son inferiormente semi-continuas en $\R^n$, $\psi$ satisface \eqref{eq:4.32}, $D \neq \emptyset$ e $\inf_{x \in D} f(x) > -\infty$.
 \end{exercise}
 
+\begin{exercise}
+    Probar resultados análogos a aquellos de la Proposición 4.3.1 y del Teorema 4.3.1, para el método de penalización externa parcial.
+\end{exercise}
+
+\begin{exercise}
+    Suponiendo en vez de la existencia de una solución local estricta del problema \eqref{eq:4.31}, la existencia de un conjunto de soluciones locales compacto y aislado, probar el resultado análogo a aquel del Teorema 4.3.2. (Entendemos que un conjunto $S \subset \R^n$ de soluciones locales es aislado cuando existe un número $\delta > 0$ tal que la vecindad $U(S, \delta) = \{ x \in \R^n \mid \dist(x, S) < \delta \}$ de $S$ no contiene soluciones locales que no pertenezcan a $S$.)
+\end{exercise}
+
+\begin{exercise}
+    Considerar el problema \eqref{eq:4.31}, donde el conjunto factible $D$ es dado por \eqref{eq:4.33}. Sean las funciones $\inmap{f}{\R^n}{\R}$, $\inmap{h}{\R^n}{\R^l}$ y $\inmap{g}{\R^n}{\R^m}$ diferenciables en una vecindad de una solución local $\bar{x} \in \R^n$ del problema, con derivadas continuas en este punto.
+    
+    Considerando el problema auxiliar
+    \[
+        \min f(x) + \| x - \bar{x} \|^2 \quad \text{sujeto a} \quad x \in D,
+    \]
+    y utilizando los resultados de los Teoremas 4.3.2 y 1.2.1, probar las condiciones de optimalidad de F. John (vea [12, Teorema 4.2.3]).
+\end{exercise}
+
+\begin{exercise}
+    Sean $\inmap{h}{\R^n}{\R^l}$ y $\inmap{g}{\R^n}{\R^m}$ funciones diferenciables en el punto $x \in \R^n$.
+    
+    Mostrar que la función $\psi$ definida por \eqref{eq:4.65} es diferenciable en $x$, en cada dirección $d \in \R^n$, y se tiene que
+    \begin{align}\label{eq:4.69}
+        \psi'(x; d) &= \sum_{i \in J^+(x)} \interno{h'_i(x)}{d} + \sum_{i \in J^0(x)} |\interno{h'_i(x)}{d}| \nonumber \\
+        &\quad - \sum_{i \in J^-(x)} \interno{h'_i(x)}{d} + \sum_{i \in I^+(x)} \interno{g'_i(x)}{d} \nonumber \\
+        &\quad + \sum_{i \in I^0(x)} \max\{0, \interno{g'_i(x)}{d}\},
+    \end{align}
+    donde
+    \begin{align*}
+        J^+(x) &= \{ i = 1, \dots, l \mid h_i(x) > 0 \}, \\
+        J^0(x) &= \{ i = 1, \dots, l \mid h_i(x) = 0 \}, \\
+        J^-(x) &= \{ i = 1, \dots, l \mid h_i(x) < 0 \}, \\
+        I^+(x) &= \{ i = 1, \dots, m \mid g_i(x) > 0 \}, \\
+        I^0(x) &= \{ i = 1, \dots, m \mid g_i(x) = 0 \}.
+    \end{align*}
+    
+    En particular, si $x \in D$, se tiene que
+    \begin{equation}\label{eq:4.70}
+        \psi'(x; d) = \sum_{i=1}^l |\interno{h'_i(x)}{d}| + \sum_{i \in I(x)} \max\{0, \interno{g'_i(x)}{d}\},
+    \end{equation}
+    donde $I(x) = I^0(x)$ es el conjunto de las restricciones activas en $x \in D$.
+\end{exercise}
+
+\begin{exercise}
+    Probar resultados análogos a aquellos de los Teoremas 4.3.4, 4.3.5 y 4.3.6, para la penalización dada por \eqref{eq:4.68}.
+\end{exercise}
+
 \TODO{Cuarto Bloque de Ejercicios}
 
 %%% Local Variables:

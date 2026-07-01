@@ -218,3 +218,511 @@ El resultado siguiente prueba la convergencia asintótica del Algoritmo 4.3.1, a
 \end{proof}
 
 El Teorema 4.3.1 puede ser ligeramente generalizado en relación a las hipótesis de continuidad de las funciones $f$ y $\psi$.
+
+Observemos que podemos considerar un método más general que el Algoritmo 4.3.1, donde (tal vez) no todas las restricciones son penalizadas. Sea el problema
+\[
+    \min f(x) \quad \text{sujeto a} \quad x \in \Omega \cap D,
+\]
+donde $\Omega$ y $D$ son conjuntos en $\R^n$ arbitrarios. Un método con penalización parcial de restricciones es dado por la resolución de problemas
+\[
+    \min \varphi(x; c) \quad \text{sujeto a} \quad x \in \Omega,
+\]
+donde $\varphi(\cdot; c)$ es dada por \eqref{eq:4.39} y $\psi$ es dada por \eqref{eq:4.32}. O sea, $\psi$ penaliza la violación de la restricción $x \in D$ (y no penaliza la restricción $x \in \Omega$). Cuando un subconjunto de restricciones tiene estructura simple (el subconjunto $\Omega$), la no penalización de esas restricciones puede ser ventajosa. O sea, puede tener sentido computacional tratar esas restricciones explícitamente (como restricciones del problema) en vez de implícitamente (vía penalización). Evidentemente, el Algoritmo 4.3.1 es un caso especial de la construcción de arriba, correspondiente a la elección $\Omega = \R^n$.
+
+En general, el problema \eqref{eq:4.38} puede no poseer soluciones o poseer varias. El resultado siguiente contiene, entre otras cosas, condiciones suficientes para garantizar la existencia de soluciones (locales) de \eqref{eq:4.38} y la convergencia de estas soluciones a una solución local del problema original. Así obtenemos una versión más práctica del Algoritmo 4.3.1, que trabaja con soluciones locales de problemas penalizados.
+
+\begin{theorem}[Convergencia de soluciones locales de problemas penalizados]\label{th:4.3.2}
+    Sean $\inmap{f}{\R^n}{\R}$ y $\inmap{\psi}{\R^n}{\R_+}$ funciones continuas en $\R^n$, donde $\psi$ satisface \eqref{eq:4.32}. Sea $\bar{x} \in \R^n$ un minimizador local estricto del problema \eqref{eq:4.31}.
+    
+    Entonces existe un número $\delta > 0$ tal que para cualquier solución (global) $x(c)$ del problema
+    \[
+        \min \varphi(x; c) \quad \text{sujeto a} \quad x \in B(\bar{x}, \delta),
+    \]
+    donde la función objetivo es dada por \eqref{eq:4.39} con $c \ge 0$, se tiene que
+    \begin{equation}\label{eq:4.46}
+        x(c) \to \bar{x} \quad (c \to +\infty).
+    \end{equation}
+    
+    En particular, para todo número $c > 0$ suficientemente grande, el problema \eqref{eq:4.38} posee una solución local $x(c)$ tal que vale \eqref{eq:4.46}.
+\end{theorem}
+
+\begin{proof}
+    Primero notamos que, por el Teorema de Weierstrass (Teorema 1.1.1), para todo $c \ge 0$ el punto $x(c)$ en cuestión existe.
+    
+    Fijamos $\delta > 0$ tal que el punto $\bar{x}$ sea la única solución global del problema
+    \begin{equation}\label{eq:4.47}
+        \min f(x) \quad \text{sujeto a} \quad x \in D \cap B(\bar{x}, \delta).
+    \end{equation}
+    (La existencia de tal $\delta > 0$ se sigue del hecho de que $\bar{x}$ es minimizador local estricto).
+    
+    Los valores de la función $\inmap{x(\cdot)}{\R}{\R^n}$ pertenecen al conjunto $B(\bar{x}, \delta)$, que es compacto. Por lo tanto, estos valores tienen un punto de acumulación $\tilde{x} \in B(\bar{x}, \delta)$ cuando $c \to +\infty$. Probaremos que $\tilde{x}$ es una solución global del problema \eqref{eq:4.47}.
+    
+    Por la definición de $x(c)$, para todo $c$ tenemos que
+    \[
+        \varphi(x(c); c) \le \varphi(x; c) \quad \forall x \in B(\bar{x}, \delta).
+    \]
+    Por lo tanto, utilizando el hecho de que $f(x) = \varphi(x; c)$ para todo $x \in D$, tenemos que
+    \begin{align}
+        f(x(c)) + c\psi(x(c)) &= \varphi(x(c); c) \nonumber \\
+        &\le \inf_{x \in D \cap B(\bar{x}, \delta)} \varphi(x; c) \nonumber \\
+        &= \inf_{x \in D \cap B(\bar{x}, \delta)} f(x) = v, \label{eq:4.48}
+    \end{align}
+    donde $v = v(\bar{x}, \delta)$ es el valor óptimo del problema \eqref{eq:4.47}.
+    
+    Fijemos ahora una secuencia $\{c_k\} \subset \R$ tal que $c_k \to +\infty$, $\{x(c_k)\} \to \tilde{x} \ (k \to \infty)$. De \eqref{eq:4.48}, obtenemos que
+    \begin{equation}\label{eq:4.49}
+        \limsup_{k \to \infty} c_k\psi(x(c_k)) \le v - f(\tilde{x}).
+    \end{equation}
+    
+    De donde, como $c_k \to +\infty \ (k \to \infty)$, obtenemos
+    \[
+        \psi(\tilde{x}) = \lim_{k \to \infty} \psi(x(c_k)) = 0,
+    \]
+    i.e., $\tilde{x} \in D \cap B(\bar{x}, \delta)$. Por lo tanto,
+    \begin{equation}\label{eq:4.50}
+        v \le f(\tilde{x}).
+    \end{equation}
+    
+    Ahora, de \eqref{eq:4.49}, obtenemos que
+    \[
+        \limsup_{k \to \infty} c_k\psi(x(c_k)) \le 0,
+    \]
+    lo que solo puede valer si
+    \[
+        \lim_{k \to \infty} c_k\psi(x(c_k)) = 0.
+    \]
+    De \eqref{eq:4.49}, tenemos entonces que
+    \[
+        f(\tilde{x}) \le v,
+    \]
+    lo que resulta, en combinación con \eqref{eq:4.50}, en
+    \[
+        f(\tilde{x}) = v.
+    \]
+    Como $\tilde{x}$ es un punto factible para el problema \eqref{eq:4.47}, esto significa que $\tilde{x}$ es una solución global de este problema.
+    
+    Como por la elección de $\delta$, el punto $\bar{x}$ es la única solución global de \eqref{eq:4.47}, concluimos que $\tilde{x} = \bar{x}$. Acabamos de mostrar, entonces, que $\bar{x}$ es el único punto de acumulación de los valores de $x(\cdot)$. O sea, vale \eqref{eq:4.46}. En particular, $x(c) \in \interior B(\bar{x}, \delta)$ para todo $c$ suficientemente grande. Obviamente, de aquí se sigue que para tales valores de $c$, $x(c)$ es una solución local del problema \eqref{eq:4.38}.
+\end{proof}
+
+Como ya fue mencionado, una limitación práctica de la aplicación de métodos de penalización consiste en la necesidad de resolver problemas cada vez peor condicionados, debido al uso de valores extremos del parámetro penalizador. Vemos cómo esto acontece en el ejemplo siguiente.
+
+\begin{example}\label{ex:4.3.3}
+    Consideremos el problema
+    \[
+        \min \frac{1}{2}(x_1^2 + x_2^2) \quad \text{sujeto a} \quad x_1 = 1,
+    \]
+    y la siguiente función penalizada:
+    \[
+        \varphi(x; c) = \frac{1}{2}(x_1^2 + x_2^2) + c(x_1 - 1)^2.
+    \]
+    Como es fácil ver, la matriz Hessiana de esta función viene dada por
+    \[
+        \varphi''(x; c) = \begin{pmatrix} 1 + c & 0 \\ 0 & 1 \end{pmatrix}.
+    \]
+    Evidentemente, esta matriz es mal-condicionada (para valores de $c > 0$ grandes). En particular, el método de Newton aplicado para minimizar $\varphi(\cdot; c)$ va a necesitar resolver sistemas de ecuaciones lineales cada vez peor condicionados, a medida que $c$ crece.
+\end{example}
+
+De cierto modo, la necesidad de resolver muchos problemas penalizados puede ser evitada. A continuación, mostraremos cómo, para una precisión dada cualquiera, una solución aproximada del problema original puede ser obtenida a través de la resolución de dos problemas penalizados apenas.
+
+Sea $\varepsilon > 0$ la tolerancia deseada. Nos gustaría calcular un punto $y \in \R^n$ tal que
+\begin{equation}\label{eq:4.51}
+    f(y) \le \inf_{x \in D} f(x), \quad \psi(y) \le \varepsilon.
+\end{equation}
+
+Para $\varepsilon$ suficientemente pequeño, es natural considerar tal punto $y$ como una buena aproximación de la solución del problema (la segunda relación en \eqref{eq:4.51} significa que $y$ es un punto ``casi-factible'').
+
+Supongamos que $\inf_{x \in D} f(x) > -\infty$ y que un punto factible $\hat{x} \in D$ sea dado (en caso contrario, calculamos un punto factible primero). Elegimos un $c_1 > 0$ arbitrario, y calculamos $x(c_1)$, una solución global del problema \eqref{eq:4.38} con $c = c_1$.
+
+Si $f(\hat{x}) \le f(x(c_1))$, de \eqref{eq:4.44} obtenemos que
+\[
+    f(x(c_1)) \le \inf_{x \in D} f(x) \le f(\hat{x}) \le f(x(c_1)).
+\]
+Esto muestra que $\hat{x}$ es una solución (exacta) del problema original \eqref{eq:4.31}.
+
+Consideremos el caso de $f(\hat{x}) > f(x(c_1))$. Elegimos
+\begin{equation}\label{eq:4.52}
+    c_2 > \max\left\{ c_1, \frac{f(\hat{x}) - f(x(c_1))}{\varepsilon} \right\},
+\end{equation}
+y calculamos $x(c_2)$, una solución global del problema \eqref{eq:4.38} con $c = c_2$.
+
+Caso $f(\hat{x}) \le f(x(c_2))$, tenemos que $\hat{x}$ es una solución (exacta) del problema original \eqref{eq:4.31}, por el raciocinio presentado arriba.
+
+Caso contrario, el punto $x(c_2)$ satisface
+\[
+    f(x(c_2)) \le \inf_{x \in D} f(x),
+\]
+por \eqref{eq:4.44}. Por la optimalidad de $x(c_2)$ en \eqref{eq:4.38}, tenemos que
+\[
+    f(x(c_2)) + c_2\psi(x(c_2)) \le f(\hat{x}) + c_2\psi(\hat{x}) = f(\hat{x}),
+\]
+donde la igualdad se sigue del hecho de que $\hat{x} \in D$. Luego,
+\begin{align*}
+    \psi(x(c_2)) &\le (f(\hat{x}) - f(x(c_2)))/c_2 \\
+    &\le (f(\hat{x}) - f(x(c_1)))/c_2 \\
+    &< \varepsilon,
+\end{align*}
+donde la segunda desigualdad se sigue de la Proposición 4.3.1 y del hecho de que $c_2 > c_1$, y la tercera desigualdad se sigue de \eqref{eq:4.52}. Acabamos de mostrar que el punto $x(c_2)$ satisface las condiciones \eqref{eq:4.51}.
+
+Sin embargo, la construcción de arriba resuelve la dificultad asociada al mal-condicionamiento de los subproblemas apenas parcialmente. En particular, es posible que el valor de $c_2$ dado por \eqref{eq:4.52} sea muy grande, y mismo que para satisfacer \eqref{eq:4.51} tengamos que resolver un solo subproblema, esto puede ser difícil desde el punto de vista computacional.
+
+Consideremos ahora la cuestión de la tasa de convergencia de los métodos de penalización externa en relación a valores de la función objetivo, suponiendo la convergencia en relación a las variables. Para este fin, suponhamos que el término penalizador $\inmap{\psi}{\R^n}{\R_+}$, definido en \eqref{eq:4.32}, proporcione una estimativa local de la violación de factibilidad, en el sentido siguiente: existen una vecindad $U$ de la solución dada $\bar{x}$ del problema \eqref{eq:4.31} y números $M > 0$ y $\nu > 0$, tales que
+\begin{equation}\label{eq:4.53}
+    \dist(x, D) \le M (\psi(x))^\nu \quad \forall x \in U.
+\end{equation}
+Ya vimos algunas situaciones de validez de estimativas de este tipo: por ejemplo, en los Teoremas 1.5.5, 1.6.6, 1.5.6. En particular, bajo las hipótesis del Teorema 1.5.6, la función $\psi$ dada por \eqref{eq:4.35} con algún $p > 0$, satisface \eqref{eq:4.53} con $\nu = 1/p$.
+
+Observemos que el resultado a seguir, además de estimativas de la tasa de convergencia, establece algunas situaciones en que métodos de penalización externa poseen convergencia finita. I.e., situaciones en las cuales $x^k$ sea una solución exacta del problema para algún $k$ suficientemente grande. Notemos que como fue probado en el Teorema 4.3.1 (vea \eqref{eq:4.44}), la condición \eqref{eq:4.54} a seguir siempre es satisfecha si $x^k$ es una solución global del problema penalizado. Puede ser visto que \eqref{eq:4.54} también vale si $x^k$ es una solución global del problema penalizado en un conjunto que contiene a $\bar{x}$ (en vez de todo el espacio). De cualquier manera, la condición \eqref{eq:4.54} es natural en el contexto de métodos de penalización. La segunda condición en \eqref{eq:4.55} significa la convergencia del método en consideración en relación a las variables del problema. A su vez, estas condiciones \eqref{eq:4.54} y \eqref{eq:4.55} serán satisfechas, por ejemplo, si $\bar{x}$ es una solución local estricta del problema original \eqref{eq:4.31}, y $x^k = x(c_k)$ es elegido como fue hecho en la demostración del Teorema 4.3.2.
+
+\begin{theorem}[Tasa de convergencia de métodos de penalización externa]\label{th:4.3.3}
+    Sean $\inmap{f}{\R^n}{\R}$ una función Lipschitz-continua con módulo $N > 0$ en una vecindad $U$ del punto $\bar{x} \in \R^n$, y $D \subset \R^n$ un conjunto cerrado. Sea $\bar{x}$ una solución local del problema \eqref{eq:4.31}. Supongamos, finalmente, que la función $\inmap{\psi}{\R^n}{\R_+}$, definida por \eqref{eq:4.32}, satisfaga la condición \eqref{eq:4.53} para algunos $M > 0$ y $\nu > 0$.
+    
+    Si las secuencias $\{c_k\} \subset \R_+$ y $\{x^k\} \subset \R^n$ son tales que
+    \begin{equation}\label{eq:4.54}
+        \varphi(x^k; c_k) \le \varphi(\bar{x}; c_k) = f(\bar{x}) \quad \forall k,
+    \end{equation}
+    donde la función $\varphi(\cdot; c_k)$ es definida por \eqref{eq:4.39}, y
+    \begin{equation}\label{eq:4.55}
+        \{c_k\} \to \infty, \quad \{x^k\} \to \bar{x} \quad (k \to \infty),
+    \end{equation}
+    entonces para todo $k$ suficientemente grande, se tiene que
+    
+    (a) si $\nu < 1$, entonces
+    \begin{equation}\label{eq:4.56}
+        0 \le f(\bar{x}) - f(x^k) \le \left( \frac{(MN)^{1/\nu}}{c_k} \right)^{\nu/(1-\nu)},
+    \end{equation}
+    \begin{equation}\label{eq:4.57}
+        \dist(x^k, D) \le M \left( \frac{MN}{c_k} \right)^{\nu/(1-\nu)};
+    \end{equation}
+    
+    (b) si $\nu \ge 1$, entonces
+    \[
+        f(x^k) = f(\bar{x}), \quad x^k \in D;
+    \]
+    en particular, si $\bar{x}$ es una solución local estricta del problema \eqref{eq:4.31}, se tiene que $x^k = \bar{x}$.
+\end{theorem}
+
+\begin{proof}
+    Utilizando \eqref{eq:4.32}, \eqref{eq:4.53}, \eqref{eq:4.54}, y la segunda relación en \eqref{eq:4.55}, para todo $k$ suficientemente grande, tenemos que
+    \begin{align}
+        f(\bar{x}) &= f(\bar{x}) + c_k\psi(\bar{x}) \nonumber \\
+        &= \varphi(\bar{x}; c_k) \nonumber \\
+        &\ge \varphi(x^k; c_k) \nonumber \\
+        &= f(x^k) + c_k\psi(x^k) \nonumber \\
+        &\ge f(x^k) + c_k \left( \frac{\dist(x^k, D)}{M} \right)^{1/\nu}. \label{eq:4.58}
+    \end{align}
+    
+    Para todo $k$ suficientemente grande, sea $\tilde{x}^k$ una proyección del punto $x^k$ sobre el conjunto $D$ (cuya existencia se sigue del hecho de que $D$ es cerrado; vea el Teorema 1.3.1). Por la segunda relación en \eqref{eq:4.55}, como $\bar{x} \in D$, obtenemos que
+    \[
+        \{\tilde{x}^k\} \to \bar{x} \quad (k \to \infty).
+    \]
+    Siendo que $\bar{x}$ es una solución local del problema \eqref{eq:4.31}, para todo $k$ suficientemente grande, se tiene que
+    \begin{equation}\label{eq:4.59}
+        f(\bar{x}) - f(x^k) \le f(\tilde{x}^k) - f(x^k) \le N \dist(x^k, D).
+    \end{equation}
+    
+    Combinando \eqref{eq:4.58} y \eqref{eq:4.59}, obtenemos que
+    \begin{equation}\label{eq:4.60}
+        f(\bar{x}) - f(x^k) \ge c_k \left( \frac{f(\bar{x}) - f(x^k)}{MN} \right)^{1/\nu}.
+    \end{equation}
+    
+    Definimos el conjunto
+    \[
+        J = \{ k = 0, 1, \dots \mid f(x^k) \neq f(\bar{x}) \}.
+    \]
+    Las relaciones \eqref{eq:4.58} y \eqref{eq:4.60} implican que
+    \begin{equation}\label{eq:4.61}
+        0 \le (f(\bar{x}) - f(x^k))^{(1-\nu)/\nu} \le \frac{(MN)^{1/\nu}}{c_k},
+    \end{equation}
+    para todo $k \in J$ suficientemente grande.
+    
+    La afirmación (a) vale trivialmente para $k \notin J$, y se sigue de \eqref{eq:4.61} para $k \in J$ (\eqref{eq:4.57} se sigue de \eqref{eq:4.56} y \eqref{eq:4.58}).
+    
+    Si $\nu \ge 1$, por la relación \eqref{eq:4.55}, el lado izquierdo de \eqref{eq:4.61} no tiende a cero cuando $k \to \infty$, en cuanto el lado derecho tiende a cero. Esto implica que el conjunto $J$ no puede ser infinito (pues, caso contrario, \eqref{eq:4.61} resulta en una contradicción). Que el conjunto $J$ sea finito significa exactamente que $f(x^k) = f(\bar{x})$ para todo $k$ suficientemente grande. Además de eso, para tales $k$, $x^k \in D$ vale por \eqref{eq:4.58}. Esto concluye la prueba del ítem (b).
+\end{proof}
+
+\begin{corollary}\label{cor:4.3.1}
+    Bajo las hipótesis del Teorema 4.3.3, sea $\bar{x}$ una solución local estricta del problema \eqref{eq:4.31}, y sea $\nu \ge 1$.
+    Entonces existe un número $\bar{c} \ge 0$, tal que para todo $c > \bar{c}$ el punto $\bar{x}$ es una solución local estricta del problema \eqref{eq:4.38}, donde la función objetivo es dada por \eqref{eq:4.39}.
+\end{corollary}
+
+\begin{proof}
+    Supongamos lo contrario, i.e., que existan secuencias $\{c_i\} \subset \R_+$ y $\{x^i\} \subset \R^n$ tales que
+    \begin{equation}\label{eq:4.62}
+        \varphi(x^i; c_i) \le \varphi(\bar{x}; c_i), \quad x^i \neq \bar{x} \quad \forall i,
+    \end{equation}
+    \begin{equation}\label{eq:4.63}
+        \{c_i\} \to \infty, \quad \{x^i\} \to \bar{x} \quad (i \to \infty).
+    \end{equation}
+    Pero la validez simultánea de \eqref{eq:4.62} y \eqref{eq:4.63} contradice el ítem (b) del Teorema 4.3.3. Luego, vale el resultado anunciado.
+\end{proof}
+
+Notemos que en el caso de la penalización cuadrática para el conjunto factible \eqref{eq:4.33} ($p = 2$ en la definición de $\psi$ en \eqref{eq:4.36}), las estimativas \eqref{eq:4.56} y \eqref{eq:4.57} se transforman en
+\[
+    0 \le f(\bar{x}) - f(x^k) \le \frac{(NM)^2}{c_k},
+\]
+\[
+    \dist(x^k, D) \le \frac{M^2 N}{c_k}.
+\]
+
+Por el Teorema 4.3.3, la disminución de valores de grado $p$ lleva a convergencia más rápida de métodos de penalización asociados (recordamos que, bajo las hipótesis del Teorema 1.5.6, tenemos $\nu = 1/p$). Más aún, por el Corolario 4.3.1, para $p$ suficientemente pequeño (más precisamente, para $p \le 1$), la convergencia es finita en el sentido de que la solución local (estricta) $\bar{x}$ del problema \eqref{eq:4.31}, \eqref{eq:4.33}, también es una solución local del problema penalizado \eqref{eq:4.38} para todo $c$ suficientemente grande. En otras palabras, si en la aplicación de un método de penalización externa conseguimos el cálculo de soluciones locales adecuadas del problema penalizado \eqref{eq:4.38}, no habrá necesidad de crecimiento ilimitado del parámetro penalizador. Una penalización con esta propiedad se llama de \textit{penalización exacta}. Ella será considerada con más detalles en § 4.3.2 a seguir.
+
+Sin embargo, notemos que la disminución del valor de grado $p$ empeora la diferenciabilidad de la función $\varphi(\cdot; c)$, lo que torna al problema penalizado más difícil en el sentido computacional. En particular, para $p \le 1$ el término penalizador \eqref{eq:4.35} ya no es diferenciable, mismo para las funciones $h$ y $g$ infinitamente diferenciables. Entre otras cosas, la propia noción de punto estacionario del problema \eqref{eq:4.38} tiene que ser repensada. Otra dificultad obvia es que no podemos saber a priori cuál es el valor del parámetro penalizador que torna a la penalización exacta. Algunas técnicas para la elección de parámetros de penalización pueden ser consultadas en [3].
+
+Finalmente, comentamos que métodos de minimización de funciones convexas no diferenciables serán presentados en el Capítulo 5. Además de eso, cabe resaltar que en la práctica computacional moderna, las funciones de penalización exacta típicamente son utilizadas como funciones de mérito para la globalización de métodos locales, y no para la resolución directa de problemas penalizados. Es exactamente así como desarrollaremos la globalización de métodos de programación cuadrática secuencial en § 4.6.
+
+\subsection{Penalización externa exacta}
+
+Consideremos ahora el problema con restricciones mixtas
+\begin{equation}\label{eq:4.64}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \left\{ x \in \R^n \ \middle| \ \begin{array}{l} h(x) = 0, \\ g(x) \le 0 \end{array} \right\},
+\end{equation}
+donde $\inmap{f}{\R^n}{\R}$, $\inmap{h}{\R^n}{\R^l}$ y $\inmap{g}{\R^n}{\R^m}$ son funciones dadas. Elegimos el término penalizador
+\begin{equation}\label{eq:4.65}
+    \psi(x) = \sum_{i=1}^l |h_i(x)| + \sum_{i=1}^m \max\{g_i(x), 0\}.
+\end{equation}
+
+Observamos que la función $\psi$ así definida no es diferenciable, mismo cuando $h$ y $g$ sean diferenciables. Consideremos la familia de problemas penalizados
+\begin{equation}\label{eq:4.66}
+    \min \varphi(x; c), \quad x \in \R^n,
+\end{equation}
+donde
+\begin{equation}\label{eq:4.67}
+    \inmap{\varphi(\cdot; c)}{\R^n}{\R}, \quad \varphi(x; c) = f(x) + c\psi(x),
+\end{equation}
+y $c > 0$ es el parámetro penalizador.
+
+Mencionamos que los resultados a ser presentados también son válidos para varias otras formas de penalización no diferenciable. Por ejemplo (vea el Ejercicio 4.3.6),
+\begin{equation}\label{eq:4.68}
+    \psi(x) = \max \{ |h_1(x)|, \dots, |h_l(x)|, 0, g_1(x), \dots, g_m(x) \}.
+\end{equation}
+
+Precisaremos de la siguiente caracterización de la derivada direccional de la función $\psi$ definida por \eqref{eq:4.65}. (Ver Ejercicio 4.3.5).
+
+Comenzamos con condiciones que son necesarias para que la penalización sea exacta.
+
+\begin{theorem}[Condiciones necesarias para penalización exacta]\label{th:4.3.4}
+    Sea $\bar{x} \in \R^n$ una solución local (estricta) del problema penalizado \eqref{eq:4.66}.
+    
+    Si $\bar{x} \in D$, entonces $\bar{x}$ es una solución local (estricta) del problema original \eqref{eq:4.64}.
+    
+    Si, además de la hipótesis de que $\bar{x} \in D$, las funciones $f, h$ y $g$ son diferenciables en $\bar{x}$, entonces existe un par de multiplicadores de Lagrange $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m$ tal que las condiciones de optimalidad de Karush-Kuhn-Tucker (del Teorema 1.2.3(a)) son satisfechas en el punto $\bar{x}$.
+    
+    Si, además de las hipótesis de arriba, $\bar{x}$ satisface la condición de regularidad de independencia lineal de los gradientes de las restricciones activas (1.17), entonces $c \ge \|(\bar{\lambda}, \bar{\mu})\|_\infty$.
+\end{theorem}
+
+\begin{proof}
+    Como $\bar{x}$ es un minimizador local del problema \eqref{eq:4.66}, existe una vecindad $U$ de $\bar{x}$ tal que
+    \[
+        \varphi(\bar{x}; c) \le \varphi(x; c) \quad \forall x \in U.
+    \]
+    Como $\bar{x} \in D$ y tenemos que $\varphi(x; c) = f(x)$ para todo $x \in D$, obtenemos entonces
+    \[
+        f(\bar{x}) \le f(x) \quad \forall x \in U \cap D,
+    \]
+    i.e., $\bar{x}$ es una solución local del problema \eqref{eq:4.64}. Si $\bar{x}$ es una solución local estricta de \eqref{eq:4.66}, todas las desigualdades arriba son estrictas. Por lo tanto, en este caso $\bar{x}$ es una solución local estricta de \eqref{eq:4.64}.
+    
+    Supongamos ahora que $f, h$ y $g$ sean diferenciables en $\bar{x}$. Por el Ejercicio 4.3.5, la función $\varphi(\cdot; c)$ es diferenciable en $\bar{x}$ en cada dirección $d \in \R^n$. Tenemos que para todo $t > 0$ suficientemente pequeño,
+    \begin{align*}
+        0 &\le \varphi(\bar{x} + td; c) - \varphi(\bar{x}; c) \\
+        &= t \varphi'((\bar{x}; d); c) + o(t),
+    \end{align*}
+    donde $\varphi'((\bar{x}; d); c)$ es la derivada direccional de la función $\varphi(\cdot; c)$ en $\bar{x}$ en la dirección $d$. Dividiendo ambos lados de la relación de arriba por $t > 0$ y pasando al límite cuando $t \to 0+$, obtenemos que
+    \[
+        \varphi'((\bar{x}; d); c) \ge 0 \quad \forall d \in \R^n.
+    \]
+    Como $\bar{x} \in D$ por la hipótesis, de \eqref{eq:4.70} obtenemos que
+    \begin{equation}\label{eq:4.71}
+        0 \le \interno{f'(\bar{x})}{d} + c \sum_{i=1}^l |\interno{h'_i(\bar{x})}{d}| + c \sum_{i \in I(\bar{x})} \max\{0, \interno{g'_i(\bar{x})}{d}\},
+    \end{equation}
+    para todo $d \in \R^n$. En particular, para todo $d \in \R^n$ tal que $\interno{h'_i(\bar{x})}{d} = 0$, $i = 1, \dots, l$, $\interno{g'_i(\bar{x})}{d} \le 0$, $i \in I(\bar{x})$, se tiene que
+    \[
+        \interno{f'(\bar{x})}{d} \ge 0.
+    \]
+    Por lo tanto, $d = 0$ es una solución del problema de programación lineal
+    \begin{equation}\label{eq:4.72}
+        \min \interno{f'(\bar{x})}{d} \quad \text{sujeto a} \quad \begin{array}{l} \interno{h'_i(\bar{x})}{d} = 0, \ i = 1, \dots, l, \\ \interno{g'_i(\bar{x})}{d} \le 0, \ i \in I(\bar{x}). \end{array}
+    \end{equation}
+    Como este problema satisface la condición de regularidad de las restricciones (ya que ellas son lineales), por las condiciones de optimalidad KKT (del Teorema 1.2.3(a)) existen $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R^{|I(\bar{x})|}_+$ tales que, entre otras cosas, vale
+    \begin{equation}\label{eq:4.73}
+        f'(\bar{x}) + \sum_{i=1}^l \bar{\lambda}_i h'_i(\bar{x}) + \sum_{i \in I(\bar{x})} \bar{\mu}_i g'_i(\bar{x}) = 0.
+    \end{equation}
+    Teniendo en cuenta que $\bar{x} \in D$, y definiendo $\bar{\mu}_i = 0$ para todo índice $i \in \{1, \dots, m\} \setminus I(\bar{x})$, de \eqref{eq:4.73} obtenemos que $\bar{x}$ satisface las condiciones KKT para el problema \eqref{eq:4.64}, con multiplicadores $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m$.
+    
+    Supongamos, finalmente, que $\bar{x}$ satisface la condición de independencia lineal de los gradientes de las restricciones activas (1.17). De \eqref{eq:4.71} y \eqref{eq:4.73}, obtenemos que para todo $d \in \R^n$ vale
+    \begin{equation}\label{eq:4.74}
+        \sum_{i=1}^l \bar{\lambda}_i \interno{h'_i(\bar{x})}{d} + \sum_{i \in I(\bar{x})} \bar{\mu}_i \interno{g'_i(\bar{x})}{d} \le c \sum_{i=1}^l |\interno{h'_i(\bar{x})}{d}| + c \sum_{i \in I(\bar{x})} \max\{0, \interno{g'_i(\bar{x})}{d}\}.
+    \end{equation}
+    Por la condición de regularidad (1.17), $\forall (u, v_I) \in \R^l \times \R^{|I(\bar{x})|}$ existe $d \in \R^n$ tal que
+    \[
+        \begin{pmatrix} h'(\bar{x}) \\ g'_{I(\bar{x})}(\bar{x}) \end{pmatrix} d = \begin{pmatrix} u \\ v_I \end{pmatrix},
+    \]
+    donde denotamos $I = I(\bar{x})$. O sea,
+    \[
+        \interno{h'_i(\bar{x})}{d} = u_i, \ i = 1, \dots, l, \quad \interno{g'_i(\bar{x})}{d} = v_i, \ i \in I.
+    \]
+    Ahora, tomando $(u, v_I) \in \R^l \times \R^{|I|}$ arbitrario, de \eqref{eq:4.74} obtenemos que
+    \begin{align*}
+        \interno{(\bar{\lambda}, \bar{\mu}_I)}{(u, v_I)} &= \sum_{i=1}^l \bar{\lambda}_i u_i + \sum_{i \in I} \bar{\mu}_i v_i \\
+        &= \sum_{i=1}^l \bar{\lambda}_i \interno{h'_i(\bar{x})}{d} + \sum_{i \in I} \bar{\mu}_i \interno{g'_i(\bar{x})}{d} \\
+        &\le c \sum_{i=1}^l |\interno{h'_i(\bar{x})}{d}| + c \sum_{i \in I} \max\{0, \interno{g'_i(\bar{x})}{d}\} \\
+        &= c \sum_{i=1}^l |u_i| + c \sum_{i \in I} \max\{0, v_i\} \\
+        &\le c \|u\|_1 + c \sum_{i \in I} |v_i| \\
+        &= c \|(u, v_I)\|_1,
+    \end{align*}
+    donde utilizamos el hecho de que $\max\{0, t\} \le |t|$ para todo $t \in \R$. Por la definición de la norma dual, tenemos que
+    \begin{align*}
+        \|(\bar{\lambda}, \bar{\mu}_I)\|_\infty &= \sup \{ \interno{(\bar{\lambda}, \bar{\mu}_I)}{(u, v_I)} \mid \|(u, v_I)\|_1 = 1 \} \\
+        &= \sup \left\{ \interno{(\bar{\lambda}, \bar{\mu}_I)}{\frac{(u, v_I)}{\|(u, v_I)\|_1}} \ \middle| \ (u, v_I) \in \R^l \times \R^{|I|} \setminus \{0\} \right\} \\
+        &\le c.
+    \end{align*}
+    Teniendo en cuenta que $\|(\bar{\lambda}, \bar{\mu})\|_\infty = \|(\bar{\lambda}, \bar{\mu}_I)\|_\infty$, ya que $\bar{\mu}_i = 0 \ \forall i \in \{1, \dots, m\} \setminus I$, obtenemos la última afirmación del teorema.
+\end{proof}
+
+Ahora estudiaremos condiciones que son suficientes para que una penalización sea exacta, i.e., condiciones que garanticen que una solución del problema penalizado \eqref{eq:4.66} también sea una solución del problema original \eqref{eq:4.64}. Es conveniente separar el caso de programación convexa (que es más fácil) del caso no convexo. Notemos que en el caso convexo, la función $\varphi(\cdot; c)$ es convexa.
+
+Recordamos que la Lagrangiana del problema \eqref{eq:4.64} es dada por
+\begin{align*}
+    &\inmap{L}{\R^n \times \R^l \times \R^m}{\R}, \\
+    &L(x, \lambda, \mu) = f(x) + \interno{\lambda}{h(x)} + \interno{\mu}{g(x)}.
+\end{align*}
+
+Primero mostraremos que, bajo ciertas condiciones, el valor de la Lagrangiana proporciona una cota inferior para el valor de la función penalizada.
+
+\begin{proposition}\label{prop:4.3.2}
+    Para todo $x \in \R^n$ y todo $(\lambda, \mu) \in \R^l \times \R^m_+$, se tiene que
+    \begin{equation}\label{eq:4.75}
+        L(x, \lambda, \mu) \le f(x) + \|(\lambda, \mu)\|_\infty \psi(x),
+    \end{equation}
+    donde $\psi$ es dada por \eqref{eq:4.65}.
+    
+    En particular, si $c \ge \|(\lambda, \mu)\|_\infty$, se tiene que
+    \begin{equation}\label{eq:4.76}
+        L(x, \lambda, \mu) \le \varphi(x; c),
+    \end{equation}
+    donde $\varphi$ es dada por \eqref{eq:4.67}.
+\end{proposition}
+
+\begin{proof}
+    Para todo $x \in \R^n$, se tiene que
+    \begin{align*}
+        \interno{\lambda}{h(x)} + \interno{\mu}{g(x)} &\le \|\lambda\|_\infty \|h(x)\|_1 + \sum_{i=1}^m \mu_i \max\{0, g_i(x)\} \\
+        &\le \|\lambda\|_\infty \|h(x)\|_1 + \|\mu\|_\infty \sum_{i=1}^m \max\{0, g_i(x)\} \\
+        &\le \|(\lambda, \mu)\|_\infty \psi(x),
+    \end{align*}
+    donde utilizamos la desigualdad de Cauchy-Schwarz generalizada \eqref{eq:1.40}, y el hecho de que $\mu \ge 0$. De aquí, inmediatamente se sigue \eqref{eq:4.75}. La relación \eqref{eq:4.76} es una consecuencia de \eqref{eq:4.75}, si tenemos que $c \ge \|(\lambda, \mu)\|_\infty$.
+\end{proof}
+
+Consideremos ahora el caso convexo.
+
+\begin{theorem}[Penalización exacta en el caso convexo]\label{th:4.3.5}
+    Sean $f$ y $g$ funciones convexas, diferenciables en el punto $\bar{x} \in \R^n$, y sea $h$ una función afín. Supongamos que existan multiplicadores de Lagrange $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m$ tales que las condiciones de optimalidad de Karush-Kuhn-Tucker (del Teorema 1.2.3(a)) son satisfechas (luego, $\bar{x}$ es una solución global del problema \eqref{eq:4.64}).
+    
+    Entonces para todo $c \ge \|(\bar{\lambda}, \bar{\mu})\|_\infty$, el punto $\bar{x}$ es una solución (global) del problema \eqref{eq:4.66}.
+\end{theorem}
+
+\begin{proof}
+    Como $L(\cdot, \bar{\lambda}, \bar{\mu})$ es una función convexa y $L'_x(\bar{x}, \bar{\lambda}, \bar{\mu}) = 0$, el punto $\bar{x}$ es un minimizador global de $L(\cdot, \bar{\lambda}, \bar{\mu})$ en $\R^n$, i.e.,
+    \[
+        L(\bar{x}, \bar{\lambda}, \bar{\mu}) \le L(x, \bar{\lambda}, \bar{\mu}) \quad \forall x \in \R^n.
+    \]
+    Teniendo también en cuenta que $\psi(\bar{x}) = 0$, $h(\bar{x}) = 0$ y que $\interno{\bar{\mu}}{g(\bar{x})} = 0$, obtenemos que para $c \ge 0$ cualquiera
+    \begin{align}\label{eq:4.77}
+        \varphi(\bar{x}; c) &= f(\bar{x}) + c\psi(\bar{x}) \nonumber \\
+        &= f(\bar{x}) \nonumber \\
+        &= f(\bar{x}) + \interno{\bar{\lambda}}{h(\bar{x})} + \interno{\bar{\mu}}{g(\bar{x})} \nonumber \\
+        &= L(\bar{x}, \bar{\lambda}, \bar{\mu}) \nonumber \\
+        &\le L(x, \bar{\lambda}, \bar{\mu}) \quad \forall x \in \R^n.
+    \end{align}
+    Por otro lado, como $\bar{\mu} \ge 0$ y $c \ge \|(\bar{\lambda}, \bar{\mu})\|_\infty$, de \eqref{eq:4.76} tenemos que
+    \[
+        L(x, \bar{\lambda}, \bar{\mu}) \le \varphi(x; c) \quad \forall x \in \R^n.
+    \]
+    Combinando esta desigualdad con \eqref{eq:4.77}, tenemos
+    \[
+        \varphi(\bar{x}; c) \le \varphi(x; c) \quad \forall x \in \R^n,
+    \]
+    lo que nos dice que $\bar{x}$ es minimizador global de $\varphi(\cdot; c)$ en $\R^n$.
+\end{proof}
+
+Consideremos, finalmente, el caso no convexo, pero en el que una solución satisface la condición suficiente de segunda orden (por lo tanto, ella es estricta).
+
+\begin{theorem}[Penalización exacta en el caso de la condición suficiente de segunda orden]\label{th:4.3.6}
+    Sean $f, h$ y $g$ funciones dos veces diferenciables en $\bar{x} \in \R^n$. Supongamos también que existan multiplicadores de Lagrange $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m$ tales que la condición suficiente de segunda orden (del Teorema 1.2.3(b)) sea satisfecha (luego, $\bar{x}$ es una solución local estricta del problema \eqref{eq:4.64}).
+    
+    Entonces para todo $c > \|(\bar{\lambda}, \bar{\mu})\|_\infty$, el punto $\bar{x}$ es una solución local estricta del problema \eqref{eq:4.66}.
+\end{theorem}
+
+\begin{proof}
+    Supongamos que $\bar{x}$ no sea un minimizador local estricto del problema \eqref{eq:4.66}, i.e., que exista una secuencia $\{x^k\} \subset \R^n \setminus \{\bar{x}\}$ tal que $\{x^k\} \to \bar{x} \ (k \to \infty)$, y, para todo $k$,
+    \begin{equation}\label{eq:4.78}
+        \varphi(x^k; c) \le \varphi(\bar{x}; c).
+    \end{equation}
+    Podemos admitir, sin pérdida de generalidad, que la secuencia limitada $\{(x^k - \bar{x})/\|x^k - \bar{x}\|\}$ converge a $d \in \R^n$, $\|d\| = 1$. Definiendo, para todo $k$, $d^k = (x^k - \bar{x})/\|x^k - \bar{x}\|$ y $t_k = \|x^k - \bar{x}\|$, tenemos que
+    \[
+        x^k = \bar{x} + t_k d^k = \bar{x} + t_k d + t_k (d^k - d) = \bar{x} + t_k d + o(t_k).
+    \]
+    Como es fácil ver, la función $\varphi(\cdot; c)$ es Lipschitz-continua (digamos, con módulo $L > 0$) en una vecindad de $\bar{x}$. Por lo tanto,
+    \[
+        |\varphi(x^k; c) - \varphi(\bar{x} + t_k d; c)| \le L \|x^k - \bar{x} - t_k d\| = o(t_k).
+    \]
+    Obtenemos que
+    \begin{align*}
+        \varphi'((\bar{x}; d); c) &= \lim_{k \to \infty} \frac{\varphi(\bar{x} + t_k d; c) - \varphi(\bar{x}; c)}{t_k} \\
+        &= \lim_{k \to \infty} \frac{\varphi(x^k; c) - \varphi(\bar{x}; c) + o(t_k)}{t_k} \\
+        &\le 0,
+    \end{align*}
+    donde la desigualdad se sigue de \eqref{eq:4.78}. Como $\bar{x} \in D$, de \eqref{eq:4.70} obtenemos que
+    \begin{align}\label{eq:4.79}
+        0 &\ge \interno{f'(\bar{x})}{d} + c \sum_{i=1}^l |\interno{h'_i(\bar{x})}{d}| \nonumber \\
+        &\quad + c \sum_{i \in I(\bar{x})} \max\{0, \interno{g'_i(\bar{x})}{d}\}.
+    \end{align}
+    En particular, como los dos últimos términos son no negativos, esto implica que
+    \begin{equation}\label{eq:4.80}
+        0 \ge \interno{f'(\bar{x})}{d}.
+    \end{equation}
+    Por otro lado, por la condición suficiente de segunda orden (que incluye las condiciones de optimalidad KKT),
+    \[
+        f'(\bar{x}) + \sum_{i=1}^l \bar{\lambda}_i h'_i(\bar{x}) + \sum_{i \in I(\bar{x})} \bar{\mu}_i g'_i(\bar{x}) = 0.
+    \]
+    Multiplicando esta relación por $d$, de \eqref{eq:4.79} obtenemos que
+    \begin{align*}
+        0 &\ge -\sum_{i=1}^l \bar{\lambda}_i \interno{h'_i(\bar{x})}{d} - \sum_{i \in I(\bar{x})} \bar{\mu}_i \interno{g'_i(\bar{x})}{d} \\
+        &\quad + c \sum_{i=1}^l |\interno{h'_i(\bar{x})}{d}| + c \sum_{i \in I(\bar{x})} \max\{0, \interno{g'_i(\bar{x})}{d}\} \\
+        &\ge (c - \|(\bar{\lambda}, \bar{\mu})\|_\infty) \left( \sum_{i=1}^l |\interno{h'_i(\bar{x})}{d}| + \sum_{i \in I(\bar{x})} \max\{0, \interno{g'_i(\bar{x})}{d}\} \right),
+    \end{align*}
+    donde $\bar{\mu} \ge 0$ fue tenido en cuenta. Como $c > \|(\bar{\lambda}, \bar{\mu})\|_\infty$ y todos los términos en el lado derecho de la relación de arriba son no negativos, concluimos que todos ellos tienen que ser nulos. Por lo tanto,
+    \[
+        \interno{h'_i(\bar{x})}{d} = 0, \ i = 1, \dots, l, \quad \interno{g'_i(\bar{x})}{d} \le 0, \ i \in I(\bar{x}).
+    \]
+    Combinando esto con \eqref{eq:4.80}, obtenemos que $d \in K(\bar{x})$, i.e., $d$ pertenece al cono crítico del problema \eqref{eq:4.64} en el punto $\bar{x}$ (vea \eqref{eq:1.19}). Ahora, recordando que $\|d\| = 1$, por la condición suficiente de segunda orden tenemos que
+    \[
+        \interno{L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})d}{d} \ge \gamma \|d\|^2 = \gamma,
+    \]
+    donde $\gamma > 0$.
+    
+    Teniendo en cuenta que $L'_x(\bar{x}, \bar{\lambda}, \bar{\mu}) = 0$, obtenemos
+    \begin{align}\label{eq:4.81}
+        L(x^k, \bar{\lambda}, \bar{\mu}) &= L(\bar{x}, \bar{\lambda}, \bar{\mu}) + \interno{L'_x(\bar{x}, \bar{\lambda}, \bar{\mu})}{x^k - \bar{x}} \nonumber \\
+        &\quad + \frac{1}{2} \interno{L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})(x^k - \bar{x})}{x^k - \bar{x}} + o(\|x^k - \bar{x}\|^2) \nonumber \\
+        &= L(\bar{x}, \bar{\lambda}, \bar{\mu}) + \frac{t_k^2}{2} \interno{L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})d^k}{d^k} + o(t_k^2) \nonumber \\
+        &\ge L(\bar{x}, \bar{\lambda}, \bar{\mu}) + \frac{t_k^2}{2} \gamma + o(t_k^2) \nonumber \\
+        &\ge L(\bar{x}, \bar{\lambda}, \bar{\mu}) + \frac{t_k^2}{4} \gamma \nonumber \\
+        &> L(\bar{x}, \bar{\lambda}, \bar{\mu}),
+    \end{align}
+    donde la primera desigualdad vale para todo $k$ suficientemente grande (tal que $o(t_k^2) \ge -\gamma t_k^2 / 4$).
+    
+    De \eqref{eq:4.78} y \eqref{eq:4.81}, para todo $k$ suficientemente grande obtenemos
+    \begin{align*}
+        \varphi(x^k; c) &\le \varphi(\bar{x}; c) \\
+        &= f(\bar{x}) \\
+        &= L(\bar{x}, \bar{\lambda}, \bar{\mu}) \\
+        &< L(x^k, \bar{\lambda}, \bar{\mu}) \\
+        &\le \varphi(x^k; c),
+    \end{align*}
+    donde la última desigualdad se sigue de \eqref{eq:4.76}. Esta contradicción concluye la demostración.
+\end{proof}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:
