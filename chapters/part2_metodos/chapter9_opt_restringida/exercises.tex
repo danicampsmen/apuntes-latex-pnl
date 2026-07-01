@@ -1,0 +1,178 @@
+% --- Archivo: exercises.tex ---
+
+\section*{Ejercicios del Capítulo}
+
+\vspace{0.5em}
+\noindent\textbf{Parte I: Gradiente Proyectado y Estructuras Simples}
+\vspace{0.5em}
+
+\begin{exercise}[Convergencia lineal del método del gradiente proyectado]
+    Probar el teorema de convergencia local lineal del método del gradiente proyectado (utilizando la estimativa $\dist(x, S_0)$ y la condición de separación de superficies de nivel críticas).
+\end{exercise}
+
+\begin{exercise}[Fórmulas explícitas de proyección ortogonal]
+    Probar analíticamente las siguientes fórmulas exactas para la proyección $P_D(y)$ de un punto $y \in \Rn$ sobre los conjuntos simples $D$:
+    \begin{enumerate}[label=(\alph*)]
+        \item \textbf{Bola euclidiana} $D = B(\hat{x}, \delta)$:
+        \[
+            P_D(y) = \begin{cases}
+            y, & \text{si } y \in D, \\
+            \hat{x} + \delta\frac{y - \hat{x}}{\norm{y - \hat{x}}}, & \text{si } y \notin D.
+            \end{cases}
+        \]
+        \item \textbf{Ortante no negativo} $D = \Rn_+$: $(P_D(y))_j = \max\{0, y_j\}$ para $j=1,\dots,n$.
+        \item \textbf{Caja (Box constraints)} $D = \{ x \in \Rn \mid a_j \le x_j \le b_j \}$:
+        \[
+            (P_D(y))_j = \begin{cases}
+            a_j, & \text{si } y_j < a_j, \\
+            y_j, & \text{si } a_j \le y_j \le b_j, \\
+            b_j, & \text{si } y_j > b_j.
+            \end{cases}
+        \]
+        \item \textbf{Hiperplano afín} $D = \{ x \in \Rn \mid \langle a, x \rangle = b \}$:
+        \[
+            P_D(y) = y + \frac{b - \langle a, y \rangle}{\norm{a}^2} a.
+        \]
+        \item \textbf{Semiespacio cerrado} $D = \{ x \in \Rn \mid \langle a, x \rangle \le b \}$:
+        \[
+            P_D(y) = y + \frac{\min\{0, b - \langle a, y \rangle\}}{\norm{a}^2} a.
+        \]
+        \item \textbf{Variedad afín subdeterminada} $D = \{ x \in \Rn \mid Ax = b \}$, con $\text{rank}(A) = l$:
+        \[
+            P_D(y) = y - A^T(AA^T)^{-1}(Ay - b).
+        \]
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Modificación del gradiente proyectado iterativo]
+    Analizar y demostrar las propiedades de convergencia global del método del gradiente proyectado modificado descrito por:
+    \[
+        x^{k+1} = (1 - \alpha_k)x^k + \alpha_k P_D(x^k - \beta_k f'(x^k)), \quad k = 0, 1, \dots,
+    \]
+    suponiendo que $f$ sea continuamente diferenciable y $D$ sea convexo y cerrado, siendo $\beta_k > 0$ un escalador local.
+\end{exercise}
+
+\begin{exercise}[Simulación numérica del gradiente proyectado]
+    A partir del punto inicial $x^0 = (3, 1)^\top$, realizar analíticamente dos pasos completos del método del gradiente proyectado (con longitud de paso fijo $\alpha = 1$) para el problema:
+    \[
+        \min x_1 - x_2 \quad \text{sujeto a} \quad 1 \le x_1 \le 3, \; 1 \le x_2 \le 2.
+    \]
+\end{exercise}
+
+\begin{exercise}[Gradiente proyectado con métrica variable]
+    Considerar el método del gradiente proyectado escalado con la métrica $Q_k \in \R^{n \times n}$ (definida positiva):
+    \[
+        x^{k+1} = x^k + \alpha_k(y^k - x^k),
+    \]
+    donde el objetivo proyectado $y^k$ se halla resolviendo:
+    \[
+        \min \langle f'(x^k), x - x^k \rangle + \frac{1}{2} \langle Q_k(x - x^k), x - x^k \rangle \quad \text{sujeto a} \quad x \in D.
+    \]
+    Probar que si la métrica $Q_k$ cumple un acotamiento uniforme de autovalores ($c_1 \norm{x}^2 \le \langle Q_k x, x \rangle \le c_2 \norm{x}^2$), todo punto de acumulación de $\{x^k\}$ es rigurosamente un punto estacionario del problema general.
+\end{exercise}
+
+\vspace{1em}
+\noindent\textbf{Parte II: Direcciones Factibles y Restricciones de Cota}
+\vspace{0.5em}
+
+\begin{exercise}[Cálculo de la longitud de paso máxima al borde]
+    Sea el poliedro $D = \{ x \in \Rn \mid Ax \le a \}$. Mostrar que para todo punto interior $x^k \in D$ y una dirección factible $d^k \in V_D(x^k)$, el paso máximo admisible hasta colisionar con la frontera $\hat{\alpha}_k = \sup \{ \alpha \ge 0 \mid x^k + \alpha d^k \in D \}$ se calcula exactamente por:
+    \begin{enumerate}[label=(\alph*)]
+        \item Si $\langle A_i, d^k \rangle > 0$ para al menos un índice $i$, entonces:
+        \[
+            \hat{\alpha}_k = \min \left\{ \frac{a_i - \langle A_i, x^k \rangle}{\langle A_i, d^k \rangle} \;\middle|\; \langle A_i, d^k \rangle > 0 \right\}.
+        \]
+        \item Si $\langle A_i, d^k \rangle \le 0$ para todo $i$, entonces la trayectoria es infinita y $\hat{\alpha}_k = +\infty$.
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Gradiente restringido sobre la bola euclidiana]
+    A partir del punto inicial $x^0 = (0,0)^\top$, realizar paso a paso dos iteraciones del método del gradiente restringido para el problema no lineal:
+    \[
+        \min x_1^2 + 2x_2^2 - 3x_1 + 4x_2 \quad \text{sujeto a} \quad x \in B(0, 2).
+    \]
+\end{exercise}
+
+\begin{exercise}[Fórmulas analíticas para el gradiente restringido]
+    Sea el subproblema lineal $\bar{x}^k = \arg\min_{x \in D} \langle f'(x^k), x - x^k \rangle$. Probar que:
+    \begin{enumerate}[label=(\alph*)]
+        \item Si $D$ es la bola centrada en el origen $B(0, \delta)$: $\bar{x}^k = -\delta f'(x^k) / \norm{f'(x^k)}$.
+        \item Si $D$ es el hipercubo con cotas $[a_j, b_j]$:
+        \[
+            \bar{x}^k_j = \begin{cases}
+            a_j, & \text{si } f'_{x_j}(x^k) > 0, \\
+            b_j, & \text{si } f'_{x_j}(x^k) < 0.
+            \end{cases}
+        \]
+        \item Si $D$ es el símplex de probabilidad escalado $\{ x \ge 0 \mid \sum x_i = c \}$: el vector se concentra en el índice con el gradiente más negativo.
+    \end{enumerate}
+\end{exercise}
+
+\vspace{1em}
+\noindent\textbf{Parte III: Penalización Externa y Barreras}
+\vspace{0.5em}
+
+\begin{exercise}[Condiciones relajadas para penalización]
+    Probar las afirmaciones de convergencia global del método de penalización externa asumiendo hipótesis topológicas más débiles: que $f$ y $\psi$ son apenas \textbf{semicontinuas inferiormente} en $\Rn$, y que el ínfimo $\inf_{x \in D} f(x) > -\infty$.
+\end{exercise}
+
+\begin{exercise}[Equivalencia de Fritz John vía Penalización Cuadrática]
+    Sea el problema $\min f(x)$ sujeto a $h(x) = 0$ y $g(x) \le 0$. Demostrar analíticamente las \textbf{condiciones singulares de Fritz John} utilizando el método de penalización externa cuadrática. (Ayuda: Analice el límite asintótico del problema penalizado irrestricto modificado agregando la norma al cuadrado de la distancia a la solución local $\norm{x - \bar{x}}^2$).
+\end{exercise}
+
+\begin{exercise}[Aproximaciones de Barrera Inversa y Logarítmica]
+    Sean $f$ y $g$ funciones convexas en $\Rn$. Analizando el problema penalizado paramétricamente $\min f(x) + t\psi(x)$, y su trayectoria de raíces únicas $x(t)$, demostrar que la diferencia entre la función penalizada evaluada y el valor óptimo real $\bar{v}$ satisface el decaimiento asintótico:
+    \begin{enumerate}[label=(\alph*)]
+        \item Si se usa la barrera logarítmica $\psi(x) = -\sum \log(-g_i(x))$:
+        \[
+            \bar{v} \le f(x(t)) \le \bar{v} + m t.
+        \]
+        \item Si se usa la barrera inversa de Carroll $\psi(x) = -\sum 1/g_i(x)$:
+        \[
+            \bar{v} \le f(x(t)) \le \bar{v} - t \sum_{i=1}^m \frac{1}{g_i(x(t))}.
+        \]
+    \end{enumerate}
+\end{exercise}
+
+\vspace{1em}
+\noindent\textbf{Parte IV: Multiplicadores y Lagrangianas Aumentadas}
+\vspace{0.5em}
+
+\begin{exercise}[Newton-Lagrange en hiperplano no convexo]
+    Resolver analíticamente (hallar punto estacionario, multiplicador, y paso iterativo) el problema:
+    \[
+        \min -x_1 x_2 \quad \text{sujeto a} \quad x_1 + x_2 = 2,
+    \]
+    utilizando el método de Newton para el sistema matricial de Lagrange KKT extendido.
+\end{exercise}
+
+\begin{exercise}[Cotas del Método de Multiplicadores]
+    Para el método de la Lagrangiana Aumentada evaluada paramétricamente, demostrar mediante desarrollos de Taylor que para una penalización $c$ suficientemente alta, el error de aproximación se acota por el cociente del multiplicador original $\bar{\lambda}$:
+    \[
+        \frac{\norm{(L''_{xx}(\bar{x}, \bar{\lambda}))^{-1}}\norm{\bar{\lambda}} - \varepsilon}{c} \leq \norm{x(c) - \bar{x}} \leq \frac{\norm{(L''_{xx}(\bar{x}, \bar{\lambda}))^{-1}}\norm{\bar{\lambda}} + \varepsilon}{c}.
+    \]
+\end{exercise}
+
+\begin{exercise}[Penalización cuadrática en raíces de multiplicidad superior]
+    Utilizando el método básico de penalización externa cuadrática $c \norm{h(x)}^2$, resolver el problema paramétrico:
+    \[
+        \min x \quad \text{sujeto a} \quad x^p = 0, \quad \text{para } p \ge 2.
+    \]
+    Analizar la degradación de la tasa de convergencia asintótica producida por la geometría aplanada de la restricción y discutir por qué la penalización falla en converger rápidamente.
+\end{exercise}
+
+\vspace{1em}
+\noindent\textbf{Parte V: Tópicos de Programación Cuadrática Secuencial (SQP)}
+\vspace{0.5em}
+
+\begin{exercise}[Matriz Alternativa de Newton en SQP]
+    En el subproblema cuadrático linealizado (SQP), establezca la justificación analítica para usar como modelo de curvatura la matriz:
+    \[
+        H_k = L''_{xx}(x^k, \lambda^k) + c_k(h'(x^k))^Th'(x^k), \quad c_k > 0,
+    \]
+    en lugar de la Hessiana de la Lagrangiana pura. ¿Por qué esta segunda elección de la matriz aumenta la probabilidad de mantener la convexidad (semidefinición positiva) del subproblema irrestricto? (Invoque el Lema de Debreu).
+\end{exercise}
+
+\begin{exercise}[Dirección de descenso penalizada bajo SQP]\label{exe:v2_sqp_descenso}
+    Sea $\varphi(x) = f(x) + c \max\{ \norm{h(x)}_\infty, 0, g_1(x), \dots, g_m(x) \}$ la función de mérito de penalización $L_\infty$ exacta. Demuestre que si la dirección de búsqueda $d^k$ es obtenida como solución óptima neta del subproblema SQP regularizado, y si no es un vector nulo ($d^k \neq 0$), entonces $d^k$ es rigurosamente una dirección de descenso comprobable para la función de mérito $\varphi$.
+\end{exercise}

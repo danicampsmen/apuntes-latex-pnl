@@ -1,0 +1,101 @@
+% --- Archivo: 02_tasas_parada.tex ---
+
+% =========================================================
+\section{Tasas de convergencia y reglas de parada}
+\label{sec:v2_tasas_parada}
+% =========================================================
+
+Para evaluar cuantitativamente la eficiencia de un método de optimización con convergencia asintótica, caracterizamos la velocidad con la que el error (la distancia al óptimo), definido por $e_k = \norm{x^k - \bar{x}}$, se reduce iteración tras iteración.
+
+Asumiendo que $x^k \neq \bar{x}$ para todo $k \ge 0$, la velocidad de convergencia se clasifica principalmente según el límite del cociente de errores sucesivos.
+
+\begin{definition}[Tasa de convergencia]\label{def:v2_rates_of_convergence}
+    Se dice que la sucesión $\{x^k\}$ converge a $\bar{x}$ con una tasa:
+    
+    \begin{enuthm}
+        \item \textbf{Lineal:} Si existe una constante $q \in (0, 1)$ tal que el cociente asintótico está acotado por $q$:
+        \begin{equation}
+            \limsup_{k \to \infty} \frac{\norm{x^{k+1} - \bar{x}}}{\norm{x^k - \bar{x}}} = q.
+        \end{equation}
+        Una tasa lineal implica que el error decae exponencialmente (existe $C > 0$ tal que $\norm{x^k - \bar{x}} \le C q^k$), pero la implicación recíproca no siempre es cierta (la sucesión podría estar acotada por una envolvente exponencial sin que el límite del cociente exista o sea regular).
+       
+        \item \textbf{Superlineal:} Si el límite del cociente de errores es estrictamente nulo:
+        \begin{equation}
+            \lim_{k \to \infty} \frac{\norm{x^{k+1} - \bar{x}}}{\norm{x^k - \bar{x}}} = 0.
+        \end{equation}
+        Esto significa que la convergencia es eventualmente más rápida que cualquier progresión geométrica. 
+        
+        Un caso particular sumamente importante es la \textbf{convergencia cuadrática} (orden 2), que verifica la relación:
+        \begin{equation}
+            \limsup_{k \to \infty} \frac{\norm{x^{k+1} - \bar{x}}}{\norm{x^k - \bar{x}}^2} \le C, \quad \text{con } C > 0.
+        \end{equation}
+        En este escenario, el número de decimales correctos de la aproximación se duplica (aproximadamente) en cada iteración.
+
+        \item \textbf{Sublineal:} Si el límite de la relación de errores es igual a $1$ (es decir, $q=1$). Un ejemplo clásico es la \textbf{convergencia aritmética}, donde existe una constante $C > 0$ tal que:
+        \begin{equation}
+                \limsup_{k \to \infty} k \norm{x^k - \bar{x}} \le C.
+        \end{equation}
+    \end{enuthm}
+\end{definition}
+    
+\begin{definition}[Convergencia geométrica]\label{def:v2_geometric_convergence}
+    Se dice que $\{x^k\}$ \deftech{converge geométricamente} a $\bar{x}$ si existen constantes $q \in (0, 1)$ y $C > 0$ tales que:
+    \begin{equation}
+        \limsup_{k \to \infty} \frac{\norm{x^k - \bar{x}}}{q^k} \le C.
+    \end{equation}
+\end{definition}
+
+\begin{remark}
+    Como se señaló en la \cref{def:v2_rates_of_convergence}, la convergencia lineal implica convergencia geométrica, pero el recíproco en general no es cierto.
+\end{remark}
+
+Es importante notar que el análisis de la tasa de convergencia de una sucesión vectorial se rige por su comportamiento global (su norma). El comportamiento aislado de las componentes individuales puede ser engañoso.
+
+\begin{counterexample}[Independencia de la tasa cuadrática en las componentes]\label{ex:v2_component_rate}
+    La convergencia cuadrática de una sucesión vectorial hacia $\bar{x}$ no exige que cada componente individual converja con tasa superlineal o cuadrática.
+    
+    Consideremos la trayectoria $\{x^k\} \subset \R^2$ que converge al origen $\bar{x} = (0, 0)^\top$. Fijamos el valor inicial de la segunda componente $x^1_2 \in (0, 1)$. Para todo $k \ge 1$, definimos recursivamente la segunda componente como $x^{k+1}_2 = (x^k_2)^2$. Para la primera componente, el comportamiento se acopla según la paridad de la iteración:
+    \[
+        x^{k+1}_1 =
+        \begin{cases}
+          x^k_1 & \text{si } k \text{ es impar}, \\
+          (x^{k+1}_2)^2 & \text{si } k \text{ es par}.
+        \end{cases}
+    \]
+    Para un punto inicial $x^1 = (b^4, b)^\top$ con $b \in (0, 1)$, los primeros términos generados son:
+    \begin{align*}
+      x^2 &= (b^4, b^2)^\top \quad (\text{paso impar, por lo que } x^2_1 = x^1_1) \\
+      x^3 &= (b^8, b^4)^\top \quad (\text{paso par, por lo que } x^3_1 = (x^3_2)^2) \\
+      x^4 &= (b^8, b^8)^\top \quad (\text{paso impar, por lo que } x^4_1 = x^3_1).
+    \end{align*}
+    La norma del error en cada iteración, $\norm{x^k} = \sqrt{(x^k_1)^2 + (x^k_2)^2}$, decae asintóticamente a tasa cuadrática. Sin embargo, al aislar la primera componente en los pasos de paridad impar (por ejemplo, de $k=3$ a $k=4$), se observa que $x^4_1 = x^3_1$, por lo que la relación del error marginal es exactamente $1$. 
+    
+    Esto demuestra que una componente unidimensional puede estancarse temporalmente (tasa de convergencia 1, ni siquiera lineal), a pesar de que el vector global converge rigurosamente con tasa cuadrática.
+\end{counterexample}
+
+La tasa de convergencia asintótica no es el único criterio de eficiencia para seleccionar un algoritmo. Un método con convergencia cuadrática (como el método de Newton) puede requerir mucho más tiempo de cómputo total que un método de gradiente (lineal) si el costo computacional de evaluar y resolver el sistema de ecuaciones con la matriz Hessiana en cada iteración es exorbitantemente elevado. La estabilidad numérica y la viabilidad de los iterados dentro del conjunto factible también influyen dramáticamente en el éxito del algoritmo.
+
+Para equilibrar las propiedades de convergencia global y local, se suelen utilizar \textbf{estrategias de globalización}. Se inicia el proceso con un método de convergencia global y robusto; una vez que el residuo del gradiente indica que el iterado está suficientemente cerca de la solución, el algoritmo cambia a un método de orden superior para aprovechar su aceleración local.
+
+Dado que las implementaciones reales no pueden ejecutarse hasta el infinito, el proceso debe detenerse tras un tiempo finito. Para ello se utilizan \deftech{criterios de parada}, generalmente basados en el estancamiento de la trayectoria o en tolerancias estrictas de la función y del gradiente:
+\begin{align}
+    \norm{x^{k+1} - x^k} &\le \epsilon, \label{eq:v2_stopping_var_x} \\
+    \absolute{f(x^{k+1}) - f(x^k)} &\le \epsilon, \label{eq:v2_stopping_var_f} \\
+    \norm{\nabla f(x^k)} &\le \epsilon. \label{eq:v2_stopping_grad}
+\end{align}
+
+No obstante, estas condiciones de parada pueden resultar gravemente engañosas si se evalúan de forma aislada.
+
+\begin{counterexample}[Falsas convergencias en algoritmos de optimización]\label{ex:v2_stopping_criteria_failure}
+    La condición de estancamiento del paso, $\lim_{k \to \infty} \norm{x^{k+1} - x^k} = 0$, no garantiza en absoluto la convergencia hacia un punto límite estacionario. Consideremos dos trayectorias patológicas en $\R$:
+    \begin{enuthm}
+        \item \textbf{Divergencia monótona lenta:} Si $x^k = \sqrt{k}$, la distancia entre pasos decrece asintóticamente a cero, ya que $\sqrt{k+1} - \sqrt{k} \to 0$. Esto eventualmente satisfará cualquier tolerancia $\epsilon > 0$ en la condición \eqref{eq:v2_stopping_var_x}, engañando al algoritmo para que se detenga. Sin embargo, la trayectoria diverge hacia $+\infty$.
+        \item \textbf{Oscilación acotada no convergente:} Si la secuencia es $x^k = \sin(\sqrt{k})$, la distancia entre pasos también decrece a cero. Activa el criterio de parada \eqref{eq:v2_stopping_var_x}, pero la trayectoria no converge en absoluto; en su lugar, se mantiene orbitando densamente en el intervalo $[-1, 1]$.
+    \end{enuthm}
+\end{counterexample}
+
+Por estas razones, los programas y bibliotecas de optimización robustos siempre combinan varios criterios de parada de forma simultánea, junto con un límite estricto en el número máximo de iteraciones y de evaluaciones de la función objetivo.
+
+\begin{commentary}
+    Como señala la literatura especializada \cite{izmailov2020otimizacaovolume1}, la definición de la jerarquía de las reglas de parada y la calibración fina de sus parámetros numéricos ($\epsilon$) es, en última instancia, \emph{``una cuestión de experiencia computacional y heurística más que de ciencia exacta''}.
+\end{commentary}

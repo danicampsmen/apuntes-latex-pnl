@@ -1,0 +1,88 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{izmailov2020otimizacaovolume1}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=fba2abf502e6c655f26e458c4119fc5b}{%
+           family={Izmailov},
+           familyi={I\bibinitperiod},
+           given={Mikhail},
+           giveni={M\bibinitperiod},
+           suffix={Alexey\bibnamedelimb y\bibnamedelima Solodov},
+           suffixi={A\bibinitperiod\bibinitdelim y\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Rio de Janeiro, Brasil}%
+      }
+      \list{publisher}{1}{%
+        {IMPA}%
+      }
+      \strng{namehash}{fba2abf502e6c655f26e458c4119fc5b}
+      \strng{fullhash}{fba2abf502e6c655f26e458c4119fc5b}
+      \strng{fullhashraw}{fba2abf502e6c655f26e458c4119fc5b}
+      \strng{bibnamehash}{fba2abf502e6c655f26e458c4119fc5b}
+      \strng{authorbibnamehash}{fba2abf502e6c655f26e458c4119fc5b}
+      \strng{authornamehash}{fba2abf502e6c655f26e458c4119fc5b}
+      \strng{authorfullhash}{fba2abf502e6c655f26e458c4119fc5b}
+      \strng{authorfullhashraw}{fba2abf502e6c655f26e458c4119fc5b}
+      \field{labelalpha}{Izm20}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Otimização: Condições de Otimalidade, Elementos de Análise Convexa e de Dualidade (Volume 1)}
+      \field{year}{2020}
+    \endentry
+    \entry{rockafellar2009variationalanalysis}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=e2b239f49cac0ea9d9a326b28c49e2ac}{%
+           family={Rockafellar},
+           familyi={R\bibinitperiod},
+           given={Roger\bibnamedelima J.-B.},
+           giveni={R\bibinitperiod\bibinitdelim J\bibinithyphendelim B\bibinitperiod},
+           suffix={R.\bibnamedelimi Tyrrell\bibnamedelimb y\bibnamedelima Wets},
+           suffixi={R\bibinitperiod\bibinitdelim T\bibinitperiod\bibinitdelim y\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Science \& Business Media}%
+      }
+      \strng{namehash}{e2b239f49cac0ea9d9a326b28c49e2ac}
+      \strng{fullhash}{e2b239f49cac0ea9d9a326b28c49e2ac}
+      \strng{fullhashraw}{e2b239f49cac0ea9d9a326b28c49e2ac}
+      \strng{bibnamehash}{e2b239f49cac0ea9d9a326b28c49e2ac}
+      \strng{authorbibnamehash}{e2b239f49cac0ea9d9a326b28c49e2ac}
+      \strng{authornamehash}{e2b239f49cac0ea9d9a326b28c49e2ac}
+      \strng{authorfullhash}{e2b239f49cac0ea9d9a326b28c49e2ac}
+      \strng{authorfullhashraw}{e2b239f49cac0ea9d9a326b28c49e2ac}
+      \field{labelalpha}{Roc09}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{series}{Grundlehren der mathematical Sciences}
+      \field{title}{Variational Analysis}
+      \field{volume}{317}
+      \field{year}{2009}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

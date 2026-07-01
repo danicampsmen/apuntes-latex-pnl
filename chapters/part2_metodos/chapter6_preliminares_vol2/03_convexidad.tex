@@ -1,0 +1,48 @@
+% --- Archivo: 03_convexidad.tex ---
+
+% =========================================================
+\section{Convexidad}
+% =========================================================
+
+\begin{definition}[Conjunto Convexo]\label{def:v2_conjunto_convexo}
+    Un conjunto $D \subset \R^n$ es llamado \deftech{conjunto convexo} si para cualesquiera $x \in D$, $y \in D$ y $\alpha \in [0, 1]$, se tiene que $\alpha x + (1 - \alpha)y \in D$.
+\end{definition}
+
+Una \deftech{proyección} (ortogonal) del punto $x \in \R^n$ sobre un conjunto $D \subset \R^n$ es una solución (global) del problema $\min \|y - x\|$ sujeto a $y \in D$.
+
+\begin{theorem}[Teorema de la proyección]\label{thm:v2_proyeccion}
+    Sea $D \subset \R^n$ un conjunto cerrado y convexo. Para todo $x \in \R^n$ la proyección de $x$ sobre $D$, denotada por $P_D(x)$, existe y es única. Además, $\bar{x} = P_D(x)$ si, y solamente si,
+    \[
+        \bar{x} \in D, \quad \langle x - \bar{x}, y - \bar{x} \rangle \le 0 \quad \forall y \in D.
+    \]
+    El operador es no expansivo: $\|P_D(x) - P_D(y)\| \le \|x - y\|$ para todo $x, y$.
+\end{theorem}
+
+\begin{definition}[Función Convexa]\label{def:v2_funcion_convexa}
+    Una función $f : D \to \R$ (con $D$ convexo) es \deftech{convexa} si para cualesquiera $x, y \in D$ y $\alpha \in [0, 1]$, $f(\alpha x + (1 - \alpha)y) \le \alpha f(x) + (1 - \alpha)f(y)$. 
+    Es \textbf{fuertemente convexa} con módulo $\gamma > 0$, si la cota mejora a $\alpha f(x) + (1 - \alpha)f(y) - \gamma \alpha (1 - \alpha) \|x - y\|^2$. Una función es \textbf{cóncava} si $(-f)$ es convexa.
+\end{definition}
+
+\begin{theorem}[Teorema de minimización convexa]\label{thm:v2_minimizacion_convexa}
+    Sean $D \subset \R^n$ convexo y $f : D \to \R$ convexa. Entonces todo minimizador local del problema es global y el conjunto de minimizadores es convexo. Si $f$ es estrictamente convexa, el minimizador es único.
+\end{theorem}
+
+\begin{theorem}[Continuidad y Compacidad]\label{thm:v2_continuidad_nivel}
+    Una función convexa es localmente Lipschitz-continua en el interior de su dominio. Si $f$ es fuertemente convexa en $\R^n$, sus conjuntos de nivel $L_{f,\R^n}(c)$ son compactos para todo $c \in \R$, lo que garantiza existencia y unicidad de soluciones en cualquier cerrado $D$.
+\end{theorem}
+
+Cuando una función es diferenciable, la convexidad admite varias caracterizaciones (desigualdad del subgradiente, monotonía del gradiente, y Hessiana semidefinida positiva o definida positiva para la fuerte convexidad). 
+
+\begin{theorem}[Optimalidad primal convexa]\label{thm:v2_optimalidad_primal_convexa}
+    Sea $D \subset \R^n$ convexo y cerrado, y $f$ diferenciable. Si $\bar{x} \in D$ es un minimizador local, entonces $\langle f'(\bar{x}), x - \bar{x} \rangle \ge 0$ para todo $x \in D$. Equivalentemente, $\bar{x} = P_D(\bar{x} - \alpha f'(\bar{x}))$ para todo $\alpha \in \R_+$. Si $f$ es convexa, esta condición es también suficiente.
+\end{theorem}
+
+\begin{theorem}[Suficiencia de KKT]\label{thm:v2_kkt_suficiente}
+    Si $f$ y $g$ son convexas y $h$ es afín, entonces cualquier punto estacionario $\bar{x}$ que satisfaga las condiciones de KKT es un minimizador global del problema con restricciones mixtas.
+\end{theorem}
+
+En el análisis no diferenciable, la derivada se reemplaza por el subdiferencial. 
+
+\begin{definition}[Subdiferencial]\label{def:v2_subdiferencial}
+    El \deftech{subdiferencial} de $f$ convexa en $x$, denotado $\partial f(x)$, es el conjunto de vectores $y \in \R^n$ tales que $f(z) \ge f(x) + \langle y, z - x \rangle$ para todo $z \in \R^n$. Un punto $\bar{x}$ es minimizador global si y solo si $0 \in \partial f(\bar{x})$. Si se relaja la desigualdad restando una tolerancia $\varepsilon \ge 0$, se obtiene el \textbf{$\varepsilon$-subdiferencial} $\partial_\varepsilon f(x)$.
+\end{definition}

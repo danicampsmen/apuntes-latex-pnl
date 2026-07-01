@@ -1,0 +1,122 @@
+% --- Archivo: 05_lagrangianas_aumentadas.tex ---
+
+% =========================================================
+\section{Lagrangianas aumentadas y funciones de penalización exacta}
+\label{sec:v2_lagrangianas_aumentadas}
+% =========================================================
+
+Como se analizó en la sección de penalización externa cuadrática, una severa limitación práctica de dichos métodos radica en el mal condicionamiento numérico de la matriz Hessiana a medida que el parámetro de penalización $c \to +\infty$.
+
+Una manera de evitar el crecimiento ilimitado del parámetro de penalización es añadir un término de penalización diferenciable (por ejemplo, cuadrático) a la Lagrangiana clásica del problema, en lugar de agregarlo únicamente a la función objetivo.
+
+Consideraremos el problema de optimización con restricciones de igualdad:
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \{x \in \Rn \mid h(x) = 0\}, 
+    \label{eq:v2_la_problema_igualdad}
+\end{equation}
+donde $f \colon \Rn \to \R$ y $h \colon \Rn \to \R^l$ son funciones diferenciables.
+
+\subsection{El Método de la Lagrangiana Aumentada}
+
+Introducimos una familia paramétrica de \deftech{Lagrangianas aumentadas} asociadas al problema \eqref{eq:v2_la_problema_igualdad}:
+\begin{align}
+    L(x, \lambda; c) &= L(x, \lambda) + \frac{c}{2}\norm{h(x)}^2  \nonumber \\
+                     &= f(x) + \interno{\lambda}{h(x)} + \frac{c}{2}\norm{h(x)}^2,
+    \label{eq:v2_lagrangiana_aumentada_def}
+\end{align}
+donde $c \geq 0$ es un escalar de penalización. Notamos que la Lagrangiana clásica se recupera cuando $c = 0$, es decir, $L(x, \lambda) := L(x, \lambda; 0)$.
+
+El problema original \eqref{eq:v2_la_problema_igualdad} es trivial y algebraicamente equivalente al problema modificado:
+\begin{equation}
+    \min \left( f(x) + \frac{c}{2}\norm{h(x)}^2 \right) \quad \text{sujeto a} \quad x \in D, 
+    \label{eq:v2_la_prob_equivalente}
+\end{equation}
+ya que el término penalizador se anula exactamente para todo punto factible. Desde esta perspectiva geométrica, la Lagrangiana aumentada \eqref{eq:v2_lagrangiana_aumentada_def} es simplemente la Lagrangiana clásica asociada al problema equivalente \eqref{eq:v2_la_prob_equivalente}.
+
+\begin{notabox}[Propiedad Diferencial Fundamental]
+    En la formulación de derivadas respecto a las variables primales, la evaluación sobre el conjunto factible $D$ anula la contribución del gradiente de la penalización. Para todo $c \ge 0$, se cumple:
+    \begin{align*}
+        L'_x(x, \lambda; c) &= L'_x(x, \lambda) + c \cdot h'(x)^\top h(x) \\
+                            &= L'_x(x, \lambda) \quad \forall x \in D, \, \forall \lambda \in \R^l.
+    \end{align*}
+    En consecuencia, el conjunto de soluciones de la ecuación de primer orden $L'_x(x, \lambda; c) = 0$ coincide exactamente con los puntos estacionarios del sistema de Lagrange clásico del problema.
+\end{notabox}
+
+La ventaja topológica decisiva de esta formulación se refleja en las propiedades de segundo orden (la curvatura del subproblema irrestricto).
+
+\begin{theorem}[Suficiencia de Segundo Orden de la Lagrangiana Aumentada]\label{thm:v2_la_segundo_orden}
+    Sean $f \colon \Rn \to \R$ e $h \colon \Rn \to \R^l$ funciones dos veces diferenciables en el punto $\bar{x} \in \Rn$. Sea $\bar{x}$ un punto estacionario del problema \eqref{eq:v2_la_problema_igualdad} que satisface la condición suficiente de segundo orden clásica, con multiplicador de Lagrange asociado $\bar{\lambda} \in \R^l$.
+    
+    Entonces, para todo número de penalización $c$ suficientemente grande ($c \ge \bar{c}$), la matriz Hessiana de la Lagrangiana aumentada:
+    \begin{equation}
+        L''_{xx}(\bar{x}, \bar{\lambda}; c) = L''_{xx}(\bar{x}, \bar{\lambda}) + c(h'(\bar{x}))^T h'(\bar{x})
+        \label{eq:v2_la_hessiana}
+    \end{equation}
+    es \textbf{definida positiva}. En particular, $\bar{x}$ se convierte en un minimizador local estricto del problema irrestricto:
+    \begin{equation}
+        \min_{x \in \Rn} L(x, \bar{\lambda}; c).
+        \label{eq:v2_la_subproblema_irrestricto}
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    Bajo la condición de suficiencia de segundo orden del problema original, sabemos que la forma cuadrática $\interno{L''_{xx}(\bar{x}, \bar{\lambda})d}{d} > 0$ para todo $d \in \ker h'(\bar{x}) \setminus \{0\}$. 
+    
+    Invocando el Lema de Debreu (\cref{lem:v2_debreu}) de las herramientas algebraicas, identificamos la matriz $B = L''_{xx}$ y la matriz $A = h'(\bar{x})$. El Lema garantiza inmediatamente la existencia de una constante umbral $\bar{c} > 0$ tal que la suma matricial $B + c A^\top A$ es definida positiva para todo $c \ge \bar{c}$. Al ser el gradiente nulo y la matriz Hessiana definida positiva, $\bar{x}$ es solución estricta de \eqref{eq:v2_la_subproblema_irrestricto}.
+\end{proof}
+
+Este teorema sustenta el desarrollo del \textbf{Método de los Multiplicadores} (o método de la Lagrangiana Aumentada). Consiste en minimizar irrestrictamente la Lagrangiana aumentada con un parámetro $c_k$ finito, y en lugar de hacer crecer $c_k \to \infty$, se actualiza de manera analítica la estimación del multiplicador dual $\lambda^k$.
+
+\begin{algorithm}[Método de la Lagrangiana Aumentada (Método de los Multiplicadores)]\label{alg:v2_multiplicadores}
+    Elegir un estimador inicial $\lambda^0 \in \R^l$ y un parámetro de penalización $c_0 > 0$. Tomar el contador $k := 0$.
+    \begin{enuthm}
+        \item \textbf{Fase Primal:} Calcular $x^k \in \Rn$ resolviendo (exacta o aproximadamente) el problema de optimización irrestricta:
+        \[
+            \min_{x \in \Rn} L(x, \lambda^k; c_k),
+        \]
+        donde la función a minimizar viene dada por \eqref{eq:v2_lagrangiana_aumentada_def}.
+        \item \textbf{Fase Dual:} Actualizar el vector de multiplicadores de Lagrange utilizando la regla de actualización natural de primer orden (Regla de Hestenes-Powell):
+        \begin{equation}
+            \lambda^{k+1} = \lambda^k + c_k h(x^k).
+            \label{eq:v2_actualizacion_multiplicador}
+        \end{equation}
+        \item \textbf{Fase de Penalización:} Elegir el siguiente peso penal $c_{k+1} \geq c_k$ (si el descenso en la factibilidad $\norm{h(x^k)}$ no es suficiente, se incrementa $c$; en caso contrario se mantiene constante). Tomar $k \leftarrow k + 1$ y retornar al Paso 1.
+    \end{enuthm}
+\end{algorithm}
+
+La justificación fundamental de la regla de actualización \eqref{eq:v2_actualizacion_multiplicador} proviene de la condición de estacionariedad del subproblema en el Paso 1. Dado que $x^k$ minimiza la Lagrangiana aumentada, su gradiente se anula:
+\begin{align*}
+    0 &= \nabla_x L(x^k, \lambda^k; c_k) \\
+      &= f'(x^k) + h'(x^k)^\top \lambda^k + c_k h'(x^k)^\top h(x^k) \\
+      &= f'(x^k) + h'(x^k)^\top \left( \lambda^k + c_k h(x^k) \right).
+\end{align*}
+Si definimos $\lambda^{k+1} = \lambda^k + c_k h(x^k)$, observamos que $x^k$ y $\lambda^{k+1}$ satisfacen la ecuación estacionaria de la Lagrangiana clásica:
+\[
+    f'(x^k) + h'(x^k)^\top \lambda^{k+1} = 0.
+\]
+Si la trayectoria $x^k$ converge a una solución $\bar{x}$, entonces forzosamente el multiplicador construido $\lambda^{k+1}$ convergerá al multiplicador exacto $\bar{\lambda}$.
+
+\begin{theorem}[Convergencia Local del Método de los Multiplicadores]\label{thm:v2_convergencia_multiplicadores}
+    Bajo las hipótesis de la condición de independencia lineal (LICQ) y la condición suficiente de segunda orden en la solución exacta $\bar{x}$, existe un umbral $\bar{c} \ge 0$ tal que si la penalización permanece fija $c_k = c > \bar{c}$, la iteración dual generada por:
+    \[
+        \lambda^{k+1} = \lambda^k + c \cdot h(x(\lambda^k, c))
+    \]
+    converge \textbf{linealmente} al multiplicador exacto $\bar{\lambda}$. 
+    Además, si la secuencia de penalizaciones cumple $c_k \to \infty$, la tasa de convergencia local sobre las variables primales y duales es \textbf{superlineal}.
+\end{theorem}
+
+Esta propiedad excepcional garantiza que no es obligatorio que el parámetro de penalización $c_k$ explote asintóticamente hacia $+\infty$ para lograr la convergencia exacta. Un valor de $c$ lo suficientemente alto (pero estático) ancla la concavidad local permitiendo que la iteración dual atrape al óptimo, erradicando los problemas agudos de mal condicionamiento en la resolución irrestricta del Paso 1.
+
+% ---------------------------------------------------------
+\subsection{Extensión a restricciones mixtas}
+% ---------------------------------------------------------
+
+En el caso general con restricciones mixtas (igualdades $h(x) = 0$ y desigualdades $g(x) \le 0$), el método se extiende recurriendo teóricamente al concepto de variables de holgura. Las restricciones $g_i(x) \le 0$ se transforman en igualdades $g_i(x) + t_i^2 = 0$.
+
+Al realizar la minimización analítica exacta respecto al vector de holgura $t$, la variable auxiliar desaparece algebraicamente y la actualización dual para los multiplicadores de desigualdad $\mu^k \ge 0$ toma la forma iterativa acotada de la proyección sobre el ortante positivo:
+\begin{equation}
+    \mu_i^{k+1} = \max\{0, \, \mu_i^k + c_k g_i(x^k)\}, \quad i = 1, \dots, m.
+    \label{eq:v2_la_actualizacion_mu}
+\end{equation}
+
+Si el argumento escalar resulta negativo, la restricción se considera inactiva y el multiplicador colapsa exactamente a $0$ de acuerdo con la teoría de holgura complementaria KKT, manteniendo la integridad rigurosa de las condiciones de optimalidad.

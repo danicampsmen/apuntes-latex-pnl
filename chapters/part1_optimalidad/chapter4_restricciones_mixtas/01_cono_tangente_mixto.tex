@@ -1,0 +1,374 @@
+% --- Archivo: 01_cono_tangente_mixto.tex ---
+
+En este capítulo contamos con las herramientas necesarias para abordar el problema de optimización general con restricciones mixtas de igualdad y desigualdad. Estudiaremos la caracterización del cono tangente para los conjuntos definidos por este tipo de restricciones, lo que nos permitirá derivar las condiciones de optimalidad primal-dual de Karush-Kuhn-Tucker (KKT). Asimismo, desarrollaremos las condiciones necesarias y suficientes de segundo orden.
+
+Consideramos el problema de optimización con restricciones mixtas de igualdad y desigualdad:
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D,
+    \label{eq:problema_mixto}
+\end{equation}
+donde el conjunto factible está dado por:
+\begin{equation}
+    D = \{ x \in \Rn \mid h(x) = 0, \: g(x) \le 0 \},
+    \label{eq:conjunto_mixto}
+\end{equation}
+y $f : \Rn \to \R$, $h : \Rn \to \R^l$ y $g : \Rn \to \R^m$ son funciones dadas.
+
+\begin{notabox}[Transformación a restricciones de igualdad]
+    Como se mencionó en el Capítulo 1, es posible convertir el problema \eqref{eq:problema_mixto}-\eqref{eq:conjunto_mixto} en uno con restricciones exclusivas de igualdad, introduciendo variables de holgura $\sigma \in \R^m$ mediante la siguiente transformación:
+    \[
+        \tilde{D} = \left\{ (x, \sigma) \in \Rn \times \R^m \mathrel{\Bigg|} \begin{aligned} &h(x) = 0, \\ &g_i(x) + \sigma_i^2 = 0, \quad i = 1, \dots, m. \end{aligned} \right\}.
+    \]
+    Sin embargo, esta aproximación exige hipótesis de regularidad más restrictivas y produce condiciones de optimalidad de segundo orden más débiles que las obtenidas al estudiar las desigualdades de forma directa.
+\end{notabox}
+
+Para el estudio local del problema, es necesario identificar cuáles restricciones de desigualdad determinan la frontera del conjunto factible en un punto dado.
+
+\begin{definition}[Restricciones activas]\label{def:restriccion_activa}
+    Sea $\bar{x} \in D$. Diremos que la restricción de desigualdad correspondiente al índice $i \in \{1, \dots, m\}$ es \textbf{activa} en el punto $\bar{x}$ cuando $g_i(\bar{x}) = 0$.
+    
+    El conjunto de índices de las restricciones activas en el punto $\bar{x} \in D$ se denota por:
+    \[
+        I(\bar{x}) = \{ i \in \{1, \dots, m\} \mid g_i(\bar{x}) = 0 \}.
+    \]
+\end{definition}
+
+\begin{notation}
+    Las restricciones de igualdad no se incluyen en esta definición puesto que, por la propia definición del conjunto $D$, siempre se satisfacen como igualdades en cualquier punto factible.
+\end{notation}
+
+% =========================================================
+\section{Cono tangente en el caso de restricciones de igualdad y desigualdad}
+% =========================================================
+
+Por continuidad, un minimizador local $\bar{x}$ del problema \eqref{eq:problema_mixto}-\eqref{eq:conjunto_mixto} también es minimizador local del problema relajado que omite las restricciones inactivas en $\bar{x}$. Geométricamente, las restricciones activas determinan el comportamiento local del conjunto factible en torno a $\bar{x}$ y, por ende, son las únicas relevantes para el análisis diferencial.
+
+\begin{definition}[Cono de linealización]\label{def:cono_linealizacion}
+    Supongamos que $h$ y $g$ son diferenciables en $\bar{x} \in D$. Se define el \textbf{cono de linealización} en $\bar{x}$ para las restricciones de igualdad y las desigualdades activas, denotado por $\mathcal{H}(\bar{x})$, como:
+    \begin{equation}
+        \mathcal{H}(\bar{x}) = \left\{ d \in \Rn \mathrel{\Bigg|} \begin{aligned} &\langle \nabla h_i(\bar{x}), d \rangle = 0, \quad i = 1, \dots, l \\ &\langle \nabla g_i(\bar{x}), d \rangle \le 0, \quad \forall i \in I(\bar{x}) \end{aligned} \right\}.
+        \label{eq:cono_linealizacion}
+    \end{equation}
+    De manera equivalente, utilizando la matriz Jacobiana $J_h$:
+    \[
+        \mathcal{H}(\bar{x}) = \{ d \in \ker J_h(\bar{x}) \mid \langle \nabla g_i(\bar{x}), d \rangle \le 0 \quad \forall i \in I(\bar{x}) \}.
+    \]
+\end{definition}
+
+\begin{example}[Cálculo del cono de linealización]\label{ex:calculo_cono_linealizacion}
+    Considérese el conjunto factible en $\R^2$ delimitado por una parábola y el eje horizontal:
+    \[
+        D = \left\{ x \in \R^2 \mathrel{\Bigg|} \begin{aligned} &g_1(x) = x_2 - x_1^2 \le 0 \\ &g_2(x) = -x_2 \le 0 \end{aligned} \right\}.
+    \]
+    El conjunto $D$ consta de un único punto factible, $\bar{x} = (0,0)^\top$.
+    
+    Para determinar el cono de linealización $\mathcal{H}(\bar{x})$, evaluamos las restricciones en el origen: $g_1(0,0) = 0$ y $g_2(0,0) = 0$, por lo que $I(\bar{x}) = \{1, 2\}$. Los gradientes son:
+    \[
+        \nabla g_1(\bar{x}) = \begin{pmatrix} 0 \\ 1 \end{pmatrix}, \quad \nabla g_2(\bar{x}) = \begin{pmatrix} 0 \\ -1 \end{pmatrix}.
+    \]
+    Por la \cref{def:cono_linealizacion}, un vector $d = (d_1, d_2)^\top$ pertenece a $\mathcal{H}(\bar{x})$ si satisface:
+    \[
+        \langle \nabla g_1(\bar{x}), d \rangle = d_2 \le 0 \quad \text{y} \quad \langle \nabla g_2(\bar{x}), d \rangle = -d_2 \le 0 \implies d_2 \ge 0.
+    \]
+    El sistema implica que $d_2 = 0$. La coordenada $d_1$ no está acotada por las restricciones linealizadas. En consecuencia:
+    \[
+        \mathcal{H}(\bar{x}) = \left\{ \begin{pmatrix} d_1 \\ 0 \end{pmatrix} \mathrel{\Bigg|} d_1 \in \R \right\}.
+    \]
+    Este caso ilustra una discrepancia entre la topología y el álgebra: el cono tangente geométrico es $\mathcal{T}_D(\bar{x}) = \{0\}$, mientras que el cono de linealización $\mathcal{H}(\bar{x})$ es una recta completa.
+\end{example}
+
+\begin{proposition}[Inclusión de conos]\label{prop:bouligand_en_linealizacion}
+    Sea $D \subset \Rn$ el conjunto definido en \eqref{eq:conjunto_mixto}. Si las funciones $h : \Rn \to \R^l$ y $g : \Rn \to \R^m$ son diferenciables en $\bar{x} \in D$, entonces los conos tangentes están contenidos en el cono de linealización:
+    \[
+        \mathcal{T}_D(\bar{x}) \subset \mathcal{B}_D(\bar{x}) \subset \mathcal{H}(\bar{x}).
+    \]
+\end{proposition}
+
+\begin{proof}
+    La inclusión $\mathcal{T}_D(\bar{x}) \subset \mathcal{B}_D(\bar{x})$ es una propiedad topológica general. Para la segunda inclusión, es inmediato que $0 \in \mathcal{B}_D(\bar{x}) \cap \mathcal{H}(\bar{x})$.
+    
+    Sea $d \in \mathcal{B}_D(\bar{x}) \setminus \{0\}$. Existen sucesiones $\{t_k\} \to 0^+$ y $\{d^k\} \to d$ tales que $\bar{x} + t_k d^k \in D$ para todo $k \in \N$. La condición de factibilidad exige que para todo $k$:
+    \[
+        h(\bar{x} + t_k d^k) = 0 \quad \text{y} \quad g_i(\bar{x} + t_k d^k) \le 0 \quad \forall i \in I(\bar{x}).
+    \]
+    Utilizando el desarrollo de Taylor de primer orden en $\bar{x}$:
+    \begin{align*}
+      0 &= h(\bar{x} + t_k d^k) - h(\bar{x}) = t_k J_h(\bar{x}) d^k + o(t_k \norm{d^k}), \\
+      0 &\ge g_i(\bar{x} + t_k d^k) - g_i(\bar{x}) = t_k \langle \nabla g_i(\bar{x}), d^k \rangle + o(t_k \norm{d^k}).
+    \end{align*}
+    Dividiendo por $t_k > 0$ y tomando el límite cuando $k \to \infty$, se sigue que $d^k \to d$ y el término residual $\frac{o(t_k \norm{d^k})}{t_k} \to 0$. Se obtiene:
+    \[
+        J_h(\bar{x}) d = 0 \quad \text{y} \quad \langle \nabla g_i(\bar{x}), d \rangle \le 0 \quad \forall i \in I(\bar{x}),
+    \]
+    lo cual demuestra que $d \in \mathcal{H}(\bar{x})$.
+\end{proof}
+
+\begin{counterexample}[Falta de regularidad e inclusión estricta]\label{ex:falla_inclusion_mixta}
+    El siguiente ejemplo muestra que la igualdad $\mathcal{B}_D(\bar{x}) = \mathcal{H}(\bar{x})$ requiere hipótesis adicionales. Sea $D \subset \R^2$ definido por:
+    \[
+        g(x) = -x_1^3 + x_2^2 \le 0.
+    \]
+    En el origen $\bar{x} = (0,0)^\top \in D$, la restricción es activa y su gradiente es $\nabla g(\bar{x}) = (0,0)^\top$. El cono de linealización es todo el espacio:
+    \[
+        \mathcal{H}(\bar{x}) = \{ d \in \R^2 \mid \langle (0,0)^\top, d \rangle \le 0 \} = \R^2.
+    \]
+    Sin embargo, el conjunto $D$ presenta una cúspide orientada hacia la dirección positiva del eje $x_1$. La dirección $d = (-1, 0)^\top \in \mathcal{H}(\bar{x})$ no es tangente, ya que para cualquier $t > 0$, evaluando en la restricción se tiene $-(-t)^3 + 0^2 = t^3 > 0$, por lo que $\bar{x} + td \notin D$. Por tanto, $d \notin \mathcal{B}_D(\bar{x})$, verificándose la inclusión estricta $\mathcal{B}_D(\bar{x}) \subsetneq \mathcal{H}(\bar{x})$.
+\end{counterexample}
+
+\begin{example}[Igualdad de conos bajo regularidad]\label{ex:inclusion_regular_mixta}
+    Considérese el conjunto en $\R^2$ definido por:
+    \[
+        D = \left\{ x \in \R^2 \mathrel{\Bigg|} \begin{aligned} &h(x) = x_2 - x_1^2 = 0 \\ &g(x) = x_1 \le 0 \end{aligned} \right\}.
+    \]
+    Tomemos el punto $\bar{x} = (0,0)^\top$. La restricción de desigualdad es activa ($I(\bar{x}) = \{1\}$). Los gradientes en $\bar{x}$ son $\nabla h(\bar{x}) = (0, 1)^\top$ y $\nabla g(\bar{x}) = (1, 0)^\top$. El cono de linealización $\mathcal{H}(\bar{x})$ requiere $d_2 = 0$ y $d_1 \le 0$, de donde $\mathcal{H}(\bar{x}) = \{ (d_1, 0)^\top \mid d_1 \le 0 \}$.
+
+    Para el cono de Bouligand $\mathcal{B}_D(\bar{x})$, dada una sucesión $t_k \to 0^+$, los puntos de $D$ admiten la forma $(-t_k, t_k^2)^\top$. La dirección secante es:
+    \[
+        d^k = \frac{1}{t_k} \begin{pmatrix} -t_k \\ t_k^2 \end{pmatrix} = \begin{pmatrix} -1 \\ t_k \end{pmatrix}.
+    \]
+    En el límite $k \to \infty$, se obtiene $d = (-1, 0)^\top$. Por homotecia de conos, $\mathcal{B}_D(\bar{x}) = \{ (d_1, 0)^\top \mid d_1 \le 0 \}$. Para el cono tangente estricto $\mathcal{T}_D(\bar{x})$, la curva $x(t) = (-t, t^2)^\top$ contenida en $D$ para $t \ge 0$ tiene por vector director $d = (-1,0)^\top$. Por lo tanto, en este punto se verifica $\mathcal{T}_D(\bar{x}) = \mathcal{B}_D(\bar{x}) = \mathcal{H}(\bar{x})$.
+\end{example}
+
+\begin{lemma}[Lema de Farkas Generalizado]\label{lem:farkas_generalizado}
+    Sea $K \subset \Rn$ un cono poliédrico definido por el sistema:
+    \[
+        K = \{ x \in \Rn \mid A_1 x = 0, \: A_2 x \le 0 \},
+    \]
+    con matrices $A_1 \in \R^{m_1 \times n}$ y $A_2 \in \R^{m_2 \times n}$.
+    
+    El cono dual $K^*$ equivale al conjunto de combinaciones lineales de las filas de $A_1$ y $A_2$, donde los coeficientes correspondientes a $A_2$ son no negativos:
+    \begin{equation}
+        K^* = \left\{ z \in \Rn \mathrel{\Bigg|} \begin{aligned} &z = A_1^\top \lambda + A_2^\top \mu, \\ &\lambda \in \R^{m_1}, \: \mu \in \R_+^{m_2} \end{aligned} \right\}.
+        \label{eq:farkas_dual}
+    \end{equation}
+\end{lemma}
+
+\begin{proof}
+    Sea $Q$ el conjunto de la ecuación \eqref{eq:farkas_dual}. Para todo $z \in Q$ y todo $x \in K$, existen $\lambda \in \R^{m_1}$ y $\mu \in \R_+^{m_2}$ tales que $\langle z, x \rangle = \langle A_1^\top \lambda + A_2^\top \mu, x \rangle = \langle \lambda, A_1 x \rangle + \langle \mu, A_2 x \rangle$. Dado que $x \in K$, se satisface $A_1 x = 0$ y $A_2 x \le 0$. Como $\mu \ge 0$, se concluye que $\langle \mu, A_2 x \rangle \le 0$. Luego, $\langle z, x \rangle \le 0$, lo que implica la inclusión $Q \subset K^*$.
+
+    Para demostrar la inclusión $K^* \subset Q$, supongamos que existe $\xi \in K^*$ tal que $\xi \notin Q$. Al ser $Q$ un cono convexo cerrado, por el Teorema de Separación Estricta (o Lema de Motzkin), existe $x \in \Rn$ que separa $\xi$ de $Q$: $\langle \xi, x \rangle > 0$ y $\langle z, x \rangle \le 0$ para todo $z \in Q$. Evaluando la segunda condición: $\langle \lambda, A_1 x \rangle + \langle \mu, A_2 x \rangle \le 0$ para todo $\lambda \in \R^{m_1}, \mu \in \R_+^{m_2}$. La pertenencia de $\lambda$ a todo el espacio requiere que $A_1 x = 0$. La condición $\mu \ge 0$ exige que $A_2 x \le 0$. En consecuencia, $x \in K$. Sin embargo, la desigualdad $\langle \xi, x \rangle > 0$ contradice la hipótesis $\xi \in K^*$, que exige $\langle \xi, x \rangle \le 0$ para todo $x \in K$. Esta contradicción demuestra que $K^* \subset Q$.
+\end{proof}
+
+\begin{example}[Lema de Farkas en $\R^2$]\label{ex:lema_farkas}
+    Sea el cono poliédrico $K \subset \R^2$ definido por:
+    \[
+        A_2 x \le 0 \implies \begin{pmatrix} -1 & 0 \\ 0 & -1 \end{pmatrix} \begin{pmatrix} x_1 \\ x_2 \end{pmatrix} \le \begin{pmatrix} 0 \\ 0 \end{pmatrix} \implies x_1 \ge 0, \ x_2 \ge 0.
+    \]
+    El cono primal es $K = \R_+^2$. Por definición, $z \in K^*$ si $z_1 x_1 + z_2 x_2 \le 0$ para todo $x \in \R_+^2$. Evaluando en la base canónica, se concluye $z_1 \le 0$ y $z_2 \le 0$, es decir, $K^* = \R_-^2$.
+    
+    Aplicando el \cref{lem:farkas_generalizado}, $K^*$ se expresa mediante combinaciones cónicas de las filas de $A_2$:
+    \begin{align*}
+      K^* &= \left\{ \mu_1 \begin{pmatrix} -1 \\ 0 \end{pmatrix} + \mu_2 \begin{pmatrix} 0 \\ -1 \end{pmatrix} \mathrel{\Bigg|} \mu_1, \mu_2 \ge 0 \right\} = \left\{ \begin{pmatrix} -\mu_1 \\ -\mu_2 \end{pmatrix} \mathrel{\Bigg|} \mu_1, \mu_2 \ge 0 \right\} = \R_-^2.
+    \end{align*}
+\end{example}
+
+\begin{lemma}[Estructura Dual del Cono de Linealización]\label{lem:dual_cono_linealizacion}
+    Sea $\mathcal{H}(\bar{x})$ el cono poliédrico definido en \eqref{eq:cono_linealizacion}. El cono dual $\mathcal{H}(\bar{x})^*$ está dado por:
+    \begin{equation}
+        \mathcal{H}(\bar{x})^* = \left\{ y \in \Rn \mathrel{\Bigg|} \begin{aligned} &y = J_h(\bar{x})^\top \lambda + \sum_{i \in I(\bar{x})} \mu_i \nabla g_i(\bar{x}), \\ &\lambda \in \R^l, \ \mu_i \ge 0 \quad \forall i \in I(\bar{x}) \end{aligned} \right\}.
+        \label{eq:dual_cono_linealizacion}
+    \end{equation}
+\end{lemma}
+
+\begin{proof}
+    El resultado se sigue directamente de la aplicación del Lema de Farkas (\cref{lem:farkas_generalizado}). Definiendo la matriz $A_1 = J_h(\bar{x}) \in \R^{l \times n}$ y construyendo $A_2$ a partir de los gradientes transpuestos $\nabla g_i(\bar{x})^\top$ para $i \in I(\bar{x})$, un vector $y \in \mathcal{H}(\bar{x})^*$ se descompone como $A_1^\top \lambda + A_2^\top \mu$, con $\mu \ge 0$.
+\end{proof}
+
+\begin{example}[Construcción del cono dual]\label{ex:dual_linealizacion}
+    Considérese el origen $\bar{x} = (0,0,0)^\top$ en el sistema:
+    \[
+        D = \left\{ x \in \R^3 \mathrel{\Bigg|} \begin{aligned} &h(x) = x_1 - x_2 = 0 \\ &g(x) = x_1 + x_2 + x_3 \le 0 \end{aligned} \right\}.
+    \]
+    La desigualdad es activa ($g(0) = 0$). Los gradientes en $\bar{x}$ son $\nabla h(\bar{x}) = (1, -1, 0)^\top$ y $\nabla g(\bar{x}) = (1, 1, 1)^\top$. El cono de linealización $\mathcal{H}(\bar{x})$ requiere $d_1 = d_2$ y $2d_1 + d_3 \le 0$.
+    
+    Por el \cref{lem:dual_cono_linealizacion}, su cono dual $\mathcal{H}(\bar{x})^*$ toma la forma:
+    \[
+        y = \lambda \begin{pmatrix} 1 \\ -1 \\ 0 \end{pmatrix} + \mu \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix} = \begin{pmatrix} \lambda + \mu \\ -\lambda + \mu \\ \mu \end{pmatrix}, \quad \lambda \in \R, \ \mu \ge 0.
+    \]
+    El parámetro $\lambda$, asociado a la igualdad, no tiene restricción de signo y genera un subespacio. La variable $\mu$, asociada a la desigualdad, está restringida a $\mu \ge 0$, lo que define la estructura cónica del conjunto dual.
+\end{example}
+
+\begin{theorem}[Condición suficiente de primer orden]\label{thm:suficiente_primal_mixto}
+    Sean $f : \Rn \to \R$, $h : \Rn \to \R^l$ y $g : \Rn \to \R^m$ diferenciables en $\bar{x} \in D$. Sea $\mathcal{H}(\bar{x})$ el cono definido en \eqref{eq:cono_linealizacion}.
+    
+    Si se cumple la condición:
+    \begin{equation}
+        \langle \nabla f(\bar{x}), d \rangle > 0 \quad \forall d \in \mathcal{H}(\bar{x}) \setminus \{0\},
+        \label{eq:suficiente_primal_mixto}
+    \end{equation}
+    entonces $f$ satisface la \textbf{condición de crecimiento lineal} en $\bar{x}$: existen un entorno $U$ de $\bar{x}$ y un escalar $\beta > 0$ tales que
+    \[
+        f(x) - f(\bar{x}) \ge \beta \norm{x - \bar{x}} \quad \forall x \in D \cap U.
+    \]
+    Por lo tanto, $\bar{x}$ es un minimizador local estricto de \eqref{eq:problema_mixto}.
+\end{theorem}
+
+\begin{proof}
+    Supongamos, por reducción al absurdo, que se cumple \eqref{eq:suficiente_primal_mixto} pero la condición de crecimiento lineal es falsa. Esto implica la existencia de una sucesión $x^k \in D \setminus \{\bar{x}\}$ convergiendo a $\bar{x}$ tal que
+    \[
+        f(x^k) - f(\bar{x}) < \frac{1}{k} \norm{x^k - \bar{x}}.
+    \]
+    Sea $t_k = \norm{x^k - \bar{x}} > 0$ y considérese la dirección normalizada $d^k = (x^k - \bar{x})/t_k$. Por la compacidad de la esfera unitaria, existe una subsucesión convergente $d^k \to d$, con $\norm{d} = 1$ (es decir, $d \neq 0$). Por la definición de direcciones tangentes secuenciales, $d \in \mathcal{B}_D(\bar{x}) \setminus \{0\}$. La inclusión del \cref{prop:bouligand_en_linealizacion} establece que $d \in \mathcal{H}(\bar{x}) \setminus \{0\}$.
+    
+    Utilizando el desarrollo de Taylor de primer orden para $f$:
+    \[
+        \frac{t_k}{k} > \langle \nabla f(\bar{x}), x^k - \bar{x} \rangle + o(\norm{x^k - \bar{x}}) = t_k \langle \nabla f(\bar{x}), d^k \rangle + o(t_k).
+    \]
+    Dividiendo entre $t_k$ y tomando el límite $k \to \infty$, dado que $o(t_k)/t_k \to 0$ y $d^k \to d$, se sigue que $0 \ge \langle \nabla f(\bar{x}), d \rangle$. Este resultado contradice la hipótesis \eqref{eq:suficiente_primal_mixto}. Se concluye la existencia de crecimiento lineal, garantizando que $\bar{x}$ es un mínimo estricto.
+\end{proof}
+
+\begin{example}[Aplicación de la condición suficiente]\label{ex:suficiencia_primal}
+    Sea el problema:
+    \[
+        \min f(x) = x_2 \quad \text{sujeto a} \quad D = \left\{ x \in \R^2 \mathrel{\Bigg|} \begin{aligned} &g_1(x) = x_1 - x_2 \le 0 \\ &g_2(x) = -x_1 - x_2 \le 0 \end{aligned} \right\}.
+    \]
+    En el origen $\bar{x} = (0,0)^\top$, ambas restricciones son activas ($I(\bar{x}) = \{1, 2\}$). Los gradientes son $\nabla g_1(\bar{x}) = (1, -1)^\top$ y $\nabla g_2(\bar{x}) = (-1, -1)^\top$. El cono de linealización $\mathcal{H}(\bar{x})$ requiere $d_1 - d_2 \le 0$ y $-d_1 - d_2 \le 0$, lo que implica $d_2 \ge |d_1|$.
+    
+    El gradiente objetivo es $\nabla f(\bar{x}) = (0, 1)^\top$. El producto interno para $d \in \mathcal{H}(\bar{x}) \setminus \{0\}$ es $\langle \nabla f(\bar{x}), d \rangle = d_2$. Al ser $d \neq 0$ y $d_2 \ge |d_1|$, se tiene que $d_2 > 0$.  Por tanto, $\langle \nabla f(\bar{x}), d \rangle > 0$ para todo $d \in \mathcal{H}(\bar{x}) \setminus \{0\}$. La condición del \cref{thm:suficiente_primal_mixto} se verifica, garantizando que $\bar{x}$ es un mínimo local estricto.
+\end{example}
+
+Para caracterizar adecuadamente el cono tangente y establecer $\mathcal{B}_D(\bar{x}) = \mathcal{H}(\bar{x})$, se requiere la introducción de condiciones de regularidad.
+
+\begin{definition}[Condiciones de regularidad]\label{def:regularidad_mixta}
+    Se dice que el punto $\bar{x} \in D$ es \textbf{regular} (o cumple una cualificación de restricciones) si satisface alguna de las siguientes condiciones:
+    
+    \begin{enuthm}
+        \item \textbf{Linealidad:} Las funciones $h$ y $g$ son afines:
+        \begin{equation}
+            h(x) = Ax - a, \quad A \in \R^{l \times n}, \ a \in \R^l; \qquad g(x) = Bx - b, \quad B \in \R^{m \times n}, \ b \in \R^m.
+            \label{eq:regularidad_lineal}
+        \end{equation}
+        
+        \item \textbf{Condición de Mangasarian-Fromovitz (MFCQ):} Los gradientes de igualdad $\{ \nabla h_i(\bar{x}) \}_{i=1}^l$ son linealmente independientes, y existe una dirección en el espacio nulo de las igualdades que es estrictamente interior para las restricciones de desigualdad activas:
+        \begin{equation}
+            \exists \bar{d} \in \ker J_h(\bar{x}) \quad \text{tal que} \quad \langle \nabla g_i(\bar{x}), \bar{d} \rangle < 0 \quad \forall i \in I(\bar{x}).
+            \label{eq:mfcq}
+        \end{equation}
+        
+        \item \textbf{Condición de Slater (para problemas convexos):} $h$ es afín, $g$ es convexa, y existe un punto que satisface estrictamente las desigualdades:
+        \begin{equation}
+            \exists \hat{x} \in \Rn \quad \text{tal que} \quad h(\hat{x}) = 0, \quad g_i(\hat{x}) < 0 \quad \forall i = 1, \dots, m.
+            \label{eq:slater}
+        \end{equation}
+    \end{enuthm}
+\end{definition}
+
+\begin{example}[Evaluación de MFCQ]\label{ex:analisis_mfcq}
+    Sea el sistema:
+    \[
+        D = \left\{ x \in \R^2 \mathrel{\Bigg|} g_1(x) = -x_1 \le 0, \ g_2(x) = -x_2 \le 0, \ g_3(x) = x_1 + x_2 - 1 \le 0 \right\}.
+    \]
+    En $\bar{x} = (0,0)^\top$, los índices activos son $I(\bar{x}) = \{1, 2\}$. Los gradientes activos correspondientes son $\nabla g_1(\bar{x}) = (-1, 0)^\top$ y $\nabla g_2(\bar{x}) = (0, -1)^\top$. El vector $\bar{d} = (1, 1)^\top$ cumple $\langle \nabla g_1, \bar{d} \rangle = -1 < 0$ y $\langle \nabla g_2, \bar{d} \rangle = -1 < 0$, lo que satisface la existencia del vector $\bar{d}$ requerido por la condición MFCQ.
+\end{example}
+
+\begin{remark}
+    La condición MFCQ es menos restrictiva que exigir la independencia lineal de todos los gradientes activos (LICQ). Mientras que LICQ garantiza la existencia del vector $\bar{d}$ por resolución de sistemas lineales, MFCQ permite que los gradientes de las desigualdades activas sean linealmente dependientes, lo cual abarca una clase más amplia de problemas.
+\end{remark}
+
+\begin{proposition}[Condición dual de MFCQ]\label{prop:dual_mfcq}
+    El punto $\bar{x} \in D$ cumple la condición MFCQ \eqref{eq:mfcq} si y solo si el sistema lineal:
+    \begin{equation}
+        \sum_{i=1}^l \lambda_i \nabla h_i(\bar{x}) + \sum_{i \in I(\bar{x})} \mu_i \nabla g_i(\bar{x}) = 0, \quad \mu_i \ge 0, \quad i \in I(\bar{x}),
+        \label{eq:dual_mfcq}
+    \end{equation}
+    tiene como única solución $(\lambda, \mu) = (0, 0)$.
+\end{proposition}
+
+\begin{proof}
+    Supongamos que se cumple MFCQ. Si el sistema \eqref{eq:dual_mfcq} admitiera una solución con $\mu \in \R_+^{|I(\bar{x})|} \setminus \{0\}$, al realizar el producto escalar de \eqref{eq:dual_mfcq} con el vector $\bar{d}$ garantizado por \eqref{eq:mfcq}, se obtendría:
+    \[
+        0 = \sum_{i=1}^l \lambda_i \langle \nabla h_i(\bar{x}), \bar{d} \rangle + \sum_{i \in I(\bar{x})} \mu_i \langle \nabla g_i(\bar{x}), \bar{d} \rangle.
+    \]
+    Dado que $\langle \nabla h_i(\bar{x}), \bar{d} \rangle = 0$, $\langle \nabla g_i(\bar{x}), \bar{d} \rangle < 0$, y al menos un $\mu_i > 0$, el término derecho es estrictamente negativo, lo que es una contradicción. Si $\mu = 0$, la ecuación requiere que $\sum \lambda_i \nabla h_i = 0$ con $\lambda \neq 0$, lo cual contradice la independencia lineal de $\nabla h_i(\bar{x})$.
+    
+    Recíprocamente, si la única solución de \eqref{eq:dual_mfcq} es la nula, el sistema carece de soluciones para $\mu \neq 0$ o $\lambda \neq 0$. Por el Teorema de la Alternativa (Motzkin), esto garantiza la existencia de $\bar{d}$ tal que $\langle \nabla h_i(\bar{x}), \bar{d} \rangle = 0$ y $\langle \nabla g_i(\bar{x}), \bar{d} \rangle < 0$. Además, los gradientes $\nabla h_i$ deben ser independientes. Por lo tanto, se satisface MFCQ.
+\end{proof}
+
+\begin{example}[Falla de MFCQ]\label{ex:dual_mfcq}
+    Considérese el sistema:
+    \[
+        D = \left\{ x \in \R^2 \mathrel{\Bigg|} g_1(x) = -x_1^2 + x_2 \le 0, \quad g_2(x) = -x_2 \le 0 \right\}.
+    \]
+    En $\bar{x} = (0,0)^\top$, los gradientes activos son $\nabla g_1(\bar{x}) = (0, 1)^\top$ y $\nabla g_2(\bar{x}) = (0, -1)^\top$. Resolviendo el sistema dual \eqref{eq:dual_mfcq} con $\mu \ge 0$:
+    \[
+        \mu_1 \begin{pmatrix} 0 \\ 1 \end{pmatrix} + \mu_2 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \implies \mu_1 = \mu_2.
+    \]
+    Existen soluciones no nulas (e.g., $\mu_1 = 1, \mu_2 = 1$). Por la \cref{prop:dual_mfcq}, el punto no satisface MFCQ. Geométricamente, los gradientes opuestos impiden la existencia de una dirección estrictamente interior.
+\end{example}
+
+\begin{theorem}[Cono tangente para restricciones mixtas]\label{thm:cono_tangente_mixto}
+    Sea $D$ definido por \eqref{eq:conjunto_mixto}. Supongamos que $h$ y $g$ son continuamente diferenciables en $\bar{x} \in D$. Se verifica lo siguiente:
+    \begin{enuthm}
+        \item $\mathcal{B}_D(\bar{x}) \subset \mathcal{H}(\bar{x})$.
+        \item Si se cumple \textbf{MFCQ} \eqref{eq:mfcq}:
+        \[
+            \mathcal{T}_D(\bar{x}) = \mathcal{B}_D(\bar{x}) = \mathcal{H}(\bar{x}).
+        \]
+        \item Si se cumple la condición de \textbf{Slater} \eqref{eq:slater}:
+        \[
+            \cl \mathcal{V}_D(\bar{x}) = \mathcal{T}_D(\bar{x}) = \mathcal{B}_D(\bar{x}) = \mathcal{H}(\bar{x}).
+        \]
+        \item Si las restricciones son \textbf{lineales} \eqref{eq:regularidad_lineal}:
+        \[
+            \mathcal{V}_D(\bar{x}) = \mathcal{T}_D(\bar{x}) = \mathcal{B}_D(\bar{x}) = \mathcal{H}(\bar{x}).
+        \]
+    \end{enuthm}
+\end{theorem}
+
+\begin{proof}
+    (a) Ya demostrado en la \cref{prop:bouligand_en_linealizacion}.
+    
+    (b) \textbf{[MFCQ]:} Sea $\bar{d}$ el vector de \eqref{eq:mfcq} y $d \in \mathcal{H}(\bar{x})$. Definimos $d(\alpha) = \alpha \bar{d} + (1 - \alpha)d$ para $\alpha \in (0, 1]$. Es claro que $d(\alpha) \in \ker J_h(\bar{x})$. Por el Teorema del Subespacio Tangente en variedades, $d(\alpha)$ es tangente a $h(x)=0$, lo que implica la existencia de $r(t) = o(t)$ tal que $h(\bar{x} + td(\alpha) + r(t)) = 0$. Para las desigualdades activas $i \in I(\bar{x})$:
+    \[
+        \langle \nabla g_i(\bar{x}), d(\alpha) \rangle \le \alpha \langle \nabla g_i(\bar{x}), \bar{d} \rangle < 0.
+    \]
+    Sustituyendo en la aproximación de primer orden: $g_i(\bar{x} + td(\alpha) + r(t)) = t \langle \nabla g_i(\bar{x}), d(\alpha) \rangle + o(t)$. Para $t > 0$ suficientemente pequeño, $g_i(\bar{x} + td(\alpha) + r(t)) < 0$ debido a que el término de primer orden es estrictamente negativo. Las restricciones inactivas se mantienen en un entorno por continuidad. En conclusión, la curva pertenece a $D$, lo que muestra $d(\alpha) \in \mathcal{T}_D(\bar{x})$. Tomando el límite $\alpha \to 0^+$, como el cono tangente es cerrado, se sigue $d \in \mathcal{T}_D(\bar{x})$, demostrando la igualdad de los conos.
+
+    (c) \textbf{[Slater]:} Considerando $d(\alpha) = \alpha (\hat{x} - \bar{x}) + (1 - \alpha)d$. Por la linealidad de $h$, la dirección verifica $h(\bar{x} + td(\alpha)) = 0$. Por la desigualdad del subgradiente para funciones convexas, $\langle \nabla g_i(\bar{x}), \hat{x} - \bar{x} \rangle \le g_i(\hat{x}) < 0$. Evaluando $g_i(\bar{x} + td(\alpha))$ se obtiene que $d(\alpha)$ es una dirección factible. Por lo tanto, $d(\alpha) \in \mathcal{V}_D(\bar{x})$. En el límite, se verifica la densidad y la igualdad de las estructuras.
+
+    (d) \textbf{[Linealidad]:} Si $h(x) = Ax - a$ y $g(x) = Bx - b$, sea $d \in \mathcal{H}(\bar{x})$. Para todo $t > 0$, la semirrecta $\bar{x} + td$ satisface el sistema algebraico directamente, lo que garantiza $\mathcal{H}(\bar{x}) \subset \mathcal{V}_D(\bar{x})$ y concluye la demostración.
+\end{proof}
+
+\begin{theorem}[Condición necesaria en forma primal]\label{thm:necesaria_primal_mixto}
+    Supongamos que $f$ y $g$ son diferenciables en $\bar{x}$ y $h$ es continuamente diferenciable en un entorno de $\bar{x}$. Si $\bar{x}$ es un minimizador local del problema \eqref{eq:problema_mixto} y se satisface alguna de las condiciones de regularidad de la \cref{def:regularidad_mixta}, entonces:
+    \begin{equation}
+        \langle \nabla f(\bar{x}), d \rangle \ge 0 \quad \forall d \in \mathcal{H}(\bar{x}).
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    Por las propiedades generales vistas en el Capítulo 1, para todo minimizador local se verifica $\langle \nabla f(\bar{x}), d \rangle \ge 0$ para todo $d \in \mathcal{B}_D(\bar{x})$. Si el punto es regular, el \cref{thm:cono_tangente_mixto} establece $\mathcal{B}_D(\bar{x}) = \mathcal{H}(\bar{x})$, concluyendo la prueba.
+\end{proof}
+
+\begin{example}\label{ex:necesaria_primal_mixto}
+    Para minimizar $f(x) = \frac{1}{2}(x_1^2 + x_2^2 + x_3^2)$ sobre el conjunto:
+    \[
+        h(x) = x_1 + x_2 + x_3 - 1 = 0, \quad g_i(x) = -x_i \le 0, \quad i=1,2,3.
+    \]
+    El minimizador global por simetría es $\bar{x} = (1/3, 1/3, 1/3)^\top$. Las desigualdades no son activas ($I(\bar{x}) = \emptyset$). El gradiente de la restricción activa es $\nabla h(\bar{x}) = (1, 1, 1)^\top \neq 0$, cumpliendo la condición de regularidad. El cono de linealización se define exclusivamente por la igualdad:
+    \[
+        \mathcal{H}(\bar{x}) = \left\{ d \in \R^3 \mathrel{\bigg|} d_1 + d_2 + d_3 = 0 \right\}.
+    \]
+    Para el gradiente de la función objetivo $\nabla f(\bar{x}) = (1/3, 1/3, 1/3)^\top$, al proyectar sobre $d \in \mathcal{H}(\bar{x})$:
+    \[
+        \langle \nabla f(\bar{x}), d \rangle = \frac{1}{3}(d_1 + d_2 + d_3) = 0 \ge 0.
+    \]
+    Se verifica la condición necesaria. Este resultado muestra que la formulación generalizada con desigualdades abarca el caso de restricciones de igualdad como un caso particular.
+\end{example}
+
+\begin{theorem}[Cota de viabilidad de Robinson]\label{thm:robinson}
+    Bajo la condición de regularidad MFCQ en $\bar{x} \in D$, existen un entorno $U$ de $\bar{x}$ y una constante $M > 0$ tales que la distancia al conjunto factible satisface:
+    \begin{equation}
+        \dist(x, D) \le M \norm{\Psi(x)} \quad \forall x \in U,
+        \label{eq:cota_robinson}
+    \end{equation}
+    donde la función residual se define como $\Psi(x) = \left( h(x), \max\{0, g_1(x)\}, \dots, \max\{0, g_m(x)\} \right)$.
+\end{theorem}
+
+\begin{proof}[Nota]
+    La demostración se omite por requerir resultados de regularidad métrica y multifunciones en espacios de Banach (Teorema de Robinson-Graves).
+\end{proof}
+
+\begin{example}[Cota de Robinson]\label{ex:robinson_residual}
+    Considérese $D = \R_+^2$ definido por $g_1(x) = -x_1 \le 0$ y $g_2(x) = -x_2 \le 0$. El operador residual es $\Psi(x) = (\max\{0, -x_1\}, \max\{0, -x_2\})$. El operador $\max\{0, \cdot\}$ anula los términos correspondientes a las desigualdades que se satisfacen, cuantificando únicamente el error o violación de las restricciones. Por ejemplo, si $x = (-3, -4)^\top$, $\norm{\Psi(x)} = 5$, lo cual coincide exactamente con la distancia del punto a su proyección en el cuadrante $(0,0)^\top$. En este caso se verifica la cota con $M=1$.
+\end{example}

@@ -1,0 +1,133 @@
+% --- Archivo: 02_existencia_soluciones.tex ---
+
+% ==========================================
+\section{Existencia de soluciones globales}
+% ==========================================
+
+Cuando en la \cref{def:valor_optimo} tenemos $\bar{v} = -\infty$, el problema \eqref{eq:problema_general_opt} no posee solución global (en este caso $f$ es no acotada inferiormente en el conjunto factible). Pero incluso cuando $\bar{v}$ es finito, el minimizador global puede no existir. Este es el caso en que $\bar{v}$ no es alcanzado en ningún punto factible, es decir, cuando no existe $x \in D$ tal que $f(x) = \bar{v}$.
+
+Por ejemplo, sean $f : \R \to \R$, $f(x) = \E^x$, $D = \R$. Evidentemente, $\bar{v} = \inf_{x \in \R} \E^x = 0$. Sin embargo, no existe $x \in \R$ tal que $\E^x = 0$. Sean ahora $f : \R \to \R$, $f(x) = \E^x$, $D = (0,1]$. Se tiene que $\bar{v} = \inf_{x \in (0,1]} \E^x = 1$, pero de nuevo no existe $x \in (0,1]$ tal que $\E^x = 1$. Observamos que la función $f$ es continua en $D$, pero en el primer ejemplo $D$ no es acotado y en el segundo $D$ no es cerrado.
+
+A continuación estudiaremos algunos criterios que garantizan la existencia de solución global.
+
+\begin{theorem}[Weierstrass]\label{thm:weierstrass}
+    Sean $D \subset \Rn$ un conjunto compacto no vacío y $f : D \to \R$ una función continua. Entonces los problemas de minimizar y de maximizar $f$ en $D$ tienen soluciones globales.
+\end{theorem}
+
+\begin{proof}
+    Por lo observado en la sección anterior, es suficiente probar la existencia de un minimizador.
+    Como la imagen de un conjunto compacto por una función continua es compacta, el conjunto $\{v \in \R \mid v = f(x) \text{ para algún } x \in D\}$ es compacto. En particular, este conjunto es acotado inferiormente, es decir,
+    \[
+        -\infty < \bar{v} = \inf_{x \in D} f(x).
+    \]
+    Por la definición de ínfimo, para todo $k \in \N$ existe un $x^k \in D$ tal que
+    \[
+        \bar{v} \le f(x^k) \le \bar{v} + \frac{1}{k}.
+    \]
+    Pasando al límite cuando $k \to \infty$, concluimos que
+    \begin{equation}
+        \lim_{k \to \infty} f(x^k) = \bar{v}. \label{eq:limite_infimo}
+    \end{equation}
+    Como $\{x^k\} \subset D$ y $D$ es compacto, se sigue que $\{x^k\}$ es una sucesión acotada. Luego, posee una subsucesión $\{x^{k_j}\}$ que converge a un punto de $D$:
+    \[
+        \lim_{j \to \infty} x^{k_j} = \bar{x} \in D.
+    \]
+    Por la continuidad de $f$, tenemos $\lim_{j \to \infty} f(x^{k_j}) = f(\bar{x})$. Usando \eqref{eq:limite_infimo}, concluimos que $f(\bar{x}) = \bar{v}$, es decir, $f$ asume el valor mínimo en $D$ en el punto $\bar{x} \in D$. En otras palabras, $\bar{x}$ es un minimizador global.
+\end{proof}
+
+La hipótesis de que el conjunto factible sea compacto solo puede ser eliminada en los resultados de existencia de solución al costo de fortalecer las hipótesis sobre la función objetivo. En este sentido, la noción de conjunto de nivel es fundamental.
+
+\begin{definition}[Conjunto de nivel]\label{def:conjunto_nivel}
+    El \textbf{conjunto de nivel} de la función $f : D \to \R$ asociado a $c \in \R$ es el conjunto dado por
+    \[
+        L_{f,D}(c) = \{x \in D \mid f(x) \le c\}.
+    \]
+\end{definition}
+
+\begin{corollary}[Existencia vía compacidad del conjunto de nivel]\label{cor:existencia_nivel}
+    Sean $D \subset \Rn$ y $f : D \to \R$ continua en $D$. Supongamos que existe $c \in \R$ tal que el conjunto de nivel $L_{f,D}(c)$ sea no vacío y compacto. Entonces el problema de minimizar $f$ en $D$ posee una solución global.
+\end{corollary}
+
+\begin{proof}
+    Por el Teorema de Weierstrass (\cref{thm:weierstrass}), el problema $\min f(x)$ sujeto a $x \in L_{f,D}(c)$ tiene una solución global, digamos $\bar{x}$. Para todo $x \in D \setminus L_{f,D}(c)$, tenemos que $f(x) > c \ge f(\bar{x})$, lo que muestra que $\bar{x}$ es un minimizador global de $f$ no solo en $L_{f,D}(c)$, sino también en $D$.
+\end{proof}
+
+A continuación mostraremos un importante ejemplo de aplicación del \cref{cor:existencia_nivel}.
+
+\begin{definition}[Proyección ortogonal]\label{def:proyeccion}
+    Dados un conjunto $D \subset \Rn$ y un punto $y \in \Rn$, una \textbf{proyección} (ortogonal) de $y$ sobre $D$ es una solución global del problema
+    \[
+        \min \norm{x - y} \quad \text{sujeto a} \quad x \in D.
+    \]
+    En otras palabras, la proyección de $y$ sobre $D$ es uno de los puntos de $D$ que está más cerca de $y$.
+\end{definition}
+
+\begin{corollary}[Existencia de la proyección]\label{cor:existencia_proyeccion}
+    Sea $D \subset \Rn$ un conjunto cerrado no vacío. Entonces la proyección de $y$ sobre $D$ existe para todo punto $y \in \Rn$.
+\end{corollary}
+
+\begin{proof}
+    Fijemos $y \in \Rn$ arbitrario. Sea $f : \Rn \to \R_+$, $f(x) = \norm{x - y}$. Evidentemente, $f$ es continua en $\Rn$ y
+    \[
+        L_{f,D}(c) = D \cap B(y,c),
+    \]
+    donde $B(y,c) = \{x \in \Rn \mid \norm{x - y} \le c\}$ es la bola cerrada de centro $y$ y radio $c$. El conjunto de nivel $L_{f,D}(c)$ es la intersección del conjunto cerrado $D$ con el conjunto compacto $B(y,c)$. Por lo tanto, $L_{f,D}(c)$ es compacto. Además, para $c > 0$ suficientemente grande, es obvio que la bola $B(y,c)$ contiene puntos de $D$. Luego, $L_{f,D}(c) \neq \emptyset$. La afirmación ahora sigue por el \cref{cor:existencia_nivel}.
+\end{proof}
+
+En el problema de minimización del \cref{cor:existencia_proyeccion}, el conjunto factible del problema podría ser ilimitado, pero es cerrado. A continuación consideremos un ejemplo donde el conjunto factible no es ni limitado ni cerrado.
+
+\begin{example}\label{ex:coercitividad_analisis}
+    Mostraremos que el problema \eqref{eq:problema_general_opt}, donde
+    \[
+        D = \{x \in \R^2 \mid x_1 + x_2 > 0\}, \qquad
+        f : D \to \R, \quad f(x) = x_1^2 + x_2 + \frac{1}{x_1 + x_2},
+    \]
+    posee una solución global.
+
+    Observamos que $D$ es ilimitado y abierto. Por lo tanto, el \cref{thm:weierstrass} no se aplica en este caso. Fijemos $c \in \R$ tal que $L(c) = L_{f,D}(c) \neq \emptyset$ (por ejemplo, tomando $c = f(x)$ para un $x \in D$ cualquiera). Verificaremos que $L(c)$ es compacto (es decir, acotado y cerrado), y aplicaremos el \cref{cor:existencia_nivel}.
+
+    Supongamos primero que $L(c)$ sea ilimitado, es decir, que exista $\{x^k\} \subset L(c)$ tal que $\norm{x^k} \to \infty$ cuando $k \to \infty$. Tenemos que $x_1^k + x_2^k > 0$ (porque $x^k \in D$) y $f(x^k) \le c$ para todo $k$. Si $|x_1^k| \to \infty$ cuando $k \to \infty$, entonces $c \ge f(x^k) > (x_1^k)^2 + x_2^k > (x_1^k)^2 - x_1^k \to +\infty$, lo que es imposible. Si $\{x_1^k\}$ es acotada, entonces $x_2^k \to +\infty$ cuando $k \to \infty$, y para todo $k$ suficientemente grande, tenemos que $c \ge f(x^k) > x_2^k \to +\infty$, lo que también es imposible. Acabamos de mostrar que $L(c)$ es acotado.
+
+    Supongamos ahora que $L(c)$ no sea cerrado, es decir, que exista $\{x^k\} \subset L(c)$ tal que $\{x^k\} \to x$ cuando $k \to \infty$, con $x \in \R^2 \setminus L(c)$. La función $f$ es continua en $D$. Por lo tanto, $f(x^k) \le c$ implica que $f(x) \le c$. Entonces, como $x \notin L(c)$, debe ser $x \in \cl D \setminus D$, es decir, $x_1 + x_2 = 0$, pero en este caso $c \ge f(x^k) \to +\infty$ cuando $k \to \infty$, lo que es imposible. Acabamos de mostrar entonces que $L(c)$ también es cerrado. Luego $L(c)$ es compacto y la existencia de minimizador global sigue.
+\end{example}
+
+A continuación formalizaremos los fenómenos observados en el análisis del \cref{ex:coercitividad_analisis}.
+
+\begin{definition}[Sucesión crítica y coercitividad]\label{def:coercitividad}
+    Decimos que una sucesión $\{x^k\} \subset \Rn$ es \textbf{crítica} en relación al conjunto $D$, si $\{x^k\} \subset D$ y o bien $\norm{x^k} \to \infty$ o bien $\{x^k\} \to x \in \cl D \setminus D$ cuando $k \to \infty$.
+
+    Decimos que la función $f : D \to \R$ es \textbf{coercitiva} en el conjunto $D$, cuando para toda sucesión $\{x^k\}$ crítica en relación a $D$, se tiene
+    \[
+        \limsup_{k \to \infty} f(x^k) = +\infty.
+    \]
+\end{definition}
+
+En el \cref{ex:coercitividad_analisis}, $f$ es coercitiva en el conjunto $D$. Observamos que cuando $D$ es cerrado, coercitividad de $f$ en $D$ significa que si $x^k \in D$ y $\norm{x^k} \to \infty$ entonces $\limsup_{k \to \infty} f(x^k) = +\infty$. Cuando $D$ es acotado, coercitividad significa que cuando $x^k \in D$ y $\{x^k\} \to x \in \cl D \setminus D$, se tiene $\limsup_{k \to \infty} f(x^k) = +\infty$. Finalmente, cuando $D$ es compacto, no hay sucesiones críticas, por lo que cualquier función $f : D \to \R$ es coercitiva en $D$ trivialmente.
+
+\begin{corollary}[Existencia vía coercitividad]\label{cor:existencia_coercitividad}
+    Sean $D \subset \Rn$ y $f : D \to \R$ una función continua y coercitiva en $D \neq \emptyset$. Entonces el problema de minimizar $f$ en $D$ posee una solución global.
+\end{corollary}
+
+El Teorema de Weierstrass puede ser generalizado ligeramente en relación a las propiedades de continuidad de la función objetivo.
+
+\begin{definition}[Semicontinuidad]\label{def:semicontinuidad}
+    Decimos que la función $f : D \to \R$ es \textbf{semicontinua inferiormente} en el punto $x \in D \subset \Rn$, cuando para cualquier sucesión $\{x^k\} \subset D$ tal que $\{x^k\} \to x$ cuando $k \to \infty$, se tiene
+    \[
+        \liminf_{k \to \infty} f(x^k) \ge f(x). \label{eq:semicontinuidad_inf}
+    \]
+    Decimos que $f$ es \textbf{semicontinua superiormente} cuando, en las mismas condiciones,
+    \[
+        \limsup_{k \to \infty} f(x^k) \le f(x).
+    \]
+\end{definition}
+
+\begin{example}
+    Sean $D = [1/2, 2] \subset \R$ y $f : D \to \R$ dada por
+    \[
+        f(x) = \begin{cases}
+            1/x, & x \in [1/2, 1), \\
+            2,   & x \in [1, 2],
+        \end{cases}
+    \]
+    El conjunto $D$ es compacto. La función $f$ no es semicontinua inferiormente en $D$, pues no lo es en el punto $x = 1$. Se tiene que $\bar{v} = 1$, pero no existe $x \in D$ tal que $f(x) = 1$. Sin embargo, es fácil ver que $f$ es semicontinua superiormente y que posee maximizadores globales en $D$.
+\end{example}

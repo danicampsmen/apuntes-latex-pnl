@@ -1,0 +1,38 @@
+% --- Archivo: 02_direcciones_factibles.tex ---
+
+\begin{notabox}[La Naturaleza del Método de Direcciones Factibles]
+    Si el LP produce un valor de cota $t_k < 0$, utilizando los Lemas analíticos del Capítulo 4 se concluye que el vector hallado $d^k$ es una dirección de descenso y estrictamente factible: $d^k \in \symcal{D}_f(x^k) \cap \mathcal{V}_D(x^k)$. 
+    
+    De hecho, la naturaleza geométrica del subproblema minimax \eqref{eq:v2_subprob_minimax_dir_fact} es la siguiente: a medida que el valor objetivo auxiliar $t$ disminuye (siendo cada vez más negativo), la componente direccional $d$ del punto factible obtiene características cada vez más marcadas de separar el iterado de la frontera y penetrar profundamente en el interior del conjunto factible, al mismo tiempo que fuerza una inclinación fuerte respecto al gradiente de la función objetivo.
+    
+    En el caso trivial sin restricciones activas en la frontera ($I(x^k) = \emptyset$), el LP se reduce a minimizar $\interno{f'(x^k)}{d}$, lo cual posiciona analíticamente a $d^k$ exactamente a lo largo del \textbf{antigradiente negativo} $-f'(x^k)$ dentro de la caja unitaria.
+\end{notabox}
+
+El cálculo algorítmico del parámetro iterativo de la longitud de paso $\alpha_k$ en el método de Direcciones Factibles requiere especial atención. Para garantizar que $x^{k+1} = x^k + \alpha_k d^k$ mantenga la factibilidad ($x^{k+1} \in D$), el valor de la búsqueda lineal de Armijo está topológicamente acotado superiormente por el mayor paso que golpea la frontera de $D$:
+\begin{equation}
+    \alpha_k \leq \hat{\alpha}_k = \sup \{ \alpha \in \R_+ \mid x^k + \alpha d^k \in D \}.
+    \label{eq:v2_cota_superior_factible}
+\end{equation}
+Si $\hat{\alpha}_k = +\infty$, indica que el dominio está abierto en esa dirección (como un cono sin tapas) y no hay cota superior. 
+
+Si el conjunto $D$ es convexo (por ejemplo, si todas las funciones que definen desigualdades $g_i$ son funciones convexas), el intervalo admisible es ininterrumpido. Pero incluso en el caso de optimización convexa, el cálculo de la raíz $\hat{\alpha}_k$ que resuelve analíticamente $g_i(x^k + \alpha d^k) = 0$ puede requerir un método numérico de Newton 1D costoso para cada restricción en cada iteración. Cuando el conjunto $D$ no es convexo, la trayectoria $x^k + \alpha d^k$ puede salir y volver a entrar en $D$ varias veces a medida que $\alpha$ crece, lo que vuelve la búsqueda lineal extremadamente compleja y proclive a fallos lógicos.
+
+\begin{warningbox}[El efecto del Zig-Zag de borde (Jamming)]
+    Incluso suponiendo que pudiéramos calcular $\hat{\alpha}_k$ exactamente para todo $k$, los métodos de direcciones factibles básicos sufren un problema de convergencia catastrófico conocido como \textit{Jamming}.
+    
+    El subproblema \eqref{eq:v2_subprob_LP_dir_fact} ignora por completo las restricciones del problema original que \textbf{no están activas en el punto exacto} $x^k$, pero que podrían estar a una distancia infinitesimal $\epsilon$ de estarlo (restricciones casi activas). Esto provoca que la dirección de descenso elegida $d^k$ apunte de forma miope hacia una restricción cercana, haciendo que el paso máximo permitido $\hat{\alpha}_k$ colapse casi a cero ($10^{-5}$). En la iteración siguiente, el método rebota hacia otra restricción cercana, y el paso vuelve a ser diminuto. 
+    
+    Este rebote repetitivo en la esquina de un dominio poliédrico puede causar que la secuencia generada se estanque y el método \textbf{no converja} a un punto estacionario, quedando atrapado en una trampa de bordes que ni siquiera es un mínimo local (ver \cite{bazaraa2013nonlinearprogrammingtheory}).
+\end{warningbox}
+
+La idea algorítmica para evitar el \textit{jamming} y lograr un método robusto consiste en incluir las restricciones \textbf{casi activas} dentro del subproblema de penalización direccional. Fijamos un parámetro de tolerancia $\delta_k > 0$ y para todo $k$, en lugar del conjunto estricto $I_k$, definimos un conjunto de índices extendido:
+\begin{equation}
+    I^\delta_k = \{ i = 1, \dots, m \mid g_i(x^k) \geq -\delta_k \}.
+    \label{eq:v2_casi_activas}
+\end{equation}
+
+Si la solución $u^k = (t_k, d^k)$ del subproblema correspondiente sobre $I^\delta_k$ produce un valor suficientemente alejado del borde ($t_k \leq -\delta_k$), aceptamos $d^k$ como una dirección factible de descenso segura. De lo contrario (el paso propuesto es demasiado conservador o cercano a cero), reducimos la tolerancia heurísticamente $\delta_k := \theta \delta_k$ con $\theta \in (0,1)$, y reevaluamos el conjunto de restricciones casi activas y el LP. Esta modificación algorítmica, con el control matemático adecuado de los parámetros asintóticos, es capaz de probar y garantizar la convergencia de la trayectoria hacia el conjunto de puntos estacionarios del problema original.
+
+No obstante, como ocurre con todos los métodos de proyección o viabilidad estricta, la fase de inicialización es extremadamente ardua. Es obligatorio proveer al método un iterado inicial $x^0 \in D$. La tarea computacional iterativa para hallar un solo punto interior factible $x^0$ (conocida como \textbf{Fase I}) es habitualmente un problema de optimización en sí mismo, y puede llegar a ser tan difícil analítica y numéricamente como la resolución del problema original de minimización (Fase II).
+
+Por ello, salvo en el caso de que la geometría del problema presente una estructura trivialmente resoluble (restricciones de caja o símplex de probabilidad), la familia de métodos de Direcciones Factibles no se considera un enfoque universal adecuado para restricciones severamente no lineales, siendo reemplazados en el estado del arte computacional por la Programación Cuadrática Secuencial (SQP) y los Métodos de Penalización/Barreras.

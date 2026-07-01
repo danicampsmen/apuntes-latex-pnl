@@ -1,0 +1,151 @@
+% --- Archivo: exercises.tex ---
+
+\section*{Ejercicios del Capítulo}
+
+\vspace{0.5em}
+\noindent\textbf{Parte I: Conceptos Básicos y Existencia de Soluciones}
+\vspace{0.5em}
+
+\begin{exercise}
+    Mediante un dibujo geométrico, formular una hipótesis sobre la solución global del problema \eqref{eq:problema_general_opt}, donde:
+    \begin{enuthm}
+        \item $f(x) = -x_1 + x_2$, $D = \{x \in \R^2 \mid x_1^2 + x_2^2 \le 1,\ x_1 \ge x_2^2,\ x_1 + x_2 \ge 0\}$;
+        \item $f(x) = \max\{|x_1 - 2|, |x_2|\}$, $D = \{x \in \R^2 \mid 2|x_1| - |x_2| \le 2\}$;
+        \item $f(x) = (x_1 - 1)^2 + x_2^2$, $D = \{x \in \R^2 \mid x_1^2 + x_2^2 = 2\sigma x_1 x_2\}$ y $\sigma \in \R$ es un parámetro.
+    \end{enuthm}
+\end{exercise}
+
+\begin{exercise}
+    Mediante un dibujo geométrico, responder a la siguiente pregunta: para qué valores del parámetro $\sigma \in \R$ el problema \eqref{eq:problema_general_opt} con $f(x) = x_1 + \sigma x_2$ y $D = \{x \in \R^2 \mid x_1^3 + x_2^3 = 3x_1x_2\}$, tiene una solución global y para cuáles solo una solución local.
+\end{exercise}
+
+\begin{exercise}
+    Sea $f : \Rn \to \R$ una función continua. Probar que $\bar{x} \in \Rn$ es un minimizador global de $f$ en $\Rn$ si, y solo si, todo $x$ tal que $f(x) = f(\bar{x})$ es un minimizador local de $f$.
+\end{exercise}
+
+\begin{exercise}
+    Sean $f : \Rn \to \R$ una función cualquiera y $D \subset \Rn$ un conjunto cualquiera. Probar que para cualesquiera $\alpha \in \R_+$ y $c \in \R$, el conjunto de soluciones (locales y globales) del problema $\min \alpha f(x) + c$ sujeto a $x \in D$ es el mismo que el del problema original.
+\end{exercise}
+
+\begin{exercise}
+    Sean $f : \Rn \to \R$ una función cualquiera y $D_1, D_2 \subset \Rn$ conjuntos tales que $D_2 \subset D_1$.
+    \begin{enuthm}
+        \item Mostrar que $\inf_{x \in D_1} f(x) \le \inf_{x \in D_2} f(x)$.
+        \item Probar que si $\bar{x}$ es un minimizador de $f$ en $D_1$ tal que $\bar{x} \in D_2$, entonces $\bar{x}$ también es minimizador de $f$ en $D_2$.
+    \end{enuthm}
+\end{exercise}
+
+\begin{exercise}\label{ex:coercitividad_global}
+    Probar el \cref{cor:existencia_coercitividad}. (Ayuda: Usar el razonamiento analítico del \cref{ex:coercitividad_analisis}).
+\end{exercise}
+
+\begin{exercise}
+    Sea $D$ un conjunto compacto no vacío. Suponiendo que $f$ sea semicontinua inferiormente en $D$ (ver \cref{def:semicontinuidad}), probar que existe un minimizador global para el problema \eqref{eq:problema_general_opt}. Suponiendo que $f$ sea semicontinua superiormente en $D$, probar que existe un maximizador global.
+\end{exercise}
+
+\begin{exercise}
+    Sean $D \subset \Rn$ y $f : D \to \R$ una función semicontinua inferiormente y coercitiva en $D \neq \emptyset$. Probar que el problema \eqref{eq:problema_general_opt} posee una solución global.
+\end{exercise}
+
+\begin{exercise}
+    Sea $f$ una función cuadrática $f(x) = \interno{Qx}{x} + \interno{q}{x} + c$, donde $Q \in \R^{n \times n}$ es una matriz simétrica. Probar:
+    \begin{enuthm}
+        \item Si el problema de minimización irrestricta de $f$ tiene un minimizador local, entonces la matriz $Q$ es semidefinida positiva y todo minimizador local es global.
+        \item Si $Q$ es definida positiva, entonces $f$ es coercitiva en $\Rn$. Mostrar que el problema de minimización de $f$ sobre cualquier conjunto $D$ no vacío y cerrado tiene un minimizador global, pero que en general, esto no es verdadero cuando $D$ no es cerrado.
+    \end{enuthm}
+\end{exercise}
+
+\begin{exercise}
+    Supóngase que el problema de minimización irrestricta de una función continua en $\Rn$ tenga una solución global. Determinar si esto implica o no que $f$ tiene un minimizador global en cualquier conjunto cerrado en $\Rn$.
+\end{exercise}
+
+\begin{exercise}
+    Supóngase que las funciones $f_1, f_2 : \Rn \to \R$ sean continuas y tengan minimizadores globales. Determinar si esto implica que la suma $f_1(\cdot) + f_2(\cdot)$ también tiene un minimizador global.
+\end{exercise}
+
+\begin{exercise}
+    Probar que $f : \Rn \to \R$ es semicontinua inferiormente en el conjunto cerrado $D$ si, y solo si, sus conjuntos de nivel $L_{f,D}(c)$ son cerrados para todo $c \in \R$.
+\end{exercise}
+
+\vspace{1em}
+\noindent\textbf{Parte II: Condiciones de Optimalidad Irrestricta}
+\vspace{0.5em}
+
+\begin{exercise}
+    Encontrar todos los valores del parámetro $\sigma \in \R$ para los cuales el problema de minimización irrestricta de la función $f(x) = \sigma x_1^2 + 4x_1x_2 + 4x_2^2 + x_1 + x_2$ tiene una solución.
+\end{exercise}
+
+\begin{exercise}
+    Mostrar que la función $f(x) = (x_2 - x_1^2)^2 + x_1^5$ tiene un único punto estacionario que no es un maximizador ni un minimizador en $\R^2$.
+\end{exercise}
+
+\begin{exercise}
+    Sean $n \ge 2$ y $f(x) = (1 + x_n)^3 \sum_{i=1}^{n-1} x_i^2 + x_n^2$. Mostrar que $\bar{x} = 0$ es el único punto estacionario de $f$ en $\Rn$ y que es un minimizador local estricto, pero no es minimizador global en $\Rn$.
+\end{exercise}
+
+\begin{exercise}
+    Determinar si puede o no existir una función $f : \R \to \R$ que tiene un único punto estacionario y este punto es minimizador local, pero no minimizador global.
+\end{exercise}
+
+\begin{exercise}
+    Probar que, para cualquier $\sigma > 1$, el sistema de ecuaciones:
+    \[
+        \sigma \cos x_1 \sin x_2 + x_1 \E^{x_1^2 + x_2^2} = 0, \qquad
+        \sigma \sin x_1 \cos x_2 + x_2 \E^{x_1^2 + x_2^2} = 0
+    \]
+    posee una solución $x \in \R^2 \setminus \{0\}$.
+\end{exercise}
+
+\vspace{1em}
+\noindent\textbf{Parte III: Cono Tangente y Condiciones Primales}
+\vspace{0.5em}
+
+\begin{exercise}
+    Sean $K_1 \subset K_2$ dos conos en $\Rn$. Mostrar que su cono dual verifica $K_2^* \subset K_1^*$.
+\end{exercise}
+
+\begin{exercise}
+    Sean $K_1$ y $K_2$ conos no vacíos en $\Rn$. Mostrar las siguientes propiedades:
+    \begin{enuthm}
+        \item $K_1 \times K_2$ es un cono, y $(K_1 \times K_2)^* = K_1^* \times K_2^*$.
+        \item $K_1 \cup K_2$ es un cono, y $(K_1 \cup K_2)^* = K_1^* \cap K_2^*$.
+        \item $K_1 + K_2$ es un cono, y $(K_1 + K_2)^* = K_1^* \cap K_2^*$.
+    \end{enuthm}
+\end{exercise}
+
+\begin{exercise}
+    Mostrar que el cono de Bouligand $\mathcal{B}_D(\bar{x})$ admite la siguiente definición equivalente:
+    \[
+        \mathcal{B}_D(\bar{x}) = \{0\} \cup \left\{ d \in \Rn \;\middle|\; \begin{aligned} &\exists \{x^k\} \subset D \text{ tal que } \{x^k\} \to \bar{x}, \\ &\left\{ \frac{x^k - \bar{x}}{\norm{x^k - \bar{x}}} \right\} \to \frac{d}{\norm{d}} \end{aligned} \right\}.
+    \]
+\end{exercise}
+
+\begin{exercise}
+    Mostrar que en $\Rn$ la condición de optimalidad primal \eqref{eq:condicion_primal_primer_orden} es equivalente a:
+    \[
+        \forall \varepsilon > 0, \quad \interno{\nabla f(\bar{x})}{d} > -\varepsilon \norm{d} \quad \forall d \in \mathcal{B}_D(\bar{x}) \setminus \{0\}.
+    \]
+\end{exercise}
+
+\begin{exercise}
+    Sean $C \subset \Rn$, $D \subset \Rn$ conjuntos cualesquiera. Probar que:
+    \[
+        \mathcal{B}_{C \cup D}(\bar{x}) = \mathcal{B}_C(\bar{x}) \cup \mathcal{B}_D(\bar{x}), \qquad
+        \mathcal{B}_{C \cap D}(\bar{x}) \subset \mathcal{B}_C(\bar{x}) \cap \mathcal{B}_D(\bar{x}).
+    \]
+\end{exercise}
+
+\begin{exercise}
+    Sean $\emptyset \neq D \subset \Rn$, $C = \Rn \setminus D$. Denotamos por $\text{fr } D$ la frontera de $D$. Mostrar que si $\bar{x} \in \text{fr } D$, entonces:
+    \[
+        \mathcal{B}_C(\bar{x}) \cup \mathcal{B}_D(\bar{x}) = \Rn, \qquad
+        \mathcal{B}_{\text{fr } D}(\bar{x}) = \mathcal{B}_C(\bar{x}) \cap \mathcal{B}_D(\bar{x}).
+    \]
+\end{exercise}
+
+\begin{exercise}
+    Sean $D \subset \Rn$ un conjunto no vacío y cerrado, y $x \notin D$. Sea $P_D(x)$ el conjunto de proyecciones ortogonales de $x$ sobre $D$. Mostrar que:
+    \[
+        x - \bar{x} \in (\mathcal{B}_D(\bar{x}))^* \quad \forall \bar{x} \in P_D(x).
+    \]
+\end{exercise}

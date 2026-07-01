@@ -1,0 +1,44 @@
+% --- Archivo: 04_dualidad.tex ---
+
+% =========================================================
+\section{Dualidad}
+% =========================================================
+
+Consideramos un problema en formato general (Problema Primal):
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \{ x \in \Omega \mid h(x) = 0, \; g(x) \le 0 \}. \label{eq:v2_dual_primal}
+\end{equation}
+La Lagrangiana está dada por $L(x, \lambda, \mu) = f(x) + \langle \lambda, h(x) \rangle + \langle \mu, g(x) \rangle$. El problema primal puede ser escrito formalmente como una formulación minimax: $\min_{x \in \Omega} \sup_{(\lambda, \mu)} L(x, \lambda, \mu)$.
+
+El \textbf{problema dual} se obtiene cambiando el orden de la optimización:
+\begin{equation}
+    \max \varphi(\lambda, \mu) \quad \text{sujeto a} \quad (\lambda, \mu) \in \Delta, \label{eq:v2_dual_problem}
+\end{equation}
+donde la \textit{función dual} es $\varphi(\lambda, \mu) = \inf_{x \in \Omega} L(x, \lambda, \mu)$ y el dominio dual es $\Delta = \{ (\lambda, \mu) \in \R^l \times \R_+^m \mid \varphi(\lambda, \mu) > -\infty \}$.
+
+\begin{theorem}[Propiedades del problema Dual]\label{thm:v2_dual_propiedades}
+    El conjunto factible dual $\Delta$ es convexo y la función dual $\varphi$ es siempre cóncava. Además, vale el \textbf{Teorema de Dualidad Débil}:
+    \[
+        \bar{w} = \sup_{(\lambda, \mu) \in \Delta} \varphi(\lambda, \mu) \le \inf_{x \in D} f(x) = \bar{v}.
+    \]
+    Cualquier punto factible dual provee una cota inferior para el óptimo primal.
+\end{theorem}
+
+Cuando $\bar{v} > \bar{w}$ decimos que hay una \textit{brecha de dualidad} (duality gap). Para garantizar la igualdad de estos valores, necesitamos hipótesis de convexidad.
+
+\begin{theorem}[Teorema de la Dualidad Fuerte]\label{thm:v2_dualidad_fuerte}
+    Sean $\Omega = \R^n$, $f$ y $g$ funciones convexas y $h$ una función afín. Supongamos que el problema primal satisface la condición de Slater. Si el valor óptimo primal es finito ($\bar{v} > -\infty$), entonces el problema dual posee una solución y no hay brecha de dualidad ($\bar{v} = \bar{w}$).
+\end{theorem}
+
+\begin{theorem}[Teorema del Punto de Silla de Kuhn-Tucker]\label{thm:v2_kuhn_tucker}
+    Bajo las hipótesis de convexidad y Slater, $\bar{x} \in D$ es solución del problema primal si, y solamente si, existe $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R_+^m$ tal que $L(\bar{x}, \bar{\lambda}, \bar{\mu}) = \min_{x \in \Omega} L(x, \bar{\lambda}, \bar{\mu})$ y $\bar{\mu}_i g_i(\bar{x}) = 0$. El conjunto de pares $(\bar{\lambda}, \bar{\mu})$ coincide con las soluciones del problema dual.
+\end{theorem}
+
+El siguiente resultado es fundamental para el diseño de algoritmos de optimización dual, ya que permite calcular un subgradiente de la función dual "gratis" al resolver el subproblema Lagrangiano.
+
+\begin{proposition}[Subgradiente de la función dual]\label{prop:v2_subgradiente_dual}
+    Sean $(\lambda, \mu) \in \Delta$ y $x(\lambda, \mu) \in \Omega$ el punto donde se alcanza el ínfimo de la Lagrangiana. Entonces, el vector de violaciones de las restricciones es un subgradiente de la función dual (negativa):
+    \[
+        - (h(x(\lambda, \mu)), g(x(\lambda, \mu))) \in \partial(-\varphi)(\lambda, \mu).
+    \]
+\end{proposition}

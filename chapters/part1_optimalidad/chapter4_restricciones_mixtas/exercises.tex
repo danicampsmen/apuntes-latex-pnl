@@ -1,0 +1,120 @@
+% --- Archivo: exercises.tex ---
+
+\section*{Ejercicios del Capítulo 4}
+
+\vspace{0.5em}
+\noindent\textbf{Parte I: Mecánica Primal-Dual y Condición de Mangasarian-Fromovitz}
+\vspace{0.5em}
+
+\begin{exercise}
+    Completar los detalles algebraicos (específicamente la implicación recíproca mediante el Teorema de la Alternativa de Motzkin) omitidos en el texto para la demostración de la \cref{prop:dual_mfcq} (Condición dual de Mangasarian-Fromovitz).
+\end{exercise}
+
+\begin{exercise}
+    Mediante una representación geométrica, formular una hipótesis sobre la solución del problema $\min (x_1 - 1)^2 + (x_2 + 1)^2$ sujeto a $x_1 - x_2 \leq 0$ y $(x_1 - 2)^2 + (x_2 - 1)^2 \leq 1$. Confirmar la hipótesis resolviendo el sistema mediante KKT.
+\end{exercise}
+
+\begin{exercise}
+    Encontrar todos los valores del parámetro $\sigma \in \R$ para los cuales el punto $\bar{x} = (\sqrt{3}/2 + 1, \ 1/2) \in \R^2$ es una solución del problema $\min x_1 + x_2$ sujeto a $(x_1 - 1)^2 + (x_2 - 1)^2 \leq 1$ y $(x_1 - 2)^2 + x_2^2 \leq 1$.
+\end{exercise}
+
+\begin{exercise}
+    Encontrar todos los valores del parámetro $\sigma \in \R$ para los cuales el punto $\bar{x} = (1, 1) \in \R^2$ es una solución local del problema $\min -x_1 + \sigma x_2$ sujeto a $x_1^2 + x_2^2 \le 2$ y $x_1^2 - x_2 \le 0$.
+\end{exercise}
+
+\begin{exercise}
+    Encontrar de manera analítica la solución global del problema $\max 2x_1 + 4x_2 - \frac{1}{2} x_3^2$ sujeto a $x_1^2 + x_2^2 - x_3 \le 4$ y $x_1 - x_2 + x_3^2 \le 1$.
+\end{exercise}
+
+\begin{exercise}
+    Demostrar que la solución del problema $\min x_2$ sujeto a $(x_1 - 1)^2 + x_2^2 \le 1$ y $(x_1 + 1)^2 + x_2^2 \le 1$ no satisface las condiciones de KKT e interpretar el resultado en relación con el comportamiento con restricciones de igualdad analizado en el Capítulo 2.
+\end{exercise}
+
+\begin{exercise}
+    Sea $\bar{x}$ un minimizador local del problema sobre el símplex escalado: $\min f(x)$ sujeto a $x \ge 0, \sum_{i=1}^n x_i = t$. Demostrar que, si $I_+(\bar{x}) = \{ i \mid \bar{x}_i > 0 \}$ denota el soporte estrictamente positivo, entonces $\nabla_{x_i} f(\bar{x}) = \min_{j} \nabla_{x_j} f(\bar{x})$ para todo $i \in I_+(\bar{x})$.
+\end{exercise}
+
+\begin{exercise}
+    Sean $Q \in \R^{n \times n}$, $q \in \Rn$, $B \in \R^{m \times n}$ y $b \in \R^m$. Demostrar que el conjunto de puntos de KKT de un problema de programación cuadrática constituye una unión finita de conjuntos poliédricos en el espacio extendido $\Rn \times \R^m$.
+\end{exercise}
+
+\begin{exercise}
+    Demostrar que $\bar{x} \in \Rn$ es un punto KKT de $\min f(x)$ sujeto a $h(x) = 0$ y $g(x) \le 0$ si, y solamente si, existe $(\bar{\beta}, \bar{\gamma}) \in \R^l \times \R^m$ tal que el siguiente sistema no lineal de ecuaciones se anula:
+    \[
+        F(x, \beta, \gamma) = \begin{pmatrix} \nabla_x L(x, \beta, \max\{0, \gamma\}) \\ h(x) \\ -g(x) + \min\{0, \gamma\} \end{pmatrix} = 0.
+    \]
+\end{exercise}
+
+\begin{exercise}
+    Sea $\bar{x} \in \Rn$ un punto factible de $\min f(x)$ sujeto a $g(x) \le 0$. Supongamos que $\bar{x}$ satisface MFCQ pero no es estacionario. Demostrar que existe una dirección de descenso para $f$ que apunta hacia el interior del conjunto factible $D$.
+\end{exercise}
+
+\begin{exercise}
+    Sean $(\bar{x}, \bar{\mu})$ y $(\hat{x}, \hat{\mu})$ dos pares KKT para un problema convexo. Demostrar que los pares cruzados $(\bar{x}, \hat{\mu})$ y $(\hat{x}, \bar{\mu})$ también satisfacen las condiciones KKT.
+\end{exercise}
+
+\begin{exercise}
+    Supongamos que un problema de minimización convexo satisface Slater. Dada una solución $\bar{x}$, determinar un escalar $M > 0$ tal que $\norm{\bar{\mu}} \le M$ para todo multiplicador de Lagrange.
+\end{exercise}
+
+\begin{exercise}
+    Sea $f : \Rn \to \R$ convexa dos veces diferenciable y $D = \{ x \in \Rn \mid Ax = a, \: x \ge 0 \}$ un conjunto poliédrico acotado y no vacío. Demostrar que el problema modificado $\min \norm{\nabla f(x) + A^\top y - z}^2 + \norm{Ax - a}^2 + \langle x, z \rangle^2$ sujeto a $x \ge 0, z \ge 0$ admite por lo menos un punto KKT que resuelve el problema original.
+\end{exercise}
+
+\vspace{1em}
+\noindent\textbf{Parte II: Condiciones de Segundo Orden}
+\vspace{0.5em}
+
+\begin{exercise}
+    A partir de las demostraciones, demostrar la afirmación recíproca del \cref{thm:cs2_suf_crecimiento}: si $\bar{x}$ satisface MFCQ y la condición de crecimiento cuadrático, entonces se satisface la condición necesaria de segundo orden.
+\end{exercise}
+
+\begin{exercise}
+    Resolver de forma sistemática los siguientes problemas $\min f(x)$ sujeto a $x \in D$:
+    \begin{enuthm}
+        \item $f(x) = x_1^2 + x_2^2$, con $D = \{ x \in \R^2 \mid 2x_1 + x_2 \ge 2, \: x_1 + 2x_2 \le \sigma \}$.
+        \item $f(x) = \log x_1 - x_2$, con $D = \{ x \in \R^2 \mid 2x_1 + x_2 \ge 1, \: -x_1 + x_2 \le 1, \: 2x_1 - x_2 \le 3 \}$.
+        \item $f(x) = 2x_1^2 + x_2^2 + 2x_3^2 - x_1 x_3$, con $D = \{ x \in \R^3 \mid x_1 - 3x_2 + 2x_3 \le 1, \: 2x_1 + x_2 \le 10 \}$.
+        \item $f(x) = \sum_{j=1}^n (x_j - a_j)^2$, sujeto a $\sum x_j^2 \le 1$ y $\sum x_j = 0$.
+    \end{enuthm}
+\end{exercise}
+
+\begin{exercise}
+    Demostrar analíticamente que $\min (x_1 + 1)^3$ sujeto a $0 \le x_1 + x_2 \le x_1^3 + \sigma$ tiene soluciones para todo $\sigma \in \R$ y determinar dichas soluciones.
+\end{exercise}
+
+\begin{exercise}
+    Considere un problema de programación cuadrática sobre la bola euclidiana $\norm{x} \le \delta$. Demostrar que $\bar{x}$ es un minimizador global si y solamente si existe $\bar{\mu} \in \R_+$ tal que $(Q + \bar{\mu} I)\bar{x} = -q$, $\norm{\bar{x}} \le \delta$, $\bar{\mu}(\norm{\bar{x}} - \delta) = 0$, y la matriz Hessiana $(Q + \bar{\mu} I)$ es semidefinida positiva.
+\end{exercise}
+
+\begin{exercise}
+    Demostrar la desigualdad clásica de las medias aritmética y geométrica utilizando KKT en $\max \prod x_i$ sujeto a $\sum x_i = 1, x \ge 0$.
+\end{exercise}
+
+\begin{exercise}\label{ex:transformacion_igualdades}
+    Verificar que $\bar{x}$ es una solución local del problema modificado $\min f(x)$ sujeto a $h(x) = 0$ y $g_j(x) + \sigma_j^2 = 0$. Plantee las condiciones de KKT e interprete la pérdida de fuerza en el análisis de segundo orden comparado con el directo.
+\end{exercise}
+
+\vspace{1em}
+\noindent\textbf{Parte III: Tópicos Avanzados - Dualidad, Conos Convexos y KKT Singular}
+\vspace{0.5em}
+
+\begin{exercise}
+    Considérese $\min x_1 x_2$ sujeto a $x_1^2 + x_2^2 \le 2$. Formule el sistema KKT, demuestre que hay 4 puntos estacionarios, proyecte la Hessiana sobre el cono crítico e identifique mínimos y máximos locales.
+\end{exercise}
+
+\begin{exercise}
+    Demuestre rigurosamente, utilizando la separación de conos convexos cerrados, el Lema de Farkas (\cref{lem:farkas_generalizado}) para el sistema dual homogéneo y explique cómo garantiza la existencia de MFCQ.
+\end{exercise}
+
+\begin{exercise}
+    Sea $\min (x_1 - 2)^2 + x_2^2$ sujeto a $-x_1^3 + x_2 \le 0$ y $-x_1^3 - x_2 \le 0$. Demuestre que se viola LICQ, que KKT no tiene solución, y plantee el sistema de Fritz John (\cref{thm:fritz_john}) hallando $(\lambda_0, \mu_1, \mu_2) \neq 0$.
+\end{exercise}
+
+\begin{exercise}
+    Demuestre, utilizando la regla de la cadena multivariable, que si un problema es sometido a una transformación afín biyectiva $x = Ay + b$, los multiplicadores de Lagrange KKT son invariantes.
+\end{exercise}
+
+\begin{exercise}
+    Considere $\min -x_1$ sujeto a $x_1^2 + x_2^2 = 1$ y su relajación convexa $x_1^2 + x_2^2 \le 1$. Resuelva ambos sistemas KKT y demuestre por qué la relajación descarta al maximizador del problema original.
+\end{exercise}

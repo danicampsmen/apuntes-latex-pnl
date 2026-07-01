@@ -1,0 +1,35 @@
+% --- Archivo: 08_metodos_sin_derivadas.tex ---
+
+% =========================================================
+\section{Métodos que no utilizan derivadas}
+\label{sec:v2_metodos_sin_derivadas}
+% =========================================================
+
+Esta sección presenta una breve mención a métodos de optimización de orden cero (que no utilizan información diferencial en absoluto). El análisis teórico de su convergencia en la literatura es complejo y en muchos casos de naturaleza probabilística, pero poseen una gran importancia práctica cuando la función objetivo es el resultado de simulaciones de caja negra (black-box), cuando la función presenta ruido, o cuando su gradiente no está analíticamente disponible.
+
+\subsection{Descenso por Coordenadas (Coordinate Descent)}
+
+En el método de descenso cíclico por coordenadas, las direcciones de búsqueda se restringen exclusivamente a la base canónica ortogonal del espacio dimensional:
+\[
+    d^0 = e^1, \; d^1 = e^2, \dots, d^{n-1} = e^n, \; d^n = e^1, \dots
+\]
+El tamaño de paso se calcula iterativamente mediante una minimización unidimensional a lo largo del eje seleccionado. Esto equivale a minimizar la función cambiando el valor de una sola variable a la vez, manteniendo el resto de las variables estrictamente congeladas. 
+
+Aunque es sumamente intuitivo y muy fácil de programar, este método carece de garantías de convergencia global (incluso para funciones suaves) si no se imponen fuertes condiciones adicionales sobre la función, como la separabilidad estricta de las variables o una condición de convexidad fuerte. En la presencia de valles alargados o funciones no diferenciables, el método de descenso por coordenadas puede detenerse en puntos no estacionarios.
+
+\subsection{Búsqueda Aleatoria (Random Search) y Gradiente Estocástico}
+
+Si se carece completamente de derivadas y el espacio de búsqueda es complejo, una estrategia heurística ampliamente utilizada es la \textbf{Búsqueda Aleatoria}. En este enfoque, la dirección de prueba $d^k$ se elige mediante la realización de una variable aleatoria uniformemente distribuida sobre la esfera unitaria de $\Rn$. 
+
+El algoritmo procede de la siguiente manera:
+\begin{itemize}
+    \item Si la evaluación de la función objetivo en el punto de prueba $f(x^k + \alpha d^k)$ proporciona un descenso aceptable, la dirección y el paso se aceptan y se actualiza el iterado.
+    \item Si no proporciona descenso, se reduce la longitud del paso o simplemente se rechaza y se sortea una nueva dirección aleatoria.
+\end{itemize}
+
+Para funciones que son topológicamente no diferenciables (pero que cumplen con ser localmente Lipschitz continuas), el Teorema de Rademacher asegura que la función es diferenciable en casi todo punto del dominio. Este poderoso hecho analítico sustenta el método de \textbf{Diferencias Finitas Estocásticas}, donde el gradiente se estima numéricamente en cada paso mediante pequeñas perturbaciones en direcciones coordinadas o aleatorias:
+\[
+    g_j^k \approx \frac{f(x^k + t_k e^j) - f(x^k)}{t_k}.
+\]
+
+Coordinando matemáticamente las secuencias de las longitudes de paso de actualización y las magnitudes de las perturbaciones aleatorias $t_k$, es posible probar rigurosamente la convergencia estocástica asintótica del algoritmo hacia el conjunto de puntos estacionarios con probabilidad 1 (casi seguramente).

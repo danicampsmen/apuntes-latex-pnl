@@ -1,0 +1,85 @@
+% --- Archivo: 05_globalizacion_lineal.tex ---
+
+% =========================================================
+\section{Estrategias de globalización}
+\label{sec:v2_estrategias_globalizacion}
+% =========================================================
+
+Como hemos visto, los métodos Newtonianos y cuasi-Newtonianos poseen propiedades teóricas de convergencia local extremadamente rápidas, pero en general carecen de garantías de convergencia global (a partir de un punto inicial arbitrario el método puede divergir, ciclar o fallar). 
+
+Para construir un optimizador robusto, es imperativo diseñar un algoritmo híbrido que garantice la convergencia asintótica desde cualquier punto inicial (comportamiento global) al mismo tiempo que hereda la tasa de convergencia superlineal cuando el iterado ingresa a la cuenca de atracción del mínimo (comportamiento local). 
+
+\subsection{Métodos con búsqueda lineal}
+
+La estrategia más directa es introducir una técnica de búsqueda lineal (como Armijo o Wolfe) en la dirección calculada por el modelo de Newton. Si el ``paso completo'' de Newton (con longitud $\alpha_k = 1$) provoca un incremento en la función objetivo, el método de búsqueda lineal reduce el paso hasta garantizar la monotonicidad. Si logramos probar que el paso completo $\alpha_k = 1$ es aceptado asintóticamente (para todo $k$ suficientemente grande), el método preservará su tasa de convergencia veloz.
+
+Consideremos un problema de minimización irrestricta $\min f(x)$, donde $f \colon \Rn \to \R$ es dos veces de clase $\mathcal{C}^1$. Analizaremos el esquema general:
+\begin{equation}
+    x^{k+1} = x^k + \alpha_k d^k, \quad d^k = -Q_k f'(x^k), \quad k = 0, 1, \dots
+    \label{eq:v2_esquema_newton_global_iter}
+\end{equation}
+Para asegurar que $d^k$ sea una dirección de descenso y la matriz no se vuelva singular ni explote numéricamente, exigimos que la secuencia de matrices $\{Q_k\}$ esté uniformemente acotada y sea uniformemente definida positiva. Es decir, exigimos que existan constantes $\Gamma > 0$ y $\gamma > 0$ tales que para todo iterado $k$:
+\begin{equation}
+    \norm{Q_k} \le \Gamma, \quad \interno{Q_k d}{d} \ge \gamma \norm{d}^2 \quad \forall d \in \Rn.
+    \label{eq:v2_matrices_unif_pos_def}
+\end{equation}
+
+Utilizando \eqref{eq:v2_esquema_newton_global_iter} y \eqref{eq:v2_matrices_unif_pos_def}, obtenemos una cota estricta para la calidad de la dirección de descenso:
+\begin{equation}
+    \frac{\interno{f'(x^k)}{d^k}}{\norm{d^k}^2} = \frac{-\interno{f'(x^k)}{Q_k f'(x^k)}}{\norm{Q_k f'(x^k)}^2} \le -\frac{\gamma}{\Gamma^2} < 0.
+    \label{eq:v2_cota_newton_global}
+\end{equation}
+Esta desigualdad establece que el ángulo entre el gradiente y la dirección de búsqueda se mantiene alejado de la ortogonalidad. A partir de esto, se puede deducir que existe una constante $\check{\alpha} > 0$ independiente de $k$, tal que el paso de Armijo está uniformemente acotado inferiormente ($\alpha_k \ge \check{\alpha} > 0$).
+
+\begin{theorem}[Convergencia global de Newton con Búsqueda Lineal]\label{thm:v2_convergencia_global_newton_linear}
+    Sea $f \colon \Rn \to \R$ de clase $\mathcal{C}^1$ en $\Rn$, con gradiente Lipschitz-continuo. Supongamos que el esquema utiliza la regla de Armijo y que la secuencia de matrices $\{Q_k\}$ satisface la condición de acotamiento uniforme \eqref{eq:v2_matrices_unif_pos_def} para ciertas constantes $\Gamma, \gamma > 0$.
+    
+    Entonces, todo punto de acumulación de la secuencia $\{x^k\}$ generada por el método es un punto estacionario del problema. Si existe un punto de acumulación (o si la función $f$ es acotada inferiormente), entonces el gradiente converge a cero:
+    \[
+        \norm{f'(x^k)} \to 0 \quad \text{cuando } k \to \infty.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Supongamos que $f'(x^k) \neq 0$ para todo $k$. Por la desigualdad de reducción de Armijo \eqref{eq:v2_condicion_armijo}, se tiene que:
+    \begin{align*}
+        f(x^{k+1}) &\le f(x^k) + \sigma \alpha_k \interno{f'(x^k)}{d^k} \\
+                   &\le f(x^k) + \sigma \check{\alpha} \interno{f'(x^k)}{d^k},
+    \end{align*}
+    donde se utilizó el hecho de que $\alpha_k \ge \check{\alpha}$ y el producto interno es estrictamente negativo.
+    
+    Por lo tanto, la secuencia de la función objetivo $\{f(x^k)\}$ es monótona decreciente. Si $f$ está acotada inferiormente, la secuencia converge. Como consecuencia matemática, la diferencia entre iterados funcionales consecutivos tiende a cero: $f(x^{k+1}) - f(x^k) \to 0$. De la desigualdad anterior, esto fuerza a que:
+    \[
+        \interno{f'(x^k)}{d^k} \to 0 \quad (k \to \infty).
+    \]
+    Como $f'(x^k) = -Q_k^{-1} d^k$ y las matrices inversas $\{Q_k^{-1}\}$ también están uniformemente acotadas por hipótesis, esto implica inequívocamente que $\norm{f'(x^k)} \to 0$.
+\end{proof}
+
+\begin{remark}[La necesidad de regularización de la Hessiana]
+    En el método de Newton puro, elegimos $Q_k = (f''(x^k))^{-1}$. Sin embargo, en zonas no convexas del dominio, la Hessiana puede tener autovalores negativos (no siendo definida positiva) o ser singular (violando la cota $\Gamma$). 
+    
+    Para globalizar el método de Newton, cuando $f''(x^k)$ no es "suficientemente" definida positiva, se aplica una técnica de \textbf{regularización} (Modificación de Cholesky o Levenberg-Marquardt), que consiste en sustituir la matriz exacta por una perturbada:
+    \[
+        Q_k = (f''(x^k) + \tau_k I)^{-1},
+    \]
+    donde el escalar $\tau_k > 0$ se elige iterativamente lo suficientemente grande como para hacer que la matriz sea definida positiva y satisfaga la condición \eqref{eq:v2_matrices_unif_pos_def}, permitiendo que el \cref{thm:v2_convergencia_global_newton_linear} entre en vigor.
+\end{remark}
+
+\subsubsection{Extensión a sistemas de ecuaciones (Funciones de Mérito)}
+
+Las estrategias de globalización de búsqueda lineal también se extienden de manera natural para resolver sistemas de ecuaciones no lineales $\Phi(x) = 0$. Dado que un sistema de ecuaciones no tiene un "valor objetivo" nativo que deba disminuir monótonamente, se recurre a definir una \deftech{función de mérito} auxiliar que cuantifique el residuo del sistema.
+
+Una elección clásica y universal es la norma de mínimos cuadrados:
+\begin{equation}
+    \varphi(x) = \frac{1}{2}\norm{\Phi(x)}^2.
+\end{equation}
+Para esta función de mérito escalar, el gradiente viene dado por:
+\begin{equation}
+    \nabla \varphi(x) = (\Phi'(x))^\top \Phi(x).
+\end{equation}
+Si $\Phi'(x)$ es una matriz no singular y calculamos el paso de Newton para el sistema ($d = -(\Phi'(x))^{-1}\Phi(x)$), este vector es automáticamente una dirección de descenso para la función de mérito $\varphi$, ya que:
+\begin{align*}
+    \interno{\nabla \varphi(x)}{d} &= \interno{(\Phi'(x))^\top \Phi(x)}{-(\Phi'(x))^{-1}\Phi(x)} \\
+    &= -\interno{\Phi(x)}{\Phi(x)} = -\norm{\Phi(x)}^2 < 0.
+\end{align*}
+Este hecho garantiza que las iteraciones de Newton, combinadas con una búsqueda de línea sobre $\varphi(x)$, generarán un algoritmo globalmente convergente hacia los puntos estacionarios del residuo.

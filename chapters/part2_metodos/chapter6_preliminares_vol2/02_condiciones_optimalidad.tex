@@ -1,0 +1,50 @@
+% --- Archivo: 02_condiciones_optimalidad.tex ---
+
+% =========================================================
+\section{Condiciones de optimalidad}
+% =========================================================
+
+Cuando $D = \R^n$, decimos que el problema \eqref{eq:v2_opt_gen} es \textit{irrestricto}, y cuando $D \neq \R^n$ hablamos de optimización con restricciones. Cabe notar que los resultados de problemas irrestrictos son verdaderos para problemas con restricciones siempre que el punto de interés $\bar{x}$ esté en el interior del conjunto factible ($\bar{x} \in \interior D$).
+
+\begin{theorem}[Condiciones en el caso irrestricto]\label{thm:v2_opt_irrestricta}
+    \begin{enumerate}[(a)]
+        \item Supongamos que $f : \R^n \to \R$ sea diferenciable en el punto $\bar{x} \in \R^n$. Si $\bar{x}$ es un minimizador local, entonces $f'(\bar{x}) = 0$. 
+        Si $f$ es dos veces diferenciable en $\bar{x}$, entonces la matriz Hessiana de $f$ en $\bar{x}$ es semidefinida positiva: $\langle f''(\bar{x})d, d \rangle \ge 0$ para todo $d \in \R^n$.
+        \item Supongamos que $f$ sea dos veces diferenciable en $\bar{x}$. Si $f'(\bar{x}) = 0$ y la matriz Hessiana es definida positiva (existe $\gamma > 0$ tal que $\langle f''(\bar{x})d, d \rangle \ge \gamma \|d\|^2$ para todo $d \in \R^n$), entonces $\bar{x}$ es minimizador local estricto.
+    \end{enumerate}
+\end{theorem}
+
+A continuación recordamos las condiciones de optimalidad para el caso de \textbf{restricciones de igualdad}:
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \{ x \in \R^n \mid h(x) = 0 \}, \label{eq:v2_opt_igualdad}
+\end{equation}
+donde la Lagrangiana está dada por $L(x, \lambda) = f(x) + \langle \lambda, h(x) \rangle$. Las condiciones de regularidad clásicas son la independencia lineal de los gradientes (LICQ) o la linealidad afín de $h$.
+
+\begin{theorem}[Condiciones en el caso de restricciones de igualdad]\label{thm:v2_opt_igualdad}
+    \begin{enumerate}[(a)]
+        \item Si $\bar{x}$ es un minimizador local y vale LICQ o linealidad, entonces existe $\bar{\lambda} \in \R^l$ tal que $L'_x(\bar{x}, \bar{\lambda}) = 0$. Bajo LICQ, $\bar{\lambda}$ es único. Además, $\langle L''_{xx}(\bar{x}, \bar{\lambda})d, d \rangle \ge 0$ para todo $d \in \ker h'(\bar{x})$.
+        \item Si $\bar{x} \in D$ y existen $\bar{\lambda} \in \R^l$ y $\gamma > 0$ tales que $L'_x(\bar{x}, \bar{\lambda}) = 0$ y $\langle L''_{xx}(\bar{x}, \bar{\lambda})d, d \rangle \ge \gamma \|d\|^2$ para todo $d \in \ker h'(\bar{x})$, entonces $\bar{x}$ es un minimizador local estricto.
+    \end{enumerate}
+\end{theorem}
+
+Finalmente, consideramos el caso general con \textbf{restricciones mixtas}:
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \{ x \in \R^n \mid h(x) = 0, \; g(x) \le 0 \}. \label{eq:v2_opt_mixta}
+\end{equation}
+La Lagrangiana está dada por $L(x, \lambda, \mu) = f(x) + \langle \lambda, h(x) \rangle + \langle \mu, g(x) \rangle$. El conjunto de los índices de las restricciones activas de desigualdad en $\bar{x} \in D$ se denota por $I(\bar{x}) = \{ i \mid g_i(\bar{x}) = 0 \}$.
+
+Las condiciones de regularidad para este problema son: linealidad afín, la condición de \textbf{Mangasarian-Fromovitz (MFCQ)} (independencia lineal de igualdades y existencia de dirección de descenso interior para desigualdades activas), LICQ, y la condición de Slater para convexidad. El \deftech{cono crítico} $K(\bar{x})$ es el conjunto de direcciones $d$ tales que $\langle f'(\bar{x}), d \rangle \le 0$, $\langle g'_i(\bar{x}), d \rangle \le 0$ para activos y $\langle h'_i(\bar{x}), d \rangle = 0$.
+
+\begin{theorem}[Condiciones de optimalidad en el caso de restricciones mixtas]\label{thm:v2_opt_mixta}
+    \begin{enumerate}[(a)]
+        \item Si $\bar{x}$ es minimizador local y cumple alguna regularidad (linealidad, MFCQ, o Slater), existen $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R_+^m$ tales que $L'_x(\bar{x}, \bar{\lambda}, \bar{\mu}) = 0$ y $\bar{\mu}_i g_i(\bar{x}) = 0$ para todo $i$ (\textbf{Condiciones KKT}).
+        Bajo LICQ, los multiplicadores son únicos, y vale la condición de segundo orden: $\langle L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})d, d \rangle \ge 0$ para todo $d \in K(\bar{x})$.
+        \item Si existen multiplicadores KKT y la Hessiana de la Lagrangiana es definida positiva en el cono crítico, entonces $\bar{x}$ es un minimizador local estricto.
+    \end{enumerate}
+\end{theorem}
+
+Decimos que el punto estacionario $\bar{x}$ satisface la \textbf{condición de complementariedad estricta} si $\bar{\mu}_i > 0$ para todo $i \in I(\bar{x})$. 
+
+\begin{proposition}[Compacidad de los multiplicadores]\label{prop:v2_multiplicadores_compacidad}
+    Sea $\bar{x}$ un punto estacionario del problema. El conjunto de multiplicadores de Lagrange asociados a $\bar{x}$ es compacto si, y solamente si, la condición de regularidad de Mangasarian-Fromovitz (MFCQ) es satisfecha.
+\end{proposition}

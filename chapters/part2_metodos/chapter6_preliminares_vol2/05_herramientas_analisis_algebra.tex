@@ -1,0 +1,50 @@
+% --- Archivo: 05_herramientas_analisis_algebra.tex ---
+
+% =========================================================
+\section{Herramientas del Análisis y del Álgebra Lineal}
+% =========================================================
+
+En esta sección agrupamos resultados analíticos y algebraicos cruciales para el desarrollo de los algoritmos computacionales.
+
+\begin{lemma}[Desigualdad de Cauchy-Schwarz generalizada]\label{lem:v2_cauchy_schwarz}
+    Para una norma $\|\cdot\|_p$ y su dual $\|\cdot\|_D = \sup \{ \langle \cdot, y \rangle \mid \|y\|_p = 1 \}$, se tiene que
+    \[
+        |\langle x, y \rangle| \le \|x\|_p \|y\|_D \quad \forall x, y \in \R^n.
+    \]
+\end{lemma}
+
+\begin{theorem}[Perturbación de matrices no singulares]\label{thm:v2_perturbacion_matriz}
+    Sea $\bar{A}$ no singular. Para toda matriz $A$ tal que $\|A - \bar{A}\| < 1 / \|\bar{A}^{-1}\|$, la matriz $A$ es no singular y su inversa está acotada por:
+    \[
+        \|A^{-1} - \bar{A}^{-1}\| \le \frac{\|\bar{A}^{-1}\|^2 \|A - \bar{A}\|}{1 - \|\bar{A}^{-1}\|\|A - \bar{A}\|}.
+    \]
+\end{theorem}
+
+El siguiente lema será fundamental para establecer las propiedades de las Lagrangianas Aumentadas.
+
+\begin{lemma}[Lema de Debreu]\label{lem:v2_debreu}
+    Sean $A \in \R^{l \times n}$ y $B \in \R^{n \times n}$ matrices tales que $\langle Bd, d \rangle > 0$ para todo $d \in \ker A \setminus \{0\}$. Entonces existe $\bar{c} > 0$ tal que la matriz $B + c A^\top A$ es definida positiva para todo $c \ge \bar{c}$.
+\end{lemma}
+
+\begin{lemma}[Lema de Gronwall en versión discreta]\label{lem:v2_gronwall}
+    Supongamos que los escalares $\theta_i$ cumplen $0 \le \theta_0 \le a$, y $0 \le \theta_{i+1} \le a + b \sum_{j=0}^i \theta_j$. Entonces $\theta_i \le a(1 + b)^i$ para todo $i$.
+\end{lemma}
+
+\begin{theorem}[Fórmula de Newton-Leibniz]\label{thm:v2_newton_leibniz}
+    Sea $F : \R^n \to \R^l$ continuamente diferenciable. Entonces $F(x + y) = F(x) + \int_0^1 F'(x + ty)y \diff t$.
+\end{theorem}
+
+\begin{lemma}[Acotación del error de linealización]\label{lem:v2_lipschitz_grad_ineq}
+    Sea $f : \R^n \to \R$ con gradiente Lipschitz-continuo con módulo $L > 0$. Entonces el error de su aproximación de primer orden satisface $|f(x + d) - f(x) - \langle f'(x), d \rangle| \le \frac{L}{2}\|d\|^2$.
+\end{lemma}
+
+Los métodos de programación cuadrática secuencial (SQP) y las regiones de confianza dependen del control de la factibilidad mediante la Función Implícita.
+
+\begin{theorem}[Teorema de la Función Implícita y Estimativa Local]\label{thm:v2_funcion_implicita}
+    Si $F(\bar{u}, \bar{x}) = 0$ y $F'_x(\bar{u}, \bar{x})$ es no singular, existe una trayectoria implícita $\chi(u)$ tal que $F(u, \chi(u)) = 0$. 
+    Si la matriz jacobiana parcial no es cuadrada pero tiene rango máximo por filas ($\text{rank } F'_x(\bar{u}, \bar{x}) = l$), entonces existe la función implícita $\chi$ y un escalar $M>0$ tal que la corrección está acotada por el residuo: $\|\chi(u) - \bar{x}\| \le M \|F(u, \bar{x})\|$.
+\end{theorem}
+
+\begin{theorem}[Teorema de Robinson]\label{thm:v2_robinson}
+    Bajo la condición de regularidad de Mangasarian-Fromovitz (MFCQ), la distancia de un punto en una vecindad $U$ al conjunto factible $D$ está acotada métricamente por la norma de la violación de sus restricciones (residual natural): $\dist(x, D) \le M \|\Psi(x)\|$.
+\end{theorem}

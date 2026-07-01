@@ -1,0 +1,16 @@
+[0] Config.pm:328> INFO - This is Biber 2.21
+[0] Config.pm:331> INFO - Logfile is 'Apuntes-Programacion-No-Lineal.blg'
+[64] biber:342> INFO - === mié jul  1, 2026, 11:49:09
+[76] Biber.pm:421> INFO - Reading 'Apuntes-Programacion-No-Lineal.bcf'
+[130] Biber.pm:999> INFO - Using all citekeys in bib section 0
+[141] Biber.pm:4487> INFO - Processing section 0
+[148] Biber.pm:4678> INFO - Looking for bibtex file 'Apuntes-Programacion-No-Lineal.bib' for section 0
+[149] bibtex.pm:1713> INFO - LaTeX decoding ...
+[152] bibtex.pm:1519> INFO - Found BibTeX data source 'Apuntes-Programacion-No-Lineal.bib'
+[175] Utils.pm:479> ERROR - Name "Bazaraa, Mokhtar S. y Sherali, Hanif D. y Shetty, Chitharanjan M." has too many commas, skipping entry 'bazaraa2013nonlinearprogrammingtheory'
+[183] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[183] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'variable = shifted' with 'variable = non-ignorable'
+[183] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'es-ES'
+[185] bbl.pm:676> INFO - Writing 'Apuntes-Programacion-No-Lineal.bbl' with encoding 'UTF-8'
+[187] bbl.pm:779> INFO - Output to Apuntes-Programacion-No-Lineal.bbl
+[187] Biber.pm:137> INFO - ERRORS: 1

@@ -1,0 +1,186 @@
+% --- Archivo: 01_programacion_lineal.tex ---
+
+La teoría de dualidad consiste en asociar a un problema de optimización original (primal) un problema alternativo (dual) cuyas propiedades aportan información cuantitativa y cualitativa sobre el primero. En el caso convexo, y muy especialmente en programación lineal, la relación entre ambos es simétrica y permite no solo resolver problemas complejos de forma indirecta, sino también fundamentar las técnicas computacionales. Incluso bajo ausencia de convexidad, el esquema dual proporciona cotas inferiores globales de gran utilidad en la resolución numérica de problemas combinatorios.
+
+% =========================================================
+\section{Dualidad en programación lineal}
+% =========================================================
+
+Sea el programa lineal en su forma de minimización, al cual nos referiremos como el \textbf{problema primal}:
+\begin{equation}
+    \min \interno{c}{x} \quad \text{sujeto a} \quad x \in D = \{x \in \Rn \mid Bx \ge b\},
+    \label{eq:primal_lp}
+\end{equation}
+donde $B \in \R^{m \times n}$, $c \in \Rn$ y $b \in \R^m$. El \textbf{problema dual} asociado es el programa de maximización:
+\begin{equation}
+    \max \interno{b}{\mu} \quad \text{sujeto a} \quad \mu \in \Delta = \{\, \mu \in \R^m \mid B^\top \mu = c, \, \mu \ge 0\}.
+    \label{eq:dual_lp}
+\end{equation}
+
+Si el problema primal tiene $n$ variables y $m$ restricciones, el dual se define sobre $m$ variables (una por cada restricción primal) y cuenta con $n$ restricciones de igualdad (una por cada variable primal).
+
+\begin{proposition}[Teorema de Dualidad Débil]\label{prop:dualidad_debil}
+    Para cualesquiera puntos factibles $x \in D$ y $\mu \in \Delta$, se cumple:
+    \begin{equation}
+        \interno{c}{x} \ge \interno{b}{\mu}.
+        \label{eq:dualidad_debil}
+    \end{equation}
+\end{proposition}
+
+\begin{proof}
+    Como $Bx \ge b$ y $\mu \ge 0$, es inmediato que $\interno{\mu}{Bx} \ge \interno{\mu}{b}$. Usando la definición de operador adjunto y la restricción dual $B^\top \mu = c$:
+    \[
+        \interno{c}{x} = \interno{B^\top \mu}{x} = \interno{\mu}{Bx} \ge \interno{\mu}{b} = \interno{b}{\mu}.
+    \]
+\end{proof}
+
+Cualquier punto factible dual proporciona una cota inferior del valor óptimo primal, y recíprocamente, cualquier punto factible primal acota superiormente al problema dual.
+
+\begin{notabox}[Interpretación de la Dualidad Débil]
+    Si encontramos $\bar{x} \in D$ y $\bar{\mu} \in \Delta$ tales que $\interno{c}{\bar{x}} = \interno{b}{\bar{\mu}}$, la desigualdad \eqref{eq:dualidad_debil} fuerza a que $\bar{x}$ sea un mínimo global del primal y $\bar{\mu}$ un máximo global del dual.
+\end{notabox}
+
+\begin{theorem}[Caracterización de Optimalidad]\label{thm:optimalidad_lp}
+    Un punto $\bar{x}$ es una solución del problema primal \eqref{eq:primal_lp} si, y solo si, existe un punto $\bar{\mu}$ que es factible para el problema dual \eqref{eq:dual_lp} y tal que:
+    \begin{equation}
+        \interno{c}{\bar{x}} = \interno{b}{\bar{\mu}},
+    \end{equation}
+    es decir, los valores de las funciones objetivo de ambos problemas coinciden.
+    
+    Más aún, la última afirmación es equivalente a decir que $\bar{\mu}$ es una solución óptima del problema dual \eqref{eq:dual_lp}, o que $\bar{\mu}$ es un multiplicador de Lagrange asociado a la solución $\bar{x}$ del problema primal.
+\end{theorem}
+
+\begin{proof}
+    Por las condiciones necesarias y suficientes de optimalidad de primer orden para problemas afines, $\bar{x}$ es una solución de \eqref{eq:primal_lp} si, y solo si, existe $\bar{\mu} \in \R^m_+$ tal que:
+    \[
+        c - B^\top \bar{\mu} = 0, \quad b - B\bar{x} \le 0, \quad \interno{\bar{\mu}}{b - B\bar{x}} = 0.
+    \]
+    Observamos de forma inmediata que la primera condición asegura que $\bar{\mu} \in \Delta$. Notemos también que el producto interno de la condición de holgura complementaria se puede expandir mediante la definición del operador adjunto:
+    \[
+        \interno{\bar{\mu}}{b - B\bar{x}} = \interno{\bar{\mu}}{b} - \interno{B^\top \bar{\mu}}{\bar{x}} = \interno{b}{\bar{\mu}} - \interno{c}{\bar{x}}.
+    \]
+    Por lo tanto, concluimos que:
+    \[
+        \interno{\bar{\mu}}{b - B\bar{x}} = 0 \iff \interno{c}{\bar{x}} = \interno{b}{\bar{\mu}}.
+    \]
+    Por último, la relación de dualidad débil de la \cref{prop:dualidad_debil} implica que $\bar{\mu}$ es necesariamente una solución del problema dual \eqref{eq:dual_lp}, ya que la función objetivo dual alcanza en el punto $\bar{\mu}$ su cota superior global dentro del conjunto factible.
+\end{proof}
+
+\begin{example}[Demostración del Lema de Farkas vía Dualidad]\label{ex:farkas_dualidad}
+    El Lema de Farkas establece que el sistema de desigualdades lineales:
+    \begin{equation}
+        Ax \le 0, \quad \interno{b}{x} > 0
+        \label{eq:farkas_sys1}
+    \end{equation}
+    carece de solución $x \in \Rn$ si y solo si el sistema alternativo:
+    \begin{equation}
+        A^\top \mu = b, \quad \mu \ge 0
+        \label{eq:farkas_sys2}
+    \end{equation}
+    tiene solución $\mu \in \R^m$.
+    
+    Para probarlo mediante dualidad, planteamos el problema lineal de minimización:
+    \[
+        \min \interno{-b}{x} \quad \text{sujeto a} \quad -Ax \ge 0.
+    \]
+    El origen $x = 0$ siempre es factible y su valor óptimo es nulo. El sistema \eqref{eq:farkas_sys1} no tiene solución si y solo si no existe ningún punto factible con valor objetivo estrictamente menor que cero. Esto equivale a decir que $\bar{x} = 0$ es un mínimo global, con valor óptimo $\bar{v} = 0$.
+    
+    Por el \cref{thm:optimalidad_lp}, esto ocurre si y solo si el dual:
+    \[
+        \max \interno{0}{\mu} \quad \text{sujeto a} \quad -A^\top \mu = -b, \quad \mu \ge 0
+    \]
+    es factible. La restricción de igualdad es exactamente $A^\top \mu = b$. Así, el sistema \eqref{eq:farkas_sys1} es incompatible si y solo si el sistema dual \eqref{eq:farkas_sys2} es compatible.
+\end{example}
+
+\begin{example}[Verificación numérica]\label{ex:optimalidad_lp}
+    Tomemos el problema de minimización:
+       \begin{mini*}{ }{3x_1 + 4x_2}{}{ }
+        \addConstraint{x_1 + 2 x_2 }{\geq  5}
+        \addConstraint{2x_1 + x_2}{\geq 6}
+        \addConstraint{x_1,x_2}{\geq 0}
+        \end{mini*}
+    En el formato estándar \eqref{eq:primal_lp}, definimos:
+    \[
+        x = \begin{pmatrix} x_1 \\ x_2 \end{pmatrix}, \quad c = \begin{pmatrix} 3 \\ 4 \end{pmatrix}, \quad B
+        = \begin{pmatrix} 1 & 2 \\ 2 & 1 \\ 1 & 0 \\ 0 & 1 \end{pmatrix}, \quad b = \begin{pmatrix} 5 \\ 6 \\ 0 \\ 0 \end{pmatrix}.
+    \]
+    La intersección de las dos restricciones activas proporciona el mínimo global $\bar{x} = (7/3, 4/3)^\top$, con valor óptimo primal $\interno{c}{\bar{x}} = 37/3$.
+    
+    Buscamos un punto dual factible $\bar{\mu} \in \R^4$ tal que coincidan los objetivos. Dado que las restricciones de no negatividad no están activas en $\bar{x}$, sus multiplicadores asociados deben ser nulos por holgura complementaria: $\bar{\mu}_3 = 0$ y $\bar{\mu}_4 = 0$. Resolvemos la factibilidad dual $B^\top \bar{\mu} = c$ para los componentes restantes:
+    \[
+        \begin{pmatrix} 1 & 2 \\ 2 & 1 \end{pmatrix}
+        \begin{pmatrix} \bar{\mu}_1 \\ \bar{\mu}_2 \end{pmatrix} =
+        \begin{pmatrix} 3 \\ 4 \end{pmatrix} \implies \bar{\mu}_1 = \frac{5}{3}, \quad \bar{\mu}_2 = \frac{2}{3}.
+    \]
+    El vector $\bar{\mu} = (5/3, 2/3, 0, 0)^\top$ es no negativo, por lo que es factible para el dual. Evaluando el objetivo dual en este punto:
+    \[
+        \interno{b}{\bar{\mu}} = 5\left(\frac{5}{3}\right) + 6\left(\frac{2}{3}\right) = \frac{37}{3}.
+    \]
+    Al cumplirse $\interno{c}{\bar{x}} = \interno{b}{\bar{\mu}} = 37/3$, el \cref{thm:optimalidad_lp} garantiza que $\bar{x}$ y $\bar{\mu}$ son soluciones óptimas globales de sus respectivos problemas.
+\end{example}
+
+\begin{theorem}[Teorema de Dualidad en Programación Lineal]\label{thm:dualidad_fuerte_lp}
+    Para cualquier par de problemas primal \eqref{eq:primal_lp} y dual \eqref{eq:dual_lp}, se cumple exactamente una de las siguientes afirmaciones:
+    \begin{enuthm}
+        \item Ambos problemas son infactibles ($D = \emptyset$ y $\Delta = \emptyset$).
+        \item Uno de los problemas es ilimitado y el otro es infactible.
+        \item Ambos problemas son factibles. En este caso, ambos poseen soluciones óptimas y sus valores óptimos coinciden:
+        \begin{equation}
+            \min_{x \in D} \interno{c}{x} = \max_{\mu \in \Delta} \interno{b}{\mu}.
+        \end{equation}
+    \end{enuthm}
+\end{theorem}
+
+\begin{proof}
+    Para comprobar la existencia del caso (1), basta definir un problema con $n = m = 1$ mediante $B = 0$, $b = 1$, $c = 1$. Aquí $D = \{x \in \R \mid 0 \ge 1\} = \emptyset$ y $\Delta = \{\mu \in \R \mid 0 = 1, \mu \ge 0\} = \emptyset$.
+    
+    En el caso (2), si el primal es ilimitado ($\bar{v} = \inf_{x \in D} \interno{c}{x} = -\infty$), la existencia de un punto factible dual $\mu \in \Delta$ contradice el teorema de dualidad débil, pues exigiría que $-\infty \ge \interno{b}{\mu}$. Por tanto, $\Delta = \emptyset$. El razonamiento es análogo si el dual es ilimitado.
+    
+    Para el caso (3), supongamos que $D \neq \emptyset$ y $\Delta \neq \emptyset$. Por dualidad débil, el valor óptimo primal es finito: $\bar{v} = \inf_{x \in D} \interno{c}{x} > -\infty$. El sistema de desigualdades:
+    \begin{equation}
+        Bx \ge b, \quad \interno{-c}{x} > -\bar{v}
+        \label{eq:sistema_alternativa}
+    \end{equation}
+    no tiene solución por la definición de ínfimo. Al aplicar el Teorema de la Alternativa de Motzkin, la incompatibilidad de \eqref{eq:sistema_alternativa} implica que el sistema dual homogéneo asociado:
+    \begin{equation}
+        B^\top \mu - yc = 0, \quad -\interno{b}{\mu} + y\bar{v} + \eta = 0, \quad \mu \ge 0, \quad y \ge 0, \quad \eta \ge 0
+        \label{eq:motzkin_system}
+    \end{equation}
+    admite una solución con $(\mu, y, \eta) \neq 0$ tal que $(y, \eta) \ge 0$ no son nulos de manera simultánea.
+    
+    Analizamos las posibilidades para el escalar $y$:
+    \begin{itemize}
+        \item Si $y = 0$, se requiere que $\eta > 0$. De \eqref{eq:motzkin_system} se obtiene el sistema homogéneo $B^\top \mu = 0$, $\interno{b}{\mu} = \eta > 0$, $\mu \ge 0$. Aplicando de nuevo el Teorema de la Alternativa de Motzkin, el sistema $z^0 b + B z^1 + z^2 = 0$ no posee solución. Sin embargo, al tomar un punto factible $x_0 \in D$ y definir $z^1 = -x_0$, $z^0 = 1 > 0$ y $z^2 = Bx_0 - b \ge 0$, evaluamos $b + B(-x_0) + (Bx_0 - b) = 0$, lo que resulta en una contradicción directa. Así, es obligatorio que $y > 0$.
+        
+        \item Si $y > 0$, dividimos por $y$ y definimos $\bar{\mu} = \mu/y$ y $\bar{\eta} = \eta/y$. Obtenemos $B^\top \bar{\mu} = c$, $\bar{\mu} \ge 0$ y $\interno{b}{\bar{\mu}} = \bar{v} + \bar{\eta}$. Esto demuestra que $\bar{\mu}$ es factible para el dual. Como $\bar{\eta} \ge 0$, se tiene $\interno{b}{\bar{\mu}} \ge \bar{v}$. Por dualidad débil, debe cumplirse simultáneamente que $\interno{b}{\bar{\mu}} \le \bar{v}$, lo que fuerza a que $\bar{\eta} = 0$ y, por ende, $\interno{b}{\bar{\mu}} = \bar{v}$.
+    \end{itemize}
+    La igualdad de los valores objetivos demuestra la existencia de soluciones óptimas con salto de dualidad nulo.
+\end{proof}
+
+\begin{example}[Problemas ilimitados e infactibles]\label{ex:dualidad_casosextremos}
+    Para ilustrar el caso (2) del teorema de dualidad, consideremos el programa lineal primal:
+   \begin{mini*}
+  {}{-x_1}{}{}
+  \addConstraint{-x_1 + x_2}{\ge -1,}
+  \addConstraint{x_1, x_2}{\ge 0}
+\end{mini*}
+        
+    La trayectoria paramétrica $x(t) = (t, t)^\top$ con $t \ge 0$ es factible para cualquier valor de $t$. Al evaluar el objetivo en dicha dirección, obtenemos $\lim_{t \to \infty} (-t) = -\infty$, de modo que el problema primal es \textbf{ilimitado}.
+    
+    El problema dual asociado viene dado por:
+\begin{maxi*}
+  {}{-\mu_1}{}{}
+  \addConstraint{-\mu_1 + \mu_2}{= -1,}
+  \addConstraint{\mu_1 + \mu_3}{= 0,}
+  \addConstraint{\mu_1, \mu_2, \mu_3}{\ge 0}
+\end{maxi*}
+La condición $\mu_1 + \mu_3 = 0$ junto con la no negatividad de las variables fuerza a que $\mu_1 = 0$ y $\mu_3 = 0$. Al sustituir $\mu_1 = 0$ en la primera restricción, se obtiene $\mu_2 = -1$, lo cual es incompatible con la condición $\mu_2 \ge 0$. El problema dual es, por tanto, \textbf{infactible}.
+\end{example}
+
+\begin{controlbox}[Verificación de dualidad]
+    ¿Es posible que un problema primal lineal de minimización tenga un punto factible con valor objetivo $10$ y su dual correspondiente tenga un punto factible con valor objetivo $15$? Justifique su respuesta utilizando la relación de dualidad débil.
+\end{controlbox}
+
+\begin{notabox}[Precios sombra]
+    En economía, los multiplicadores óptimos del dual, $\bar{\mu}_i$, se interpretan como los \textbf{precios sombra} de los recursos. Representan la tasa de cambio marginal del valor óptimo de la función objetivo ante variaciones infinitesimales en la disponibilidad de los recursos correspondientes ($b_i$).
+\end{notabox}

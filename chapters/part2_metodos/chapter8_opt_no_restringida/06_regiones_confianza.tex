@@ -1,0 +1,94 @@
+% --- Archivo: 06_regiones_confianza.tex ---
+
+% =========================================================
+\subsection{Métodos de Regiones de Confianza}
+\label{sec:v2_regiones_confianza}
+% =========================================================
+
+A diferencia de la búsqueda lineal, que primero fija una dirección y luego busca la longitud de paso adecuada, los métodos de \deftech{regiones de confianza} (Trust-Region methods) utilizan una filosofía dual: primero definen un radio máximo de "confianza" en la aproximación de Taylor, y luego calculan simultáneamente la dirección y el tamaño del paso óptimos dentro de esa región.
+
+Dada una aproximación actual $x^k$ a la solución del problema $\min f(x)$, un método de segundo orden se basa en minimizar un modelo cuadrático local $m_k(d)$. Los métodos de regiones de confianza imponen explícitamente una restricción espacial a este modelo:
+\begin{equation}
+    \min_{d \in \Rn} m_k(d) = f(x^k) + \interno{f'(x^k)}{d} + \frac{1}{2}\interno{H_k d}{d} \quad \text{sujeto a} \quad \norm{d} \le \delta_k,
+    \label{eq:v2_subproblema_conf_bola}
+\end{equation}
+donde $H_k$ es una matriz simétrica (típicamente $H_k = \nabla^2 f(x^k)$) y $\delta_k > 0$ es el \textbf{radio de la región de confianza}. La elección adaptativa y algorítmica de este parámetro $\delta_k$ es el núcleo del método.
+
+El modelo $m_k(d)$ es, por diseño, una buena aproximación de $f(x^k + d)$ solo si $\norm{d}$ es suficientemente pequeño. Si el paso propuesto proporciona una buena concordancia entre la reducción predicha por el modelo cuadrático y la reducción real de la función no lineal, la región de confianza se expande o se mantiene. Si la concordancia es mala, el paso se rechaza y el radio $\delta_k$ se contrae.
+
+\begin{notabox}[Ventaja Topológica: Manejo de Curvatura Negativa]
+    A diferencia de la búsqueda lineal (que colapsa si $H_k$ no es definida positiva y requiere regularización artificial), el subproblema de la región de confianza \eqref{eq:v2_subproblema_conf_bola} \textbf{siempre está bien definido y posee solución global}, sin importar si la matriz $H_k$ tiene autovalores negativos (curvatura negativa) o es singular, debido a que estamos minimizando una función continua sobre una bola topológicamente compacta.
+\end{notabox}
+
+Sea $\bar{d}^k$ la solución global del subproblema \eqref{eq:v2_subproblema_conf_bola}. Basados en el teorema de optimalidad de Lagrange para la esfera (y asumiendo norma euclidiana), se puede demostrar que $\bar{d}^k$ satisface la ecuación parametrizada:
+\begin{equation}
+    (H_k + \mu_k I)d = -f'(x^k),
+    \label{eq:v2_eq_escalar_conf}
+\end{equation}
+donde $\mu_k \ge 0$ es un multiplicador de Lagrange tal que $\mu_k(\norm{\bar{d}^k} - \delta_k) = 0$, y la matriz corregida $(H_k + \mu_k I)$ resulta ser \textbf{semidefinida positiva}.
+
+Si el paso de Newton puro irrestricto (con $\mu_k = 0$) recae estrictamente en el interior de la bola ($\norm{-H_k^{-1}f'(x^k)} \le \delta_k$), este se toma como el paso óptimo. En caso contrario, la solución ocurre en la frontera exacta ($\norm{\bar{d}^k} = \delta_k$) y $\mu_k > 0$ actúa implícita y dinámicamente como un parámetro de regularización tipo Levenberg-Marquardt.
+
+A continuación, presentamos la estructura fundamental de un algoritmo iterativo de regiones de confianza.
+
+\begin{algorithm}[Método de Regiones de Confianza]\label{alg:v2_regioes_confianca}
+    Elegir un iterado inicial $x^0 \in \Rn$ y tomar $k := 0$. Definir un radio inicial $\delta \ge \bar{\delta} > 0$ y los hiperparámetros de aceptación $\sigma, \theta_1, \theta_2 \in (0, 1)$ tales que $\theta_1 < \theta_2$.
+    \begin{enuthm}
+        \item Asignar el radio iterativo $\delta_k := \delta$.
+        \item Calcular $\bar{d}^k \in \Rn$, la solución global (o una aproximación suficientemente buena) del subproblema cuadrático \eqref{eq:v2_subproblema_conf_bola} restringido a la bola $\norm{d} \le \delta_k$.
+        \item Si $\bar{d}^k = 0$, hemos alcanzado un punto estacionario y el método se detiene. En caso contrario, evaluar el \textbf{ratio de concordancia} calculando la reducción real de la función frente a la reducción predicha:
+        \begin{equation}
+            \rho_k = \frac{f(x^k) - f(x^k + \bar{d}^k)}{m_k(0) - m_k(\bar{d}^k)}.
+            \label{eq:v2_rho_armijo_def}
+        \end{equation}
+        Verificamos la condición de aceptación análoga a Armijo: ¿$\rho_k \ge \sigma$?
+        \item Si la desigualdad \textbf{se satisface} (concordancia aceptable), el paso es exitoso. Tomamos $x^{k+1} = x^k + \bar{d}^k$. Opcionalmente, podemos expandir el radio de confianza para la siguiente iteración. Incrementamos $k \leftarrow k + 1$ y volvemos al Paso 1.
+        \item Si la desigualdad \textbf{falla} (concordancia pobre), el paso es rechazado. Contraemos el radio de confianza eligiendo un nuevo $\delta \in [\theta_1 \norm{\bar{d}^k}, \theta_2 \delta_k]$ y regresamos inmediatamente al Paso 2, resolviendo el subproblema en una región más conservadora sin avanzar el iterado.
+    \end{enuthm}
+\end{algorithm}
+
+Primero demostramos la viabilidad algorítmica: el ciclo interno de contracción de radio nunca entra en un bucle infinito, y la iteración eventualmente produce un descenso aceptable.
+
+\begin{proposition}[Viabilidad de la Región de Confianza]\label{prop:v2_reg_conf_well_defined}
+    Sea $f \colon \Rn \to \R$ una función dos veces de clase $\mathcal{C}^1$. Supongamos que $x^k \in \Rn$ no es un punto estacionario de primer orden ($f'(x^k) \neq 0$), o que no satisface la condición necesaria de segundo orden (la matriz $f''(x^k)$ posee autovalores negativos). 
+    
+    Entonces, el ciclo interno de contracción del \cref{alg:v2_regioes_confianca} está bien definido y termina en un número finito de pasos, generando un paso exitoso tal que $f(x^{k+1}) < f(x^k)$.
+\end{proposition}
+
+\begin{proof}
+    Es suficiente probar que cuando el radio $\delta \to 0^+$, el ratio de concordancia converge a 1:
+    \begin{equation}
+        \liminf_{\delta \to 0^+} \rho(\delta) = 1.
+        \label{eq:v2_rho_limite_1}
+    \end{equation}
+    Esto garantizaría que para radios suficientemente pequeños, $\rho(\delta) \ge \sigma$ (dado que el hiperparámetro $\sigma \in (0, 1)$), permitiendo que la condición de aceptación del Paso 3 se cumpla.
+
+    Analicemos el caso donde el gradiente no es nulo ($f'(x^k) \neq 0$). Elegimos la dirección normada de descenso máximo $d = -f'(x^k)/\norm{f'(x^k)}$. Evaluando el modelo cuadrático a lo largo de este vector en la frontera de la bola ($\delta d$):
+    \begin{align*}
+        m_k(\bar{d}(\delta)) &\le m_k(\delta d) \\
+        &= f(x^k) - \delta \norm{f'(x^k)} + \frac{\delta^2}{2}\interno{H_k d}{d}.
+    \end{align*}
+    Restando $f(x^k)$, el decrecimiento predicho por el modelo asintóticamente decae a tasa lineal:
+    \[
+        f(x^k) - m_k(\bar{d}(\delta)) \ge \delta \left( \norm{f'(x^k)} - \frac{\delta}{2}\norm{H_k} \right) \ge \frac{\delta}{2}\norm{f'(x^k)} > 0.
+    \]
+    Por otro lado, por el teorema de Taylor de segundo orden aplicado a la función real $f$, el error de aproximación entre la función verdadera y su modelo cuadrático $m_k$ a una distancia $\delta$ es rigurosamente del orden de $o(\delta^2)$.
+    
+    Calculando el error del ratio de concordancia:
+    \[
+        |1 - \rho(\delta)| = \left| \frac{f(x^k + \bar{d}(\delta)) - m_k(\bar{d}(\delta))}{f(x^k) - m_k(\bar{d}(\delta))} \right| \le \frac{o(\delta^2)}{\frac{\delta}{2}\norm{f'(x^k)}} = o(\delta) \to 0,
+    \]
+    lo cual implica directamente que $\rho(\delta) \to 1$. Un análisis analítico paralelo demuestra que la propiedad también se cumple en el caso donde $f'(x^k) = 0$ pero el Hessiano exhibe direcciones de curvatura estricta negativa.
+\end{proof}
+
+Una de las ventajas teóricas más formidables de los métodos de regiones de confianza es que no solo convergen asintóticamente a puntos estacionarios de primer orden, sino que evitan activamente puntos de ensilladura y máximos locales, garantizando la convergencia hacia puntos que satisfacen las condiciones necesarias de segundo orden.
+
+\begin{theorem}[Convergencia global a condiciones de segundo orden]\label{thm:v2_convergencia_tr}
+    Sea $f \colon \Rn \to \R$ una función dos veces continuamente diferenciable. Supongamos que la secuencia de matrices $\{H_k\}$ corresponde a las Hessianas exactas $f''(x^k)$, acotadas uniformemente.
+    
+    Entonces, todo punto de acumulación $\bar{x} \in \Rn$ de cualquier secuencia $\{x^k\}$ generada por el \cref{alg:v2_regioes_confianca} es un punto estacionario ($f'(\bar{x}) = 0$) y, adicionalmente, \textbf{satisface la condición necesaria de segundo orden} (la matriz $f''(\bar{x})$ es semidefinida positiva).
+\end{theorem}
+
+\begin{proof}
+    La prueba es muy extensa y técnica, apoyándose en un análisis de límites sobre dos subcasos del comportamiento asintótico de los radios de confianza: el caso donde el radio converge a cero ($\liminf \delta_{k} = 0$) y el caso en que se mantiene estrictamente positivo ($\liminf \delta_{k} > 0$). En ambos casos, las propiedades topológicas del subproblema sobre la bola aseguran que si el punto límite presentara una dirección de curvatura negativa, el paso asintótico proporcionaría un descenso cuadrático estrictamente positivo, lo que forzaría un decrecimiento adicional, contradiciendo el hecho de que se trata de un punto de acumulación estabilizado. 
+\end{proof}

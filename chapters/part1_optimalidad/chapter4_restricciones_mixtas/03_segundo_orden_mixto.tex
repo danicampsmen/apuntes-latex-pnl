@@ -1,0 +1,349 @@
+% --- Archivo: 03_segundo_orden_mixto.tex ---
+
+% =========================================================
+\section{Condiciones de optimalidad de segundo orden}
+% =========================================================
+
+    En esta sección se presentan las condiciones analíticas necesarias y suficientes de segundo orden para el problema de optimización con restricciones mixtas. Estas condiciones se evalúan sobre un subconjunto de direcciones factibles, denominado \textit{cono crítico}, en el cual la información de primer orden no permite determinar la optimalidad debido a la anulación de las derivadas direccionales.
+
+\begin{definition}[Cono Crítico]\label{def:cono_critico}
+    Sea $\bar{x} \in D$ un punto estacionario del problema \eqref{eq:problema_mixto}-\eqref{eq:conjunto_mixto}. Se define el \textbf{cono crítico} (o cono de direcciones críticas) asociado a $\bar{x}$, denotado por $K(\bar{x})$, como el conjunto de direcciones del cono de linealización $\mathcal{H}(\bar{x})$ que satisfacen la condición:
+    \begin{equation}
+        K(\bar{x}) = \{ d \in \mathcal{H}(\bar{x}) \mid \langle \nabla f(\bar{x}), d \rangle \le 0 \}.
+        \label{eq:cono_critico_def}
+    \end{equation}
+    Utilizando la definición del cono de linealización, este conjunto equivale al sistema poliédrico:
+    \[
+        K(\bar{x}) = \left\{ d \in \Rn \mathrel{\Bigg|} \begin{aligned}
+          \interno{ \nabla f(\bar{x})}{d} &\le 0, \\
+          \langle \nabla g_i(\bar{x}), d \rangle &\le 0 \quad \forall i \in I(\bar{x}), \\
+          \langle \nabla h_i(\bar{x}), d \rangle &= 0 \quad \forall i = 1, \dots, l
+        \end{aligned} \right\}.
+  \]
+\end{definition}
+
+\begin{remark}
+    Por la linealidad de las ecuaciones e inecuaciones que lo definen, $K(\bar{x})$ es un cono poliédrico cerrado. En adelante, supondremos que las funciones $f, h$ y $g$ son dos veces diferenciables en el punto $\bar{x}$.
+\end{remark}
+
+El siguiente lema proporciona caracterizaciones algebraicas alternativas del cono crítico cuando se dispone de un vector de multiplicadores de Lagrange.
+
+\begin{lemma}[Caracterización alternativa del cono crítico]\label{lem:caracterizacion_cono_critico}
+    Supongamos que $\bar{x}$ es un punto estacionario de Karush-Kuhn-Tucker y sea $(\bar{\lambda}, \bar{\mu}) \in \mathcal{M}(\bar{x})$ un vector de multiplicadores asociado.
+    
+    El cono crítico $K(\bar{x})$ admite las siguientes representaciones equivalentes:
+    \begin{equation}
+        K(\bar{x}) = \{ d \in \mathcal{H}(\bar{x}) \mid \langle \nabla f(\bar{x}), d \rangle = 0 \} = \{ d \in \mathcal{H}(\bar{x}) \mid \bar{\mu}_i \langle \nabla g_i(\bar{x}), d \rangle = 0 \quad \forall i \in I(\bar{x}) \}.
+        \label{eq:cono_critico_alt}
+    \end{equation}
+\end{lemma}
+
+\begin{proof}
+    Sea $d \in \mathcal{H}(\bar{x})$. Multiplicando la condición de estacionariedad de KKT por el vector $d$, se obtiene:
+    \[
+        \langle \nabla f(\bar{x}), d \rangle = - \left\langle \sum_{i=1}^l \bar{\lambda}_i \nabla h_i(\bar{x}) + \sum_{i \in I(\bar{x})} \bar{\mu}_i \nabla g_i(\bar{x}), \: d \right\rangle.
+    \]
+    Dado que $\langle \nabla h_i(\bar{x}), d \rangle = 0$ para todo $d \in \mathcal{H}(\bar{x})$, el primer término es nulo:
+    \[
+        \langle \nabla f(\bar{x}), d \rangle = - \sum_{i \in I(\bar{x})} \bar{\mu}_i \langle \nabla g_i(\bar{x}), d \rangle.
+    \]
+    Puesto que $\bar{\mu}_i \ge 0$ por viabilidad dual y $\langle \nabla g_i(\bar{x}), d \rangle \le 0$ para $d \in \mathcal{H}(\bar{x})$, la suma del miembro derecho es no positiva. Al antecederle el signo negativo, se deduce que $\langle \nabla f(\bar{x}), d \rangle \ge 0$. Por la definición de $K(\bar{x})$ se requiere $\langle \nabla f(\bar{x}), d \rangle \le 0$, por lo que la única forma de satisfacer ambas condiciones es que $\langle \nabla f(\bar{x}), d \rangle = 0$. Asimismo, para que una suma de términos no negativos sea nula, cada término individual debe ser cero: $\bar{\mu}_i \langle \nabla g_i(\bar{x}), d \rangle = 0$ para todo $i \in I(\bar{x})$, lo que demuestra la caracterización \eqref{eq:cono_critico_alt}.
+\end{proof}
+
+\begin{example}[Cálculo del cono crítico]\label{ex:cono_critico}
+    Considérese el problema de minimizar una función lineal sobre el primer cuadrante:
+    \begin{mini*}{ }{f(x)=x_1 + x_2}{}{}
+        \addConstraint{g_1(x)=-x_1}{\le 0}
+        \addConstraint{g_2(x)= -x_2}{\le 0}
+    \end{mini*}
+    El mínimo global se alcanza en el origen $\bar{x} = (0,0)^\top$, donde ambas restricciones son activas ($I(\bar{x}) = \{1, 2\}$). Los gradientes de las restricciones son $\nabla g_1 = (-1,0)^\top$ y $\nabla g_2 = (0,-1)^\top$. El gradiente de la función objetivo es $\nabla f = (1,1)^\top$.
+    
+    Primero, el cono de linealización $\mathcal{H}(\bar{x})$ se define por las condiciones:
+    \[
+        \langle (-1,0)^\top, d \rangle = -d_1 \le 0 \implies d_1 \ge 0, \quad \text{y} \quad -d_2 \le 0 \implies d_2 \ge 0.
+    \]
+    Es decir, $\mathcal{H}(\bar{x}) = \R_+^2$. Cualquier dirección con componentes no negativas es una dirección de linealización.
+    
+    Para construir el cono crítico $K(\bar{x})$ añadimos la condición de no descenso de la función objetivo $\langle \nabla f(\bar{x}), d \rangle \le 0$:
+    \[
+        \langle (1,1)^\top, d \rangle = d_1 + d_2 \le 0.
+    \]
+    Dado que $d \in \R_+^2$, la única solución es que ambas componentes sean nulas. Por lo tanto, el cono crítico se reduce al origen: $K(\bar{x}) = \left\{ (0,0)^\top \right\}$.
+    
+    Para verificar la caracterización alternativa del \cref{lem:caracterizacion_cono_critico}, resolvemos el sistema de primer orden $\nabla f + \mu_1 \nabla g_1 + \mu_2 \nabla g_2 = 0$:
+    \[
+        \begin{pmatrix} 1 \\ 1 \end{pmatrix} + \mu_1 \begin{pmatrix} -1 \\ 0 \end{pmatrix} + \mu_2 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \implies \mu_1 = 1, \quad \mu_2 = 1.
+    \]
+    Al ser ambos multiplicadores estrictamente positivos, las restricciones activas impiden el descenso de la función objetivo en cualquier dirección factible no nula. Dado que el cono crítico se reduce a $\{0\}$, las condiciones de segundo orden se satisfacen de forma vacía.
+\end{example}
+
+\begin{corollary}[Cono crítico bajo complementariedad estricta]\label{cor:colapso_cono_critico}
+    Supongamos que el punto estacionario $\bar{x}$ con multiplicador $(\bar{\lambda}, \bar{\mu})$ satisface la condición de complementariedad estricta (\cref{def:complementariedad_estricta}).
+    
+    Al ser $\bar{\mu}_i > 0$ para todo $i \in I(\bar{x})$, la caracterización del \cref{lem:caracterizacion_cono_critico} implica que $\langle \nabla g_i(\bar{x}), d \rangle = 0$. Bajo esta hipótesis, las restricciones de desigualdad activas se comportan localmente como restricciones de igualdad, por lo que el cono crítico es un subespacio vectorial:
+    \[
+        K(\bar{x}) = \left\{ d \in \mathrm{R}^n \mathrel{\Bigg|} \begin{aligned} &\langle \nabla h_i(\bar{x}), d \rangle = 0 \quad \forall i = 1, \dots, l \\
+                                                                         &\langle \nabla g_i(\bar{x}), d \rangle = 0 \quad \forall i \in I(\bar{x}) \end{aligned}
+  \right\}.
+\]
+\end{corollary}
+
+Consideramos en primer lugar el caso donde los gradientes de las restricciones activas son linealmente independientes (LICQ) o las restricciones son afines, lo que garantiza la unicidad del vector de multiplicadores.
+
+\begin{theorem}[Condición necesaria de segundo orden bajo LICQ o linealidad]\label{thm:cs2_licq}
+    Supongamos que $\bar{x} \in D$ es un minimizador local del problema y que $f, h, g$ son dos veces diferenciables en $\bar{x}$.
+    
+    Si el punto satisface la condición de independencia lineal (LICQ) de las restricciones activas, o si todas las restricciones son afines, entonces, para el multiplicador de Lagrange $(\bar{\lambda}, \bar{\mu}) \in \mathcal{M}(\bar{x})$ (el cual es único bajo LICQ), la Hessiana de la función Lagrangiana es semidefinida positiva sobre el cono crítico:
+    \begin{equation}
+        \langle \nabla_{xx}^2 L(\bar{x}, \bar{\lambda}, \bar{\mu})d, d \rangle \ge 0 \quad \forall d \in K(\bar{x}).
+        \label{eq:cs2_nec_licq}
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    Fijemos $d \in K(\bar{x})$. Bajo LICQ o linealidad, el cono de Bouligand coincide con el cono de linealización (\cref{thm:cono_tangente_mixto}), por lo que $d \in \mathcal{B}_D(\bar{x})$. Esto implica la existencia de una trayectoria factible $x(t) = \bar{x} + td + r(t) \in D$ para $t > 0$ suficientemente pequeño, donde $\norm{r(t)} = o(t)$.
+    
+    Al ser $\bar{x}$ un minimizador local, se tiene $f(x(t)) - f(\bar{x}) \ge 0$. Para el multiplicador $(\bar{\lambda}, \bar{\mu}) \in \mathcal{M}(\bar{x})$, se cumple $\bar{\mu}_i g_i(\bar{x}) = 0$. Dado que $x(t) \in D$, se verifica $h_i(x(t)) = 0$ y $g_i(x(t)) \le 0$. Por lo tanto:
+    \[
+        \begin{aligned}
+          0 &\le f(x(t)) - f(\bar{x}) \\
+            &\le f(x(t)) - f(\bar{x}) + \sum_{i=1}^l \bar{\lambda}_i h_i(x(t)) + \sum_{i=1}^m \bar{\mu}_i g_i(x(t)) \\
+            &= L(x(t), \bar{\lambda}, \bar{\mu}) - L(\bar{x}, \bar{\lambda}, \bar{\mu}).
+        \end{aligned}
+    \]
+    Utilizando el desarrollo de Taylor de la función Lagrangiana en torno a $\bar{x}$:
+    \[
+        0 \le \langle \nabla_x L(\bar{x}, \bar{\lambda}, \bar{\mu}), td + r(t) \rangle + \frac{1}{2} \langle \nabla_{xx}^2 L(\bar{x}, \bar{\lambda}, \bar{\mu})(td + r(t)), td + r(t) \rangle + o(t^2).
+    \]
+    Por la condición de estacionariedad $\nabla_x L(\bar{x}, \bar{\lambda}, \bar{\mu}) = 0$, el término de primer orden es nulo. Dividiendo por $t^2 > 0$ y tomando el límite cuando $t \to 0^+$, los términos dependientes de $r(t)$ se anulan, concluyendo que $\langle \nabla_{xx}^2 L(\bar{x}, \bar{\lambda}, \bar{\mu})d, d \rangle \ge 0$.
+\end{proof}
+
+\begin{example}[Hessiana de la Lagrangiana en el cono crítico]\label{ex:cs2_nec_licq}
+    Considérese el problema de maximizar la altura sobre una región acotada por una parábola, formulado
+    \begin{mini*}{ }{f(x) = - x_2}{}{ }
+         \addConstraint{g(x)= x_1^2 - x_2}{\le 0}
+        \end{mini*}
+    El conjunto factible $D$ es el área superior a la parábola $x_2 = x_1^2$. Evaluamos las condiciones en el origen $\bar{x} = (0,0)^\top$. La restricción es activa ($g(0) = 0$).
+    
+    El gradiente de la restricción es $\nabla g(x) = (2x_1, -1)^\top$, que en el origen resulta en $\nabla g(\bar{x}) = (0, -1)^\top \neq 0$, por lo que se cumple LICQ. El sistema de primer orden $\nabla f(\bar{x}) + \mu \nabla g(\bar{x}) = 0$ exige $\mu = -1$. Dado que las condiciones KKT requieren $\mu \ge 0$, el punto no satisface las condiciones de primer orden.
+    
+    Para ilustrar el análisis de segundo orden, modifiquemos el problema a:
+    \begin{mini*}{ }{f(x) = x_2}{}{}
+        \addConstraint{g(x)= x_1^2 - x_2}{\le 0}.
+         \end{mini*}
+    El sistema KKT es:
+    \[
+        \begin{pmatrix} 0 \\ 1 \end{pmatrix} + \mu \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \implies \bar{\mu} = 1.
+  \]
+  El multiplicador es admisible ($\bar{\mu} = 1 \ge 0$). Determinamos el cono crítico $K(\bar{x})$ mediante la caracterización alternativa. Al ser $\bar{\mu} = 1 > 0$, se requiere: $\langle \nabla g(\bar{x}), d \rangle = -d_2 = 0 \implies d_2 = 0$. Por lo tanto, el cono crítico es el eje horizontal: $K(\bar{x}) = \{ (d_1, 0)^\top \mid d_1 \in \R \}$.
+    
+  La Hessiana de la Lagrangiana $L(x, \bar{\mu}) = x_2 + x_1^2 - x_2 = x_1^2$ en $\bar{x}$ está dada por:
+  \[
+      \nabla_{xx}^2 L(\bar{x}, \bar{\mu}) = \nabla^2 f(\bar{x}) + \bar{\mu} \nabla^2 g(\bar{x}) = \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix} + (1) \begin{pmatrix} 2 & 0 \\ 0 & 0 \end{pmatrix} = \begin{pmatrix} 2 & 0 \\ 0 & 0 \end{pmatrix}.
+  \]
+  Para cualquier dirección $d \in K(\bar{x})$, evaluamos la forma cuadrática:
+  \[
+      \langle \nabla_{xx}^2 L(\bar{x}, \bar{\mu})d, d \rangle = \begin{pmatrix} d_1 & 0 \end{pmatrix} \begin{pmatrix} 2 & 0 \\ 0 & 0 \end{pmatrix} \begin{pmatrix} d_1 \\ 0 \end{pmatrix} = 2d_1^2 \ge 0.
+  \]
+  La condición necesaria de segundo orden se verifica. Este ejemplo muestra cómo la curvatura de la restricción, representada en el término de segundo orden de la Lagrangiana por el multiplicador positivo, compensa la falta de curvatura de la función objetivo.
+\end{example}
+
+\begin{remark}[Multiplicadores no únicos bajo MFCQ]
+    La demostración del \cref{thm:cs2_licq} no se aplica directamente bajo la condición de Mangasarian-Fromovitz (MFCQ), dado que el conjunto de multiplicadores $\mathcal{M}(\bar{x})$ es un poliedro compacto pero no necesariamente un único punto. En este caso, se requiere un análisis basado en desarrollos de segundo orden y teoremas de separación.
+\end{remark}
+
+\begin{proposition}[Aproximación de segundo orden de curvas factibles]\label{prop:tangente_segundo_orden}
+    Sean $h$ y $g$ funciones dos veces diferenciables en $\bar{x} \in D$. Para que exista una sucesión $\{t_k\} \to 0^+$ tal que un par de vectores $(d, w) \in \Rn \times \Rn$ cumpla:
+    \begin{equation}
+        \dist(\bar{x} + t_k d + t_k^2 w, D) = o(t_k^2),
+        \label{eq:curva_segundo_orden}
+    \end{equation}
+    es necesario que $d \in \mathcal{B}_D(\bar{x})$ y que el vector de segundo orden $w$ satisfaga el sistema:
+    \begin{align}
+        \langle \nabla h_i(\bar{x}), w \rangle + \frac{1}{2} \langle \nabla^2 h_i(\bar{x}) d, d \rangle &= 0 \quad \forall i \in \{1,\dots,l\}, \label{eq:tso_h} \\
+        \langle \nabla g_i(\bar{x}), w \rangle + \frac{1}{2} \langle \nabla^2 g_i(\bar{x}) d, d \rangle &\le 0 \quad \forall i \in I(\bar{x}, d), \label{eq:tso_g}
+    \end{align}
+    donde $I(\bar{x}, d) = \{ i \in I(\bar{x}) \mid \langle \nabla g_i(\bar{x}), d \rangle = 0 \}$ representa el conjunto de restricciones activas a lo largo de la dirección $d$.
+\end{proposition}
+
+\begin{proof}
+    La demostración se omite por brevedad; se basa en la aplicación del desarrollo de Taylor de segundo orden y la condición de factibilidad de la trayectoria $x^k = \bar{x} + t_k d + t_k^2 w + o(t_k^2)$.
+\end{proof}
+
+\begin{notabox}[Interpretación cinemática]
+    La caracterización de la \cref{prop:tangente_segundo_orden} admite una interpretación física al modelar la trayectoria $x(t)$ como el movimiento de una partícula en el tiempo $t$:
+    \begin{itemize}
+        \item El vector $d \in \Rn$ representa la \textbf{velocidad} (dirección tangente de primer orden), la cual debe cumplir la condición de no apuntar hacia el exterior del conjunto factible ($\langle \nabla g, d \rangle \le 0$).
+        \item El vector $w \in \Rn$ representa la \textbf{aceleración}. Las condiciones de segundo orden \eqref{eq:tso_h} y \eqref{eq:tso_g} determinan la curvatura necesaria de la trayectoria para mantener la factibilidad.
+    \end{itemize}
+\end{notabox}
+
+\begin{example}[Ejemplo de trayectoria de segundo orden]\label{ex:tangente_segundo_orden}
+    Analicemos las condiciones de segundo orden para un punto restringido a yacer dentro del disco unitario:
+    \[
+        D = \left\{ x \in \R^2 \mathrel{\Bigg|} g(x) = \frac{1}{2}(x_1^2 + x_2^2 - 1) \le 0 \right\}.
+    \]
+    Consideremos el punto $\bar{x} = (0, 1)^\top$, en el cual la restricción es activa ($g(0,1) = 0$). Evaluando las derivadas en $\bar{x}$:
+    \[
+        \nabla g(\bar{x}) = \begin{pmatrix} 0 \\ 1 \end{pmatrix}, \qquad \nabla^2 g(\bar{x}) = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}.
+  \]
+  
+  Buscamos construir una trayectoria $x(t) = \bar{x} + td + t^2 w + o(t^2)$ factible en $D$ para $t > 0$.
+  
+  \textbf{1. Dirección de primer orden (Velocidad $d$):} \\
+  Por la definición de $d \in \mathcal{H}(\bar{x})$, el vector velocidad debe cumplir $\langle \nabla g(\bar{x}), d \rangle \le 0 \implies d_2 \le 0$. Consideremos la dirección horizontal unitaria $d = (1, 0)^\top$, para la cual se tiene $\langle \nabla g(\bar{x}), d \rangle = 0$ (la restricción es activa a lo largo de $d$).
+    
+  \textbf{2. Dirección de segundo orden (Aceleración $w$):} \\
+  Como la restricción es activa a lo largo de $d$, el índice pertenece a $I(\bar{x}, d)$. La \cref{prop:tangente_segundo_orden} requiere que $w$ satisfaga:
+  \[
+      \langle \nabla g(\bar{x}), w \rangle + \frac{1}{2} \langle \nabla^2 g(\bar{x}) d, d \rangle \le 0.
+  \]
+  Sustituyendo los vectores correspondientes:
+  \[
+      w_2 + \frac{1}{2}(1) \le 0 \implies w_2 \le -\frac{1}{2}.
+  \]
+  Este resultado muestra que para una velocidad horizontal unitaria, la trayectoria requiere una aceleración con componente vertical negativa de al menos $1/2$ (aceleración centrípeta) para mantener la factibilidad en $D$.
+\end{example}
+
+\begin{notabox}[Dificultad del análisis bajo MFCQ]
+    Bajo la condición LICQ, el multiplicador de Lagrange es único, por lo que el análisis de la curvatura se realiza con un único operador. Bajo MFCQ, al no haber unicidad, el conjunto de multiplicadores es un poliedro. El análisis requiere determinar si existe algún multiplicador que satisfaga la condición de semidefinición positiva para cada dirección crítica específica.
+\end{notabox}
+
+\begin{theorem}[Condición necesaria de segundo orden bajo MFCQ]\label{thm:cs2_mfcq}
+    Sea $\bar{x}$ un minimizador local de \eqref{eq:problema_mixto} que satisface la condición de regularidad de \textbf{Mangasarian-Fromovitz (MFCQ)}.
+    
+    Para cada dirección crítica $d \in K(\bar{x})$, existe un vector de multiplicadores de Lagrange $(\lambda, \mu) \in \mathcal{M}(\bar{x})$ tal que:
+    \begin{equation}
+        \langle \nabla_{xx}^2 L(\bar{x}, \lambda, \mu)d, d \rangle \ge 0.
+        \label{eq:cs2_nec_mfcq}
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    Fijemos $d \in K(\bar{x})$. Definimos los conjuntos:
+    \begin{align*}
+      S_1(d) &= \left\{ (\alpha, y, z) \in \R \times \R^l \times \R^m \mathrel{\Bigg|} \begin{aligned} &\alpha = \langle \nabla f(\bar{x}), w \rangle + \frac{1}{2}\langle \nabla^2 f(\bar{x})d, d \rangle \\ &y_i = \langle \nabla h_i(\bar{x}), w \rangle + \frac{1}{2}\langle \nabla^2 h_i(\bar{x})d, d \rangle, \quad i=1,\dots,l \\ &z_i = \langle \nabla g_i(\bar{x}), w \rangle + \frac{1}{2}\langle \nabla^2 g_i(\bar{x})d, d \rangle, \quad i=1,\dots,m \\ &w \in \Rn \end{aligned} \right\} \\
+      S_2(d) &= \left\{ (\alpha, y, z) \in \R \times \R^l \times \R^m \mathrel{\Big|} \alpha < 0, \: y_i = 0 \ \forall i, \: z_i \le 0 \ \forall i \in I(\bar{x}, d) \right\}.
+    \end{align*}
+    El conjunto $S_1(d)$ es un espacio afín y $S_2(d)$ es un cono convexo abierto. Si la intersección de ambos fuera no vacía, existiría un vector $w \in \mathrm{R}^n$ tal que satisfaría las condiciones \eqref{eq:tso_h} y \eqref{eq:tso_g} con un decremento estricto de segundo orden en la función objetivo, lo que contradice la hipótesis de que $\bar{x}$ es un mínimo local. Por tanto, $S_1(d) \cap S_2(d) = \emptyset$.
+
+    Por el Teorema de Separación de Conjuntos Convexos, existe un vector no nulo $(\lambda_0, \lambda, \mu) \in \R \times \R^l \times \R^m \setminus \{0\}$ tal que para todo $p_1 \in S_1(d)$ y $p_2 \in S_2(d)$:
+    \[
+        \langle (\lambda_0, \lambda, \mu), p_2 \rangle \le 0 \le \langle (\lambda_0, \lambda, \mu), p_1 \rangle.
+    \]
+    Analizando la geometría de los conjuntos, se deduce que $\lambda_0 \ge 0$ y $\mu_i \ge 0$ para $i \in I(\bar{x}, d)$, definiendo $\mu_i = 0$ para los índices restantes. Al ser la dirección $w$ libre en el espacio afín, el término que la multiplica debe ser nulo para garantizar la acotación inferior, lo que da:
+    \[
+        \lambda_0 \nabla f(\bar{x}) + \sum_{i=1}^l \lambda_i \nabla h_i(\bar{x}) + \sum_{i \in I(\bar{x})} \mu_i \nabla g_i(\bar{x}) = 0.
+    \]
+    Si $\lambda_0 = 0$, se tendría una combinación lineal nula de los gradientes de las restricciones con coeficientes no negativos, lo cual contradice la condición MFCQ (Proposición 4.2). Por lo tanto, $\lambda_0 > 0$. Dividiendo el sistema por $\lambda_0$ y redefiniendo las variables duales, se demuestra que $(\lambda, \mu)$ es un vector de multiplicadores en $\mathcal{M}(\bar{x})$.
+    
+    Evaluando la desigualdad de separación para el término constante de $S_1(d)$ y normalizando por $\lambda_0$, se obtiene:
+    \[
+        \langle \nabla_{xx}^2 L(\bar{x}, \lambda, \mu)d, d \rangle \ge 0,
+    \]
+    lo cual concluye la demostración.
+\end{proof}
+
+\begin{example}[Análisis de segundo orden bajo MFCQ]\label{ex:cs2_mfcq}
+    Considérese el problema de optimización en $\R^2$:
+    \begin{mini*}{ }{f(x) = x_1^2 - x_2^2}{}{ }
+        \addConstraint{g_1(x) = x_2 - x_1}{\le 0}
+        \addConstraint{g_x(x) = x_2 + x_1^2}{\le 0}
+    \end{mini*}
+    La función objetivo tiene un punto de silla en el origen. Las restricciones exigen que $x_1^2 \le x_2 \le -x_1^2$, lo que restringe el conjunto factible al único punto $D = \{ (0,0)^\top \}$, el cual es el mínimo global.
+    
+    Evaluamos las restricciones en el origen $\bar{x} = (0,0)^\top$. Ambas son activas. Los gradientes son $\nabla g_1(\bar{x}) = (0, 1)^\top$ y $\nabla g_2(\bar{x}) = (0, 1)^\top$, por lo que no se satisface LICQ. Sin embargo, el sistema dual $\mu_1(0,1)^\top + \mu_2(0,1)^\top = 0$ con $\mu \ge 0$ tiene por solución única $\mu_1 = \mu_2 = 0$, de donde se verifica MFCQ.
+    
+    Para el sistema de primer orden en $\bar{x}$, al ser $\nabla f(\bar{x}) = 0$, el único multiplicador de KKT es $\bar{\mu} = (0,0)^\top$. El cono crítico se define por las inecuaciones $\langle \nabla g_i, d \rangle \le 0$:
+    \[
+        d_2 \le 0 \implies K(\bar{x}) = \{ (d_1, d_2)^\top \mid d_2 \le 0 \}.
+    \]
+    El cono crítico corresponde al semiplano inferior. La Hessiana de la Lagrangiana en $\bar{x}$ con $\bar{\mu} = 0$ está dada por:
+    \[
+        \nabla_{xx}^2 L(\bar{x}, \bar{\mu}) = \nabla^2 f(\bar{x}) = \begin{pmatrix} 2 & 0 \\ 0 & -2 \end{pmatrix}.
+    \]
+    Evaluando la forma cuadrática para $d = (d_1, d_2)^\top \in K(\bar{x})$:
+    \[
+        \langle \nabla_{xx}^2 L(\bar{x}, \bar{\mu}) d, d \rangle = 2d_1^2 - 2d_2^2.
+    \]
+    En este caso, la condición necesaria del \cref{thm:cs2_mfcq} no se cumple para todas las direcciones críticas (por ejemplo, para $d = (0, -1)^\top \in K(\bar{x})$ la forma cuadrática es negativa). Esto ocurre debido a la geometría del conjunto factible, el cual está restringido a un único punto, impidiendo la existencia de curvas factibles no triviales en las direcciones críticas.
+\end{example}
+
+\begin{example}[No existencia de un multiplicador universal]\label{ex:patologia_mfcq}
+    El siguiente ejemplo muestra por qué en el \cref{thm:cs2_mfcq} los multiplicadores pueden depender de la dirección crítica considerada. Sea $n=m=3$, $l=0$. Consideremos el problema $\min f(x)=x_3$ sujeto a $g(x) \le 0$, con:
+    \[
+        g(x) = \begin{pmatrix} 2\sqrt{3}x_1 x_2 - 2x_2^2 - x_3 \\ -2\sqrt{3}x_1 x_2 - 2x_1^2 - x_3 \\ -3x_1^2 + x_2^2 - x_3 \end{pmatrix} \le 0.
+    \]
+    El origen $\bar{x} = (0,0,0)^\top$ es el mínimo global. Los gradientes en $\bar{x}$ son $\nabla f(0) = (0,0,1)^\top$ y $\nabla g_i(0) = (0,0,-1)^\top$ para todo $i$. Se verifica la condición MFCQ (e.g., con $\bar{d} = (0,0,1)^\top$, $\langle \nabla g_i, \bar{d} \rangle = -1 < 0$). El conjunto de multiplicadores es:
+    \[
+        \mathcal{M}(0) = \{ \mu \in \mathrm{R}_+^3 \mid \mu_1 + \mu_2 + \mu_3 = 1 \}.
+    \]
+    El cono crítico es $K(0) = \{ d \in \R^3 \mid d_3 = 0 \}$. Evaluamos las direcciones críticas $d^1 = (1, 0, 0)^\top$ y $d^2 = (0, 1, 0)^\top$. Para un multiplicador $\mu \in \mathcal{M}(0)$, las formas cuadráticas correspondientes son:
+    \begin{align*}
+      \langle \nabla_{xx}^2 L(0, \mu) d^1, d^1 \rangle &= -4\mu_2 - 6\mu_3, \\
+      \langle \nabla_{xx}^2 L(0, \mu) d^2, d^2 \rangle &= -4\mu_1 + 2\mu_3.
+    \end{align*}
+    Para satisfacer la condición necesaria en $d^1$ se requiere que $-4\mu_2 - 6\mu_3 \ge 0$, lo que implica $\mu_2 = \mu_3 = 0$, y por tanto, $\mu_1 = 1$. Sin embargo, con este multiplicador, la forma cuadrática en la dirección $d^2$ resulta negativa.
+    
+    Por lo tanto, no existe un único multiplicador de Lagrange que satisfaga la condición de semidefinición positiva para todas las direcciones críticas simultáneamente, lo que demuestra que la dependencia del multiplicador respecto a la dirección crítica es estructuralmente necesaria bajo MFCQ.
+\end{example}
+
+\begin{theorem}[Condición suficiente de segundo orden]\label{thm:cs2_suf_crecimiento}
+    Supongamos que $f, h, g$ son dos veces diferenciables en $\bar{x} \in D$. Sea $\bar{x}$ un punto estacionario ($\mathcal{M}(\bar{x}) \neq \emptyset$).
+    
+    Si se cumple la \textbf{condición de curvatura estricta}:
+    \begin{equation}
+        \forall d \in K(\bar{x}) \setminus \{0\} \quad \exists (\lambda, \mu) \in \mathcal{M}(\bar{x}) \text{ tal que } \langle \nabla_{xx}^2 L(\bar{x}, \lambda, \mu)d, d \rangle > 0,
+        \label{eq:cs2_suf_estricta}
+    \end{equation}
+    entonces $f$ satisface la condición de \textbf{crecimiento cuadrático} en $\bar{x}$: existen una vecindad $U$ de $\bar{x}$ y una constante $\beta > 0$ tales que
+    \[
+        f(x) - f(\bar{x}) \ge \beta \norm{x - \bar{x}}^2 \quad \forall x \in D \cap U.
+    \]
+    En consecuencia, $\bar{x}$ es un minimizador local estricto de \eqref{eq:problema_mixto}.
+\end{theorem}
+
+\begin{proof}
+    Supongamos, por reducción al absurdo, que se cumple \eqref{eq:cs2_suf_estricta} pero no el crecimiento cuadrático. Esto implica la existencia de una sucesión $\{x^k\} \subset D \setminus \{\bar{x}\}$ convergiendo a $\bar{x}$ tal que:
+    \[
+        f(x^k) - f(\bar{x}) < \frac{1}{k} \norm{x^k - \bar{x}}^2 \quad \forall k \in \N.
+    \]
+    Sea $d^k = \frac{x^k - \bar{x}}{\norm{x^k - \bar{x}}}$. Por compacidad, existe una subsucesión convergente $d^k \to d$, con $\norm{d}=1$. Dado que el conjunto factible es regular en el límite, se tiene $d \in \mathcal{H}(\bar{x})$. Tomando el límite se deduce que la derivada direccional satisface $\langle \nabla f(\bar{x}), d \rangle \le 0$. Por lo tanto, la dirección límite pertenece al cono crítico: $d \in K(\bar{x}) \setminus \{0\}$.
+    
+    Por la hipótesis \eqref{eq:cs2_suf_estricta}, para esta dirección $d$ existe un multiplicador $(\lambda, \mu) \in \mathcal{M}(\bar{x})$ tal que la Hessiana asociada es estrictamente positiva. Para los puntos de la sucesión se cumple:
+    \[
+        \sum_{i=1}^l \lambda_i h_i(x^k) + \sum_{i=1}^m \mu_i g_i(x^k) \le 0.
+    \]
+    Puesto que en $\bar{x}$ la suma es nula por complementariedad, podemos acotar la diferencia de la función objetivo mediante la diferencia de la Lagrangiana:
+    \[
+        \frac{1}{k} \norm{x^k - \bar{x}}^2 > f(x^k) - f(\bar{x}) \ge L(x^k, \lambda, \mu) - L(\bar{x}, \lambda, \mu).
+    \]
+    Utilizando el desarrollo de Taylor de segundo orden en $\bar{x}$ y la estacionariedad de la Lagrangiana:
+    \[
+        \frac{1}{k} \norm{x^k - \bar{x}}^2 > \frac{1}{2} \langle \nabla_{xx}^2 L(\bar{x}, \lambda, \mu)(x^k - \bar{x}), x^k - \bar{x} \rangle + o(\norm{x^k - \bar{x}}^2).
+    \]
+    Dividiendo por la norma al cuadrado y calculando el límite para $k \to \infty$, obtenemos $0 \ge \frac{1}{2} \langle \nabla_{xx}^2 L(\bar{x}, \lambda, \mu)d, d \rangle$, lo cual contradice la hipótesis \eqref{eq:cs2_suf_estricta}.
+\end{proof}
+
+\begin{example}[Suficiencia de segundo orden con multiplicadores dependientes]\label{ex:cs2_suf_mfcq}
+    Considérese el problema de optimización en $\R^2$:
+       \begin{mini*}{}{f(x) = x_1 ^2 - x_2 ^2}{}{}
+        \addConstraint{g_1(x) = x_2 - x_1^2}{\le 0}
+        \addConstraint{g_2(x) = x_1 - x_2^2}{\le 0}
+        \end{mini*}
+    El origen es un punto de silla de la función objetivo, y las restricciones definen una región que acota el conjunto factible en el primer cuadrante. En $\bar{x} = 0$, se satisface LICQ y el sistema KKT da por solución única $\bar{\mu} = (0,0)^\top$.
+    
+    El cono crítico se define por las condiciones de linealización: $d_2 \le 0$ y $d_1 \le 0 \implies K(\bar{x}) = \left\{ d \in \R^2 \mid d_1 \le 0, \ d_2 \le 0 \right\}$. Dado que $\bar{\mu} = 0$, la Hessiana de la Lagrangiana en $\bar{x}$ coincide con la de la función objetivo:
+    \[
+        \nabla_{xx}^2 L(\bar{x}, \bar{\mu}) = \begin{pmatrix} 2 & 0 \\ 0 & -2 \end{pmatrix}.
+    \]
+    Para cualquier dirección no nula en $K(\bar{x})$ (por ejemplo, $d = (0, -1)^\top$), la forma cuadrática asociada es negativa:
+    \[
+        \langle \nabla_{xx}^2 L(\bar{x}, \bar{\mu}) d, d \rangle = 2d_1^2 - 2d_2^2 < 0.
+    \]
+    En este caso, la condición suficiente no se satisface, lo cual es consistente con el hecho de que el origen no es un mínimo local (por ejemplo, para la trayectoria $x(t) = (-t, -t)^\top$ se tiene factibilidad y decremento de la función objetivo). El análisis de segundo orden identifica de este modo la existencia de direcciones de descenso no lineales.
+\end{example}
+
+\begin{warningbox}[Casos no concluyentes en el análisis de segundo orden]
+    Al igual que en el cálculo de una variable, existe una diferencia entre las condiciones necesarias y las suficientes de segundo orden. Si para una dirección crítica no nula se cumple que $\langle \nabla_{xx}^2 L(\bar{x}, \lambda, \mu) d, d \rangle = 0$, el término de segundo orden es nulo y el análisis de segundo orden no es concluyente. En este caso, para determinar si el punto es un mínimo, un máximo o un punto de silla, es necesario recurrir a desarrollos de Taylor de orden superior o a análisis topológicos directos.
+\end{warningbox}

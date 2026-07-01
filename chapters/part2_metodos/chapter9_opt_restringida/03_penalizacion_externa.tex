@@ -1,0 +1,251 @@
+% --- Archivo: 03_penalizacion_externa.tex ---
+
+% =========================================================
+\section{Métodos de penalización}
+\label{sec:v2_metodos_penalizacion}
+% =========================================================
+
+La técnica matemática de penalización tiene por objetivo aproximar y transformar un problema restringido en una secuencia de problemas de optimización irrestrictos, con vistas a la aplicación directa de los métodos algorítmicos que se desarrollaron en el Capítulo 7. La idea de absorber las restricciones como parte de una función de coste penalizada es natural y es el pilar fundamental sobre el que se estructuran los métodos más avanzados.
+
+En la \deftech{penalización externa}, se añade a la función objetivo original un término analítico cuyo valor es estrictamente nulo en todos los puntos factibles, y rigurosamente positivo para los puntos no factibles. En la dinámica iterativa general de estos algoritmos, la solución transitoria del problema penalizado se ubica casi invariablemente fuera del conjunto factible original, lo que explica la adopción de la nomenclatura de penalización ``externa''.
+
+Para forzar la convergencia de la trayectoria hacia la solución del problema original (la cual, por razones obvias, debe ser factible), el parámetro escalar o coeficiente que pondera o multiplica el término penalizador tiene que crecer iterativamente hasta tender al infinito positivo.
+
+\begin{notabox}[La excepción de la penalización exacta]
+    Existe una excepción de suma importancia práctica a esta regla general de crecimiento ilimitado: la llamada \textbf{penalización exacta}. En ciertas formulaciones topológicas, un valor del parámetro de penalización suficientemente grande (pero estático y finito) permite que la solución del subproblema irrestricto recaiga y recupere exactamente un minimizador del problema restringido original. Sin embargo, este atajo computacional a menudo se obtiene exclusivamente al precio de sustituir términos suaves por funciones penalizadoras no diferenciables, complicando así las condiciones de optimalidad que rigen el subproblema.
+\end{notabox}
+
+% ---------------------------------------------------------
+\subsection{Penalización externa cuadrática}
+% ---------------------------------------------------------
+
+Consideremos el problema topológico en formato general:
+\begin{equation}
+    \min f(x) \quad \text{sujeto a } x \in D,
+    \label{eq:v2_pen_prob_gral}
+\end{equation}
+donde $f \colon \Rn \to \R$ y $D \subset \Rn$ es un conjunto de restricciones. Para aproximar la imposibilidad física de la restricción, introducimos una función $\psi \colon \Rn \to \R_+$ continua en $\Rn$, que sirve para evaluar y cuantificar la violación de factibilidad del dominio:
+\begin{equation}
+    \psi(x) = \begin{cases} 0, & \forall x \in D, \\ > 0, & \forall x \in \Rn \setminus D. \end{cases}
+    \label{eq:v2_func_penalizadora}
+\end{equation}
+
+Por ejemplo, asumiendo la representación funcional estándar de un conjunto de programación no lineal:
+\begin{equation}
+    D = \{x \in \Rn \mid h(x) = 0, \, g(x) \leq 0\},
+    \label{eq:v2_pen_conjunto_funcional}
+\end{equation}
+es una práctica analítica conveniente definir el operador vectorial de residual no lineal como $\Psi \colon \Rn \to \R^l \times \R^m$:
+\begin{equation}
+    \Psi(x) = \left(h(x), (\max\{0, g_1(x)\}, \dots, \max\{0, g_m(x)\})\right),
+    \label{eq:v2_operador_residual_psi}
+\end{equation}
+y definir el escalar de penalización como la potencia de la norma del residual de violaciones combinadas:
+\begin{equation}
+    \psi(x) = \norm{\Psi(x)}^p, \quad x \in \Rn, \quad p > 0.
+    \label{eq:v2_penalizacion_potencia}
+\end{equation}
+
+Si el parámetro de la norma vectorial $L$ coincide con la potencia $p=2$, obtenemos la \textbf{función de penalización cuadrática}, la cual, para funciones de restricciones $h$ y $g$ diferenciables, hereda y garantiza la diferenciabilidad:
+\begin{equation}
+    \psi(x) = \norm{\Psi(x)}_2^2 = \norm{h(x)}_2^2 + \sum_{i=1}^m (\max\{g_i(x), 0\})^2.
+    \label{eq:v2_pen_cuadratica_expandida}
+\end{equation}
+
+Consideremos ahora la formulación de una familia matemática de \textbf{problemas irrestrictos parametrizados}:
+\begin{equation}
+    \min_{x \in \Rn} \varphi(x; c),
+    \label{eq:v2_subprob_penalizado}
+\end{equation}
+donde la nueva función objetivo agregada se define como:
+\begin{equation}
+    \varphi(\cdot; c) \colon \Rn \to \R, \quad \varphi(x; c) = f(x) + c\psi(x),
+    \label{eq:v2_func_agregada_phi}
+\end{equation}
+y $c > 0$ es el denominado parámetro de penalización o peso relativo.
+
+La heurística analítica detrás de este esquema es evidente: a medida que el valor o la magnitud del coeficiente $c$ escala, el coste ponderado u objetivo de cualquier violación de la factibilidad marginal de las restricciones topológicas se vuelve exorbitantemente punitivo. Es predecible, por ende, que las soluciones de la familia de problemas irrestrictos parametrizados en \eqref{eq:v2_subprob_penalizado} se acerquen y ciñan cada vez más a la frontera del conjunto factible al tomar el límite asintótico de $c \to +\infty$. Esperamos que los puntos de acumulación del método iterativo asintótico sean soluciones lícitas de \eqref{eq:v2_pen_prob_gral}.
+
+\begin{algorithm}[El método de penalización externa]\label{alg:v2_penalizacion_externa}
+    Elegir una función métrica $\psi \colon \Rn \to \R_+$ que funcione como penalizador externo riguroso para la frontera del conjunto $D$. Elegir un parámetro inicial $c_0 > 0$. Tomar $k := 0$.
+    \begin{enuthm}
+        \item Calcular $x^k = x(c_k)$, definiéndolo como un minimizador o una aproximación al minimizador del problema irrestricto \eqref{eq:v2_subprob_penalizado}, donde la función objetivo a optimizar viene dada por la formulación \eqref{eq:v2_func_agregada_phi} evaluando el peso transitorio actual $c = c_k$.
+        \item Actualizar la punitividad mediante la selección de un parámetro escalado monótonamente creciente $c_{k+1} > c_k$. Incrementar $k \leftarrow k + 1$ y retornar iterativamente al Paso 1.
+    \end{enuthm}
+\end{algorithm}
+
+\begin{remark}[El Punto Caliente]
+    Por razones algorítmicas de continuidad topológica, resulta excepcionalmente eficiente (y se conoce como \textit{arranque en caliente} o \textit{warm start}) utilizar el iterado de convergencia previo $x^{k-1}$ de la etapa $k-1$ como la aproximación del punto inicial para el método de optimización irrestricto de Newton de la etapa $k$ actual.
+\end{remark}
+
+En principio, los resultados clásicos del análisis global presuponen asintóticamente que cada subproblema resuelto para la iteración del \cref{alg:v2_penalizacion_externa} devuelve sin margen de error la \textbf{solución global exacta} de \eqref{eq:v2_subprob_penalizado}. En ausencia de hipótesis fuertes de convexidad topológica, la resolución estricta del subproblema irrestricto se considera inviable computacionalmente. El análisis de convergencia bajo un régimen de optimización estricto sobre puntos de estacionariedad local (los únicos accesibles analíticamente por la iteración del gradiente de Newton) será discutido sistemáticamente.
+
+\begin{example}[La in-factibilidad transitoria de las soluciones penalizadas]\label{ex:v2_in_factibilidad_penalizada}
+    Consideremos la formulación de optimización escalar iterativa sujeta a una igualdad rígida:
+    \[
+        \min x_1^2 - x_2 \quad \text{sujeto a } x_1 + x_2 - 1 = 0, \quad x_1 \geq 0.
+    \]
+    El problema está definido estrictamente sobre un espacio y objetivo fuertemente convexo, por lo que su único y verdadero punto de minimalidad global está centrado en la frontera de corte: $\bar{x} = (0, 1)^\top$.
+
+    Eligiendo la norma Euclidiana para construir el término de penalización de grado ($p = 2$), la función agregada resulta de la forma:
+    \[
+        \varphi(x; c) = x_1^2 - x_2 + c(x_1 + x_2 - 1)^2 + c(\max\{-x_1, 0\})^2.
+    \]
+    Evaluando el sistema topológico y estacionario, la función penalizada global irrestricta $\varphi(\cdot; c)$ se anula estrictamente en su Hessiano e iguala la divergencia escalar para todo vector fuera de la región admisible positiva.
+
+    Al resolver el sistema no lineal analítico para $x_1 < 0$ forzando a la ecuación matricial estacionaria, el mínimo transitorio paramétrico irrestricto en cada iteración asume algebraicamente la forma evaluada:
+    \[
+        x_1(c) = -\frac{1}{2(1 + c)}, \quad x_2(c) = 1 + \frac{1}{2c} + \frac{1}{2(1 + c)}.
+    \]
+    
+    Analizando los límites al asintotismo de esta curva topológica:
+    \[
+        x(c) = (x_1(c), x_2(c)) \to (0, 1) = \bar{x} \quad \text{cuando } (c \to +\infty).
+    \]
+    Nótese rigurosamente que para todo multiplicador penalizador paramétrico estricto $c > 0$, la componente del iterado analítico forzosa $x_1(c)$ exhibe negatividad ($x_1(c) < 0$). El iterado transitorio de cálculo de aproximación $x(c)$ recae invariablemente en el \textbf{exterior} del dominio factible verdadero.
+\end{example}
+
+Las propiedades geométricas asintóticas que ilustramos empíricamente arriba garantizan analíticamente la convergencia de este esquema de penalización.
+
+\begin{proposition}[Monotonicidad de las Secuencias Penalizadas]\label{prop:v2_monotonicidad_penalizacion}
+    Sea $\{x^k\}$ la sucesión de trayectorias variables obtenidas y generadas iterativamente mediante el \cref{alg:v2_penalizacion_externa}, donde el punto sub-algorítmico computado iterativo $x^k$ es una solución global incondicional de la estructura \eqref{eq:v2_subprob_penalizado} parametrizada por un ponderador fijo $c = c_k$. 
+    
+    Entonces, la topología iterativa impone que para toda la longitud de paso transversal en cada iteración $k \in \N$, se verifica el siguiente sistema estricto de desigualdades lógicas monótonas:
+    \begin{align}
+        \varphi(x^{k+1}; c_{k+1}) &\geq \varphi(x^k; c_k), \label{eq:v2_dem_phi_inc} \\
+        \psi(x^{k+1}) &\leq \psi(x^k), \label{eq:v2_dem_psi_dec} \\
+        f(x^{k+1}) &\geq f(x^k). \label{eq:v2_dem_f_inc}
+    \end{align}
+\end{proposition}
+
+\begin{proof}
+    El desarrollo lógico recae directamente en la definición sub-estricta de optimalidad global de $x^k$ sobre el marco problemático parametrizado en la ecuación analítica \eqref{eq:v2_subprob_penalizado} asociado al parámetro estático $c = c_k$. 
+    
+    Típicamente, como se estipula la acotación de minimalidad de la aproximación de variables, se tiene la evaluación incondicional:
+    \begin{align}
+        \varphi(x^k; c_k) &\leq \varphi(x^{k+1}; c_k) = f(x^{k+1}) + c_k\psi(x^{k+1}) \nonumber \\
+        &\leq f(x^{k+1}) + c_{k+1}\psi(x^{k+1}) = \varphi(x^{k+1}; c_{k+1}) \leq \varphi(x^k; c_{k+1}), 
+        \label{eq:v2_acotamiento_prueba_pen}
+    \end{align}
+    donde el salto positivo de la desigualdad intermedia recae puramente en la hipótesis del marco de iteración escalada monótonamente creciente $c_{k+1} > c_k$, sumado al hecho natural métrico de que la formulación de penalidad $\psi$ se mantiene inherentemente no negativa $\psi(x^{k+1}) \geq 0$. Con esto, hemos culminado de mostrar satisfactoriamente la relación analítica monótona superior \eqref{eq:v2_dem_phi_inc}.
+
+    Tirando de la acotación relacional expuesta iterativamente en las desigualdades ancladas en \eqref{eq:v2_acotamiento_prueba_pen}, comparamos ambos lados:
+    \begin{align*}
+        f(x^k) + c_k\psi(x^k) &\leq f(x^{k+1}) + c_k\psi(x^{k+1}), \\
+        f(x^{k+1}) + c_{k+1}\psi(x^{k+1}) &\leq f(x^k) + c_{k+1}\psi(x^k).
+    \end{align*}
+    Sumando las componentes escalares de ambas cotas relacionales asintóticamente puras y simplificando el marco lineal estricto de la iteración objetivo topológica $f$, observamos analíticamente la convergencia resultante reducida al error penal:
+    \[
+        (c_k - c_{k+1})\psi(x^k) \leq (c_k - c_{k+1})\psi(x^{k+1}).
+    \]
+    Despejando y recordando rigurosamente que $c_{k+1} > c_k$ fuerza a una inversión del operador escalar direccional, obtenemos inexorablemente la acotación decreciente \eqref{eq:v2_dem_psi_dec}.
+
+    Completamos utilizando por recursión algebraica la cota ya validada métricamente \eqref{eq:v2_dem_psi_dec} al incrustarla de retorno sobre la formulación \eqref{eq:v2_acotamiento_prueba_pen} original:
+    \[
+        f(x^k) + c_k\psi(x^k) \leq f(x^{k+1}) + c_k\psi(x^{k+1}) \leq f(x^{k+1}) + c_k\psi(x^k).
+    \]
+    El extremo cancela algebraicamente el término escalar penal $c_k\psi(x^k)$, concluyendo estrictamente en que los saltos o incrementos de la función objetivo real son invariablemente positivos. Esto valida el incremento monótono general de \eqref{eq:v2_dem_f_inc}.
+\end{proof}
+
+El resultado siguiente asegura la robustez y prueba asintóticamente la convergencia asintótica estructural general de la minimización algorítmica iterativa exterior. 
+
+\begin{theorem}[Convergencia Global de Penalización Externa]\label{thm:v2_conv_global_penal_ext}
+    Bajo la estipulación rigurosa del Algoritmo \ref{alg:v2_penalizacion_externa}, supongamos matemáticamente la secuencia iterativa paramétrica de las raíces de minimización puras $\{x^k\}$, formuladas iterativamente a partir del marco penal paramétrico global \eqref{eq:v2_subprob_penalizado} bajo la influencia rígida del ponderador iterativo ascendente $c = c_k$. 
+    
+    Analíticamente entonces, el iterado puramente convergente paramétrico general recae sobre un punto estricto y asume que $x^k \in D$ de modo que verifica su inclusión y estacionalidad al mismo tiempo que $x^k$ converge exactamente como un minimizador puramente válido asumiéndose de facto solución absoluta paramétrica global general estipulada mediante la expresión central analítica de minimizar \eqref{eq:v2_pen_prob_gral}.
+
+    Sea y conste un problema acotado tal que, para los dominios de la expresión $f \colon \Rn \to \R$ y las delimitaciones topológicas de asimetría $\psi \colon \Rn \to \R_+$ donde la frontera sea inquebrantable, consideraremos las variables continuas y limitaremos el valor admisible a estar bien acotado globalmente de forma que $\bar{v} > -\infty$. Supóngase en régimen de acotación que el ponderador de divergencia ascienda progresivamente de la forma $c_k \to +\infty$ ($k \to \infty$). Entonces, la sucesión paramétrica genera un conjunto donde todo y cualquier punto limitante acumulativo proveniente extraído estrictamente de las trayectorias de salto iterativo $\{x^k\}$ conformará forzosamente una solución exacta y garantizada del sub-problema convergente base formulado originariamente como el marco \eqref{eq:v2_pen_prob_gral}.
+\end{theorem}
+
+\begin{proof}
+    A efectos analíticos simplificadores, notemos deductivamente que por una simple asignación paramétrica local el conjunto o término topológico asume la viabilidad y factibilidad que forzaría de inmediato que cualquier vector hipotético puramente funcional al problema original satisfaga lo siguiente para todo $x \in D$:
+    \[
+        f(x^k) \leq f(x^k) + c_k\psi(x^k) = \varphi(x^k; c_k) \leq \varphi(x; c_k) = f(x).
+    \]
+    La deducción parte operando de los principios subyacentes estipulados de innegatividad penal general $c_k > 0$ y $\psi(x^k) \geq 0$, acoplando el análisis base en la afirmación natural y comprobada que infiere que $x^k$ representa la solución incondicional absoluta evaluada en los dominios parametrizados para la variable $c = c_k$. Se suma el acoplamiento deductivo final en donde todo vector que sub-yace admitido dentro de las fronteras cumple la ecuación implícita rigurosa $\psi(x) = 0$. Esta reducción de acotamiento global estipula a ciencia cierta que se restringe acotadamente la iteración general mediante:
+    \begin{equation}
+        f(x^k) \leq \varphi(x^k; c_k) \leq \bar{v} = \inf_{x \in D} f(x).
+        \label{eq:v2_cotas_penal_global_dem}
+    \end{equation}
+    De esto subyace un asintotismo general, pues en la remota eventualidad de que un salto analítico recaiga dentro de las fronteras admitidas del dominio puro tal que se exponga como $x^k \in D$, el límite superior colapsaría la cota indicando sin cabida a duda que $x^k$ ejerce exactamente la viabilidad como solución. 
+
+    Adicionalmente, bajo un entorno cerrado general de análisis estipularemos que, rigiéndose por los acotamientos paramétricos validados del \cref{prop:v2_monotonicidad_penalizacion}, el salto continuo incremental del factor iterativo garantiza matemáticamente la función continua $\{\varphi(x^k; c_k)\}$ siendo ésta una progresión escalada y asintótica decreciente. Basados puramente en la cota de límite expresada por \eqref{eq:v2_cotas_penal_global_dem}, está obligada y condicionada limitativamente a permanecer truncada rigurosamente por el valor analítico asintótico $\bar{v}$. Así de inmediato se fuerza topológicamente a que todo límite de divergencia sub-anidado sea admisible logrando lo siguiente:
+    \begin{equation}
+        \lim_{k \to \infty} \varphi(x^k; c_k) = \lim_{k \to \infty} (f(x^k) + c_k\psi(x^k)) \leq \bar{v}.
+        \label{eq:v2_cotas_lim_vbar}
+    \end{equation}
+
+    Estableceremos arbitrariamente un espacio paramétrico asumiendo y dotando a la trayectoria del algoritmo una subsecuencia paramétrica y sub-acumulativa evaluada al entorno $\bar{x}$, con los correspondientes índices paramétricos expresados funcionalmente por $\{x^{k_j}\} \to \bar{x}$.
+    En retrospectiva, partiendo por deducción y valiéndonos sobre bases rigurosas donde subsiste y se rige universalmente la condición de asintotismo funcional continua, tenemos de facto la confirmación analítica innegable sobre los saltos puramente divergenciales indicando limitativamente que $f(x^{k_j}) \to f(\bar{x})$ asumiendo la escala sub-secuencial infinita $j \to \infty$. 
+
+    Utilizando la limitación rigurosamente estipulada por la convergencia descrita como en \eqref{eq:v2_cotas_lim_vbar}, reduciremos de manera equivalente las cotas algebraicamente para asimilar analíticamente:
+    \[
+        \lim_{j \to \infty} c_{k_j}\psi(x^{k_j}) \leq \bar{v} - f(\bar{x}).
+    \]
+    Y asumiendo por hipótesis base puramente general el comportamiento y trayectoria estipulado sobre el factor algorítmico, por ser un valor que tiende y se acopla infinitamente bajo una trayectoria divergencial donde subsisten la no negatividad en las escalas dadas y preestablecidas por $c_k \to +\infty$ con una validez estricta acotando los componentes $\psi(x^{k_j}) \geq 0$, determinamos asintóticamente el límite truncante sub-yacente estricto para el término residual:
+    \[
+        \lim_{j \to \infty} \psi(x^{k_j}) = 0.
+    \]
+
+    Tirando de las continuidades dadas a priori a través de la función topológica de frontera sub-yacente preestablecida, extraemos que de forma irremediable su valor límite y escalar coincide con la factibilidad general estipulando la nulidad absoluta de la penalización $\psi(\bar{x}) = 0$. Esta validación rigurosa significa innegablemente que las componentes y límites del arreglo pertenecen lícita y rigurosamente al interior factible o su envoltura, es decir $\bar{x} \in D$.
+
+    Aplicando y culminando operativamente el paso analítico del límite absoluto a las expresiones sub-acotadas y anidadas como de \eqref{eq:v2_cotas_penal_global_dem}, hallamos de inmediato el límite estipulado general:
+    \[
+        \lim_{j \to \infty} f(x^{k_j}) \leq \bar{v}.
+    \]
+    La relación analítica y topológica descrita indica de manera contundente y concluyente lo que estábamos demostrando asumiendo con validez absoluta, acotando a ciencia cierta todo (y sin omitir el comportamiento riguroso) las componentes garantizando su validación que $\bar{x}$ se somete e instaura topológicamente como una respuesta o solución absoluta a nivel integral referenciado sobre todo el sistema de optimización original global acotado.
+\end{proof}
+
+% ---------------------------------------------------------
+\subsection{Penalización externa exacta}
+\label{subsec:v2_penalizacion_exacta_ext}
+% ---------------------------------------------------------
+
+Consideremos ahora de forma explícita el problema de minimización paramétrica con la arquitectura sub-yacente topológica y rigurosa en el conjunto de restricciones combinadas u orgánicas integradas, compuestas por inecuaciones e igualdades al margen iterativo mixto:
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \left\{ x \in \Rn \;\middle|\; \begin{matrix} h(x) = 0, \\ g(x) \leq 0 \end{matrix} \right\}, 
+    \label{eq:v2_prob_mixto_pen_ex}
+\end{equation}
+donde las correspondientes parametrizaciones, a priori estipuladas dadas la validez estricta y puramente real o funcional de $f \colon \Rn \to \R$, $h \colon \Rn \to \R^l$ y la forma vectorial $g \colon \Rn \to \symbb{R}^m$, estructuran y conforman topológicamente nuestro problema primal. 
+
+En lugar del término suave anterior, implementaremos el término analítico estricto definido sobre la parametrización absoluta bajo la base rigurosa de normas o proyecciones $L_1$:
+\begin{equation}
+    \psi(x) = \sum_{i=1}^l |h_i(x)| + \sum_{i=1}^m (\max\{g_i(x), 0\}). 
+    \label{eq:v2_pen_L1_exacta}
+\end{equation}
+
+Es evidente observar sistemáticamente que la métrica o función puramente escalar y de cota penal definida paramétricamente asumiendo (y adoptando innegablemente su formulación integral dada y construida rigurosamente por) \eqref{eq:v2_pen_L1_exacta}, incurre operativamente en el sacrificio computacional al romper de inmediato la analiticidad y volviéndose, como se demuestra o prueba, \textbf{no diferenciable} a pesar del hecho matemático general y puramente funcional de presuponer a un bajo nivel topológico la diferenciabilidad o grado analítico superior sub-yacente asumido como condición a los ejes rectores conformados por los operadores base sub-jacentes topológicamente delimitados $h$ o también el propio limitante iterativo direccional asimétrico escalado operado por $g$. 
+
+Efectuando operativamente un sistema general acoplado o sumado escalarmente sobre un marco paramétrico a optimizar (mediante el algoritmo de familia iterativo unificado irrestricto anclado), se compone de la suma penalizada absoluta:
+\begin{equation}
+    \min_{x \in \Rn} \varphi(x; c) \quad \text{donde} \quad \varphi(x; c) = f(x) + c\psi(x). 
+    \label{eq:v2_min_pen_exact_obj}
+\end{equation}
+
+Mencionamos a manera general, como punto clave analítico asintótico topológico a tener presente, que todos y cada uno de los resultados demostrativos que asientan y comprueban de antemano el marco lógico-teórico de penalidades acotadas referenciadas a futuro a través de los teoremas o bases del comportamiento escalar, gozan del cumplimiento analítico de rigor sin excepción inclusive al intercambiar o trasladar su estructura para funcionar topológicamente y probar viabilidad estricta acotando los componentes hacia diferentes formulaciones (y como alternativa directa referenciando las cotas $L_\infty$), tal como la definida topológicamente asumiendo los marcos del máximo asimétrico de residuales directos estipulado en:
+\begin{equation}
+    \psi(x) = \max \{ |h_1(x)|, \dots, |h_l(x)|, 0, g_1(x), \dots, g_m(x) \}. 
+    \label{eq:v2_pen_Linf_exacta}
+\end{equation}
+
+Al utilizar funciones penalizadoras que evalúan directamente el valor absoluto o el máximo en lugar del cuadrado de las violaciones, logramos penalizar de manera drástica (no nula) cualquier alejamiento asintótico o paramétrico diminuto. 
+
+\begin{theorem}[Condiciones suficientes para la Penalización Exacta]\label{thm:v2_penalizacion_exacta_suf}
+    Sean las condiciones de regularidad de un marco de optimización riguroso parametrizado y asumidas topológicamente a nivel analítico para funciones dadas como las formas generales de delimitaciones y curvatura como dos veces diferenciables operadas por $f$, y evaluadas analíticamente asumiendo sus propiedades acotadas $h$ así como por las igualdades asimétricas $g$ dentro del espectro o marco de vecindad al cual pertenezca evaluando puntualmente al entorno local $\bar{x} \in \Rn$. 
+    
+    Admitiremos hipotéticamente sobre un marco analítico a priori, garantizando una equivalencia de sistema, que un conjunto de coeficientes duales (los referenciados como multiplicadores asintóticos puros topológicos innegables) definan a plenitud una parametrización de Lagrange unívoca dada y operada rigurosamente asumiéndose un esquema afín conformado topológicamente sobre una resolución de la condición limitante analítica bajo las pautas u orden estricto referenciadas por Karush-Kuhn-Tucker a la vecindad o al problema asintótico dual: $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \symbb{R}^m$, a la cual a su vez y de forma innegable enmarca el problema general estipulando la condición y validación analítica escalar de su entorno suficiencia del análisis estricto paramétrico global como por el caso y segundo orden regular estipulado en el corolario. (El conjunto factible o las trayectorias convergen lícitamente asegurando el minimizador asintótico y limitante al problema base $\bar{x}$). 
+
+    Entonces asumiendo en todo rigor las condiciones algebraicas topológicas dadas previamente, a nivel de parametrización o valor ponderador absoluto estipulado y reglado innegablemente por escalar acotado a futuro, afirmaremos que para todo valor que exceda de facto a la norma máxima unificada evaluando el dual paramétrico escalar, tal que el iterador asuma rigurosamente $c > \norm{(\bar{\lambda}, \bar{\mu})}_\infty$, el punto local acotado y puramente convergente $\bar{x}$ asume y ostenta matemáticamente (de manera analíticamente certera e innegable demostrable por los principios o demostraciones) ser considerado explícitamente solución a nivel escalar topológicamente válida del problema escalar u optimización irrestricta penal exacto formulado.
+\end{theorem}
+
+\begin{proof}
+    Aceptaremos algebraicamente un contraejemplo riguroso por asunción de la prueba. Suponiendo, entonces en base asintótica contraria rigurosamente parametrizada topológicamente, la invalidación o ausencia del cumplimiento de que nuestro punto estipulado de convergencia asuma ser de hecho o cumpla con ser clasificado como $\bar{x}$ un estimador topológicamente convergente o limitante de descenso paramétrico minimizador de la región escalar analítica de funciones al minimizar el problema paramétrico acoplado. El efecto inmediato, y bajo una suposición lógica irrefutable a un nivel topológico secuencial, indicaría una iteración progresiva con anidación convergente al problema asintótico a un valor límite al que $\bar{x}$ fallaría o no lograría aproximar estipulando por deducción una nueva métrica limitante definida topológicamente sobre un espectro o serie asintótica secuencial conformada o generada mediante los estimadores iterativos escalares tal que se evalúa o ancla rigurosamente un sub-vector $\{x^k\} \subset \Rn \setminus \{\bar{x}\}$ con trayectoria y paso descendente cuyo asintotismo y cota limitante se acople rigurosamente a un valor escalar asumiéndose convergencia directa, indicando estipulación o límite $\{x^k\} \to \bar{x}$.
+    
+    Y se asume (siempre bajo la premisa deductiva subyacente acotada y validada asumiéndose por contraejemplo topológicamente y evaluada), de forma rigurosa y directa evaluando la cota analítica de convergencia al problema innegable, la métrica paramétrica acotada o reducida:
+    \[
+        \varphi(x^k; c) \leq \varphi(\bar{x}; c).
+    \]
+    La formulación de un límite direccional basado en el vector normalizado y el Teorema del Valor Medio nos permite explotar las derivadas direccionales del penalizador absoluto. 
+
+    Bajo las hipótesis de la Condición Suficiente de Segundo Orden, el modelo cuadrático exacto domina el comportamiento en una vecindad de la solución. Al acotar el crecimiento del residuo exacto $L_1$ utilizando las variables duales y proyectando sobre el vector direccional crítico $d$, la penalización impuesta por $c > \norm{(\bar{\lambda}, \bar{\mu})}_\infty$ asegura un incremento estricto en la derivada direccional. Esto imposibilita geométricamente la existencia de una trayectoria descendente irrestricta, contradiciendo la premisa y garantizando la minimalidad estricta local de $\bar{x}$.
+\end{proof}

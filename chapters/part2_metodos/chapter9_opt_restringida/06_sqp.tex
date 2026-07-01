@@ -1,0 +1,77 @@
+% --- Archivo: 06_sqp.tex ---
+
+% =========================================================
+\section{Programación Cuadrática Secuencial (SQP)}
+\label{sec:v2_metodos_sqp}
+% =========================================================
+
+Como su nombre indica, los métodos de \deftech{Programación Cuadrática Secuencial} (SQP, por sus siglas en inglés: \textit{Sequential Quadratic Programming}) consisten en la resolución de una sucesión de problemas de programación cuadrática, que aproximan en cada iteración la topología local del problema no lineal subyacente. 
+
+Un problema de programación cuadrática (minimizar una función cuadrática bajo restricciones afines) puede ser resuelto eficientemente de manera analítica o con algoritmos de complejidad polinómica finita. Esta estrategia es el generalizador natural de la idea del método de Newton clásico para problemas con restricciones.
+
+\subsection{El subproblema SQP general}
+
+Dada una aproximación del iterado primal $x^k$, y sus multiplicadores duales asociados $\lambda^k$ y $\mu^k$, la función objetivo se modela como una aproximación de Taylor de segundo orden y las restricciones (igualdad $h$ y desigualdad $g$) se relajan mediante expansiones afines de primer orden.
+
+El subproblema de programación cuadrática estándar para determinar la dirección de búsqueda $d \in \Rn$ se formula explícitamente como:
+\begin{equation}
+    \min_{d \in \Rn} \interno{f'(x^k)}{d} + \frac{1}{2}\interno{H_k d}{d}
+    \label{eq:v2_sqp_obj}
+\end{equation}
+sujeto a las restricciones linealizadas que definen el poliedro de avance $D_k$:
+\begin{align}
+    h(x^k) + J_h(x^k)d &= 0, \label{eq:v2_sqp_rest_h} \\
+    g(x^k) + J_g(x^k)d &\le 0. \label{eq:v2_sqp_rest_g}
+\end{align}
+
+El bloque analítico crítico recae sobre la construcción y determinación de la matriz simétrica de curvatura $H_k \in \R^{n \times n}$. Un análisis puramente geométrico podría sugerir usar $H_k = \nabla^2 f(x^k)$. Sin embargo, dicha elección omite completamente la aceleración centrípeta y la curvatura no lineal que dictan las fronteras del conjunto factible $D$.
+
+La justificación Newtoniana formal exige que la curvatura global considere simultáneamente la topología de la función y de las restricciones, siendo la matriz de diseño óptimo asintótica:
+\begin{equation}
+    H_k = \nabla_{xx}^2 L(x^k, \lambda^k, \mu^k),
+    \label{eq:v2_sqp_hessiana_exacta}
+\end{equation}
+donde $L$ es la función Lagrangiana clásica.
+
+\begin{algorithm}[El método SQP general]\label{alg:v2_sqp_general}
+    Elegir un punto de partida $(x^0, \lambda^0, \mu^0) \in \Rn \times \R^l \times \R_+^m$ y una matriz de curvatura $H_0$. Tomar $k := 0$.
+    \begin{enuthm}
+        \item Calcular la dirección óptima $d^k \in \Rn$ resolviendo el programa cuadrático exacto dictado por \eqref{eq:v2_sqp_obj}-\eqref{eq:v2_sqp_rest_g}. Se obtienen de manera paralela y simultánea los nuevos multiplicadores de Lagrange óptimos $(y^k, z^k)$ asociados a las restricciones linealizadas del subproblema.
+        \item Tomar el paso completo de Newton sobre el espacio primal y reemplazar los multiplicadores duales:
+        \[
+            x^{k+1} = x^k + d^k, \quad \lambda^{k+1} = y^k, \quad \mu^{k+1} = z^k.
+        \]
+        \item Actualizar la matriz $H_{k+1}$ evaluando la nueva Hessiana de la Lagrangiana (o aplicando una actualización Cuasi-Newton tipo BFGS amortiguada). Incrementar $k \leftarrow k + 1$ y regresar al Paso 1.
+    \end{enuthm}
+\end{algorithm}
+
+\begin{theorem}[Convergencia local superlineal del método SQP]\label{thm:v2_sqp_local}
+    Supongamos que $\bar{x}$ es un punto estacionario del problema original que cumple estrictamente la Independencia Lineal de Gradientes Activos (LICQ), la condición Suficiente de Segundo Orden, y exhibe Complementariedad Estricta ($\bar{\mu}_i > 0 \ \forall i \in I(\bar{x})$).
+    
+    Si se utiliza la Hessiana de la Lagrangiana exacta \eqref{eq:v2_sqp_hessiana_exacta}, entonces para cualquier punto de partida $(x^0, \lambda^0, \mu^0)$ suficientemente cercano a la solución analítica, el \cref{alg:v2_sqp_general} está bien definido (los subproblemas no colapsan y admiten solución) y converge a la solución óptima $(\bar{x}, \bar{\lambda}, \bar{\mu})$ con \textbf{tasa de convergencia cuadrática}.
+\end{theorem}
+
+\subsection{Estrategias de Globalización del Método SQP}
+
+A grandes rasgos, el esquema SQP base del \cref{alg:v2_sqp_general} adolece de las mismas fallas analíticas que el método de Newton puro sin regularizar: no tiene garantía de convergencia si se inicializa fuera de la vecindad de atracción del óptimo, y el subproblema \eqref{eq:v2_sqp_obj} puede divergir si la matriz $H_k$ asume autovalores negativos (o si las restricciones linealizadas resultan ser mutuamente incompatibles, haciendo que $D_k = \emptyset$).
+
+Para dotar al algoritmo SQP de garantías de convergencia global, se implementa obligatoriamente un proceso de búsqueda lineal (Line Search) o de regiones de confianza. Esto se logra acoplando y guiando el descenso mediante una \textbf{Función de Mérito}.
+
+\subsubsection{La Función de Mérito Penalizada Exacta}
+
+Dado que en optimización restringida debemos equilibrar la reducción de $f(x)$ con la eliminación progresiva de la violación topológica de la factibilidad, introducimos una función de mérito escalar exacta $L_1$:
+\begin{equation}
+    \varphi(x; c) = f(x) + c \left( \norm{h(x)}_1 + \sum_{i=1}^m \max\{0, g_i(x)\} \right),
+    \label{eq:v2_merito_L1_sqp}
+\end{equation}
+donde el peso penalizador $c > 0$ es un parámetro dinámico que debe exceder el límite superior de los multiplicadores (es decir, $c > \norm{(\lambda, \mu)}_\infty$). 
+
+Se puede demostrar rigurosamente que si la matriz de curvatura $H_k$ es simétrica definida positiva, la dirección $d^k$ producida por el subproblema SQP es consistentemente una \textbf{dirección de descenso garantizada} para la función de mérito $\varphi$. Esto autoriza la implementación segura de la regla de Armijo y evita la in-factibilidad general.
+
+\subsubsection{El Efecto Maratos y las fallas de la tasa superlineal}
+
+La convergencia superlineal rápida del método SQP requiere asintóticamente que la búsqueda lineal permita tomar pasos puros completos (es decir, $\alpha_k = 1$). Sin embargo, existe una patología topológica conocida como el \deftech{Efecto Maratos}.
+
+En problemas reales, si el iterado $x^k$ se ubica peligrosamente cerca de la frontera factible curvada, dar un paso completo tangente $d^k$ puede resultar topológicamente en un leve alejamiento (incremento residual) de la frontera factible curva. Este minúsculo incremento residual penalizado impacta desproporcionadamente en la función de mérito exacta $L_1$, causando que $\varphi(x^k + d^k; c) > \varphi(x^k; c)$.
+
+En respuesta, el algoritmo rechaza iterativamente el paso completo (exigiendo $\alpha_k < 1$), destruyendo estrepitosamente la tasa cuadrática de convergencia y obligando al método a avanzar con extrema lentitud. Este efecto perturbador y su mitigación (utilizando pasos de corrección de segundo orden transversales o relajando condicionalmente las funciones de mérito) es un tema crucial y altamente activo en el diseño práctico de rutinas comerciales tipo \textit{fmincon} en el estado de arte del análisis matemático no lineal.

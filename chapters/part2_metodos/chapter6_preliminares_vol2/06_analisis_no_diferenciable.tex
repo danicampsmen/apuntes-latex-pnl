@@ -1,0 +1,62 @@
+% --- Archivo: 06_analisis_no_diferenciable.tex ---
+
+% =========================================================
+\section{Elementos del Análisis no Diferenciable}
+% =========================================================
+
+En optimización, el interés en funciones no diferenciables proviene del hecho de que las condiciones KKT poseen naturaleza esencialmente no diferenciable. La condición de complementariedad $\bar{\mu}_i \ge 0$, $g_i(\bar{x}) \le 0$, y $\bar{\mu}_i g_i(\bar{x}) = 0$ se puede reescribir mediante \textbf{funciones de complementaridad} $\psi(a, b)$ tales que $\psi(a, b) = 0 \iff a \ge 0, \; b \ge 0, \; ab = 0$.
+
+Entre las elecciones más populares destacan el \textbf{residuo natural} $\psi(a, b) = \min\{a, b\}$ y la función de \textbf{Fischer-Burmeister} $\psi(a, b) = \sqrt{a^2 + b^2} - a - b$. Ambas son no diferenciables en el origen $(0,0)$, lo que ocurre si el problema carece de complementariedad estricta (restricciones activas con multiplicador nulo).
+
+\begin{theorem}[Teorema de Rademacher]\label{thm:v2_rademacher}
+    Toda función Lipschitz-continua $F : \R^n \to \R^l$ en un conjunto abierto $V$ es diferenciable en casi todo punto (la medida de Lebesgue del conjunto de puntos de no diferenciabilidad es nula).
+\end{theorem}
+
+Esto permite definir el \deftech{B-diferencial} (Bouligand-differential) como los límites de los jacobianos clásicos:
+\[
+    \partial_B F(x) = \left\{ H \in \R^{l \times n} \;\middle|\; \exists \{x^k\} \to x, \ \{F'(x^k)\} \to H \right\}.
+\]
+El \deftech{diferencial de Clarke} es la envoltura convexa del B-diferencial: $\partial F(x) = \conv \partial_B F(x)$.
+
+\begin{theorem}[Subdiferencial del Mínimo]\label{thm:v2_subdif_min}
+    Si $f(x) = \min_{i} f_i(x)$ para funciones suaves, el B-diferencial de $f$ está contenido en el conjunto de los gradientes de las funciones que empatan en el mínimo: $\partial_B f(x) \subset \{ f'_i(x) \mid f_i(x) = f(x) \}$.
+\end{theorem}
+
+Para la convergencia de métodos de Newton generalizados, necesitamos que la función no diferenciable aproxime bien a una función lineal. Decimos que $F$ satisface la \deftech{condición de Kummer} si $\sup_{H \in \partial F(x+d)} \|F(x + d) - F(x) - Hd\| = o(\|d\|)$, y la \deftech{condición de Kummer fuerte} si el residuo es de orden $O(\|d\|^2)$.
+
+La propiedad de \textbf{semi-diferenciabilidad} unifica la Lipschitz-continuidad, la existencia de derivadas direccionales y las condiciones de Kummer. Una función semi-diferenciable permite que el límite $\lim_{\xi \to d, t \to 0^+} H\xi$ (donde $H \in \partial F(x + t\xi)$) coincida con la derivada direccional clásica $F'(x; d)$.
+
+Para finalizar, presentamos una estimativa para la distancia a la solución de la ecuación $\Phi(x) = 0$, que será utilizada posteriormente para probar convergencia superlineal. Suponiendo que $\Phi : \Rn \to \Rn$ sea diferenciable en el punto $\bar{x} \in \Rn$ en cada dirección, decimos que $\Phi$ satisface la \deftech{$R_0$-condición} si
+\[
+    \{ d \in \Rn \mid \Phi'(\bar{x}; d) = 0 \} = \{0\}.
+\]
+Notemos que si $\Phi$ además de ser diferenciable en cada dirección también es Lipschitz-continua en una vecindad de $\bar{x}$, entonces la $BD$-regularidad de $\Phi$ en $\bar{x}$ (es decir, la no-singularidad de todo elemento de $\partial_B \Phi(\bar{x})$) implica la $R_0$-condición en este punto.
+
+\begin{theorem}[Teorema de la $R_0$-condición]\label{thm:v2_r0_condicion}
+    Sea $\Phi : \Rn \to \Rn$ una función Lipschitz-continua con módulo $L > 0$ en una vecindad del punto $\bar{x} \in \Rn$ tal que $\Phi(\bar{x}) = 0$. Sea $\Phi$ diferenciable en este punto en cada dirección.
+    
+    Entonces $\Phi$ satisface en $\bar{x}$ la $R_0$-condición si, y solamente si, existe una vecindad $U$ del punto $\bar{x}$ en $\Rn$ y un número $M > 0$ tales que
+    \[
+        \|x - \bar{x}\| \le M\|\Phi(x)\| \quad \forall x \in U.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Supongamos que $\Phi$ satisface en $\bar{x}$ la $R_0$-condición, mas exista una secuencia $\{x^k\} \subset \Rn$ tal que $\{x^k\} \to \bar{x}$ ($k \to \infty$), $x^k \neq \bar{x} \quad \forall k$, y
+    \[
+        \frac{\|\Phi(x^k)\|}{\|x^k - \bar{x}\|} \to 0 \quad (k \to \infty).
+    \]
+    Para todo $k$, definimos $d^k = (x^k - \bar{x}) / \|x^k - \bar{x}\|$, y $t_k = \|x^k - \bar{x}\|$. Podemos admitir, sin pérdida de generalidad, que la secuencia $\{d^k\}$ converge a un cierto $d \in \Rn$, $\|d\| = 1$. Entonces, para todo $k$,
+    \begin{align*}
+        \frac{\|\Phi(\bar{x} + t_k d)\|}{t_k} &\le \frac{\|\Phi(\bar{x} + t_k d) - \Phi(\bar{x} + t_k d^k)\|}{t_k} + \frac{\|\Phi(\bar{x} + t_k d^k)\|}{t_k} \\
+        &\le L\|d^k - d\| + \frac{\|\Phi(x^k)\|}{\|x^k - \bar{x}\|} \to 0 \quad (k \to \infty),
+    \end{align*}
+    de donde se sigue que $\Phi'(\bar{x}; d) = 0$, en contradicción con la $R_0$-condición.
+    
+    Para probar la afirmación recíproca, consideremos cualquier $d \in \Rn$ tal que $\Phi'(\bar{x}; d) = 0$. Si existen una vecindad $U$ del punto $\bar{x}$ y un número $M > 0$ con las propiedades de arriba, entonces para todo $t > 0$ suficientemente pequeño tenemos:
+    \begin{align*}
+        t\|d\| &= \|\bar{x} + td - \bar{x}\| \le M\|\Phi(\bar{x} + td)\| \\
+        &= M\|\Phi(\bar{x} + td) - \Phi(\bar{x})\| = M\|t\Phi'(\bar{x}; d)\| + o(t) = o(t),
+    \end{align*}
+    lo que solo puede valer para $d = 0$.
+\end{proof}

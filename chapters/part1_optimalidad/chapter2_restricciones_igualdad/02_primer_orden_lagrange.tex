@@ -1,0 +1,103 @@
+% --- Archivo: 02_primer_orden_lagrange.tex ---
+
+% =========================================================
+\section{Condiciones de Primer Orden y Estructura Afín}
+% =========================================================
+
+\begin{lemma}[Dualidad del Núcleo]\label{lem:cono_dual_nucleo}
+	Para cualquier matriz $A \in \R^{l \times n}$, el cono dual de su subespacio nulo coincide con la imagen de su matriz transpuesta:
+	\[
+		(\ker A)^* = \im A^\top.
+	\]
+\end{lemma}
+
+\begin{proof}
+	Sea $y \in \im A^\top$, esto es, $y = A^\top \lambda$ para algún $\lambda \in \R^l$. Para todo $x \in \ker A$:
+	\[
+		\interno{y}{x} = \interno{A^\top \lambda}{x} = \interno{\lambda}{Ax} = \interno{\lambda}{0} = 0 \le 0.
+	\]
+	Por lo tanto, $\im A^\top \subset (\ker A)^*$. Supóngase, por reducción al absurdo, que exista $z \in (\ker A)^* \setminus \im A^\top$. Por el Teorema de Proyección Ortogonal en espacios de Hilbert, $\Rn = \ker A \oplus \im A^\top$. Existen vectores únicos $u \in \ker A$ y $w \in \im A^\top$ tales que $z = u + w$. Como $z \notin \im A^\top$, la proyección $u \neq 0$.
+    
+	Dado que $z \in (\ker A)^*$, se tiene $\interno{z}{x} \le 0$ para todo $x \in \ker A$. Evaluando en $x = u$:
+	\[
+		0 \ge \interno{z}{u} = \interno{u + w}{u} = \norm{u}^2 + \interno{w}{u}.
+	\]
+    Como los subespacios son ortogonales, $\interno{w}{u} = 0$, lo que implica que $0 \ge \norm{u}^2$. Esto fuerza a $u = 0$, lo cual contradice la hipótesis. Luego, $(\ker A)^* \subset \im A^\top$.
+\end{proof}
+
+\begin{example}[Cálculo Explícito de la Dualidad]\label{ex:dualidad_nucleo}
+    Considérese la transformación lineal definida por la matriz fila ($l = 1, n = 3$): $A = \begin{pmatrix} 1 & -1 & 0 \end{pmatrix}$. El subespacio nulo $\ker A$ es el plano generado por $(1, 1, 0)^\top$ y $(0, 0, 1)^\top$. La imagen de la matriz transpuesta $\im A^\top$ es la recta paramétrica $\lambda(1, -1, 0)^\top$. 
+    
+    Construimos el cono dual del núcleo $(\ker A)^*$ a partir de la definición de cono dual. Sea $y \in (\ker A)^*$. Debe cumplirse que $\interno{y}{x} \le 0$ para todo $x \in \ker A$. Al ser $\ker A$ un subespacio, si $x \in \ker A$, entonces $-x \in \ker A$. Evaluando la desigualdad: $\interno{y}{x} \le 0$ y $\interno{y}{-x} \le 0 \implies \interno{y}{x} = 0$. Evaluando la condición de ortogonalidad sobre los vectores que generan el núcleo obtenemos $y_1 + y_2 = 0$ y $y_3 = 0$. Deducimos que todo elemento del cono dual debe tener la forma $y = y_1(1, -1, 0)^\top$. Este conjunto coincide con la parametrización de $\im A^\top$. Este resultado ilustra el cono dual de un subespacio vectorial y explica por qué los multiplicadores de Lagrange asociados a restricciones de igualdad pertenecen a $\R^l$ sin restricciones de signo.
+\end{example}
+
+\begin{definition}[Función Lagrangiana]\label{def:lagrangiana}
+	Se define la aplicación \textbf{Lagrangiana} asociada al problema \eqref{eq:problema_igualdad}, $L : \Rn \times \R^l \to \R$, como:
+	\[
+		L(x, \lambda) = f(x) + \interno{\lambda}{h(x)}.
+	\]
+    El gradiente respecto al vector primal $x$ se expresa matricialmente mediante:
+	\[
+		\nabla_x L(x, \lambda) = \nabla f(x) + J_h(x)^\top \lambda.
+	\]
+\end{definition}
+
+\begin{notabox}[Equilibrio de Fuerzas y Precio Sombra]
+    La ecuación estacionaria $\nabla f(\bar{x}) + \sum \lambda_i \nabla h_i(\bar{x}) = 0$ admite una interpretación física directa. Si se interpreta $-\nabla f$ como una fuerza que actúa sobre una partícula, y cada gradiente $\nabla h_i$ como la fuerza normal ejercida por la superficie de la restricción, el multiplicador $\lambda_i$ representa la magnitud de la fuerza de reacción necesaria para mantener el equilibrio estático de la partícula.
+\end{notabox}
+
+\begin{proposition}[Estructura Algebraica de los Multiplicadores]\label{prop:estructura_multiplicadores}
+    Para un punto $\bar{x} \in \Rn$ fijo, defínase el conjunto de multiplicadores de Lagrange asociados como:
+    \[
+        \mathcal{M}(\bar{x}) = \{ \lambda \in \R^l \mid \nabla_x L(\bar{x}, \lambda) = 0 \}.
+    \]
+    Si $\mathcal{M}(\bar{x}) \neq \emptyset$ y $\bar{\lambda} \in \mathcal{M}(\bar{x})$ es un elemento particular, entonces $\mathcal{M}(\bar{x})$ constituye una variedad afín parametrizada por:
+    \[
+        \mathcal{M}(\bar{x}) = \bar{\lambda} + \ker(J_h(\bar{x})^\top).
+    \]
+\end{proposition}
+
+\begin{proof}
+    De acuerdo con la \cref{def:lagrangiana}, la condición de estacionariedad respecto al vector primal $x$ equivale a resolver el sistema lineal $J_h(\bar{x})^\top \lambda = -\nabla f(\bar{x})$. Procederemos por doble inclusión:
+    
+    \textbf{($\subset$):} Sea $\lambda \in \mathcal{M}(\bar{x})$ un multiplicador arbitrario. Entonces, $J_h(\bar{x})^\top \lambda = -\nabla f(\bar{x})$. Por hipótesis, disponemos de un elemento $\bar{\lambda} \in \mathcal{M}(\bar{x})$, el cual satisface $J_h(\bar{x})^\top \bar{\lambda} = -\nabla f(\bar{x})$. Restando ambas ecuaciones se obtiene $J_h(\bar{x})^\top (\lambda - \bar{\lambda}) = 0$. Esto significa que $(\lambda - \bar{\lambda}) \in \ker(J_h(\bar{x})^\top)$. Despejando se obtiene $\lambda = \bar{\lambda} + v$ para algún $v \in \ker(J_h(\bar{x})^\top)$, lo que demuestra que $\mathcal{M}(\bar{x}) \subset \bar{\lambda} + \ker(J_h(\bar{x})^\top)$.
+
+    \textbf{($\supset$):} Recíprocamente, sea $\lambda \in \bar{\lambda} + \ker(J_h(\bar{x})^\top)$. Esto implica la existencia de un vector $v \in \ker(J_h(\bar{x})^\top)$ tal que $\lambda = \bar{\lambda} + v$. Evaluando la transformación lineal: $J_h(\bar{x})^\top \lambda = J_h(\bar{x})^\top \bar{\lambda} + J_h(\bar{x})^\top v = -\nabla f(\bar{x}) + 0 = -\nabla f(\bar{x})$. Esto equivale a $\nabla_x L(\bar{x}, \lambda) = 0$. Por consiguiente, $\lambda \in \mathcal{M}(\bar{x})$, lo que demuestra que $\bar{\lambda} + \ker(J_h(\bar{x})^\top) \subset \mathcal{M}(\bar{x})$.
+\end{proof}
+
+\begin{example}[Multiplicadores en Ausencia de Regularidad]\label{ex:estructura_multiplicadores}
+    Considérese el problema de minimizar $f(x) = x_1^2 + x_2^2$ sujeto a un sistema de dos restricciones afines linealmente dependientes en $\R^2$: $h_1(x) = x_1 + x_2 - 1 = 0$ y $h_2(x) = 2x_1 + 2x_2 - 2 = 0$. El minimizador global es $\bar{x} = (1/2, 1/2)^\top$. El Jacobiano evaluado en $\bar{x}$ es una matriz cuyas dos filas son $(1, 1)$ y $(2, 2)$. El rango de la matriz es 1. Como $l = 2$, no se cumple la condición LICQ y la matriz transpuesta tiene un núcleo no trivial generado por $(-2, 1)^\top$. Determinamos el conjunto de multiplicadores $\mathcal{M}(\bar{x})$ resolviendo $J_h(\bar{x})^\top \lambda = -\nabla f(\bar{x})$, resultando $\lambda_1 + 2\lambda_2 = -1$. Un multiplicador particular es $\bar{\lambda} = (-1, 0)^\top \in \mathcal{M}(\bar{x})$. La \cref{prop:estructura_multiplicadores} asegura que el conjunto de multiplicadores es la variedad afín:
+    \[
+        \mathcal{M}(\bar{x}) = \left\{ \begin{pmatrix} -1 - 2t \\ t \end{pmatrix} \mathrel{\bigg|} t \in \R \right\}.
+    \]
+    La falta de regularidad conduce a la pérdida de la unicidad del multiplicador.
+\end{example}
+
+\begin{theorem}[Condiciones de Optimalidad de Lagrange]\label{thm:lagrange_1er_orden}
+	Sea $\bar{x} \in D$ un minimizador local del problema de optimización. Si el punto $\bar{x}$ es regular (\cref{def:condiciones_regularidad}), entonces $\mathcal{M}(\bar{x}) \neq \emptyset$. Adicionalmente, si la regularidad proviene de la condición LICQ, el multiplicador es único ($\mathcal{M}(\bar{x}) = \{\bar{\lambda}\}$).
+\end{theorem}
+
+\begin{proof}
+	Por el \cref{thm:cn_primal_igualdad}, el opuesto del gradiente de la función objetivo pertenece al cono dual del núcleo: $-\nabla f(\bar{x}) \in (\ker J_h(\bar{x}))^*$. Invocando el \cref{lem:cono_dual_nucleo}, obtenemos $-\nabla f(\bar{x}) \in \im J_h(\bar{x})^\top$. Por definición, existe un vector $\bar{\lambda} \in \R^l$ tal que $J_h(\bar{x})^\top \bar{\lambda} = -\nabla f(\bar{x})$, lo cual equivale a $\nabla_x L(\bar{x}, \bar{\lambda}) = 0$. Bajo la hipótesis LICQ, la matriz transpuesta es inyectiva ($\ker(J_h(\bar{x})^\top) = \{0\}$). Aplicando la \cref{prop:estructura_multiplicadores}, el subespacio afín $\mathcal{M}(\bar{x})$ se reduce a un único vector.
+\end{proof}
+
+\begin{controlbox}
+    \textbf{Pregunta:} Si se resuelve el sistema de Lagrange y se halla un punto $\bar{x}$ con su respectivo multiplicador $\bar{\lambda}$, ¿es posible asegurar que se trata de un mínimo local? \\
+    \textit{Respuesta:} No. El Teorema de Lagrange establece únicamente una condición necesaria de primer orden. El punto obtenido podría corresponder a un máximo local o a un punto de silla sobre la variedad factible. Para determinar la naturaleza del punto, es indispensable realizar un análisis de segundo orden.
+\end{controlbox}
+
+\begin{example}\label{ex:proyeccion_hiperplano}
+	Considérese el problema geométrico de proyectar un vector $y \in \Rn$ sobre el hiperplano afín $H = \{ x \in \Rn \mid \interno{a}{x} = c \}$, con $a \neq 0$. Esto se formula como $\min \frac{1}{2} \norm{x - y}^2$ sujeto a $\interno{a}{x} - c = 0$. Al ser la restricción afín, se verifica la condición de regularidad (\cref{def:condiciones_regularidad}). El sistema de Lagrange impone $\nabla_x L(\bar{x}, \bar{\lambda}) = (\bar{x} - y) + \bar{\lambda} a = 0 \implies \bar{x} = y - \bar{\lambda} a$. Utilizando la condición de factibilidad ($\interno{a}{\bar{x}} = c$) y la linealidad del producto interno, obtenemos $\bar{\lambda} = (\interno{y}{a} - c)/\norm{a}^2$. Sustituyendo este escalar, obtenemos la proyección ortogonal clásica:
+	\[
+		\bar{x} = y + \left( \frac{c - \interno{y}{a}}{\norm{a}^2} \right) a.
+	\]
+\end{example}
+
+\begin{example}\label{ex:esfera_x3}
+    Determínense los minimizadores y maximizadores globales de la función $f(x) = \frac{x_1^3}{3} + x_2$ sobre la esfera unitaria $D = \{ x \in \R^2 \mid x_1^2 + x_2^2 = 1 \}$. El gradiente de la restricción, $\nabla h(x) = 2(x_1, x_2)^\top$, no se anula en $D$, lo que verifica la condición LICQ. El sistema de Lagrange requiere $x_1^2 + 2\lambda x_1 = 0$ y $1 + 2\lambda x_2 = 0$. La primera ecuación se puede factorizar como $x_1(x_1 + 2\lambda) = 0$, lo que permite dividir el análisis en dos casos:
+  \begin{enuthm}
+      \item Si $x_1 = 0$, la condición de factibilidad implica $x_2 = \pm 1$. La segunda ecuación determina $\lambda = \mp 1/2$. Esto genera los puntos estacionarios $(0, 1)$ y $(0, -1)$.
+      \item Si $x_1 \neq 0$, entonces $x_1 = -2\lambda$. La segunda ecuación exige $x_2 = -1/(2\lambda)$. Sustituyendo en la ecuación de la esfera se obtiene $16\lambda^4 - 4\lambda^2 + 1 = 0$. El discriminante de esta ecuación bicuadrática es negativo, por lo que no existen raíces reales en este caso.
+  \end{enuthm}
+  Evaluando la función objetivo en los puntos obtenidos, $f(0,1) = 1$ y $f(0,-1) = -1$, identificamos el máximo y el mínimo global sobre el conjunto factible.
+\end{example}

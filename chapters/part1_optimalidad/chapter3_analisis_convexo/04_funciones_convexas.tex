@@ -1,0 +1,183 @@
+% --- Archivo: 04_funciones_convexas.tex ---
+
+% =========================================================
+\section{Funciones convexas}
+% =========================================================
+
+Ahora estudiaremos funciones convexas con más profundidad. Trataremos la estructura de estas funciones, caracterizaciones para funciones diferenciables, continuidad, y el concepto de subdiferencial para funciones no diferenciables.
+
+% ---------------------------------------------------------
+\subsection{Propiedades básicas de las funciones convexas}
+% ---------------------------------------------------------
+
+Mostramos primero que una suma de múltiplos no negativos de un número finito de funciones convexas es convexa, así como el supremo.
+
+\begin{proposition}[Convexidad de la suma y el supremo]\label{prop:suma_supremo_convexas}
+    Sea $D \subset \Rn$ un conjunto convexo y sean $f_i : D \to \R$ funciones convexas en $D$.
+    \begin{enuthm}
+        \item Para cualesquiera $\mu_i \in \R_+$, la función $f(x) = \sum_{i=1}^p \mu_i f_i(x)$ es convexa en $D$.
+        \item Si $I$ es un conjunto de índices arbitrario (posiblemente infinito) y existe $\beta \in \R$ tal que $f_i(x) \le \beta$ para todo $x \in D$ e $i \in I$, entonces la función $f(x) = \sup_{i \in I} f_i(x)$ es convexa en $D$.
+    \end{enuthm}
+\end{proposition}
+
+\begin{proof}
+    (1) Para $x, y \in D$ y $\alpha \in [0,1]$, se tiene $f(\alpha x + (1-\alpha)y) = \sum \mu_i f_i(\alpha x + (1-\alpha)y) \le \sum \mu_i (\alpha f_i(x) + (1-\alpha)f_i(y)) = \alpha f(x) + (1-\alpha)f(y)$, ya que $\mu_i \ge 0$.
+    
+    (2) El epígrafe de un supremo de funciones es la intersección de los epígrafes individuales: $E_f = \{(x,c) \mid \sup f_i(x) \le c\} = \bigcap_{i \in I} \{(x,c) \mid f_i(x) \le c\} = \bigcap_{i \in I} E_{f_i}$. Al ser $f_i$ convexas, los $E_{f_i}$ son convexos, y la intersección de conjuntos convexos es convexa. Luego, el epígrafe $E_f$ es convexo, lo que implica que $f$ es convexa.
+\end{proof}
+
+\begin{proposition}[Composición convexa]\label{prop:composicion_convexa}
+    Sean $g : \Rn \to \R$ una función convexa, y $\psi : \R \to \R$ una función convexa y no decreciente. Entonces la composición $f(x) = \psi(g(x))$ es convexa en $\Rn$.
+\end{proposition}
+
+\begin{proof}
+    Por convexidad de $g$ y monotonía de $\psi$, se tiene $\psi(g(\alpha x + (1-\alpha)y)) \le \psi(\alpha g(x) + (1-\alpha)g(y))$. Luego, por la convexidad de $\psi$, esto es $\le \alpha \psi(g(x)) + (1-\alpha)\psi(g(y))$, demostrando la afirmación.
+\end{proof}
+
+A continuación, mostraremos que los conjuntos de nivel de una función convexa son conjuntos convexos.
+
+\begin{theorem}[Convexidad de conjuntos de nivel]\label{thm:nivel_convexas}
+    Supongamos que el conjunto $D \subset \Rn$ sea convexo y la función $f : D \to \R$ sea convexa en $D$. Entonces el conjunto de nivel
+    \[
+        L_{f,D}(c) = \{ x \in D \mid f(x) \le c \}
+    \]
+    es convexo para todo $c \in \R$.
+\end{theorem}
+
+\begin{proof}
+    Sean $x, y \in L_{f,D}(c)$. Por definición, $f(x) \le c$ y $f(y) \le c$. Por convexidad de $D$ y $f$, para todo $\alpha \in [0,1]$ se tiene que $f(\alpha x + (1-\alpha)y) \le \alpha f(x) + (1-\alpha)f(y) \le \alpha c + (1-\alpha)c = c$. Luego $\alpha x + (1-\alpha)y \in L_{f,D}(c)$.
+\end{proof}
+
+\begin{remark}
+    La convexidad de todos los conjuntos de nivel no es suficiente para afirmar que la función es convexa. Las funciones que cumplen la propiedad de tener todos sus conjuntos de nivel convexos se denominan \textbf{funciones cuasiconvexas}. Un ejemplo clásico es $f(x) = x^3$ en $\R$, cuyos conjuntos de nivel son intervalos (luego, convexos), pero la función no es convexa.
+\end{remark}
+
+\begin{theorem}[Continuidad de funciones convexas]\label{thm:continuidad_convexas}
+    Sean $D \subset \Rn$ un conjunto convexo abierto y $f : D \to \R$ convexa. Entonces $f$ es localmente Lipschitz-continua en $D$. En particular, es continua en $D$.
+\end{theorem}
+
+\begin{proof}[Nota de Demostración]
+    La prueba formal construye un símplex cerrado (caja) contenido en $D$ en torno a un punto de interés y utiliza la convexidad para acotar superior e inferiormente las variaciones de $f$, limitando la constante de Lipschitz mediante el valor máximo de la función en los vértices del símplex. (Ver referencias estándar de Análisis Convexo).
+\end{proof}
+
+El siguiente resultado es crucial computacionalmente, ya que garantiza que si un problema fuertemente convexo tiene solución, el conjunto de nivel se mantiene acotado.
+
+\begin{theorem}[Compacidad del nivel de funciones fuertemente convexas]\label{thm:nivel_fuertemente_convexas}
+    Si $f : \Rn \to \R$ es fuertemente convexa, entonces para todo $c \in \R$, el conjunto de nivel $L_{f,\Rn}(c)$ es compacto.
+\end{theorem}
+
+\begin{corollary}\label{cor:minimo_unico_fuerte}
+    Sea $f : \Rn \to \R$ fuertemente convexa y $\emptyset \neq D \subset \Rn$ un conjunto cerrado. Entonces $f$ tiene un minimizador en $D$. Si $D$ es convexo, el minimizador es único.
+\end{corollary}
+
+Finalizamos esta subsección con resultados de maximización. El problema de maximizar una función convexa sobre un conjunto convexo tiene una naturaleza diferente al de minimización: la solución tiende a ubicarse en la frontera o vértices.
+
+\begin{theorem}[Maximización de función convexa]\label{thm:maximizacion_convexa}
+    Sea $D \subset \Rn$ convexo compacto y $f : D \to \R$ convexa. Entonces el problema $\max_{x \in D} f(x)$ tiene solución y se alcanza en un \textbf{punto extremo} de $D$ (es decir, en $E(D)$).
+    
+    Además, si $D$ es poliédrico y no contiene rectas, el máximo (si existe) se alcanza en un vértice de $D$.
+\end{theorem}
+
+% ---------------------------------------------------------
+\subsection{Funciones convexas diferenciables}
+% ---------------------------------------------------------
+
+Cuando una función es diferenciable, la convexidad admite varias caracterizaciones algebraicas muy útiles.
+
+\begin{theorem}[Caracterizaciones de convexidad diferenciable]\label{thm:caracterizacion_diff_convexa}
+    Sean $D \subset \Rn$ abierto y convexo, y $f : D \to \R$ diferenciable. Las siguientes propiedades son equivalentes:
+    \begin{enuthm}
+        \item $f$ es convexa en $D$.
+        \item (Desigualdad del subgradiente): Para todo $x, y \in D$, $f(y) \ge f(x) + \interno{\nabla f(x)}{y-x}$.
+        \item (Monotonía del gradiente): Para todo $x, y \in D$, $\interno{\nabla f(y) - \nabla f(x)}{y-x} \ge 0$.
+    \end{enuthm}
+    Si $f$ es dos veces diferenciable en $D$, las anteriores son equivalentes a:
+    \begin{enuthm}
+        \item[4.] La matriz Hessiana $\nabla^2 f(x)$ es semidefinida positiva en todo punto de $D$.
+    \end{enuthm}
+\end{theorem}
+
+\begin{proof}
+    $(1) \implies (2)$: Por convexidad, $f(x + \alpha(y-x)) \le (1-\alpha)f(x) + \alpha f(y)$. Reorganizando: $f(y) - f(x) \ge \frac{f(x+\alpha(y-x)) - f(x)}{\alpha}$. Tomando límite $\alpha \to 0^+$, el lado derecho es la derivada direccional $\interno{\nabla f(x)}{y-x}$.
+    
+    $(2) \implies (3)$: Evaluando (2) intercambiando $x$ e $y$: $f(x) \ge f(y) + \interno{\nabla f(y)}{x-y}$. Sumando ambas desigualdades se obtiene $0 \ge \interno{\nabla f(x)}{y-x} + \interno{\nabla f(y)}{x-y}$, de donde se deduce (3).
+    
+    $(3) \implies (1)$: Por el Teorema del Valor Medio, integrando la monotonía del gradiente en un segmento se deduce que la función yace por encima de cualquier secante. (La equivalencia con la Hessiana sigue de las propiedades clásicas de formas cuadráticas).
+\end{proof}
+
+\begin{remark}[Condiciones para fuerte convexidad]
+    Para funciones fuertemente convexas con módulo $\gamma > 0$, las caracterizaciones se adaptan:
+    \begin{itemize}
+        \item $f(y) \ge f(x) + \interno{\nabla f(x)}{y-x} + \gamma \norm{y-x}^2$.
+        \item $\interno{\nabla f(y) - \nabla f(x)}{y-x} \ge 2\gamma \norm{y-x}^2$.
+        \item $\interno{\nabla^2 f(x)d}{d} \ge 2\gamma \norm{d}^2$ (es decir, los autovalores de la Hessiana están acotados por $2\gamma$).
+    \end{itemize}
+\end{remark}
+
+Como ya sabemos, en un problema de minimización convexo, todo minimizador local es global. El siguiente teorema muestra que la condición necesaria de primer orden (Teorema 3.1.3) pasa a ser suficiente.
+
+\begin{theorem}[Condiciones KKT para problema convexo]\label{thm:kkt_convexo}
+    Sean $D \subset \Rn$ convexo y $f$ convexa y diferenciable en un abierto que contiene a $D$. Un punto $\bar{x} \in D$ es minimizador global si, y solo si:
+    \[
+        \interno{\nabla f(\bar{x})}{x - \bar{x}} \ge 0 \quad \forall x \in D \iff -\nabla f(\bar{x}) \in \mathcal{N}_D(\bar{x}).
+    \]
+\end{theorem}
+
+\begin{proof}
+    La necesidad ya fue demostrada en el Capítulo 1 (y \cref{thm:cn1_irrestricto}). Para la suficiencia, usamos la caracterización (2) del \cref{thm:caracterizacion_diff_convexa}: $f(x) \ge f(\bar{x}) + \interno{\nabla f(\bar{x})}{x - \bar{x}}$. Si la condición se cumple, el segundo término es $\ge 0$ para todo $x \in D$, luego $f(x) \ge f(\bar{x})$, lo que prueba que $\bar{x}$ es mínimo global.
+\end{proof}
+
+% ---------------------------------------------------------
+\subsection{Funciones convexas no diferenciables}
+% ---------------------------------------------------------
+
+Cuando una función convexa pierde la diferenciabilidad (por ejemplo, al tomar el supremo de varias funciones), las derivadas clásicas se reemplazan por derivadas direccionales y subdiferenciales.
+
+\begin{theorem}[Derivada direccional]\label{thm:derivada_direccional_convexa}
+    Sea $f : \Rn \to \R$ convexa. Entonces para todo $x, d \in \Rn$, el límite
+    \[
+        f'(x; d) = \lim_{\alpha \to 0^+} \frac{f(x + \alpha d) - f(x)}{\alpha}
+    \]
+    siempre existe en $\R \cup \{-\infty, +\infty\}$. (Si $f$ es finita, el límite es finito).
+\end{theorem}
+
+\begin{definition}[Subgradiente y Subdiferencial]\label{def:subdiferencial}
+    Sea $f : \Rn \to \R$ convexa. Decimos que un vector $y \in \Rn$ es un \textbf{subgradiente} de $f$ en el punto $x$ si:
+    \begin{equation}
+        f(z) \ge f(x) + \interno{y}{z-x} \quad \forall z \in \Rn. \label{eq:def_subgradiente}
+    \end{equation}
+    Al conjunto de todos los subgradientes de $f$ en $x$ se le llama \textbf{subdiferencial} y se denota por $\partial f(x)$.
+\end{definition}
+
+Geométricamente, un subgradiente define un hiperplano afín que soporta al epígrafe de $f$ en el punto $(x, f(x))$ y queda por debajo de la gráfica de la función globalmente.
+
+\begin{theorem}[Propiedades del Subdiferencial]\label{thm:propiedades_subdiferencial}
+    Sea $f : \Rn \to \R$ una función convexa finita en todo el espacio.
+    \begin{enuthm}
+        \item El conjunto $\partial f(x)$ es convexo, compacto y no vacío para todo $x \in \Rn$.
+        \item $\bar{x}$ es un minimizador global de $f$ en $\Rn$ si, y solo si, $0 \in \partial f(\bar{x})$.
+        \item Para un conjunto $D$ convexo cerrado, $\bar{x}$ es solución de $\min_{x \in D} f(x)$ si y solo si $0 \in \partial f(\bar{x}) + \mathcal{N}_D(\bar{x})$.
+        \item (Regla de la suma): Si $f_1, f_2$ son convexas en $\Rn$, entonces $\partial (f_1 + f_2)(x) = \partial f_1(x) + \partial f_2(x)$.
+    \end{enuthm}
+\end{theorem}
+
+\begin{proof}
+    El ítem (2) es inmediato de la definición \eqref{eq:def_subgradiente}: si $0 \in \partial f(\bar{x})$, entonces $f(z) \ge f(\bar{x}) + \interno{0}{z-\bar{x}} = f(\bar{x})$, por lo que $\bar{x}$ es óptimo global. Las demás pruebas requieren teoremas de separación que se omiten aquí por brevedad, pero que siguen estándares del análisis convexo de Rockafellar.
+\end{proof}
+
+\begin{theorem}[Relación entre derivada direccional y subdiferencial]\label{thm:max_subdiferencial}
+    Sea $f : \Rn \to \R$ convexa. La derivada direccional en $x$ a lo largo de $d$ equivale al máximo del producto interno sobre el subdiferencial:
+    \[
+        f'(x; d) = \max_{y \in \partial f(x)} \interno{y}{d}.
+    \]
+\end{theorem}
+
+Finalmente, para el desarrollo de algoritmos de optimización no diferenciable, es útil relajar la noción de subgradiente.
+
+\begin{definition}[$\epsilon$-subdiferencial]\label{def:epsilon_subdiferencial}
+    Para $\epsilon \ge 0$, el vector $y$ es un \textbf{$\epsilon$-subgradiente} de $f$ en $x$ si:
+    \[
+        f(z) \ge f(x) + \interno{y}{z-x} - \epsilon \quad \forall z \in \Rn.
+    \]
+    El conjunto de todos los $\epsilon$-subgradientes se denota $\partial_\epsilon f(x)$. $\bar{x}$ es un $\epsilon$-minimizador del problema si y solo si $0 \in \partial_\epsilon f(\bar{x})$.
+\end{definition}
