@@ -89,19 +89,18 @@
 \contentsline {subsection}{\numberline {8.5.2}Búsqueda Aleatoria (Random Search) y Gradiente Estocástico}{108}{subsection.8.5.2}%
 \contentsline {chapter}{\numberline {9}Métodos para Optimización con Restricción}{113}{chapter.9}%
 \contentsline {section}{\numberline {9.1}Métodos para conjuntos factibles de estructura simple}{113}{section.9.1}%
-\contentsline {subsection}{\numberline {9.1.1}Método del Gradiente Proyectado}{113}{subsection.9.1.1}%
-\contentsline {section}{\numberline {9.2}Direcciones factibles y métodos de descenso}{116}{section.9.2}%
-\contentsline {section}{\numberline {9.3}Métodos de penalización}{118}{section.9.3}%
-\contentsline {subsection}{\numberline {9.3.1}Penalización externa cuadrática}{119}{subsection.9.3.1}%
-\contentsline {subsection}{\numberline {9.3.2}Penalización externa exacta}{122}{subsection.9.3.2}%
-\contentsline {subsection}{\numberline {9.3.3}Penalización interna. Métodos de barreras}{124}{subsection.9.3.3}%
-\contentsline {section}{\numberline {9.4}Lagrangianas aumentadas y funciones de penalización exacta}{127}{section.9.4}%
-\contentsline {subsection}{\numberline {9.4.1}El Método de la Lagrangiana Aumentada}{127}{subsection.9.4.1}%
-\contentsline {subsection}{\numberline {9.4.2}Extensión a restricciones mixtas}{129}{subsection.9.4.2}%
-\contentsline {section}{\numberline {9.5}Programación Cuadrática Secuencial (SQP)}{129}{section.9.5}%
-\contentsline {subsection}{\numberline {9.5.1}El subproblema SQP general}{129}{subsection.9.5.1}%
-\contentsline {subsection}{\numberline {9.5.2}Estrategias de Globalización del Método SQP}{130}{subsection.9.5.2}%
-\contentsline {subsubsection}{\nonumberline La Función de Mérito Penalizada Exacta}{130}{subsubsection*.13}%
-\contentsline {subsubsection}{\nonumberline El Efecto Maratos y las fallas de la tasa superlineal}{130}{subsubsection*.14}%
-\contentsline {chapter}{\nonumberline Bibliografía}{134}{chapter*.15}%
+\contentsline {subsection}{\numberline {9.1.1}Métodos del gradiente proyectado}{113}{subsection.9.1.1}%
+\contentsline {section}{\numberline {9.2}Métodos de penalización}{117}{section.9.2}%
+\contentsline {subsection}{\numberline {9.2.1}Penalización externa cuadrática}{118}{subsection.9.2.1}%
+\contentsline {subsection}{\numberline {9.2.2}Penalización externa exacta}{122}{subsection.9.2.2}%
+\contentsline {subsection}{\numberline {9.2.3}Penalización interna. Métodos de barreras}{123}{subsection.9.2.3}%
+\contentsline {section}{\numberline {9.3}Lagrangianas aumentadas y funciones de penalización exacta}{126}{section.9.3}%
+\contentsline {subsection}{\numberline {9.3.1}El Método de la Lagrangiana Aumentada}{126}{subsection.9.3.1}%
+\contentsline {subsection}{\numberline {9.3.2}Extensión a restricciones mixtas}{128}{subsection.9.3.2}%
+\contentsline {section}{\numberline {9.4}Programación Cuadrática Secuencial (SQP)}{128}{section.9.4}%
+\contentsline {subsection}{\numberline {9.4.1}El subproblema SQP general}{128}{subsection.9.4.1}%
+\contentsline {subsection}{\numberline {9.4.2}Estrategias de Globalización del Método SQP}{129}{subsection.9.4.2}%
+\contentsline {subsubsection}{\nonumberline La Función de Mérito Penalizada Exacta}{129}{subsubsection*.13}%
+\contentsline {subsubsection}{\nonumberline El Efecto Maratos y las fallas de la tasa superlineal}{129}{subsubsection*.14}%
+\contentsline {chapter}{\nonumberline Bibliografía}{132}{chapter*.15}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

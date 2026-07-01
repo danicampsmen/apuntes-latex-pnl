@@ -1,240 +1,194 @@
-% --- Archivo: 01_gradiente_proyectado.tex ---
+Este capítulo constituye la parte principal del libro. De cierto modo, el material de los otros capítulos es preparatorio, auxiliar o adicional en relación a métodos para la resolución de problemas de optimización con restricciones.
 
-Este capítulo constituye la parte principal de la teoría de optimización con restricciones. De cierto modo, el material de los demás capítulos computacionales es preparatorio, auxiliar o adicional en relación a los métodos para la resolución de problemas con restricciones.
-
-% =========================================================
 \section{Métodos para conjuntos factibles de estructura simple}
-% =========================================================
 
-Comenzaremos el desarrollo de métodos para problemas de optimización con restricciones en el caso en que el conjunto factible tenga una descripción abstracta:
-\begin{equation}
+Comenzaremos el desarrollo de métodos para problemas de optimización con restricciones en el caso en que el conjunto factible tenga descripción abstracta:
+\begin{equation}\label{eq:4.1}
     \min f(x) \quad \text{sujeto a} \quad x \in D,
-    \label{eq:v2_rest_simple_prob}
 \end{equation}
-donde $f \colon \Rn \rightarrow \R$ es una función diferenciable y $D \subset \Rn$. Por razones de aplicación práctica, entendemos que el conjunto $D$ posee una estructura simple (al menos, $D$ es convexo y cerrado).
+donde \( \inmap{f}{\R^n}{\R} \) es una función diferenciable y $D \subset \R^n$. Por razones de aplicación práctica, entendemos que el conjunto $D$ posee una estructura simple (por lo menos, $D$ es convexo y cerrado).
 
-Con frecuencia, los problemas con restricciones simples aparecen como subproblemas en métodos para la resolución de problemas con restricciones más complejas. Notamos que cuando el conjunto $D$ es convexo y cerrado, para todo punto $x \in \Rn$ existe una proyección ortogonal $P_D(x)$ de $x$ sobre $D$ que es única (véase \cref{thm:v2_proyeccion}). Recordamos también que el punto $\bar{x} \in D$ es un punto estacionario del problema \eqref{eq:v2_rest_simple_prob} cuando
-\begin{equation}
-    \langle f'(\bar{x}), x - \bar{x} \rangle \ge 0 \quad \forall x \in D,
-    \label{eq:v2_estacionario_desig_var}
+Con frecuencia, problemas con restricciones simples aparecen como subproblemas en métodos para la resolución de problemas con restricciones más complejas. Notamos que cuando el conjunto $D$ es convexo y cerrado, para todo punto $x \in \R^n$ existe una proyección $P_D(x)$ de $x$ sobre $D$ que es única (vea el Teorema 1.3.1). Recordamos también que el punto $\bar{x} \in D$ es un punto estacionario del problema \eqref{eq:4.1} cuando
+\begin{equation}\label{eq:4.2}
+    \interno{f'(\bar{x})}{x - \bar{x}} \ge 0 \quad \forall x \in D,
 \end{equation}
-o, equivalentemente, si es un punto fijo del operador de proyección modulado por el gradiente:
-\begin{equation}
+o, equivalentemente,
+\begin{equation}\label{eq:4.3}
     P_D(\bar{x} - \alpha f'(\bar{x})) = \bar{x}
-    \label{eq:v2_estacionario_proyeccion}
 \end{equation}
-para algún $\alpha > 0$ (véase \cref{thm:v2_optimalidad_primal_convexa}). Más aún, la validez de \eqref{eq:v2_estacionario_proyeccion} para algún $\alpha > 0$ implica la validez de esta relación para todo $\alpha > 0$.
+para algún $\alpha > 0$ (vea el Teorema 1.3.7). Más aún, la validez de \eqref{eq:4.3} para algún $\alpha > 0$ implica la validez de esta relación para todo $\alpha > 0$.
 
-% ---------------------------------------------------------
-\subsection{Método del Gradiente Proyectado}
-% ---------------------------------------------------------
+\subsection{Métodos del gradiente proyectado}
 
-Los métodos del gradiente proyectado pueden ser pensados como una combinación natural de los métodos del gradiente puro para optimización irrestricta con la proyección de las iteraciones así obtenidas en el conjunto factible del problema. Esto resulta en el siguiente esquema:
-\begin{equation}
+Los métodos del gradiente proyectado pueden ser pensados como una combinación natural de métodos del gradiente para optimización irrestricta con proyección de iteraciones así obtenidas en el conjunto factible del problema. Esto resulta en el esquema siguiente:
+\begin{equation}\label{eq:4.4}
     x^{k+1} = P_D(x^k - \alpha_k f'(x^k)), \quad k = 0, 1, \dots,
-    \label{eq:v2_grad_proy_iter}
 \end{equation}
-donde $x^0 \in D$, y los parámetros de longitud de paso $\alpha_k > 0$ son calculados utilizando extensiones de las técnicas de búsqueda lineal de la \cref{sec:v2_metodos_descenso} para el caso con restricciones. En particular, el valor de la longitud de paso se calcula para obtener un decrecimiento estricto de la función parametrizada:
+donde $x^0 \in D$, y los parámetros de longitud de paso $\alpha_k > 0$ son calculados utilizando extensiones de técnicas de búsqueda lineal de § 3.1.1 para el caso con restricciones. En particular, el valor de longitud de paso es calculado para obtener decrecimiento de la función
 \[
-    \varphi_k \colon \R_+ \rightarrow \R, \quad \varphi_k(\alpha) = f(x^k(\alpha)),
+    \inmap{\varphi_k}{\R_+}{\R}, \quad \varphi_k(\alpha) = f(x^k(\alpha)),
 \]
 donde
-\begin{equation}
+\begin{equation}\label{eq:4.5}
     x^k(\alpha) = P_D(x^k - \alpha f'(x^k))
-    \label{eq:v2_arco_proyeccion}
 \end{equation}
-es el denominado \deftech{arco de proyección} (una trayectoria poligonal continua sobre la frontera y el interior de $D$).
+es el arco de proyección (vea Figura 4.1.1).
 
-Por ejemplo, en el caso de la \textbf{minimización unidimensional}, $\alpha_k$ es una solución del problema
+Por ejemplo, en el caso de la minimización unidimensional, $\alpha_k$ es una solución del problema
 \[
-    \min_{\alpha \in \R_+} \varphi_k(\alpha).
+    \min \varphi_k(\alpha) \quad \text{sujeto a} \quad \alpha \in \R_+,
 \]
-Sin embargo, como en el caso irrestricto, las reglas de minimización unidimensional exacta no son muy atractivas desde el punto de vista práctico computacional. Más interesantes son las extensiones de la \textbf{regla de Armijo}. Esto puede ser hecho por el mismo esquema que fue considerado para problemas irrestrictos, sustituyendo la condición clásica de descenso por:
-\begin{equation}
-    f(x^k(\alpha)) \le f(x^k) + \sigma \langle f'(x^k), x^k(\alpha) - x^k \rangle.
-    \label{eq:v2_armijo_proyectado}
+o del problema
+\[
+    \min \varphi_k(\alpha) \quad \text{sujeto a} \quad \alpha \in [0, \hat{\alpha}],
+\]
+donde $\hat{\alpha} > 0$ es un parámetro. Sin embargo, como en el caso irrestricto, las reglas de minimización unidimensional no son muy atractivas desde el punto de vista práctico.
+
+Más interesantes son las extensiones de la regla de Armijo. Esto puede ser hecho, por ejemplo, por el mismo esquema que fue considerado en § 3.1.1, sustituyendo la condición (3.6) por
+\begin{equation}\label{eq:4.6}
+    f(x^k(\alpha)) \le f(x^k) + \sigma \interno{f'(x^k)}{x^k(\alpha) - x^k}.
 \end{equation}
+Recordamos que, para comenzar el proceso, deben ser elegidos un parámetro $\sigma \in (0, 1)$, el valor inicial de la longitud de paso $\hat{\alpha} > 0$ y el parámetro de reducción del paso $\theta \in (0, 1)$. En particular, $\alpha_k$ es calculado como el mayor entre todos los números de la forma $\alpha = \hat{\alpha} \theta^s$, $s \in \N$, satisfaciendo la desigualdad \eqref{eq:4.6}. Como es fácil ver, en el caso cuando $D = \R^n$, la desigualdad \eqref{eq:4.6} se reduce a la condición de Armijo (3.6) en el caso irrestricto.
 
-Recordamos que, para comenzar el proceso, se debe elegir un parámetro $\sigma \in (0, 1)$, el valor inicial de la longitud de paso $\hat{\alpha} > 0$ y el parámetro de reducción del paso $\theta \in (0, 1)$. La longitud $\alpha_k$ se calcula como el mayor entre todos los números de la forma $\alpha = \hat{\alpha}\theta^s$, $s \in \N$, que satisfaga la desigualdad \eqref{eq:v2_armijo_proyectado}. Como es fácil ver, en el caso cuando $D = \Rn$, la proyección es la identidad ($P_D(x)=x$) y la desigualdad \eqref{eq:v2_armijo_proyectado} se reduce a la condición de Armijo estándar del caso irrestricto.
+Existen también varias modificaciones de la regla de Armijo (por ejemplo, similares a la regla de Goldstein). Podríamos considerar también la regla de longitud de paso fijo, donde $\alpha_k = \bar{\alpha}$ para todo $k$, con $\bar{\alpha} > 0$ fijo.
 
-\begin{algorithm}[Método del gradiente proyectado]\label{alg:v2_gradiente_proyectado}
-    Elegir $x^0 \in D$ y tomar $k := 0$. Elegir una de las reglas de cálculo de longitud de paso a ser utilizada, y sus parámetros asociados:
-    \begin{itemize}
-        \item Para minimización unidimensional: $\hat{\alpha} > 0$ o $\hat{\alpha} = +\infty$.
-        \item Para la regla de Armijo: $\hat{\alpha} > 0$, y $\sigma, \theta \in (0, 1)$.
-        \item Para longitud de paso fijo: $\bar{\alpha} > 0$.
-    \end{itemize}
-    \begin{enuthm}
-        \item Calcular el tamaño de paso $\alpha_k$ evaluando el descenso a lo largo del arco de proyección $x^k(\alpha)$ de acuerdo con la regla elegida.
-        \item Calcular el nuevo iterado proyectado utilizando la fórmula $x^{k+1} = P_D(x^k - \alpha_k f'(x^k))$.
-        \item Tomar $k \leftarrow k + 1$ y retornar al Paso 1.
-    \end{enuthm}
+\begin{algorithm}[Método del gradiente proyectado]
+    Elegir $x^0 \in D$ y tomar $k := 0$. Elegir una de las tres reglas de cálculo de longitud de paso a ser utilizada, y los parámetros asociados: $\hat{\alpha} > 0$ (o $\hat{\alpha} = +\infty$) en el caso de minimización unidimensional, $\hat{\alpha} > 0$, $\sigma, \theta \in (0, 1)$ en el caso de la regla de Armijo, $\bar{\alpha} > 0$ en el caso de longitud de paso fijo.
+    
+    \begin{enumerate}
+        \item Calcular $\alpha_k$ de acuerdo con la regla elegida.
+        \item Calcular $x^{k+1}$ utilizando la fórmula \eqref{eq:4.4}.
+        \item Tomar $k := k + 1$ y retornar al Paso 1.
+    \end{enumerate}
 \end{algorithm}
 
-Observamos que si para algún $k$ el punto $x^k$ es estacionario para el problema \eqref{eq:v2_rest_simple_prob}, entonces la condición \eqref{eq:v2_estacionario_proyeccion} asegura que el método genera $x^k = x^{k+1} = \dots$, independientemente de la longitud del paso $\alpha_k$.
+El Algoritmo 4.1.1 está ilustrado en la Figura 4.1.1.
 
-Las propiedades de convergencia de los métodos del gradiente proyectado son topológicamente muy parecidas a las propiedades de los métodos del gradiente libres. En el análisis asintótico a continuación, la siguiente desigualdad geométrica tiene un papel vital:
-\begin{equation}
-    \langle f'(x^k), x^k(\alpha) - x^k \rangle \le -\frac{1}{\alpha} \norm{x^k(\alpha) - x^k}^2 \quad \forall \alpha > 0.
-    \label{eq:v2_desig_proyeccion_gradiente}
+Observamos que si para algún $k$ el punto $x^k$ es estacionario para el problema \eqref{eq:4.1}, entonces el método genera $x^k = x^{k+1} = \dots$, cualquiera que sea la longitud de paso $\alpha_k$. Notamos también que para $D = \R^n$, un método del gradiente proyectado se reduce al método del gradiente (irrestricto) correspondiente. Las propiedades de convergencia de métodos del gradiente proyectado son muy parecidas a las propiedades de métodos del gradiente. A continuación, presentaremos dos resultados que son generalizaciones de los Teoremas 3.1.1 y 3.1.5, respectivamente.
+
+En el análisis a seguir, la siguiente desigualdad tiene un papel importante:
+\begin{equation}\label{eq:4.7}
+    \interno{f'(x^k)}{x^k(\alpha) - x^k} \le -\frac{1}{\alpha} \| x^k(\alpha) - x^k \|^2 \quad \forall \alpha > 0.
 \end{equation}
-
-Para probar esta desigualdad rigurosamente, notamos que para todo $\alpha > 0$:
+Para probar esta desigualdad, notamos que para todo $\alpha > 0$,
 \begin{align*}
-    \langle f'(x^k), x^k(\alpha) - x^k \rangle &= \frac{1}{\alpha} \langle x^k + \alpha f'(x^k) - x^k, x^k(\alpha) - x^k \rangle \\
-    &= \frac{1}{\alpha} \langle x^k - x^k(\alpha), x^k(\alpha) - x^k \rangle \\
-    &\quad + \frac{1}{\alpha} \langle x^k(\alpha) - (x^k - \alpha f'(x^k)), x^k(\alpha) - x^k \rangle \\
-    &\le -\frac{1}{\alpha} \norm{x^k(\alpha) - x^k}^2,
+    \interno{f'(x^k)}{x^k(\alpha) - x^k} &= \frac{1}{\alpha} \interno{x^k + \alpha f'(x^k) - x^k}{x^k(\alpha) - x^k} \\
+    &= \frac{1}{\alpha} \interno{x^k - x^k(\alpha)}{x^k(\alpha) - x^k} + \frac{1}{\alpha} \interno{x^k(\alpha) - (x^k - \alpha f'(x^k))}{x^k(\alpha) - x^k} \\
+    &\le -\frac{1}{\alpha} \| x^k(\alpha) - x^k \|^2,
 \end{align*}
-donde se aplicó directamente el \cref{thm:v2_proyeccion} para acotar el segundo término de la suma por cero, al ser $x^k \in D$.
+donde el Teorema 1.3.1 fue utilizado.
 
-\begin{lemma}[Cota inferior de Armijo para el Gradiente Proyectado]\label{lem:v2_armijo_proyectado_cota}
-    Sean $D \subset \Rn$ un conjunto cerrado y convexo, y $f \colon \Rn \rightarrow \R$ una función diferenciable en $\Rn$, con derivada Lipschitz-continua con módulo $L > 0$.
-    Entonces, para cualquier $x^k \in \Rn$ la desigualdad de Armijo proyectada \eqref{eq:v2_armijo_proyectado} se satisface inexorablemente para todo $\alpha \in (0, \bar{\alpha}]$, donde
-    \begin{equation}
-        \bar{\alpha} = \frac{2(1 - \sigma)}{L} > 0.
-        \label{eq:v2_alpha_barra_proyectado}
+\begin{lemma}
+    Sean $D \subset \R^n$ un conjunto cerrado y convexo, y \( \inmap{f}{\R^n}{\R} \)una función diferenciable en $\R^n$, con derivada Lipschitz-continua en $\R^n$ con módulo $L > 0$.
+    
+    Entonces para cualquier $x^k \in \R^n$ la desigualdad \eqref{eq:4.6} es satisfecha para todo $\alpha \in (0, \bar{\alpha}]$, donde
+    \begin{equation}\label{eq:4.8}
+        \bar{\alpha} = 2(1 - \sigma)/L > 0.
     \end{equation}
 \end{lemma}
 
 \begin{proof}
-    Utilizando la cota del error de linealización (\cref{lem:v2_lipschitz_grad_ineq}) y las desigualdades \eqref{eq:v2_desig_proyeccion_gradiente} y \eqref{eq:v2_alpha_barra_proyectado}, para todo $\alpha \in (0, \bar{\alpha}]$ evaluamos el incremento de la función:
+    Utilizando el Lema 1.5.4 y las desigualdades \eqref{eq:4.7} y \eqref{eq:4.8}, para todo $\alpha \in (0, \bar{\alpha}]$ obtenemos que
     \begin{align*}
-        f(x^k(\alpha)) - f(x^k) &\le \langle f'(x^k), x^k(\alpha) - x^k \rangle + \frac{L}{2} \norm{x^k(\alpha) - x^k}^2 \\
-        &\le \sigma \langle f'(x^k), x^k(\alpha) - x^k \rangle + (1-\sigma)\langle f'(x^k), x^k(\alpha) - x^k \rangle + \frac{L}{2} \norm{x^k(\alpha) - x^k}^2 \\
-        &\le \sigma \langle f'(x^k), x^k(\alpha) - x^k \rangle + \left( \frac{L}{2} - \frac{1-\sigma}{\alpha} \right) \norm{x^k(\alpha) - x^k}^2 \\
-        &\le \sigma \langle f'(x^k), x^k(\alpha) - x^k \rangle,
+        f(x^k(\alpha)) - f(x^k) &\le \interno{f'(x^k)}{x^k(\alpha) - x^k} + \frac{L}{2} \| x^k(\alpha) - x^k \|^2 \\
+        &\le \sigma \interno{f'(x^k)}{x^k(\alpha) - x^k} + \left( \frac{L}{2} - \frac{1 - \sigma}{\alpha} \right) \| x^k(\alpha) - x^k \|^2 \\
+        &\le \sigma \interno{f'(x^k)}{x^k(\alpha) - x^k},
     \end{align*}
-    donde el último término es no positivo precisamente porque $\alpha \le \bar{\alpha}$, garantizando así el decrecimiento suficiente.
+    lo que es justamente el resultado anunciado.
 \end{proof}
 
-El resultado del \cref{lem:v2_armijo_proyectado_cota} implica de forma concluyente que los valores de longitud de paso calculados por la regla de Armijo proyectada están acotados inferiormente por una constante que no depende de $k$, i.e.,
-\begin{equation}
+El resultado del Lema 4.1.1 implica en que, bajo las hipótesis correspondientes, los valores de longitud de paso calculados por la regla de Armijo son limitados inferiormente por un número que no depende de $k$, i.e.,
+\begin{equation}\label{eq:4.9}
     \alpha_k \ge \check{\alpha} > 0 \quad \forall k.
-    \label{eq:v2_paso_acotado_proyectado}
 \end{equation}
+Observamos también que la utilización de longitud de paso fijo, suponiendo que
+\begin{equation}\label{eq:4.10}
+    \bar{\alpha} < 2/L,
+\end{equation}
+es equivalente a la regla de Armijo con $\hat{\alpha} = \bar{\alpha}$ y $\sigma > 0$ suficientemente pequeño. Por lo tanto, este caso no requiere análisis separado.
 
-\begin{theorem}[Convergencia Global del Gradiente Proyectado]\label{thm:v2_grad_proy_global}
-    Sean $D \subset \Rn$ un conjunto cerrado y convexo, $f \colon \Rn \rightarrow \R$ una función diferenciable en $\Rn$, con derivada Lipschitz-continua en $\Rn$ con módulo $L > 0$.
-    
-    Entonces cada punto de acumulación de cualquier sucesión $\{x^k\}$ generada por el \cref{alg:v2_gradiente_proyectado} es un punto estacionario del problema con restricciones. Si un punto de acumulación existe, o si la función $f$ está acotada inferiormente en $D$, entonces para cualquier sucesión acotada $\{t_k\} \subset \R_+$ se tiene que el iterado converge a su proyección límite:
-    \begin{equation}
-        \norm{x^k - P_D(x^k - t_k f'(x^k))} \rightarrow 0 \quad (k \rightarrow \infty).
-        \label{eq:v2_grad_proy_estacionariedad_lim}
-    \end{equation}
+\begin{theorem}[Convergencia del método del gradiente proyectado]\label{th:4.1.1}
+Sean $D \subset \R^n$ un conjunto cerrado y convexo, $f : \R^n \to \R$ una función diferenciable en $\R^n$, con derivada Lipschitz-continua en $\R^n$ con módulo $L > 0$.
+
+Entonces cada punto de acumulación de cualquier secuencia $\{x^k\}$ generada por el Algoritmo 4.1.1 es un punto estacionario del problema \eqref{eq:4.1}. Si un punto de acumulación existe, o si la función $f$ es limitada inferiormente en $D$, entonces para cualquier secuencia limitada $\{t_k\} \subset \R_+$ se tiene que
+\begin{equation}\label{eq:4.11}
+    \| x^k - P_D(x^k - t_k f'(x^k)) \| \to 0 \quad (k \to \infty).
+\end{equation}
 \end{theorem}
 
 \begin{proof}
-    Consideremos el caso de la regla de Armijo. Por \eqref{eq:v2_desig_proyeccion_gradiente}, para todo $k$ tenemos que
-    \begin{equation}
-        \begin{aligned}
-          f(x^k) - f(x^{k+1}) &\ge -\sigma \langle f'(x^k), x^{k+1} - x^k \rangle \\
-          &\ge \frac{\sigma}{\alpha_k} \norm{x^{k+1} - x^k}^2 \ge \frac{\sigma}{\hat{\alpha}} \norm{x^{k+1} - x^k}^2.
-        \end{aligned}
-        \label{eq:v2_dem_grad_proy_armijo_bound}
-    \end{equation}
-    Si $x^k$ no es un punto estacionario del problema, se tiene que
-    \[
-        \norm{x^{k+1} - x^k} = \norm{P_D(x^k - \alpha_k f'(x^k)) - x^k} > 0,
-    \]
-    porque $\alpha_k > 0$. Por eso, de \eqref{eq:v2_dem_grad_proy_armijo_bound} obtenemos que la sucesión $\{f(x^k)\}$ es estrictamente decreciente. 
-    
-    Supongamos que la sucesión $\{x^k\}$ posea un punto de acumulación $\bar{x} \in \Rn$. En este caso, por el hecho de que la sucesión $\{f(x^k)\}$ es decreciente, obtenemos que ella está acotada inferiormente (por $f(\bar{x})$), y por lo tanto converge. Concluimos que el salto objetivo se anula: $f(x^k) - f(x^{k+1}) \rightarrow 0$. Y, de \eqref{eq:v2_dem_grad_proy_armijo_bound}, obtenemos forzosamente que el salto de las variables también se anula:
-    \begin{equation}
-        \norm{x^{k+1} - x^k} \rightarrow 0 \quad (k \rightarrow \infty).
-        \label{eq:v2_salto_var_cero_proyectado}
-    \end{equation}
-    
-    Sea la sucesión $\{t_k\} \subset \R_+$ acotada superiormente por un número $\hat{t}$. Por la no expansividad del operador de proyección (\cref{thm:v2_proyeccion}), y utilizando la acotación geométrica y \eqref{eq:v2_salto_var_cero_proyectado}, obtenemos que la distancia al punto de prueba converge a cero:
-    \begin{align*}
-        \norm{x^k(t_k) - x^k} &\le \max\{1, t_k/\alpha_k\} \norm{x^k(\alpha_k) - x^k} \\
-        &\le \max\{1, \hat{t}/\check{\alpha}\} \norm{x^{k+1} - x^k} \rightarrow 0 \quad (k \rightarrow \infty),
-    \end{align*}
-    lo que prueba \eqref{eq:v2_grad_proy_estacionariedad_lim}. 
-    
-    Sea $\{x^{k_j}\}$ una subsucesión de $\{x^k\}$ que converge a $\bar{x}$. Pasando al límite cuando $j \rightarrow \infty$ en \eqref{eq:v2_grad_proy_estacionariedad_lim}, donde tomamos $t_k = t$ para todo $k$, siendo $t > 0$ un número arbitrario, y teniendo en cuenta la continuidad del operador de proyección, obtenemos la ecuación estacionaria \eqref{eq:v2_estacionario_proyeccion}, mostrando topológicamente que $\bar{x}$ es un punto estacionario del problema general.
+Consideremos el caso de la regla de Armijo. Por \eqref{eq:4.7}, para todo $k$ tenemos que
+\begin{align}
+    f(x^k) - f(x^{k+1}) &\ge -\sigma \interno{f'(x^k)}{x^{k+1} - x^k} \nonumber \\
+    &\ge \frac{\sigma}{\alpha_k} \| x^{k+1} - x^k \|^2 \nonumber \\
+    &\ge \frac{\sigma}{\check{\alpha}} \| x^{k+1} - x^k \|^2. \label{eq:4.12}
+\end{align}
+
+Si $x^k$ no es un punto estacionario del problema \eqref{eq:4.1}, se tiene que
+\[
+    \| x^{k+1} - x^k \| = \| P_D(x^k - \alpha_k f'(x^k)) - x^k \| > 0,
+\]
+porque $\alpha_k > 0$. Por eso, de \eqref{eq:4.12} obtenemos que la secuencia $\{f(x^k)\}$ es decreciente. Supongamos que la secuencia $\{x^k\}$ posea un punto de acumulación $\bar{x} \in \R^n$. En este caso, por el hecho de que la secuencia $\{f(x^k)\}$ es decreciente, obtenemos que ella es limitada inferiormente (por $f(\bar{x})$), y por lo tanto converge (cuando la función $f$ es limitada inferiormente en $\R^n$, esto vale aun cuando $\{x^k\}$ no tiene puntos de acumulación). Concluimos que
+\[
+    f(x^k) - f(x^{k+1}) \to 0 \quad (k \to \infty),
+\]
+y, de \eqref{eq:4.12}, obtenemos que
+\begin{equation}\label{eq:4.13}
+    \| x^{k+1} - x^k \| \to 0 \quad (k \to \infty).
+\end{equation}
+
+Sea la secuencia $\{t_k\} \subset \R_+$ limitada superiormente por un número $\hat{t}$. Por el Teorema 1.3.1, utilizando también \eqref{eq:4.9} y \eqref{eq:4.13}, obtenemos que
+\begin{align*}
+    \| x^k(t_k) - x^k \| &\le \max\{1, t_k/\alpha_k\} \| x^k(\alpha_k) - x^k \| \\
+    &\le \max\{1, \hat{t}/\check{\alpha}\} \| x^{k+1} - x^k \| \to 0 \quad (k \to \infty),
+\end{align*}
+lo que prueba \eqref{eq:4.11}.
+
+Sea $\{x^{k_j}\}$ una subsecuencia de la secuencia $\{x^k\}$ que converge a $\bar{x}$. Pasando al límite cuando $j \to \infty$ en \eqref{eq:4.11}, donde tomamos $t_k = t \ \forall k$, siendo $t > 0$ un número arbitrario, teniendo en cuenta la continuidad del operador de proyección (vea el Teorema 1.3.1), obtenemos \eqref{eq:4.3}, mostrando que $\bar{x}$ es un punto estacionario.
+
+La consideración del caso de utilización de la minimización unidimensional se reduce a la regla de Armijo de la misma manera que en el Teorema 3.1.1.
 \end{proof}
 
-\begin{notabox}[Limitación de Complejidad de la Proyección]
-    Cada iteración de un método del gradiente proyectado requiere la solución explícita de un subproblema de proyección ortogonal sobre el conjunto $D$. Esto indica que el método solo puede ser práctico cuando el cálculo analítico o numérico de estas proyecciones tiene un costo computacional relativamente bajo. 
-    
-    Por ejemplo, si $D$ es un poliedro definido por desigualdades afines, encontrar la proyección requiere resolver un subproblema de programación cuadrática. Difícilmente tiene sentido utilizar técnicas de proyección en el caso más general de restricciones completamente no lineales. Existen, sin embargo, fórmulas explícitas para proyecciones sobre subespacios, semiespacios, ortantes y bolas euclidianas (como se explora en el \cref{exe:8.1.2}).
-\end{notabox}
-
-% =========================================================
-\section{Direcciones factibles y métodos de descenso}
-% =========================================================
-
-En cada iteración de los métodos de gradiente o Newton proyectados, el conjunto factible del problema no es aproximado o simplificado de manera alguna (se procesa mediante el operador $P_D$). Para problemas más complejos con restricciones altamente no lineales, es razonable intentar utilizar \textbf{aproximaciones locales} (lineales o cuadráticas) de todos los datos del problema, no solo de la función objetivo. Esta es la idea básica de los \textbf{métodos de direcciones factibles}, que constituyen una clase de métodos de descenso generalizado para problemas con restricciones de desigualdad.
-
-Consideremos entonces el problema:
-\begin{equation}
-    \min f(x) \quad \text{sujeto a} \quad x \in D = \{ x \in \Rn \mid g(x) \le 0 \},
-    \label{eq:v2_problema_direc_factibles}
+Sea $S_0$ el conjunto de puntos estacionarios del problema \eqref{eq:4.1}. Supongamos que valga la condición de separación de superficies de nivel críticas, que tiene la misma forma que en § 3.1.2 (pero con la nueva definición de $S_0$, claro). Supongamos que vale la estimativa
+\begin{equation}\label{eq:4.14}
+    \| x - P_D(x - f'(x)) \| \ge \gamma \dist(x, S_0) \quad \forall x \in U,
 \end{equation}
-donde las funciones $f \colon \Rn \rightarrow \R$ y $g \colon \Rn \rightarrow \R^m$ son diferenciables.
-
-El esquema general adaptado para restricciones exige no solo encontrar una dirección que descienda la función objetivo, sino que al mismo tiempo apunte hacia el interior del conjunto factible para evitar que el siguiente iterado abandone $D$:
-\begin{equation}
-    x^{k+1} = x^k + \alpha_k d^k, \quad d^k \in \symcal{D}_f(x^k) \cap \mathcal{V}_D(x^k), \quad k = 0, 1, \dots,
-    \label{eq:v2_esquema_dir_factibles}
+donde
+\begin{equation}\label{eq:4.15}
+    U = \{ x \in \R^n \mid \| x - P_D(x - f'(x)) \| < \delta \},
 \end{equation}
-donde $x^0 \in D$, y los parámetros de longitud de paso $\alpha_k > 0$ son calculados para satisfacer la doble condición de viabilidad y mejora:
-\begin{equation}
-    f(x^{k+1}) < f(x^k), \quad x^{k+1} \in D.
-    \label{eq:v2_cond_aceptacion_factible}
-\end{equation}
+con constantes $\delta > 0$ y $\gamma > 0$. En el caso de $D = \R^n$, estas condiciones ya fueron consideradas en § 3.1.2. Sin entrar en detalles, mencionamos que ambas son satisfechas si, por ejemplo, $f$ es una función cuadrática, $D$ es un conjunto poliédrico, y $S_0 \neq \emptyset$ (comparar con el Ejercicio 3.1.11).
 
-Como $d^k \in \symcal{D}_f(x^k) \cap \mathcal{V}_D(x^k)$ por definición algorítmica, las condiciones \eqref{eq:v2_cond_aceptacion_factible} serán garantizadas por la continuidad para todo $\alpha_k > 0$ suficientemente pequeño. Entendemos que cuando la intersección topológica se vacía ($\symcal{D}_f(x^k) \cap \mathcal{V}_D(x^k) = \emptyset$), el método se detiene al alcanzar la estacionariedad. 
+\begin{theorem}[Convergencia lineal del método del gradiente proyectado]\label{th:4.1.2}
+Además de las hipótesis del Teorema 4.1.1, supongamos que el valor óptimo del problema \eqref{eq:4.1} sea finito y valga la condición \eqref{eq:4.14}, con $U$ definido en \eqref{eq:4.15} y algunos $\delta > 0$ y $\gamma > 0$. Supongamos también que valga la condición de separación de superficies de nivel críticas.
 
-La realización algorítmica básica de los métodos de direcciones viables consiste en determinar la "mejor" dirección conjunta. Para un iterado $x^k \in D$ dado, resolvemos el subproblema lineal de minimax:
-\begin{equation}
-    \min_{d \in \Rn} \max \left\{ \interno{f'(x^k)}{d}; \, \max_{i \in I_k} \{ \interno{g'_i(x^k)}{d} \} \right\} \quad \text{sujeto a} \quad \norm{d}_\infty \leq 1,
-    \label{eq:v2_subprob_minimax_dir_fact}
-\end{equation}
-donde $I_k = I(x^k) = \{ i = 1, \dots, m \mid g_i(x^k) = 0 \}$ es el conjunto de índices de las restricciones activas en el punto $x^k$. 
-
-Para evitar lidiar con la función no diferenciable $\max$, este problema puede reformularse elegantemente como un problema de \textbf{Programación Lineal (LP)} estándar añadiendo una variable escalar auxiliar de cota superior $t$:
-\begin{equation}
-    \min t \quad \text{sujeto a} \quad (t, d) \in U_k,
-    \label{eq:v2_subprob_LP_dir_fact}
-\end{equation}
-donde el poliedro de restricciones $U_k$ viene dado por:
-\begin{equation}
-    U_k = \left\{ (t, d) \in \R \times \Rn \;\middle|\; \begin{aligned} \interno{f'(x^k)}{d} &\leq t, \\ \interno{g'_i(x^k)}{d} &\leq t, \quad i \in I_k, \\ -1 \leq d_j &\leq 1, \quad j = 1, \dots, n \end{aligned} \right\}.
-    \label{eq:v2_poliedro_U_k}
-\end{equation}
-
-En la definición del poliedro, la imposición de la caja unitaria $\norm{d}_\infty \le 1$ a través de $-1 \leq d_j \leq 1$ sirve estrictamente para evitar que la solución sea ilimitada (que $t \to -\infty$) y garantizar que el subproblema \eqref{eq:v2_subprob_LP_dir_fact} tenga siempre una solución finita. De hecho, el vector nulo $(t=0, d=0) \in U_k$ pertenece trivialmente al poliedro, lo que demuestra que $U_k \neq \emptyset$.
-
-Sea $u^k = (t_k, d^k)$ la solución óptima obtenida del LP. Claramente, el valor óptimo satisface $t_k \leq 0$, porque evaluamos en el punto factible $(0, 0)$ y el objetivo es minimizar $t$. Si se obtiene exactamente $t_k = 0$, indica que es imposible hallar una dirección que simultáneamente mejore la función objetivo y respete el espacio interior de las restricciones. En este caso crítico, el método se detiene.
-
-\begin{theorem}[Condición de parada de direcciones factibles]\label{thm:v2_parada_dir_factibles}
-    Sean $f \colon \Rn \to \R$ y $g \colon \Rn \to \symbb{R}^m$ funciones diferenciables en el iterado $x^k \in D$. Supongamos que el punto $x^k$ satisface la condición de regularidad de Mangasarian-Fromovitz (MFCQ). 
-    
-    Si el vector nulo $u^k=(0, 0)$ es la solución del problema lineal \eqref{eq:v2_subprob_LP_dir_fact}, entonces el algoritmo no puede continuar porque el punto actual $x^k$ es rigurosamente un \textbf{punto estacionario (KKT)} del problema no lineal original \eqref{eq:v2_problema_direc_factibles}.
+Entonces cualquier secuencia $\{x^k\}$ generada por el Algoritmo 4.1.1 converge a un punto estacionario del problema \eqref{eq:4.1}. La tasa de convergencia con respecto a la función es lineal, y con respecto a las variables la tasa es geométrica.
 \end{theorem}
 
-\begin{proof}
-    Recordamos que la condición de Mangasarian-Fromovitz, en el caso de desigualdades, consiste en la existencia de un vector interior estricto $\bar{d} \in \Rn$ tal que $\interno{g'_i(x^k)}{\bar{d}} < 0$ para todo $i \in I(x^k)$.
-    
-    Si el punto $(0, 0)$ es una solución óptima del problema de programación lineal \eqref{eq:v2_subprob_LP_dir_fact}, podemos invocar el Teorema de Optimalidad Primal-Dual para problemas afines (ver Capítulo 5). Existen multiplicadores duales $\mu_0 \geq 0$ (asociado a la restricción del gradiente de $f$) y $\mu_i \geq 0$, $i \in I_k$ (asociados a los gradientes de $g$), que por estacionariedad dual de LP en $t$ y $d$ satisfacen:
-    \begin{align}
-        1 - \mu_0 - \sum_{i \in I_k} \mu_i &= 0, \label{eq:v2_dem_df_t} \\
-        \mu_0 f'(x^k) + \sum_{i \in I_k} \mu_i g'_i(x^k) &= 0. \label{eq:v2_dem_df_d}
-    \end{align}
-    
-    Supongamos, por reducción al absurdo, que el multiplicador principal de la función objetivo fuera nulo ($\mu_0 = 0$). En este caso, la ecuación \eqref{eq:v2_dem_df_t} de equilibrio de pesos implica que $\sum \mu_i = 1$, por lo que entre los números $\mu_i \geq 0$ para las restricciones, al menos uno debe ser estrictamente positivo. 
-    
-    Multiplicando escalarmente ambos lados de la ecuación estacionaria \eqref{eq:v2_dem_df_d} (con $\mu_0=0$) por el vector $\bar{d}$ de MFCQ, y utilizando la negatividad estricta de sus productos, obtenemos la contradicción:
-    \[
-        0 = \sum_{i \in I_k} \mu_i \interno{g'_i(x^k)}{\bar{d}} < 0,
-    \]
-    la cual emana del hecho de que $\interno{g'_i}{\bar{d}} < 0$ y al menos un $\mu_i$ aporta un peso positivo. Concluimos inequívocamente que la asunción era falsa y que $\mu_0 > 0$.
-    
-    Dado que $\mu_0 > 0$, dividiendo ambos lados de \eqref{eq:v2_dem_df_d} por el escalar positivo $\mu_0$, obtenemos:
-    \[
-        f'(x^k) + \sum_{i \in I_k} \bar{\mu}_i g'_i(x^k) = 0,
-    \]
-    donde los nuevos multiplicadores de Lagrange definidos como $\bar{\mu}_i = \mu_i / \mu_0 \geq 0$ para $i \in I_k$ (y $\bar{\mu}_i=0$ para $i \notin I_k$) demuestran que el punto cumple exactamente con las ecuaciones algebraicas del sistema de Karush-Kuhn-Tucker. Por lo tanto, $x^k$ es un punto estacionario del problema de minimización con restricciones.
-\end{proof}
+La demostración de este teorema puede ser hecha por la modificación relativamente obvia de la demostración del Teorema 3.1.5. Mencionemos apenas que aquí deben ser también utilizados los resultados de los Teoremas 1.3.1 y 1.3.7.
+
+Cada iteración de un método del gradiente proyectado requiere el cálculo de proyecciones sobre el conjunto $D$ (una vez, o más, dependiendo de la regla para la longitud de paso). Esto indica que el método sólo puede ser práctico cuando el cálculo de proyecciones tiene un costo computacional relativamente bajo. Por ejemplo, cuando $D$ es un conjunto poliédrico, el problema de encontrar una proyección es de programación cuadrática (vea § 6.2), lo que es considerado aceptable. Difícilmente puede tener sentido utilizar técnicas de proyección en el caso más general, i.e., de restricciones no lineales. A veces, el cálculo de proyecciones no requiere resolución numérica de problemas de optimización, porque existen fórmulas explícitas.
+
+Existen modificaciones de métodos del gradiente proyectado que requieren, en cada iteración, una proyección apenas. Por ejemplo, en vez del esquema \eqref{eq:4.4} basado en el arco de proyección \eqref{eq:4.5}, podemos utilizar el intervalo
+\[
+    x^k(\alpha) = (1 - \alpha)x^k + \alpha P_D(x^k - \beta_k f'(x^k)).
+\]
+Esto resulta en el esquema
+\begin{equation}\label{eq:4.16}
+    x^{k+1} = (1 - \alpha_k)x^k + \alpha_k P_D(x^k - \beta_k f'(x^k)), \quad k = 0, 1, \dots,
+\end{equation}
+donde $x^0 \in D$, los parámetros $\beta_k > 0$ pueden ser elegidos más o menos arbitrariamente (desde que $0 < c_1 \le \beta_k \le c_2$), y el parámetro de longitud de paso $\alpha_k$ es calculado por la regla de Armijo \eqref{eq:4.6} con $\hat{\alpha} = 1$. Las reglas de minimización unidimensional pueden ser adaptadas análogamente.
+
+Observamos que si $x^k \in D$ entonces, por la convexidad de $D$,
+\[
+    d^k = P_D(x^k - \beta_k f'(x^k)) - x^k
+\]
+es una dirección factible en el punto $x^k$ con respecto al conjunto $D$ y, en particular, $x^k(\alpha) = x^k + \alpha d^k \in D$ para todo $\alpha \in [0, 1]$. Este intervalo está ilustrado en la Figura 4.1.2.
+
+Además de eso, por \eqref{eq:4.7}, $d^k$ es una dirección de descenso de la función $f$ en el punto $x^k$. Tenemos entonces una dirección de descenso que es factible. A partir de eso, es fácil probar que, si la secuencia $\{\beta_k\}$ es limitada inferiormente por un número positivo, este esquema posee convergencia global en el sentido del Teorema 4.1.1. Sin embargo, probar la tasa de convergencia lineal para este esquema ya no es posible, por lo menos bajo las hipótesis usuales.
+
+La importancia teórica de métodos del gradiente proyectado consiste principalmente en el hecho de que varios otros métodos que generan iteraciones factibles y son métodos de descenso, pueden ser interpretados como versiones inexactas o modificadas de algún método del gradiente proyectado.
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:
