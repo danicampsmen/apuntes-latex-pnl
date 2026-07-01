@@ -83,3 +83,95 @@ Probar que si existen $c_2 \ge c_1 > 0$ tales que
 \]
 entonces todo punto de acumulación de una secuencia $\{x^k\}$ así generada, es un punto estacionario del problema \eqref{eq:4.1}.
 \end{exercise}
+
+\TODO{Segundo Bloque de Ejercicios}
+
+\begin{exercise}
+Probar el Lema 4.1.3. Probar también que, en el caso de restricciones lineales (i.e., cuando $g$ es una función afín), las desigualdades estrictas en la afirmación (b) del Lema 4.1.3 pueden ser sustituidas por desigualdades no estrictas.
+\end{exercise}
+
+\begin{exercise}
+Sea
+\[
+    D = \{ x \in \R^n \mid Ax \le a \},
+\]
+donde $A \in \R(m, n)$ es una matriz con filas $A_i, i = 1, \dots, m$, y $a \in \R^m$. Mostrar que para todo $x^k \in D$ y todo $d^k \in V_D(x^k)$, para $\hat{\alpha}_k$ definido en \eqref{eq:4.20} tenemos lo siguiente:
+
+\begin{enumerate}[(a)]
+    \item Si $\interno{A_i}{d^k} > 0$ para por lo menos un $i \in \{1, \dots, m\}$, entonces
+    \[
+        \hat{\alpha}_k = \min \left\{ \frac{a_i - \interno{A_i}{x^k}}{\interno{A_i}{d^k}} \ \middle| \ i = 1, \dots, m : \interno{A_i}{d^k} > 0 \right\}.
+    \]
+    \item Si $\interno{A_i}{d^k} \le 0 \ \forall i = 1, \dots, m$, entonces $\hat{\alpha}_k = +\infty$.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+A partir del punto inicial $x^0 = 0$, hacer dos iteraciones del método del gradiente restringido, con longitud de paso calculado por la minimización unidimensional, para el problema
+\[
+    \min x_1^2 + 2x_2^2 - 3x_1 + 4x_2 \quad \text{sujeto a} \quad x \in B(0, 2).
+\]
+\end{exercise}
+
+\begin{exercise}
+Sea $f : \R^n \to \R$ una función diferenciable con derivada Lipschitz-continua (con módulo $L > 0$) en el conjunto $D$ que es convexo y compacto. Sea
+\[
+    +\infty > R = \max_{x, y \in D} \|x - y\|.
+\]
+Dado un $x^k \in D$, sea $d^k = \bar{x}^k - x^k$, donde $\bar{x}^k$ es una solución del problema \eqref{eq:4.21}.
+
+\begin{enumerate}[(a)]
+    \item Probar que
+    \[
+        \min_{\alpha \in [0, 1]} f(x^k + \alpha d^k) \le f(x^k) + \Delta_k,
+    \]
+    donde
+    \[
+        0 \le \Delta_k = 
+        \begin{cases}
+            \frac{1}{2} \interno{f'(x^k)}{d^k}, & \text{si } \interno{f'(x^k)}{d^k} + L \|d^k\|^2 < 0, \\
+            -\frac{|\interno{f'(x^k)}{d^k}|^2}{2LR^2}, & \text{caso contrario.}
+        \end{cases}
+    \]
+    \item Para el método del gradiente restringido con regla de longitud de paso de minimización unidimensional restringida, mostrar que todo punto de acumulación de la secuencia generada es un punto estacionario del problema de minimizar $f$ en $D$.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Sea $f : \R^n \to \R$ una función diferenciable en el punto $x^k \in D \subset \R^n$, $f'(x^k) \neq 0$. Probar los siguientes resultados sobre soluciones $\bar{x}^k$ del problema \eqref{eq:4.21}.
+\begin{enumerate}[(a)]
+    \item Si $D = B(\hat{x}, \delta)$, donde $\hat{x} \in \R^n$, $\delta > 0$, entonces
+    \[
+        \bar{x}^k = \hat{x} - \delta f'(x^k) / \|f'(x^k)\|.
+    \]
+    \item Si $D = \{ x \in \R^n \mid x_j \in [a_j, b_j], j = 1, \dots, n \}$, donde se tiene que $a_j \le b_j$, $j = 1, \dots, n$, entonces todo $\bar{x}^k$ satisfaciendo
+    \[
+        \begin{cases}
+            \bar{x}^k_j = a_j, & \text{si } f'_{x_j}(x^k) > 0, \\
+            \bar{x}^k_j = b_j, & \text{si } f'_{x_j}(x^k) < 0, \\
+            \bar{x}^k_j \in [a_j, b_j], & \text{si } f'_{x_j}(x^k) = 0,
+        \end{cases}
+    \]
+    $j = 1, \dots, n$, es una solución de \eqref{eq:4.21}.
+    \item Si $D = \{ x \in \R^n \mid x \ge 0, \sum_{i=1}^n x_i = c \}$, $c > 0$, entonces todo $\bar{x}^k$ satisfaciendo $\bar{x}^k_j = c$ para algún índice $j \in \{1, \dots, n\}$ tal que
+    \[
+        f'_{x_j}(x^k) = \min \{ f'_{x_i}(x^k) \mid i = 1, \dots, n \},
+    \]
+    $\bar{x}^k_i = 0$ para todo $i \in \{1, \dots, n\} \setminus \{j\}$, es una solución de \eqref{eq:4.21}.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Sea $f : \R^n \to \R$ una función dos veces continuamente diferenciable, con matriz Hessiana $f''(x)$ definida positiva en todo punto $x \in D$. Sea $\bar{x}$ un minimizador local de $f$ en $D$.
+
+Probar que existe $\delta > 0$ tal que, si $\|x^0 - \bar{x}\| < \delta$, entonces el método de Newton restringido está bien definido y genera una secuencia $\{x^k\}$ satisfaciendo $\|x^k - \bar{x}\| < \delta \ \forall k$; $x^k \to \bar{x} \ (k \to \infty)$ y la tasa de convergencia de $\{x^k\}$ a $\bar{x}$ es superlineal.
+\end{exercise}
+
+\TODO{Tercer Bloque de Ejercicios}
+
+
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:
