@@ -242,6 +242,57 @@ Probar que existe $\delta > 0$ tal que, si $\|x^0 - \bar{x}\| < \delta$, entonce
 \begin{exercise}
     Probar análogos de la Proposición 4.3.3 y del Teorema 4.3.7 para el caso de la penalización interna parcial.
 \end{exercise}
+\TODO{Bloque 5}
+\begin{exercise}
+    Resolver el problema
+    \[
+        \min -x_1 x_2 \quad \text{sujeto a} \quad x_1 + x_2 = 2,
+    \]
+    utilizando el método de Newton para el sistema de Lagrange (el punto inicial puede ser arbitrario).
+\end{exercise}
+
+\begin{exercise}
+    Sean
+    \[
+        R = \{ x \in \R^n \mid \rank h'(x) = l \},
+    \]
+    \[
+        \inmap{\lambda_\tau}{R}{\R^l}, \quad \lambda_\tau(x) = (h'(x)(h'(x))^\top)^{-1}(\tau h(x) - h'(x)f'(x)),
+    \]
+    donde $\tau \in \R$ es un parámetro. Suponiendo que $\bar{x}$ sea un punto estacionario del problema \eqref{eq:4.96}, que satisfaga la condición de regularidad de las restricciones (1.9), calcular la derivada de $\lambda_\tau(\cdot)$ en $\bar{x}$. Utilizando el resultado obtenido, construir un método de Newton inexacto para la ecuación
+    \[
+        L'_x(x, \lambda_\tau(x)) = 0
+    \]
+    con respecto a $x \in \R^n$. Eligiendo $\tau$ de manera adecuada, analizar las propiedades de convergencia de este método.
+\end{exercise}
+
+\begin{exercise}
+    Probar los siguientes hechos que complementan las afirmaciones del Teorema 4.4.4:
+    \begin{enumerate}[(a)]
+        \item Para todo número $\varepsilon > 0$ existe un número $c(\varepsilon) \ge \bar{c}$ tal que, para todo $c > c(\varepsilon)$, se tiene que
+        \begin{align*}
+            \frac{\|(L''(\bar{x}, \bar{\lambda}))^{-1}\| \|\bar{\lambda}\| - \varepsilon}{c} &\le \|x(c) - \bar{x}\| \\
+            &\le \frac{\|(L''(\bar{x}, \bar{\lambda}))^{-1}\| \|\bar{\lambda}\| + \varepsilon}{c}.
+        \end{align*}
+        \item Para todo $c > \bar{c}$ suficientemente grande, se tiene que la matriz $\varphi''(x(c); c)$ es definida positiva, i.e., el punto estacionario $x(c)$ del problema \eqref{eq:4.105} satisface la condición suficiente de segunda orden del Teorema 1.2.1(b).
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    Utilizando el método de penalización cuadrática, resolver el problema
+    \[
+        \min x \quad \text{sujeto a} \quad x^p = 0,
+    \]
+    donde $p \ge 2$ es un parámetro entero. Analizar la tasa de convergencia y explicar el fenómeno observado.
+\end{exercise}
+
+\begin{exercise}
+    Utilizando el método de penalización cuadrática, resolver los problemas
+    \begin{align*}
+        \min 2x_1^2 + (x_2 - 1)^2 \quad &\text{sujeto a} \quad x \in D = \{ x \in \R^2 \mid 2x_1 + x_2 = 0 \}, \\
+        \min x_1^2 + 2x_2^2 \quad &\text{sujeto a} \quad x \in D = \{ x \in \R^2 \mid 3x_1 + x_2 = 3 \}.
+    \end{align*}
+\end{exercise}
 
 %%% Local Variables:
 %%% mode: LaTeX
