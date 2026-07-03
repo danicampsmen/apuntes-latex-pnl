@@ -1,102 +1,238 @@
-% --- Archivo: 04_penalizacion_interna_barreras.tex ---
-
-% =========================================================
 \subsection{Penalización interna. Métodos de barreras}
-\label{sec:v2_penalizacion_interna}
-% =========================================================
 
-Los métodos de penalización interna (o métodos de barreras) abandonan por completo el enfoque de evaluar puntos no factibles y se diseñan para operar exclusivamente dentro del volumen permitido. Tratan problemas con desigualdades puras de la forma:
-\begin{equation}
-    \min f(x) \quad \text{sujeto a} \quad x \in D = \{x \in \Rn \mid g(x) \leq 0\},
-    \label{eq:v2_barrera_problema}
+Los métodos de penalización interna lidian con problemas de la forma
+\begin{equation}\label{eq:4.82}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \{ x \in \R^n \mid g(x) \le 0 \},
 \end{equation}
-donde las variables y las funciones obedecen las directrices topológicas de un sistema analítico de clase suave tal que asumiendo validaciones rigurosas topológicamente al sistema se exija la factibilidad estricta. Supondremos que el ``interior'' del conjunto factible es robusto y no vacío:
-\begin{equation}
-    D^0 = \{x \in \Rn \mid g(x) < 0\} \neq \emptyset.
-    \label{eq:v2_interior_factible}
+donde $\inmap{f}{\R^n}{\R}$, $\inmap{g}{\R^n}{\R^m}$, y el ``interior'' del conjunto factible no es vacío:
+\begin{equation}\label{eq:4.83}
+    D^0 = \{ x \in \R^n \mid g(x) < 0 \} \neq \emptyset.
 \end{equation}
 
-Supongamos, además, una condición analítica topológica estricta para el diseño robusto asintótico que garantiza la homogeneidad y continuidad en los bordes del problema:
-\begin{equation}
+Supongamos, además, que
+\begin{equation}\label{eq:4.84}
     \inf_{x \in D^0} f(x) = \inf_{x \in D} f(x) = \bar{v} > -\infty,
-    \label{eq:v2_barrera_infimo_fuerte}
 \end{equation}
-es decir, el ínfimo límite y asintótico aproximado analíticamente a lo largo y ancho evaluando el conjunto puro interior $D^0$ converge exactamente y topológicamente igual al valor óptimo global absoluto del problema. Esta hipótesis tiene por objetivo eliminar los casos patológicos donde una porción o lóbulo del conjunto factible está conectada únicamente por una línea de grosor cero (donde el interior estricto no puede acceder topológicamente).
+i.e., el ínfimo de $f$ en el conjunto $D^0$ es igual al valor óptimo del problema \eqref{eq:4.82}. Esta hipótesis tiene por objetivo eliminar ciertos casos patológicos, como aquel en la Figura 4.3.5, donde, evidentemente, la solución $\bar{x}$ no puede ser aproximada por puntos del interior del conjunto factible.
 
-La idea de los métodos de barrera es blindar la frontera $D \setminus D^0$ añadiendo un término matemático a la función objetivo cuyo valor analítico explote y tienda a más infinito (de forma asintótica paramétrica y continua) siempre y cuando cualquier trayectoria u optimizador algorítmico evalúe o intente empujar la secuencia de aproximación de iterados para que se acerquen iterativamente de forma crítica a las superficies o planos límite de corte de la frontera analítica y geométrica del problema. 
+La idea de métodos de penalización interna es la misma que la de penalización externa, en el sentido de que el problema original es aproximado por una secuencia de problemas que pueden ser considerados irrestrictos. Sólo que este objetivo es llevado a cabo de otra manera. En particular, a la función objetivo es agregado un término penalizador que tiende a más infinito para cualquier secuencia que se aproxima a la frontera $D \setminus D^0$ del conjunto factible.
 
-\begin{definition}[Función barrera]\label{def:v2_funcion_barrera}
-    Una función escalar $\psi \colon D^0 \to \R_+$ se llama \deftech{barrera} para el conjunto $D$ definido en \eqref{eq:v2_barrera_problema}, si ella es invariablemente y rigurosamente continua paramétricamente en el conjunto $D^0$, y para toda secuencia limitante iterativa de puntos $\{x^k\} \in D^0$ tal que sus evaluaciones asintóticas reduzcan la holgura en un límite tal que $g_i(x^k) \to 0$ para algún componente vectorial o restricción $i \in \{1, \dots, m\}$, la evaluación rigurosa asintótica sobre el término analítico diverge explosivamente imponiendo la condición topológica extrema $\psi(x^k) \to +\infty$ cuando ($k \to \infty$).
+\begin{definition}\label{def:4.3.1}
+    Una función $\inmap{\psi}{D^0}{\R_+}$ se llama \textit{barrera} para el conjunto $D$ definido en \eqref{eq:4.82}, si ella es continua en $D^0$, y para toda secuencia $\{x^k\} \subset D^0$ tal que $g_i(x^k) \to 0$ para algún $i \in \{1, \dots, m\}$, se tiene que $\psi(x^k) \to +\infty \ (k \to \infty)$.
 \end{definition}
 
-Las elecciones algorítmicas más clásicas y de mayor interés computacional general son la \usual{barrera logarítmica}:
-\begin{equation}
-    \psi(x) = -\sum_{i=1}^m \log(-g_i(x)), \quad x \in D^0,
-    \label{eq:v2_barrera_logaritmica}
+Las elecciones más comunes son la \textit{barrera logarítmica}
+\begin{equation}\label{eq:4.85}
+    \psi(x) = - \sum_{i=1}^m \log(-g_i(x)), \quad x \in D^0,
 \end{equation}
-y la \usual{barrera inversa} (o de Carroll):
-\begin{equation}
-    \psi(x) = -\sum_{i=1}^m \frac{1}{g_i(x)}, \quad x \in D^0.
-    \label{eq:v2_barrera_inversa}
+y la \textit{barrera inversa}
+\begin{equation}\label{eq:4.86}
+    \psi(x) = - \sum_{i=1}^m 1/g_i(x), \quad x \in D^0.
 \end{equation}
 
-Consideremos una familia analítica y topológica de funciones agregadas y parametrizadas para establecer un marco irrestricto de búsqueda y convergencia global:
-\begin{equation}
-    \varphi(\cdot; t) \colon D^0 \to \R, \quad \varphi(x; t) = f(x) + t\psi(x),
-    \label{eq:v2_funcion_agregada_barrera}
+Consideremos una familia de funciones
+\begin{equation}\label{eq:4.87}
+    \inmap{\varphi(\cdot; t)}{D^0}{\R}, \quad \varphi(x; t) = f(x) + t\psi(x),
 \end{equation}
-donde el escalar paramétrico continuo o estipulador de reducción limitante y asintótica $t > 0$ es el \textbf{parámetro de barrera}. Generamos así la familia de problemas o sub-problemas anidados:
-\begin{equation}
+donde $t > 0$ es el parámetro penalizador, y los problemas
+\begin{equation}\label{eq:4.88}
     \min \varphi(x; t) \quad \text{sujeto a} \quad x \in D^0.
-    \label{eq:v2_subprob_barrera}
 \end{equation}
 
-Podemos pensar en el problema de optimización en \eqref{eq:v2_subprob_barrera} estrictamente y puramente como un equivalente asintótico y de equivalencia analítica completa u operando a los esquemas de optimización paramétrica escalar de base algorítmica irrestricta. Es bien claro u obvio deducir lógicamente y a nivel de análisis numérico paramétrico asumiendo y deduciendo (ignorando topológicamente y por asunción matemática y completamente las formulaciones u opciones que nos impusiesen lógicamente la delimitación natural o acotación a las restricciones explícitas de la formulación escalar y minimización paramétrica general y si resolvemos paramétricamente):
+Podemos pensar en el problema \eqref{eq:4.88} como de optimización irrestricta en el sentido siguiente. Es bien claro que si simplemente ignoramos por completo las restricciones del problema \eqref{eq:4.88} (que son desigualdades estrictas) y resolvemos el problema
 \[
-    \min_{x \in \Rn} \varphi(x; t),
+    \min \varphi(x; t), \quad x \in \R^n,
 \]
-aplicando cualquier método iterativo a partir de un punto inicial estricto en el dominio $x^0 \in D^0$, la curva o sucesión topológica general y algorítmica permanecerá anidada y blindada asintóticamente retenida dentro del interior topológico $D^0$. Esto es garantizado algorítmica e innegablemente pues la formulación y explosión asintótica (barrera) evalúa con un repudio analítico extremo (con limitante $\varphi(\cdot; t) \to +\infty$) los entornos y puntos limitantes que rocen y violen la topología o superficie anclada y restrictiva al estar localizados de manera colindante o tocando a la frontera límite analítica topológica. Al ser el objetivo de los métodos de optimización y convergencia una búsqueda estricta de descenso acotado en la minimización o caída asintótica, el modelo computacional será invariablemente y puramente rebotado u obligado a retornar al interior por la repulsión matemática extrema operada.
+aplicando cualquier método iterativo razonable a partir de un punto inicial en $D^0$, toda la secuencia generada por este método (así como sus puntos de acumulación) va a quedar dentro de $D^0$, ya que los puntos cerca de la frontera $D \setminus D^0$ tienen valores de $\varphi(\cdot; t)$ explosivos y, por lo tanto, no son nada atractivos para algoritmos de minimización.
 
-\begin{algorithm}[El método de barreras]\label{alg:v2_barreras}
-    Elegir una función de la clase asintótica u operador general barrera estipulando en rigor una formulación limitante escalar topológicamente válida y evaluada $\psi \colon D^0 \to \R$ para conformar el recubrimiento interior de la frontera al evaluar de cerca al conjunto rígido topológicamente definido estipulado algebraicamente y restringido según el marco base acotado $D$. Definir un valor atenuante, el parámetro inicial o punto de arranque escalar analítico de penalización atenuante $t_0 > 0$ y tomar $k := 0$.
-    \begin{enuthm}
-        \item Calcular analíticamente el estimador paramétrico iterativo o solución convergente a un valor estacionario estipulado iterativamente por sub-cálculo riguroso, localizando y determinando en rigor y con precisión el punto $x^k \in D^0$ asumiéndose y comportándose iterativamente como una solución (aproximación garantizada a minimización asintótica incondicional o local de optimización) anidando sobre el parámetro al problema de frontera \eqref{eq:v2_subprob_barrera}, donde el término de función objetivo agregado se estipula evaluando matemáticamente y rígidamente por la función barrera o modelo paramétrico topológico acotado de la formulación \eqref{eq:v2_funcion_agregada_barrera} sustituyendo el ponderador límite evaluando como atenuante el escalar $t = t_k$.
-        \item Elegir una cota de parámetro a un valor más pequeño estipulando la relajación de atenuación o límite $t_{k+1} < t_k$ acercando iterativamente su valor a cero y tomar $k := k + 1$. Retornar al Paso 1.
-    \end{enuthm}
+\begin{algorithm}[Método de barreras]
+    Elegir una función barrera $\inmap{\psi}{D^0}{\R}$ para el conjunto $D$ definido en \eqref{eq:4.82}. Elegir $t_0 > 0$ y tomar $k := 0$.
+    \begin{enumerate}
+        \item Calcular $x^k \in D^0$ como una solución del problema \eqref{eq:4.88}, donde la función objetivo es dada por la fórmula \eqref{eq:4.87} con $t = t_k$.
+        \item Elegir $t_{k+1} < t_k$ y tomar $k := k + 1$. Retornar al Paso 1.
+    \end{enumerate}
 \end{algorithm}
 
-Observemos que, dada la naturaleza fundamental del análisis de las restricciones, el mínimo de una función objetivo suele localizarse analíticamente y forzosamente en las cotas, los bordes o descansando topológicamente a lo largo de las superficies y planos envolventes de la frontera estipulando el conjunto $D \setminus D^0$. Queda analíticamente claro y rigurosamente justificado desde un enfoque teórico global que para que estos métodos convergentes y sub-algorítmicos en general aproximen el valor u óptimo riguroso y para que la secuencia de atenuación permita al iterado adherirse lentamente a la solución limítrofe original, es condición algorítmica y asintóticamente necesaria exigir sin concesión o limitación rigurosamente válida que la sucesión o decaimiento de los valores escalares estipulando y operados analíticamente en el parámetro atenuante descienda estrictamente a su cota final asintótica $t \to 0$. Esto permite menguar y evaporar analíticamente el efecto de penalización en los bordes internos, autorizando a que los sistemas o simuladores numéricos acerquen sistemáticamente la búsqueda de óptimos a los muros limitantes permitiendo u otorgando finalmente en la progresión la aproximación o llegada matemática formal topológicamente válida y esperada a los vectores limítrofes u óptimos reales.
+Observemos que como las soluciones del problema original típicamente están en la frontera $D \setminus D^0$, queda claro que para la convergencia de métodos de este tipo es necesario que los valores del parámetro $t$ tiendan a cero (para amenizar la influencia explosiva de la barrera $\psi$ y permitir aproximación a soluciones en la frontera del conjunto factible).
 
-\begin{example}[Barrera Inversa en $\R$]\label{ex:v2_barrera_inversa}
-    Consideremos el problema geométricamente simplificado:
+\begin{example}\label{ex:4.3.4}
+    Consideremos el problema
     \[
-        \min x \quad \text{sujeto a} \quad x \geq 0.
+        \min x \quad \text{sujeto a} \quad x \ge 0.
     \]
-    La única solución global es el punto colindante al límite inferior o borde del intervalo analítico $\bar{x} = 0$.
+    Este es un problema de programación convexa y su única solución es $\bar{x} = 0$.
     
-    Eligiendo la penalización por barrera inversa general paramétricamente escalar, formulada de acuerdo a las directrices algebraicas \eqref{eq:v2_barrera_inversa}, instanciamos y armamos iterativamente el modelo irrestricto auxiliar topológicamente continuo y de descenso o minimización paramétrico analítico:
+    Eligiendo la barrera inversa \eqref{eq:4.86}, tenemos
     \[
-        \varphi(x; t) = x + \frac{t}{x}, \quad t > 0.
+        \varphi(x; t) = x + t/x, \quad t > 0.
     \]
-    Buscamos un mínimo en el espacio base del conjunto abierto interior o de factibilidad $D^0 = \{ x \in \R \mid x > 0 \}$. Anulando analíticamente su función derivada generalizada de parámetro escalar, y asumiendo una resolución paramétrica algorítmica del primer orden obtenemos rigurosamente:
+    Puntos estacionarios de esta función en el conjunto abierto
     \[
-        0 = \varphi'(x; t) = 1 - \frac{t}{x^2}.
+        D^0 = \{ x \in \R \mid x > 0 \} \neq \emptyset
     \]
-    Despejando analíticamente las raíces admitidas asumiendo un iterado real (topológicamente admisible):
+    son caracterizados por la ecuación
+    \[
+        0 = \varphi'(x; t) = 1 - t/x^2,
+    \]
+    de donde obtenemos
     \[
         x(t) = \sqrt{t} \in D^0.
     \]
-    A medida que la regla o atenuación escalar avanza iterativamente o exige el decremento analítico paramétrico hacia asintotismo cero ($t \to 0$), el límite iterativo de las secuencias y funciones o trayectorias de optimización se rige innegablemente demostrando convergencia pura: $x(t) \to 0 = \bar{x}$.
+    En particular, $x(t) \to 0 = \bar{x}$ cuando $t \to 0$.
 \end{example}
 
-Al igual que en el caso de la penalización externa, el éxito topológico final en los modelos anidados iterativos garantiza asintóticamente la minimización algorítmica.
+\begin{example}\label{ex:4.3.5}
+    Consideremos el problema
+    \[
+        \min x_1 + x_2 \quad \text{sujeto a} \quad -x_1^2 + x_2 \ge 0, \ x_1 \ge 0.
+    \]
+    Este es un problema de programación convexa y su única solución es $\bar{x} = 0$.
+    
+    Eligiendo la barrera logarítmica \eqref{eq:4.85}, tenemos
+    \[
+        \varphi(x; t) = x_1 + x_2 - t\log(-x_1^2 + x_2) - t\log(x_1).
+    \]
+    Puntos estacionarios del problema de minimizar esta función en el conjunto abierto
+    \[
+        D^0 = \{ x \in \R^2 \mid -x_1^2 + x_2 > 0, \ x_1 > 0 \} \neq \emptyset
+    \]
+    son caracterizados por el sistema de ecuaciones
+    \[
+        0 = \varphi'(x; t) = 
+        \begin{pmatrix}
+            1 + 2tx_1/(-x_1^2 + x_2) - t/x_1 \\
+            1 - t/(-x_1^2 + x_2)
+        \end{pmatrix}.
+    \]
+    De donde obtenemos
+    \[
+        x_1(t) = (-1 + \sqrt{1 + 8t})/4, \quad x_2(t) = t + ((-1 + \sqrt{1 + 8t})/4)^2.
+    \]
+    En particular, $x(t) \to 0 = \bar{x}$ cuando $t \to 0$.
+    La trayectoria de soluciones de los problemas penalizados es ilustrada en la Figura 4.3.6.
+\end{example}
 
-\begin{theorem}[Convergencia de los métodos de penalización interna]\label{thm:v2_conv_barreras}
-    Sean las condiciones analíticas de continuidad y viabilidad garantizadas u operadas sobre $f \colon \Rn \to \R$ y $g \colon \Rn \to \symbb{R}^m$, definidas u operadas de manera continua y continua en general en las variables base y paramétricas asumiendo espacios euclidianos y conjuntos de optimización vectoriales estipulados y formulados analíticamente continuos en $\Rn$. Supongamos a manera de limitante que los conjuntos e iteraciones anclados topológicamente y evaluados en el conjunto u operando $D$ y $D^0$ definido a priori en el contexto algorítmico asumiendo las cotas u operando \eqref{eq:v2_barrera_problema} satisfaga de plano la asimetría topológica rigurosamente verificable de las condiciones interiores innegables y evaluando acotadas a lo ancho parametrizando o acotando (4.83) y la preservación o igualdad continua paramétrica (4.84).
+Ahora estudiaremos propiedades de convergencia del Algoritmo 4.3.2. Como en el caso de la penalización externa, los resultados de convergencia para métodos de barreras se refieren a la secuencia generada por minimizadores globales de problemas penalizados.
 
-    Entonces todo punto o agrupación geométrica limitante conformando en conjunto rigurosamente a cualquier vector acumulativo asintótico de las sucesiones y curvas paramétricas estipuladas vectorialmente por la secuencia topológica de descenso limitante o convergente $\{x^k\}$, rigurosamente calculada de modo analítico computacional a nivel del algoritmo interno u Algoritmo \ref{alg:v2_barreras}, a lo largo de cuyas pautas el sub-iterador paramétrico y general de trayectoria pura acoplada converge o se genera estipulando explícita u orgánicamente donde y como $x^k$ evalúa como solución de aproximación a mínimos y a puntos óptimos de resolución paramétrica analítica innegables como una solución limitante paramétricamente definida algorítmica global al descenso del problema \eqref{eq:v2_subprob_barrera} evaluando iterativamente al escalar limitador o parámetro atenuante estipulando la convergencia o descenso $t = t_k$ y $t_k \to 0$ al escalarlo al infinito iterativamente ($k \to \infty$), conforma, garantiza y es rigurosamente a efectos matemáticos comprobables como una o cualquier \textbf{solución y minimización convergente asintóticamente al punto óptimo algorítmico global} del marco o problema base paramétrico original.
+\begin{proposition}\label{prop:4.3.3}
+    Supongamos que el conjunto $D$ definido en \eqref{eq:4.82} satisfaga \eqref{eq:4.83} y \eqref{eq:4.84}. Sea $\{x^k\}$ una secuencia generada por el Algoritmo 4.3.2, donde $x^k$ es una solución global del problema \eqref{eq:4.88} con $t = t_k$.
+    
+    Entonces, para todo $k$, se tiene que
+    \begin{align}
+        \varphi(x^{k+1}; t_{k+1}) &\le \varphi(x^k; t_k), \label{eq:4.89} \\
+        \psi(x^{k+1}) &\ge \psi(x^k), \label{eq:4.90} \\
+        f(x^{k+1}) &\le f(x^k). \label{eq:4.91}
+    \end{align}
+\end{proposition}
+
+\begin{proof}
+    Por la optimalidad de $x^{k+1}$ en \eqref{eq:4.88}, $t = t_{k+1}$, tenemos que
+    \begin{align}
+        f(x^{k+1}) + t_{k+1}\psi(x^{k+1}) &= \varphi(x^{k+1}; t_{k+1}) \nonumber \\
+        &\le \varphi(x^k; t_{k+1}) \nonumber \\
+        &= f(x^k) + t_{k+1}\psi(x^k) \nonumber \\
+        &\le f(x^k) + t_k\psi(x^k) \nonumber \\
+        &= \varphi(x^k; t_k), \label{eq:4.92}
+    \end{align}
+    donde la segunda desigualdad se sigue de $t_{k+1} < t_k$ y $\psi(x^k) \ge 0$. Esto muestra, entre otras cosas, la relación \eqref{eq:4.89}.
+    
+    Por otro lado, de la optimalidad de $x^k$ en \eqref{eq:4.88} con $t = t_k$, obtenemos
+    \[
+        f(x^k) + t_k\psi(x^k) = \varphi(x^k; t_k) \le \varphi(x^{k+1}; t_k) = f(x^{k+1}) + t_k\psi(x^{k+1}).
+    \]
+    Sumando esta última desigualdad a la desigualdad \eqref{eq:4.92}, obtenemos que
+    \[
+        (t_k - t_{k+1})\psi(x^k) \le (t_k - t_{k+1})\psi(x^{k+1}).
+    \]
+    De donde, como $t_{k+1} < t_k$, se sigue \eqref{eq:4.90}.
+    
+    Ahora, utilizando de nuevo \eqref{eq:4.92}, obtenemos
+    \[
+        f(x^{k+1}) - f(x^k) \le t_{k+1}(\psi(x^k) - \psi(x^{k+1})) \le 0,
+    \]
+    donde la segunda desigualdad se sigue de $t_{k+1} > 0$ y de \eqref{eq:4.90}.
+\end{proof}
+
+Finalmente, obtenemos el siguiente resultado.
+
+\begin{theorem}[Convergencia de los métodos de penalización interna]\label{th:4.3.7}
+    Sean $\inmap{f}{\R^n}{\R}$ y $\inmap{g}{\R^n}{\R^m}$ funciones continuas en $\R^n$. Supongamos que el conjunto $D$ definido en \eqref{eq:4.82} satisfaga \eqref{eq:4.83} y \eqref{eq:4.84}.
+    
+    Entonces todo punto de acumulación de la secuencia $\{x^k\}$ generada por el Algoritmo 4.3.2, donde $x^k$ es una solución global del problema \eqref{eq:4.88} con $t = t_k$ y $t_k \to 0 \ (k \to \infty)$, es una solución global del problema \eqref{eq:4.82}.
 \end{theorem}
 
 \begin{proof}
-    El bosquejo de la demostración asintótica se basa en que las soluciones $\{x^k\} \subset D^0$ fuerzan una sucesión de valores decrecientes $\{f(x^k)\}$ y valores crecientes para la barrera $\psi(x^k)$. Para cualquier punto y perturbación del interior (donde $\psi$ es finita), la acotación de $\varphi(x^k; t_k)$ y el descenso del parámetro atenuante $t_k \to 0$ ahoga algebraicamente el término de la barrera, forzando a que los puntos de acumulación de $f$ converjan rigurosamente e innegablemente al límite y valor óptimo inferior original $\bar{v}$ (limitante paramétrico base analizado mediante el axioma de acotamiento paramétrico y topológico).
+    Sea $\bar{x}$ un punto de acumulación de la secuencia $\{x^k\}$. Sea $\{x^{k_j}\} \to \bar{x} \ (j \to \infty)$. Como $\{x^k\} \subset D^0$, i.e., $g(x^k) < 0$ para todo $k$, y $g$ es continua, concluimos que $g(\bar{x}) \le 0$. O sea, $\bar{x} \in D$.
+    
+    Si $f(\bar{x}) = \bar{v}$, no hay nada más para probar. Sea $f(\bar{x}) > \bar{v}$. Definimos
+    \begin{equation}\label{eq:4.93}
+        \delta = (f(\bar{x}) - \bar{v})/2 > 0.
+    \end{equation}
+    Por la relación \eqref{eq:4.84},
+    \begin{equation}\label{eq:4.94}
+        \exists \tilde{x} \in D^0 \text{ tal que } f(\tilde{x}) < \bar{v} + \delta.
+    \end{equation}
+    La secuencia $\{f(x^k)\}$ es no creciente (vea \eqref{eq:4.91}). Por lo tanto, $\{f(x^{k_j})\}$ también es no creciente y tenemos que
+    \[
+        f(x^{k_j}) \ge \lim_{j \to \infty} f(x^{k_j}) = f(\bar{x}) = \bar{v} + 2\delta,
+    \]
+    donde tuvimos en cuenta la continuidad de $f$ y \eqref{eq:4.93}. Ahora, utilizando \eqref{eq:4.94}, obtenemos que
+    \begin{equation}\label{eq:4.95}
+        f(x^{k_j}) - f(\tilde{x}) \ge \bar{v} + 2\delta - f(\tilde{x}) > \delta.
+    \end{equation}
+    Tenemos entonces que, para $j$ suficientemente grande,
+    \begin{align*}
+        0 &\ge \varphi(x^{k_j}; t_{k_j}) - \varphi(\tilde{x}; t_{k_j}) \\
+        &= f(x^{k_j}) + t_{k_j}\psi(x^{k_j}) - f(\tilde{x}) - t_{k_j}\psi(\tilde{x}) \\
+        &> \delta + t_{k_j}(\psi(x^{k_j}) - \psi(\tilde{x})) \\
+        &\ge \delta + t_{k_j}(0 - \psi(\tilde{x})) \\
+        &\ge \delta / 2 > 0,
+    \end{align*}
+    donde la primera desigualdad se sigue del hecho de que $x^{k_j}$ es una solución global del problema \eqref{eq:4.88} con $t = t_{k_j}$, la tercera de \eqref{eq:4.95}, la cuarta del hecho de que $\psi(x) \ge 0$, y la última de la suposición de que $t_k \to 0 \ (k \to \infty)$.
+    
+    La contradicción de arriba implica en que $f(\bar{x}) = \bar{v}$, lo que concluye la demostración.
 \end{proof}
+
+Podemos considerar también una generalización del Algoritmo 4.3.2, donde no todas las restricciones son penalizadas. Sea el problema
+\[
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \{ x \in \Omega \mid g(x) \le 0 \},
+\]
+donde $\Omega \subset \R^n$ y el conjunto
+\[
+    D^0 = \{ x \in \Omega \mid g(x) < 0 \} \neq \emptyset
+\]
+satisface \eqref{eq:4.84}. Eligiendo una función barrera $\psi$ para las restricciones de desigualdad, los problemas penalizados (parcialmente, ya que la restricción $x \in \Omega$ no es penalizada) son de la misma forma que \eqref{eq:4.88}, pero con el conjunto $D^0$ definido arriba.
+
+Así como fue el caso de penalización externa (diferenciable), los métodos de barreras también sufren del mal condicionamiento de sus subproblemas, en este caso para valores del parámetro penalizador pequeños. Vemos cómo esto acontece en el ejemplo siguiente.
+
+\begin{example}\label{ex:4.3.6}
+    Consideremos el problema
+    \[
+        \min (x_1 + 1)^2 + (x_2 - 1)^2 \quad \text{sujeto a} \quad x_1 \ge 0,
+    \]
+    cuya solución es $\bar{x} = (0, 1)$. Consideremos el caso de la barrera logarítmica, lo que resulta en la minimización de las funciones
+    \[
+        \varphi(x; t) = (x_1 + 1)^2 + (x_2 - 1)^2 - t\log(x_1).
+    \]
+    Como es fácil ver, el minimizador de $\varphi(\cdot; t)$ en $\{ x \in \R^2 \mid x_1 > 0 \}$ es el punto
+    \[
+        x(t) = ((-1 + \sqrt{1 + 2t})/2, 1).
+    \]
+    Puede ser visto también que la matriz Hessiana de esta función viene dada por
+    \[
+        \varphi''(x; t) = \begin{pmatrix} 2 + tx_1^{-2} & 0 \\ 0 & 2 \end{pmatrix},
+    \]
+    de donde
+    \[
+        \varphi''(x(t); t) = \begin{pmatrix} 2 + \frac{2t}{1 + t - \sqrt{1 + 2t}} & 0 \\ 0 & 2 \end{pmatrix}.
+    \]
+    Como
+    \[
+        \lim_{t \to 0} \frac{2t}{1 + t - \sqrt{1 + 2t}} = +\infty,
+    \]
+    vemos que esta matriz queda cada vez peor condicionada, cuando $t$ tiende a cero.
+\end{example}
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:

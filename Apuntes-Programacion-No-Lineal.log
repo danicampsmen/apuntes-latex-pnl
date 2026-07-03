@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  1 JUL 2026 17:34
+This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  3 JUL 2026 11:43
  restricted system commands enabled.
  file:line:error style messages enabled.
 **Apuntes-Programacion-No-Lineal.tex
@@ -3581,42 +3581,49 @@ Package cleveref Info: loaded `spanish' language definitions on input line 723.
  [132])
 (./chapters/part2_metodos/chapter9_opt_restringida/04_penalizacion_interna_barr
 eras.tex
-Package cleveref Info: loaded `spanish' language definitions on input line 36.
+Package cleveref Info: loaded `spanish' language definitions on input line 40.
  [133]
-Package cleveref Info: loaded `spanish' language definitions on input line 69.
+Package cleveref Info: loaded `spanish' language definitions on input line 110.
+
  [134]
-Package cleveref Info: loaded `spanish' language definitions on input line 102.
+Package cleveref Info: loaded `spanish' language definitions on input line 194.
 
  [135])
 (./chapters/part2_metodos/chapter9_opt_restringida/05_lagrangianas_aumentadas.t
 ex
-Package cleveref Info: loaded `spanish' language definitions on input line 59.
+Package cleveref Info: loaded `spanish' language definitions on input line 10.
  [136]
-Package cleveref Info: loaded `spanish' language definitions on input line 116.
+Package cleveref Info: loaded `spanish' language definitions on input line 66.
+ [137]
+Package cleveref Info: loaded `spanish' language definitions on input line 120.
 
- [137]) (./chapters/part2_metodos/chapter9_opt_restringida/06_sqp.tex
-Package cleveref Info: loaded `spanish' language definitions on input line 46.
-
-[138]) (./chapters/part2_metodos/chapter9_opt_restringida/exercises.tex
-Package cleveref Info: loaded `spanish' language definitions on input line 15.
-
-[139]
-Package cleveref Info: loaded `spanish' language definitions on input line 85.
+ [138])
+(./chapters/part2_metodos/chapter9_opt_restringida/06_sqp.tex
+Package cleveref Info: loaded `spanish' language definitions on input line 52.
+ [139])
+(./chapters/part2_metodos/chapter9_opt_restringida/exercises.tex
+Package cleveref Info: loaded `spanish' language definitions on input line 28.
  [140]
 LaTeX Font Info:    Font shape `TU/texgyreheros-regular.otf(0)/b/n' will be
 (Font)              scaled to size 6.13152pt on input line 87.
-Package cleveref Info: loaded `spanish' language definitions on input line 167.
+Package cleveref Info: loaded `spanish' language definitions on input line 97.
+ [141]
+Package cleveref Info: loaded `spanish' language definitions on input line 174.
 
- [141])
+
+[142]
+Package cleveref Info: loaded `spanish' language definitions on input line 239.
+
+ [143])
 Package cleveref Info: loaded `spanish' language definitions on input line 142.
 
- [142]
+ [144]
 chapter without number
-[143
+[145
 
 
 ] (./Apuntes-Programacion-No-Lineal.ind)
-runsystem(latexminted cleantemp  --timestamp 20260701173424 619C487146398D9C4DAF
+runsystem(latexminted cleantemp  --timestamp 20260703114348 619C487146398D9C4DAF
 123F9D510570)...executed.
 
 (./Apuntes-Programacion-No-Lineal.aux
@@ -3642,15 +3649,15 @@ l'.
 )
 
 Here is how much of LuaTeX's memory you used:
- 85620 strings out of 475891
+ 85653 strings out of 475891
  305212,4101490 words of node,token memory allocated
- 37839 words of node memory still in use:
+ 38535 words of node memory still in use:
    8 hlist, 2 vlist, 5 rule, 1 local_par, 7 glue, 4 kern, 1 penalty, 1 margin_ke
-rn, 3 glyph, 13883 attribute, 102 glue_spec, 4625 attribute_list, 3 write nodes
-   avail lists: 1:19,2:42488,3:1570,4:69,5:1330,6:221,7:12708,8:92,9:2063,10:42,
-11:1927,12:1
- 105208 multiletter control sequences out of 65536+600000
- 146 fonts using 63920499 bytes
+rn, 3 glyph, 14144 attribute, 102 glue_spec, 4712 attribute_list, 3 write nodes
+   avail lists: 1:19,2:42145,3:1570,4:69,5:1330,6:221,7:12708,8:92,9:2063,10:42,
+11:1537,12:1
+ 105226 multiletter control sequences out of 65536+600000
+ 146 fonts using 63920383 bytes
  125i,21n,128p,11236b,4829s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/fonts/opentype/stix/STIXTwoMath-Regular.otf></usr/share/fonts/openty
 pe/stix/STIXTwoMath-Regular.otf></usr/share/fonts/opentype/stix/STIXTwoMath-Regu
@@ -3661,11 +3668,11 @@ al/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreheros-regular.o
 tf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreher
 os-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msam10.pfb>
-Output written on Apuntes-Programacion-No-Lineal.pdf (149 pages, 1268798 bytes).
+Output written on Apuntes-Programacion-No-Lineal.pdf (151 pages, 1273528 bytes).
 
 
-PDF statistics: 3015 PDF objects out of 3580 (max. 8388607)
- 2806 compressed objects within 29 object streams
- 1241 named destinations out of 1440 (max. 1048576)
+PDF statistics: 3069 PDF objects out of 3580 (max. 8388607)
+ 2858 compressed objects within 29 object streams
+ 1256 named destinations out of 1440 (max. 1048576)
  872 words of extra memory for PDF output out of 10000 (max. 100000000)
 
