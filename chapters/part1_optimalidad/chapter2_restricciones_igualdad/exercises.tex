@@ -2,9 +2,7 @@
 
 \addsec{Ejercicios del Capítulo}
 
-\vspace{0.5em}
-\noindent\textbf{Parte I: Mecánica Primal-Dual y Fallas Topológicas}
-\vspace{0.5em}
+\addsubsec{Parte I: Mecánica Primal-Dual y Fallas Topológicas}
 
 \begin{exercise}
 	Determínense los minimizadores y maximizadores globales del funcional lineal $f(x) = \sum_{i=1}^n x_i$ sobre la esfera unitaria $D = \{ x \in \Rn \mid \norm{x}^2 = 1 \}$.
@@ -56,10 +54,7 @@
     \end{enuthm}
 \end{exercise}
 
-\vspace{1em}
-\noindent\textbf{Parte II: Condiciones Diferenciales de Segundo Orden y Matriz KKT}
-\vspace{0.5em}
-
+\addsubsec{Parte II: Condiciones Diferenciales de Segundo Orden y Matriz KKT}
 \begin{exercise}
 	Determine los extremos locales y globales de la función $f(x) = x_1^3 / 3 + x_2$ restringida a la esfera $D = \{ x \in \R^2 \mid x_1^2 + x_2^2 = 2 \}$.
 \end{exercise}
@@ -101,9 +96,7 @@
     Sea un problema con restricciones afines $Ax = a$. La matriz KKT $K = \begin{pmatrix} H & A^\top \\ A & 0 \end{pmatrix}$ es simétrica. Demuestre que, incluso si $H$ es estrictamente definida positiva, la matriz de bloques completa $K$ es siempre indefinida (posee tanto autovalores estrictamente positivos como estrictamente negativos). \textit{Este resultado explica por qué los algoritmos de optimización numérica suelen utilizar factorizaciones como $LDL^\top$ en lugar de la factorización de Cholesky.}
 \end{exercise}
 
-\vspace{1em}
-\noindent\textbf{Parte III: Aplicaciones Físicas, Análisis de Sensibilidad y Variedades Matriciales}
-\vspace{0.5em}
+\addsubsec{Parte III: Aplicaciones Físicas, Análisis de Sensibilidad y Variedades Matriciales}
 
 \begin{exercise}[Precio Sombra y Análisis de Sensibilidad]
     Considérese el problema parametrizado $\min f(x)$ sujeto a $h(x) = p$, donde $p \in \R^l$ es un vector de perturbaciones de frontera. Sea $\bar{x}$ un mínimo local estricto para el problema nominal ($p = 0$), regular (LICQ) y que satisface las condiciones suficientes de segundo orden con multiplicador único $\bar{\lambda}$. Invocando el Teorema de la Función Implícita sobre el sistema KKT, existe una trayectoria suave de minimizadores locales $x(p)$ con $x(0) = \bar{x}$. Defínase la función valor óptimo $v(p) = f(x(p))$. Aplicando la regla de la cadena multivariable y la ecuación estacionaria de Lagrange, demuéstrese rigurosamente que: $\nabla_p v(0) = -\bar{\lambda}$. \textit{Interprete este resultado desde una perspectiva geométrica y económica, relacionando el multiplicador de Lagrange con la sensibilidad del valor óptimo frente a variaciones en el término independiente de la restricción.}

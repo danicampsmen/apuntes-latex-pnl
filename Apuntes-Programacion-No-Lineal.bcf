@@ -2378,8 +2378,7 @@
     <bcf:citekey order="3" intorder="1">bazaraa2013nonlinearprogrammingtheory</bcf:citekey>
     <bcf:citekey order="4" intorder="1">izmailov2020otimizacaovolume1</bcf:citekey>
     <bcf:citekey order="5" intorder="1">izmailov2020otimizacaovolume1</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">izmailov2020otimizacaovolume1</bcf:citekey>
-    <bcf:citekey order="7" intorder="1" nocite="1">*</bcf:citekey>
+    <bcf:citekey order="6" intorder="1" nocite="1">*</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

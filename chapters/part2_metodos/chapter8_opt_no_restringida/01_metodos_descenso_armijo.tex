@@ -1,190 +1,115 @@
 % --- Archivo: 01_metodos_descenso_armijo.tex ---
-
-En este capítulo, presentamos algoritmos para minimizar, sin restricciones, funciones una o dos veces diferenciables. Nuestra intención es, como siempre, explicar las ideas principales y los fundamentos matemáticos del desarrollo y del análisis de los algoritmos. Los aspectos puramente de implementación, aunque son un tema de extrema importancia, se presentarán únicamente cuando sean relevantes o reveladores desde el punto de vista matemático.
-
-Se abordarán los métodos de descenso y las técnicas de búsqueda lineal, que representan ideas fundamentales en la optimización computacional, incluso para problemas con restricciones (como veremos en capítulos posteriores). También presentaremos el método de Newton, el cual representa el estándar de oro para el desarrollo de algoritmos con convergencia rápida. No obstante, los métodos cuasi-Newton, que son aún más importantes en la práctica, se tratarán como una realización inexacta y económica del esquema básico del método de Newton. El mismo comentario es válido para los métodos de gradientes conjugados en el caso de funciones no lineales generales.
-
-% =========================================================
 \section{Métodos de descenso}
-\label{sec:v2_metodos_descenso}
-% =========================================================
 
 Sea $f \colon \Rn \to \R$ una función dada. Una de las estrategias más naturales para resolver el problema irrestricto
 \begin{equation}
     \min f(x), \quad x \in \Rn,
-    \label{eq:v2_problema_irrestrito}
+    \label{eq:prob_irrestricto}
 \end{equation}
-es la siguiente: dada una aproximación $x^k \in \Rn$ de la solución del problema, encontramos un punto $x^{k+1} \in \Rn$ tal que
-\[
+es la siguiente. Dada una aproximación $x^k \in \Rn$ de la solución del problema, encontramos un punto $x^{k+1} \in \Rn$ tal que
+\begin{equation*}
     f(x^{k+1}) < f(x^k).
-\]
-
-Una realización de esta estrategia básica consiste en tomar una dirección $d^k \in \Rn$ tal que $f$ sea decreciente (al menos para pasos cortos) a partir del punto $x^k$ en esa dirección, y calcular una longitud de paso $\alpha_k > 0$ que proporcione un valor de $f$ estrictamente menor que en el punto $x^k$:
-\[
+\end{equation*}
+Obviamente, esto puede ser hecho de varias maneras. Una realización de esta estrategia básica es tomar una dirección $d^k \in \Rn$ tal que $f$ es decreciente (por lo menos para pasos cortos) a partir del punto $x^k$ en esa dirección, y computar una longitud de paso $\alpha_k > 0$ que proporcione un valor de $f$ menor que en el punto $x^k$,
+\begin{equation*}
     f(x^k + \alpha_k d^k) < f(x^k).
-\]
-Así obtenemos el siguiente iterado $x^{k+1} = x^k + \alpha_k d^k$. Repetimos el proceso para el nuevo punto $x^{k+1}$. Los métodos de este tipo se denominan \deftech{métodos de descenso} y los formalizamos a continuación.
+\end{equation*}
+Así obtenemos el iterando siguiente $x^{k+1} = x^k + \alpha_k d^k$. Repetimos el proceso para el nuevo punto $x^{k+1}$, etc. Métodos de este tipo se llaman métodos de descenso.
 
-\subsection{Esquema general de los métodos de descenso. Búsqueda lineal}
-
-Sea $x \in \Rn$ un punto cualquiera tal que $f'(x) \neq 0$. Consideremos los puntos de la forma $x + td$, donde $d = -f'(x)$. Por la Fórmula de Taylor de primer orden, para todo $t \ge 0$ tenemos que:
-\begin{align*}
-  f(x + td) &= f(x) - t \norm{f'(x)}^2 + o(t \norm{f'(x)}) \\
-            &= f(x) - t \left( \norm{f'(x)}^2 + \frac{o(t)}{t} \right).
-\end{align*}
-
-Como para valores de $t > 0$ suficientemente pequeños se tiene que $\norm{f'(x)}^2 > o(t)/t$, para estos valores se cumple que $f(x + td) < f(x)$. De hecho, el mismo razonamiento se puede utilizar para cualquier dirección $d \in \Rn$ que satisfaga $\interno{f'(x)}{d} < 0$.
-
-\begin{definition}[Dirección de descenso]\label{def:v2_direccion_descenso}
-    Decimos que $d \in \Rn$ es una \deftech{dirección de descenso} de la función $f \colon \Rn \to \R$ en el punto $x \in \Rn$ si existe $\epsilon > 0$ tal que
-    \[
-        f(x + td) < f(x) \quad \forall t \in (0, \epsilon].
-    \]
-    Denotamos por $\symcal{D}_f(x)$ al conjunto de todas las direcciones de descenso de la función $f$ en el punto $x$.
+\begin{definition}[Dirección de descenso]
+    Decimos que $d \in \Rn$ es una dirección de descenso de la función $f \colon \Rn \to \R$ en el punto $x \in \Rn$, si existe $\varepsilon > 0$ tal que
+    \begin{equation*}
+        f(x + t d) < f(x) \quad \forall t \in (0, \varepsilon].
+    \end{equation*}
 \end{definition}
+Denotamos por $\mathcal{D}_f(x)$ el conjunto de todas las direcciones de descenso de la función $f$ en el punto $x$. Es claro que $\mathcal{D}_f(x)$ puede ser vacío, y que el conjunto $\mathcal{D}_f(x) \cup \{0\}$ es un cono no vacío.
 
-En otras palabras, $d \in \symcal{D}_f(x)$ si y solo si cualquier paso suficientemente corto a partir de $x$ en la dirección $d$ resulta en un decremento estricto de la función $f$. Es evidente que $\symcal{D}_f(x)$ puede ser vacío, y que el conjunto $\symcal{D}_f(x) \cup \{0\}$ es un cono.
-
-\begin{lemma}[Caracterización de Direcciones de descenso]\label{lem:v2_direcciones_descenso}
+\begin{lemma}[Direcciones de descenso]
     Sea $f \colon \Rn \to \R$ una función diferenciable en el punto $x \in \Rn$. Entonces:
-    \begin{enuthm}
-        \item Para todo $d \in \symcal{D}_f(x)$, se tiene $\interno{f'(x)}{d} \le 0$.
-        \item Si $d \in \Rn$ satisface $\interno{f'(x)}{d} < 0$, se tiene que $d \in \symcal{D}_f(x)$.
-    \end{enuthm}
+    \begin{enumerate}[(a)]
+        \item Para todo $d \in \mathcal{D}_f(x)$, se tiene que $\interno{f'(x)}{d} \le 0$.
+        \item Si $d \in \Rn$ satisface $\interno{f'(x)}{d} < 0$, se tiene que $d \in \mathcal{D}_f(x)$.
+    \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-    Sea $d \in \symcal{D}_f(x)$. Para todo $t > 0$ suficientemente pequeño, por la diferenciabilidad de $f$ en $x$:
-    \[
-        0 > f(x + td) - f(x) = t \left( \interno{f'(x)}{d} + \frac{o(t)}{t} \right).
-    \]
-    Dividiendo ambos lados de la desigualdad por $t > 0$ y pasando al límite cuando $t \to 0^+$, obtenemos $0 \ge \interno{f'(x)}{d}$, lo que demuestra el inciso (1).
-
+    Sea $d \in \mathcal{D}_f(x)$. Para todo $t > 0$ suficientemente pequeño, por la diferenciabilidad de $f$ en $x$,
+    \begin{equation*}
+        0 > f(x + t d) - f(x) = t (\interno{f'(x)}{d} + o(t)/t).
+    \end{equation*}
+    Dividiendo ambos lados de la desigualdad por $t > 0$ y pasando al límite cuando $t \to 0^+$, obtenemos $0 \ge \interno{f'(x)}{d}$, lo que prueba el ítem (a).
     Supongamos ahora que $\interno{f'(x)}{d} < 0$. Tenemos que
-    \[
-        f(x + td) - f(x) = t \left( \interno{f'(x)}{d} + \frac{o(t)}{t} \right).
-    \]
-    Para todo $t > 0$ suficientemente pequeño, tenemos $\interno{f'(x)}{d} + \frac{o(t)}{t} \le \frac{1}{2} \interno{f'(x)}{d} < 0$, lo que implica que $f(x + td) - f(x) < 0$, es decir, $d \in \symcal{D}_f(x)$.
+    \begin{equation*}
+        f(x + t d) - f(x) = t (\interno{f'(x)}{d} + o(t)/t).
+    \end{equation*}
+    En particular, para todo $t > 0$ suficientemente pequeño, tenemos $\interno{f'(x)}{d} + o(t)/t \le \frac{1}{2} \interno{f'(x)}{d} < 0$, lo que implica que $f(x + t d) - f(x) < 0$, i.e., $d \in \mathcal{D}_f(x)$.
 \end{proof}
 
-El esquema iterativo general de los métodos de descenso consiste en lo siguiente:
+\subsection{Esquema general de los métodos de descenso. Búsqueda lineal.}
+
+El esquema iterativo general de métodos de descenso consiste en lo siguiente:
 \begin{equation}
-    x^{k+1} = x^k + \alpha_k d^k, \quad d^k \in \symcal{D}_f(x^k), \quad k = 0, 1, \dots
-    \label{eq:v2_esquema_descida}
+    x^{k+1} = x^k + \alpha_k d^k, \quad d^k \in \mathcal{D}_f(x^k), \quad k = 0, 1, \dots,
+    \label{eq:esquema_descenso}
 \end{equation}
-donde los valores de la longitud del paso $\alpha_k > 0$ se eligen para satisfacer, al menos, la condición de descenso estricto:
+donde los valores de la longitud del paso $\alpha_k > 0$ son elegidos para satisfacer, por lo menos, la condición de que $f(x^{k+1}) < f(x^k)$.
+Naturalmente, estamos suponiendo que $\mathcal{D}_f(x^k) \neq \emptyset$ para todo $k$. 
+
+Por el Lema anterior, como ya fue observado, la elección más obvia de una dirección de descenso viene dada por $d^k = -f'(x^k)$ (suponiendo que $f'(x^k) \neq 0$). Sin embargo, la elección $d^k = -f'(x^k)$ está lejos de ser eficiente en la práctica. Con gran frecuencia, métodos correspondientes a esta elección poseen convergencia bastante lenta, principalmente cuando las curvas de nivel de la función objetivo son ``alargadas''. El problema es que en los casos así, la dirección de anti-gradiente $-f'(x^k)$ es casi ortogonal a la dirección $x^k - \bar{x}$ que lleva a la solución $\bar{x}$. Por eso, la secuencia $\{x^k\}$ generada por el método se aproxima a la solución siguiendo una trayectoria en ``zig-zag''.
+
+Desde el punto de vista práctico, son mucho más importantes los métodos con $d^k = -Q_k f'(x^k)$, donde $Q_k \in \R^{n \times n}$ es una matriz simétrica definida positiva, elegida ``de manera inteligente''.
+
+\subsubsection*{Regra da minimização uni-dimensional}
+Una estrategia natural es minimizar la función objetivo en la semirrecta $x^k + \alpha d^k$, $\alpha \ge 0$. La longitud de paso $\alpha_k$ viene dada por la condición
 \begin{equation}
-    f(x^{k+1}) < f(x^k).
-    \label{eq:v2_descida_estrita}
+    f(x^k + \alpha_k d^k) = \min_{\alpha \ge 0} f(x^k + \alpha d^k).
 \end{equation}
-
-El análisis asume que $\symcal{D}_f(x^k) \neq \emptyset$. En particular, el método se detiene si $\symcal{D}_f(x^k) = \emptyset$ en alguna iteración. Debido a que $d^k \in \symcal{D}_f(x^k)$, siempre existe un número $\alpha_k > 0$ que satisface \eqref{eq:v2_descida_estrita}. 
-
-Por el \cref{lem:v2_direcciones_descenso}, la elección más obvia de una dirección de descenso viene dada por $d^k = -f'(x^k)$ (el antigradiente). Sin embargo, esta elección es poco eficiente cuando las curvas de nivel son ``alargadas'', generando trayectorias en zig-zag. Desde el punto de vista práctico, es mucho más importante considerar métodos de la forma $d^k = -Q_k f'(x^k)$, donde $Q_k$ es una matriz definida positiva que adapta la métrica del espacio (véase el método de Newton).
-
-A continuación, presentamos las principales \textbf{reglas de búsqueda lineal} (linesearch), asumiendo que ya se ha elegido una dirección $d^k \in \symcal{D}_f(x^k)$.
-
-\subsubsection{1. Regla de minimización unidimensional (Exact Line Search)}
-Una estrategia natural es minimizar la función objetivo a lo largo de la semirrecta. La longitud de paso $\alpha_k$ se obtiene resolviendo:
+Observamos que el hecho de que $d^k \in \mathcal{D}_f(x^k)$ garantiza que soluciones de este problema están en el interior del conjunto factible, i.e., que $\alpha_k > 0$. Para una función $f$ diferenciable en el punto $x^{k+1}$, sigue que
 \begin{equation}
-    \min_{\alpha \ge 0} \varphi_k(\alpha) = f(x^k + \alpha d^k).
-    \label{eq:v2_minimizacion_unidimensional}
+    0 = \interno{f'(x^k + \alpha_k d^k)}{d^k} = \interno{f'(x^{k+1})}{d^k}.
+    \label{eq:ortogonalidad_busqueda}
 \end{equation}
-Si la función $f$ es diferenciable, del Teorema de Optimalidad de primer orden se deduce la condición de ortogonalidad:
-\begin{equation}
-    0 = \varphi'_k(\alpha_k) = \interno{f'(x^{k+1})}{d^k}.
-    \label{eq:v2_ortogonalidad}
-\end{equation}
-En el caso general, la resolución exacta unidimensional es muy costosa. Prácticamente, esta regla se sustituye por las heurísticas de decremento suficiente.
 
-\subsubsection{2. Regla de Armijo}
-Esta estrategia calcula una longitud de paso que resulte en un decremento suficiente de $f$, siendo mucho más económica. Fijamos los parámetros $\hat{\alpha} > 0$ (paso inicial), y $\sigma, \theta \in (0, 1)$. Tomamos $\alpha := \hat{\alpha}$.
+\subsubsection*{Regla de Armijo}
+Supongamos que $f$ sea diferenciable en el punto $x^k$. Fijamos los parámetros $\hat{\alpha} > 0, \sigma, \theta \in (0,1)$. Tomamos $\alpha := \hat{\alpha}$.
 \begin{enumerate}
-    \item Verificamos si se satisface la \textbf{Condición de Armijo}:
+    \item Verificamos si la desigualdad de Armijo se satisface:
     \begin{equation}
-        f(x^k + \alpha d^k) \le f(x^k) + \sigma \alpha \interno{f'(x^k)}{d^k}.
-        \label{eq:v2_condicion_armijo}
+        f(x^k + \alpha d^k) \le f(x^k) + \sigma \alpha \interno{f'(x^k)}{d^k}
+        \label{eq:cond_armijo}
     \end{equation}
-    \item Si \eqref{eq:v2_condicion_armijo} no se satisface, reducimos el paso tomando $\alpha := \theta\alpha$ y regresamos al Paso 1. De lo contrario, aceptamos $\alpha_k := \alpha$.
+    \item Si no se satisface, tomamos $\alpha := \theta \alpha$ y retornamos al Paso 1. En caso contrario, aceptamos $\alpha_k = \alpha$.
 \end{enumerate}
 
-\begin{lemma}[La regla de Armijo está bien definida]\label{lem:v2_armijo_bien_definida}
-    Sea $f \colon \Rn \to \R$ diferenciable en $x^k$. Si $d^k$ satisface la condición de descenso $\interno{f'(x^k)}{d^k} < 0$, entonces la desigualdad \eqref{eq:v2_condicion_armijo} se satisface para todo $\alpha > 0$ suficientemente pequeño. En particular, la regla de Armijo termina en un número finito de reducciones.
+\begin{lemma}[La regla de Armijo está bien definida]
+    Sea $f \colon \Rn \to \R$ una función diferenciable en el punto $x^k \in \Rn$. Supongamos que $d^k \in \Rn$ satisfaga $\interno{f'(x^k)}{d^k} < 0$. Entonces la desigualdad de Armijo es satisfecha para todo $\alpha > 0$ suficientemente pequeño. En particular, la regla de Armijo termina con un $\alpha_k > 0$.
 \end{lemma}
-
 \begin{proof}
-    Por el desarrollo de Taylor, para todo $\alpha > 0$ suficientemente pequeño:
+    Para todo $\alpha > 0$ suficientemente pequeño,
     \begin{align*}
-      f(x^k + \alpha d^k) - f(x^k) &= \alpha \interno{f'(x^k)}{d^k} + o(\alpha) \\
-                                   &= \sigma\alpha\interno{f'(x^k)}{d^k} + \alpha\left((1-\sigma)\interno{f'(x^k)}{d^k} + \frac{o(\alpha)}{\alpha}\right).
+        f(x^k + \alpha d^k) - f(x^k) &= \alpha \interno{f'(x^k)}{d^k} + o(\alpha) \\
+        &= \sigma \alpha \interno{f'(x^k)}{d^k} + (1-\sigma)\alpha \interno{f'(x^k)}{d^k} + o(\alpha) \\
+        &\le \sigma \alpha \interno{f'(x^k)}{d^k},
     \end{align*}
-    Como $\sigma \in (0,1)$ y la derivada direccional es negativa, el término $(1-\sigma)\interno{f'(x^k)}{d^k} + \frac{o(\alpha)}{\alpha} < 0$ para $\alpha$ cercano a 0. Luego $f(x^k + \alpha d^k) - f(x^k) \le \sigma\alpha\interno{f'(x^k)}{d^k}$.
+    donde la desigualdad se sigue de $(1-\sigma)\interno{f'(x^k)}{d^k} + o(\alpha)/\alpha \le \frac{1-\sigma}{2}\interno{f'(x^k)}{d^k} < 0$, que vale para todo $\alpha > 0$ suficientemente pequeño.
 \end{proof}
 
-\begin{lemma}[Cota inferior para el paso de Armijo]\label{lem:v2_cota_armijo}
-    Sea $f$ diferenciable con gradiente Lipschitz-continuo (constante $L > 0$). Si $\interno{f'(x^k)}{d^k} < 0$, entonces la desigualdad \eqref{eq:v2_condicion_armijo} es válida para todo $\alpha \in (0, \bar{\alpha}_k]$, donde:
-    \begin{equation}
-        \bar{\alpha}_k = -\frac{2(1-\sigma)\interno{f'(x^k)}{d^k}}{L \norm{d^k}^2} > 0.
-        \label{eq:v2_cota_armijo_formula}
-    \end{equation}
-\end{lemma}
+\subsubsection*{Regla de Goldstein}
+La longitud del paso $\alpha_k > 0$ se calcula para satisfacer las dos desigualdades:
+\begin{equation}
+    \sigma_1 \le \frac{f(x^k + \alpha d^k) - f(x^k)}{\alpha \interno{f'(x^k)}{d^k}} \le \sigma_2,
+\end{equation}
+donde $0 < \sigma_1 < \sigma_2 < 1$.
 
-\begin{proof}
-    Utilizando la cota cuadrática para gradientes Lipschitz \cref{lem:v2_lipschitz_grad_ineq}:
-    \begin{align*}
-      f(x^k + \alpha d^k) - f(x^k) &\le \alpha \interno{f'(x^k)}{d^k} + \frac{L}{2}\alpha^2 \norm{d^k}^2 \\
-                                   &= \alpha \left( \interno{f'(x^k)}{d^k} + \frac{L}{2}\alpha \norm{d^k}^2 \right) \le \sigma \alpha \interno{f'(x^k)}{d^k},
-    \end{align*}
-    donde la última desigualdad se cumple exactamente para $\alpha \le \bar{\alpha}_k$.
-\end{proof}
-
-\subsubsection{3. Regla de Goldstein y Wolfe}
-La regla de \textbf{Goldstein} impone que la reducción no sea ni muy pequeña (Armijo) ni excesivamente grande, acotando el descenso por una franja lineal con constantes $0 < \sigma_1 < \sigma_2 < 1$.
-
-La regla de \textbf{Wolfe} es habitualmente la más eficiente en la práctica para métodos cuasi-Newton. Exige satisfacer simultáneamente Armijo y una condición de curvatura:
+\subsubsection*{Regla de Wolfe}
+La longitud de paso $\alpha_k > 0$ se calcula para satisfacer:
 \begin{align}
-    f(x^k + \alpha d^k) &\le f(x^k) + \sigma_1 \alpha \interno{f'(x^k)}{d^k}, \label{eq:v2_wolfe_1} \\
-    \interno{f'(x^k + \alpha d^k)}{d^k} &\ge \sigma_2 \interno{f'(x^k)}{d^k}. \label{eq:v2_wolfe_2}
+    f(x^k + \alpha d^k) &\le f(x^k) + \sigma_1 \alpha \interno{f'(x^k)}{d^k}, \\
+    \interno{f'(x^k + \alpha d^k)}{d^k} &\ge \sigma_2 \interno{f'(x^k)}{d^k},
 \end{align}
-La segunda condición controla la precisión de la minimización a lo largo de la línea. Se puede demostrar que para funciones acotadas inferiormente, la regla de Wolfe está siempre bien definida.
+donde $0 < \sigma_1 < \sigma_2 < 1$.
 
-\begin{lemma}[La regla de Wolfe está bien definida]\label{lem:v2_wolfe_bien_definida}
-    Sea $f \colon \Rn \to \R$ una función acotada inferiormente en $\Rn$, de clase $\mathcal{C}^1$. Supongamos que $x^k \in \Rn$ y $d^k \in \Rn$ satisfacen la condición suficiente de descenso $\interno{f'(x^k)}{d^k} < 0$. 
-    
-    Entonces, cualquier implementación de la regla de Wolfe, para la cual se tiene que el límite superior del intervalo de búsqueda $\bar{\alpha} \to +\infty$ en el caso de un número infinito de extrapolaciones, y $(\bar{\alpha} - \hat{\alpha}) \to 0$ en el caso de un número infinito de interpolaciones, está bien definida, en el sentido de que termina con un valor de longitud de paso $\alpha_k > 0$.
-\end{lemma}
-
-\begin{proof}
-    Supongamos primero que el número de extrapolaciones es infinito. En este caso, tenemos una sucesión de valores $\tilde{\alpha} \to +\infty$, para los cuales
-    \begin{equation}
-        f(x^k + \tilde{\alpha} d^k) \le f(x^k) + \sigma_1 \tilde{\alpha} \interno{f'(x^k)}{d^k}. \label{eq:v2_wolfe_extrapolacion}
-    \end{equation}
-    Teniendo en cuenta el descenso estricto, esto contradice el hecho de que $f$ está acotada inferiormente. Por lo tanto, el número de extrapolaciones es finito.
-
-    Supongamos ahora que el número de interpolaciones es infinito. En este caso, las sucesiones monótonas de valores de $\bar{\alpha}$ y de $\hat{\alpha}$ convergen a un límite común $\tilde{\alpha}$. Además, los elementos de la primera sucesión satisfacen \eqref{eq:v2_wolfe_extrapolacion} y
-    \begin{equation}
-        \interno{f'(x^k + \tilde{\alpha} d^k)}{d^k} < \sigma_2 \interno{f'(x^k)}{d^k}, \label{eq:v2_violacion_wolfe_2}
-    \end{equation}
-    y los elementos de la segunda sucesión satisfacen
-    \begin{equation}
-        f(x^k + \hat{\alpha} d^k) > f(x^k) + \sigma_1 \hat{\alpha} \interno{f'(x^k)}{d^k}. \label{eq:v2_violacion_armijo}
-    \end{equation}
-    Pasando al límite en ambas, obtenemos la igualdad
-    \begin{equation}
-        f(x^k + \tilde{\alpha} d^k) = f(x^k) + \sigma_1 \tilde{\alpha} \interno{f'(x^k)}{d^k}. \label{eq:v2_igualdad_limite}
-    \end{equation}
-    Teniendo en cuenta \eqref{eq:v2_violacion_armijo} y que los valores de $\hat{\alpha}$ son decrecientes, estos se mantienen estrictamente mayores que $\tilde{\alpha}$. Usando \eqref{eq:v2_igualdad_limite}, escribimos \eqref{eq:v2_violacion_armijo} como
-    \begin{align*}
-        f(x^k + \hat{\alpha} d^k) &> f(x^k) + \sigma_1(\bar{\alpha} + \hat{\alpha} - \bar{\alpha}) \interno{f'(x^k)}{d^k} \\
-        &= f(x^k + \bar{\alpha} d^k) + \sigma_1(\hat{\alpha} - \bar{\alpha}) \interno{f'(x^k)}{d^k}.
-    \end{align*}
-    Como $\hat{\alpha} - \bar{\alpha} > 0$, tenemos que
-    \[
-        \frac{f(x^k + \hat{\alpha} d^k) - f(x^k + \bar{\alpha} d^k)}{\hat{\alpha} - \bar{\alpha}} > \sigma_1 \interno{f'(x^k)}{d^k}.
-    \]
-    Pasando al límite (cuando $(\hat{\alpha} - \bar{\alpha}) \to 0$) y usando que $\sigma_1 < \sigma_2$, obtenemos
-    \begin{equation}
-        \interno{f'(x^k + \tilde{\alpha} d^k)}{d^k} \ge \sigma_1 \interno{f'(x^k)}{d^k} > \sigma_2 \interno{f'(x^k)}{d^k}. \label{eq:v2_limite_contradictorio}
-    \end{equation}
-    Por otro lado, pasando al límite en \eqref{eq:v2_violacion_wolfe_2}, obtenemos la desigualdad $\interno{f'(x^k + \tilde{\alpha} d^k)}{d^k} \le \sigma_2 \interno{f'(x^k)}{d^k}$, en franca contradicción con \eqref{eq:v2_limite_contradictorio}.
-\end{proof}
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:

@@ -156,12 +156,18 @@ donde el escalar $\beta_{k-1}$ se diseña forzando algebraicamente a que las dir
     El \cref{alg:v2_gradientes_conjugados} produce efectivamente un conjunto de vectores $d^0, d^1, \dots, d^{n-1}$ que son $Q$-conjugados. Sorprendentemente, los gradientes sucesivos generados $f'(x^0), f'(x^1), \dots, f'(x^{n-1})$ son mutuamente \textbf{ortogonales} en la métrica euclidiana normal.
 \end{theorem}
 
-\subsection{Extensión a funciones no lineales generales (No Cuadráticas)}
+\begin{theorem}\label{thm:v2_gradientes_conjugados_teorema}
+El \cref{alg:v2_gradientes_conjugados} produce efectivamente un conjunto de vectores $d^0, d^1, \dots, d^{n-1}$ que son $Q$-conjugados. Sorprendentemente, los gradientes sucesivos generados $f'(x^0), f'(x^1), \dots, f'(x^{n-1})$ son mutuamente \textbf{ortogonales} en la métrica euclidiana normal.
+\end{theorem}
 
-Para funciones no cuadráticas, la matriz Hessiana $Q = \nabla^2 f(x)$ no es constante. Por lo tanto, el cálculo del coeficiente $\beta_k$ que incluye a la matriz $Q$ sería costoso y anularía la principal ventaja de este método. Afortunadamente, se puede demostrar algebraicamente que (en el caso cuadrático) la fórmula de $\beta_k$ es matemáticamente equivalente a las siguientes formas de \textbf{Fletcher-Reeves (FR)} y \textbf{Polak-Ribière (PR)}, las cuales solo requieren evaluar gradientes:
+En el caso de una función no cuadrática, las fórmulas para el cálculo de $\beta_{k-1}$ dadas arriba resultan, en general, en valores diferentes. Más aún, los vectores $d^k$ así generados no forman un conjunto $Q$-conjugado para ninguna matriz $Q$. Naturalmente, convergencia finita no puede ser esperada en este caso. Pero aun así, hay razones para esperar convergencia rápida, debido al hecho de que, localmente, una función dos veces diferenciable es aproximada bien por una función cuadrática (dada por la parte cuadrática de su expansión de Taylor).
 
+La experiencia computacional sugiere que la primera fórmula analizada es en general superada por fórmulas alternativas en la práctica. Resaltamos que, dadas las definiciones del método algebraico, $\langle f'(x^k), d^k \rangle = -\|f'(x^k)\|^2 < 0$, si $f'(x^k) \neq 0$. Por lo tanto, por el Lema 3.1.1, $d^k \in \mathcal{D}_f(x^k)$. Por eso, podemos minimizar de forma irrestricta sobre la semirrecta $\alpha \ge 0$, admitir que $\alpha_k > 0$, y considerar el método de los gradientes conjugados como un método de descenso. En el caso no cuadrático, la minimización unidimensional exacta ya no es posible y tenemos que apelar a otras reglas de búsqueda lineal, por ejemplo la de Wolfe. Así, las fórmulas clásicas de \textbf{Fletcher-Reeves (FR)} y \textbf{Polak-Ribière (PR)} que extienden el método son respectivamente:
 \[
-    \beta_{k-1}^{FR} = \frac{\norm{f'(x^k)}^2}{\norm{f'(x^{k-1})}^2} \quad \text{y} \quad \beta_{k-1}^{PR} = \frac{\interno{f'(x^k)}{f'(x^k) - f'(x^{k-1})}}{\norm{f'(x^{k-1})}^2}.
+\beta_{k-1}^{FR} = \frac{\|f'(x^k)\|^2}{\|f'(x^{k-1})\|^2} \quad \text{y} \quad \beta_{k-1}^{PR} = \frac{\interno{f'(x^k)}{f'(x^k) - f'(x^{k-1})}}{\|f'(x^{k-1})\|^2}.
 \]
 
-En la optimización práctica de sistemas no lineales, el método de gradientes conjugados con las fórmulas anteriores (combinado con una búsqueda de línea de Wolfe en lugar del paso exacto) es extremadamente eficiente y su consumo de memoria es de $O(n)$, siendo la herramienta de elección para sistemas a gran escala donde la matriz Hessiana no cabe en la memoria.
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:

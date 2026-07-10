@@ -2,9 +2,7 @@
 
 \addsec{Ejercicios del Capítulo}
 
-\vspace{0.5em}
-\noindent\textbf{Parte I: Mecánica Primal-Dual y Fallas Topológicas}
-\vspace{0.5em}
+\addsubsec{Parte I: Mecánica Primal-Dual y Fallas Topológicas}
 
 \begin{exercise}
 	Determínense los minimizadores y maximizadores globales del funcional lineal $f(x) = \sum_{i=1}^n x_i$ sobre la esfera unitaria $D = \{ x \in \Rn \mid \norm{x}^2 = 1 \}$.
@@ -56,9 +54,7 @@
     \end{enuthm}
 \end{exercise}
 
-\vspace{1em}
-\noindent\textbf{Parte II: Condiciones Diferenciales de Segundo Orden y Matriz KKT}
-\vspace{0.5em}
+\addsubsec{Parte II: Condiciones Diferenciales de Segundo Orden y Matriz KKT}
 
 \begin{exercise}
 	Determine los extremos locales y globales de la función $f(x) = x_1^3 / 3 + x_2$ restringida a la esfera $D = \{ x \in \R^2 \mid x_1^2 + x_2^2 = 2 \}$.
@@ -101,9 +97,7 @@
     Sea un problema con restricciones afines $Ax = a$. La matriz KKT $K = \begin{pmatrix} H & A^\top \\ A & 0 \end{pmatrix}$ es simétrica. Demuestre que, incluso si $H$ es estrictamente definida positiva, la matriz de bloques completa $K$ es siempre indefinida (posee tanto autovalores estrictamente positivos como estrictamente negativos). \textit{Este resultado explica por qué los algoritmos de optimización numérica suelen utilizar factorizaciones como $LDL^\top$ en lugar de la factorización de Cholesky.}
 \end{exercise}
 
-\vspace{1em}
-\noindent\textbf{Parte III: Aplicaciones Físicas, Análisis de Sensibilidad y Variedades Matriciales}
-\vspace{0.5em}
+\addsubsec{Parte III: Aplicaciones Físicas, Análisis de Sensibilidad y Variedades Matriciales}
 
 \begin{exercise}[Precio Sombra y Análisis de Sensibilidad]
     Considérese el problema parametrizado $\min f(x)$ sujeto a $h(x) = p$, donde $p \in \R^l$ es un vector de perturbaciones de frontera. Sea $\bar{x}$ un mínimo local estricto para el problema nominal ($p = 0$), regular (LICQ) y que satisface las condiciones suficientes de segundo orden con multiplicador único $\bar{\lambda}$. Invocando el Teorema de la Función Implícita sobre el sistema KKT, existe una trayectoria suave de minimizadores locales $x(p)$ con $x(0) = \bar{x}$. Defínase la función valor óptimo $v(p) = f(x(p))$. Aplicando la regla de la cadena multivariable y la ecuación estacionaria de Lagrange, demuéstrese rigurosamente que: $\nabla_p v(0) = -\bar{\lambda}$. \textit{Interprete este resultado desde una perspectiva geométrica y económica, relacionando el multiplicador de Lagrange con la sensibilidad del valor óptimo frente a variaciones en el término independiente de la restricción.}
@@ -150,9 +144,7 @@
     En estimación estadística, a menudo se requiere estimar parámetros sujetos a un conjunto de restricciones lineales exactas. Considere el problema de regresión $\min \frac{1}{2} \norm{Y - X\beta}^2$ sujeto a $C\beta = d$, donde $Y \in \R^m$, $X \in \R^{m \times n}$ (con rango de columnas completo), $C \in \R^{l \times n}$ (rango de filas completo) y $d \in \R^l$. Encuentre la expresión analítica cerrada del estimador restringido $\beta^*$ resolviendo el sistema de ecuaciones de Lagrange y compárelo con el estimador de mínimos cuadrados ordinarios irrestricto $\hat{\beta} = (X^\top X)^{-1}X^\top Y$.
 \end{exercise}
 
-\vspace{1em}
-\noindent\textbf{Parte IV: Teoremas de Alternativa y Análisis Convexo}
-\vspace{0.5em}
+\addsubsec{Parte IV: Teoremas de Alternativa y Análisis Convexo}
 
 \begin{exercise}[Teorema de Tucker]
     Pruebe el Teorema de la Alternativa de Tucker: Para cualesquiera matrices $A_i$, $i=0,1,2$, con $A_0 \neq 0$, uno y solo uno de los sistemas posee solución:
@@ -219,3 +211,8 @@
 \begin{exercise}
     Probar que la función $f(x) = \max\{ \E^x, x^2 \} + 1/x$ es convexa en $\R_+ \setminus \{0\}$.
 \end{exercise}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:

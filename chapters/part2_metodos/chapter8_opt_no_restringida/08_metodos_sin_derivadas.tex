@@ -1,35 +1,29 @@
 % --- Archivo: 08_metodos_sin_derivadas.tex ---
-
 % =========================================================
 \section{Métodos que no utilizan derivadas}
 \label{sec:v2_metodos_sin_derivadas}
 % =========================================================
 
-Esta sección presenta una breve mención a métodos de optimización de orden cero (que no utilizan información diferencial en absoluto). El análisis teórico de su convergencia en la literatura es complejo y en muchos casos de naturaleza probabilística, pero poseen una gran importancia práctica cuando la función objetivo es el resultado de simulaciones de caja negra (black-box), cuando la función presenta ruido, o cuando su gradiente no está analíticamente disponible.
+Esta sección bien corta no contiene resultados de convergencia, porque los métodos que serán mencionados están fuera de los asuntos principales abordados en este libro y el análisis teórico de ellos es muy complicado. Por otro lado, la importancia práctica de métodos de orden cero no permite omitirles completamente. Fue escogido entonces presentar un resumen breve, sin estudio teórico. 
 
-\subsection{Descenso por Coordenadas (Coordinate Descent)}
+Sea $f \colon \Rn \to \R$ una función dada. La implementación de métodos para el problema $\min f(x)$ requiere el cálculo de (primeras o, aún, segundas) derivadas de $f$. En la práctica, a veces, este cálculo tiene costo computacional muy grande. En algunas aplicaciones, el cálculo puede ser hasta imposible en principio (por ejemplo, cuando no hay fórmulas explícitas para las derivadas de $f$). A veces, lo mejor que puede ser hecho es calcular apenas valores de $f$. En situaciones de este tipo, precisamos o hacer una aproximación de derivadas utilizando valores de la función, o desarrollar métodos completamente diferentes, que no utilizan derivadas (tales métodos son llamados de métodos de búsqueda directa). 
 
-En el método de descenso cíclico por coordenadas, las direcciones de búsqueda se restringen exclusivamente a la base canónica ortogonal del espacio dimensional:
+En principio, todos los métodos de primera y segunda orden considerados encima pueden ser implementados (de manera inexacta) sin utilización de derivadas, aproximándolas por esquemas de diferencias finitas. Por ejemplo, el gradiente de la función $f$ en el punto $x^k \in \Rn$ puede ser aproximado por el esquema de diferencias hacia adelante separadas:
 \[
-    d^0 = e^1, \; d^1 = e^2, \dots, d^{n-1} = e^n, \; d^n = e^1, \dots
+f_{x_j}'(x^k) \approx g_j^k = \frac{f(x^k + t_k e^j) - f(x^k)}{t_k}, \quad j = 1, \dots, n,
 \]
-El tamaño de paso se calcula iterativamente mediante una minimización unidimensional a lo largo del eje seleccionado. Esto equivale a minimizar la función cambiando el valor de una sola variable a la vez, manteniendo el resto de las variables estrictamente congeladas. 
+donde $t_k > 0$ es un número pequeño y $\{e^1, \dots, e^n\}$ es la base canónica de $\Rn$. La aproximación por diferencias centradas es más precisa, mas requiere casi el doble de computaciones de valores de la función $f$. El análogo del método del gradiente, con diferencias finitas, es dado por $x^{k+1} = x^k - \alpha_k g^k$.
 
-Aunque es sumamente intuitivo y muy fácil de programar, este método carece de garantías de convergencia global (incluso para funciones suaves) si no se imponen fuertes condiciones adicionales sobre la función, como la separabilidad estricta de las variables o una condición de convexidad fuerte. En la presencia de valles alargados o funciones no diferenciables, el método de descenso por coordenadas puede detenerse en puntos no estacionarios.
-
-\subsection{Búsqueda Aleatoria (Random Search) y Gradiente Estocástico}
-
-Si se carece completamente de derivadas y el espacio de búsqueda es complejo, una estrategia heurística ampliamente utilizada es la \textbf{Búsqueda Aleatoria}. En este enfoque, la dirección de prueba $d^k$ se elige mediante la realización de una variable aleatoria uniformemente distribuida sobre la esfera unitaria de $\Rn$. 
-
-El algoritmo procede de la siguiente manera:
-\begin{itemize}
-    \item Si la evaluación de la función objetivo en el punto de prueba $f(x^k + \alpha d^k)$ proporciona un descenso aceptable, la dirección y el paso se aceptan y se actualiza el iterado.
-    \item Si no proporciona descenso, se reduce la longitud del paso o simplemente se rechaza y se sortea una nueva dirección aleatoria.
-\end{itemize}
-
-Para funciones que son topológicamente no diferenciables (pero que cumplen con ser localmente Lipschitz continuas), el Teorema de Rademacher asegura que la función es diferenciable en casi todo punto del dominio. Este poderoso hecho analítico sustenta el método de \textbf{Diferencias Finitas Estocásticas}, donde el gradiente se estima numéricamente en cada paso mediante pequeñas perturbaciones en direcciones coordinadas o aleatorias:
+El método más natural que no utiliza el cálculo (exacto o aproximado) de derivadas es el método de descenso por coordenadas, dado por el esquema cíclico:
 \[
-    g_j^k \approx \frac{f(x^k + t_k e^j) - f(x^k)}{t_k}.
+d^0 = e^1, \; \dots, d^{n-1} = e^n, \; d^n = e^1, \dots
 \]
+Los valores del tamaño de paso $\alpha_k$ pueden ser calculados por minimización unidimensional, $f(x^k + \alpha_k d^k) = \min f(x^k + \alpha d^k)$. Esto equivale a minimizar la función en relación a una coordenada, con otras coordenadas fijas. Es interesante notar que, de nuevo, mismo que el método no tenga ninguna relación aparente con derivadas, garantizar su comportamiento razonable solo es posible para funciones diferenciables. Además de eso, sin convexidad, no es posible probar convergencia global del método de descenso por coordenadas: puntos de acumulación de la secuencia generada pueden no ser puntos estacionarios del problema.
 
-Coordinando matemáticamente las secuencias de las longitudes de paso de actualización y las magnitudes de las perturbaciones aleatorias $t_k$, es posible probar rigurosamente la convergencia estocástica asintótica del algoritmo hacia el conjunto de puntos estacionarios con probabilidad 1 (casi seguramente).
+En el método de descenso por coordenadas aleatorio, la dirección $d^k$ es definida por un vector de la base canónica $e^j$, donde el índice $j$ viene dado por la realización de algún proceso estocástico, con probabilidades iguales para los valores $1, \dots, n$. En el método de búsqueda aleatoria pura, la dirección $d^k$ es dada por la realización de algún proceso estocástico, con probabilidades iguales para los vectores en la esfera unitaria del espacio $\Rn$. Resultados teóricos para métodos de este tipo afirman, típicamente, la convergencia de la secuencia $\{f(x^k)\}$ a cero con probabilidad 1.
+
+Finalmente comentaremos sobre el caso en que la función $f$ es no-diferenciable. En esta situación el hecho siguiente es crucial: si una función es Lipschitz-continua en una vecindad de cada punto de $\Rn$, entonces ella es diferenciable en casi todo punto de $\Rn$ (en el sentido de que el conjunto de puntos de no-diferenciabilidad tiene medida nula, vea la Sección 1.6 del libro original). Por eso, podemos esperar que $f$ sea diferenciable en un punto $\tilde{x}^k$ escogido de manera aleatoria. Este raciocinio sugiere el método de diferencias finitas estocásticas, dado por el cálculo asintótico de parámetros coordinados probabilísticamente iterados, haciendo convergencia posible en casi todo caso.
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:
