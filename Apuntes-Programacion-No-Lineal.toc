@@ -112,35 +112,35 @@
 \contentsline {subsection}{\numberline {9.1.1}Métodos del gradiente proyectado}{124}{subsection.9.1.1}%
 \contentsline {subsection}{\numberline {9.1.2}Direcciones factibles y métodos de descenso}{127}{subsection.9.1.2}%
 \contentsline {subsection}{\numberline {9.1.3}Método del gradiente restringido. Método de Newton restringido}{128}{subsection.9.1.3}%
-\contentsline {section}{\numberline {9.2}Métodos de direcciones factibles}{129}{section.9.2}%
-\contentsline {section}{\numberline {9.3}Métodos de penalización}{131}{section.9.3}%
-\contentsline {subsection}{\numberline {9.3.1}Penalización externa}{132}{subsection.9.3.1}%
-\contentsline {subsection}{\numberline {9.3.2}Penalización externa exacta}{139}{subsection.9.3.2}%
-\contentsline {subsection}{\numberline {9.3.3}Penalización interna. Métodos de barreras}{144}{subsection.9.3.3}%
-\contentsline {section}{\numberline {9.4}Métodos para problemas con restricciones de igualdad}{147}{section.9.4}%
-\contentsline {subsection}{\numberline {9.4.1}Métodos de Newton para el sistema de Lagrange}{148}{subsection.9.4.1}%
-\contentsline {subsection}{\numberline {9.4.2}El método de penalización cuadrática}{150}{subsection.9.4.2}%
-\contentsline {subsection}{\numberline {9.4.3}Lagrangianas aumentadas y funciones de penalización exacta diferenciables}{153}{subsection.9.4.3}%
-\contentsline {section}{\numberline {9.5}Métodos para problemas con restricciones mixtas}{158}{section.9.5}%
-\contentsline {subsection}{\numberline {9.5.1}Métodos de Newton generalizados}{158}{subsection.9.5.1}%
-\contentsline {subsection}{\numberline {9.5.2}Métodos de Newton generalizados para el sistema de Karush-Kuhn-Tucker}{159}{subsection.9.5.2}%
-\contentsline {subsection}{\numberline {9.5.3}Métodos de penalización cuadrática}{165}{subsection.9.5.3}%
-\contentsline {subsection}{\numberline {9.5.4}Lagrangianas aumentadas}{168}{subsection.9.5.4}%
-\contentsline {subsection}{\numberline {9.5.5}Penalización exacta diferenciable}{170}{subsection.9.5.5}%
-\contentsline {section}{\numberline {9.6}Programación cuadrática secuencial}{171}{section.9.6}%
-\contentsline {subsection}{\numberline {9.6.1}Restricciones de igualdad}{172}{subsection.9.6.1}%
-\contentsline {subsection}{\numberline {9.6.2}Restricciones mixtas}{173}{subsection.9.6.2}%
-\contentsline {subsection}{\numberline {9.6.3}Globalización de convergencia de SQP}{178}{subsection.9.6.3}%
-\contentsline {subsection}{\numberline {9.6.4}Restauração da convergência local superlinear}{184}{subsection.9.6.4}%
-\contentsline {subsection}{\numberline {9.6.5}Identificación de las restricciones activas}{188}{subsection.9.6.5}%
-\contentsline {subsubsection}{\nonumberline Identificación basada en estimativas de distancia a la solución}{188}{subsubsection*.35}%
-\contentsline {subsubsection}{\nonumberline Estimativas de distancia a la solución}{191}{subsubsection*.36}%
-\contentsline {section}{\nonumberline Ejercicios del Capítulo}{191}{section*.37}%
-\contentsline {subsection}{Sección I: Métodos para conjuntos factibles de estructura simple}{191}{section*.38}%
-\contentsline {subsection}{Sección II: Métodos de penalización}{193}{section*.39}%
-\contentsline {subsection}{Sección III: Métodos para problemas con restricciones de igualdad}{194}{section*.40}%
-\contentsline {subsection}{Sección IV: Métodos para problemas con restricciones mixtas}{195}{section*.41}%
-\contentsline {subsection}{Sección V: Programación cuadrática secuencial (SQP)}{196}{section*.42}%
-\contentsline {subsection}{Sección VI: Identificación de las restricciones activas}{197}{section*.43}%
-\contentsline {chapter}{\nonumberline Bibliografía}{198}{chapter*.44}%
+\contentsline {section}{\numberline {9.2}Métodos de penalización}{129}{section.9.2}%
+\contentsline {subsection}{\numberline {9.2.1}Penalización externa}{130}{subsection.9.2.1}%
+\contentsline {subsection}{\numberline {9.2.2}Penalización externa exacta}{137}{subsection.9.2.2}%
+\contentsline {subsection}{\numberline {9.2.3}Penalización interna. Métodos de barreras}{142}{subsection.9.2.3}%
+\contentsline {section}{\numberline {9.3}Métodos para problemas con restricciones de igualdad}{145}{section.9.3}%
+\contentsline {subsection}{\numberline {9.3.1}Métodos de Newton para el sistema de Lagrange}{146}{subsection.9.3.1}%
+\contentsline {subsection}{\numberline {9.3.2}El método de penalización cuadrática}{148}{subsection.9.3.2}%
+\contentsline {subsection}{\numberline {9.3.3}Lagrangianas aumentadas y funciones de penalización exacta diferenciables}{151}{subsection.9.3.3}%
+\contentsline {section}{\numberline {9.4}Métodos para problemas con restricciones mixtas}{156}{section.9.4}%
+\contentsline {subsection}{\numberline {9.4.1}Métodos de Newton generalizados}{156}{subsection.9.4.1}%
+\contentsline {subsection}{\numberline {9.4.2}Métodos de Newton generalizados para el sistema de Karush-Kuhn-Tucker}{157}{subsection.9.4.2}%
+\contentsline {subsection}{\numberline {9.4.3}Métodos de penalización cuadrática}{163}{subsection.9.4.3}%
+\contentsline {subsection}{\numberline {9.4.4}Lagrangianas aumentadas}{166}{subsection.9.4.4}%
+\contentsline {subsection}{\numberline {9.4.5}Penalización exacta diferenciable}{168}{subsection.9.4.5}%
+\contentsline {section}{\numberline {9.5}Programación cuadrática secuencial}{169}{section.9.5}%
+\contentsline {subsection}{\numberline {9.5.1}Restricciones de igualdad}{170}{subsection.9.5.1}%
+\contentsline {subsection}{\numberline {9.5.2}Restricciones mixtas}{171}{subsection.9.5.2}%
+\contentsline {subsection}{\numberline {9.5.3}Globalización de la convergencia de SQP}{177}{subsection.9.5.3}%
+\contentsline {subsection}{\numberline {9.5.4}Restauración de la convergencia local superlineal}{181}{subsection.9.5.4}%
+\contentsline {subsection}{\numberline {9.5.5}Otras técnicas de globalización}{182}{subsection.9.5.5}%
+\contentsline {section}{\numberline {9.6}Identificación de las restricciones activas}{183}{section.9.6}%
+\contentsline {subsection}{\numberline {9.6.1}Identificación basada en estimativas de distancia a la solución}{183}{subsection.9.6.1}%
+\contentsline {subsection}{\numberline {9.6.2}Estimativas de distancia a la solución}{185}{subsection.9.6.2}%
+\contentsline {section}{\nonumberline Ejercicios del Capítulo}{185}{section*.35}%
+\contentsline {subsection}{Sección 4.1: Métodos para conjuntos factibles de estructura simple}{185}{section*.36}%
+\contentsline {subsection}{Sección 4.3: Métodos de penalización}{187}{section*.37}%
+\contentsline {subsection}{Sección 4.4: Métodos para problemas con restricciones de igualdad}{188}{section*.38}%
+\contentsline {subsection}{Sección 4.5: Métodos para problemas con restricciones mixtas}{189}{section*.39}%
+\contentsline {subsection}{Sección 4.6: Programación cuadrática secuencial (SQP)}{191}{section*.40}%
+\contentsline {subsection}{Sección 4.7: Identificación de las restricciones activas}{191}{section*.41}%
+\contentsline {chapter}{\nonumberline Bibliografía}{192}{chapter*.42}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

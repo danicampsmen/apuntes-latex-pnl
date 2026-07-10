@@ -46,7 +46,7 @@ Por el resultado del Ejercicio sobre B-diferencial y diferencial de Clarke, util
     \label{eq:4.131}
 \end{equation}
 En particular, la iteración del Algoritmo 4.5.1 está bien definida para $x^k \in U$ cualquiera.
-Ahora, por (4.130), (4.131), y la condición de Kummer en $\bar{x}$, podemos tomar la vecindad $U$ tal que, si $x^k \in U$ e $H_k \in \partial_B \Phi(x^k)$, entonces
+Ahora, por (4.130), (4.131), y la condición de Kummer en $\bar{x}$, podemos tomar la vecindad $U$ tal que, si $x^k \in U$ y $H_k \in \partial_B \Phi(x^k)$, entonces
 \begin{align}
     \|x^{k+1} - \bar{x}\| &= \|x^k - \bar{x} - H_k^{-1} \Phi(x^k)\| \nonumber \\
     &\le \|H_k^{-1}\| \|\Phi(x^k) - \Phi(\bar{x}) - H_k(x^k - \bar{x})\| \nonumber \\
@@ -211,7 +211,7 @@ Para una matriz $H \in \partial\Phi(\bar{x}, \bar{\lambda}, \bar{\mu})$ cualquie
     A(\bar{x}, \bar{\mu})g'(\bar{x}) & 0 & B(\bar{x}, \bar{\mu}) \end{pmatrix},
     \label{eq:4.153}
 \end{equation}
-donde $A(\bar{x}, \bar{\mu})$ y $B(\bar{x}, \bar{\mu})$ son matrices diagonales $m \times m$ con elementos $a_i = a_i(\bar{x}, \bar{\mu})$ e $b_i = b_i(\bar{x}, \bar{\mu}), i = 1, \dots, m$.
+donde $A(\bar{x}, \bar{\mu})$ y $B(\bar{x}, \bar{\mu})$ son matrices diagonales $m \times m$ con elementos $a_i = a_i(\bar{x}, \bar{\mu})$ y $b_i = b_i(\bar{x}, \bar{\mu}), i = 1, \dots, m$.
 
 Para $\tilde{u} = (\tilde{x}, \tilde{\lambda}, \tilde{\mu}) \in \ker H$ cualquiera, tenemos que
 \begin{align}
@@ -224,18 +224,18 @@ Notemos que para $i \in I_+(\bar{x})$ tenemos que $a_i = 1, b_i = 0$. Por lo tan
     \interno{g'_i(\bar{x})}{\tilde{x}} = 0 \quad \forall i \in I_+(\bar{x}).
     \label{eq:4.157}
 \end{equation}
-En particular, de (4.155) e (4.157) obtenemos que $\tilde{x} \in \mathcal{K}_+(\bar{x})$.
+En particular, de (4.155) y (4.157) obtenemos que $\tilde{x} \in \mathcal{K}_+(\bar{x})$.
 
 Para $i \in \{1, \dots, m\} \setminus I(\bar{x})$ se tiene $a_i = 0, b_i = -1$, y para $i \in I_0(\bar{x})$ se tiene que $a_i \ge 1, b_i \le 0$. Por tanto, de (4.156) obtenemos
 \begin{align}
     \tilde{\mu}_i &= 0 \quad \forall i \in \{1, \dots, m\} \setminus I(\bar{x}), \label{eq:4.158} \\
     \tilde{\mu}_i \interno{g'_i(\bar{x})}{\tilde{x}} &\ge 0 \quad \forall i \in I_0(\bar{x}). \label{eq:4.159}
 \end{align}
-Multiplicando los dos lados en (4.154) por $\tilde{x}$ y utilizando (4.155), (4.157) e (4.158), obtenemos que
+Multiplicando los dos lados en (4.154) por $\tilde{x}$ y utilizando (4.155), (4.157) y (4.158), obtenemos que
 \[
     \interno{L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})\tilde{x}}{\tilde{x}} + \sum_{i \in I_0(\bar{x})} \tilde{\mu}_i \interno{g'_i(\bar{x})}{\tilde{x}} = 0.
 \]
-Llevando en cuenta (4.159), tenemos que
+Teniendo en cuenta (4.159), tenemos que
 \[
     \interno{L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})\tilde{x}}{\tilde{x}} \le 0,
 \]
@@ -261,7 +261,7 @@ Elegir $\psi \colon \R \times \R \to \R$, de acuerdo con (4.137) o (4.138). Eleg
 \end{enumerate}
 \end{algorithm}
 
-Se para cada iteración $k$ en el método presentado arriba tomamos $H_k \in \partial_B \Phi(x^k, \lambda^k, \mu^k)$ o $H_k \in \partial \Phi(x^k, \lambda^k, \mu^k)$, obtenemos el método de Newton generalizado puro para el sistema KKT. Para el método de Newton generalizado, matrices pueden ser formuladas dadas arriba (vea los ejercicios correspondientes). Esto torna a los métodos en cuestión completamente explícitos e implementables. Resultados de convergencia local y de tasa de convergencia siguen directamente del Teorema 4.5.1 y de las Proposiciones 4.5.1-4.5.3.
+Si para cada iteración $k$ en el método presentado arriba tomamos $H_k \in \partial_B \Phi(x^k, \lambda^k, \mu^k)$ o $H_k \in \partial \Phi(x^k, \lambda^k, \mu^k)$, obtenemos el método de Newton generalizado puro para el sistema KKT. Para el método de Newton generalizado, matrices pueden ser formuladas dadas arriba (vea los ejercicios correspondientes). Esto torna a los métodos en cuestión completamente explícitos e implementables. Resultados de convergencia local y de tasa de convergencia siguen directamente del Teorema 4.5.1 y de las Proposiciones 4.5.1-4.5.3.
 
 \begin{theorem}[Convergencia local del método de Newton generalizado para el sistema KKT]\label{thm:4.5.2}
 Además de las hipótesis de la Proposición 4.5.2, supongamos que las funciones $f \colon \Rn \to \R$, $h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ sean dos veces diferenciables en una vecindad del punto $\bar{x} \in \Rn$, con derivadas segundas Lipschitz-continuas en esta vecindad.
@@ -289,7 +289,7 @@ donde $\Lambda_k \in \R^{n \times n}$ es cierta aproximación a la matriz $L''_{
 y $E_{J^k_-}$ es la matriz-identidad $|J^k_-| \times |J^k_-|$.
 Notemos que si $\Lambda_k = L''_{xx}(x^k, \lambda^k, \mu^k)$, tenemos que $H_k \in \partial\Phi(x^k, \lambda^k, \mu^k)$.
 
-\begin{theorem}[Convergencia primal superlinear del método de Newton generalizado para el sistema KKT]\label{thm:4.5.3}
+\begin{theorem}[Convergencia primal superlineal del método de Newton generalizado para el sistema KKT]\label{thm:4.5.3}
 Supongamos que valen las hipótesis del Teorema 4.5.2. Además de esto, supongamos que la secuencia $\{(x^k, \lambda^k, \mu^k)\}$ generada por el Algoritmo 4.5.2 sea convergente a $(\bar{x}, \bar{\lambda}, \bar{\mu})$, donde la función $\Phi$ viene dada por (4.145) con la función $\psi$ dada por (4.137), y para todo $k = 0, 1, \dots$, la matriz $H_k$ es dada por (4.159).
 
 Entonces, si la tasa de convergencia de la secuencia $\{x^k\}$ a $\bar{x}$ es superlineal, se tiene que
@@ -314,33 +314,19 @@ entonces la tasa de convergencia de $\{x^k\}$ a $\bar{x}$ es superlineal.
 \end{theorem}
 
 \begin{proof}
-Pela construcción del Algoritmo 4.5.2 y (4.159), para todo $k$,
-\begin{equation}
-    \Lambda_k(x^{k+1} - x^k) + (h'(x^k))^\top(\lambda^{k+1} - \lambda^k) + (g'(x^k))^\top(\mu^{k+1} - \mu^k) = -L'_x(x^k, \lambda^k, \mu^k),
-    \label{eq:4.162}
-\end{equation}
-\begin{equation}
-    h'(x^k)(x^{k+1} - x^k) = -h(x^k),
-    \label{eq:4.163}
-\end{equation}
-\begin{equation}
-    -\interno{g'_i(x^k)}{x^{k+1} - x^k} = -\min\{\mu^k_i, -g_i(x^k)\}, \quad i \in J^k_+,
-    \label{eq:4.164}
-\end{equation}
-\begin{equation}
-    \mu^{k+1}_i - \mu^k_i = -\min\{\mu^k_i, -g_i(x^k)\}, \quad i \in J^k_-.
-    \label{eq:4.165}
-\end{equation}
-Por las definiciones de $J^k_+$ y de $J^k_-$, las relaciones (4.164) e (4.165) pueden ser escritas como
-\begin{equation}
-    g_i(x^k) + \interno{g'_i(x^k)}{x^{k+1} - x^k} = 0, \quad i \in J^k_+,
-    \label{eq:4.166}
-\end{equation}
-\begin{equation}
-    \mu^{k+1}_i = 0, \quad i \in J^k_-.
-    \label{eq:4.167}
-\end{equation}
-Además de eso, a convergencia de $\{(x^k, \mu^k)\}$ a $(\bar{x}, \bar{\mu})$ implica que
+Por la construcción del Algoritmo 4.5.2 y (4.159), para todo $k$,
+\begin{align}
+    \Lambda_k(x^{k+1} - x^k) + (h'(x^k))^\top(\lambda^{k+1} - \lambda^k) + (g'(x^k))^\top(\mu^{k+1} - \mu^k) &= -L'_x(x^k, \lambda^k, \mu^k), \label{eq:4.162} \\
+    h'(x^k)(x^{k+1} - x^k) &= -h(x^k), \label{eq:4.163} \\
+    -\interno{g'_i(x^k)}{x^{k+1} - x^k} &= -\min\{\mu^k_i, -g_i(x^k)\}, \quad i \in J^k_+, \label{eq:4.164} \\
+    \mu^{k+1}_i - \mu^k_i &= -\min\{\mu^k_i, -g_i(x^k)\}, \quad i \in J^k_-. \label{eq:4.165}
+\end{align}
+Por las definiciones de $J^k_+$ y de $J^k_-$, las relaciones (4.164) y (4.165) pueden ser escritas como
+\begin{align}
+    g_i(x^k) + \interno{g'_i(x^k)}{x^{k+1} - x^k} &= 0, \quad i \in J^k_+, \label{eq:4.166} \\
+    \mu^{k+1}_i &= 0, \quad i \in J^k_-. \label{eq:4.167}
+\end{align}
+Además de eso, la convergencia de $\{(x^k, \mu^k)\}$ a $(\bar{x}, \bar{\mu})$ implica que
 \begin{equation}
     I_+(\bar{x}) \subset J^k_+ \quad \text{y} \quad \{1, \dots, m\} \setminus I(\bar{x}) \subset J^k_-
     \label{eq:4.168}
@@ -351,31 +337,28 @@ De (4.162), obtenemos que
     -\Lambda_k(x^{k+1} - x^k) &= f'(x^k) + (h'(x^k))^\top\lambda^{k+1} + (g'(x^k))^\top\mu^{k+1} \nonumber \\
     &= L'_x(x^k, \lambda^{k+1}, \mu^{k+1}) \nonumber \\
     &= L'_x(\bar{x}, \lambda^{k+1}, \mu^{k+1}) + L''_{xx}(\bar{x}, \lambda^{k+1}, \mu^{k+1})(x^k - \bar{x}) + o(\|x^k - \bar{x}\|) \nonumber \\
-    &= L'_x(\bar{x}, \lambda^{k+1}, \mu^{k+1}) + L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})(x^k - \bar{x}) + o(\|x^k - \bar{x}\|) \nonumber \\
-    &= L'_x(\bar{x}, \lambda^{k+1}, \mu^{k+1}) - L'_x(\bar{x}, \bar{\lambda}, \bar{\mu}) \nonumber \\
-    &\quad + L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})(x^k - \bar{x}) + o(\|x^k - \bar{x}\|) \nonumber \\
-    &= (h'(\bar{x}))^\top(\lambda^{k+1} - \bar{\lambda}) + (g'(\bar{x}))^\top(\mu^{k+1} - \bar{\mu}) \nonumber \\
-    &\quad + L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})(x^k - \bar{x}) + o(\|x^k - \bar{x}\|),
+    &= L'_x(\bar{x}, \lambda^{k+1}, \mu^{k+1}) - L'_x(\bar{x}, \bar{\lambda}, \bar{\mu}) + L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})(x^k - \bar{x}) + o(\|x^k - \bar{x}\|) \nonumber \\
+    &= (h'(\bar{x}))^\top(\lambda^{k+1} - \bar{\lambda}) + (g'(\bar{x}))^\top(\mu^{k+1} - \bar{\mu}) + L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})(x^k - \bar{x}) + o(\|x^k - \bar{x}\|),
     \label{eq:4.169}
 \end{align}
-donde utilizamos a definición de punto estacionario del problema y de multiplicadores de Lagrange asociados, así como a convergencia de $\{(\lambda^k, \mu^k)\}$ a $(\bar{\lambda}, \bar{\mu})$. De (4.169) obtenemos que
+donde utilizamos la definición de punto estacionario del problema y de multiplicadores de Lagrange asociados, así como la convergencia de $\{(\lambda^k, \mu^k)\}$ a $(\bar{\lambda}, \bar{\mu})$. De (4.169) obtenemos que
 \begin{align}
     (L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu}) - \Lambda_k)(x^{k+1} - x^k) &= (h'(\bar{x}))^\top(\lambda^{k+1} - \bar{\lambda}) + (g'(\bar{x}))^\top(\mu^{k+1} - \bar{\mu}) \nonumber \\
     &\quad + L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})(x^{k+1} - \bar{x}) + o(\|x^k - \bar{x}\|).
     \label{eq:4.170}
 \end{align}
 
-Supongamos, primero, que a convergencia de $\{x^k\}$ a $\bar{x}$ sea superlineal, i.e., $\|x^{k+1} - \bar{x}\| = o(\|x^k - \bar{x}\|)$. En este caso, la relación (4.170) se transforma en
-\begin{equation}
-    (L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu}) - \Lambda_k)(x^{k+1} - x^k) = (h'(\bar{x}))^\top(\lambda^{k+1} - \bar{\lambda}) + (g'(\bar{x}))^\top(\mu^{k+1} - \bar{\mu}) + o(\|x^k - \bar{x}\|).
+Supongamos, primero, que la convergencia de $\{x^k\}$ a $\bar{x}$ sea superlineal, i.e., $\|x^{k+1} - \bar{x}\| = o(\|x^k - \bar{x}\|)$. En este caso, la relación (4.170) se transforma en
+\begin{align}
+    (L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu}) - \Lambda_k)(x^{k+1} - x^k) &= (h'(\bar{x}))^\top(\lambda^{k+1} - \bar{\lambda}) + (g'(\bar{x}))^\top(\mu^{k+1} - \bar{\mu}) + o(\|x^k - \bar{x}\|).
     \label{eq:4.171}
-\end{equation}
+\end{align}
 Por (4.167), (4.168), y la condición de complementariedad, para todo $d \in \mathcal{N}(\bar{x})$ se tiene que
 \begin{equation}
     \interno{(h'(\bar{x}))^\top(\lambda^{k+1} - \bar{\lambda}) + (g'(\bar{x}))^\top(\mu^{k+1} - \bar{\mu})}{d} = \sum_{i \in I(\bar{x})} (\mu^{k+1}_i - \bar{\mu}_i) \interno{g'_i(\bar{x})}{d} = 0,
     \label{eq:4.172}
 \end{equation}
-donde $P_{\mathcal{N}(\bar{x})}((h'(\bar{x}))^\top(\lambda^{k+1} - \bar{\lambda}) + (g'(\bar{x}))^\top(\mu^{k+1} - \bar{\mu})) = 0$. Ahora, de (4.171) obtenemos que
+de donde $P_{\mathcal{N}(\bar{x})}((h'(\bar{x}))^\top(\lambda^{k+1} - \bar{\lambda}) + (g'(\bar{x}))^\top(\mu^{k+1} - \bar{\mu})) = 0$. Ahora, de (4.171) obtenemos que
 \begin{equation}
     P_{\mathcal{N}(\bar{x})}((L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu}) - \Lambda_k)(x^{k+1} - x^k)) = o(\|x^k - \bar{x}\|).
     \label{eq:4.173}
@@ -385,7 +368,7 @@ Observamos que
     \|x^{k+1} - x^k\| \ge \|x^k - \bar{x}\| - \|x^{k+1} - \bar{x}\| = \|x^k - \bar{x}\| + o(\|x^k - \bar{x}\|),
 \]
 donde $\frac{o(\|x^k - \bar{x}\|)}{\|x^{k+1} - x^k\|} \to 0$ cuando $k \to \infty$. 
-Llevando en cuenta esta relación, (4.160) se sigue de (4.173).
+Teniendo en cuenta esta relación, (4.160) se sigue de (4.173).
 
 Supongamos ahora que la relación (4.161) sea satisfecha. Primero, notemos que, por (4.163),
 \begin{align}
@@ -410,32 +393,30 @@ donde
     \label{eq:4.177}
 \end{equation}
 Por la condición de independencia lineal de los gradientes de las restricciones activas, y por las relaciones (4.174) y (4.176), concluimos que existe $\xi^k \in \Rn$ tal que
-\begin{equation}
-    h'(\bar{x})\xi^k = \eta^k, \quad \interno{g'_i(\bar{x})}{\xi^k} = \zeta^k_i \quad \forall i \in J^k_+,
-    \label{eq:4.178}
-\end{equation}
-\begin{equation}
-    \|\xi^k\| = o(\|x^{k+1} - x^k\|) + o(\|x^k - \bar{x}\|).
-    \label{eq:4.179}
-\end{equation}
-Definimos $d^k = x^{k+1} - \bar{x} + \xi^k$. De (4.168) y (4.174)-(4.179), tenemos que $d^k \in \mathcal{K}_+(\bar{x})$. De modo análogo a la relación (4.172), obtenemos que
-\[
-    \interno{(h'(\bar{x}))^\top(\lambda^{k+1} - \bar{\lambda}) + (g'(\bar{x}))^\top(\mu^{k+1} - \bar{\mu})}{d^k} = 0,
-\]
-donde a última ecuación se sigue de (4.167), (4.176) e (4.178). Multiplicando ambos lados en (4.170) por $d^k$ y utilizando la última ecuación, obtenemos que
+\begin{align}
+    h'(\bar{x})\xi^k &= \eta^k, \quad \interno{g'_i(\bar{x})}{\xi^k} = \zeta^k_i \quad \forall i \in J^k_+, \label{eq:4.178} \\
+    \|\xi^k\| &= o(\|x^{k+1} - x^k\|) + o(\|x^k - \bar{x}\|). \label{eq:4.179}
+\end{align}
+Definimos $d^k = x^{k+1} - \bar{x} - \xi^k$. De (4.168) y (4.174)-(4.179), tenemos que $d^k \in \mathcal{K}_+(\bar{x})$. De modo análogo a la relación (4.172), obtenemos que
+\begin{align*}
+    \interno{(h'(\bar{x}))^\top(\lambda^{k+1} - \bar{\lambda}) + (g'(\bar{x}))^\top(\mu^{k+1} - \bar{\mu})}{d^k} \\
+    = \sum_{i \in I_0(\bar{x}) \cap J^k_+} (\mu^{k+1}_i - \bar{\mu}_i) \interno{g'_i(\bar{x})}{d^k} + \sum_{i \in I_0(\bar{x}) \cap J^k_-} \mu^{k+1}_i \interno{g'_i(\bar{x})}{d^k} = 0,
+\end{align*}
+donde la última ecuación se sigue de (4.167), (4.176) y (4.178). Multiplicando ambos lados de (4.170) por $d^k$ y utilizando la última ecuación, obtenemos que
 \begin{align}
     \interno{(L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu}) - \Lambda_k)(x^{k+1} - x^k)}{d^k} = \interno{L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})(x^{k+1} - \bar{x})}{d^k} + o(\|x^k - \bar{x}\| \|d^k\|).
     \label{eq:4.180}
 \end{align}
-Pela condición suficiente de segunda orden fuerte (4.146), existe $\gamma > 0$ tal que $\interno{L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})d}{d} \ge \gamma \|d\|^2$ para todo $d \in \mathcal{K}_+(\bar{x})$. De aquí y de (4.180), obtenemos que
+Por la condición suficiente de segunda orden fuerte (4.146), existe $\gamma > 0$ tal que $\interno{L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})d}{d} \ge \gamma \|d\|^2$ para todo $d \in \mathcal{K}_+(\bar{x})$. De aquí y de (4.180), obtenemos que
 \begin{align*}
     \gamma \|d^k\|^2 &\le \interno{L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})d^k}{d^k} \\
-    &= \interno{(L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu}) - \Lambda_k)(x^{k+1} - x^k)}{d^k} + \interno{L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})\xi^k}{d^k} + o(\|x^k - \bar{x}\| \|d^k\|) \\
+    &= \interno{L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})(x^{k+1} - x^k)}{d^k} + \interno{L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})\xi^k}{d^k} + o(\|x^k - \bar{x}\| \|d^k\|) \\
+    &= \interno{(L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu}) - \Lambda_k)(x^{k+1} - x^k)}{d^k} + o(\|x^{k+1} - x^k\| \|d^k\|) + o(\|x^k - \bar{x}\| \|d^k\|) \\
     &\le \interno{P_{\mathcal{K}_+(\bar{x})}((L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu}) - \Lambda_k)(x^{k+1} - x^k))}{d^k} + o(\|x^{k+1} - x^k\| \|d^k\|) + o(\|x^k - \bar{x}\| \|d^k\|) \\
     &= o(\|x^{k+1} - x^k\| \|d^k\|) + o(\|x^k - \bar{x}\| \|d^k\|),
 \end{align*}
-donde a segunda igualdad se sigue de (4.179), y a segunda desigualdad dada sigue del Teorema sobre la proyección sobre un cono convexo y cerrado (Teorema 1.3.1), e la última igualdad se sigue de (4.161). En particular, dividiendo los dos lados de la relación arriba por $\|d^k\|$, concluimos que $\|d^k\| = o(\|x^{k+1} - x^k\|) + o(\|x^k - \bar{x}\|)$.
-Por (4.179), tenemos entonces que $\|x^{k+1} - \bar{x}\| = o(\|x^{k+1} - x^k\|) + o(\|x^k - \bar{x}\|)$. Esto significa que existen secuencias $\{t_k\} \to 0$ y $\{s_k\} \to 0$ tales que
+donde la segunda igualdad se sigue de (4.179), la segunda desigualdad sigue del Teorema sobre la proyección sobre un cono convexo y cerrado (Teorema 1.3.1), y la última igualdad se sigue de (4.161). En particular, dividiendo los dos lados de la relación arriba por $\|d^k\|$, concluimos que $\|d^k\| = o(\|x^{k+1} - x^k\|) + o(\|x^k - \bar{x}\|)$.
+Por (4.179), tenemos entonces que $\|x^{k+1} - \bar{x}\| = \|d^k - \xi^k\| = o(\|x^{k+1} - x^k\|) + o(\|x^k - \bar{x}\|)$. Esto significa que existen secuencias $\{t_k\} \to 0$ y $\{s_k\} \to 0$ ($k \to \infty$) tales que
 \[
     \|x^{k+1} - \bar{x}\| \le t_k \|x^{k+1} - x^k\| + s_k \|x^k - \bar{x}\| \le \max\{t_k, s_k\} (\|x^{k+1} - \bar{x}\| + 2\|x^k - \bar{x}\|).
 \]
@@ -445,7 +426,7 @@ Por lo tanto, para todo $k$ suficientemente grande,
 \]
 y como $\max\{t_k, s_k\} \to 0$, tenemos que $\|x^{k+1} - \bar{x}\| = o(\|x^k - \bar{x}\|)$, i.e., la convergencia de $\{x^k\}$ a $\bar{x}$ es superlineal.
 
-Observamos que en el caso de la escogencia $\Lambda_k = L''_{xx}(x^k, \lambda^k, \mu^k)$, la convergencia a las variables primales ciertamente es superlineal, ya que $\Lambda_k \to L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})$, y por lo tanto a condición (4.161) vale trivialmente.
+Observamos que en el caso de la elección $\Lambda_k = L''_{xx}(x^k, \lambda^k, \mu^k)$, la convergencia en las variables primales ciertamente es superlineal, ya que $\Lambda_k \to L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})$ cuando $(x^k, \lambda^k, \mu^k) \to (\bar{x}, \bar{\lambda}, \bar{\mu})$ ($k \to \infty$) y, por tanto, la condición (4.161) vale trivialmente.
 \end{proof}
 
 \subsection{Métodos de penalización cuadrática}
@@ -457,7 +438,7 @@ De nuevo, consideramos el problema
 \end{equation}
 donde $f \colon \Rn \to \R$, $h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ son funciones diferenciables.
 
-A seguir, extenderemos los resultados sobre penalización cuadrática, obtenidos en la Sección 4.4.2 para restricciones de igualdad, al caso de restricciones mixtas del problema (4.181). Para esto, utilizaremos la técnica de introducción de variables de holgura. Acontece que penalización cuadrática, así como Lagrangianas aumentadas (que serán consideradas más adelante), son uno de los pocos casos donde la introducción de variables de holgura es una técnica eficiente, y ella no lleva a resultados más débiles de lo que pueden ser obtenidos considerando desigualdades directamente.
+A seguir, extenderemos los resultados sobre penalización cuadrática, obtenidos en la Sección 4.4.2 para restricciones de igualdad, al caso de restricciones mixtas del problema (4.181). Para esto, utilizaremos la técnica de introducción de variables de holgura. Acontece que la penalización cuadrática, así como las Lagrangianas aumentadas (que serán consideradas más adelante), son uno de los pocos casos donde la introducción de variables de holgura es una técnica eficiente, y ella no lleva a resultados más débiles de los que pueden ser obtenidos considerando desigualdades directamente.
 El problema (4.181) puede ser formalmente transformado a un problema con solamente restricciones de igualdad. Por ejemplo, de la siguiente manera:
 \begin{equation}
     \min f(x) \quad \text{sujeto a } (x, t) \in \tilde{D},
@@ -467,12 +448,12 @@ El problema (4.181) puede ser formalmente transformado a un problema con solamen
     \tilde{D} = \left\{ (x, t) \in \Rn \times \R^m \mid \begin{array}{l} h(x) = 0, \\ g_i(x) + t_i^2 = 0, \; i = 1, \dots, m \end{array} \right\}.
     \label{eq:4.183}
 \end{equation}
-Notemos, primero, que para todo $x \in \Rn$, podemos considerar que la condición $(x, t) \in \tilde{D}$ define el vector $t$ unívocamente, si no nos preocupamos con las señales de las coordenadas del vector $t$. Este punto de vista hace sentido, porque la escogencia de estas señales no tiene ninguna influencia en el valor de la función objetivo del problema (4.182)-(4.183), en el punto $(x, t)$. Por eso, a lo largo del análisis a seguir, vamos a ignorar las señales de las coordenadas de $t$. O sea, cualesquier dos vectores $(x, t^1)$ y $(x, t^2)$, que sean diferentes solamente en signos de las coordenadas de $t^1$ y $t^2 \in \R^m$, serán pensados como ``iguales''. Adoptando este punto de vista, soluciones locales de los mismos problemas, (4.181) y (4.182)-(4.183), unívocamente corresponden un a otro: el punto $\bar{x} \in \Rn$ es una solución local de (4.181) si, y solamente si, el punto $(\bar{x}, \bar{t})$, donde
+Notemos, primero, que para todo $x \in \Rn$, podemos considerar que la condición $(x, t) \in \tilde{D}$ define el vector $t$ unívocamente, si no nos preocupamos con los signos de las coordenadas del vector $t$. Este punto de vista tiene sentido, porque la elección de estos signos no tiene ninguna influencia en el valor de la función objetivo del problema (4.182)-(4.183), en el punto $(x, t)$. Por eso, a lo largo del análisis a seguir, vamos a ignorar los signos de las coordenadas de $t$. O sea, cualesquiera dos vectores $(x, t^1)$ y $(x, t^2)$, que sean diferentes solamente en signos de las coordenadas de $t^1$ y $t^2 \in \R^m$, serán pensados como ``iguales''. Adoptando este punto de vista, las soluciones locales de los mismos problemas, (4.181) y (4.182)-(4.183), unívocamente corresponden una a otra: el punto $\bar{x} \in \Rn$ es una solución local de (4.181) si, y solamente si, el punto $(\bar{x}, \bar{t})$, donde
 \begin{equation}
     \bar{t} = (\sqrt{-g_1(\bar{x})}, \dots, \sqrt{-g_m(\bar{x})}),
     \label{eq:4.184}
 \end{equation}
-está bien definido, y es una solución local del problema (4.182)-(4.183). Más aún, el problema (4.182)-(4.183) no posee otras soluciones locales de forma $(\bar{x}, t), t \in \R^m$.
+está bien definido, y es una solución local del problema (4.182)-(4.183). Más aún, el problema (4.182)-(4.183) no posee otras soluciones locales de la forma $(\bar{x}, t), t \in \R^m$.
 
 Consideremos el término de penalización cuadrática para el problema (4.181), i.e.,
 \begin{equation}
@@ -517,21 +498,26 @@ Sean $f \colon \Rn \to \R, h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ func
 \end{lemma}
 
 \begin{proof}
-El hecho de que $\bar{x}$ es un punto estacionario del problema (4.181), con multiplicadores de Lagrange $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R^m_+$, significa la validez de las restricciones
+El hecho de que $\bar{x}$ es un punto estacionario del problema (4.181), con multiplicadores de Lagrange $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R^m_+$ asociados, significa la validez de las restricciones
 \begin{equation}
     h(\bar{x}) = 0, \quad g(\bar{x}) \le 0,
     \label{eq:4.190}
 \end{equation}
-y de la igualdad (4.188), así como de las condiciones de complementariedad (4.189). De (4.184) y (4.190) se sigue que el punto $(\bar{x}, \bar{t})$ es un punto factible del problema modificado. Además de esto, de (4.188) e (4.189) obtenemos que $\tilde{L}'_{(x,t)} = 0$. El ítem (b) se prueba repitiendo el mismo raciocinio en el orden inverso.
+y de la igualdad (4.188), así como de las condiciones de complementariedad (4.189). De (4.184) y (4.190) se sigue que el punto $(\bar{x}, \bar{t})$ es un punto factible del problema modificado. Además de esto, de (4.188) y (4.189) obtenemos que $\tilde{L}'_{(x,t)} = 0$. El ítem (b) se prueba repitiendo el mismo raciocinio en el orden inverso.
 \end{proof}
 
 \begin{lemma}\label{lem:4.5.2}
-Sean $f \colon \Rn \to \R, h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ funciones dos veces diferenciables en el punto $\bar{x} \in \Rn$. Supongamos que $\bar{x}$ satisface la condición de independencia lineal de los gradientes extendida (4.191), y que $\bar{x}$ sea un punto estacionario del problema (4.181), con multiplicadores de Lagrange asociados $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R^m_+$. Supongamos, finalmente, que $\bar{x}$ satisfaga a la condición suficiente de segunda orden del Teorema 1.2.2(b) y a la condición de complementariedad estricta (1.25).
+Sean $f \colon \Rn \to \R, h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ funciones dos veces diferenciables en el punto $\bar{x} \in \Rn$. Supongamos que $\bar{x}$ satisface la condición de independencia lineal de los gradientes extendida
+\begin{equation}
+    \{ h'_i(\bar{x}), i = 1, \dots, l \} \cup \{ g'_i(\bar{x}), i \in I(\bar{x}) \cup I^+(\bar{x}) \} \quad \text{son linealmente independientes},
+    \label{eq:4.191}
+\end{equation}
+y que $\bar{x}$ sea un punto estacionario del problema (4.181), con multiplicadores de Lagrange asociados $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R^m_+$. Supongamos, finalmente, que $\bar{x}$ satisfaga a la condición suficiente de segunda orden del Teorema 1.2.2(b) y a la condición de complementariedad estricta (1.25).
 Entonces el punto $(\bar{x}, \bar{t})$, donde $\bar{t} \in \R^m$ es dado por (4.184), está bien definido y satisface la condición de regularidad de las restricciones para el problema (4.182)-(4.183). Además, $(\bar{x}, \bar{t})$ es un punto estacionario de este problema, con un único par de multiplicadores de Lagrange asociados $(\bar{\lambda}, \bar{\mu})$. Más aún, este punto satisface la condición suficiente de segunda orden para el problema (4.182)-(4.183).
 \end{lemma}
 
 \begin{proof}
-El hecho de que $(\bar{x}, \bar{\sigma})$ es un punto estacionario con multiplicadores de Lagrange asociados $(\bar{\lambda}, \bar{\mu})$, fue establecido en el ítem (a) del Lema 4.5.1. La validez en este punto de la condición de regularidad de las restricciones sigue del resultado del Ejercicio 4.5.8. Tomamos $(d, \tau) \in (\Rn \times \R^m) \setminus \{0\}$ que satisfaga las ecuaciones de ker. Haciendo el cálculo directo, puede ser visto que la forma cuadrática estricta en $d$ es mayor a cero usando la condición de complementariedad estricta, lo que garantiza la condición suficiente de segunda orden.
+El hecho de que $(\bar{x}, \bar{t})$ es un punto estacionario con multiplicadores de Lagrange asociados $(\bar{\lambda}, \bar{\mu})$, fue establecido en el ítem (a) del Lema 4.5.1. La validez en este punto de la condición de regularidad de las restricciones sigue del resultado del Ejercicio 4.5.8. Tomamos $(d, \tau) \in (\Rn \times \R^m) \setminus \{0\}$ que satisfaga las ecuaciones de ker. Haciendo el cálculo directo, puede ser visto que la forma cuadrática estricta en $d$ es mayor a cero usando la condición de complementariedad estricta, lo que garantiza la condición suficiente de segunda orden.
 \end{proof}
 
 Ahora, para el problema (4.182)-(4.183), introducimos la familia de funciones penalizadas
@@ -611,7 +597,7 @@ donde $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R^m$ son los únicos multiplica
 \begin{proof}
 Consideremos una secuencia $\{(x^k, t(x^k))\}$, donde para todo $k$ el punto $t(x^k) \in \R^m$ está definido de acuerdo con (4.198). Por el Lema 4.5.3, la secuencia $\{(x^k, t(x^k))\}$ puede ser pensada como generada por el método de penalización cuadrática aplicado al problema (4.182)-(4.183). Por la continuidad de la función $t(\cdot)$, se sigue que $(\bar{x}, t(\bar{x}))$ es un punto de acumulación de esta secuencia, y del Ejercicio 4.5.8 sigue que las restricciones del problema (4.182)-(4.183) son regulares en este punto.
 
-Utilizando el Teorema 4.4.2, obtenemos que $(\bar{x}, t(\bar{x}))$ es un punto estacionario del problema (4.182)-(4.183), y que para una subsecuencia $\{x^{k_j}\}$ convergente a $\bar{x}$ valen las relaciones (4.202) e
+Utilizando el Teorema 4.4.2, obtenemos que $(\bar{x}, t(\bar{x}))$ es un punto estacionario del problema (4.182)-(4.183), y que para una subsecuencia $\{x^{k_j}\}$ convergente a $\bar{x}$ valen las relaciones (4.202) y
 \begin{equation}
     c_{k_j}(g_i(x^{k_j}) + (t_i(x^{k_j}))^2) \to \bar{\mu}_i \quad \forall i = 1, \dots, m \quad (j \to \infty),
     \label{eq:4.204}
@@ -806,4 +792,8 @@ Supongamos que se satisfacen las hipótesis del Teorema 4.5.5.
 Entonces existe un número $\bar{c}_2 > 0$ tal que, si $c_2 \in (0, \bar{c}_2]$, existe una vecindad $U$ del punto $(\bar{x}, \bar{\lambda}, \bar{\mu})$ y un número $\bar{c}_1(c_2) \ge 0$ pueden ser escogidos de tal manera que para todo $c_1 > \bar{c}_1(c_2)$ el problema (4.220), con función objetivo definida por la fórmula (4.219), posee en $U$ un único punto estacionario, que es $(\bar{x}, \bar{\lambda}, \bar{\mu})$.
 \end{theorem}
 
-Naturalmente, para el problema (4.182)-(4.183) pueden ser utilizadas otras funciones penalizadas diferenciables, diferentes de aquella introducida. Funciones escogidas resultan en otras funciones penalizadas diferenciables para el problema (4.181). Mencionamos, sin embargo, que no es fácil en este contexto eliminar, al mismo tiempo, tanto a variable auxiliar de holgura $t$, cuanto la variable dual $\mu$. Funciones penalizadas diferenciables para el problema (4.181) que dependen de las variables primal solamente, de hecho existen. Mas la introducción y estudio de estas funciones están fuera del alcance de este apunte.
+Naturalmente, para el problema (4.182)-(4.183) pueden ser utilizadas otras funciones penalizadas diferenciables, diferentes de aquella introducida. Funciones escogidas resultan en otras funciones penalizadas diferenciables para el problema (4.181). Mencionamos, sin embargo, que no es fácil en este contexto eliminar, al mismo tiempo, tanto la variable auxiliar de holgura $t$, cuanto la variable dual $\mu$. Funciones penalizadas diferenciables para el problema (4.181) que dependen de las variables primales solamente, de hecho existen. Mas la introducción y estudio de estas funciones están fuera del alcance de este apunte.
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:
