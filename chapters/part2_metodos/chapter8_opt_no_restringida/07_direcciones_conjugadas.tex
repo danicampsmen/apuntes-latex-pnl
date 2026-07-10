@@ -1,171 +1,246 @@
 % --- Archivo: 07_direcciones_conjugadas.tex ---
 
-% =========================================================
-\section{Métodos de Direcciones Conjugadas}
-\label{sec:v2_direcciones_conjugadas}
-% =========================================================
+\section{Métodos de direcciones conjugadas}
 
-Presentamos a continuación otra clase importante de métodos que buscan alcanzar una convergencia más rápida que la de los métodos del gradiente puro, pero reduciendo drásticamente el costo computacional respecto al método de Newton y cuasi-Newton (ya que no requieren almacenar ni actualizar matrices). 
-
-En particular, son métodos de primer orden (que no usan derivadas segundas de forma explícita), pero están fundamentados en propiedades algebraicas y geométricas distintas.
+Presentamos a continuación una clase más importante de métodos que buscan alcanzar una convergencia más rápida que la de los métodos del gradiente, al mismo tiempo reduciendo el costo computacional del método de Newton. En particular, son métodos de primer orden (que no usan derivadas segundas), pero basados en ideas diferentes de los métodos cuasi-Newton.
 
 \subsection{Métodos de direcciones conjugadas para funciones cuadráticas}
 
-Los métodos de direcciones conjugadas se introducen clásicamente analizando el problema de minimización irrestricta $\min f(x)$, con la función objetivo $f \colon \Rn \to \R$ siendo cuadrática y fuertemente convexa:
+Los métodos de direcciones conjugadas serán introducidos primero para un problema de minimización irrestricta
 \begin{equation}
-    f(x) = \frac{1}{2}\interno{Qx}{x} + \interno{q}{x}, \quad x \in \Rn,
-    \label{eq:v2_cuadratica_f_conjugadas}
+    \min f(x), \quad x \in \Rn,
+    \label{eq:dc_prob}
 \end{equation}
-donde $Q \in \R^{n \times n}$ es una matriz simétrica definida positiva y $q \in \Rn$.
-
-Para motivar el desarrollo, consideremos un iterado $x^k$, una dirección $d^k$, y el iterado siguiente $x^{k+1}$ calculado mediante minimización unidimensional exacta. Como sabemos, en el caso cuadrático el tamaño de paso óptimo se determina analíticamente y se cumple la condición de ortogonalidad:
+con función objetivo $f \colon \Rn \to \R$ cuadrática fuertemente convexa:
 \begin{equation}
-    0 = \interno{f'(x^{k+1})}{d^k} = \interno{Qx^{k+1} + q}{d^k}.
-    \label{eq:v2_ortogonalidad_cuadratica}
+    f(x) = \interno{Qx}{x} + \interno{q}{x}, \quad x \in \Rn,
+    \label{eq:dc_fun_cuad}
 \end{equation}
+donde $Q \in \R^{n \times n}$ es una matriz simétrica definida positiva, $q \in \Rn$.
 
-Sea $\bar{x}$ el minimizador global único de $f$. En particular, $f'(\bar{x}) = Q\bar{x} + q = 0$. Por lo tanto, trivialmente:
+Para motivar el desarrollo, consideremos un iterando $x^k$, una dirección $d^k$, y el iterando siguiente $x^{k+1}$ calculado por la regla de minimización unidimensional. Recordamos que en el caso cuadrático $x^{k+1}$ puede ser calculado por fórmula explícita y que vale la relación
 \begin{equation}
-    0 = \interno{Q\bar{x} + q}{d^k}.
+    0 = \interno{f'(x^{k+1})}{d^k} = \interno{2Qx^{k+1} + q}{d^k}.
 \end{equation}
-
-Restando esta última ecuación de \eqref{eq:v2_ortogonalidad_cuadratica}, obtenemos:
+Sea $\bar{x}$ el minimizador de $f$. En particular, $f'(\bar{x}) = 2Q\bar{x} + q = 0$. Por lo tanto,
 \begin{equation}
-    0 = \interno{Q(x^{k+1} - \bar{x})}{d^k}.
+    0 = \interno{2Q\bar{x} + q}{d^k}.
 \end{equation}
-
-La idea fundamental de este método es exigir que la dirección siguiente $d^{k+1}$ satisfaga exactamente la misma condición que la dirección ``ideal'' $(x^{k+1} - \bar{x})$ que apuntaría directamente hacia la solución óptima. Es decir, exigimos que:
+Restando las dos ecuaciones arriba, obtenemos
+\begin{equation}
+    0 = 2\interno{Q(x^{k+1} - \bar{x})}{d^k}.
+\end{equation}
+La idea es hacer que la dirección siguiente $d^{k+1}$ satisfaga a la misma condición que la dirección ``ideal'' $x^{k+1} - \bar{x}$ (que lleva a la solución). O sea,
 \begin{equation}
     \interno{Qd^{k+1}}{d^k} = 0.
 \end{equation}
 
-\begin{definition}[Direcciones Q-Conjugadas]\label{def:v2_direcciones_conjugadas}
-    Un conjunto de vectores no nulos $\{d^0, \dots, d^k\} \subset \Rn \setminus \{0\}$ se llama \deftech{$Q$-conjugado} (o conjugado respecto a la matriz $Q$) si satisfacen la ortogonalidad generalizada:
+\begin{definition}\label{def:dc_q_conjugado}
+    Un conjunto de vectores $d^0, \dots, d^k \in \Rn \setminus \{0\}$ se llama $Q$-conjugado si
     \begin{equation}
-        \interno{Qd^i}{d^j} = 0 \quad \forall i, j = 0, 1, \dots, k, \quad \text{con } i \neq j.
-        \label{eq:v2_definicion_q_conjugado}
+        \interno{Qd^i}{d^j} = 0 \quad \forall i, j = 0, 1, \dots, k, \quad i \neq j.
     \end{equation}
 \end{definition}
+Observamos que esta noción generaliza la noción de un conjunto de vectores ortogonales (que corresponde a $Q = E^n$).
 
-Observamos que esta noción generaliza la ortogonalidad euclidiana clásica (la cual corresponde al caso especial $Q = I$).
-
-\begin{lemma}[Independencia lineal de las direcciones conjugadas]\label{lem:v2_indep_lineal_conjugadas}
+\begin{lemma}[Direcciones conjugadas son linealmente independientes]\label{lem:dc_indep}
     Para cualquier matriz $Q \in \R^{n \times n}$ simétrica definida positiva, cualquier conjunto de direcciones $Q$-conjugadas es linealmente independiente.
 \end{lemma}
-
 \begin{proof}
-    Supongamos, por reducción al absurdo, que uno de los vectores del conjunto $Q$-conjugado pueda ser expresado como combinación lineal del resto. Por ejemplo, el vector $d^0$:
+    Supongamos que uno de los vectores $d^0, \dots, d^k$ del conjunto $Q$-conjugado pueda ser expresado como una combinación lineal de los otros, por ejemplo, el primero:
     \[
-        d^0 = \sum_{i=1}^k \beta_i d^i, \quad \text{donde } \beta_i \in \R.
+        d^0 = \sum_{i=1}^k \beta_i d^i,
     \]
-    Multiplicando escalarmente ambos lados de esta ecuación por el vector $Qd^0$, y utilizando el hecho de que $Q$ es definida positiva y $d^0 \neq 0$:
+    donde $\beta_i \in \R, i = 1, \dots, k$. Multiplicando los dos lados de esta ecuación por $Qd^0$, y utilizando el hecho de que $Q$ es definida positiva y $d^0 \neq 0$, obtenemos
     \[
         0 < \interno{Qd^0}{d^0} = \sum_{i=1}^k \beta_i \interno{Qd^0}{d^i} = 0,
     \]
-    ya que $\interno{Qd^0}{d^i} = 0$ para todo $i \neq 0$. Esto es una contradicción evidente, lo que demuestra la independencia lineal.
+    lo que es una contradicción.
 \end{proof}
+En particular, un conjunto de vectores $Q$-conjugados en $\Rn$ no puede contener más de $n$ elementos.
 
-Como corolario inmediato, un conjunto de vectores $Q$-conjugados en $\Rn$ no puede contener más de $n$ elementos.
-
-El esquema general de los métodos de direcciones conjugadas para funciones cuadráticas toma la siguiente forma:
+El esquema general de métodos de direcciones conjugadas para funciones de la forma \eqref{eq:dc_fun_cuad} es el siguiente:
 \begin{equation}
     x^{k+1} = x^k + \alpha_k d^k, \quad k = 0, 1, \dots, n-1,
-    \label{eq:v2_esquema_general_conjugadas}
+    \label{eq:dc_esquema}
 \end{equation}
-donde $\{d^0, d^1, \dots, d^{n-1}\}$ es un conjunto base de direcciones $Q$-conjugadas, y los valores de la longitud de paso $\alpha_k$ son calculados para satisfacer la minimización unidimensional exacta:
+donde $d^0, d^1, \dots, d^{n-1}$ es un conjunto (generado de una manera o de otra) de direcciones $Q$-conjugadas, y los valores de la longitud del paso $\alpha_k$ son calculados para satisfacer
 \begin{equation}
     f(x^k + \alpha_k d^k) = \min_{\alpha \in \R} f(x^k + \alpha d^k),
-    \label{eq:v2_paso_unidim_conjugadas}
+    \label{eq:dc_min_unidim}
 \end{equation}
-lo que analíticamente equivale a:
+i.e.,
 \begin{equation}
-    \alpha_k = -\frac{\interno{f'(x^k)}{d^k}}{\interno{Qd^k}{d^k}} = -\frac{\interno{Qx^k + q}{d^k}}{\interno{Qd^k}{d^k}}.
-    \label{eq:v2_paso_unidim_conjugadas_formula}
+    \alpha_k = -\frac{\interno{2Qx^k + q}{d^k}}{2\interno{Qd^k}{d^k}}.
+    \label{eq:dc_alpha_k}
 \end{equation}
+El mínimo en \eqref{eq:dc_min_unidim} es calculado sobre todos los $\alpha \in \R$ y no apenas sobre $\alpha \ge 0$. Esto se debe al hecho de que no siempre una dirección de descenso para $f$ en el punto $x^k$ es tal que sea una dirección de descenso en el sentido estricto. Más aún, es posible que ni siquiera $d^k$ sea una dirección de descenso.
 
-El mínimo unidimensional en \eqref{eq:v2_paso_unidim_conjugadas} se calcula sobre todo $\R$ (no solo $\R_+$), dado que en este esquema algebraico la dirección $d^k$ podría no ser estrictamente una dirección de descenso a priori. Por lo tanto, los métodos de direcciones conjugadas, en su concepción teórica inicial, no son estrictamente métodos de descenso monótono, sino de \textbf{proyección ortogonal sucesiva}.
+Métodos de direcciones conjugadas, en principio, no son métodos de descenso. La idea es diferente. La naturaleza de cada método de direcciones conjugadas específico es definida por la manera concreta de construir el conjunto de vectores $Q$-conjugados asociado. No obstante, cualquiera que sea esta construcción, vale el siguiente resultado fundamental: todo método de direcciones conjugadas encuentra la solución del problema de minimización irrestricta de una función cuadrática de la forma \eqref{eq:dc_fun_cuad} con matriz $Q$ definida positiva, en $n$ iteraciones, a lo sumo.
 
-\begin{theorem}[Convergencia finita en cuadráticas]\label{thm:v2_conjugadas_finita}
-    Sea $f \colon \Rn \to \R$ definida por \eqref{eq:v2_cuadratica_f_conjugadas}, con $Q$ simétrica definida positiva. 
-    Entonces, para cualquier punto inicial $x^0 \in \Rn$, el punto $x^n$ obtenido de acuerdo con el esquema iterativo tras exactamente $n$ iteraciones es el minimizador global exacto del problema.
+\begin{theorem}[Convergencia finita de métodos de direcciones conjugadas para funciones cuadráticas]\label{thm:dc_conv_finita}
+    Sea $f \colon \Rn \to \R$ una función cuadrática definida por \eqref{eq:dc_fun_cuad}, donde se tiene que $Q \in \R^{n \times n}$ es una matriz simétrica definida positiva, $q \in \Rn$.
+    Entonces, para cualquier punto inicial $x^0 \in \Rn$, el punto $x^n$ obtenido de acuerdo con el esquema \eqref{eq:dc_esquema}, \eqref{eq:dc_min_unidim}, con cualquier elección de conjunto $Q$-conjugado de vectores $d^0, d^1, \dots, d^{n-1}$, es la solución global del problema \eqref{eq:dc_prob}.
 \end{theorem}
-
 \begin{proof}
-    Como $Q$ es definida positiva, el único punto estacionario y minimizador global $\bar{x}$ está caracterizado por $Q\bar{x} + q = 0$. Por el \cref{lem:v2_indep_lineal_conjugadas}, los $n$ vectores $Q$-conjugados forman una base de $\Rn$. Por lo tanto, el vector que separa la aproximación inicial del óptimo se puede escribir como una combinación lineal única en esta base:
+    Por el hecho de que $Q$ es definida positiva, el problema \eqref{eq:dc_prob} tiene un único punto estacionario $\bar{x} \in \Rn$, caracterizado por la ecuación
     \begin{equation}
-        \bar{x} - x^0 = \sum_{k=0}^{n-1} \beta_k d^k.
-        \label{eq:v2_representacion_base}
+        f'(\bar{x}) = 2Q\bar{x} + q = 0.
+        \label{eq:dc_pto_estac}
     \end{equation}
-    
-    Por otro lado, desenrollando recursivamente el esquema iterativo \eqref{eq:v2_esquema_general_conjugadas}, el iterado $n$-ésimo es:
-    \[
-        x^n = x^0 + \sum_{k=0}^{n-1} \alpha_k d^k.
-    \]
-    La demostración se reduce a probar que los coeficientes escalares coinciden ($\beta_k = \alpha_k$ para todo $k$).
-
-    Multiplicando \eqref{eq:v2_representacion_base} por $Q$ y proyectando escalarmente sobre la dirección $d^k$, la ortogonalidad $Q$-conjugada anula todos los términos de la sumatoria excepto el $k$-ésimo:
-    \begin{align*}
-        \interno{Q(\bar{x} - x^0)}{d^k} &= \interno{Q \left( \sum_{i=0}^{n-1} \beta_i d^i \right)}{d^k} = \beta_k \interno{Qd^k}{d^k}.
-    \end{align*}
-    Como $Q\bar{x} = -q$, sustituimos y despejamos $\beta_k$:
+    Por la convexidad de $f$, este punto es la solución global del problema.
+    Pelo Lema 3.4.1, el conjunto de vectores $d^0, d^1, \dots, d^{n-1}$ forma una base de $\Rn$. Por lo tanto, podemos representar el vector $\bar{x} - x^0$ como
     \begin{equation}
-        \beta_k = \frac{\interno{-q - Qx^0}{d^k}}{\interno{Qd^k}{d^k}} = -\frac{\interno{Qx^0 + q}{d^k}}{\interno{Qd^k}{d^k}}.
-        \label{eq:v2_beta_k_aux}
+        \bar{x} - x^0 = \sum_{k=0}^{n-1} \beta_k d^k,
+        \label{eq:dc_dem_base}
     \end{equation}
-    
-    Finalmente, evaluando el gradiente en $x^k = x^0 + \sum_{i=0}^{k-1} \alpha_i d^i$ proyectado sobre $d^k$:
+    para algunos $\beta_k \in \R, k = 0, 1, \dots, n-1$. Por otro lado, por \eqref{eq:dc_esquema}, tenemos que
+    \begin{equation}
+        x^n = x^0 + \sum_{k=0}^{n-1} \alpha_k d^k,
+    \end{equation}
+    donde los números $\alpha_k$ son definidos en \eqref{eq:dc_alpha_k}. Ahora resta mostrar que $\beta_k = \alpha_k$ $\forall k = 0, 1, \dots, n-1$. 
+    Usando \eqref{eq:dc_dem_base} y el hecho de que $d^0, d^1, \dots, d^{n-1}$ es un conjunto de direcciones $Q$-conjugadas, para todo $k = 0, 1, \dots, n-1$, obtenemos que
     \begin{align*}
-        \interno{f'(x^k)}{d^k} &= \interno{Q \left( x^0 + \sum_{i=0}^{k-1} \alpha_i d^i \right) + q}{d^k} \\
-        &= \interno{Qx^0 + q}{d^k} + \sum_{i=0}^{k-1} \alpha_i \interno{Qd^i}{d^k} \\
-        &= \interno{Qx^0 + q}{d^k},
+        \interno{Q(\bar{x} - x^0)}{d^k} &= \interno{Q \left(\sum_{i=0}^{n-1} \beta_i d^i \right)}{d^k} \\
+        &= \beta_k \interno{Qd^k}{d^k},
     \end{align*}
-    dado que $d^k$ es $Q$-ortogonal a todas las direcciones previas $d^0, \dots, d^{k-1}$. Sustituyendo esto en la fórmula \eqref{eq:v2_paso_unidim_conjugadas_formula} de $\alpha_k$, obtenemos exactamente la misma expresión que para $\beta_k$. En consecuencia, $x^n = \bar{x}$.
+    donde sigue que
+    \begin{equation}
+        \beta_k = \frac{\interno{Q(\bar{x} - x^0)}{d^k}}{\interno{Qd^k}{d^k}} = -\frac{\interno{2Qx^0 + q}{d^k}}{2\interno{Qd^k}{d^k}},
+        \label{eq:dc_dem_beta_k}
+    \end{equation}
+    donde \eqref{eq:dc_pto_estac} fue llevado en cuenta. Usando de nuevo \eqref{eq:dc_esquema} y el hecho de que $d^0, d^1, \dots, d^{n-1}$ son $Q$-conjugadas, obtenemos
+    \begin{align*}
+        \interno{Qx^k}{d^k} &= \interno{Q\left(x^0 + \sum_{i=0}^{k-1} \alpha_i d^i \right)}{d^k} \\
+        &= \interno{Qx^0}{d^k} + \sum_{i=0}^{k-1} \alpha_i \interno{Qd^i}{d^k} \\
+        &= \interno{Qx^0}{d^k}.
+    \end{align*}
+    Combinando esta relación con \eqref{eq:dc_alpha_k} y \eqref{eq:dc_dem_beta_k}, obtenemos el resultado anunciado.
 \end{proof}
 
-\begin{theorem}[Minimización exacta en el subespacio afín]\label{thm:v2_minim_afin_conjugadas}
-    Bajo las hipótesis del teorema anterior, el iterado $x^{k+1}$ generado por el método de direcciones conjugadas es el minimizador global exacto de la función $f$ sobre la variedad afín de dimensión $k+1$:
-    \[
-        D_k = x^0 + \operatorname{span}\{d^0, d^1, \dots, d^k\}.
-    \]
+La propiedad siguiente es mucho más reveladora. Acontece que cada iterando $x^k$, $k \ge 1$, generado de acuerdo con \eqref{eq:dc_esquema}, \eqref{eq:dc_min_unidim}, minimiza la función $f$ en un conjunto afín de dimensión $k$. Es por eso que, para $k=n$, el punto $x^n$ así generado minimiza $f$ en $\Rn$. Observamos que, sorprendentemente, el cálculo de estos minimizadores es explícito, i.e., no hay necesidad de utilización de algún método iterativo para minimizar $f$ en un conjunto de dimensión cada vez mayor.
+
+\begin{theorem}\label{thm:dc_min_subespacio}
+    Bajo las hipótesis del Teorema 3.4.1, para cualquier punto inicial $x^0 \in \Rn$, para todo $k = 0, \dots, n-1$, el punto $x^{k+1}$ definido por el esquema \eqref{eq:dc_esquema}, \eqref{eq:dc_min_unidim}, donde $d^0, \dots, d^k$ es cualquier conjunto de direcciones $Q$-conjugadas, es una solución (global) del problema
+    \begin{equation}
+        \min f(x) \quad \text{sujeto a } x \in D_k = x^0 + \operatorname{span}\{d^0, \dots, d^k\}.
+    \end{equation}
 \end{theorem}
+\begin{proof}
+    Para todo $i = 0, \dots, k - 1$, tenemos que
+    \begin{align*}
+        \interno{f'(x^{k+1})}{d^i} &= \interno{2Qx^{k+1} + q}{d^i} \\
+        &= 2\interno{Q \left( x^{i+1} + \sum_{j=i+1}^k \alpha_j d^j \right)}{d^i} + \interno{q}{d^i} \\
+        &= 2\interno{x^{i+1}}{Qd^i} + \sum_{j=i+1}^k \alpha_j \interno{Qd^j}{d^i} + \interno{q}{d^i} \\
+        &= 2\interno{x^{i+1}}{Qd^i} + \interno{q}{d^i} \\
+        &= \interno{f'(x^{i+1})}{d^i},
+    \end{align*}
+    donde la cuarta igualdad sigue del hecho de que las direcciones en cuestión son $Q$-conjugadas.
+    De \eqref{eq:dc_min_unidim}, para todo $i$, tenemos que
+    \begin{equation}
+        0 = \interno{f'(x^i + \alpha_i d^i)}{d^i} = \interno{f'(x^{i+1})}{d^i}.
+        \label{eq:dc_dem_ortog_i}
+    \end{equation}
+    Combinando las dos últimas relaciones, concluimos que
+    \begin{equation}
+        \interno{f'(x^{k+1})}{d^i} = 0 \quad \forall i = 0, 1, \dots, k.
+        \label{eq:dc_dem_grad_cero}
+    \end{equation}
+    Para verificar la afirmación, tenemos que mostrar que el minimizador irrestricto de la función
+    \[
+        \varphi \colon \R^{k+1} \to \R, \quad \varphi(\beta) = f(x^0 + \beta_0 d^0 + \dots + \beta_k d^k)
+    \]
+    es el punto $(\alpha_0, \dots, \alpha_k) \in \R^{k+1}$. Mas esto se sigue del hecho de que
+    \[
+        \frac{\partial \varphi}{\partial \beta_i}(\alpha_0, \dots, \alpha_k) = \interno{f'(x^0 + \alpha_0 d^0 + \dots + \alpha_k d^k)}{d^i} = \interno{f'(x^{k+1})}{d^i} = 0,
+    \]
+    para todo $i = 0, 1, \dots, k$, ya que, como fue probado arriba, estas derivadas se anulan en el punto considerado.
+\end{proof}
 
-\subsection{El método de los Gradientes Conjugados}
+\subsection{El método de los gradientes conjugados}
 
-El \textbf{método de los gradientes conjugados} resuelve elegantemente la necesidad de generar una base $Q$-conjugada de forma eficiente y progresiva, definiendo cada nueva dirección como una combinación del antigradiente actual y la dirección conjugada inmediatamente anterior:
+Tal vez el más importante entre los métodos de direcciones conjugadas es el método de los gradientes conjugados. En este método,
 \begin{equation}
-    d^0 = -f'(x^0), \quad d^k = -f'(x^k) + \beta_{k-1}d^{k-1}, \quad k = 1, \dots, n-1,
-    \label{eq:v2_gradientes_conjugados_def}
+    d^0 = -f'(x^0), \quad d^k = -f'(x^k) + \beta_{k-1} d^{k-1}, \quad k = 1, \dots, n-1,
+    \label{eq:mgc_direcciones}
 \end{equation}
-donde el escalar $\beta_{k-1}$ se diseña forzando algebraicamente a que las direcciones adyacentes $d^{k-1}$ y $d^k$ sean $Q$-ortogonales:
-\[
-    0 = \interno{Qd^{k-1}}{d^k} = -\interno{Qd^{k-1}}{f'(x^k)} + \beta_{k-1}\interno{Qd^{k-1}}{d^{k-1}} \implies \beta_{k-1} = \frac{\interno{Qd^{k-1}}{f'(x^k)}}{\interno{Qd^{k-1}}{d^{k-1}}}.
-\]
+donde los números $\beta_{k-1}$ son escogidos para hacer con que las dos direcciones seguidas $d^{k-1}$ y $d^k$ sean $Q$-conjugadas, i.e.,
+\begin{equation}
+    0 = \interno{Qd^{k-1}}{d^k} = -\interno{Qd^{k-1}}{f'(x^k)} + \beta_{k-1}\interno{Qd^{k-1}}{d^{k-1}},
+\end{equation}
+donde
+\begin{equation}
+    \beta_{k-1} = \frac{\interno{Qd^{k-1}}{f'(x^k)}}{\interno{Qd^{k-1}}{d^{k-1}}}.
+    \label{eq:mgc_beta}
+\end{equation}
 
-\begin{algorithm}[Método de los Gradientes Conjugados]\label{alg:v2_gradientes_conjugados}
-    Elegir $x^0 \in \Rn$, computar $d^0 = -f'(x^0)$ y tomar $k := 0$.
-    \begin{enuthm}
-        \item Si $\norm{f'(x^k)} \le \epsilon$, el método se detiene.
-        \item Calcular la longitud del paso exacto $\alpha_k$ mediante \eqref{eq:v2_paso_unidim_conjugadas_formula}.
-        \item Actualizar el punto $x^{k+1} = x^k + \alpha_k d^k$.
-        \item Si $k < n-1$, calcular el factor de conjugación $\beta_{k}$ y generar la nueva dirección $d^{k+1} = -f'(x^{k+1}) + \beta_k d^k$.
-        \item Incrementar $k \leftarrow k + 1$ y regresar al Paso 1.
-    \end{enuthm}
+\begin{algorithm}[El método de los gradientes conjugados]\label{alg:mgc}
+    Tomar $x^0 \in \Rn$ y $k := 0$.
+    \begin{enumerate}
+        \item Si $f'(x^k) = 0$, parar.
+        \item Si $k \ge 1$, calcular $\beta_{k-1}$ por la fórmula \eqref{eq:mgc_beta}.
+        \item Calcular $d^k$ por la fórmula \eqref{eq:mgc_direcciones}, y $\alpha_k$ por la fórmula \eqref{eq:dc_alpha_k}.
+        \item Calcular $x^{k+1}$ por la fórmula \eqref{eq:dc_esquema}.
+        \item Si $k < n - 1$, tomar $k := k + 1$ y retornar al Paso 1.
+    \end{enumerate}
 \end{algorithm}
 
-\begin{theorem}\label{thm:v2_gradientes_conjugados_teorema}
-    El \cref{alg:v2_gradientes_conjugados} produce efectivamente un conjunto de vectores $d^0, d^1, \dots, d^{n-1}$ que son $Q$-conjugados. Sorprendentemente, los gradientes sucesivos generados $f'(x^0), f'(x^1), \dots, f'(x^{n-1})$ son mutuamente \textbf{ortogonales} en la métrica euclidiana normal.
+En la fórmula \eqref{eq:dc_alpha_k}, que define $\alpha_k$, entendemos que $d^k \neq 0$ (e en la fórmula \eqref{eq:mgc_beta}, que define $\beta_{k-1}$, entendemos que $d^{k-1} \neq 0$). Si $d^0 = -f'(x^0) = 0$, el método pararía antes del cálculo de $d^0$ y $\alpha_0$ (y, obviamente, de $\beta_0$). Supongamos que para algún $k \ge 1$, por primera vez aconteció que $d^k = 0$ (en particular, $d^{k-1} \neq 0$). En este caso, por \eqref{eq:mgc_direcciones}, obtenemos que
+\begin{align*}
+    0 &= \interno{f'(x^k)}{d^k} \\
+    &= -\|f'(x^k)\|^2 + \beta_{k-1} \interno{f'(x^k)}{d^{k-1}} \\
+    &= -\|f'(x^k)\|^2,
+\end{align*}
+donde la última igualdad sigue del hecho de que, por la definición de $\alpha_{k-1}$, $\interno{f'(x^k)}{d^{k-1}} = 0$. Por lo tanto, $f'(x^k) = 0$, y el método pararía antes del cálculo de $d^k$ y $\alpha_k$ (y, obviamente, de $\beta_k$).
+El resultado siguiente muestra que el método que acabamos de presentar es realmente un método de direcciones conjugadas.
+
+\begin{theorem}\label{thm:mgc_ortogonalidad}
+    Sean satisfechas las hipótesis del Teorema 3.4.1. Para cualquier punto inicial $x^0 \in \Rn$, y todo $k = 1, \dots, n$, si el Algoritmo 3.4.1 generó vectores $d^0, d^1, \dots, d^{k-1}$, entonces ellos forman un conjunto $Q$-conjugado. Además, los gradientes $f'(x^0), f'(x^1), \dots, f'(x^{k-1})$ forman un conjunto de vectores ortogonales en $\Rn$.
 \end{theorem}
+\begin{proof}
+    Primero notemos que, por lo expuesto arriba, si el método generó vectores $d^0, d^1, \dots, d^{k-1}$, entonces todos ellos son no nulos, así como los gradientes $f'(x^0), f'(x^1), \dots, f'(x^{k-1})$.
+    La prueba será hecha por inducción en relación a $k$. Para $k = 1$, la afirmación del teorema es obvia, porque el conjunto $d^0, d^1$ es $Q$-conjugado por la construcción, y los vectores $f'(x^0) = d^0$ y $f'(x^1)$ son ortogonales por \eqref{eq:dc_dem_ortog_i}.
+    
+    Supongamos que la afirmación del teorema sea verdadera para $k = s \ge 2$. Precisamos mostrar que
+    \begin{equation}
+        \interno{Qd^s}{d^i} = 0, \quad \interno{f'(x^s)}{f'(x^i)} = 0 \quad \forall i = 0, 1, \dots, s-1.
+        \label{eq:mgc_dem_induc}
+    \end{equation}
+    Por \eqref{eq:mgc_direcciones}, por la hipótesis de inducción, y por el Teorema 3.4.2, tenemos que
+    \begin{align*}
+        \interno{f'(x^s)}{f'(x^i)} &= \interno{f'(x^s)}{-d^i + \beta_{i-1}d^{i-1}} \\
+        &= 0 \quad \forall i = 0, 1, \dots, s-1.
+    \end{align*}
+    Esto verifica la segunda igualdad en \eqref{eq:mgc_dem_induc}.
+    Para $i = s - 1$, la primera igualdad en \eqref{eq:mgc_dem_induc} vale por la construcción. Para todo $i = 0, 1, \dots, s-2$, por \eqref{eq:mgc_direcciones} y por la hipótesis de inducción, obtenemos
+    \begin{align}
+        \interno{Qd^s}{d^i} &= -\interno{Qf'(x^s)}{d^i} + \beta_{s-1} \interno{Qd^{s-1}}{d^i} \nonumber \\
+        &= -\interno{Qf'(x^s)}{d^i}.
+        \label{eq:mgc_dem_aux}
+    \end{align}
+    Como, por \eqref{eq:dc_esquema},
+    \[
+        f'(x^{i+1}) - f'(x^i) = 2Q(x^{i+1} - x^i) = 2\alpha_i Qd^i,
+    \]
+    obtenemos que
+    \begin{equation}
+        \interno{Qf'(x^s)}{d^i} = \frac{1}{2\alpha_i} \interno{f'(x^s)}{f'(x^{i+1}) - f'(x^i)} = 0,
+        \label{eq:mgc_dem_aux2}
+    \end{equation}
+    donde utilizamos la segunda igualdad en \eqref{eq:mgc_dem_induc}, ya probada. En combinación con \eqref{eq:mgc_dem_aux}, esto concluye la prueba de la primera igualdad en \eqref{eq:mgc_dem_induc}.
+\end{proof}
 
-\begin{theorem}\label{thm:v2_gradientes_conjugados_teorema}
-El \cref{alg:v2_gradientes_conjugados} produce efectivamente un conjunto de vectores $d^0, d^1, \dots, d^{n-1}$ que son $Q$-conjugados. Sorprendentemente, los gradientes sucesivos generados $f'(x^0), f'(x^1), \dots, f'(x^{n-1})$ son mutuamente \textbf{ortogonales} en la métrica euclidiana normal.
-\end{theorem}
+Por los Teoremas 3.4.3 e 3.4.1, el método de gradientes conjugados encuentra la solución del problema de minimización irrestricta de una función cuadrática con matriz $Q$ definida positiva, en $n$ iteraciones. De hecho, con frecuencia, una aproximación suficientemente buena es encontrada bien más rápido, principalmente para problemas de gran porte (cuando $n$ es grande). Por eso, los métodos de direcciones conjugadas son muy usados para minimización iterativa de funciones cuadráticas, incluso para resolución iterativa de sistemas de ecuaciones lineales.
 
-En el caso de una función no cuadrática, las fórmulas para el cálculo de $\beta_{k-1}$ dadas arriba resultan, en general, en valores diferentes. Más aún, los vectores $d^k$ así generados no forman un conjunto $Q$-conjugado para ninguna matriz $Q$. Naturalmente, convergencia finita no puede ser esperada en este caso. Pero aun así, hay razones para esperar convergencia rápida, debido al hecho de que, localmente, una función dos veces diferenciable es aproximada bien por una función cuadrática (dada por la parte cuadrática de su expansión de Taylor).
+A propósito, una manera de construir un conjunto de direcciones $Q$-conjugadas ya fue presentada arriba. Puede ser probado que los vectores $d^k = -Q_k f'(x^k)$, donde las matrices $Q_k$ son generadas por el método DFP o por el método BFGS, forman un conjunto $Q$-conjugado. Una propiedad interesante del método DFP es la siguiente. Al mismo tiempo, él resuelve el problema de minimización y calcula la matriz $Q^{-1}$ (lo que puede ser importante en algunas aplicaciones). Por otro lado, a implementación del método DFP requiere guardar en la memoria y actualizar, cada iteración, una matriz $Q_k \in \R^{n \times n}$, lo que puede ser caro cuando $n$ es grande.
 
-La experiencia computacional sugiere que la primera fórmula analizada es en general superada por fórmulas alternativas en la práctica. Resaltamos que, dadas las definiciones del método algebraico, $\langle f'(x^k), d^k \rangle = -\|f'(x^k)\|^2 < 0$, si $f'(x^k) \neq 0$. Por lo tanto, por el Lema 3.1.1, $d^k \in \mathcal{D}_f(x^k)$. Por eso, podemos minimizar de forma irrestricta sobre la semirrecta $\alpha \ge 0$, admitir que $\alpha_k > 0$, y considerar el método de los gradientes conjugados como un método de descenso. En el caso no cuadrático, la minimización unidimensional exacta ya no es posible y tenemos que apelar a otras reglas de búsqueda lineal, por ejemplo la de Wolfe. Así, las fórmulas clásicas de \textbf{Fletcher-Reeves (FR)} y \textbf{Polak-Ribière (PR)} que extienden el método son respectivamente:
-\[
-\beta_{k-1}^{FR} = \frac{\|f'(x^k)\|^2}{\|f'(x^{k-1})\|^2} \quad \text{y} \quad \beta_{k-1}^{PR} = \frac{\interno{f'(x^k)}{f'(x^k) - f'(x^{k-1})}}{\|f'(x^{k-1})\|^2}.
-\]
+En el caso de una función no cuadrática, las fórmulas para el cálculo de $\beta_{k-1}$ dadas arriba resultan, en general, en valores diferentes. Más aún, los vectores $d^k$ así generados no forman un conjunto $Q$-conjugado para ninguna matriz $Q$. Naturalmente, convergencia finita no puede ser esperada. Pero aun así, hay razones para esperar convergencia rápida, debido al hecho de que, localmente, una función dos veces diferenciable es aproximada bien por una función cuadrática (dada por la parte cuadrática de su expansión de Taylor).
+
+La experiencia computacional sugiere que la primera fórmula (la que actualiza $\beta_{k-1}$ usando el cociente de las normas cuadradas de los gradientes) es en general mejor que la segunda (la cual involucra el producto interno de la diferencia de los gradientes). Las explicaciones pueden ser consultadas en la literatura. Resultados sobre convergencia y tasa de convergencia de varios métodos de gradientes conjugados pueden ser consultados en detalle. Curiosamente, estos resultados se refieren a la segunda fórmula, y no a la primera, a pesar de que la primera sea aquella utilizada en la práctica. De cierto modo, tal situación no es rara en el área de optimización computacional: a veces un método es justificado teóricamente para una escogencia de parámetros, pero la experiencia computacional indica ventajas de alguna escogencia diferente que, sin embargo, no posee justificación teórica completa. O papel del análisis matemático de métodos computacionales es importante, pero no debe ser exagerado ni menospreciado.
+
+Resaltamos que, por las ecuaciones del método, $\interno{f'(x^k)}{d^k} = -\|f'(x^k)\|^2 < 0$, si $f'(x^k) \neq 0$. Por lo tanto, por el Lema de direcciones de descenso, $d^k \in \mathcal{D}_f(x^k)$. Por eso, podemos minimizar de forma irrestricta sobre la semirrecta $\alpha \ge 0$, admitir que $\alpha_k > 0$, y considerar al método de los gradientes conjugados como un método de descenso. En el caso no cuadrático, la minimización unidimensional exacta ya no es posible y tenemos que apelar a otras reglas de búsqueda lineal, por ejemplo la de Wolfe.
+
+Para mejorar la convergencia global del método de los gradientes conjugados, es recomendable utilizar, de vez en cuando, pasos del método del gradiente. Por razones ya mencionadas, los métodos cuasi-Newton y los gradientes conjugados son los más adecuados para minimización irrestricta de funciones diferenciables.
 
 %%% Local Variables:
 %%% mode: LaTeX

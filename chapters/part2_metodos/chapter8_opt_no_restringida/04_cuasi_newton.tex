@@ -1,197 +1,159 @@
 % --- Archivo: 04_cuasi_newton.tex ---
 
-% =========================================================
-\subsection{Métodos Cuasi-Newton}
-\label{subsec:v2_metodos_cuasi_newton}
-% =========================================================
+\subsection{Métodos cuasi-Newton}
 
-Una clase importante de métodos de optimización irrestricta está dada por el siguiente esquema iterativo:
+Una clase importante de métodos de optimización irrestricta es dada por el esquema iterativo
 \begin{equation}
     x^{k+1} = x^k + \alpha_k d^k, \quad d^k = -Q_k f'(x^k), \quad k = 0, 1, \dots,
-    \label{eq:v2_quase_newton_iter}
+    \label{eq:cuasi_newton_esquema}
 \end{equation}
-donde, para todo $k$, $Q_k \in \R^{n \times n}$ es una matriz simétrica definida positiva, y $\alpha_k > 0$ es la longitud de paso calculada utilizando una de las reglas de búsqueda lineal presentadas en la sección anterior. 
-
-Notemos que el método \eqref{eq:v2_quase_newton_iter} es, por construcción, un método de descenso. En efecto, si $x^k$ no es un punto estacionario del problema, como $Q_k$ es definida positiva, se tiene que:
-\[
+donde, para todo $k$, $Q_k \in \R^{n \times n}$ es una matriz simétrica definida positiva, y $\alpha_k > 0$ es la longitud de paso calculada utilizando una de las reglas de búsqueda lineal. Notamos que el método es un método de descenso. Con efecto, si $x^k$ no es un punto estacionario del problema, como $Q_k$ es definida positiva, se tiene que
+\begin{equation}
     \interno{f'(x^k)}{d^k} = -\interno{Q_k f'(x^k)}{f'(x^k)} < 0,
-\]
-y por lo tanto, por el \cref{lem:v2_direcciones_descenso}, $d^k$ es una dirección de descenso de $f$ en $x^k$, es decir, $d^k \in \symcal{D}_f(x^k)$. En el caso de $Q_k = I$ (matriz identidad), el esquema \eqref{eq:v2_quase_newton_iter} se reduce a un método de gradiente; y en el caso de $Q_k = (f''(x^k))^{-1}$ con $\alpha_k = 1$, obtenemos el método de Newton puro. Existen, sin embargo, otras posibilidades que son computacionalmente mucho más atractivas que las dos opciones obvias mencionadas.
+\end{equation}
+y por lo tanto $d^k$ es una dirección de descenso de $f$ en $x^k$. En el caso de $Q_k = E^n$, el esquema se reduce a uno de los métodos del gradiente, y en el caso de $Q_k = (f''(x^k))^{-1}$ con $\alpha_k = 1$, obtenemos el método de Newton puro. Existen, sin embargo, otras posibilidades que son más atractivas computacionalmente.
 
-\begin{algorithm}[Método de descenso con métrica variable]\label{alg:v2_quasinewton}
-    Elegir un punto inicial $x^0 \in \Rn$ y tomar $k := 0$. Elegir una de las reglas de búsqueda lineal (Armijo, Wolfe o minimización unidimensional) y sus parámetros asociados.
-    \begin{enuthm}
-        \item Elegir una matriz simétrica definida positiva $Q_k \in \R^{n \times n}$ y tomar $d^k = -Q_k f'(x^k)$. Calcular la longitud del paso $\alpha_k$ en la dirección $d^k$, por la regla de búsqueda lineal elegida. (Si $f'(x^k) = 0$, el método se detiene).
+\begin{algorithm}[Método de descenso con métrica variable]
+    Elegir $x^0 \in \Rn$ y tomar $k := 0$. Elegir una de las reglas de búsqueda lineal y los parámetros asociados.
+    \begin{enumerate}
+        \item Elegir una matriz $n \times n$ simétrica definida positiva $Q_k$ y tomar $d^k = -Q_k f'(x^k)$. Calcular la longitud de paso $\alpha_k$ en la dirección $d^k$, por la regla de búsqueda lineal elegida (se $f'(x^k) = 0$, formalmente definimos $\alpha_k = 1$).
         \item Tomar $x^{k+1} = x^k + \alpha_k d^k$.
-        \item Incrementar $k \leftarrow k + 1$ y retornar al Paso 1.
-    \end{enuthm}
+        \item Tomar $k := k + 1$ y retornar al Paso 1.
+    \end{enumerate}
 \end{algorithm}
 
-Los métodos cuasi-Newton son métodos de la forma \eqref{eq:v2_quase_newton_iter}, donde las matrices $Q_k$ son elegidas para aproximar, en un cierto sentido, la matriz $(f''(\bar{x}))^{-1}$ para alguna solución $\bar{x}$. Más precisamente, la secuencia $\{Q_k\}$ debe satisfacer la \deftech{condición de Dennis-Moré}, dada en el siguiente teorema.
+Los métodos cuasi-Newton son métodos de esta forma, donde las matrices $Q_k$ son elegidas para aproximar, en un cierto sentido, la matriz $(f''(\bar{x}))^{-1}$ para alguna solución $\bar{x}$. Más precisamente, la secuencia $\{Q_k\}$ tiene que satisfacer la condición de Dennis-Moré, dada en el teorema siguiente.
 
-\begin{theorem}[Teorema de Dennis-Moré]\label{thm:v2_dennis_more}
-    Supongamos que $f$ es dos veces diferenciable, $\bar{x}$ es un punto estacionario y la Hessiana $f''(\bar{x})$ es definida positiva (condición suficiente de segundo orden). Además, supongamos que la secuencia $\{x^k\}$, generada por el \cref{alg:v2_quasinewton} utilizando la regla de Armijo con $\hat{\alpha} = 1$ y $\sigma \in (0, 1/2)$, converge a $\bar{x}$.
+\begin{theorem}[Teorema de Dennis-Moré]\label{thm:dennis_more}
+    Supongamos que se satisfacen las hipótesis del Corolario 3.2.2. Además de eso, supongamos que la secuencia $\{x^k\}$, generada por el Algoritmo utilizando la regla de búsqueda lineal de Armijo con $\hat{\alpha} = 1$ e $\sigma \in (0, 1/2)$, converge a $\bar{x}$.
     
     Entonces, las siguientes dos afirmaciones son equivalentes:
-    \begin{enumerate}[(1)]
-        \item La tasa de convergencia de $\{x^k\}$ a $\bar{x}$ es \textbf{superlineal}, el paso $\alpha_k = 1$ es aceptado para todo $k$ suficientemente grande, y se cumple que
+    \begin{enumerate}[(a)]
+        \item La tasa de convergencia de $\{x^k\}$ a $\bar{x}$ es superlineal, $\alpha_k = 1$ para todo $k$ suficientemente grande, y 
         \begin{equation}
-            \norm{Q_k f'(x^k) - (f''(\bar{x}))^{-1}f'(x^k)} \le M \norm{f'(x^k)} \quad \forall k = 0, 1, \dots,
-            \label{eq:v2_dennis_more_cond}
+            \|Q_k f'(x^k)\| \le M \|f'(x^k)\| \quad \forall k = 0, 1, \dots,
+            \label{eq:dennis_more_a}
         \end{equation}
         donde $M > 0$ es una constante que no depende de $k$.
         
-        \item El error de aproximación en la dirección del gradiente es asintóticamente sublineal:
+        \item Se tiene que
         \begin{equation}
-            (Q_k - (f''(\bar{x}))^{-1})f'(x^k) = o(\norm{f'(x^k)}).
-            \label{eq:v2_dennis_more_o}
+            (Q_k - (f''(\bar{x}))^{-1})f'(x^k) = o(\|f'(x^k)\|).
+            \label{eq:dennis_more_b}
         \end{equation}
     \end{enumerate}
 \end{theorem}
 
 \begin{proof}
-    Primero, supongamos que la afirmación (1) se satisface. Teniendo en cuenta que $\alpha_k = 1$ para todo $k$ suficientemente grande, tenemos que:
+    Primero, supongamos que la afirmación (a) se satisface. Llevando en cuenta que $\alpha_k = 1$ para todo $k$ suficientemente grande, tenemos que
     \begin{align}
-        ((f''(\bar{x}))^{-1} - Q_k)f'(x^k) &= (f''(\bar{x}))^{-1}f'(x^k) - Q_k f'(x^k) \nonumber \\
-        &= (f''(\bar{x}))^{-1}f'(x^k) + (x^{k+1} - x^k) \nonumber \\
-        &= (f''(\bar{x}))^{-1}\left( f'(x^k) - f''(\bar{x})(x^k - \bar{x}) \right) + (x^{k+1} - \bar{x}) \nonumber \\
-        &= o(\norm{x^k - \bar{x}}), \label{eq:v2_dennis_more_dem1}
+        ((f''(\bar{x}))^{-1} - Q_k)f'(x^k) &= (f''(\bar{x}))^{-1}f'(x^k) + x^{k+1} - x^k \nonumber \\
+        &= (f''(\bar{x}))^{-1}(f'(x^k) - f'(\bar{x}) - f''(\bar{x})(x^k - \bar{x})) + x^{k+1} - \bar{x} \nonumber \\
+        &= o(\|x^k - \bar{x}\|),
+        \label{eq:dem_dennis_1}
     \end{align}
-    donde la última igualdad se sigue de la Fórmula de Taylor y de la convergencia superlineal de $\{x^k\}$ a $\bar{x}$. 
-    
-    De \eqref{eq:v2_dennis_more_cond}, obtenemos que:
-    \[
-        M\norm{f'(x^k)} \ge \norm{Q_k f'(x^k)} = \norm{x^{k+1} - x^k} \ge \norm{x^k - \bar{x}} - \norm{x^{k+1} - \bar{x}} = \norm{x^k - \bar{x}} + o(\norm{x^k - \bar{x}}).
-    \]
+    donde la última igualdad se sigue de la Fórmula de Taylor y de la convergencia superlineal de $\{x^k\}$ a $\bar{x}$. De \eqref{eq:dennis_more_a}, obtenemos que
+    \begin{align*}
+        M\|f'(x^k)\| &\ge \|Q_k f'(x^k)\| \\
+        &\ge \|x^k - \bar{x}\| - \|x^{k+1} - \bar{x}\| = \|x^k - \bar{x}\| + o(\|x^k - \bar{x}\|).
+    \end{align*}
     Por lo tanto,
     \[
-        \frac{o(\norm{x^k - \bar{x}})}{\norm{f'(x^k)}} \le \frac{o(\norm{x^k - \bar{x}})}{\norm{x^k - \bar{x}}/M + o(\norm{x^k - \bar{x}})/M} = \frac{o(\norm{x^k - \bar{x}})/\norm{x^k - \bar{x}}}{1/M + o(\norm{x^k - \bar{x}})/\norm{x^k - \bar{x}}} \to 0 \quad \text{cuando } k \to \infty.
+        \frac{o(\|x^k - \bar{x}\|)}{\|f'(x^k)\|} \le \frac{o(\|x^k - \bar{x}\|)}{\|x^k - \bar{x}\|/M + o(\|x^k - \bar{x}\|)} \to 0 \quad (k \to \infty).
     \]
-    Combinando esta última relación con \eqref{eq:v2_dennis_more_dem1}, obtenemos exactamente \eqref{eq:v2_dennis_more_o}.
+    Combinando esta última relación con \eqref{eq:dem_dennis_1}, obtenemos \eqref{eq:dennis_more_b}.
 
-    Ahora supongamos que la afirmación (2) se satisface. La condición \eqref{eq:v2_dennis_more_cond} se sigue trivialmente (si no, obtendríamos una contradicción obvia con \eqref{eq:v2_dennis_more_o}). Probaremos que el paso de Newton $\alpha_k = 1$ es aceptado para todo $k$ suficientemente grande. Por el Teorema del Valor Medio, existe $\tilde{t}_k \in [0, 1]$ tal que:
+    Ahora supongamos que la afirmación (b) se satisface. La condición \eqref{eq:dennis_more_a} se sigue trivialmente (sino, obtenemos una contradicción obvia con \eqref{eq:dennis_more_b}). 
+    Probaremos que $\alpha_k = 1$ para todo $k$ suficientemente grande. Por el Teorema del Valor Medio, existe $\tilde{t}_k \in [0, 1]$ tal que
     \[
-        f(x^k - Q_k f'(x^k)) = f(x^k) - \interno{f'(x^k)}{Q_k f'(x^k)} + \frac{1}{2}\interno{f''(\tilde{x}^k) Q_k f'(x^k)}{Q_k f'(x^k)},
+        f(x^k - Q_k f'(x^k)) = f(x^k) - \interno{f'(x^k)}{Q_k f'(x^k)} + \frac{1}{2}\interno{f''(\tilde{x}^k)Q_k f'(x^k)}{Q_k f'(x^k)},
     \]
-    donde $\tilde{x}^k = x^k - \tilde{t}_k Q_k f'(x^k)$. Para verificar que $\alpha_k = 1$ satisface la regla de Armijo, basta mostrar que:
+    donde $\tilde{x}^k = x^k - \tilde{t}_k Q_k f'(x^k)$. Para verificar que $\alpha_k = 1$ satisface la regla de Armijo, basta mostrar que
     \begin{equation}
-        \interno{f'(x^k)}{Q_k f'(x^k)} - \frac{1}{2}\interno{f''(\tilde{x}^k) Q_k f'(x^k)}{Q_k f'(x^k)} \ge \sigma \interno{f'(x^k)}{Q_k f'(x^k)}.
-        \label{eq:v2_armijo_cond_quase_newton}
+        \interno{f'(x^k)}{Q_k f'(x^k)} - \frac{1}{2}\interno{f''(\tilde{x}^k)Q_k f'(x^k)}{Q_k f'(x^k)} \ge \sigma \interno{f'(x^k)}{Q_k f'(x^k)}.
+        \label{eq:dem_dennis_2}
     \end{equation}
-
-    Observamos que $\{\tilde{x}^k\} \to \bar{x}$ cuando $k \to \infty$, porque $\{x^k\} \to \bar{x}$ y $\{Q_k f'(x^k)\} \to 0$ (la última propiedad se sigue de \eqref{eq:v2_dennis_more_cond}). Por lo tanto, usando \eqref{eq:v2_dennis_more_o}, la desigualdad \eqref{eq:v2_armijo_cond_quase_newton} puede reescribirse asintóticamente como:
+    Observamos que $\{\tilde{x}^k\} \to \bar{x}$ ($k \to \infty$), porque $\{x^k\} \to \bar{x}$ y $\{Q_k f'(x^k)\} \to 0$ (la última propiedad se sigue de \eqref{eq:dennis_more_a}). Por tanto, por \eqref{eq:dennis_more_b}, la desigualdad \eqref{eq:dem_dennis_2} puede ser escrita como
     \[
-        (1 - \sigma)\interno{f'(x^k)}{(f''(\bar{x}))^{-1} f'(x^k)} \ge \frac{1}{2}\interno{f'(x^k)}{(f''(\bar{x}))^{-1} f'(x^k)} + o(\norm{f'(x^k)}^2),
+        (1 - \sigma)\interno{f'(x^k)}{(f''(\bar{x}))^{-1} f'(x^k)} \ge \frac{1}{2}\interno{f'(x^k)}{(f''(\bar{x}))^{-1} f'(x^k)} + o(\|f'(x^k)\|^2),
     \]
-    lo cual equivale a:
+    o bien
     \[
-        (1/2 - \sigma)\interno{f'(x^k)}{(f''(\bar{x}))^{-1} f'(x^k)} \ge o(\norm{f'(x^k)}^2).
+        (1/2 - \sigma)\interno{f'(x^k)}{(f''(\bar{x}))^{-1} f'(x^k)} \ge o(\|f'(x^k)\|^2).
     \]
-    Esta última desigualdad se satisface estrictamente para todo $k$ suficientemente grande, dado que $\sigma \in (0, 1/2)$, y el hecho de que $f''(\bar{x})$ sea definida positiva implica que $(f''(\bar{x}))^{-1}$ también es definida positiva; por lo tanto, existe $\gamma > 0$ tal que el lado izquierdo está acotado inferiormente por $\gamma(1/2 - \sigma)\norm{f'(x^k)}^2$, superando holgadamente al término $o(\norm{f'(x^k)}^2)$.
-
-    Finalmente, probaremos que la tasa de convergencia de $\{x^k\}$ es superlineal. Para $k$ suficientemente grande, con $\alpha_k = 1$ y usando \eqref{eq:v2_dennis_more_cond}, obtenemos:
+    Esta última desigualdad se satisface para todo $k$ suficientemente grande, porque $\sigma \in (0, 1/2)$, y el hecho de que $f''(\bar{x})$ es definida positiva implica que $(f''(\bar{x}))^{-1}$ es definida positiva, y por lo tanto, existe $\gamma > 0$ tal que
+    \[
+        (1/2 - \sigma)\interno{f'(x^k)}{(f''(\bar{x}))^{-1} f'(x^k)} \ge \gamma (1/2 - \sigma) \|f'(x^k)\|^2.
+    \]
+    Finalmente, probaremos que la tasa de convergencia de $\{x^k\}$ es superlineal. Para $k$ suficientemente grande, $\alpha_k = 1$, obtenemos
     \begin{align*}
-        \norm{x^{k+1} - \bar{x}} &= \norm{x^k - \bar{x} - Q_k f'(x^k)} \\
-        &= \norm{x^k - \bar{x} - (f''(\bar{x}))^{-1}f'(x^k) + (f''(\bar{x}))^{-1}f'(x^k) - Q_k f'(x^k)} \\
-        &\le \norm{(f''(\bar{x}))^{-1}\left( f''(\bar{x})(x^k - \bar{x}) - f'(x^k) \right)} + \norm{((f''(\bar{x}))^{-1} - Q_k)f'(x^k)} \\
-        &= o(\norm{x^k - \bar{x}}),
+        \|x^{k+1} - \bar{x}\| &= \|x^k - \bar{x} - Q_k f'(x^k)\| \\
+        &= \|x^k - \bar{x} - (f''(\bar{x}))^{-1}f'(x^k) + ((f''(\bar{x}))^{-1} - Q_k)f'(x^k)\| \\
+        &\le \|(f''(\bar{x}))^{-1}(f''(\bar{x})(x^k - \bar{x}) - f'(x^k))\| + o(\|f'(x^k)\|) \\
+        &= o(\|x^k - \bar{x}\|),
     \end{align*}
     lo que concluye la demostración.
 \end{proof}
 
-Una de las conclusiones teóricas más importantes del Teorema de Dennis-Moré es la siguiente: en la optimización de funciones dos veces diferenciables, \textbf{para ser eficiente y superlineal, un método debe incorporar implícitamente información de segundo orden}. En particular, los métodos que utilizan apenas información pura de primer orden (como el método del gradiente) no pueden alcanzar convergencia superlineal.
+Una de las conclusiones importantes del Teorema de Dennis-Moré es la siguiente: en la optimización de funciones dos veces diferenciables, para ser eficiente, un método debe hacer uso de aproximación de segunda orden de la función objetivo, de alguna manera. En particular, métodos que utilizan apenas aproximación de primer orden no pueden poseer convergencia superlineal en general. Cabe observar que para el método de Newton, la condición de Dennis-Moré se satisface automáticamente. 
 
-Sin embargo, esta información de segundo orden puede ser construida dinámicamente sin el cálculo analítico ni la evaluación directa de la matriz Hessiana. Esta es la idea principal de los \textbf{métodos cuasi-Newton}: sustituir la resolución costosa del sistema con la Hessiana verdadera por una aproximación directa de la matriz inversa $Q_k \approx (f''(x^k))^{-1}$.
+No entanto, la información de segunda orden también puede ser construida implícitamente, sin cálculo directo de la derivada segunda de $f$. Esta es la idea principal de los métodos cuasi-Newton: la sustitución del cálculo de $f''(x^k)$ y de la resolución del sistema de ecuaciones lineales correspondiente, por una aproximación directa del paso calculada en cada iteración. Esto puede ser hecho de varias maneras diferentes. 
 
-\subsubsection{La Ecuación de la Secante (Ecuación Cuasi-Newton)}
-
-Para todo paso $k$, definimos los vectores de variación en la posición y en el gradiente:
+Para todo $k$, definimos
 \begin{equation}
     r^k = x^{k+1} - x^k, \quad s^k = f'(x^{k+1}) - f'(x^k).
-    \label{eq:v2_quase_newton_dif_def}
 \end{equation}
-
-Notamos que esta información ya está disponible tras calcular el nuevo iterado. Como queremos que $Q_{k+1}$ aproxime la inversa de la Hessiana, invocando el Teorema Fundamental del Cálculo a lo largo de la trayectoria del paso, exigimos que la nueva matriz satisfaga la \deftech{Ecuación Cuasi-Newton} (o Ecuación de la Secante):
+Notamos que esta información ya está disponible en el momento de la escogencia de $Q_{k+1}$. Como queremos que esta matriz aproxime, en un cierto sentido, la inversa de la Hessiana de $f$, es natural imponer la condición
 \begin{equation}
-    Q_{k+1}s^k = r^k.
-    \label{eq:v2_quase_newton_secante}
+    Q_{k+1} s^k = r^k,
+    \label{eq:ecuacion_secante}
 \end{equation}
+que es llamada de ecuación cuasi-Newton. Implícitamente admitiendo que la matriz $f''(\bar{x})$ es natural pedir la condición $s^k = Q_{k+1}^{-1} r^k$, que resulta en \eqref{eq:ecuacion_secante}.
 
-Esta ecuación representa un sistema lineal subdeterminado (hay múltiples matrices $Q_{k+1}$ simétricas y definidas positivas que satisfacen esto para $n > 1$). La estrategia general consiste en actualizar la matriz anterior $Q_k$ sumándole una corrección de rango bajo (rango 1 o rango 2) que sea ``mínima'' bajo alguna norma matricial, preservando la simetría y la condición definida positiva.
-
-\subsubsection{Método DFP (Davidon-Fletcher-Powell)}
-
-Históricamente, el primer método cuasi-Newton exitoso es el método DFP. Toma $Q_0$ como una matriz simétrica definida positiva arbitraria (típicamente $Q_0 = I$), y para todo $k$ actualiza la métrica mediante una corrección de rango 2:
+Resumiendo, dada una matriz simétrica definida positiva $Q_k$ y vectores $r^k$ e $s^k$, la propuesta es escoger una matriz simétrica definida positiva $Q_{k+1}$ que satisfaga \eqref{eq:ecuacion_secante}. Históricamente, el primer método cuasi-Newton es el método de Davidon-Fletcher-Powell (DFP), que toma $Q_0$ como una matriz simétrica definida positiva arbitraria (digamos, $Q_0 = E^n$), y para todo $k$ define
 \begin{equation}
     Q_{k+1} = Q_k + \frac{r^k (r^k)^\top}{\interno{r^k}{s^k}} - \frac{(Q_k s^k)(Q_k s^k)^\top}{\interno{Q_k s^k}{s^k}}.
-    \label{eq:v2_dfp_update}
+    \label{eq:dfp_update}
 \end{equation}
+Notamos que todas las matrices así generadas serán simétricas. Además, la ecuación cuasi-Newton también será satisfecha.
 
-Todas las matrices así generadas serán simétricas. Además, la ecuación secante \eqref{eq:v2_quase_newton_secante} se satisface analíticamente:
-\begin{align*}
-  Q_{k+1}s^k &= Q_k s^k + \frac{r^k (r^k)^\top s^k}{\interno{r^k}{s^k}} - \frac{(Q_k s^k)(Q_k s^k)^\top s^k}{\interno{Q_k s^k}{s^k}} \\
-             &= Q_k s^k + r^k - Q_k s^k = r^k.
-\end{align*}
-
-Para que el esquema cuasi-Newton sea robusto, requerimos que $Q_{k+1}$ sea estrictamente definida positiva. Esta propiedad no solo depende de la fórmula \eqref{eq:v2_dfp_update}, sino también de la estrictez de la búsqueda lineal subyacente.
-
-\begin{proposition}[Mantenimiento de la matriz definida positiva]\label{prop:v2_quase_newton_pos_def}
-    Sea $Q_k \in \R^{n \times n}$ una matriz simétrica definida positiva. Sea $f \colon \Rn \to \R$ diferenciable en $x^k, x^{k+1} \in \Rn$, satisfaciendo una condición de descenso con longitud de paso $\alpha_k > 0$. 
-    
-    Entonces, la matriz $Q_{k+1}$ dada por la fórmula DFP \eqref{eq:v2_dfp_update} está bien definida y es \textbf{definida positiva} si, y solamente si, se satisface la \textbf{condición de curvatura}:
+\begin{proposition}\label{prop:dfp_pos_def}
+    Sea $Q_k \in \R^{n \times n}$ una matriz simétrica definida positiva. Sea $f \colon \Rn \to \R$ una función diferenciable en los puntos $x^k, x^{k+1} \in \Rn$, que satisfacen la relación del paso con algún valor de longitud de paso $\alpha_k > 0$.
+    Entonces las fórmulas definen sin ambigüedad una matriz $Q_{k+1}$ definida positiva si, y solamente si, la desigualdad
     \begin{equation}
-        \interno{f'(x^{k+1})}{d^k} > \interno{f'(x^k)}{d^k}.
-        \label{eq:v2_quase_newton_pos_def_cond}
+        \interno{f'(x^{k+1})}{d^k} > \interno{f'(x^k)}{d^k}
+        \label{eq:condicion_curvatura}
     \end{equation}
+    es satisfecha.
 \end{proposition}
 
 \begin{proof}
-    Supongamos que $Q_{k+1}$ sea definida positiva. Usando \eqref{eq:v2_quase_newton_dif_def}, \eqref{eq:v2_dfp_update} y \eqref{eq:v2_quase_newton_secante}, obtenemos:
+    Supongamos que $Q_{k+1}$ sea definida positiva. Usando la ecuación cuasi-Newton, obtenemos
     \begin{align*}
         \interno{d^k}{f'(x^{k+1}) - f'(x^k)} &= \frac{1}{\alpha_k} \interno{r^k}{s^k} \\
-        &= \frac{1}{\alpha_k} \interno{Q_{k+1}s^k}{s^k} > 0,
+        &= \frac{1}{\alpha_k} \interno{Q_{k+1} s^k}{s^k} > 0,
     \end{align*}
-    donde la desigualdad estricta es válida asumiendo que $s^k \neq 0$ (en caso contrario, $Q_{k+1}$ en \eqref{eq:v2_dfp_update} no estaría bien definida). Al expandir la parte izquierda, obtenemos exactamente \eqref{eq:v2_quase_newton_pos_def_cond}.
-
-    Supongamos ahora que \eqref{eq:v2_quase_newton_pos_def_cond} se satisface. Utilizando la definición de $s^k$ y $r^k$, esto garantiza que:
-    \begin{equation}
-        \interno{r^k}{s^k} = \alpha_k \left( \interno{d^k}{f'(x^{k+1}) - f'(x^k)} \right) > 0.
-        \label{eq:v2_r_s_prod_pos}
-    \end{equation}
-    En particular, $s^k \neq 0$. Por el hecho de que $Q_k$ es definida positiva, $\interno{Q_k s^k}{s^k} > 0$. Esto demuestra que el denominador en \eqref{eq:v2_dfp_update} nunca se anula y $Q_{k+1}$ está bien definida.
-
-    Para cualquier vector $\xi \in \Rn$, utilizando la actualización DFP \eqref{eq:v2_dfp_update}, obtenemos:
+    donde la desigualdad vale suponiendo que $s^k \neq 0$ (caso contrario, $Q_{k+1}$ no estaría bien definida). Obtenemos entonces \eqref{eq:condicion_curvatura}.
+    
+    Supongamos ahora que \eqref{eq:condicion_curvatura} se satisfaga. Utilizando también el esquema obtenemos
+    \[
+        \interno{r^k}{s^k} = \alpha_k (\interno{d^k}{f'(x^{k+1}) - f'(x^k)}) > 0.
+    \]
+    En particular, $s^k \neq 0$ y, por el hecho de que $Q_k$ es definida positiva, $\interno{Q_k s^k}{s^k} > 0$. Esto muestra que $Q_{k+1}$ está bien definida. Para todo $\xi \in \Rn$, obtenemos
     \begin{align*}
-        \interno{Q_{k+1}\xi}{\xi} &= \interno{Q_k\xi}{\xi} + \frac{\interno{r^k}{\xi}^2}{\interno{r^k}{s^k}} - \frac{\interno{Q_k s^k}{\xi}^2}{\interno{Q_k s^k}{s^k}} \\
-        &= \frac{\norm{Q_k^{1/2}\xi}^2 \norm{Q_k^{1/2}s^k}^2 - \interno{Q_k^{1/2}\xi}{Q_k^{1/2}s^k}^2}{\norm{Q_k^{1/2}s^k}^2} + \frac{\interno{r^k}{\xi}^2}{\interno{r^k}{s^k}} \ge 0.
+        \interno{Q_{k+1}\xi}{\xi} &= \interno{Q_k \xi}{\xi} + \frac{\interno{r^k}{\xi}^2}{\interno{r^k}{s^k}} - \frac{\interno{Q_k s^k}{\xi}^2}{\interno{Q_k s^k}{s^k}} \\
+        &= \frac{\|Q_k^{1/2} \xi\|^2 \|Q_k^{1/2} s^k\|^2 - \interno{Q_k^{1/2} \xi}{Q_k^{1/2} s^k}^2}{\|Q_k^{1/2} s^k\|^2} + \frac{\interno{r^k}{\xi}^2}{\interno{r^k}{s^k}} \ge 0,
     \end{align*}
-    La desigualdad $\ge 0$ se sigue rigurosamente de la desigualdad de Cauchy-Schwarz aplicada al primer término y de la condición \eqref{eq:v2_r_s_prod_pos} en el segundo. Además, la igualdad $\interno{Q_{k+1}\xi}{\xi} = 0$ solamente puede ocurrir cuando ambos términos fraccionarios se anulan independientemente, es decir, cuando:
-    \[
-        \interno{r^k}{\xi} = 0 \quad \text{y} \quad \norm{Q_k^{1/2}\xi}^2 \norm{Q_k^{1/2}s^k}^2 - \interno{Q_k^{1/2}\xi}{Q_k^{1/2}s^k}^2 = 0.
-    \]
-    La segunda igualdad (caso de igualdad en Cauchy-Schwarz) exige que los vectores sean colineales: $Q_k^{1/2}\xi = t (Q_k^{1/2}s^k)$ para algún escalar $t \in \R$. Como la matriz $Q_k^{1/2}$ es no singular, esto implica directamente que $\xi = t s^k$. Sustituyendo esto en la primera condición obtenemos:
-    \[
-        0 = \interno{r^k}{\xi} = t\interno{r^k}{s^k}.
-    \]
-    Puesto que demostramos en \eqref{eq:v2_r_s_prod_pos} que $\interno{r^k}{s^k} > 0$, la única solución a la ecuación anterior es $t = 0$, lo que implica que $\xi = 0$. Por lo tanto, la forma cuadrática es estrictamente positiva para cualquier $\xi \neq 0$, demostrando que $Q_{k+1}$ es definida positiva.
+    donde la desigualdad sigue del hecho de que ambos términos son no negativos por la desigualdad de Cauchy-Schwarz. Además, la igualdad a $0$ solamente puede valer cuando ambos términos se anulan, i.e., cuando $\interno{r^k}{\xi} = 0$ y $\|Q_k^{1/2} \xi\| \|Q_k^{1/2} s^k\| = |\interno{Q_k^{1/2} \xi}{Q_k^{1/2} s^k}|$. La última igualdad significa que $Q_k^{1/2} \xi = t (Q_k^{1/2} s^k)$ para algún $t$. Como $Q_k^{1/2}$ es no-singular, esto es posible cuando $t = 0$, i.e., $\xi = 0$. Por lo tanto, $Q_{k+1}$ es definida positiva.
 \end{proof}
 
-\begin{remark}[La Regla de Wolfe es mandataria en Cuasi-Newton]
-    Si se utiliza una minimización unidimensional exacta en el paso, se garantiza geométricamente que $\interno{f'(x^{k+1})}{d^k} = 0$. Puesto que $\interno{f'(x^k)}{d^k} < 0$, la condición de curvatura \eqref{eq:v2_quase_newton_pos_def_cond} se cumple automáticamente. Sin embargo, si se utilizan reglas prácticas de retroceso, \textbf{la regla de Armijo por sí sola no garantiza la condición de curvatura}. Es precisamente por este motivo que la \textbf{regla de Wolfe} exige explícitamente la condición dual \eqref{eq:v2_wolfe_2}:
-    \[
-        \interno{f'(x^{k+1})}{d^k} \ge \sigma_2 \interno{f'(x^k)}{d^k} > \interno{f'(x^k)}{d^k},
-    \]
-    (ya que $\sigma_2 < 1$ y la derivada es negativa). Esta es la razón técnica central por la cual la regla de Wolfe es el estándar de oro en las implementaciones de los métodos cuasi-Newton computacionales.
-\end{remark}
+Como consecuencias del resultado arriba son las siguientes. Si el longitud de paso es calculado por la regla de minimización unidimensional, tenemos que $\interno{f'(x^{k+1})}{d^k} = 0$. Por tanto, valiendo automáticamente la condición, la relación de curvatura \eqref{eq:condicion_curvatura} siempre es satisfecha. Las reglas de Armijo y de Goldstein, no obstante, no poseen esta propiedad. Esta es la razón por la cual la regla de Wolfe es aquella utilizada con mayor frecuencia en implementaciones de métodos cuasi-Newton.
 
-\subsubsection{Método BFGS (Broyden-Fletcher-Goldfarb-Shanno)}
-
-En la práctica moderna, el método BFGS se considera ampliamente superior y es el algoritmo cuasi-Newton más utilizado en optimización irrestricta. En lugar de actualizar la inversa de la Hessiana, se puede formular la actualización dual. La fórmula de corrección BFGS para la matriz inversa de la Hessiana $Q_k$ viene dada por:
+Entre todos los métodos cuasi-Newton, el método de Broyden-Fletcher-Goldfarb-Shanno (BFGS) es considerado actualmente el más eficiente. En este método, para todo $k$, definimos
 \begin{equation}
-    Q_{k+1} = Q_k + \frac{(r^k - Q_k s^k)(r^k)^\top + r^k(r^k - Q_k s^k)^\top}{\interno{r^k}{s^k}} - \frac{\interno{r^k - Q_k s^k}{s^k}(r^k)(r^k)^\top}{\interno{r^k}{s^k}^2}.
-    \label{eq:v2_bfgs_update}
+    Q_{k+1} = Q_k + \frac{(r^k - Q_k s^k)(r^k)^\top + r^k(r^k - Q_k s^k)^\top}{\interno{r^k}{s^k}} - \frac{\interno{r^k - Q_k s^k}{s^k} r^k (r^k)^\top}{\interno{r^k}{s^k}^2}.
+    \label{eq:bfgs_update}
 \end{equation}
+Es fácil ver que, como en el método DFP, las matrices generadas por \eqref{eq:bfgs_update} son simétricas, satisfacen a la ecuación cuasi-Newton, y la diferencia $Q_{k+1} - Q_k$ tiene puesto 2, como máximo.
 
-Se puede demostrar analíticamente que las matrices BFGS preservan la simetría, satisfacen la ecuación de la secante y que la corrección es de rango 2. Además, existe una profunda relación de dualidad algebraica entre las fórmulas de actualización de DFP y BFGS (que se explorará en el \cref{ex:v2_bfgs_pos_def}).
-
-Para funciones cuadráticas estrictamente convexas, acompañadas de una búsqueda lineal exacta, se puede demostrar que tanto DFP como BFGS convergen al mínimo global en \textbf{exactamente $n$ iteraciones} (donde $n$ es la dimensión del espacio), generando en el proceso la matriz inversa de la Hessiana exacta. 
+Cuando $f$ es una función cuadrática dada y $Q$ es definida positiva, si el longitud de paso $\alpha_k$ es calculado por la regla de minimización unidimensional, los métodos DFP y BFGS poseen convergencia finita al único punto estacionario de $f$ (que en este caso es la única solución global del problema). En particular, el número de iteraciones $j$ necesario para encontrar la solución es menor o igual a la dimensión del espacio ($j \le n$) y se tiene que $Q_j = (f''(x^j))^{-1} = Q^{-1}$.

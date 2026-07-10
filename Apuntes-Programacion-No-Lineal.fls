@@ -61,7 +61,7 @@ INPUT /usr/local/texlive/2026/texmf-dist/tex/luatex/luaotfload/luaotfload-case.l
 INPUT /usr/local/texlive/2026/texmf-dist/tex/luatex/luaotfload/luaotfload-bcp47.lua
 INPUT /usr/local/texlive/2026/texmf-dist/tex/latex/l3kernel/expl3.lua
 INPUT /usr/local/texlive/2026/texmf-dist/tex/luatex/lua-uni-algos/lua-uni-stage-tables.lua
-INPUT /home/fayfer/texmf/tex/latex/apuntes/apuntes-scr.cls
+INPUT ./apuntes-scr.cls
 INPUT /usr/local/texlive/2026/texmf-dist/tex/latex/koma-script/scrbook.cls
 INPUT /usr/local/texlive/2026/texmf-dist/tex/latex/koma-script/scrkbase.sty
 INPUT /usr/local/texlive/2026/texmf-dist/tex/latex/koma-script/scrbase.sty
@@ -609,7 +609,8 @@ INPUT ./chapters/part2_metodos/chapter9_opt_restringida/02_direcciones_factibles
 INPUT ./chapters/part2_metodos/chapter9_opt_restringida/03_penalizacion_externa.tex
 INPUT ./chapters/part2_metodos/chapter9_opt_restringida/04_penalizacion_interna_barreras.tex
 INPUT ./chapters/part2_metodos/chapter9_opt_restringida/05_lagrangianas_aumentadas.tex
-INPUT ./chapters/part2_metodos/chapter9_opt_restringida/06_sqp.tex
+INPUT ./chapters/part2_metodos/chapter9_opt_restringida/06_restricciones_mixtas.tex
+INPUT ./chapters/part2_metodos/chapter9_opt_restringida/07_sqp.tex
 INPUT ./chapters/part2_metodos/chapter9_opt_restringida/exercises.tex
 INPUT ./Apuntes-Programacion-No-Lineal.ind
 INPUT ./Apuntes-Programacion-No-Lineal.aux

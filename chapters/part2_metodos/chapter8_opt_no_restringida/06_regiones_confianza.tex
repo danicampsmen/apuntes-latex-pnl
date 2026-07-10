@@ -1,150 +1,432 @@
 % --- Archivo: 06_regiones_confianza.tex ---
-\section{Métodos de regiones de confianza}
 
-Otra estrategia natural de globalización de métodos Newtonianos es la siguiente. Cada iteración de un método Newtoniano consiste en la resolución de un subproblema obtenido a través de la aproximación local (en torno de $x^k$ dado) del problema original. Naturalmente, tal aproximación solo puede ser ``confiada'' en una vecindad suficientemente pequeña del punto $x^k$. Parece entonces razonable intentar minimizar la aproximación exactamente en esta vecindad, llamada región de confianza, y no en todo el espacio.
+\subsection{Métodos de regiones de confianza}
 
-Consideremos un problema de optimización irrestricta $\min f(x)$. El subproblema de un método Newtoniano viene dado por $\min \psi_k(x)$, donde
+Otra estrategia natural de globalización de métodos Newtonianos es la siguiente. Como ya vimos, cada iteración de un método Newtoniano consiste en la resolución de un subproblema obtenido a través de la aproximación local (en torno de $x^k$ dado) del problema original. Naturalmente, tal aproximación solo puede ser ``confiada'' en una vecindad suficientemente pequeña del punto $x^k$. Parece entonces razonable intentar minimizar la aproximación de la función objetivo exactamente en esta vecindad, llamada de región de confianza, y no en todo el espacio.
+
+De nuevo, consideremos un problema de optimización irrestricta
+\begin{equation}
+    \min f(x), \quad x \in \Rn,
+    \label{eq:tr_prob}
+\end{equation}
+donde $f \colon \Rn \to \R$. Sea $x^k \in \Rn$ una aproximación a la solución del problema. El subproblema de un método Newtoniano viene dado por
+\begin{equation}
+    \min \psi_k(x), \quad x \in \Rn,
+    \label{eq:tr_subprob_newton}
+\end{equation}
+donde
 \begin{equation}
     \psi_k(x) = f(x^k) + \interno{f'(x^k)}{x - x^k} + \frac{1}{2}\interno{H_k(x - x^k)}{x - x^k},
+    \label{eq:tr_psi}
 \end{equation}
-y $H_k$ es una matriz simétrica. Una iteración del método de regiones de confianza correspondiente consiste en la resolución del siguiente subproblema:
+y $H_k \in \R^{n \times n}$ es una matriz simétrica. Una iteración del método de regiones de confianza correspondiente consiste en la resolución del siguiente subproblema:
 \begin{equation}
     \min \psi_k(x) \quad \text{sujeto a } x \in B(x^k, \delta_k),
-    \label{eq:subproblema_tr}
+    \label{eq:tr_subprob}
 \end{equation}
-donde $\delta_k > 0$ es el radio de la región de confianza. 
+donde $\delta_k > 0$ es el radio de la región de confianza. La elección inteligente del parámetro $\delta_k$ es el asunto principal en este contexto.
 
-Intuitivamente, parece claro que el subproblema \eqref{eq:subproblema_tr} es una aproximación bien mejor del problema original que el subproblema que consiste en minimizar $f$ en alguna dirección fija. Por lo tanto, se puede esperar que a pesar del costo, una iteración de regiones de confianza puede significar más progreso. Otra ventaja es que los métodos de regiones de confianza son más robustos, en el sentido de que son capaces de resolver algunos problemas donde los métodos de búsqueda lineal no funcionan bien. Es posible probar convergencia a los puntos estacionarios que satisfacen la condición necesaria de segunda orden.
+En principio, un subproblema de regiones de confianza presupone el cálculo de una solución global, el cual es ciertamente bien más caro que el cálculo del longitud de paso por una búsqueda lineal. O mismo comentario se aplica mismo si sustituimos resolución global de \eqref{eq:tr_subprob} por el cálculo de un punto estacionario de este problema. Más aún, una iteración en métodos de regiones de confianza puede requerir la resolución de más de un subproblema de la forma \eqref{eq:tr_subprob}, hasta que un valor adecuado del radio $\delta_k$ sea encontrado. No entanto, el subproblema \eqref{eq:tr_subprob} posee una estructura bien específica, que puede (y debe) ser aprovechada. Existen varios métodos bien eficientes para la minimización de una función cuadrática en una bola; no hay necesidad de apelar a métodos de optimización de uso general. Además de eso, un control inteligente del parámetro $\delta_k$ evita en la práctica la necesidad de resolución de muchos subproblemas en la misma iteración. Resumiendo, buenas implementaciones de métodos de regiones de confianza tienen un costo de iteración bien aceptable.
+
+Por otro lado, intuitivamente, parece claro que el subproblema \eqref{eq:tr_subprob} es una aproximación bien mejor del problema original de lo que el subproblema que consiste en minimizar $f$ en alguna dirección fija (como en métodos de búsqueda lineal). Por lo tanto, puede ser esperado que a pesar del costo más alto, una iteración en métodos de regiones de confianza puede significar más progreso en relación a la minimización de $f$. Otra ventaja, que parece ser aún más clara, es la siguiente: los métodos de regiones de confianza son más robustos, en el sentido de que son capaces de resolver algunos problemas donde los métodos de búsqueda lineal no funcionan bien. Para ver esto, basta considerar un punto $x^k$ tal que $f'(x^k) = 0$ pero existe una dirección de descenso $d$ de $f$ a partir de $x^k$ que satisface $\interno{f''(x^k)d}{d} < 0$. Obviamente, un método de búsqueda lineal en la dirección $d^k = -Q_k f'(x^k)$ no va a hacer progreso, dado que $d^k = 0$ para cualquier matriz $Q_k$. No obstante, es claro que si $H_k = f''(x^k)$, resolviendo el subproblema \eqref{eq:tr_subprob} obtendremos un punto diferente de $x^k$. E, como puede ser visto, este punto fornece un valor de $f$ menor del que $f(x^k)$. A propósito, los métodos de regiones de confianza realmente poseen propiedades de convergencia global más fuertes. Como veremos a seguir, es posible probar convergencia a los puntos estacionarios que satisfacen la condición necesaria de segunda orden, y no apenas la condición necesaria de primera orden.
 
 \begin{algorithm}[Método de regiones de confianza]\label{alg:regiones_confianza}
-Elegir $x^0 \in \Rn$ y tomar $k := 0$. Elegir los parámetros $\bar{\delta} > 0, \sigma, \theta_1, \theta_2 \in (0, 1), \theta_1 < \theta_2$.
-\begin{enumerate}
-    \item Elegir $\delta \ge \bar{\delta}$.
-    \item Tomar $\delta_k := \delta$. Encontrar $\tilde{x}^k \in \Rn$, una solución global del problema \eqref{eq:subproblema_tr}, con $H_k = f''(x^k)$.
-    \item Si $\tilde{x}^k = x^k$, pasar al ítem 4. Caso contrario, verificar la desigualdad
-    \begin{equation}
-        f(\tilde{x}^k) - f(x^k) \le \sigma(\psi_k(\tilde{x}^k) - f(x^k)).
-        \label{eq:condicion_tr}
-    \end{equation}
-    Si es satisfecha, pasar al ítem 4. Caso contrario, elegir $\delta \in [\theta_1\|\tilde{x}^k - x^k\|, \theta_2 \delta_k]$ y pasar al ítem 2.
-    \item Tomar $x^{k+1} := \tilde{x}^k$, $k := k + 1$, y retornar al Paso 1.
-\end{enumerate}
+    Elegir $x^0 \in \Rn$ y tomar $k := 0$. Elegir los parámetros $\bar{\delta} > 0, \sigma, \theta_1, \theta_2 \in (0, 1), \theta_1 < \theta_2$.
+    \begin{enumerate}
+        \item Elegir $\delta \ge \bar{\delta}$.
+        \item Tomar $\delta_k := \delta$. Encontrar $\tilde{x}^k \in \Rn$, una solución global del problema \eqref{eq:tr_subprob}, donde la función objetivo $\psi_k$ es dada por \eqref{eq:tr_psi} con $H_k = f''(x^k)$.
+        \item Si $\tilde{x}^k = x^k$, pasar al ítem 4. Caso contrario, verificar la desigualdad
+        \begin{equation}
+            f(\tilde{x}^k) - f(x^k) \le \sigma(\psi_k(\tilde{x}^k) - f(x^k)).
+            \label{eq:tr_condicion}
+        \end{equation}
+        Si ella es satisfecha, pasar al ítem 4. Caso contrario, elegir $\delta \in [\theta_1\|\tilde{x}^k - x^k\|, \theta_2 \delta_k]$ y pasar al ítem 2.
+        \item Tomar $x^{k+1} := \tilde{x}^k, k := k + 1$, y retornar al Paso 1.
+    \end{enumerate}
 \end{algorithm}
 
+Como es fácil ver, si para algún $k$ en el Paso 3 del algoritmo tenemos la igualdad $\tilde{x}^k = x^k$, entonces el punto $x^k$ es estacionario para el problema \eqref{eq:tr_subprob} y satisface la condición necesaria de segunda orden para este problema. Más precisamente, como se tiene que $\tilde{x}^k = x^k \in \text{int } B(x^k, \delta_k)$, por las condiciones necesarias de primera y segunda orden para el problema \eqref{eq:tr_subprob}, obtenemos que
+\begin{equation}
+    0 = \psi_k'(\tilde{x}^k) = f'(x^k) + f''(x^k)(\tilde{x}^k - x^k) = f'(x^k),
+\end{equation}
+y la matriz
+\begin{equation}
+    \psi_k''(\tilde{x}^k) = f''(x^k)
+\end{equation}
+es semidefinida positiva.
+La desigualdad \eqref{eq:tr_condicion} significa que el decrecimiento de la función objetivo $f$ es por lo menos una fracción dada del decrecimiento previsto por la aproximación $\psi_k$ de la función $f$.
+
+\begin{proposition}[El método de regiones de confianza está bien definido]\label{prop:tr_bien_definido}
+    Sea $f \colon \Rn \to \R$ una función dos veces diferenciable en $\Rn$. Supongamos que $x^k \in \Rn$ o no es un punto estacionario del problema \eqref{eq:tr_prob} (i.e., $f'(x^k) \neq 0$), o él no satisface a la condición necesaria de segunda orden para el mismo problema (i.e., $f''(x^k)$ no es semidefinida positiva).
+    Entonces el Algoritmo genera un iterando siguiente $x^{k+1}$ tal que $f(x^{k+1}) < f(x^k)$.
+\end{proposition}
+
+\begin{proof}
+    Para cada número $\delta > 0$, sea $\tilde{x}(\delta)$ alguna (cualquier) solución global del subproblema \eqref{eq:tr_subprob} con $\delta_k = \delta$. Definimos
+    \begin{equation}
+        \rho(\delta) = \frac{f(\tilde{x}(\delta)) - f(x^k)}{\psi_k(\tilde{x}(\delta)) - f(x^k)}.
+        \label{eq:tr_rho}
+    \end{equation}
+    Pelo expuesto arriba, $f'(x^k) \neq 0$, o $f'(x^k) = 0$ con la matriz $f''(x^k)$ no semidefinida positiva, implican en que $\tilde{x}(\delta) \neq x^k$. Por eso, en particular, tenemos que
+    \begin{equation}
+        \psi_k(\tilde{x}(\delta)) < \psi_k(x^k) = f(x^k).
+    \end{equation}
+    Observamos que es suficiente probar que
+    \begin{equation}
+        \lim_{\delta \to 0^+} \rho(\delta) = 1.
+        \label{eq:tr_rho_lim}
+    \end{equation}
+    Claramente, \eqref{eq:tr_rho_lim} implica que \eqref{eq:tr_condicion} vale para todo $\delta$ suficientemente pequeño. Luego, el valor de $\delta$ será adecuado después de un número finito de modificaciones en el Paso 3 del algoritmo.
+    
+    Supongamos primero que $f'(x^k) \neq 0$. Tomamos $d \in \Rn$ tal que $\interno{f'(x^k)}{d} < 0, \|d\| = 1$. Como $x^k + \delta d \in B(x^k, \delta_k)$, tenemos que
+    \begin{align}
+        \psi_k(\tilde{x}(\delta)) &\le \psi_k(x^k + \delta d) \nonumber \\
+        &= f(x^k) + \delta \interno{f'(x^k)}{d} + \frac{\delta^2}{2}\interno{f''(x^k)d}{d},
+    \end{align}
+    donde
+    \begin{align}
+        \psi_k(\tilde{x}(\delta)) - f(x^k) &\le \delta\left(\interno{f'(x^k)}{d} + \frac{\delta}{2}\|f''(x^k)\| \right) \nonumber \\
+        &\le \frac{\delta}{2}\interno{f'(x^k)}{d},
+        \label{eq:tr_dem_1}
+    \end{align}
+    donde la última desigualdad vale para todo $\delta > 0$ suficientemente pequeño. 
+    Por la Fórmula de Taylor de segunda orden, tenemos que
+    \begin{align}
+        f(\tilde{x}(\delta)) - \psi_k(\tilde{x}(\delta)) &= f(\tilde{x}(\delta)) - f(x^k) - \interno{f'(x^k)}{\tilde{x}(\delta) - x^k} \nonumber \\
+        &\quad - \frac{1}{2}\interno{f''(x^k)(\tilde{x}(\delta) - x^k)}{\tilde{x}(\delta) - x^k} \nonumber \\
+        &= o(\delta^2).
+        \label{eq:tr_dem_2}
+    \end{align}
+    Combinando \eqref{eq:tr_dem_2} e \eqref{eq:tr_dem_1}, obtenemos que
+    \[
+        |\rho(\delta) - 1| = \left| \frac{f(\tilde{x}(\delta)) - \psi_k(\tilde{x}(\delta))}{\psi_k(\tilde{x}(\delta)) - f(x^k)} \right| = o(\delta),
+    \]
+    lo que implica \eqref{eq:tr_rho_lim}.
+    
+    Sea ahora $f'(x^k) = 0$, y existe $d \in \Rn$, $\|d\| = 1$, tal que $\interno{f''(x^k)d}{d} < 0$. Obtenemos que
+    \begin{equation}
+        \psi_k(\tilde{x}(\delta)) \le \psi_k(x^k + \delta d) = f(x^k) + \frac{\delta^2}{2}\interno{f''(x^k)d}{d}.
+    \end{equation}
+    Luego,
+    \begin{equation}
+        \psi_k(\tilde{x}(\delta)) - f(x^k) \le \frac{\delta^2}{2}\interno{f''(x^k)d}{d}.
+        \label{eq:tr_dem_3}
+    \end{equation}
+    Combinando esta relación con \eqref{eq:tr_dem_2}, obtenemos
+    \[
+        |\rho(\delta) - 1| = \frac{o(\delta^2)}{\delta^2},
+    \]
+    lo que implica en \eqref{eq:tr_rho_lim}. Probaremos ahora la convergencia de métodos de regiones de confianza a puntos estacionarios satisfaciendo a condición necesaria de segunda orden.
+\end{proof}
+
 \begin{theorem}[Convergencia de métodos de regiones de confianza]\label{thm:convergencia_tr}
-Sea $f \colon \Rn \to \R$ una función dos veces continuamente diferenciable en $\Rn$. Entonces, todo punto de acumulación de cualquier secuencia $\{x^k\}$ generada por el algoritmo es un punto estacionario del problema. Más aún, este punto satisface la condición necesaria de segunda orden.
+    Sea $f \colon \Rn \to \R$ una función dos veces continuamente diferenciable en $\Rn$. Entonces, todo punto de acumulación de cualquier secuencia $\{x^k\}$ generada por el Algoritmo es un punto estacionario del problema \eqref{eq:tr_prob}. Más aún, este punto satisface la condición necesaria de segunda orden para este problema.
 \end{theorem}
 
 \begin{proof}
-Por diseño, la secuencia $\{f(x^k)\}$ es decreciente. Supongamos que la secuencia $\{x^k\}$ posea un punto de acumulación $\bar{x} \in \Rn$. En este caso, por el hecho de que $\{f(x^k)\}$ es decreciente, ella está limitada inferiormente (por $f(\bar{x})$), y por lo tanto, ella converge. En particular, tenemos que $f(x^{k+1}) - f(x^k) \to 0$. De la regla de aceptación tenemos
-\begin{equation}
-    0 \le \sigma(f(x^k) - \psi_k(x^{k+1})) \le f(x^k) - f(x^{k+1}),
-\end{equation}
-donde $\psi_k(x^{k+1}) - f(x^k) \to 0$ ($k \to \infty$). Sea $\{x^{k_j}\}$ una subsecuencia de $\{x^k\}$ que converge a $\bar{x}$. Hay dos posibilidades: $\liminf \delta_{k_j} > 0$ o $\liminf \delta_{k_j} = 0$.
-
-Consideremos el primer caso. Definimos $\bar{\delta} = \liminf \delta_{k_j} > 0$. Sea $\bar{y} \in \Rn$ una solución global del problema
-\begin{equation}
-    \min \interno{f'(\bar{x})}{x - \bar{x}} + \frac{1}{2}\interno{f''(\bar{x})(x - \bar{x})}{x - \bar{x}} \quad \text{sujeto a } x \in \bar{D},
-\end{equation}
-donde $\bar{D} = \{x \in \Rn \mid \|x - \bar{x}\| \le \bar{\delta}/4\}$. Para todo $j$ suficientemente grande, $\|\bar{y} - x^{k_j}\| \le \bar{\delta}/2 \le \delta_{k_j}$.
-En particular, el punto $\bar{y}$ es factible para el problema en $k_j$. Por lo tanto,
-\begin{equation}
-    \psi_{k_j}(x^{k_j+1}) \le \psi_{k_j}(\bar{y}) = f(x^{k_j}) + \interno{f'(x^{k_j})}{\bar{y} - x^{k_j}} + \frac{1}{2}\interno{f''(x^{k_j})(\bar{y} - x^{k_j})}{\bar{y} - x^{k_j}}.
-\end{equation}
-Pasando al límite cuando $j \to \infty$ y llevando en cuenta la convergencia a cero, obtenemos
-\begin{equation}
-    0 \le \interno{f'(\bar{x})}{\bar{y} - \bar{x}} + \frac{1}{2}\interno{f''(\bar{x})(\bar{y} - \bar{x})}{\bar{y} - \bar{x}}.
-\end{equation}
-Concluimos que $\bar{x}$ también es una solución global de este problema límite (cuyo valor óptimo es cero). Como se tiene que $\bar{x} \in \text{int } \bar{D}$, las condiciones de optimalidad implican el resultado anunciado.
-
-Supongamos ahora $\liminf \delta_{k_j} = 0$. Sin pérdida de generalidad podemos admitir que toda la secuencia converge a cero. Luego, para todo $j$ suficientemente grande, el radio fue reducido por lo menos una vez. Por lo tanto, existe un número $\hat{\delta}_{k_j}$, para el cual existe una solución global $\tilde{x}(\hat{\delta})$ con $x^{k_j} = x^{k_j}, \delta_{k_j} = \hat{\delta}_{k_j}$, tal que
-\begin{equation}
-    f(\tilde{x}(\hat{\delta}_{k_j})) > f(x^{k_j}) + \sigma(\psi_{k_j}(\tilde{x}(\hat{\delta}_{k_j})) - f(x^{k_j})), \quad \delta_{k_j} \ge \theta_1 \|\tilde{x}(\hat{\delta}_{k_j}) - x^{k_j}\|.
-\end{equation}
-Esta última relación significa que la desigualdad de paso fue violada. El resto de la demostración evalúa la función mediante Taylor. Suponiendo que exista una dirección de curvatura negativa, obtenemos por análisis asintótico que la razón $\rho_{k_j}$ entre la reducción real y predicha tiende a 1, $\rho_{k_j} - 1 = o(\hat{\delta}_{k_j}^2)/\hat{\delta}_{k_j} \to 0$, entrando en contradicción directa con la ruptura de la desigualdad.
+    Por la Proposición 3.3.1, la secuencia $\{f(x^k)\}$ es decreciente. Supongamos que la secuencia $\{x^k\}$ posea un punto de acumulación $\bar{x} \in \Rn$. En este caso, por el hecho de que $\{f(x^k)\}$ es decreciente, ella es limitada inferiormente (por $f(\bar{x})$), por lo tanto, ella converge. En particular, tenemos que $f(x^{k+1}) - f(x^k) \to 0$ ($k \to \infty$). De \eqref{eq:tr_condicion} tenemos que
+    \[
+        0 \le \sigma(f(x^k) - \psi_k(x^{k+1})) \le f(x^k) - f(x^{k+1}),
+    \]
+    donde
+    \begin{equation}
+        \psi_k(x^{k+1}) - f(x^k) \to 0 \quad (k \to \infty).
+        \label{eq:tr_dem_limite_psi}
+    \end{equation}
+    Sea $\{x^{k_j}\}$ una subsecuencia de $\{x^k\}$ que converge a $\bar{x}$. Hay dos posibilidades:
+    \begin{equation}
+        \liminf_{j \to \infty} \delta_{k_j} > 0,
+        \label{eq:tr_dem_caso1}
+    \end{equation}
+    o
+    \begin{equation}
+        \liminf_{j \to \infty} \delta_{k_j} = 0.
+        \label{eq:tr_dem_caso2}
+    \end{equation}
+    
+    Consideremos el primer caso. Definimos
+    \begin{equation}
+        \bar{\delta} = \liminf_{j \to \infty} \delta_{k_j} > 0.
+    \end{equation}
+    Sea $\bar{y} \in \Rn$ una solución global del problema
+    \begin{equation}
+        \min \interno{f'(\bar{x})}{x - \bar{x}} + \frac{1}{2}\interno{f''(\bar{x})(x - \bar{x})}{x - \bar{x}} \quad \text{sujeto a } x \in \bar{D},
+        \label{eq:tr_dem_prob_bar_x}
+    \end{equation}
+    donde $\bar{D} = \{x \in \Rn \mid \|x - \bar{x}\| \le \bar{\delta}/4\}$. Para todo $j$ suficientemente grande,
+    \[
+        \|\bar{y} - x^{k_j}\| \le \|\bar{y} - \bar{x}\| + \|x^{k_j} - \bar{x}\| \le \bar{\delta}/2 \le \delta_{k_j}.
+    \]
+    En particular, el punto $\bar{y}$ es factible para el problema \eqref{eq:tr_subprob} para $k = k_j$. Por lo tanto,
+    \begin{align*}
+        \psi_{k_j}(x^{k_j+1}) &\le \psi_{k_j}(\bar{y}) \\
+        &= f(x^{k_j}) + \interno{f'(x^{k_j})}{\bar{y} - x^{k_j}} + \frac{1}{2}\interno{f''(x^{k_j})(\bar{y} - x^{k_j})}{\bar{y} - x^{k_j}}.
+    \end{align*}
+    Pasando al límite cuando $j \to \infty$ y llevando en cuenta \eqref{eq:tr_dem_limite_psi}, obtenemos que
+    \begin{equation}
+        0 \le \interno{f'(\bar{x})}{\bar{y} - \bar{x}} + \frac{1}{2}\interno{f''(\bar{x})(\bar{y} - \bar{x})}{\bar{y} - \bar{x}}.
+    \end{equation}
+    Concluimos que $\bar{x}$ también es una solución global del problema \eqref{eq:tr_dem_prob_bar_x} (donde el valor óptimo de este problema es cero). Como se tiene que $\bar{x} \in \text{int } \bar{D}$, las condiciones de optimalidad del Teorema 1.2.1 implican el resultado anunciado, en el caso de \eqref{eq:tr_dem_caso1}.
+    
+    Supongamos ahora \eqref{eq:tr_dem_caso2}. Sin pérdida de generalidad podemos admitir que toda la secuencia $\{\delta_{k_j}\}$ converge a cero. Luego, para todo $j$ suficientemente grande tenemos $\delta_{k_j} < \bar{\delta}$, y en la iteración con índice $k_j$ en el Paso 3 del algoritmo el radio de la región de confianza fue reducido por lo menos una vez. Por lo tanto, existe un número $\hat{\delta}_{k_j}$, para el cual existe una solución global $\tilde{x}(\hat{\delta})$ del problema \eqref{eq:tr_subprob} con $x^k = x^{k_j}$, $\delta_k = \hat{\delta}_{k_j}$, tal que
+    \begin{equation}
+        f(\tilde{x}(\hat{\delta}_{k_j})) > f(x^{k_j}) + \sigma(\psi_{k_j}(\tilde{x}(\hat{\delta}_{k_j})) - f(x^{k_j})),
+        \label{eq:tr_dem_violacion_armijo}
+    \end{equation}
+    y
+    \begin{equation}
+        \delta_{k_j} \ge \theta_1 \|\tilde{x}(\hat{\delta}_{k_j}) - x^{k_j}\|.
+    \end{equation}
+    Por la elección de la subsecuencia $\{\delta_{k_j}\}$, la última relación significa, en particular, que $\|\tilde{x}(\hat{\delta}_{k_j}) - x^{k_j}\| \to 0$ ($j \to \infty$). 
+    
+    El resto de la demostración es similar a aquella de la Proposición 3.3.1. Supongamos que exista $d \in \Rn$ tal que $\|d\| = 1$ y o
+    \begin{equation}
+        \interno{f'(\bar{x})}{d} < 0,
+        \label{eq:tr_dem_cond1}
+    \end{equation}
+    es satisfecha, o
+    \begin{equation}
+        f'(\bar{x}) = 0, \quad \interno{f''(\bar{x})d}{d} < 0,
+        \label{eq:tr_dem_cond2}
+    \end{equation}
+    es satisfecha. Obtenemos que
+    \begin{align*}
+        \psi_{k_j}(\tilde{x}(\hat{\delta}_{k_j})) &\le \psi_{k_j}(x^{k_j} + \hat{\delta}_{k_j} d) \\
+        &= f(x^{k_j}) + \hat{\delta}_{k_j}\interno{f'(x^{k_j})}{d} + \frac{\hat{\delta}_{k_j}^2}{2}\interno{f''(x^{k_j})d}{d}.
+    \end{align*}
+    De aquí, en el caso de \eqref{eq:tr_dem_cond1}, sigue que para todo $j$ suficientemente grande
+    \begin{align*}
+        \psi_{k_j}(\tilde{x}(\hat{\delta}_{k_j})) - f(x^{k_j}) &\le \hat{\delta}_{k_j} \left(\interno{f'(x^{k_j})}{d} + \hat{\delta}_{k_j} \|f''(x^{k_j})\|/2 \right) \\
+        &\le \frac{\hat{\delta}_{k_j}}{2}\interno{f'(\bar{x})}{d}.
+    \end{align*}
+    Ahora, definiendo
+    \begin{equation}
+        \rho_{k_j} = \frac{f(\tilde{x}(\hat{\delta}_{k_j})) - f(x^{k_j})}{\psi_{k_j}(\tilde{x}(\hat{\delta}_{k_j})) - f(x^{k_j})},
+    \end{equation}
+    obtenemos que
+    \begin{equation}
+        |\rho_{k_j} - 1| = o(\hat{\delta}_{k_j}^2) / \hat{\delta}_{k_j} \to 0 \quad (j \to \infty),
+    \end{equation}
+    en contradicción con \eqref{eq:tr_dem_violacion_armijo}. 
+    En el caso de \eqref{eq:tr_dem_cond2}, obtenemos que $\rho_{k_j} \to 1$ de manera análoga, lo que de nuevo entra en contradicción con \eqref{eq:tr_dem_violacion_armijo}.
 \end{proof}
 
+Como en el caso de búsqueda lineal, las áreas de utilización de estrategias de regiones de confianza no se limitan a optimización irrestricta o a los métodos Newtonianos. En el caso de problemas con restricciones, el radio de la región de confianza es escogido para garantizar decrecimiento suficiente de una función de mérito asociada al problema.
 
 \subsection{Métodos de continuación paramétricos}
 
-Otra idea para la obtención de una buena aproximación a la solución, que puede ser posteriormente utilizada por métodos locales, es la presentada a seguir. El problema de optimización original, o el sistema de condiciones de optimalidad asociado al problema, puede ser incluido en una familia de problemas, parametrizados (tanto de manera ``natural'' como ``artificial'') por un parámetro escalar. Supongamos que para un cierto valor del parámetro, la solución (o una buena aproximación de la solución) sea conocida (o pueda ser encontrada fácilmente). Podemos entonces intentar ``seguir'' esta solución hasta el valor del parámetro que corresponde al problema original. Naturalmente, este proceso, cuando es viable en principio, debe ser realizado de manera computacionalmente razonable.
+Otra idea para la obtención de una buena aproximación a la solución, que puede ser posteriormente utilizada por métodos locales, es la presentada a seguir. El problema de optimización original, o el sistema de condiciones de optimalidad asociado al problema, puede ser incluido en una familia de problemas, parametrizados (tanto de manera ``natural'' como ``artificial'') por un parámetro escalar. Supongamos que para un cierto valor del parámetro, la solución (o una buena aproximación de la solución) sea conocida (o pueda ser encontrada fácilmente). Podemos entonces intentar ``seguir'' esta solución (o su aproximación) hasta el valor del parámetro que corresponde al problema original. Naturalmente, este proceso, cuando es viable en principio, debe ser realizado de manera computacionalmente razonable (en particular, de manera inexacta, aproximada). Con una coordinación inteligente de parámetros involucrados, podemos esperar que un punto generado así sea una aproximación de la solución del problema original, aceptable para aplicación de un método local rápido.
 
-Nos limitaremos a un problema de optimización irrestricta
+De nuevo, nos limitaremos a un problema de optimización irrestricta
 \begin{equation}
     \min f(x), \quad x \in \Rn,
     \label{eq:cont_prob}
 \end{equation}
-donde la función $f$ es suficientemente diferenciable. Sea $\Phi \colon [0, 1] \times \Rn \to \Rn$ una función suficientemente diferenciable que posee la propiedad de que $\Phi(1, x) = f'(x)$ para $x \in \Rn$.
-Supongamos finalmente que una solución $x^0 \in \Rn$ de la ecuación $\Phi(0, x) = 0$ puede ser aproximada con una precisión arbitrariamente fina.
-Por ejemplo, para alguna función $\Phi_0$ la ecuación $\Phi_0(x) = 0$ posee una solución que es conocida, podemos tomar
+donde la función $f \colon \Rn \to \R$ es suficientemente diferenciable. Sea $\Phi \colon [0, 1] \times \Rn \to \Rn$ una función suficientemente diferenciable que posee la propiedad de que
 \begin{equation}
-    \Phi(t, x) = t f'(x) + (1 - t)\Phi_0(x).
+    \Phi(1, x) = f'(x), \quad x \in \Rn.
 \end{equation}
-En particular, podemos fijar $x^0 \in \Rn$ y definir $\Phi_0(x) = f'(x) - f'(x^0)$, lo que resulta en
+Supongamos finalmente que una solución $x^0 \in \Rn$ de la ecuación
+\begin{equation}
+    \Phi(0, x) = 0
+    \label{eq:cont_phi_zero}
+\end{equation}
+puede ser aproximada con una precisión arbitrariamente fina. Por ejemplo, si para alguna función $\Phi_0 \colon \Rn \to \Rn$ la ecuación $\Phi_0(x) = 0$ posee una solución que es conocida, podemos tomar
+\begin{equation}
+    \Phi(t, x) = t f'(x) + (1 - t)\Phi_0(x), \quad t \in [0, 1], \; x \in \Rn.
+\end{equation}
+En particular, podemos fijar $x^0 \in \Rn$ y definir $\Phi_0(x) = f'(x) - f'(x^0), x \in \Rn$, lo que resulta en
 \begin{equation}
     \Phi(t, x) = f'(x) - (1 - t)f'(x^0), \quad t \in [0, 1], \; x \in \Rn.
 \end{equation}
+
+Ne entanto, cabe resaltar que en la mayoría de los casos (en particular, en optimización con restricciones), la función $\Phi$ es definida utilizando técnicas y consideraciones bien más sofisticadas.
 
 Supongamos que exista una función $\chi \colon [0, 1] \to \Rn$ continua en $[0, 1]$, tal que
 \begin{equation}
     \chi(0) = x^0, \quad \Phi(t, \chi(t)) = 0 \quad \forall t \in [0, 1].
     \label{eq:cont_chi}
 \end{equation}
-Bajo estas hipótesis $\bar{x} = \chi(1)$ es un punto estacionario del problema original, y podemos intentar aproximar este punto siguiendo la curva en $\Rn$ definida por la función $\chi$, de $\chi(0)$ hasta $\chi(1)$.
+Bajo estas hipótesis $\bar{x} = \chi(1)$ es un punto estacionario del problema \eqref{eq:cont_prob}, y podemos intentar aproximar este punto siguiendo la curva en $\Rn$ definida por la función $\chi$, de $\chi(0)$ hasta $\chi(1)$.
 
-Comenzamos con algoritmos de continuación finitos. Para un número entero $N$ arbitrario, definimos en el intervalo $[0, 1]$ una red $\{t_0^N, t_1^N, \dots, t_N^N\}$ con $0 = t_0^N < t_1^N < \dots < t_N^N = 1$. Definimos además el paso máximo
+Las condiciones suficientes que garantizan que esto puede ser hecho (localmente) son dadas por el Teorema de la Función Implícita. Más precisamente, si la matriz $\Phi'_x(0, x^0)$ no es singular, entonces existen una vecindad $U$ de $0$ en $\R$ y una función $\chi \colon U \to \Rn$, continua (de hecho, diferenciable) en $U$, tales que $\chi(0) = x^0, \Phi(t, \chi(t)) = 0$ para todo $t \in U$. No obstante, para garantizar las mismas propiedades globalmente (en otras palabras, garantizar que $U \supset [0, 1]$), son necesarias hipótesis bien fuertes (vea, por ejemplo, el Ejercicio 3.3.5 más adelante). Por eso, puede ser bastante útil sustituir la parametrización ``natural'' introducida arriba por una parametrización ``artificial''. En particular, bajo hipótesis mucho más débiles sobre $\Phi$, existe una curva de soluciones en el espacio $\R \times \Rn$, definida por una función continua de forma $(\tau(\cdot), \chi(\cdot)) \colon [0, \bar{s}] \to \R \times \Rn$, con $(\tau(0), \chi(0)) = (0, x^0), \tau(\bar{s}) = 1$, donde $\bar{s} > 0$. Como parámetro nuevo es razonable considerar el longitud de esta curva (vea $[1, 20]$). En este caso, la curva en cuestión es caracterizada por el problema diferencial
+\begin{equation}
+    \frac{\partial \Phi}{\partial t}(t, x) \dot{t} + \frac{\partial \Phi}{\partial x}(t, x) \dot{x} = 0, \quad |(\dot{t}, \dot{x})| = 1, \quad (t(0), x(0)) = (0, x^0).
+\end{equation}
+Para simplificar, de aquí en adelante consideraremos apenas la continuación global en relación al parámetro natural.
+
+Comenzamos con algoritmos de continuación finitos. Para un número entero $N$ arbitrario, definimos en el intervalo $[0, 1]$ una red $\{t_0^N, t_1^N, \dots, t_N^N\}$ ($0 = t_0^N < t_1^N < \dots < t_N^N = 1$). Definimos aún el paso máximo de la red
 \begin{equation}
     \bar{\Delta}_N = \max_{i=0, 1, \dots, N-1} (t_{i+1}^N - t_i^N).
+    \label{eq:cont_delta_N}
 \end{equation}
-Sea $x^{0,0} \in \Rn$ una aproximación de la solución $x^0$ que tenemos a disposición. A partir de $x^{0,0}$ hacemos $k_0$ pasos del método de Newton para la ecuación $\Phi(t_0^N, x) = 0$. A partir del punto obtenido de esta manera, hacemos $k_1$ pasos del método de Newton para la ecuación evaluada en $t_1^N$.
-
-\begin{algorithm}[Método de continuación finito]
-En el intervalo $[0, 1]$, elegir una red $\{t_0^N, t_1^N, \dots, t_N^N\}$. Elegir $x^{0,0} \in \Rn$. Tomar $\tilde{x}^0 = x^{0,0}$ y calcular el punto $\tilde{x}^N \in \Rn$ iterativamente de acuerdo con
+Sea $x^{0,0} \in \Rn$ una aproximación de la solución $x^0$ de la ecuación \eqref{eq:cont_phi_zero} que tenemos a disposición. A partir de $x^{0,0}$ hacemos $k_0$ pasos del método de Newton para la ecuación
 \begin{equation}
-    \tilde{x}^{i+1} = \tilde{x}^i - (\Phi'_x(t_i^N, \tilde{x}^i))^{-1}\Phi(t_{i+1}^N, \tilde{x}^i), \quad i = 0, 1, \dots, N-1.
+    \Phi(t_i^N, x) = 0,
+    \label{eq:cont_phi_ti}
 \end{equation}
+con $i = 0$ (o sea para la ecuación \eqref{eq:cont_phi_zero}). A partir del punto obtenido de esta manera, hacemos $k_1$ pasos del método de Newton para la ecuación \eqref{eq:cont_phi_ti} con $i = 1$. Repitiendo este proceso para todo $i = 0, 1, \dots, N-1$, obtenemos las fórmulas
+\begin{equation}
+    x^{i, k+1} = x^{i, k} - (\Phi'_x(t_i^N, x^{i, k}))^{-1}\Phi(t_i^N, x^{i, k}),
+\end{equation}
+para $k = 0, 1, \dots, k_i - 1$, $i = 0, 1, \dots, N - 1$, donde
+\begin{equation}
+    x^{i, 0} = x^{i-1, k_{i-1}}, \quad i = 1, \dots, N - 1.
+\end{equation}
+La sugerencia es utilizar el punto final $\tilde{x}^N = x^{N-1, k_{N-1}}$ obtenido de esta manera como un punto inicial para algún método local rápido para encontrar el punto estacionario $\bar{x} = \chi(1)$ del problema \eqref{eq:cont_prob}.
+
+En el análisis a seguir, consideraremos el caso cuando $k_i = 1$ para todo $i = 0, 1, \dots, N-1$, i.e., para toda ecuación \eqref{eq:cont_phi_ti} el parámetro es actualizado después de cada paso del método de Newton.
+
+\begin{algorithm}[Método de continuación finito]\label{alg:cont_finito}
+    En el intervalo $[0, 1]$, elegir una red $\{t_0^N, t_1^N, \dots, t_N^N\}$ (donde $0 = t_0^N < t_1^N < \dots < t_N^N = 1$). Elegir $x^{0,0} \in \Rn$. Tomar $\tilde{x}^0 = x^{0,0}$ y calcular el punto $\tilde{x}^N \in \Rn$ de acuerdo con
+    \begin{equation}
+        \tilde{x}^{i+1} = \tilde{x}^i - (\Phi'_x(t_i^N, \tilde{x}^i))^{-1}\Phi(t_{i+1}^N, \tilde{x}^i), \quad i = 0, 1, \dots, N-1.
+        \label{eq:cont_finito_update}
+    \end{equation}
 \end{algorithm}
 
-\begin{theorem}[Propiedades del método de continuación finito]
-    Sean la función $\Phi \colon [0, 1] \times \Rn \to \Rn$ y el punto $x^0 \in \Rn$ tales que existe una función $\chi$ continua que satisface \eqref{eq:cont_chi}. Sea $\Phi$ diferenciable en relación a $x$ en una vecindad del conjunto grafo de $\chi$, con derivada parcial $\Phi'_x$ continua y no singular. Entonces, para todo número $\delta > 0$ suficientemente pequeño existe un número $\Delta > 0$ tal que, si la red satisface $\bar{\Delta}_N < \Delta$, y el punto inicial $x^{0,0}$ satisface $\|x^{0,0} - x^0\| < \delta$, entonces el algoritmo está bien definido y genera un punto $\tilde{x}^N \in \Rn$ tal que $\|\tilde{x}^N - \chi(1)\| < \delta$.
+Como veremos, bajo hipótesis naturales, es posible garantizar que el punto $\tilde{x}^N$ así generado quede tan próximo como deseemos, desde que la red escogida sea suficientemente fina y el punto $x^{0,0}$ sea suficientemente próximo a $x^0$.
+Denotamos el grafo de la función $\chi \colon [0, 1] \to \Rn$ por
+\begin{equation}
+    G(\chi) = \{ (t, x) \in [0, 1] \times \Rn \mid \chi(t) = x \}.
+\end{equation}
+
+\begin{theorem}[Propiedades del método de continuación finito]\label{thm:cont_finito}
+    Sean la función $\Phi \colon [0, 1] \times \Rn \to \Rn$ y el punto $x^0 \in \Rn$ tales que existe una función $\chi \colon [0, 1] \to \Rn$ continua en $[0, 1]$ que satisface \eqref{eq:cont_chi}. Sea $\Phi$ diferenciable en relación a $x$ en una vecindad del conjunto $G(\chi)$, con la derivada parcial $\Phi'_x$ continua en $G(\chi)$. Supongamos, finalmente, que
+    \begin{equation}
+        \det \Phi'_x(t, \chi(t)) \neq 0 \quad \forall t \in [0, 1].
+        \label{eq:cont_det_nao_nulo}
+    \end{equation}
+    Entonces, para todo número $\delta > 0$ suficientemente pequeño existe un número $\Delta > 0$ tal que, si la red $\{t_0^N, t_1^N, \dots, t_N^N\}$ en $[0, 1]$ y el punto inicial $x^{0,0} \in \Rn$ satisfacen a las condiciones
+    \begin{equation}
+        \bar{\Delta}_N < \Delta, \quad \|x^{0,0} - x^0\| < \delta,
+        \label{eq:cont_hipotesis_delta}
+    \end{equation}
+    donde $\bar{\Delta}_N$ es definido en \eqref{eq:cont_delta_N}, entonces el Algoritmo 3.3.2 está bien definido y genera el punto $\tilde{x}^N \in \Rn$ tal que
+    \begin{equation}
+        \|\tilde{x}^N - \chi(1)\| < \delta.
+    \end{equation}
 \end{theorem}
 
 \begin{proof}
-    Utilizando la continuidad de $\Phi'_x$ y el teorema sobre perturbaciones pequeñas de una matriz no singular, es fácil verificar que existen una vecindad y una constante $M > 0$ tales que
+    Utilizando \eqref{eq:cont_det_nao_nulo}, la continuidad de $\Phi'_x$ en $G(\chi)$, el teorema sobre perturbaciones pequeñas de una matriz no-singular (vea el Teorema 1.5.1), y la compacidad del intervalo $[0, 1]$, es fácil verificar que existen una vecindad $U$ del conjunto $G(\chi)$ y un número $M > 0$, tales que
     \begin{equation}
-        \|(\Phi'_x(t, x))^{-1}\| \le M \quad \forall (t, x) \in U.
+        \det \Phi'_x(t, x) \neq 0, \quad \|(\Phi'_x(t, x))^{-1}\| \le M \quad \forall (t, x) \in U.
     \end{equation}
-    Por consideraciones análogas a las de la demostración del Teorema de Newton clásico, esto implica que para todo $q \in (0, 1)$ existe un número $\hat{\delta} > 0$ tal que la fórmula define unívocamente $\tilde{x}^{i+1}$. Más aún,
+    Por consideraciones análogas a aquellas de la demostración del Teorema 3.2.1 (Newton local), esto implica que para todo $q \in (0, 1)$ existe un número $\hat{\delta} > 0$ tal que (independientemente de la elección de la red), si para algún $i \in \{0, 1, \dots, N-1\}$ tenemos que $\tilde{x}^i \in B(\chi(t_i^N), \hat{\delta})$, entonces la fórmula \eqref{eq:cont_finito_update} unívocamente define $\tilde{x}^{i+1}$. Más aún,
     \begin{equation}
         \|\tilde{x}^{i+1} - \chi(t_i^N)\| \le q\|\tilde{x}^i - \chi(t_i^N)\|.
+        \label{eq:cont_q_contraction}
     \end{equation}
-    Definimos el error asintótico de la red, y como la función es uniformemente continua, podemos elegir un paso $\Delta > 0$ que garantice que las estimativas recursivas sumen un error total estrictamente acotado por $\delta$, obteniendo el resultado deseado.
+    Definimos
+    \begin{equation}
+        \tilde{\Delta}_N = \max_{i=0, 1, \dots, N-1} \|\chi(t_{i+1}^N) - \chi(t_i^N)\|.
+    \end{equation}
+    De \eqref{eq:cont_delta_N}, llevando en cuenta que una función continua en un conjunto compacto es uniformemente continua en este conjunto, obtenemos que para todo $\delta \in (0, \hat{\delta})$ existe $\Delta > 0$ tal que, cuando vale la primera desigualdad en \eqref{eq:cont_hipotesis_delta}, se tiene que
+    \begin{equation}
+        \tilde{\Delta}_N / (1 - q) < \delta.
+        \label{eq:cont_delta_frac}
+    \end{equation}
+    Supongamos que el algoritmo tenga generado los puntos $\tilde{x}^0, \dots, \tilde{x}^i, i \in \{0, 1, \dots, N-1\}$, e $\|\tilde{x}^j - \chi(t_j^N)\| < \delta \;\; \forall j = 0, 1, \dots, i$. El algoritmo entonces unívocamente define $\tilde{x}^{i+1}$ y, por la desigualdad de contracción \eqref{eq:cont_q_contraction}, tenemos que
+    \begin{align*}
+        \|\tilde{x}^{i+1} - \chi(t_{i+1}^N)\| &\le \|\tilde{x}^{i+1} - \chi(t_i^N)\| + \|\chi(t_{i+1}^N) - \chi(t_i^N)\| \\
+        &\le q\|\tilde{x}^i - \chi(t_i^N)\| + \tilde{\Delta}_N \\
+        &\le q(q\|\tilde{x}^{i-1} - \chi(t_{i-1}^N)\| + \tilde{\Delta}_N) + \tilde{\Delta}_N \\
+        &\vdots \\
+        &\le q^{i+1}\|x^{0,0} - x(t_0^N)\| + \tilde{\Delta}_N \sum_{j=0}^i q^j \\
+        &\le q^{i+1}\delta + \tilde{\Delta}_N (1 - q^{i+1})/(1 - q) \\
+        &= q^{i+1}(\delta - \tilde{\Delta}_N/(1 - q)) + \tilde{\Delta}_N/(1 - q) \\
+        &\le q\delta + \tilde{\Delta}_N < \delta.
+    \end{align*}
+    Donde sigue el resultado anunciado.
 \end{proof}
 
-Naturalmente, métodos de continuación finitos pueden ser construidos utilizando otras técnicas, no necesariamente sobre la base de métodos Newtonianos. 
+Naturalmente, métodos de continuación finitos pueden ser construidos utilizando otras técnicas, no necesariamente en la base de métodos Newtonianos. De la demostración anterior, puede ser observado que la propiedad necesaria para tal desarrollo es la convergencia local (del método que queremos utilizar) a la solución $\chi(t)$ de la ecuación $\Phi(t, x) = 0$, para todo $t \in [0, 1]$. En este sentido, la condición \eqref{eq:cont_det_nao_nulo} es importante: sin esta condición, la tarea de ``seguir'' a la curva definida por $\chi$ es mucho más difícil (en el sentido computacional). En algunos casos, esta dificultad puede ser superada mudando a parametrización, como ya fue mencionado.
 
-Consideraremos ahora métodos de continuación basados en la resolución de un problema diferencial. Tomando la derivada en relación a $t$ en la segunda igualdad de \eqref{eq:cont_chi} (usando la regla de la cadena para funciones diferenciables), obtenemos que $\chi(\cdot)$ es una solución del problema diferencial
+Consideraremos ahora métodos de continuación basados en la resolución de un problema diferencial. 
+Si $\Phi$ es suficientemente diferenciable y para todo $t \in [0, 1]$ a la matriz $\Phi'_x(t, \chi(t))$ es no-singular, por el Teorema de la Función Implícita la función $\chi$ es diferenciable. Tomando a la derivada en relación a $t$ en la segunda igualdad de \eqref{eq:cont_chi} (como composición de funciones diferenciables), obtenemos que $\chi(\cdot)$ es una solución del problema diferencial
 \begin{equation}
     \dot{x} = -\left( \frac{\partial \Phi}{\partial x}(t, x) \right)^{-1} \frac{\partial \Phi}{\partial t}(t, x), \quad x(0) = x^0.
-    \label{eq:edo_continuacion}
+    \label{eq:cont_edo}
 \end{equation}
-Una idea natural consiste en aproximar $\bar{x} = \chi(1)$ resolviendo el problema \eqref{eq:edo_continuacion} utilizando, por ejemplo, el método de Euler, o el método de Runge-Kutta, etc. En el caso del método de Euler, obtenemos el algoritmo siguiente.
+Una idea natural consiste en aproximar $\bar{x} = \chi(1)$ resolviendo el problema \eqref{eq:cont_edo} utilizando, por ejemplo, el método de Euler, o el método de Runge-Kutta, etc. En el caso del método de Euler, obtenemos el siguiente (comparar con el Algoritmo 3.3.2).
 
-\begin{algorithm}[Método de continuación basado en resolución de un problema diferencial]
-En el intervalo $[0, 1]$, elegir una red $\{t_0^N, t_1^N, \dots, t_N^N\}$. Elegir $x^{0,0} \in \Rn$. Tomar $\tilde{x}^0 = x^{0,0}$ y calcular el punto $\tilde{x}^N \in \Rn$ de acuerdo con
-\begin{equation}
-    \tilde{x}^{i+1} = \tilde{x}^i - (t_{i+1}^N - t_i^N) (\Phi'_x(t_i^N, \tilde{x}^i))^{-1} \Phi'_t(t_i^N, \tilde{x}^i), \quad i = 0, 1, \dots, N-1.
-\end{equation}
+\begin{algorithm}[Método de continuación basado en resolución de un problema diferencial]\label{alg:cont_edo}
+    En el intervalo $[0, 1]$ elegir una red $\{t_0^N, t_1^N, \dots, t_N^N\}$ (donde $0 = t_0^N < t_1^N < \dots < t_N^N = 1$). Elegir $x^{0,0} \in \Rn$. Tomar $\tilde{x}^0 = x^{0,0}$ y calcular el punto $\tilde{x}^N \in \Rn$ de acuerdo con
+    \begin{equation}
+        \tilde{x}^{i+1} = \tilde{x}^i - (t_{i+1}^N - t_i^N) (\Phi'_x(t_i^N, \tilde{x}^i))^{-1} \Phi'_t(t_i^N, \tilde{x}^i), \quad i = 0, 1, \dots, N-1.
+    \end{equation}
 \end{algorithm}
 
-\begin{theorem}[Propiedades del método de continuación basado en resolución de un problema diferencial]
-    Bajo las mismas hipótesis de regularidad y continuidad del teorema anterior, si existe una constante de Lipschitz acotando la ecuación diferencial, entonces para cualquier $\varepsilon > 0$ existe un $N$ suficientemente grande tal que el algoritmo está bien definido y genera el punto final con precisión garantizada $\|\tilde{x}^N - \chi(1)\| < \varepsilon$.
+\begin{theorem}[Propiedades del método de continuación basado en resolución de un problema diferencial]\label{thm:cont_edo}
+    Sean la función $\Phi \colon [0, 1] \times \Rn \to \Rn$ y el punto $x^0 \in \Rn$ tales que existe una función $\chi \colon [0, 1] \to \Rn$ continua en $[0, 1]$ que satisface \eqref{eq:cont_chi}. Sea $\Phi$ diferenciable en una vecindad $V$ del conjunto $G(\chi)$, con derivada continua en $G(\chi)$. Supongamos que exista un número $L > 0$ tal que
+    \begin{equation}
+        \|\Phi'_x(t, x) - \Phi'_x(t, \chi(t))\| \le L\|x - \chi(t)\| \quad \forall (t, x) \in V.
+    \end{equation}
+    Supongamos, finalmente, que \eqref{eq:cont_det_nao_nulo} se satisfaga.
+    Entonces para cualesquier números $\varepsilon > 0$ y $C > 0$ existen un número entero $\bar{N}$ y un número $\delta > 0$ tales que, si el punto inicial $x^{0,0} \in \Rn$ y a la red $\{t_0^N, t_1^N, \dots, t_N^N\}$ en $[0, 1]$ satisfacen a las condiciones
+    \begin{equation}
+        \bar{\Delta}_N \le C/N, \quad N \ge \bar{N}, \quad \|x^{0,0} - x^0\| < \delta,
+        \label{eq:cont_edo_hipotesis}
+    \end{equation}
+    donde $\bar{\Delta}_N$ es definido en \eqref{eq:cont_delta_N}, el Algoritmo 3.3.3 está bien definido y genera el punto $\tilde{x}^N \in \Rn$ tal que
+    \begin{equation}
+        \|\tilde{x}^N - \chi(1)\| < \varepsilon.
+    \end{equation}
 \end{theorem}
+
 \begin{proof}
-    Utilizando la compacidad y acotación, definimos $\Psi(t, x) = -(\Phi'_x(t, x))^{-1} \Phi'_t(t, x)$. La función $\Psi$ es continua y satisface una condición de Lipschitz global en la vecindad. Por integración iterada y el Lema de Gronwall discreto, el error de aproximación inducido por los pasos del método de Euler suma un total que decrece asintóticamente con el paso de la red. Por lo tanto, para una red suficientemente fina, la cota global del error se restringe por debajo del umbral $\varepsilon$ arbitrariamente elegido.
+    Utilizando \eqref{eq:cont_det_nao_nulo}, la continuidad de $\chi(\cdot)$ en $[0, 1]$, la continuidad de la derivada de $\Phi$ en $G(\chi)$, el teorema sobre perturbaciones pequeñas de una matriz no-singular, y la compacidad del intervalo $[0, 1]$, es fácil verificar que existen una vecindad $U \subset V$ del conjunto $G(\chi)$ y un número $\tilde{L} > 0$ tales que a la función
+    \[
+        \Psi \colon U \to \Rn, \quad \Psi(t, x) = -(\Phi'_x(t, x))^{-1} \Phi'_t(t, x),
+    \]
+    está bien definida, a la función $\Psi(\cdot, \chi(\cdot)) \colon [0, 1] \to \Rn$ es continua en $[0, 1]$, e
+    \begin{equation}
+        \|\Psi(t, x) - \Psi(t, \chi(t))\| \le \tilde{L}\|x - \chi(t)\| \quad \forall (t, x) \in U.
+        \label{eq:cont_edo_dem_1}
+    \end{equation}
+    Escogeremos un número $\hat{\delta} > 0$ para satisfacer
+    \begin{equation}
+        \{t\} \times B(\chi(t), \hat{\delta}) \subset U \quad \forall t \in [0, 1]
+    \end{equation}
+    (la posibilidad de hacer esto sigue de la compacidad de $[0, 1]$).
+    Definimos
+    \begin{equation}
+        \tilde{\Delta}_N = \max_{i=0, 1, \dots, N-1} \max_{t \in [t_i^N, t_{i+1}^N]} \|\Psi(t_i^N, \chi(t_i^N)) - \Psi(t, \chi(t))\|.
+    \end{equation}
+    De \eqref{eq:cont_delta_N}, de la continuidad de la función $\Psi(\cdot, \chi(\cdot))$ en $[0, 1]$, del hecho de que una función continua en un conjunto compacto es uniformemente continua en este conjunto, sigue que para todo número $\delta > 0$ tal que, cuando a la primera desigualdad en \eqref{eq:cont_edo_hipotesis} es satisfecha, se tiene que
+    \begin{align}
+        (\delta + \tilde{\Delta}_N)(1 + \tilde{L} \bar{\Delta}_N)^N &\le (\delta + \tilde{\Delta}_N)(1 + \tilde{L} C/N)^N \nonumber \\
+        &\le (\delta + \tilde{\Delta}_N) e^{\tilde{L}C} \nonumber \\
+        &< \min\{\varepsilon, \hat{\delta}\},
+        \label{eq:cont_edo_dem_2}
+    \end{align}
+    para todo $N$ suficientemente grande.
+    Supongamos que el algoritmo generó los puntos $\tilde{x}^0, \tilde{x}^1, \dots, \tilde{x}^i$, $i \in \{0, 1, \dots, N-1\}$, e $\|\tilde{x}^j - \chi(t_j^N)\| < \hat{\delta}$ para todo $j = 0, 1, \dots, i$. El algoritmo entonces define unívocamente $\tilde{x}^{i+1}$ y tenemos que
+    \begin{align*}
+        \tilde{x}^{i+1} &= \tilde{x}^i + (t_{i+1}^N - t_i^N)\Psi(t_i^N, \tilde{x}^i) \\
+        &= \tilde{x}^{i-1} + (t_i^N - t_{i-1}^N)\Psi(t_{i-1}^N, \tilde{x}^{i-1}) + (t_{i+1}^N - t_i^N)\Psi(t_i^N, \tilde{x}^i) \\
+        &\vdots \\
+        &= \tilde{x}^0 + \sum_{j=0}^i (t_{j+1}^N - t_j^N)\Psi(t_j^N, \tilde{x}^j) \\
+        &= \tilde{x}^0 + \sum_{j=0}^i \int_{t_j^N}^{t_{j+1}^N} \Psi(t_j^N, \tilde{x}^j) dt.
+    \end{align*}
+    Además de eso, utilizando la Fórmula de Newton-Leibnitz para \eqref{eq:cont_edo}, tenemos que
+    \begin{equation}
+        \chi(t_{i+1}^N) = x^0 + \int_0^{t_{i+1}^N} \Psi(t, \chi(t)) dt = x^0 + \sum_{j=0}^i \int_{t_j^N}^{t_{j+1}^N} \Psi(t, \chi(t)) dt.
+    \end{equation}
+    Utilizando las dos últimas relaciones, a la última desigualdad en \eqref{eq:cont_edo_hipotesis}, así como las relaciones \eqref{eq:cont_edo_dem_1} e \eqref{eq:cont_edo_dem_2}, obtenemos que
+    \begin{align*}
+        \|\tilde{x}^{i+1} - \chi(t_{i+1}^N)\| &\le \|\tilde{x}^0 - x^0\| + \sum_{j=0}^i \int_{t_j^N}^{t_{j+1}^N} \|\Psi(t_j^N, \tilde{x}^j) - \Psi(t, \chi(t))\| dt \\
+        &\le \|\tilde{x}^0 - x^0\| \\
+        &\quad + \sum_{j=0}^i \int_{t_j^N}^{t_{j+1}^N} (\|\Psi(t_j^N, \tilde{x}^j) - \Psi(t_j^N, \chi(t_j^N))\| \\
+        &\qquad + \|\Psi(t_j^N, \chi(t_j^N)) - \Psi(t, \chi(t))\|) dt \\
+        &\le \delta + \tilde{\Delta}_N + \tilde{L} \bar{\Delta}_N \sum_{j=0}^i \|\tilde{x}^j - \chi(t_j^N)\|.
+    \end{align*}
+    Ahora, utilizando también una desigualdad discreta de Gronwall (Lema 1.5.3 original) y \eqref{eq:cont_edo_dem_2}, obtenemos
+    \[
+        \|\tilde{x}^{i+1} - \chi(t_{i+1}^N)\| \le (\delta + \tilde{\Delta}_N)(1 + \tilde{L} \bar{\Delta}_N)^{i+1} < \min\{\varepsilon, \hat{\delta}\},
+    \]
+    donde se sigue el resultado deseado.
 \end{proof}
 
-%%% Local Variables:
-%%% mode: LaTeX
-%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
-%%% End:
+Por lo observado en los Teoremas 3.3.3 e 3.3.4, el Algoritmo 3.3.2 posee claras ventajas en comparación con el Algoritmo 3.3.3, tanto en relación a las propiedades establecidas como en relación a las hipótesis utilizadas para probar estas propiedades. Por otro lado, el Algoritmo 3.3.3 es en general bien menos sensible en relación a la elección de la red. Por eso, ambos métodos poseen cierta utilidad práctica. De hecho, con frecuencia estos métodos son utilizados en combinación: por ejemplo, la aproximación obtenida a partir de un punto dado de la red por el esquema de Euler es posteriormente mejorada por uno o más pasos del método de Newton. Típicamente, la red no es fijada a priori y se va adaptando a lo largo del proceso computacional. Varios otros métodos de continuación, así como detalles de implementación, pueden ser consultados en la literatura clásica.

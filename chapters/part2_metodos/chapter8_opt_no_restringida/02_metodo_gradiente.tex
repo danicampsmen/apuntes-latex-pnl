@@ -1,43 +1,123 @@
 % --- Archivo: 02_metodo_gradiente.tex ---
 \section{El método del gradiente}
 
-Supongamos que la función $f$ sea diferenciable en $\Rn$. En el caso de métodos de descenso, hablamos del método del gradiente cuando la dirección de búsqueda se escoge como el anti-gradiente de la función $f$ en el punto $x^k$, i.e., $d^k = -f'(x^k)$. 
-El esquema iterativo se reduce al siguiente:
+Supongamos que la función $f$ sea diferenciable en $\Rn$. En el caso de métodos de descenso, hablamos del método del gradiente cuando la dirección de búsqueda se escoge como el anti-gradiente de la función $f$ en el punto $x^k$, i.e., $d^k = -f'(x^k)$. Si $f'(x^k) = 0$ para algún $k$, $x^k$ es un punto estacionario del problema y el método para. El esquema se reduce al siguiente:
 \begin{equation}
     x^{k+1} = x^k - \alpha_k f'(x^k), \quad k = 0, 1, \dots
     \label{eq:metodo_gradiente}
 \end{equation}
 
+El método del gradiente es de primer orden y, en general, es poco eficiente para resolver problemas prácticos. Aún así, el estudio de este método es un paso importante para entender los fundamentos de la optimización computacional.
+
 \begin{algorithm}[Método del gradiente]
 Elegir $x^0 \in \Rn$ y tomar $k := 0$. Elegir una regla de búsqueda lineal y los parámetros asociados.
 \begin{enumerate}
-    \item Calcular la longitud de paso $\alpha_k$ en la dirección del anti-gradiente $d^k = -f'(x^k)$ de acuerdo a la regla elegida.
+    \item Calcular la longitud de paso $\alpha_k$ en la dirección del anti-gradiente $d^k = -f'(x^k)$ de acuerdo con la regla elegida.
     \item Calcular $x^{k+1}$ por la fórmula \eqref{eq:metodo_gradiente}.
     \item Tomar $k := k + 1$ y retornar al Paso 1.
 \end{enumerate}
 \end{algorithm}
 
-El método del gradiente con minimización unidimensional se llama método de máxima descida (cabe destacar que este nombre no debe ser entendido como una caracterización de las cualidades de este método en la práctica). Una propiedad importante del método de máxima descida (por lo menos en el caso $\hat{\alpha} = +\infty$) es la igualdad
+El método del gradiente con minimización unidimensional se llama método de máxima descida. Una propiedad importante del método de máxima descida es la igualdad
 \begin{equation}
-    \interno{f'(x^{k+1})}{f'(x^k)} = 0,
+    \interno{f'(x^{k+1})}{f'(x^k)} = 0.
 \end{equation}
-que se sigue de la condición de optimalidad de la búsqueda lineal. O sea, las direcciones utilizadas en las iteraciones subsecuentes, i.e., $d^k = -f'(x^k)$ y $d^{k+1} = -f'(x^{k+1})$, son ortogonales. Es por eso que la trayectoria del método es del tipo ``zig-zag''.
+O sea, las direcciones utilizadas en las iteraciones subsecuentes, i.e., $d^k = -f'(x^k)$ y $d^{k+1} = -f'(x^{k+1})$, son ortogonales. Es por eso que la trayectoria del método es del tipo ``zig-zag''.
+
+La desigualdad de Armijo en este caso tiene la forma siguiente:
+\begin{equation}
+    f(x^k - \alpha f'(x^k)) \le f(x^k) - \sigma \alpha \|f'(x^k)\|^2.
+    \label{eq:armijo_gradiente}
+\end{equation}
+
+Propiedades de convergencia global del método del gradiente son las siguientes.
 
 \begin{theorem}[Convergencia global del método del gradiente I]
-    Sea $f \colon \Rn \to \R$ diferenciable en $\Rn$ con derivada Lipschitz-continua con módulo $L > 0$. Si el algoritmo utiliza la regla de Armijo (o paso fijo $\bar{\alpha} < 2/L$), entonces cada punto de acumulación de cualquier secuencia $\{x^k\}$ generada es un punto estacionario del problema. Si la secuencia posee un punto de acumulación o la función es limitada inferiormente, entonces $\|f'(x^k)\| \to 0$.
+    Sea $f \colon \Rn \to \R$ una función diferenciable en $\Rn$ con derivada Lipschitz-continua con módulo $L > 0$. En el caso en que el Algoritmo utiliza longitud de paso fijo, supongamos que $\bar{\alpha} > 0$ satisfaga $\bar{\alpha} < 2/L$.
+    Entonces cada punto de acumulación de cualquier secuencia $\{x^k\}$ generada por el Algoritmo es un punto estacionario del problema. Si un punto de acumulación existe, o si la función $f$ es limitada inferiormente, entonces
+    \begin{equation}
+        \|f'(x^k)\| \to 0 \quad (k \to \infty).
+    \end{equation}
 \end{theorem}
 \begin{proof}
-    Para la regla de Armijo, el decrecimiento está garantizado:
+    Consideramos primero el caso de la regla de Armijo. Si $f'(x^k) \neq 0$ para todo $k$, la secuencia $\{f(x^k)\}$ es decreciente. Supongamos que la secuencia tenga un punto de acumulación. En este caso, por la continuidad de $f$, la secuencia también tiene un punto de acumulación, y como es monótona, es limitada inferiormente y converge. Por la desigualdad de Armijo y la cota inferior del paso $\check{\alpha}$, para todo $k$ tenemos que
     \[
-    f(x^k) - f(x^{k+1}) \ge \sigma \alpha_k \|f'(x^k)\|^2 \ge \sigma \tilde{\alpha} \|f'(x^k)\|^2,
+        f(x^k) - f(x^{k+1}) \ge \sigma \alpha_k \|f'(x^k)\|^2 \ge \sigma \check{\alpha} \|f'(x^k)\|^2.
     \]
-    donde $\tilde{\alpha} = \min\{\hat{\alpha}, \frac{2\theta(1-\sigma)}{L}\} > 0$. Al estar $f$ acotada por abajo, la sucesión $f(x^k)$ converge, por lo que $f(x^k) - f(x^{k+1}) \to 0$. Así, $\|f'(x^k)\| \to 0$.
+    Como $f(x^k) - f(x^{k+1}) \to 0$ ($k \to \infty$), obtenemos $\|f'(x^k)\| \to 0$. El caso de minimización unidimensional se reduce al caso de Armijo. Para el paso fijo, por los Lemas anteriores, esto es equivalente a usar Armijo con un $\sigma$ suficientemente pequeño.
+\end{proof}
+
+\begin{theorem}[Convergencia global del método del gradiente II]
+    Sea $f \colon \Rn \to \R$ una función diferenciable en $\Rn$, con derivada continua. Supongamos que el Algoritmo utiliza la minimización unidimensional o la regla de Armijo.
+    Entonces cada punto de acumulación de cualquier secuencia generada es un punto estacionario. Si la secuencia es limitada, entonces $\|f'(x^k)\| \to 0$.
+\end{theorem}
+\begin{proof}
+    El caso de minimización unidimensional se reduce al caso de Armijo de la misma manera que en la demostración del Teorema anterior.
+    Supongamos que la secuencia tenga un punto de acumulación $\bar{x} \in \Rn$, y que $f'(x^k) \neq 0$ para todo $k$. Supongamos que $\{x^{k_j}\} \to \bar{x}$. El caso en que existe $\check{\alpha} > 0$ tal que $\alpha_{k_j} \ge \check{\alpha}$ para todo $j$ puede ser analizado de manera completa y análoga al Teorema I.
+    Por lo tanto, tomando una subsecuencia si es necesario, consideremos el caso $\alpha_{k_j} \to 0$.
+    En este caso, para todo $j$ suficientemente grande, el valor inicial $\hat{\alpha}$ fue reducido, es decir, el valor $\alpha_{k_j}/\theta$ no satisface Armijo:
+    \[
+        f(x^{k_j} - \theta^{-1}\alpha_{k_j}f'(x^{k_j})) > f(x^{k_j}) - \sigma \theta^{-1}\alpha_{k_j}\|f'(x^{k_j})\|^2.
+    \]
+    Dividiendo la última desigualdad por $\theta^{-1}\alpha_{k_j}$ y usando el Teorema del Valor Medio, al pasar al límite obtenemos $-\|f'(\bar{x})\|^2 \ge -\sigma\|f'(\bar{x})\|^2$. Como $\sigma \in (0, 1)$, esto solo es posible si $f'(\bar{x}) = 0$.
 \end{proof}
 
 \begin{theorem}[Convergencia global del método del gradiente en el caso convexo]
-    Sea $f \colon \Rn \to \R$ una función convexa y diferenciable, con derivada continua. Supongamos que el Algoritmo utiliza la regla de Armijo con $\hat{\alpha} \le 1$. Si el conjunto de minimizadores no es vacío, toda secuencia converge a una solución del problema.
+    Sea $f \colon \Rn \to \R$ una función convexa, diferenciable en $\Rn$, con derivada continua. Supongamos que el Algoritmo utiliza la regla de Armijo con $\hat{\alpha} \le 1$.
+    Si el conjunto de minimizadores irrestrictos de $f$ no es vacío, entonces cualquier secuencia generada converge a una solución del problema.
 \end{theorem}
-%%% Local Variables:
-%%% mode: LaTeX
-%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
-%%% End:
+\begin{proof}
+    Sea $\bar{x}$ una solución del problema. Como para todo $k$ tenemos $f(x^k) - f(x^{k+1}) \ge \sigma \alpha_k \|f'(x^k)\|^2$, al pasar al límite sumando, $\sum \alpha_i \|f'(x^i)\|^2 < +\infty$.
+    Por la convexidad de $f$ y la optimalidad de $\bar{x}$, $\interno{f'(x^k)}{\bar{x} - x^k} \le f(\bar{x}) - f(x^k) \le 0$. Donde obtenemos que
+    \begin{align*}
+        \|x^{k+1} - \bar{x}\|^2 &= \|x^k - \bar{x} - \alpha_k f'(x^k)\|^2 \\
+        &\le \|x^k - \bar{x}\|^2 + \alpha_k^2 \|f'(x^k)\|^2.
+    \end{align*}
+    Utilizando esta desigualdad en secuencia, obtenemos $\|x^j - \bar{x}\|^2 \le \|x^k - \bar{x}\|^2 + \sum_{i=k}^{\infty} \alpha_i \|f'(x^i)\|^2$. Concluimos que la secuencia es limitada y tiene un punto de acumulación que debe ser un minimizador, por lo que toda la secuencia converge a él.
+\end{proof}
+
+A continuación, analizaremos el comportamiento local del método del gradiente, i.e., el comportamiento en una vecindad de un punto estacionario $\bar{x}$. Suponiendo que $f$ sea dos veces diferenciable en $\bar{x}$, y que $\bar{x}$ satisfaga la condición suficiente de segundo orden, en particular, $\bar{x}$ es un minimizador local estricto. Más aún, en este caso $f$ crece con orden cuadrático en una vecindad de $\bar{x}$.
+
+\begin{lemma}\label{lem:crecimiento_cuadratico}
+    Sea $f \colon \Rn \to \R$ diferenciable en una vecindad de $\bar{x}$ y dos veces diferenciable en $\bar{x}$. Supongamos que $\bar{x}$ satisface la condición suficiente de segundo orden. Entonces, para cualquier $\nu \in (0, 4)$ existe una vecindad $U$ de $\bar{x}$ tal que, además de la condición de crecimiento, vale:
+    \begin{equation}
+        \|f'(x)\|^2 \ge \nu \beta (f(x) - f(\bar{x})) \quad \forall x \in U.
+    \end{equation}
+\end{lemma}
+\begin{proof}
+    Para $x$ suficientemente próximo a $\bar{x}$, tenemos $f'(x) = f''(\bar{x})(x - \bar{x}) + o(\|x - \bar{x}\|)$ y $f(x) - f(\bar{x}) = \frac{1}{2}\interno{f'(x)}{x - \bar{x}} + o(\|x - \bar{x}\|^2)$. Usando la constante $\beta > 0$ de la condición de segundo orden y las expansiones, manipulando algebraicamente se obtiene que $\|f'(x)\|\|x - \bar{x}\| \ge \sqrt{\nu}\beta\|x - \bar{x}\|^2$, de donde sigue el resultado deseado.
+\end{proof}
+
+Presentamos ahora el resultado principal sobre convergencia local del método del gradiente.
+
+\begin{theorem}[Convergencia local del método del gradiente I]
+    Además de las hipótesis del Teorema 3.1.1, supongamos que la función sea dos veces diferenciable en el punto $\bar{x}$, que satisface la condición suficiente de segundo orden.
+    Entonces:
+    \begin{enumerate}[(a)]
+        \item Para cualquier $x^0$ suficientemente próximo a $\bar{x}$, la secuencia converge a $\bar{x}$; la tasa de convergencia a la función objetivo es lineal, y geométrica en relación a las variables: $\forall k$, $f(x^{k+1}) - f(\bar{x}) \le q(f(x^k) - f(\bar{x}))$.
+        \item En el caso de minimización unidimensional, $\limsup \frac{f(x^{k+1}) - f(\bar{x})}{f(x^k) - f(\bar{x})} \le 1 - \rho_1/\rho_n$, donde $\rho_1$ y $\rho_n$ son los autovalores extremo de $f''(\bar{x})$.
+        \item En el caso de la regla de Armijo, $\limsup \frac{f(x^{k+1}) - f(\bar{x})}{f(x^k) - f(\bar{x})} \le 1 - 2\sigma(1-\sigma)\rho_1/\rho_n$.
+        \item En el caso del paso fijo, $\limsup \frac{f(x^{k+1}) - f(\bar{x})}{f(x^k) - f(\bar{x})} \le 1 - 2\rho_1\bar{\alpha} + \rho_1\rho_n\bar{\alpha}^2$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Fijamos una vecindad $U$ de $\bar{x}$ tal que las propiedades de crecimiento y del Lema anterior valen. En el caso de optimización unidimensional, para todo $\alpha \in [0, \hat{\alpha}]$ tenemos
+    \[
+        f(x^{k+1}) - f(\bar{x}) \le f(x^k) - f(\bar{x}) - \alpha\|f'(x^k)\|^2 + \frac{L\alpha^2}{2}\|f'(x^k)\|^2.
+    \]
+    Minimizando el término cuadrático en $\alpha$, obtenemos un factor $q$ estrictamente menor a 1. El análisis es análogo para la regla de Armijo usando el decrecimiento asegurado por $\sigma$, y para el paso fijo reemplazando $\alpha$ directamente, asegurando las cotas anunciadas para $q \in (0, 1)$. En consecuencia, la distancia de los iterados no sale de la vecindad $U$, y por la convergencia $q^k$ de la función, la distancia decrece de manera geométrica acotada por $\sqrt{q^k}$.
+\end{proof}
+
+\begin{theorem}[Convergencia local del método del gradiente II]
+    Además de las hipótesis de convergencia global, supongamos que el valor óptimo sea finito, y que la condición de separación de superficies de nivel críticas sea satisfecha. Supongamos que la función asume un crecimiento subcuadrático relajado general en la vecindad de $S_0$: $\|f'(x)\| \ge \gamma \text{dist}(x, S_0)$.
+    Entonces, cualquier secuencia $\{x^k\}$ generada por el Algoritmo converge a un punto estacionario del problema. La tasa de convergencia es lineal en relación a la función y geométrica en relación a las variables.
+\end{theorem}
+\begin{proof}
+    Para todo $k$, por la desigualdad de descenso, $f(x^k) - f(x^{k+1}) \ge \sigma \|x^{k+1} - x^k\|^2 / \hat{\alpha}$. La sucesión de valores de la función es monótona decreciente y acotada, luego converge a un límite $v$. Utilizando la desigualdad que relaciona el gradiente a la distancia, obtenemos
+    \[
+        0 \le f(x^{k+1}) - v \le M(f(x^k) - f(x^{k+1})),
+    \]
+    lo que reescrito muestra que $f(x^{k+1}) - v \le q(f(x^k) - v)$ con $q = M/(1+M) \in (0,1)$. De ahí, la diferencia sucesiva de las distancias se acota por una progresión geométrica, probando que la sucesión de variables satisface la condición de Cauchy y por ende converge geométricamente a la proyección estacionaria en $S_0$.
+\end{proof}
+
+Para finalizar, resaltamos que los métodos del gradiente son, para gran mayoría de aplicaciones prácticas, poco eficientes. Ellos son particularmente lentos en el caso en que las superficies de nivel de la función sean ``alargadas''. Podemos describir tal situación con un poco más de precisión de la manera siguiente: si el autovalor máximo $\rho_n$ es bien mayor que el autovalor mínimo $\rho_1$, se tiene que el número $\rho_1/\rho_n$ es próximo a cero. En este caso, las constantes en el lado derecho de las estimativas del Teorema de convergencia local son próximas a 1. Esto muestra convergencia bastante lenta (aunque formalmente lineal). O sea, en cualquier caso, el método del gradiente no es competitivo en el sentido computacional. La importancia de él es sobre todo histórica, teórica y didáctica.

@@ -1,110 +1,130 @@
 % --- Archivo: 03_metodo_newton.tex ---
 
-% =========================================================
-\section{El método de Newton}
-\label{sec:v2_metodo_newton}
-% =========================================================
+\section{El método de Newton. Métodos cuasi-Newton.}
 
-La idea principal del método de Newton es fundamental en la matemática computacional. En su forma básica, es una herramienta para resolver \textbf{sistemas de ecuaciones no lineales}. Al aplicarlo a optimización (buscando raíces del gradiente), su rápida convergencia superlineal (o cuadrática) se debe a que incorpora información de la curvatura local (Hessiana).
+La idea principal del método de Newton, presentado a continuación, es fundamental en varias áreas de la matemática computacional. En su forma básica, el método de Newton es una herramienta para resolver sistemas de ecuaciones no lineales. En principio, él no es un método de minimización. Por ejemplo, a diferencia de los métodos de descenso considerados arriba, cuando se aplica a un problema de optimización (i.e., a la ecuación $f'(x) = 0$), el método de Newton tiene la misma ``preferencia'' tanto para minimizadores de $f$ cuanto para maximizadores (o, de hecho, cualesquier otros puntos estacionarios). Por otro lado, el método admite también una interpretación ligada a la optimización, lo que puede ser usado para una adaptación mejor a problemas de optimización y, en particular, para el desarrollo de estrategias de globalización.
+
+La convergencia rápida del método de Newton se debe al uso de información de segundo orden. Como consecuencia, una iteración del método es significativamente más cara en comparación con el método del gradiente. Felizmente, el método de Newton sirve también como base de desarrollo de métodos cuasi-Newton. Estos últimos son ligeramente más lentos que el método de Newton, pero tienen iteraciones bien más baratas (en particular, no tanto más caras que las del método del gradiente). Esto los hace bastante atractivos para uso práctico. Puede ser dicho que los métodos cuasi-Newton son, en general, los más eficientes y más usados entre los algoritmos de la optimización irrestricta (en el caso de funciones dos veces diferenciables).
 
 \subsection{El método de Newton para ecuaciones}
 
-El problema clásico consiste en hallar una raíz $x \in \Rn$ tal que $\Phi(x) = 0$, donde $\Phi \colon \Rn \to \Rn$ es diferenciable. Dada una aproximación $x^k$, el método linealiza el sistema mediante la serie de Taylor de primer orden:
+El método de Newton clásico es introducido para el problema de hallar un $x \in \Rn$ tal que
+\begin{equation}
+    \Phi(x) = 0,
+    \label{eq:newton_ecuacion}
+\end{equation}
+donde $\Phi \colon \Rn \to \Rn$ es diferenciable. Sea $x^k \in \Rn$ una aproximación a alguna solución $\bar{x}$ de la ecuación \eqref{eq:newton_ecuacion}. En torno de $x^k$, podemos aproximar \eqref{eq:newton_ecuacion} por su linealización
 \begin{equation}
     \Phi(x^k) + \Phi'(x^k)(x - x^k) = 0.
-    \label{eq:v2_linealizacion_newton}
+    \label{eq:newton_linealizacion}
 \end{equation}
+La relación \eqref{eq:newton_linealizacion} se llama la ecuación de iteración del método de Newton.
 
 \begin{algorithm}[El método de Newton]
     Elegir $x^0 \in \Rn$ y tomar $k := 0$.
-    \begin{enuthm}
-        \item Calcular $x^{k+1} \in \Rn$ como la solución exacta del sistema lineal \eqref{eq:v2_linealizacion_newton}.
-        \item Incrementar $k \leftarrow k + 1$ y regresar al Paso 1.
-    \end{enuthm}
+    \begin{enumerate}
+        \item Calcular $x^{k+1} \in \Rn$ como una solución de la ecuación lineal \eqref{eq:newton_linealizacion}.
+        \item Tomar $k := k + 1$ y retornar al ítem 1.
+    \end{enumerate}
 \end{algorithm}
 
-Suponiendo que el Jacobiano $\Phi'(x^k)$ es no singular, la iteración del método de Newton se expresa explícitamente como:
+Suponiendo que $\Phi'(x^k)$ sea no-singular (en este caso, naturalmente, la solución de la ecuación de Newton es única), el método de Newton puede ser escrito en forma del esquema iterativo
 \begin{equation}
     x^{k+1} = x^k - (\Phi'(x^k))^{-1}\Phi(x^k), \quad k = 0, 1, \dots
-    \label{eq:v2_esquema_iterativo_newton}
+    \label{eq:newton_esquema}
 \end{equation}
+Observamos que aunque $\Phi'(x^k)$ sea no-singular, el cálculo de $x^{k+1}$ no requiere necesariamente el cálculo de la inversa de esta matriz. Existen varios métodos de resolución de sistemas de ecuaciones lineales que no invierten la matriz asociada (lo que es caro desde el punto de vista computacional).
 
-\begin{theorem}[Convergencia local del método de Newton]\label{thm:v2_newton_local}
-    Sea $\Phi \colon \Rn \to \Rn$ diferenciable en una vecindad de la raíz $\bar{x}$, con derivada continua en este punto. Supongamos que la matriz $\Phi'(\bar{x})$ es no singular ($\det \Phi'(\bar{x}) \neq 0$).
+\begin{theorem}[Convergencia local del método de Newton]\label{thm:newton_local}
+    Sea $\Phi \colon \Rn \to \Rn$ diferenciable en una vecindad del punto $\bar{x} \in \Rn$, con derivada continua en este punto. Sea $\bar{x}$ una solución de la ecuación \eqref{eq:newton_ecuacion}, tal que $\det \Phi'(\bar{x}) \neq 0$ (i.e., la matriz $\Phi'(\bar{x})$ es no singular).
     
-    Entonces, para cualquier $x^0$ suficientemente próximo a $\bar{x}$, el método genera una secuencia bien definida que converge a $\bar{x}$. La \textbf{tasa de convergencia es superlineal}. Además, si la derivada $\Phi'$ es Lipschitz-continua en la vecindad de $\bar{x}$, la tasa de convergencia es \textbf{cuadrática}.
+    Entonces, para cualquier punto inicial $x^0 \in \Rn$ suficientemente próximo a $\bar{x}$, el Algoritmo genera una secuencia $\{x^k\}$ bien definida que converge a $\bar{x}$. La tasa de convergencia es superlineal, y si la derivada de $\Phi$ es Lipschitz-continua en una vecindad de $\bar{x}$, entonces la tasa de convergencia es cuadrática.
 \end{theorem}
 
 \begin{proof}
-    Por el teorema de perturbaciones continuas de matrices no singulares (\cref{thm:v2_perturbacion_matriz}), en una vecindad $U$ de $\bar{x}$ la matriz $\Phi'(x)$ se mantiene invertida y acotada: $\norm{(\Phi'(x))^{-1}} \le M$.
-    Por lo tanto, si $x^k \in U$, el paso de Newton está bien definido. 
-    
-    Evaluando el error del siguiente paso:
+    Por el teorema sobre perturbaciones pequeñas de una matriz no singular, existen una vecindad $U$ del punto $\bar{x}$ y un número $M > 0$ tales que
+    \begin{equation}
+        \det \Phi'(x) \neq 0, \quad \|(\Phi'(x))^{-1}\| \le M \quad \forall x \in U.
+    \end{equation}
+    En particular, para $x^k \in U$ la ecuación de iteración tiene una única solución $x^{k+1}$, i.e., la iteración del Algoritmo, a partir de tal $x^k$, está bien definida.
+    Además de eso, por el Teorema del Valor Medio, podemos tomar la vecindad $U$ tal que, si $x^k \in U$, entonces
     \begin{align}
-        \norm{x^{k+1} - \bar{x}} &= \norm{x^k - \bar{x} - (\Phi'(x^k))^{-1}\Phi(x^k)} \nonumber \\
-                                 &= \norm{(\Phi'(x^k))^{-1} \left[ \Phi(x^k) - \Phi(\bar{x}) - \Phi'(x^k)(x^k - \bar{x}) \right]} \nonumber \\
-                                 &\le M \norm{\Phi(x^k) - \Phi(\bar{x}) - \Phi'(x^k)(x^k - \bar{x})}.
-        \label{eq:v2_desig_newton_tasa}
+        \|x^{k+1} - \bar{x}\| &= \|x^k - \bar{x} - (\Phi'(x^k))^{-1}\Phi(x^k)\| \nonumber \\
+        &\le \|(\Phi'(x^k))^{-1}\| \|\Phi(x^k) - \Phi(\bar{x}) - \Phi'(x^k)(x^k - \bar{x})\| \nonumber \\
+        &\le M \sup_{t \in [0, 1]} \|\Phi'(t x^k + (1 - t)\bar{x}) - \Phi'(x^k)\| \|x^k - \bar{x}\|.
     \end{align}
-    Por la definición de diferenciabilidad de Fréchet, el término en el interior de la norma es de orden $o(\norm{x^k - \bar{x}})$. Por tanto, $\norm{x^{k+1} - \bar{x}} = o(\norm{x^k - \bar{x}})$, lo que define una convergencia \textbf{superlineal}.
-    
-    Si $\Phi'$ es Lipschitz con constante $L$, el Lema de la aproximación de Taylor acota el residuo por $\frac{L}{2}\norm{x^k - \bar{x}}^2$. Sustituyendo, se tiene $\norm{x^{k+1} - \bar{x}} \le \frac{ML}{2}\norm{x^k - \bar{x}}^2$, demostrando la convergencia \textbf{cuadrática}.
+    Notamos que $\sup \|\Phi'(t x^k + (1 - t)\bar{x}) - \Phi'(x^k)\| \to 0$ ($x^k \to \bar{x}$). Por lo tanto, para todo $q \in (0, 1)$ existe $\delta > 0$ tal que $B(\bar{x}, \delta) \subset U$ y, si $x^k \in B(\bar{x}, \delta)$,
+    \[
+        \|x^{k+1} - \bar{x}\| \le q\|x^k - \bar{x}\|.
+    \]
+    En particular, $x^{k+1} \in B(\bar{x}, \delta)$. Concluimos que para todo $x^0$ suficientemente próximo a $\bar{x}$, se genera una secuencia $\{x^k\}$ bien definida, y que esta secuencia converge a $\bar{x}$. Además de eso, la tasa de convergencia es superlineal, ya que $q \to 0$ a medida que $x^k \to \bar{x}$.
+    Cuando la derivada de $\Phi$ es Lipschitz-continua en $U$ con módulo $L > 0$, obtenemos que
+    \[
+        \|x^{k+1} - \bar{x}\| \le M L \|x^k - \bar{x}\|^2,
+    \]
+    i.e., la convergencia es cuadrática.
 \end{proof}
 
-\begin{corollary}[Método de Newton Inexacto]\label{cor:v2_newton_inexacto}
-    Si reemplazamos $\Phi'(x^k)$ en \eqref{eq:v2_esquema_iterativo_newton} por una matriz aproximada $\Psi(x^k)$ que cumpla $\norm{\Psi(x) - \Phi'(x)} \to 0$ cuando $x \to \bar{x}$, el método retiene la convergencia local superlineal. 
+\begin{corollary}[Método de Newton Inexacto]\label{cor:newton_inexacto}
+    Supongamos que valen las hipótesis del Teorema de Newton local. Se tiene que para toda $\Psi \colon \Rn \to \R^{n \times n}$ tal que $\|\Psi(x) - \Phi'(x)\| \to 0$ ($x \to \bar{x}$), para cualquier punto inicial $x^0$ suficientemente próximo a $\bar{x}$, el método dado por $x^{k+1} = x^k - (\Psi(x^k))^{-1}\Phi(x^k)$ genera una secuencia bien definida que converge a $\bar{x}$ con tasa superlineal. 
 \end{corollary}
 
-\subsection{El método de Newton para optimización irrestricta}
+\subsection{Método de Newton para optimización irrestricta}
 
-Consideremos el problema de minimización $\min f(x)$ con $f$ dos veces diferenciable. Los puntos estacionarios satisfacen el sistema $\Phi(x) = f'(x) = 0$.
-
-Aplicando el método de Newton a este gradiente, el iterado siguiente se computa como solución del sistema de ecuaciones:
+Ahora consideremos el problema de optimización irrestricta
 \begin{equation}
-    f'(x^k) + f''(x^k)(x - x^k) = 0 \implies x^{k+1} = x^k - (f''(x^k))^{-1}f'(x^k).
-    \label{eq:v2_newton_opt_lin}
+    \min f(x), \quad x \in \Rn,
+    \label{eq:newton_opt_irrestricta}
 \end{equation}
-
-Geométricamente, esto equivale a minimizar de forma analítica el modelo cuadrático local de Taylor:
+donde $f \colon \Rn \to \R$ es una función dos veces diferenciable en $\Rn$. Los puntos estacionarios de este problema se caracterizan por la ecuación
 \begin{equation}
-    \min_{x \in \Rn} \left\{ f(x^k) + \interno{f'(x^k)}{x - x^k} + \frac{1}{2}\interno{f''(x^k)(x - x^k)}{x - x^k} \right\}.
-    \label{eq:v2_newton_opt_quad}
+    \Phi \colon \Rn \to \Rn, \quad \Phi(x) = f'(x).
 \end{equation}
+Por lo tanto, podemos intentar computar puntos estacionarios aplicando el método de Newton a la ecuación $f'(x) = 0$. Sea $x^k \in \Rn$ una aproximación a un punto estacionario $\bar{x}$. La aproximación siguiente $x^{k+1}$ es computada como solución del sistema de ecuaciones lineales
+\begin{equation}
+    f'(x^k) + f''(x^k)(x - x^k) = 0,
+    \label{eq:newton_sistema_opt}
+\end{equation}
+en relación a $x \in \Rn$. Suponiendo que $f''(x^k)$ sea no-singular para todo $k$, obtenemos el esquema iterativo siguiente:
+\begin{equation}
+    x^{k+1} = x^k - (f''(x^k))^{-1}f'(x^k), \quad k = 0, 1, \dots
+    \label{eq:newton_esquema_opt}
+\end{equation}
+Observamos que esta iteración admite una interpretación en términos de problemas de optimización. En particular, en torno del punto $x^k$, el problema puede ser aproximado por el siguiente problema de optimización irrestricta de una función cuadrática:
+\begin{equation}
+    \min f(x^k) + \interno{f'(x^k)}{x - x^k} + \frac{1}{2}\interno{f''(x^k)(x - x^k)}{x - x^k}, \quad x \in \Rn.
+\end{equation}
+Como es fácil ver, la ecuación de Newton \eqref{eq:newton_sistema_opt} caracteriza los puntos estacionarios del problema cuadrático. Por lo tanto, el método de Newton para un problema de optimización irrestricto es lo siguiente.
 
-\begin{corollary}\label{cor:v2_newton_opt_local}
-    Si $\bar{x}$ satisface la condición suficiente de segundo orden ($f''(\bar{x})$ es definida positiva), entonces a partir de un $x^0$ suficientemente cercano, el método de Newton en optimización converge de forma cuadrática.
+\begin{algorithm}[Método de Newton para optimización irrestricta]
+    Elegir $x^0 \in \Rn$ y tomar $k := 0$.
+    \begin{enumerate}
+        \item Calcular $x^{k+1} \in \Rn$ como punto estacionario del problema cuadrático asociado.
+        \item Tomar $k := k + 1$ y retornar al Paso 1.
+    \end{enumerate}
+\end{algorithm}
+
+\begin{corollary}\label{cor:newton_opt_local}
+    Sea $f \colon \Rn \to \R$ una función dos veces diferenciable en una vecindad del punto $\bar{x} \in \Rn$, con segunda derivada continua en este punto. Sea $\bar{x}$ un punto estacionario del problema que satisface la condición suficiente de segundo orden. Entonces para cualquier punto inicial $x^0 \in \Rn$ suficientemente próximo a $\bar{x}$, el Algoritmo genera una secuencia $\{x^k\}$ bien definida que converge a $\bar{x}$. La tasa de convergencia es superlineal, y si la derivada segunda es Lipschitz-continua en la vecindad de $\bar{x}$, la convergencia es cuadrática.
 \end{corollary}
 
-\begin{remark}[Factorización de Cholesky y Regularización en la Práctica]
-    Bajo las condiciones del Teorema de Newton local, uno de los métodos más eficientes para resolver el sistema de ecuaciones lineales es el método de Cholesky. Este método permite obtener la factorización $LL^\top$ de una matriz simétrica definida positiva en un orden de $n^3/6$ operaciones de punto flotante ($L$ es una matriz triangular con elementos positivos en la diagonal). 
-    
-    Cuando $f''(x^k)$ no es definida positiva, este esquema se modifica introduciendo una matriz definida positiva compensatoria (por ejemplo, sumando un múltiplo de la identidad $f''(x^k) + \gamma I$, con $\gamma > 0$ suficientemente grande). Esto garantiza la resolución del sistema y dota al método de capacidades globales, concepto que desarrollaremos formalmente más adelante.
-\end{remark}
+Bajo las condiciones del Corolario, uno de los métodos más eficientes para resolver la ecuación lineal del esquema es el método de Cholesky. Este método permite obtener la factorización $LL^\top$ de una matriz simétrica definida positiva en un orden de $n^3/6$ multiplicaciones más el mismo número de sumas ($L$ es una matriz triangular con elementos positivos en la diagonal). Este esquema puede ser modificado para sustituir la matriz $f''(x^k)$, cuando ella no es definida positiva, por una matriz definida positiva (por ejemplo, de la forma $f''(x^k) + \gamma E^n$ con $\gamma > 0$ suficientemente grande). Esto es importante para el desarrollo de estrategias de globalización de métodos Newtonianos. 
 
-\begin{example}[Falla analítica de Newton en no convexidad]\label{ex:v2_newton_no_conv}
-    El método de Newton, sin regularización, puede no poseer convergencia global incluso para funciones muy bien comportadas si se arranca lejos del óptimo. Consideremos la función continua de clase $\mathcal{C}^2$ parametrizada por $\tau > 0$:
-    \[
-        f : \R \to \R, \quad f(x) =
-        \begin{cases} -x^4/(4\tau^3) + (1 + 3/\tau)x^2/2, & \text{si } |x| \le \tau, \\
-          x^2/2 + 2|x| - 3\tau/4, & \text{si } |x| > \tau.
-        \end{cases}
-    \]
-    Como es fácil de verificar, para cualquier $\tau > 0$, el problema tiene un único punto estacionario $\bar{x} = 0$, y se tiene que $f''(\bar{x}) = 1 + 3/\tau > 0$. En particular, se satisfacen todas las hipótesis para la convergencia cuadrática local.
+Observamos que, sin la modificación mencionada arriba, el Corolario continúa siendo válido si sustituimos la condición suficiente de segundo orden en el punto estacionario $\bar{x}$ por la condición más débil de que $f''(\bar{x})$ sea no singular. En este sentido, el método de Newton no tiene preferencia para minimizadores en relación a otros puntos estacionarios del problema.
 
-    Sin embargo, tomaremos un punto inicial en el borde del segmento, $x^0 = \tau$. Una secuencia $\{x^k\}$ generada por el método de Newton puro se obtiene resolviendo $x^{k+1} = x^k - f'(x^k)/f''(x^k)$. Para esta función, la trayectoria iterativa adopta la forma de ciclo infinito oscilante:
-    \[
-        x^k = \tau(-1)^k, \quad k = 1, 2, \dots
-    \]
-    En particular, $\bar{x} = 0$ no es un punto de acumulación de $\{x^k\}$, independientemente de cuán pequeño sea el parámetro $\tau$ (es decir, cuán próximo parezca estar el punto inicial $x^0$ de $\bar{x}$).
+La principal ventaja del método de Newton es la convergencia superlineal. No obstante, el método de Newton posee también algunas desventajas. Primero, como ya fue visto, el método tiene apenas convergencia local. De nuevo, esto tiene que ser comparado, por ejemplo, con los métodos del gradiente. Segundo, para algunos puntos iniciales, el método puede ni estar bien definido. Y mismo cuando el método genera correctamente una secuencia de iteraciones, la secuencia puede no poseer puntos de acumulación o los puntos de acumulación de ella pueden no ser puntos estacionarios del problema, como veremos a seguir.
+
+\begin{example}
+Consideremos la función
+\[
+f \colon \R \to \R, \quad f(x) =
+\begin{cases} -x^4/(4\tau^3) + (1 + 3/\tau)x^2/2, & \text{si } |x| \le \tau, \\
+x^2/2 + 2|x| - 3\tau/4, & \text{si } |x| > \tau,
+\end{cases}
+\]
+donde $\tau > 0$ es un parámetro. Como es fácil de verificar, para cualquier $\tau > 0$ la función $f$ es dos veces diferenciable en $\R$, con segunda derivada continua. Más aún, el problema definido por esta $f$ tiene un único punto estacionario $\bar{x} = 0$, y se tiene que $f''(\bar{x}) = 1 + 3/\tau > 0$. En particular, todas las hipótesis del Corolario son satisfechas.
+
+Tomaremos $x^0 = \tau$. La secuencia $\{x^k\}$ generada por el Algoritmo tiene la siguiente forma: $x^k = 2(-1)^k$, $k = 1, 2, \dots$. En particular, $\bar{x}$ no es punto de acumulación de $\{x^k\}$, independientemente de cuánto $\tau$ sea pequeño (i.e., cuánto $x^0$ sea próximo a $\bar{x}$).
+
+Lejos de una solución del problema, el paso unitario $\alpha_k = 1$, que caracteriza al método de Newton puro, puede no resultar en un decrecimiento de la función objetivo. En este caso, el método de Newton puro no es un método de descenso, en cuanto que un paso más corto en la misma dirección puede garantizar esta propiedad.
 \end{example}
-
-\begin{warningbox}[Falla topológica del método de Newton puro]
-    La principal desventaja de Newton puro es la \textbf{falta de convergencia global}. Si se arranca fuera de la región de atracción local, el modelo cuadrático puede guiar la búsqueda hacia un punto de silla, o la matriz Hessiana puede no ser invertible. Peor aún, puede crear ciclos divergentes.
-    
-    Por ejemplo, para la función $f(x) = x^4/4 - x^2/2$ (con mínimos en $\pm 1$), si arrancamos en un punto cóncavo (donde el Hessiano es negativo), Newton caminará en dirección de ascenso buscando un máximo.
-\end{warningbox}
-
-%%% Local Variables:
-%%% mode: LaTeX
-%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
-%%% End:

@@ -1,211 +1,301 @@
 % --- Archivo: exercises.tex ---
-
-\addsec{Ejercicios del Capítulo 8}
+\addsec{Ejercicios del Capítulo}
 
 \addsubsec{Sección I: Métodos de Descenso y Gradiente}
 
-\begin{exercise}[Caracterizaciones adicionales de direcciones de descenso]
-    Probar los siguientes hechos, que pueden considerarse como caracterizaciones adicionales de las direcciones de descenso. Si la función $f \colon \Rn \to \R$ es dos veces diferenciable en el punto $x \in \Rn$, entonces:
-    \begin{enumerate}
-        \item Para todo $d \in \symcal{D}_f(x)$ que cumple $\interno{f'(x)}{d} = 0$, se tiene que $\interno{f''(x)d}{d} \le 0$.
+\begin{exercise}
+    Probar los siguientes hechos, que pueden ser pensados como caracterizaciones adicionales de direcciones de descenso. Si la función $f \colon \Rn \to \R$ es dos veces diferenciable en el punto $x \in \Rn$, entonces:
+    \begin{enumerate}[(a)]
+        \item Para todo $d \in \symcal{D}_f(x)$ tal que $\interno{f'(x)}{d} = 0$, se tiene que $\interno{f''(x)d}{d} \le 0$.
         \item Si $d \in \Rn$ satisface $\interno{f'(x)}{d} = 0$ y $\interno{f''(x)d}{d} < 0$, se tiene que $d \in \symcal{D}_f(x)$.
     \end{enumerate}
 \end{exercise}
 
-\begin{exercise}[Modificación de la regla de Armijo]
-    Suponiendo que $f \colon \Rn \to \R$ es continuamente diferenciable en el punto $x^k$ y que $d^k \in \symcal{D}_f(x^k)$, probar que la modificación de la regla de Armijo donde la desigualdad clásica es reemplazada por:
+\begin{exercise}
+    Suponiendo que $f \colon \Rn \to \R$ sea continuamente diferenciable en el punto $x^k$ y que $d^k \in \symcal{D}_f(x^k)$, probar que la modificación de la regla de Armijo donde la desigualdad clásica es sustituida por
     \[
-        f(x^k + \alpha d^k) \le f(x^k) + \sigma\alpha^2 \interno{f'(x^k)}{d^k},
+        f(x^k + \alpha d^k) \le f(x^k) + \sigma \alpha^2 \interno{f'(x^k)}{d^k}, \quad \sigma > 0,
     \]
-    con $\sigma > 0$, está bien definida (es decir, existe un $\tilde{\alpha}_k > 0$ tal que la condición anterior se cumple para todo $\alpha \in [0, \tilde{\alpha}_k]$). Hacer un dibujo geométrico para ilustrar esta regla de búsqueda lineal.
+    está bien definida (i.e., que existe $\bar{\alpha}_k > 0$ tal que la condición arriba vale para todo $\alpha \in [0, \bar{\alpha}_k]$). Hacer un dibujo geométrico para ilustrar esta regla de búsqueda lineal.
 \end{exercise}
 
-\begin{exercise}[Implementación de la regla de Goldstein]
-    Bajo las mismas hipótesis, probar que la implementación iterativa de la regla de Goldstein, análoga a la presentada para la regla de Wolfe mediante interpolación, está bien definida.
+\begin{exercise}
+    Bajo las mismas hipótesis probar que la implementación de la regla de Goldstein, análoga a aquella presentada para la regla de Wolfe, está bien definida.
 \end{exercise}
 
-\begin{exercise}[Probar los incisos asintóticos del Teorema de Newton]
-    Probar algebraicamente los incisos asintóticos restantes del Teorema de convergencia local del método del gradiente para garantizar la reducción del error.
+\begin{exercise}
+    Probar afirmaciones análogas a aquellas del Teorema de Convergencia Global II para el método del gradiente con búsqueda lineal de Goldstein y con búsqueda lineal de Wolfe.
 \end{exercise}
 
-\begin{exercise}[Relajación de hipótesis de Lipschitz]
-    Probar que en el Teorema de convergencia local del gradiente, la hipótesis de diferenciabilidad de la función $f$ en todo $\Rn$, así como la hipótesis de continuidad de Lipschitz de la derivada de $f$ en $\Rn$, pueden ser relajadas, suponiendo estas propiedades únicamente en una vecindad del punto $\bar{x}$.
-\end{exercise}
-
-\begin{exercise}[Convergencia del método del gradiente con Goldstein y Wolfe]
-    Probar afirmaciones analíticas análogas a las del Teorema de convergencia global para el método del gradiente utilizando búsqueda lineal de Goldstein y búsqueda lineal de Wolfe.
-\end{exercise}
-
-\begin{exercise}[Convergencia al conjunto de puntos estacionarios]
-    Suponiendo las hipótesis del Teorema de convergencia global y que el conjunto de nivel $\lev_{\le f(x^0)} f$ sea acotado, probar formalmente que:
+\begin{exercise}
+    Suponiendo las hipótesis del Teorema de Convergencia Global II y que el conjunto de nivel $\symcal{L}(f(x^0))$ sea acotado, probar que
     \[
-        \dist(x^k, S_0) \to 0 \quad (k \to \infty),
+        \operatorname{dist}(x^k, S_0) \to 0 \quad (k \to \infty),
     \]
-    donde $S_0 = S_0(x^0) = \{ x \in \lev_{\le f(x^0)} f \mid f'(x) = 0 \}$.
+    donde $S_0 = S_0(x^0) = \{x \in \symcal{L}(f(x^0)) \mid f'(x) = 0\}$.
 \end{exercise}
 
-\begin{exercise}[Esquema iterativo general con direcciones de descenso]
-    Considerar el esquema iterativo general dado por $x^{k+1} = x^k + \alpha_k d^k$, donde
+\begin{exercise}
+    Considerar el esquema iterativo dado por $x^{k+1} = x^k + \alpha_k d^k, \quad k = 0, 1, \dots$, donde
     \[
-        c_1 \norm{f'(x^k)}^{p_1} \le -\interno{f'(x^k)}{d^k}, \quad \norm{d^k} \le c_2 \norm{f'(x^k)}^{p_2},
+        c_1\|f'(x^k)\|^{p_1} \le -\interno{f'(x^k)}{d^k}, \quad \|d^k\| \le c_2\|f'(x^k)\|^{p_2},
     \]
-    con $c_1, c_2 > 0$, $p_1, p_2 \ge 0$, y la longitud del paso $\alpha_k$ se calcula mediante la regla de minimización unidimensional o por la regla de Armijo. Suponiendo que la función $f$ sea continuamente diferenciable, probar que todo punto de acumulación de la secuencia $\{x^k\}$ es un punto estacionario del problema.
+    $c_1, c_2 > 0$, $p_1, p_2 \ge 0$, y la longitud de paso $\alpha_k$ es calculada por la regla de minimización unidimensional o por la regla de Armijo. Suponiendo que la función $f$ sea continuamente diferenciable, probar que todo punto de acumulación de la secuencia $\{x^k\}$ es un punto estacionario del problema.
 \end{exercise}
 
-\begin{exercise}[Método del gradiente con perturbaciones]
+\begin{exercise}
+    Probar los ítems (b)-(d) del Teorema de Convergencia local del método del gradiente I.
+\end{exercise}
+
+\begin{exercise}
+    Probar que en el Teorema de Convergencia local del método del gradiente I, la hipótesis de diferenciabilidad de la función $f$ en todo $\Rn$, así como la hipótesis de continuidad de Lipschitz de la derivada de $f$ en $\Rn$, pueden ser relajadas, suponiendo estas propiedades en una vecindad del punto $\bar{x}$.
+\end{exercise}
+
+\begin{exercise}
+    Probar el siguiente resultado sobre crecimiento subcuadrático: Si $S = S_0$, la función $f$ es suficientemente suave y vale $\|f'(x)\| \ge \gamma \operatorname{dist}(x, S_0) \;\; \forall x \in U$, entonces existe $\gamma > 0$ tal que
+    \[
+        f(x) - \bar{v} \ge \gamma(\operatorname{dist}(x, S_0))^2 \quad \forall x \in U.
+    \]
+\end{exercise}
+
+\begin{exercise}
+    Sea $f \colon \Rn \to \R$ una función diferenciable en $\Rn$, con derivada Lipschitz-continua en $\Rn$. Suponiendo que $f$ asuma en el conjunto de sus puntos estacionarios un número finito de valores diferentes, mostrar que la condición de separación de superficies de nivel críticas es satisfecha.
+\end{exercise}
+
+\begin{exercise}
+    Sea $f \colon \Rn \to \R$ una función cuadrática que posee un punto estacionario. Mostrar que la propiedad de cota a la distancia estacionaria $\|f'(x)\| \ge \gamma \operatorname{dist}(x, S_0)$ es satisfecha (con $U = \Rn$ y algún $\gamma > 0$). Mostrar que la condición de separación de superficies de nivel críticas también es satisfecha (trivialmente).
+\end{exercise}
+
+\begin{exercise}
+    Tomando $x^0 = (-2, 1)$, hacer dos iteraciones del método de máximo descenso (minimización unidimensional exacta) para la función
+    \[
+        f \colon \R^2 \to \R, \quad f(x) = x_1^2 + x_1 x_2 + 2x_2^2 + x_1.
+    \]
+\end{exercise}
+
+\begin{exercise}
+    Tomando $x^0 = (1, -1)$, hacer una iteración del método de gradiente para la función
+    \[
+        f \colon \R^2 \to \R, \quad f(x) = 2x_1^2 + x_1 x_2 + 3x_2^2,
+    \]
+    utilizando la regla de Armijo, con parámetros siendo $\hat{\alpha} = 1$ y $\sigma = \theta = 1/2$.
+\end{exercise}
+
+\begin{exercise}
+    Sea $\{x^k\}$ una secuencia generada por $x^{k+1} = x^k + \alpha_k d^k$, $k = 0, 1, \dots$, donde
+    \[
+        c_1\|f'(x^k)\|^2 \le -\interno{f'(x^k)}{d^k}, \quad \|d^k\| \le c_2\|f'(x^k)\|,
+    \]
+    $c_1, c_2 > 0$, y la secuencia $\{\alpha_k\} \subset \R_+$ satisface $\lim_{k \to \infty} \alpha_k = 0, \quad \sum_{k=0}^{\infty} \alpha_k = +\infty$. Sea $f$ acotada inferiormente y sea la derivada de $f$ Lipschitz-continua en $\Rn$. Probar que la secuencia $\{f(x^k)\}$ converge y que $\liminf_{k \to \infty} \|f'(x^k)\| = 0$.
+    Más aún, si los conjuntos de nivel $\{x \in \Rn \mid f(x) \le c\}$ son acotados para todo $c \in \R$, entonces la secuencia $\{x^k\}$ es acotada y todo punto de acumulación es un punto estacionario del problema.
+\end{exercise}
+
+\begin{exercise}
+    Sea $\{x^k\}$ una secuencia generada por $x^{k+1} = x^k + \alpha_k d^k$, donde $\alpha_k$ es calculado por la regla de Armijo,
+    \[
+        d^k = -(0, \dots, 0, f'_{x_i}(x^k), 0, \dots, 0),
+    \]
+    y el índice $i \in \{1, \dots, n\}$ satisface $|f'_{x_i}(x^k)| = \max_{j=1,\dots,n} |f'_{x_j}(x^k)|$.
+    Suponiendo que la función $f$ es continuamente diferenciable, probar que todo punto de acumulación de $\{x^k\}$ es punto estacionario del problema.
+\end{exercise}
+
+\begin{exercise}
+    Sea $f$ una función continuamente diferenciable. Supongamos que, dado un punto $x^k \in \Rn$, la dirección $d^k \in \Rn$ sea escogida de manera que garantiza que cuando una subsecuencia $\{x^{k_i}\}$ converge a un punto no-estacionario del problema, entonces $\liminf_{i \to \infty} \interno{f'(x^{k_i})}{d^{k_i}} < 0$. Sea $\{x^k\}$ una secuencia generada por el método iterativo general, donde $\alpha_k$ es calculado por la regla de Armijo. Probar que todo punto de acumulación de $\{x^k\}$ es punto estacionario.
+\end{exercise}
+
+\begin{exercise}
     Sea $\{x^k\}$ una secuencia generada por $x^{k+1} = x^k + \alpha_k d^k$, donde
     \[
-        d^k = -f'(x^k) + \varepsilon^k, \quad \norm{\varepsilon^k} \le \delta \quad \forall k.
+        d^k = -f'(x^k) + \varepsilon^k, \quad \|\varepsilon^k\| \le \delta \;\; \forall k.
     \]
-    Supongamos que la secuencia $\{x^k\}$ es acotada. Probar que para todo $c > \delta$, existen $c_2 \ge c_1 > 0$ tales que si $\alpha_k \in [c_1, c_2]$, entonces la secuencia $\{x^k\}$ posee un punto de acumulación que pertenece al conjunto $\{x \in \Rn \mid \norm{f'(x)} \le c\}$.
+    Supongamos que la secuencia $\{x^k\}$ sea acotada. Probar que para todo $c > \delta$, existen $c_1 \ge c_2 > 0$ tales que si $\alpha_k \in [c_1, c_2]$, entonces la secuencia $\{x^k\}$ posee un punto de acumulación que pertenece al conjunto $\{x \in \Rn \mid \|f'(x)\| \le c\}$.
 \end{exercise}
 
-\begin{exercise}[Método de descenso por coordenadas con Armijo]
-    Sea $\{x^k\}$ una secuencia generada por $x^{k+1} = x^k + \alpha_k d^k$, donde $\alpha_k$ es calculado por la regla de Armijo y
-    \[
-        d^k = -(0, \dots, 0, f'_{i_k}(x^k), 0, \dots, 0),
-    \]
-    y el índice activo satisface $|f'_{i_k}(x^k)| = \max_{j = 1, \dots, n} |f'_j(x^k)|$. Probar que todo punto de acumulación de $\{x^k\}$ es un punto estacionario.
-\end{exercise}
-
-\begin{exercise}[Dirección de descenso con control de subsecuencias]
-    Sea $f$ continuamente diferenciable. Supongamos que, dado un punto $x^k$, la dirección $d^k$ sea elegida de manera que garantice que cuando una subsecuencia $\{x^{k_j}\}$ converge a un punto no estacionario, entonces $\liminf_{j \to \infty} \interno{f'(x^{k_j})}{d^{k_j}} < 0$. Probar que todo punto de acumulación generado con Armijo es estacionario.
-\end{exercise}
-
-\begin{exercise}[Dos iteraciones del método de máximo descenso]
-    Tomando $x^0 = (-2, 1)$, realizar manualmente dos iteraciones exactas del método de máximo descenso para la función:
-    \[
-        f(x) = x_1^2 + x_1 x_2 + 2x_2^2 + x_1.
-    \]
-\end{exercise}
-
-\begin{exercise}[Una iteración del método del gradiente con Armijo]
-    Tomando $x^0 = (1, -1)$, realizar una iteración del método del gradiente para la función $f(x) = 2x_1^2 + x_1 x_2 + 3x_2^2$, utilizando una regla de Armijo, con parámetros siendo $\hat{\alpha} = 1$ y $\sigma = 1/2$.
-\end{exercise}
-
-\begin{exercise}[Convergencia de un esquema con pasos decrecientes]
-    Sea el esquema donde $c_1 \norm{f'(x^k)}^2 \le -\interno{f'(x^k)}{d^k}$ y $\norm{d^k} \le c_2 \norm{f'(x^k)}$, y la secuencia de longitudes satisface la condición estocástica:
-    \[
-        \lim_{k \to \infty} \alpha_k = 0, \quad \sum_{k=0}^{\infty} \alpha_k = +\infty.
-    \]
-    Probar que la secuencia $\{f(x^k)\}$ converge y que $\liminf_{k \to \infty} \norm{f'(x^k)} = 0$.
-\end{exercise}
-
-\begin{exercise}[Crecimiento cuadrático y estimación del gradiente]
-    Siguiendo la demostración teórica vista, probar que si $f$ es tres veces diferenciable con derivada tercera acotada, y satisface la condición de crecimiento cuadrático de conjunto, entonces para todo $\nu \in (0, 4)$ existe $r > 0$ tal que $\norm{f'(x)}^2 \ge \nu\gamma(f(x) - \bar{v})$ en la vecindad.
-\end{exercise}
-
-\begin{exercise}[Separación de superficies de nivel críticas]
-    Sea $f \colon \Rn \to \R$ con derivada Lipschitz-continua. Mostrar que si $f$ asume en su conjunto de puntos estacionarios un número finito de valores diferentes, la condición de separación de superficies de nivel críticas se satisface automáticamente.
-\end{exercise}
-
-\begin{exercise}[Cuadráticas y condiciones de separación]
-    Mostrar que toda función cuadrática que posee un punto estacionario satisface globalmente la desigualdad de gradiente estacionario.
-\end{exercise}
 
 \addsubsec{Sección II: Método de Newton y Cuasi-Newton}
 
-\begin{exercise}[Método de Newton inexacto]
-    Probar el corolario que establece la preservación de la tasa de convergencia superlineal cuando el Hessiano exacto es reemplazado por una matriz de aproximación asintótica.
+\begin{exercise}
+    Probar analíticamente el Corolario de Convergencia local de Newton Inexacto (Corolario 3.2.1 original).
 \end{exercise}
 
-\begin{exercise}[Newton truncado con tolerancias decrecientes]
-    Probar que una secuencia $\{x^k\}$ que satisface la condición de tolerancia $\norm{f'(x^k) + f''(x^k)d^k} \le \sigma_k \norm{f'(x^k)}$, donde $\sigma_k \to 0$, converge a $\bar{x}$ con tasa superlineal.
-\end{exercise}
-
-\begin{exercise}[Newton modificado/simplificado]
-    Probar que el método dado por $x^{k+1} = x^k - (f''(x^0))^{-1}f'(x^k)$ (donde la matriz Hessiana se congela en la iteración inicial) converge localmente a $\bar{x}$ con tasa estrictamente lineal.
-\end{exercise}
-
-\begin{exercise}[Raíz múltiple y Newton con paso variable]
-    A partir de $x^0 = 1$, realizar dos iteraciones del método de Newton para la ecuación escalar $x^p = 0$, con $p \ge 2$. Analizar la degradación de la tasa de convergencia y explicar cómo restaurarla introduciendo un multiplicador de paso $\alpha = p$.
-\end{exercise}
-
-\begin{exercise}[Raíz de orden $p$ y convergencia lineal generalizada]
-    Probar formalmente la afirmación del ejercicio anterior mediante cálculo de Taylor: si una función tiene una raíz múltiple de multiplicidad $p$, el método de Newton clásico degenera en tasa lineal.
-\end{exercise}
-
-\begin{exercise}[Invarianza de Newton ante transformaciones afines]
-    Mostrar que el método de Newton es invariante en relación a transformaciones lineales de variables $x = Ay$. Demuestre que la trayectoria transformada $y^k = A^{-1}x^k$ coincide exactamente con la trayectoria computada directamente en el nuevo espacio.
-\end{exercise}
-
-\begin{exercise}[Newton para minimización de $x_1^2 + e^{x_2^2}$]
-    Realizar dos iteraciones del método de minimización irrestricta de la función
+\begin{exercise}
+    Bajo las hipótesis del Teorema de Newton local para ecuaciones, probar que una secuencia $\{x^k\}$ que satisface la condición de los métodos de Newton truncados:
     \[
-        f : \R^2 \to \R, \quad f(x) = x_1^2 + e^{x_2^2},
+        \|\Phi(x^k) + \Phi'(x^k)(x^{k+1} - x^k)\| \le \sigma_k \|\Phi(x^k)\|,
     \]
-    a partir del punto $x^0 = (1, 1)$. Analizar la tasa de convergencia. Mostrar que, en este caso, el método de Newton
-    posee convergencia global.
+    donde $\sigma_k \to 0$ ($k \to \infty$), converge a $\bar{x}$ con tasa superlineal.
 \end{exercise}
 
-\begin{exercise}[Falsa convergencia local en Newton]\label{ex:v2_newton_falla}
-    Considere la aplicación del método de Newton irrestricto para minimizar la función no convexa:
+\begin{exercise}
+    Probar que bajo las condiciones del Teorema de Newton local, el método de Newton que usa una única evaluación del Jacobiano en el punto de arranque:
     \[
-        f(x) = x^2 + \cos x.
+        x^{k+1} = x^k - (\Phi'(x^0))^{-1}\Phi(x^k), \quad k = 0, 1, \dots
     \]
-    Verifique analíticamente que la solución global $\bar{x} = 0$ satisface todas las hipótesis suficientes de segundo orden (\cref{cor:v2_newton_opt_local}). Sin embargo, si se elige patológicamente el punto inicial alejado del origen $x^0 = 2\pi i$ (con $i \in \N, i \ge 1$), demuestre desarrollando las iteraciones exactas que el método de Newton puro entra en un ciclo o diverge, fallando estrepitosamente en alcanzar el mínimo.
+    converge localmente a $\bar{x}$ con tasa lineal. Además, la tasa de convergencia lineal se hace más rápida a medida que $x^0$ es tomado más próximo a $\bar{x}$.
 \end{exercise}
 
-\begin{exercise}[Newton para $\|x\|^3$]
-    Aplicar el método de Newton para minimizar la función
-    \[
-        f : \Rn \to \R, \quad f(x) = \norm{x}^3.
-    \]
-    Analizar la tasa de convergencia y explicar lo observado.
+\begin{exercise}
+    A partir del punto $x^0 = 1$, hacer dos iteraciones del método de Newton para la ecuación $x^p = 0$, donde $p \ge 2$ es un parámetro entero. Analizar la tasa de convergencia y explicar el fenómeno observado. Modificar el método de Newton introduciendo un longitud de paso igual a $p$ y analizar la tasa de convergencia de nuevo.
 \end{exercise}
 
-\begin{exercise}[Equivalencia algebraica de Dennis-Moré]\label{ex:v2_dennis_more_equiv}
-    Demuestre, manipulando los límites asintóticos y normando por $Q_k f'(x^k)$, que si se cumplen estrictamente las hipótesis del Teorema de Dennis-Moré (\cref{thm:v2_dennis_more}), la condición residual en el espacio primario:
+\begin{exercise}
+    Probar la siguiente afirmación. Sea la función $\Phi \colon \R \to \R$ diferenciable $p$ veces en el punto $\bar{x} \in \R$, $p \ge 2$, donde $\bar{x}$ es una raíz de orden $p$ de la ecuación $\Phi(x) = 0$, i.e.,
     \[
-        (Q_k - (f''(\bar{x}))^{-1})f'(x^k) = o(\norm{f'(x^k)})
+        \Phi(\bar{x}) = \Phi'(\bar{x}) = \dots = \Phi^{(p-1)}(\bar{x}) = 0, \quad \Phi^{(p)}(\bar{x}) \neq 0.
     \]
-    es matemáticamente equivalente a exigir que el residuo en el espacio pre-condicionado tienda a cero súper-linealmente:
+    Entonces el método de Newton converge localmente a $\bar{x}$ con tasa lineal, y si introducimos un longitud de paso igual a $p$, la tasa de convergencia se torna superlineal.
+\end{exercise}
+
+\begin{exercise}
+    Probar que el método de Newton es invariante en relación a las transformaciones lineales de variables, en el sentido siguiente. Sea $x = Ay$ una transformación de variables, dada por una matriz no singular $A \in \R^{n \times n}$. Entonces, si el método de Newton en variables $y$ genera una secuencia $\{y^k\}$ y en variables $x$ genera una secuencia $\{x^k\}$, se tiene que $y^k = A^{-1}x^k$.
+\end{exercise}
+
+\begin{exercise}
+    Hacer dos iteraciones del método de Newton a partir del punto $x^0 = (1, 1)$ para el problema de minimización irrestricta de la función $f \colon \R^2 \to \R, \quad f(x) = x_1^2 + e^{x_2^2}$. Analizar la tasa de convergencia. Mostrar que, en este caso, el método de Newton posee convergencia global.
+\end{exercise}
+
+\begin{exercise}
+    Considerar el método de Newton para minimizar la función $f \colon \R \to \R, \quad f(x) = x^2 + \cos x$. Mostrar que la solución $\bar{x} = 0$ satisface todas las hipótesis del Corolario de convergencia local en optimización, y que, si $x^0 = 2\pi i$ donde $i \in \{1, 2, \dots\}$ (notemos que tal $x^0$ no es próximo de $\bar{x}$), la secuencia generada por el método de Newton no converge.
+\end{exercise}
+
+\begin{exercise}
+    Aplicar el método de Newton para minimizar la función $f \colon \Rn \to \R, \quad f(x) = \|x\|^3$. Analizar la tasa de convergencia y explicar lo observado.
+\end{exercise}
+
+\begin{exercise}
+    Mostrar que si valen las hipótesis del Teorema de Dennis-Moré, la condición asintótica sublineal de Dennis-Moré es equivalente a:
     \[
-        (Q_k^{-1} - f''(\bar{x}))Q_k f'(x^k) = o(\norm{Q_k f'(x^k)}).
+        (Q_k^{-1} - f''(\bar{x}))Q_k f'(x^k) = o(\|Q_k f'(x^k)\|).
     \]
 \end{exercise}
 
-\begin{exercise}[Dennis-Moré para búsqueda de Goldstein]
-    Para el caso de utilización de la regla de búsqueda lineal de Goldstein con el valor inicial de la longitud de paso $\hat{\alpha} = 1$, probar afirmaciones análogas a las del Teorema de Dennis-Moré.
+\begin{exercise}
+    Para el caso de utilización de la regla de búsqueda lineal de Goldstein con el valor inicial del longitud de paso $\alpha = 1$, probar afirmaciones análogas a las del Teorema de Dennis-Moré.
 \end{exercise}
 
-\begin{exercise}[Dualidad matricial DFP-BFGS y positividad]\label{ex:v2_bfgs_pos_def}
-    Existe una profunda simetría algebraica entre las correcciones DFP y BFGS. Definiendo $H_k = Q_k^{-1}$ como la matriz Hessiana directa aproximada en la iteración $k$. 
-    
-    Tome la actualización matricial BFGS que calcula la inversa $Q_{k+1}$. Demuestre utilizando el lema de inversión de matrices de Sherman-Morrison-Woodbury que la actualización de la matriz Hessiana directa $H_{k+1}$ asociada al algoritmo BFGS adopta exactamente la forma de la ecuación de DFP (intercambiando los vectores $r^k$ y $s^k$). 
-    
-    A partir de este isomorfismo, complete la prueba de preservación para demostrar que BFGS también preserva invariablemente el carácter definido positivo de las matrices.
-\end{exercise}
-
-\addsubsec{Sección III: Métodos sin Derivadas y Direcciones Conjugadas}
-
-\begin{exercise}[Fórmulas alternativas para gradientes conjugados]
-    Mostrar que la fórmula analítica original de actualización $\beta_k$ puede ser reescrita algebraicamente (bajo la hipótesis de búsqueda lineal exacta) en las formas de Fletcher-Reeves y Polak-Ribière.
-\end{exercise}
-
-\begin{exercise}[Gradientes conjugados como caso particular de BFGS]
-    Mostrar que la dirección de búsqueda del método de gradientes conjugados de Polak-Ribière puede representarse algebraicamente como $d^{k+1} = -Q_{k+1} f'(x^{k+1})$, donde $Q_{k+1}$ resulta de aplicar la fórmula de actualización de BFGS reiniciando desde la matriz identidad en cada iteración ($Q_k = I$).
-\end{exercise}
-
-\begin{exercise}[Cota de convergencia para gradientes conjugados]
-    Sea $Q \in \R^{n \times n}$ dada por $Q = A + \sum_{i=1}^m y^i (y^i)^T$, donde $A$ es definida positiva y $y^i$ son vectores arbitrarios. Mostrar que el iterado $x^{k+1}$ generado por gradientes conjugados satisface la relación
+\begin{exercise}
+    Mostrar que los métodos DFP y BFGS tienen una relación de "dualidad" en el sentido siguiente. Para una matriz simétrica definida positiva $Q_k \in \R^{n \times n}$, definimos $H_k = Q_k^{-1}$. Sea la matriz $Q_{k+1}$ generada por la fórmula BFGS. Mostrar que la correspondiente matriz inversa $H_{k+1} = Q_{k+1}^{-1}$ viene dada por
     \[
-        f(x^{k+1}) \le \left( \frac{c_n - c_1}{c_n + c_1} \right)^2 f(x^0),
+        H_{k+1} = H_k + \frac{s^k (s^k)^\top}{\interno{r^k}{s^k}} - \frac{(H_k r^k)(H_k r^k)^\top}{\interno{H_k r^k}{r^k}}
     \]
-    donde $c_n$ y $c_1$ son el mayor y el menor autovalor de la matriz $A$, respectivamente.
+    (comparar con la actualización directa de DFP), suponiendo que $H_{k+1}$ sea no-singular y $H_{k+1} = Q_{k+1}^{-1}$. Utilizar este hecho para probar, para BFGS, el resultado análogo al de la Proposición de Mantenimiento de la matriz definida positiva que se demostró para DFP.
 \end{exercise}
 
-\begin{exercise}[Interpretación de Krylov de los gradientes conjugados]
-    Para el método de gradientes conjugados aplicado a la función $f(x) = \frac{1}{2}\interno{Qx}{x} + \interno{q}{x}$, donde $Q$ es definida positiva, probar que el iterado $x^k$ minimiza $f$ en el conjunto $x^0 + \operatorname{span}\{f'(x^0), Qf'(x^0), \dots, Q^{k-1}f'(x^0)\}$.
+
+\addsubsec{Sección III: Estrategias de Globalización}
+
+\begin{exercise}
+    Sea $f \colon \Rn \to \R$ una función dos veces continuamente diferenciable. Considerar el siguiente algoritmo. Sean $\sigma \in (0, 1/2)$, $\theta \in (0, 1)$ parámetros escogidos.
+    Si $f''(x^k)$ es no singular, tomar $d^k = -(f''(x^k))^{-1} f'(x^k)$; sino, tomar $d^k = 0$. Tomar $h^k = -f'(x^k)$. Computar
+    \[
+        x^{k+1} = x^k + \alpha_k ((1 - \alpha_k)h^k + \alpha_k d^k),
+    \]
+    donde $\alpha_k$ es el mayor entre todos los números de forma $\theta^s, s \in \mathbb{N}$, satisfaciendo
+    \[
+        f(x^k + \theta^s ((1 - \theta^s)h^k + \theta^s d^k)) \le f(x^k) - \sigma \theta^s \interno{f'(x^k)}{(1 - \theta^s)h^k + \theta^s d^k}.
+    \]
+    Probar que el método está bien definido (en particular, la regla de cálculo del longitud de paso está bien definida). Probar que todo punto de acumulación de una secuencia $\{x^k\}$ así generada, es un punto estacionario del problema original. Probar que si $\{x^k\}$ converge a un punto estacionario $\bar{x}$ donde $f''(\bar{x})$ es definida positiva, entonces la tasa de convergencia de $\{x^k\}$ a $\bar{x}$ es superlineal.
 \end{exercise}
 
-\begin{exercise}[Dos pasos de descenso por coordenadas con minimización exacta]
-    A partir del punto inicial $x^0 = 0$, realizar de forma analítica dos pasos completos del método de Descenso por Coordenadas para minimizar la función $f(x) = x_1^2 + 2x_1 x_2 + 3x_2^2 + 4x_1$.
+\begin{exercise}
+    Sean dados un vector $q \in \Rn$, una matriz simétrica $Q \in \R^{n \times n}$, y un número $\delta > 0$. Probar que si $\tilde{x} \in \Rn$ es una solución global del problema
+    \[
+        \min \interno{Qx}{x} + \interno{q}{x} \quad \text{sujeto a } x \in B(0, \delta),
+    \]
+    entonces existe un único número $\mu \ge 0$ tal que
+    \[
+        2(Q + \mu E^n)\tilde{x} + q = 0, \quad \mu(\|\tilde{x}\| - \delta) = 0,
+    \]
+    donde la matriz $Q + \mu E^n$ es semidefinida positiva.
+    Si la matriz $Q$ es definida positiva, entonces
+    \[
+        \tilde{x} = 
+        \begin{cases}
+            -Q^{-1}q/2, & \text{si } \|Q^{-1}q\|/2 \le \delta, \\
+            -(Q + \mu E^n)^{-1}q/2, & \text{si no,}
+        \end{cases}
+    \]
+    donde $\mu \ge 0$ está unívocamente definido por la ecuación $\|(Q + \mu E^n)^{-1}q\|/2 = \delta$.
 \end{exercise}
 
-\begin{exercise}[Descenso por coordenadas para una cuadrática]
-    Hacer lo mismo para la función $f(x) = 2x_1^2 - x_1 x_2 + x_2^2$, a partir del punto $x^0 = (2, 0)$.
+\begin{exercise}
+    En la notación del ejercicio anterior, sean $\tilde{x} \in \Rn$ y $\mu \in \R$ tales que $2(Q + \mu E^n)\tilde{x} + q = 0$ y la matriz $Q + \mu E^n$ es semidefinida positiva. Probar las siguientes afirmaciones:
+    \begin{enumerate}[(a)]
+        \item Si $\|\tilde{x}\| \le \delta$ y $\mu = 0$, entonces $\tilde{x}$ es una solución global del problema.
+        \item Si $\|\tilde{x}\| = \delta$, entonces $\tilde{x}$ es una solución global del problema límite sobre la esfera $x \in \{x \in \Rn \mid \|x\| = \delta\}$.
+        \item Si $\|\tilde{x}\| = \delta$ y $\mu \ge 0$, entonces $\tilde{x}$ es una solución global del problema de la región de confianza interior.
+    \end{enumerate}
 \end{exercise}
+
+\begin{exercise}
+    Sea $f \colon \Rn \to \R$ una función dos veces diferenciable en una vecindad del punto $\bar{x} \in \Rn$, con la segunda derivada continua en este punto. Sea $\bar{x}$ un punto estacionario del problema que satisface la condición suficiente de segunda orden.
+    Probar que si $x^k \in \Rn \setminus \{\bar{x}\}$ es suficientemente próximo de $\bar{x}$, entonces para el iterado siguiente generado por el Algoritmo de regiones de confianza vale $x^{k+1} = x^k - (f''(x^k))^{-1}f'(x^k)$.
+\end{exercise}
+
+\begin{exercise}
+    Sea $\varphi \colon [0, 1] \times \Rn \to \R$ una función con las siguientes propiedades: existe un conjunto compacto $D \subset \Rn$ tal que $\varphi$ es continua en $[0, 1] \times D$ y para todo $t \in [0, 1]$ el problema $\min \varphi(t, x)$ sujeto a $x \in D$ posee una única solución global $\chi(t)$.
+    Probar que la función de soluciones $\chi \colon [0, 1] \to \Rn$ es continua en $[0, 1]$.
+\end{exercise}
+
+
+\addsubsec{Sección IV: Direcciones Conjugadas}
+
+\begin{exercise}
+    Mostrar que la fórmula analítica original de actualización $\beta_{k-1} = \frac{\interno{Qd^{k-1}}{f'(x^k)}}{\interno{Qd^{k-1}}{d^{k-1}}}$ puede ser escrita de la siguiente manera:
+    \[
+        \beta_{k-1} = \frac{\interno{f'(x^k)}{f'(x^k) - f'(x^{k-1})}}{\|f'(x^{k-1})\|^2}.
+    \]
+\end{exercise}
+
+\begin{exercise}
+    Supongamos que para los puntos $x^k \in \Rn$ y $x^{k+1} \in \Rn$ y los vectores $d^{k-1} \in \Rn$ y $d^k \in \Rn$ generados por el método de los gradientes conjugados para algún $k \ge 1$, se tiene que $\interno{f'(x^k)}{d^{k-1}} = 0$ y $\interno{f'(x^{k+1})}{d^k} = 0$. Mostrar que la dirección $d^{k+1}$, calculada de acuerdo con la segunda fórmula de gradientes conjugados, puede ser representada por $d^{k+1} = -Q_{k+1}f'(x^{k+1})$, donde $Q_{k+1}$ viene dada por la actualización BFGS con $Q_k = E^n$.
+\end{exercise}
+
+\begin{exercise}
+    Utilizando el método de los gradientes conjugados, con punto inicial $x^0 = (1, 1)$, encontrar el minimizador irrestricto de la función
+    \[
+        f \colon \R^2 \to \R, \quad f(x) = x_1^2 + 2x_2^2.
+    \]
+\end{exercise}
+
+\begin{exercise}
+    Sea $Q \in \R^{n \times n}$ dada por
+    \[
+        Q = A + \sum_{i=1}^m y^i (y^i)^\top,
+    \]
+    donde $A \in \R^{n \times n}$ es una matriz simétrica definida positiva y $y^i \in \Rn, i = 1, \dots, m$, son vectores arbitrarios. Mostrar que el iterando $x^{k+1}$ generado por el método de gradientes conjugados satisface la relación
+    \[
+        f(x^{k+1}) \le \left(\frac{c_n - c_1}{c_n + c_1}\right)^2 f(x^0),
+    \]
+    donde $c_n$ y $c_1$ son el mayor y el menor autovalores de la matriz $A$, respectivamente.
+\end{exercise}
+
+\begin{exercise}
+    Para el método de gradientes conjugados aplicado a la función $f(x) = \interno{Qx}{x} + \interno{q}{x}$, donde $Q \in \R^{n \times n}$ es una matriz simétrica definida positiva, probar que el iterando $x^k$ minimiza $f$ en el subespacio de Krylov trasladado:
+    \[
+        x^0 + \operatorname{span}\{f'(x^0), Qf'(x^0), \dots, Q^{k-1}f'(x^0)\}.
+    \]
+\end{exercise}
+
+
+\addsubsec{Sección V: Métodos sin Derivadas}
+
+\begin{exercise}
+    A partir del punto inicial $x^0 = 0$, hacer dos pasos del método de descenso por coordenadas para minimizar la función
+    \[
+        f \colon \R^2 \to \R, \quad f(x) = x_1^2 + 2x_1 x_2 + 3x_2^2 + 4x_1,
+    \]
+    calculando la longitud de paso por la regla de minimización unidimensional exacta.
+\end{exercise}
+
+\begin{exercise}
+    Hacer lo mismo para la función
+    \[
+        f \colon \R^2 \to \R, \quad f(x) = 2x_1^2 - x_1 x_2 + x_2^2,
+    \]
+    a partir del punto de arranque $x^0 = (2, 0)$.
+\end{exercise}
+
 %%% Local Variables:
 %%% mode: LaTeX
 %%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
