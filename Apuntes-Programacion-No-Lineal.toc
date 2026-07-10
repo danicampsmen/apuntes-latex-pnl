@@ -100,10 +100,14 @@
 \contentsline {section}{\numberline {9.4}Métodos para problemas con restricciones de igualdad}{136}{section.9.4}%
 \contentsline {subsection}{\numberline {9.4.1}Métodos de Newton para el sistema de Lagrange}{137}{subsection.9.4.1}%
 \contentsline {subsection}{\numberline {9.4.2}El método de penalización cuadrática}{139}{subsection.9.4.2}%
-\contentsline {section}{\numberline {9.5}Programación Cuadrática Secuencial (SQP)}{142}{section.9.5}%
-\contentsline {subsection}{\numberline {9.5.1}El subproblema SQP general}{142}{subsection.9.5.1}%
-\contentsline {subsection}{\numberline {9.5.2}Estrategias de Globalización del Método SQP}{143}{subsection.9.5.2}%
-\contentsline {subsubsection}{\nonumberline La Función de Mérito Penalizada Exacta}{143}{subsubsection*.13}%
-\contentsline {subsubsection}{\nonumberline El Efecto Maratos y las fallas de la tasa superlineal}{143}{subsubsection*.14}%
-\contentsline {chapter}{\nonumberline Bibliografía}{149}{chapter*.15}%
+\contentsline {subsection}{\numberline {9.4.3}Lagrangianas aumentadas y funciones de penalización exacta diferenciables}{142}{subsection.9.4.3}%
+\contentsline {section}{\numberline {9.5}Métodos para problemas con restricciones mixtas}{147}{section.9.5}%
+\contentsline {subsection}{\numberline {9.5.1}Métodos de Newton generalizados}{147}{subsection.9.5.1}%
+\contentsline {subsection}{\numberline {9.5.2}Métodos de Newton generalizados para el sistema de Karush-Kuhn-Tucker}{148}{subsection.9.5.2}%
+\contentsline {section}{\numberline {9.6}Programación Cuadrática Secuencial (SQP)}{149}{section.9.6}%
+\contentsline {subsection}{\numberline {9.6.1}El subproblema SQP general}{149}{subsection.9.6.1}%
+\contentsline {subsection}{\numberline {9.6.2}Estrategias de Globalización del Método SQP}{150}{subsection.9.6.2}%
+\contentsline {subsubsection}{\nonumberline La Función de Mérito Penalizada Exacta}{150}{subsubsection*.13}%
+\contentsline {subsubsection}{\nonumberline El Efecto Maratos y las fallas de la tasa superlineal}{150}{subsubsection*.14}%
+\contentsline {chapter}{\nonumberline Bibliografía}{157}{chapter*.15}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

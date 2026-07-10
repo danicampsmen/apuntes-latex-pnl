@@ -1,0 +1,121 @@
+\section{Métodos para problemas con restricciones mixtas}
+
+A continuación, consideraremos el problema con restricciones mixtas de igualdad y desigualdad. Como fue mencionado en § 1.6, el sistema de optimalidad de Karush-Kuhn-Tucker (KKT) para este problema puede ser escrito en la forma de un sistema de ecuaciones no lineales, pero en general no diferenciables. Primero, serán presentados métodos de Newton generalizados para sistemas de ecuaciones no diferenciables generales (no necesariamente ligados a optimización). Después, consideraremos métodos específicos para resolver reformulaciones no diferenciables de sistemas KKT.
+
+\subsection{Métodos de Newton generalizados}
+
+Consideremos una función $\inmap{\Phi}{\R^n}{\R^n}$, no necesariamente diferenciable, y la ecuación
+\begin{equation}\label{eq:4.129}
+    \Phi(x) = 0
+\end{equation}
+asociada. Una extensión natural del método de Newton viene dada por el esquema iterativo
+\begin{equation}\label{eq:4.130}
+    x^{k+1} = x^k - H_k^{-1} \Phi(x^k), \quad k = 0, 1, \dots,
+\end{equation}
+donde $H_k \in \partial \Phi(x^k)$ o $H_k \in \partial_B \Phi(x^k)$, i.e., en vez de la derivada clásica está siendo utilizado el sub-diferencial de Clarke o el sub-diferencial de Bouligand (vea § 1.6). Así, obtenemos el \textit{método de Newton generalizado}.
+
+\begin{algorithm}[Método de Newton generalizado]
+    Elegir la versión B o C del método. Elegir $x^0 \in \R^n$ y tomar $k := 0$.
+    \begin{enumerate}
+        \item Calcular una matriz $H_k \in \partial_B \Phi(x^k)$ en el caso de la versión B, o $H_k \in \partial \Phi(x^k)$ en el caso de la versión C.
+        
+        Calcular $x^{k+1} \in \R^n$, una solución del sistema de ecuaciones lineales
+        \[
+            H_k(x - x^k) = -\Phi(x^k),
+        \]
+        con respecto a $x \in \R^n$.
+        \item Tomar $k := k + 1$ y retornar al Paso 1.
+    \end{enumerate}
+\end{algorithm}
+
+Las condiciones de regularidad que utilizaremos para probar la convergencia del método de Newton generalizado son las siguientes.
+La función $\inmap{\Phi}{\R^n}{\R^n}$ se llama \textit{BD-regular} (\textit{CD-regular}) en el punto $\bar{x} \in \R^n$, si todas las matrices $H \in \partial_B \Phi(\bar{x})$ ($H \in \partial \Phi(\bar{x})$) son no singulares.
+
+\begin{theorem}[Convergencia del método de Newton generalizado]\label{th:4.5.1}
+    Sea $\inmap{\Phi}{\R^n}{\R^n}$ una función Lipschitz-continua en una vecindad del punto $\bar{x} \in \R^n$ que satisface en este punto la condición de Kummer (1.48). Sea $\bar{x}$ una solución de \eqref{eq:4.129}, tal que $\Phi$ es BD-regular en $\bar{x}$ en el caso de la versión B del Algoritmo 4.5.1, y CD-regular en el caso de la versión C.
+    
+    Entonces para cualquier punto inicial $x^0 \in \R^n$ suficientemente próximo a $\bar{x}$, el Algoritmo 4.5.1 genera una secuencia bien definida que converge a $\bar{x}$. La tasa de convergencia es superlineal, y si $\Phi$ satisface en $\bar{x}$ la condición de Kummer fuerte (1.49), la tasa es cuadrática.
+\end{theorem}
+
+\begin{proof}
+    La demostración es bastante similar a aquella para el método de Newton clásico (Teorema 3.2.1). Por eso, vamos a presentar apenas los pasos principales. Consideraremos la versión B del algoritmo (la prueba para la versión C es análoga).
+    
+    Por el resultado del Ejercicio 1.6.1, por las definiciones del B-diferencial y del diferencial de Clarke, utilizando el Teorema 1.5.1 (de perturbaciones pequeñas de una matriz no singular) y un raciocinio por absurdo, obtenemos que existen una vecindad $U$ del punto $\bar{x}$ y un número $M > 0$ tales que
+    \begin{equation}\label{eq:4.131}
+        \det H \neq 0, \quad \|H^{-1}\| \le M \quad \forall H \in \partial_B \Phi(x), \ \forall x \in U.
+    \end{equation}
+    En particular, la iteración del Algoritmo 4.5.1 está bien definida para $x^k \in U$ cualquiera.
+    
+    Ahora, por \eqref{eq:4.130}, \eqref{eq:4.131}, y la condición de Kummer (1.48) en $\bar{x}$, podemos tomar una vecindad $U$ tal que si $x^k \in U$, y $H_k \in \partial_B \Phi(x^k)$, entonces
+    \begin{align}
+        \|x^{k+1} - \bar{x}\| &= \|x^k - \bar{x} - H_k^{-1} \Phi(x^k)\| \nonumber \\
+        &\le \|H_k^{-1}\| \| \Phi(x^k) - \Phi(\bar{x}) - H_k(x^k - \bar{x}) \| \nonumber \\
+        &= o(\|x^k - \bar{x}\|). \label{eq:4.132}
+    \end{align}
+    
+    De aquí se sigue que, primero, para cualquier punto inicial $x^0$ suficientemente próximo a $\bar{x}$, el Algoritmo 4.5.1 genera una secuencia bien definida y, segundo, que esta secuencia converge a $\bar{x}$ con tasa superlineal.
+    
+    Finalmente, si en $\bar{x}$ vale la condición de Kummer fuerte (1.49), la estimativa \eqref{eq:4.132} se transforma en
+    \[
+        \|x^{k+1} - \bar{x}\| = O(\|x^k - \bar{x}\|^2),
+    \]
+    i.e., la convergencia es cuadrática.
+\end{proof}
+
+\subsection{Métodos de Newton generalizados para el sistema de Karush-Kuhn-Tucker}
+
+Consideremos el problema
+\begin{equation}\label{eq:4.133}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \left\{ x \in \R^n \ \middle| \ \begin{array}{l} h(x) = 0, \\ g(x) \le 0 \end{array} \right\},
+\end{equation}
+donde $\inmap{f}{\R^n}{\R}$, $\inmap{h}{\R^n}{\R^l}$ y $\inmap{g}{\R^n}{\R^m}$ son funciones diferenciables.
+Puntos estacionarios de este problema son caracterizados por el sistema KKT
+\begin{equation}\label{eq:4.134}
+    L'_x(x, \lambda, \mu) = 0, \quad h(x) = 0,
+\end{equation}
+\begin{equation}\label{eq:4.135}
+    g_i(x) \le 0, \ \mu_i \ge 0, \ \mu_i g_i(x) = 0, \quad i = 1, \dots, m,
+\end{equation}
+donde
+\[
+    \inmap{L}{\R^n \times \R^l \times \R^m}{\R}, \quad L(x, \lambda, \mu) = f(x) + \interno{\lambda}{h(x)} + \interno{\mu}{g(x)},
+\]
+es la Lagrangiana del problema.
+Sea $(\bar{x}, \bar{\lambda}, \bar{\mu})$ una solución del sistema \eqref{eq:4.134}-\eqref{eq:4.135}. Sea, como siempre, $I(\bar{x}) = \{ i = 1, \dots, m \mid g_i(\bar{x}) = 0 \}$ el conjunto de las restricciones activas en el punto $\bar{x}$. Bajo la condición de complementariedad estricta, i.e.,
+\[
+    \bar{\mu}_i > 0 \quad \forall i \in I(\bar{x}),
+\]
+es bien fácil ver que, en torno del punto $(\bar{x}, \bar{\lambda}, \bar{\mu})$, las relaciones \eqref{eq:4.135} son equivalentes al sistema de ecuaciones
+\begin{equation}\label{eq:4.136}
+    \mu_i = 0, \quad i \in \{1, \dots, m\} \setminus I(\bar{x}), \quad g_i(x) = 0, \quad i \in I(\bar{x}).
+\end{equation}
+Por lo tanto, en este caso, el sistema KKT \eqref{eq:4.134}-\eqref{eq:4.135} es localmente equivalente al sistema \eqref{eq:4.134}, \eqref{eq:4.136} de $n+l+m$ ecuaciones con relación a las variables $(x, \lambda, \mu) \in \R^n \times \R^l \times \R^m$. Si $f, h$ y $g$ son dos veces diferenciables, este último sistema puede ser resuelto por el método de Newton clásico, como fue hecho en § 4.4.1 en el caso de problemas con restricciones de igualdad (cuando no hay restricciones de desigualdad). Naturalmente, la aplicación práctica del método de Newton clásico es limitada por el hecho de que el conjunto $I(\bar{x})$ no es conocido a priori. Sin embargo, existen varias técnicas de identificación de restricciones activas (inclusive cuando no hay complementariedad estricta, vea § 4.7). En el caso de complementariedad estricta esta identificación es, en cierto sentido, hasta trivial. Por lo menos en principio. El asunto de identificación de restricciones activas será tratado con más cuidado en § 4.7.
+
+Aquí, presentaremos métodos de solución del sistema KKT que no necesitan de la condición de complementariedad estricta, ni de la identificación del conjunto $I(\bar{x})$. Cabe mencionar que cuando hay complementariedad estricta, las iteraciones de estos métodos son localmente equivalentes a las iteraciones del método de Newton clásico para el sistema \eqref{eq:4.134}, \eqref{eq:4.136}. De hecho, esto es completamente natural y hasta deseable: en cierto sentido puede ser afirmado que cualquier método Newtoniano debe ser equivalente al método de Newton clásico para el sistema \eqref{eq:4.134}, \eqref{eq:4.136}, cuando este sistema es equivalente al sistema KKT del problema original.
+
+La idea es reformular las relaciones en \eqref{eq:4.135} en un sistema de ecuaciones que no contengan elementos o parámetros a priori desconocidos. Mas es claro que la ventaja de lidiar con ecuaciones (en vez de ecuaciones e inecuaciones, lo que siempre es más complicado) tiene un precio a ser pagado. En este contexto, el precio consiste en la pérdida de la diferenciabilidad, o en la inevitable singularidad de una solución, como veremos a seguir. En un cierto sentido, la primera dificultad no es tan grave así, y actualmente es considerada preferible a la segunda.
+
+Recordamos que una función $\inmap{\psi}{\R \times \R}{\R}$ se llama \textit{función de complementariedad}, si el conjunto de soluciones de la ecuación
+\[
+    \psi(a, b) = 0
+\]
+coincide con el conjunto de soluciones del sistema
+\[
+    a \ge 0, \quad b \ge 0, \quad ab = 0.
+\]
+
+Como ya mencionamos en § 1.6, entre las funciones de complementariedad más populares están el \textit{residuo natural}
+\begin{equation}\label{eq:4.137}
+    \psi(a, b) = \min\{a, b\}, \quad a, b \in \R,
+\end{equation}
+y la \textit{función de Fischer-Burmeister}
+\begin{equation}\label{eq:4.138}
+    \psi(a, b) = \sqrt{a^2 + b^2} - a - b, \quad a, b \in \R.
+\end{equation}
+
+Los dos resultados siguientes son bien fáciles de probar utilizando el Teorema 1.6.2.
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:

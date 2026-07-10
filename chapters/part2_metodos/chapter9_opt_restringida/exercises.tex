@@ -294,6 +294,88 @@ Probar que existe $\delta > 0$ tal que, si $\|x^0 - \bar{x}\| < \delta$, entonce
     \end{align*}
 \end{exercise}
 
+\begin{exercise}
+    Probar que, para algunos $c > 0$ y $\lambda \in \R^l$, $x \in \R^n$ es un punto estacionario para el problema \eqref{eq:4.120}, si y solo si $\rank F'(x) = l$, entonces
+    \[
+        \lambda + c h(x) = -(h'(x)(h'(x))^\top)^{-1} h'(x) f'(x)
+    \]
+    (comparar con el Ejercicio 4.4.2).
+\end{exercise}
+
+\begin{exercise}
+    Probar el siguiente complemento a la afirmación (a) del Teorema 4.4.6: para cualquier par $(\lambda, c)$, si $c$ es suficientemente grande, entonces la matriz $L''_{xx}(x(\lambda, c), \lambda; c)$ es definida positiva, i.e., el punto estacionario $x(\lambda, c)$ del problema \eqref{eq:4.120} satisface la condición suficiente de segunda orden del Teorema 1.2.1(b) (comparar con el ítem (b) del Ejercicio 4.4.3 y con el Teorema 4.4.5).
+\end{exercise}
+
+\begin{exercise}
+    Probar el ítem (a) del Teorema 4.4.7.
+\end{exercise}
+
+\begin{exercise}
+    Sea $\R \subset \R^n$ el conjunto definido en el Ejercicio 4.4.2. Definimos
+    \[
+        C(x) = (h'(x)(h'(x))^\top)^{-1} h'(x), \quad \lambda(x) = -C(x) f'(x), \quad x \in R.
+    \]
+    Mostrar que para la familia de funciones definida en \eqref{eq:4.125}, vale lo siguiente: para todo $c$ y todo $x \in R$,
+    \[
+        \min_{\lambda \in \R^l} \varphi(x, \lambda; c+1) = \varphi(x, \lambda(x); c+1) = L(x, \lambda(x); c).
+    \]
+\end{exercise}
+
+\begin{exercise}
+    Construir y analizar métodos de Newton inexactos para problemas de optimización irrestricta \eqref{eq:4.124} y \eqref{eq:4.126} con funciones objetivo dadas por las fórmulas \eqref{eq:4.123} y \eqref{eq:4.125}, respectivamente, así como para el problema
+    \[
+        \min L(x, \lambda(x); c) \quad \text{sujeto a} \quad x \in R
+    \]
+    (en notación del Ejercicio 4.4.9).
+\end{exercise}
+\begin{exercise}
+    Mostrar que las funciones definidas en \eqref{eq:4.137} y en \eqref{eq:4.138} son funciones de complementariedad.
+\end{exercise}
+
+\begin{exercise}
+    Sea $\inmap{\omega}{\R}{\R}$ una función creciente cualquiera, $\omega(0) = 0$. Mostrar que
+    \[
+        \inmap{\psi}{\R \times \R}{\R}, \quad \psi(a, b) = \omega(|a - b|) - \omega(a) - \omega(b),
+    \]
+    es una función de complementariedad.
+\end{exercise}
+
+\begin{exercise}
+    Sea $\inmap{g}{\R^n}{\R^m}$ una función diferenciable en $\R^n$. Definimos una función $\inmap{\Phi}{\R^n \times \R^m}{\R^m}$ con componentes
+    \[
+        \Phi_i(x, \mu) = \psi(-g_i(x), \mu_i), \quad x \in \R^n, \ \mu \in \R^m, \ i = 1, \dots, m,
+    \]
+    donde $\psi$ es la función de complementariedad dada por \eqref{eq:4.137}.
+    
+    Mostrar que para todo $x \in \R^n$ tal que la derivada de $g$ sea continua en $x$, y todo $\mu \in \R^m$, el B-diferencial $\partial_B \Phi(x, \mu)$ sea un conjunto de matrices de la forma $(-A(x, \mu)g'(x), E^m - A(x, \mu))$, donde $A(x, \mu)$ es una matriz diagonal $m \times m$ con elementos
+    \begin{equation}\label{eq:4.139}
+        a_i(x, \mu) = \begin{cases} 
+            1, & \text{si } \mu_i > -g_i(x), \\ 
+            0 \text{ ou } 1, & \text{si } \mu_i = -g_i(x), \\ 
+            0, & \text{si } \mu_i < -g_i(x), 
+        \end{cases} \quad i = 1, \dots, m.
+    \end{equation}
+\end{exercise}
+
+\begin{exercise}
+    En las condiciones del Ejercicio 4.5.3, considerar el caso en que $\psi$ es la función de complementariedad definida en \eqref{eq:4.138}.
+    
+    Mostrar que para todo $x \in \R^n$ tal que la derivada de $g$ sea continua en $x$, y todo $\mu \in \R^m$, $\partial_B \Phi(x, \mu)$ sea un conjunto de matrices de la forma $(A(x, \mu)g'(x), B(x, \mu))$, donde $A(x, \mu)$ y $B(x, \mu)$ son matrices diagonales $m \times m$ con elementos
+    \begin{equation}\label{eq:4.140}
+        a_i(x, \mu) = \begin{cases} 
+            1 + \frac{g_i(x)}{\sqrt{\mu_i^2 + g_i^2(x)}}, & \text{si } |\mu_i| + |g_i(x)| \neq 0, \\ 
+            1 + \alpha_i, & \text{si } |\mu_i| + |g_i(x)| = 0, 
+        \end{cases}
+    \end{equation}
+    \begin{equation}\label{eq:4.141}
+        b_i(x, \mu) = \begin{cases} 
+            1 - \frac{\mu_i}{\sqrt{\mu_i^2 + g_i^2(x)}}, & \text{si } |\mu_i| + |g_i(x)| \neq 0, \\ 
+            1 - \beta_i, & \text{si } |\mu_i| + |g_i(x)| = 0, 
+        \end{cases}
+    \end{equation}
+    $\alpha_i, \beta_i \in \R, \ \alpha_i^2 + \beta_i^2 = 1, \ i = 1, \dots, m$.
+\end{exercise}
+
 %%% Local Variables:
 %%% mode: LaTeX
 %%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
