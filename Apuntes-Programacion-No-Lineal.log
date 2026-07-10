@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  10 JUL 2026 17:04
+This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  10 JUL 2026 17:54
  restricted system commands enabled.
  file:line:error style messages enabled.
 **Apuntes-Programacion-No-Lineal.tex
@@ -2871,6 +2871,13 @@ Package csquotes Info: Redefining alias 'default' -> 'spanish'.
 (./Apuntes-Programacion-No-Lineal.aux
 Package babel Info: 'spanish' activates 'spanish' shorthands.
 (babel)             Reported on input line 18.
+
+
+LaTeX Warning: Label `eq:4.159' multiply defined.
+
+
+LaTeX Warning: Label `eq:4.159@cref' multiply defined.
+
 )
 \openout1 = Apuntes-Programacion-No-Lineal.aux
 
@@ -3591,14 +3598,20 @@ Package cleveref Info: loaded `spanish' language definitions on input line 441.
 Package cleveref Info: loaded `spanish' language definitions on input line 482.
 
  [139]
+
+LaTeX Warning: Reference `eq:4.70' on page 140 undefined on input line 533.
+
 Package cleveref Info: loaded `spanish' language definitions on input line 579.
 
- [140]
+[140]
 Package cleveref Info: loaded `spanish' language definitions on input line 591.
 
  [141]
 
 LaTeX Warning: Reference `eq:1.40' on page 142 undefined on input line 612.
+
+
+LaTeX Warning: Reference `eq:4.70' on page 142 undefined on input line 674.
 
 
 LaTeX Warning: Reference `eq:1.19' on page 142 undefined on input line 697.
@@ -3653,42 +3666,139 @@ Package cleveref Info: loaded `spanish' language definitions on input line 498.
 
  [157])
 (./chapters/part2_metodos/chapter9_opt_restringida/06_restricciones_mixtas.tex
-Package cleveref Info: loaded `spanish' language definitions on input line 63.
+Package cleveref Info: loaded `spanish' language definitions on input line 62.
 
 [158]
-Package cleveref Info: loaded `spanish' language definitions on input line 96.
- [159]) (./chapters/part2_metodos/chapter9_opt_restringida/07_sqp.tex
-Package cleveref Info: loaded `spanish' language definitions on input line 46.
+Package cleveref Info: loaded `spanish' language definitions on input line 103.
 
-[160]) (./chapters/part2_metodos/chapter9_opt_restringida/exercises.tex
-Package cleveref Info: loaded `spanish' language definitions on input line 2.
+ [159]
+Package cleveref Info: loaded `spanish' language definitions on input line 198.
 
-[161]
-Package cleveref Info: loaded `spanish' language definitions on input line 77.
+ [160]
+Package cleveref Info: loaded `spanish' language definitions on input line 248.
+
+ [161]
+Package cleveref Info: loaded `spanish' language definitions on input line 273.
+
  [162]
-LaTeX Font Info:    Font shape `TU/texgyreheros-regular.otf(0)/b/n' will be
-(Font)              scaled to size 6.13152pt on input line 87.
-Package cleveref Info: loaded `spanish' language definitions on input line 154.
+Package cleveref Info: loaded `spanish' language definitions on input line 449.
 
  [163]
-Package cleveref Info: loaded `spanish' language definitions on input line 215.
+Package cleveref Info: loaded `spanish' language definitions on input line 449.
 
  [164]
-Package cleveref Info: loaded `spanish' language definitions on input line 294.
+Package cleveref Info: loaded `spanish' language definitions on input line 474.
 
  [165]
-Package cleveref Info: loaded `spanish' language definitions on input line 375.
+Package cleveref Info: loaded `spanish' language definitions on input line 531.
 
- [166])
-Package cleveref Info: loaded `spanish' language definitions on input line 143.
+ [166]
+Package cleveref Info: loaded `spanish' language definitions on input line 596.
 
  [167]
+Package cleveref Info: loaded `spanish' language definitions on input line 646.
+
+ [168]
+Package cleveref Info: loaded `spanish' language definitions on input line 726.
+
+ [169]
+Overfull \hbox (1.29245pt too wide) in paragraph at lines 760--761
+[]\TU/STIXTwoText-Regular.ttf(0)/m/n/10 No-te-mos el si-guien-te he-cho, com-ple
+-men-ta-rio en re-la-ción al ítem (b) del Teo-re-ma 4.5.7. Co-mo $\TU/STIXTwo
+Math(1)/m/n/10 𝜇[] → []$\TU/STIXTwoText-Regular.ttf(0)/m/n/10 , $\TU/STIXT
+woMath(1)/m/n/10 𝑥(𝜆[], 𝜇[], 𝑐[]) →
+ []
+
+Package cleveref Info: loaded `spanish' language definitions on input line 772.
+
+[170]) (./chapters/part2_metodos/chapter9_opt_restringida/07_sqp.tex
+Package cleveref Info: loaded `spanish' language definitions on input line 6.
+ [171]
+Package cleveref Info: loaded `spanish' language definitions on input line 51.
+
+[172]
+Package cleveref Info: loaded `spanish' language definitions on input line 98.
+ [173]
+Package cleveref Info: loaded `spanish' language definitions on input line 202.
+
+ [174]
+Package cleveref Info: loaded `spanish' language definitions on input line 202.
+
+ [175]
+Package cleveref Info: loaded `spanish' language definitions on input line 321.
+
+ [176]
+Package cleveref Info: loaded `spanish' language definitions on input line 321.
+
+ [177]
+Package cleveref Info: loaded `spanish' language definitions on input line 342.
+
+ [178]
+Package cleveref Info: loaded `spanish' language definitions on input line 392.
+
+ [179]
+Package cleveref Info: loaded `spanish' language definitions on input line 453.
+
+ [180]
+Package cleveref Info: loaded `spanish' language definitions on input line 494.
+
+ [181]
+Package cleveref Info: loaded `spanish' language definitions on input line 607.
+
+ [182]
+Package cleveref Info: loaded `spanish' language definitions on input line 612.
+
+ [183]
+Package cleveref Info: loaded `spanish' language definitions on input line 654.
+
+
+[184]
+Package cleveref Info: loaded `spanish' language definitions on input line 722.
+
+ [185]
+Package cleveref Info: loaded `spanish' language definitions on input line 817.
+
+ [186]
+Package cleveref Info: loaded `spanish' language definitions on input line 827.
+
+ [187]
+Package cleveref Info: loaded `spanish' language definitions on input line 865.
+
+ [188]
+Package cleveref Info: loaded `spanish' language definitions on input line 918.
+
+ [189]
+Package cleveref Info: loaded `spanish' language definitions on input line 983.
+
+ [190])
+(./chapters/part2_metodos/chapter9_opt_restringida/exercises.tex
+Package cleveref Info: loaded `spanish' language definitions on input line 42.
+ [191]
+Package cleveref Info: loaded `spanish' language definitions on input line 116.
+
+ [192]
+Package cleveref Info: loaded `spanish' language definitions on input line 179.
+
+
+[193]
+Package cleveref Info: loaded `spanish' language definitions on input line 256.
+
+ [194]
+Package cleveref Info: loaded `spanish' language definitions on input line 320.
+
+ [195]
+Package cleveref Info: loaded `spanish' language definitions on input line 390.
+
+ [196])
+Package cleveref Info: loaded `spanish' language definitions on input line 143.
+
+ [197]
 chapter without number
-[168
+[198
 
 
 ] (./Apuntes-Programacion-No-Lineal.ind)
-runsystem(latexminted cleantemp  --timestamp 20260710170414 619C487146398D9C4DAF
+runsystem(latexminted cleantemp  --timestamp 20260710175422 619C487146398D9C4DAF
 123F9D510570)...executed.
 
 (./Apuntes-Programacion-No-Lineal.aux
@@ -3703,6 +3813,9 @@ L3 programming layer <2020/03/25>
 LaTeX Warning: There were undefined references.
 
 
+LaTeX Warning: There were multiply-defined labels.
+
+
 Package biblatex Warning: Please (re)run Biber on the file:
 (biblatex)                Apuntes-Programacion-No-Lineal
 (biblatex)                and rerun LaTeX afterwards.
@@ -3714,16 +3827,15 @@ l'.
 )
 
 Here is how much of LuaTeX's memory you used:
- 86034 strings out of 475891
- 305212,4101490 words of node,token memory allocated
- 45773 words of node memory still in use:
-   8 hlist, 2 vlist, 5 rule, 1 local_par, 7 glue, 4 kern, 1 penalty, 2 sub_mlist
-, 1 margin_kern, 3 glyph, 16856 attribute, 102 glue_spec, 5616 attribute_list, 3
- write nodes
-   avail lists: 1:16,2:40437,3:1568,4:69,5:1332,6:213,7:13065,8:83,9:2055,10:35,
+ 86770 strings out of 475891
+ 381517,4101490 words of node,token memory allocated
+ 55035 words of node memory still in use:
+   8 hlist, 2 vlist, 5 rule, 1 local_par, 8 glue, 5 kern, 1 penalty, 6 sub_mlist
+, 3 glyph, 20322 attribute, 102 glue_spec, 6771 attribute_list, 3 write nodes
+   avail lists: 1:14,2:63596,3:1564,4:70,5:1690,6:212,7:15735,8:83,9:2497,10:35,
 11:1531,12:1
- 105389 multiletter control sequences out of 65536+600000
- 146 fonts using 63920499 bytes
+ 105844 multiletter control sequences out of 65536+600000
+ 152 fonts using 67738559 bytes
  125i,21n,128p,11236b,4829s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/fonts/opentype/stix/STIXTwoMath-Regular.otf></usr/share/fonts/openty
 pe/stix/STIXTwoMath-Regular.otf></usr/share/fonts/opentype/stix/STIXTwoMath-Regu
@@ -3734,11 +3846,11 @@ al/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreheros-regular.o
 tf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreher
 os-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msam10.pfb>
-Output written on Apuntes-Programacion-No-Lineal.pdf (174 pages, 1439742 bytes).
+Output written on Apuntes-Programacion-No-Lineal.pdf (204 pages, 1641782 bytes).
 
 
-PDF statistics: 3675 PDF objects out of 4296 (max. 8388607)
- 3435 compressed objects within 35 object streams
- 1468 named destinations out of 1728 (max. 1048576)
- 1064 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 4045 PDF objects out of 4296 (max. 8388607)
+ 3772 compressed objects within 38 object streams
+ 1749 named destinations out of 2073 (max. 1048576)
+ 1168 words of extra memory for PDF output out of 10000 (max. 100000000)
 

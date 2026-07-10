@@ -1,16 +1,18 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [0] Config.pm:331> INFO - Logfile is 'Apuntes-Programacion-No-Lineal.blg'
-[106] biber:342> INFO - === vie jul 10, 2026, 16:49:42
-[129] Biber.pm:421> INFO - Reading 'Apuntes-Programacion-No-Lineal.bcf'
-[226] Biber.pm:999> INFO - Using all citekeys in bib section 0
-[245] Biber.pm:4487> INFO - Processing section 0
-[260] Biber.pm:4678> INFO - Looking for bibtex file 'Apuntes-Programacion-No-Lineal.bib' for section 0
-[262] bibtex.pm:1713> INFO - LaTeX decoding ...
-[272] bibtex.pm:1519> INFO - Found BibTeX data source 'Apuntes-Programacion-No-Lineal.bib'
-[335] Utils.pm:479> ERROR - Name "Bazaraa, Mokhtar S. y Sherali, Hanif D. y Shetty, Chitharanjan M." has too many commas, skipping entry 'bazaraa2013nonlinearprogrammingtheory'
-[349] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[349] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'variable = shifted' with 'variable = non-ignorable'
-[349] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'es-ES'
-[353] bbl.pm:676> INFO - Writing 'Apuntes-Programacion-No-Lineal.bbl' with encoding 'UTF-8'
-[355] bbl.pm:779> INFO - Output to Apuntes-Programacion-No-Lineal.bbl
-[355] Biber.pm:137> INFO - ERRORS: 1
+[45] biber:342> INFO - === vie jul 10, 2026, 17:51:46
+[55] Biber.pm:421> INFO - Reading 'Apuntes-Programacion-No-Lineal.bcf'
+[104] Biber.pm:1002> INFO - Found 3 citekeys in bib section 0
+[113] Biber.pm:4487> INFO - Processing section 0
+[120] Biber.pm:4678> INFO - Looking for bibtex file 'Apuntes-Programacion-No-Lineal.bib' for section 0
+[121] bibtex.pm:1713> INFO - LaTeX decoding ...
+[123] bibtex.pm:1519> INFO - Found BibTeX data source 'Apuntes-Programacion-No-Lineal.bib'
+[144] Utils.pm:479> ERROR - Name "Bazaraa, Mokhtar S. y Sherali, Hanif D. y Shetty, Chitharanjan M." has too many commas, skipping entry 'bazaraa2013nonlinearprogrammingtheory'
+[150] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[150] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'variable = shifted' with 'variable = non-ignorable'
+[150] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'es-ES'
+[151] bbl.pm:676> INFO - Writing 'Apuntes-Programacion-No-Lineal.bbl' with encoding 'UTF-8'
+[152] bbl.pm:779> INFO - Output to Apuntes-Programacion-No-Lineal.bbl
+[152] Biber.pm:132> WARN - Entry with key 'bazaraa2013nonlinearprogrammingtheory' in section '0' is cited and found but not created (likely due to sourcemap)
+[152] Biber.pm:134> INFO - WARNINGS: 1
+[152] Biber.pm:137> INFO - ERRORS: 1

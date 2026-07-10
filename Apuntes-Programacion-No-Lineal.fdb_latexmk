@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber Apuntes-Programacion-No-Lineal"] 1783720163.23183 "Apuntes-Programacion-No-Lineal.bcf" "Apuntes-Programacion-No-Lineal.bbl" "Apuntes-Programacion-No-Lineal" 1783720489.9697 2
-  "Apuntes-Programacion-No-Lineal.bcf" 1783720488.94405 108267 2a53b40057e4e7470edcfdd02e74cbc6 "lualatex"
+["biber Apuntes-Programacion-No-Lineal"] 1783723905.25439 "Apuntes-Programacion-No-Lineal.bcf" "Apuntes-Programacion-No-Lineal.bbl" "Apuntes-Programacion-No-Lineal" 1783723936.06428 2
+  "Apuntes-Programacion-No-Lineal.bcf" 1783723935.12565 107795 a21ea32be62af2328e956a1db116e851 "lualatex"
   "Apuntes-Programacion-No-Lineal.bib" 1782921599.11829 872 67987d65f34d081a3b949fceca9fde99 ""
   (generated)
   "Apuntes-Programacion-No-Lineal.bbl"
   "Apuntes-Programacion-No-Lineal.blg"
   (rewritten before read)
-["lualatex"] 1783720463.02409 "Apuntes-Programacion-No-Lineal.tex" "Apuntes-Programacion-No-Lineal.pdf" "Apuntes-Programacion-No-Lineal" 1783720489.96992 0
+["lualatex"] 1783723906.2059 "Apuntes-Programacion-No-Lineal.tex" "Apuntes-Programacion-No-Lineal.pdf" "Apuntes-Programacion-No-Lineal" 1783723936.06464 0
   "/home/fayfer/.texlive2026/texmf-var/luatex-cache/generic/fonts/hb/09ee133ce5ae19ef70ccbbcdc187bf4bdd43e439a5073dee7cf89cc3adf4a8ed.luc" 1779992661.65497 113899 b7189114198dc59e22e4aabf67a8597f ""
   "/home/fayfer/.texlive2026/texmf-var/luatex-cache/generic/fonts/hb/52f0c2fdc9a6553402155e6da773d8db8c76f9b3beaa28423cd2a880bd9d3882.luc" 1779992661.71697 117027 b4c95cee9b4dfe91757dd86697544d23 ""
   "/home/fayfer/.texlive2026/texmf-var/luatex-cache/generic/fonts/hb/7f47422381b5aedee1f83f7bbd90e6660ddf79a8c5066567168d7b866641e424.luc" 1779992661.68697 116490 e8bddf8ea737d44d098743326065a82a ""
@@ -35,6 +35,7 @@
   "/usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi5.tfm" 1136768653 1508 3b32edd0d68f6498a5a375e78f9edc5e ""
   "/usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm" 1136768653 1512 f21f83efb36853c0b70002322c1ab3ad ""
   "/usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi7.tfm" 1136768653 1528 e2423ae06dc7dee599cceb79d1c9dc32 ""
+  "/usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm" 1136768653 1520 eccf95517727cb11801f4f1aee3a21b4 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm" 1136768653 1524 d89e2d087a9828407a196f428428ef4a ""
   "/usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb" 1248133631 31764 459c573c03a4949a528c2cc7f557e217 ""
   "/usr/local/texlive/2026/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
@@ -508,12 +509,12 @@
   "/usr/share/fonts/truetype/stix/STIXTwoText-BoldItalic.ttf" 1622037463 420164 8dadc195eefa786fd2dc719926dc13bb ""
   "/usr/share/fonts/truetype/stix/STIXTwoText-Italic.ttf" 1622037463 424488 4964440f3addf7b8c7e5ad766a20b46e ""
   "/usr/share/fonts/truetype/stix/STIXTwoText-Regular.ttf" 1622037463 395068 887cbdb6d2ebda02a5fa7a922dc55856 ""
-  "Apuntes-Programacion-No-Lineal.aux" 1783720488.83205 223000 e6e4cb47fce1006ab905770d764aee9d "lualatex"
-  "Apuntes-Programacion-No-Lineal.bbl" 1783720183.21234 3458 8d402be9912332295305a2e817104e28 "biber Apuntes-Programacion-No-Lineal"
-  "Apuntes-Programacion-No-Lineal.ind" 1783720488.51205 0 d41d8cd98f00b204e9800998ecf8427e "makeindex Apuntes-Programacion-No-Lineal.idx"
-  "Apuntes-Programacion-No-Lineal.run.xml" 1783720488.94576 2548 bd4ce1a9982c1aff211ed39cfaa6f752 "lualatex"
+  "Apuntes-Programacion-No-Lineal.aux" 1783723935.00865 260360 84a8acc4bc8da77f9fe9a4cbf0a9b502 "lualatex"
+  "Apuntes-Programacion-No-Lineal.bbl" 1783723906.16152 3458 8d402be9912332295305a2e817104e28 "biber Apuntes-Programacion-No-Lineal"
+  "Apuntes-Programacion-No-Lineal.ind" 1783721078.30005 0 d41d8cd98f00b204e9800998ecf8427e "makeindex Apuntes-Programacion-No-Lineal.idx"
+  "Apuntes-Programacion-No-Lineal.run.xml" 1783723935.12665 2548 bd4ce1a9982c1aff211ed39cfaa6f752 "lualatex"
   "Apuntes-Programacion-No-Lineal.tex" 1783293138.99809 7159 58d8b646b1797112cc2f5903792c7742 ""
-  "Apuntes-Programacion-No-Lineal.toc" 1783720488.94576 13444 17af3e2e165407fedd20cc10d1430db3 "lualatex"
+  "Apuntes-Programacion-No-Lineal.toc" 1783723935.12665 14151 fa5a64326ba3b5cca0ac614a9fa3a125 "lualatex"
   "apuntes-scr.cls" 1783710143.94647 39835 e99f9e3226c559570cdd78d60ad04a41 ""
   "chapters/part1_optimalidad/chapter1_intro_optimizacion/01_conceptos_basicos.tex" 1782912691.66685 10815 7b58f5dd5b4f6de2e28b962a365a7e67 ""
   "chapters/part1_optimalidad/chapter1_intro_optimizacion/02_existencia_soluciones.tex" 1782912758.83361 10164 ed154ad8f6344e06f25b9ee3d83869fd ""
@@ -547,7 +548,7 @@
   "chapters/part2_metodos/chapter7_intro_metodos/02_tasas_parada.tex" 1782919516.19665 8434 0629697a8906fd23f2c21ef84c02723e ""
   "chapters/part2_metodos/chapter7_intro_metodos/03_opt_unidimensional.tex" 1782919590.28995 20814 a18373c5e3307314a7197b564a86068d ""
   "chapters/part2_metodos/chapter7_intro_metodos/exercises.tex" 1783720134.70511 6604 7668eaeb29df2ce9c48130bd8c7fd4e6 ""
-  "chapters/part2_metodos/chapter8_opt_no_restringida/01_metodos_descenso_armijo.tex" 1783719914.16637 16459 1193aa366771b6248fdae24ccfc9a86c ""
+  "chapters/part2_metodos/chapter8_opt_no_restringida/01_metodos_descenso_armijo.tex" 1783723322.03008 16564 98eb1efe4b92b66e793d22afe6882a00 ""
   "chapters/part2_metodos/chapter8_opt_no_restringida/02_metodo_gradiente.tex" 1783719936.60838 12025 e189c8ef328ff22cc1a39724c95f9fe3 ""
   "chapters/part2_metodos/chapter8_opt_no_restringida/03_metodo_newton.tex" 1783720066.93168 12068 98b7ad7cf4d032ffad642c649b87d5db ""
   "chapters/part2_metodos/chapter8_opt_no_restringida/04_cuasi_newton.tex" 1783720083.11817 12857 4750c42a8806c940b3c62f8d822c071b ""
@@ -555,15 +556,14 @@
   "chapters/part2_metodos/chapter8_opt_no_restringida/06_regiones_confianza.tex" 1783720289.78637 35953 86e8d194884af3bf1df12e9d7f00b2cd ""
   "chapters/part2_metodos/chapter8_opt_no_restringida/07_direcciones_conjugadas.tex" 1783720407.20916 19035 82e2cb6c2a62c1dc0efaf6be3870d314 ""
   "chapters/part2_metodos/chapter8_opt_no_restringida/08_metodos_sin_derivadas.tex" 1783720433.411 8675 fdb164b99398f3bd06ee93a9171368f5 ""
-  "chapters/part2_metodos/chapter8_opt_no_restringida/exercises.tex" 1783712835.1267 14116 b9b14b4e602e7bf49f11da8cf9b4f40d ""
+  "chapters/part2_metodos/chapter8_opt_no_restringida/exercises.tex" 1783721026.33679 18345 f5899e5d9e8ba3bd4a0eb65eef4e77d4 ""
   "chapters/part2_metodos/chapter9_opt_restringida/01_gradiente_proyectado.tex" 1782943648.65346 15316 ef087ff5e172188b9c390284a350f5ea ""
   "chapters/part2_metodos/chapter9_opt_restringida/02_direcciones_factibles.tex" 1782944171.26774 18921 423a8ecae61d7478eb14a1eca9d51b09 ""
   "chapters/part2_metodos/chapter9_opt_restringida/03_penalizacion_externa.tex" 1782945194.7885 50485 f6db24f83227fef50464fe901e598f32 ""
   "chapters/part2_metodos/chapter9_opt_restringida/04_penalizacion_interna_barreras.tex" 1783097026.37542 12472 8ccec3090e26473ce7f45878386bcd5d ""
   "chapters/part2_metodos/chapter9_opt_restringida/05_lagrangianas_aumentadas.tex" 1783292908.39416 49794 67286f89c185bb7c54d17aaf48fad2f7 ""
-  "chapters/part2_metodos/chapter9_opt_restringida/06_restricciones_mixtas.tex" 1783293257.61758 9551 66f72bc76a1e19491c49ec2d34a865d2 ""
-  "chapters/part2_metodos/chapter9_opt_restringida/07_sqp.tex" 1782924415.17728 7361 80fba7001ad490fe11b692cd007a3447 ""
-  "chapters/part2_metodos/chapter9_opt_restringida/exercises.tex" 1783293026.01663 18939 dcf1480bc0744538c521b084510c9228 ""
+  "chapters/part2_metodos/chapter9_opt_restringida/06_restricciones_mixtas.tex" 1783722874.88716 60987 fe11c50e8187dc6530bb32180d45ba17 ""
+  "chapters/part2_metodos/chapter9_opt_restringida/07_sqp.tex" 1783723238.55273 83778 fd2d534df2e302299897a77467b716a7 ""
   "img/geometria.jpg" 1781081676.46499 204695 9de966f279812035a945d4b11c06c0ca ""
   (generated)
   "Apuntes-Programacion-No-Lineal.aux"
@@ -574,8 +574,8 @@
   "Apuntes-Programacion-No-Lineal.run.xml"
   "Apuntes-Programacion-No-Lineal.toc"
   (rewritten before read)
-["makeindex Apuntes-Programacion-No-Lineal.idx"] 0 "Apuntes-Programacion-No-Lineal.idx" "Apuntes-Programacion-No-Lineal.ind" "Apuntes-Programacion-No-Lineal" 1783720489.9696 -1
-  "Apuntes-Programacion-No-Lineal.idx" 1783720464.27302 0 d41d8cd98f00b204e9800998ecf8427e "lualatex"
+["makeindex Apuntes-Programacion-No-Lineal.idx"] 0 "Apuntes-Programacion-No-Lineal.idx" "Apuntes-Programacion-No-Lineal.ind" "Apuntes-Programacion-No-Lineal" 1783723936.06416 -1
+  "Apuntes-Programacion-No-Lineal.idx" 1783723907.35953 0 d41d8cd98f00b204e9800998ecf8427e "lualatex"
   (generated)
   "Apuntes-Programacion-No-Lineal.ilg"
   "Apuntes-Programacion-No-Lineal.ind"

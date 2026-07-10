@@ -611,8 +611,9 @@ INPUT ./chapters/part2_metodos/chapter9_opt_restringida/04_penalizacion_interna_
 INPUT ./chapters/part2_metodos/chapter9_opt_restringida/05_lagrangianas_aumentadas.tex
 INPUT ./chapters/part2_metodos/chapter9_opt_restringida/06_restricciones_mixtas.tex
 INPUT ./chapters/part2_metodos/chapter9_opt_restringida/07_sqp.tex
-INPUT ./chapters/part2_metodos/chapter9_opt_restringida/exercises.tex
-INPUT ./Apuntes-Programacion-No-Lineal.ind
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT ./Apuntes-Programacion-No-Lineal.aux
 INPUT ./Apuntes-Programacion-No-Lineal.run.xml
 OUTPUT Apuntes-Programacion-No-Lineal.run.xml

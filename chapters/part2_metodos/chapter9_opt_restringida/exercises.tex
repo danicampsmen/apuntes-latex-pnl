@@ -1,379 +1,418 @@
+% --- Archivo: exercises.tex ---
+\addsec{Ejercicios del Capítulo}
+
+\addsubsec{Sección I: Métodos para conjuntos factibles de estructura simple}
+
 \begin{exercise}
-Probar el Teorema 4.1.2.
+    Probar el Teorema 4.1.2.
 \end{exercise}
 
 \begin{exercise}
-Probar las fórmulas siguientes.
-\begin{enumerate}[(a)]
-    \item Si $D = B(\hat{x}, \delta)$, donde $\hat{x} \in \R^n$, $\delta > 0$, entonces para todo $y \in \R^n$,
+    Probar las fórmulas siguientes.
+    \begin{enumerate}[(a)]
+        \item Si $D = B(\hat{x}, \delta)$, donde $\hat{x} \in \Rn, \delta > 0$, entonces para todo $y \in \Rn$,
+        \[
+            P_D(y) = \begin{cases} y, & \text{si } y \in D, \\ \hat{x} + \delta(y - \hat{x})/\|y - \hat{x}\|, & \text{si } y \in \Rn \setminus D. \end{cases}
+        \]
+        \item Si $D = \Rn_+$, entonces para todo $y \in \Rn$,
+        \[
+            (P_D(y))_j = \max\{0, y_j\}, \quad j = 1, \dots, n.
+        \]
+        \item Si $D = \{ x \in \Rn \mid x_j \in [a_j, b_j], j = 1, \dots, n \}$, donde $a_j \le b_j, j = 1, \dots, n$, son números dados, entonces para todo $y \in \Rn$,
+        \[
+            (P_D(y))_j = \begin{cases} a_j, & \text{si } y_j < a_j, \\ y_j, & \text{si } a_j \le y_j \le b_j, \\ b_j, & \text{si } y_j > b_j, \end{cases} \quad j = 1, \dots, n.
+        \]
+        \item Si $D = \{ x \in \Rn \mid \interno{a}{x} = b \}$, donde $a \in \Rn \setminus \{0\}, b \in \R$, entonces para todo $y \in \Rn$,
+        \[
+            P_D(y) = y + \frac{b - \interno{a}{y}}{\|a\|^2}a.
+        \]
+        \item Si $D = \{ x \in \Rn \mid \interno{a}{x} \le b \}$, donde $a \in \Rn \setminus \{0\}, b \in \R$, entonces para todo $y \in \Rn$,
+        \[
+            P_D(y) = y + \frac{\min\{0, b - \interno{a}{y}\}}{\|a\|^2}a.
+        \]
+        \item Si $D = \{ x \in \Rn \mid Ax = b \}$, donde $A \in \R^{l \times n}$ tiene rango $l$, $b \in \R^l$, entonces para todo $y \in \Rn$,
+        \[
+            P_D(y) = y - A^\top(AA^\top)^{-1}(Ay - b).
+        \]
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    Analizar propiedades de convergencia del método del gradiente proyectado modificado, descrito por $x^{k+1} = (1 - \alpha_k)x^k + \alpha_k P_D(x^k - \beta_k f'(x^k))$, suponiendo que $f \colon \Rn \to \R$ sea una función continuamente diferenciable en $\Rn$ y $D$ sea un conjunto convexo y cerrado.
+\end{exercise}
+
+\begin{exercise}
+    A partir del punto inicial $x^0 = (3, 1)$, hacer dos pasos del método del gradiente proyectado, con tamaño de paso fijo, para el problema
     \[
-        P_D(y) = 
-        \begin{cases}
-            y, & \text{si } y \in D, \\
-            \hat{x} + \delta(y - \hat{x}) / \| \hat{x} - y \|, & \text{si } y \in \R^n \setminus D.
-        \end{cases}
+        \min x_1 - x_2 \quad \text{sujeto a } 1 \le x_1 \le 3, \; 1 \le x_2 \le 2.
     \]
-    \item Si $D = \R^n_+$, entonces para todo $y \in \R^n$,
+\end{exercise}
+
+\begin{exercise}
+    Sea $S_0$ el conjunto de puntos estacionarios del problema original. Supongamos que, además de las hipótesis del Teorema de convergencia global, el conjunto de nivel $L_{f, D}(f(x^0))$ sea limitado. Probar que
     \[
-        (P_D(y))_j = \max\{0, y_j\}, \quad j = 1, \dots, n.
+        \text{dist}(x^k, S_0 \cap L_{f, D}(f(x^0))) \to 0 \quad (k \to \infty).
     \]
-    \item Si $D = \{ x \in \R^n \mid x_j \in [a_j, b_j], j = 1, \dots, n \}$, donde $a_j \le b_j$, $j = 1, \dots, n$, son números dados, entonces para todo $y \in \R^n$,
+\end{exercise}
+
+\begin{exercise}
+    Sean $f \colon \Rn \to \R$ una función continuamente diferenciable y $D \subset \Rn$ un conjunto convexo y cerrado. Considerar el método del gradiente proyectado con métrica variable, i.e., el esquema
     \[
-        (P_D(y))_j = 
-        \begin{cases}
-            a_j, & \text{si } y_j < a_j, \\
-            y_j, & \text{si } a_j \le y_j \le b_j, \quad j = 1, \dots, n, \\
-            b_j, & \text{si } y_j > b_j.
-        \end{cases}
+        x^{k+1} = x^k + \alpha_k(y^k - x^k),
     \]
-    \item Si $D = \{ x \in \R^n \mid \interno{a}{x} = b \}$, donde $a \in \R^n \setminus \{0\}$, $b \in \R$, entonces para todo $y \in \R^n$,
+    donde $y^k \in \Rn$ es la solución del problema
     \[
-        P_D(y) = y + \frac{b - \interno{a}{y}}{\|a\|^2} a.
+        \min \interno{f'(x^k)}{x - x^k} + \frac{1}{2}\interno{Q_k(x - x^k)}{x - x^k} \quad \text{sujeto a } x \in D,
     \]
-    \item Si $D = \{ x \in \R^n \mid \interno{a}{x} \le b \}$, donde $a \in \R^n \setminus \{0\}$, $b \in \R$, entonces para todo $y \in \R^n$,
+    $Q_k \in \R^{n \times n}$ es una matriz simétrica definida positiva, y el valor del tamaño de paso $\alpha_k$ es calculado por la regla de Armijo o por la regla de minimización unidimensional (si $Q_k = f''(x^k)$, obtenemos el método de Newton restringido).
+    Mostrar que $y^k$ también resuelve el problema
     \[
-        P_D(y) = y + \frac{\min\{0, b - \interno{a}{y}\}}{\|a\|^2} a.
+        \min \|x - (x^k - Q_k^{-1}f'(x^k))\|_{Q_k}^2 \quad \text{sujeto a } x \in D,
     \]
-    \item Si $D = \{ x \in \R^n \mid Ax = b \}$, donde $A \in \R(l, n)$ tiene rango $l$, $b \in \R^l$, entonces para todo $y \in \R^n$,
+    donde la norma $\| \cdot \|_{Q_k}$ es dada por $\|x\|_{Q_k} = \sqrt{\interno{Q_k x}{x}}$.
+    Probar que si existen $c_2 \ge c_1 > 0$ tales que
     \[
-        P_D(y) = y - A^\top(A A^\top)^{-1}(Ay - b).
+        c_1\|x\|^2 \le \interno{Q_k x}{x} \le c_2\|x\|^2 \quad \forall x \in \Rn, \; \forall k,
     \]
-\end{enumerate}
+    entonces todo punto de acumulación de una secuencia $\{x^k\}$ así generada, es un punto estacionario del problema original.
 \end{exercise}
 
 \begin{exercise}
-Analizar propiedades de convergencia del método del gradiente proyectado modificado, descrito arriba (vea \eqref{eq:4.16}), suponiendo que $f : \R^n \to \R$ sea una función continuamente diferenciable en $\R^n$ y $D$ sea un conjunto convexo y cerrado.
+    Probar el Lema 4.1.3 (sobre caracterización de direcciones factibles). Probar también que, en el caso de restricciones lineales (i.e., cuando $g$ es una función afín), las desigualdades estrictas en la afirmación de las direcciones interiores pueden ser sustituidas por desigualdades no estrictas.
 \end{exercise}
 
 \begin{exercise}
-A partir del punto inicial $x^0 = (3, 1)$, hacer dos pasos del método del gradiente proyectado, con longitud de paso fijo, para el problema
-\[
-    \min x_1 - x_2 \quad \text{sujeto a} \quad 1 \le x_1 \le 3, \ 1 \le x_2 \le 2.
-\]
-\end{exercise}
-
-\begin{exercise}
-Sea $S_0$ el conjunto de puntos estacionarios del problema \eqref{eq:4.1}. Supongamos que, además de las hipótesis del Teorema 3.1.2, el conjunto $L_{f,D}(f(x^0))$ sea limitado. Probar que
-\[
-    \dist(x^k, S_0 \cap L_{f,D}(f(x^0))) \to 0 \quad (k \to \infty)
-\]
-(comparar con el Ejercicio 3.1.5).
-\end{exercise}
-
-\begin{exercise}
-Sean $f : \R^n \to \R$ una función continuamente diferenciable y $D \subset \R^n$ un conjunto convexo y cerrado. Considerar el método del gradiente proyectado con métrica variable, i.e., el esquema
-\[
-    x^{k+1} = x^k + \alpha_k (y^k - x^k),
-\]
-donde $y^k \in \R^n$ es la solución del problema
-\[
-    \min \interno{f'(x^k)}{x - x^k} + \frac{1}{2} \interno{Q_k(x - x^k)}{x - x^k} \quad \text{sujeto a} \quad x \in D,
-\]
-$Q_k \in \R(n,n)$ es una matriz simétrica definida positiva, y el valor de longitud de paso $\alpha_k$ es calculado por la regla de Armijo o por la regla de minimización unidimensional (si $Q_k = f''(x^k)$, obtenemos el método de Newton restringido, a ser considerado en § 4.1.3).
-
-Mostrar que $y^k$ también resuelve el problema
-\[
-    \min \| x - (x^k - Q_k^{-1} f'(x^k)) \|_{Q_k}^2 \quad \text{sujeto a} \quad x \in D,
-\]
-donde la norma $\| \cdot \|_{Q_k}$ es dada por $\| x \|_{Q_k} = \sqrt{\interno{Q_k x}{x}}$. 
-
-Probar que si existen $c_2 \ge c_1 > 0$ tales que
-\[
-    c_1 \| x \|^2 \le \interno{Q_k x}{x} \le c_2 \| x \|^2 \quad \forall x \in \R^n, \ \forall k,
-\]
-entonces todo punto de acumulación de una secuencia $\{x^k\}$ así generada, es un punto estacionario del problema \eqref{eq:4.1}.
-\end{exercise}
-
-\TODO{Segundo Bloque de Ejercicios}
-
-\begin{exercise}
-Probar el Lema 4.1.3. Probar también que, en el caso de restricciones lineales (i.e., cuando $g$ es una función afín), las desigualdades estrictas en la afirmación (b) del Lema 4.1.3 pueden ser sustituidas por desigualdades no estrictas.
-\end{exercise}
-
-\begin{exercise}
-Sea
-\[
-    D = \{ x \in \R^n \mid Ax \le a \},
-\]
-donde $A \in \R(m, n)$ es una matriz con filas $A_i, i = 1, \dots, m$, y $a \in \R^m$. Mostrar que para todo $x^k \in D$ y todo $d^k \in V_D(x^k)$, para $\hat{\alpha}_k$ definido en \eqref{eq:4.20} tenemos lo siguiente:
-
-\begin{enumerate}[(a)]
-    \item Si $\interno{A_i}{d^k} > 0$ para por lo menos un $i \in \{1, \dots, m\}$, entonces
+    Sea
     \[
-        \hat{\alpha}_k = \min \left\{ \frac{a_i - \interno{A_i}{x^k}}{\interno{A_i}{d^k}} \ \middle| \ i = 1, \dots, m : \interno{A_i}{d^k} > 0 \right\}.
+        D = \{ x \in \Rn \mid Ax \le a \},
     \]
-    \item Si $\interno{A_i}{d^k} \le 0 \ \forall i = 1, \dots, m$, entonces $\hat{\alpha}_k = +\infty$.
-\end{enumerate}
+    donde $A \in \R^{m \times n}$ es una matriz con líneas $A_i, i = 1, \dots, m$, $a \in \R^m$. Mostrar que para todo $x^k \in D$ y todo $d^k \in \mathcal{V}_D(x^k)$, para $\hat{\alpha}_k = \sup\{\alpha \in \R_+ \mid x^k + \alpha d^k \in D\}$ tenemos lo siguiente:
+    \begin{enumerate}[(a)]
+        \item Si $\interno{A_i}{d^k} > 0$ para por lo menos un $i \in \{1, \dots, m\}$, entonces
+        \[
+            \hat{\alpha}_k = \min \left\{ \frac{a_i - \interno{A_i}{x^k}}{\interno{A_i}{d^k}} \mid i = 1, \dots, m : \interno{A_i}{d^k} > 0 \right\}.
+        \]
+        \item Si $\interno{A_i}{d^k} \le 0 \; \forall i = 1, \dots, m$, entonces $\hat{\alpha}_k = +\infty$.
+    \end{enumerate}
 \end{exercise}
 
 \begin{exercise}
-A partir del punto inicial $x^0 = 0$, hacer dos iteraciones del método del gradiente restringido, con longitud de paso calculado por la minimización unidimensional, para el problema
-\[
-    \min x_1^2 + 2x_2^2 - 3x_1 + 4x_2 \quad \text{sujeto a} \quad x \in B(0, 2).
-\]
-\end{exercise}
-
-\begin{exercise}
-Sea $f : \R^n \to \R$ una función diferenciable con derivada Lipschitz-continua (con módulo $L > 0$) en el conjunto $D$ que es convexo y compacto. Sea
-\[
-    +\infty > R = \max_{x, y \in D} \|x - y\|.
-\]
-Dado un $x^k \in D$, sea $d^k = \bar{x}^k - x^k$, donde $\bar{x}^k$ es una solución del problema \eqref{eq:4.21}.
-
-\begin{enumerate}[(a)]
-    \item Probar que
+    A partir del punto inicial $x^0 = 0$, hacer dos iteraciones del método del gradiente restringido, con tamaño de paso calculado por la minimización unidimensional, para el problema
     \[
-        \min_{\alpha \in [0, 1]} f(x^k + \alpha d^k) \le f(x^k) + \Delta_k,
+        \min x_1^2 + 2x_2^2 - 3x_1 + 4x_2 \quad \text{sujeto a } x \in B(0, 2).
     \]
-    donde
+\end{exercise}
+
+\begin{exercise}
+    Sea $f \colon \Rn \to \R$ una función diferenciable con derivada Lipschitz-continua (con módulo $L > 0$) en el conjunto $D$ que es convexo y compacto. Sea
     \[
-        0 \le \Delta_k = 
-        \begin{cases}
-            \frac{1}{2} \interno{f'(x^k)}{d^k}, & \text{si } \interno{f'(x^k)}{d^k} + L \|d^k\|^2 < 0, \\
-            -\frac{|\interno{f'(x^k)}{d^k}|^2}{2LR^2}, & \text{caso contrario.}
-        \end{cases}
+        +\infty > R = \max_{x,y \in D} \|x - y\|.
     \]
-    \item Para el método del gradiente restringido con regla de longitud de paso de minimización unidimensional restringida, mostrar que todo punto de acumulación de la secuencia generada es un punto estacionario del problema de minimizar $f$ en $D$.
-\end{enumerate}
+    Dado un $x^k \in D$, sea $d^k = \bar{x}^k - x^k$, donde $\bar{x}^k$ es una solución del subproblema de linearización de $f$.
+    \begin{enumerate}[(a)]
+        \item Probar que
+        \[
+            \min_{\alpha \in [0, 1]} f(x^k + \alpha d^k) \le f(x^k) + \Delta_k,
+        \]
+        donde
+        \[
+            0 \le \Delta_k = \begin{cases} \frac{1}{2}\interno{f'(x^k)}{d^k}, & \text{si } \interno{f'(x^k)}{d^k} + L\|d^k\|^2 < 0, \\ -\frac{|\interno{f'(x^k)}{d^k}|^2}{2LR^2}, & \text{caso contrario.} \end{cases}
+        \]
+        \item Para el método del gradiente restringido con regla de tamaño de paso de minimización unidimensional restringida, mostrar que todo punto de acumulación de la secuencia generada es un punto estacionario del problema de minimizar $f$ en $D$.
+    \end{enumerate}
 \end{exercise}
 
 \begin{exercise}
-Sea $f : \R^n \to \R$ una función diferenciable en el punto $x^k \in D \subset \R^n$, $f'(x^k) \neq 0$. Probar los siguientes resultados sobre soluciones $\bar{x}^k$ del problema \eqref{eq:4.21}.
-\begin{enumerate}[(a)]
-    \item Si $D = B(\hat{x}, \delta)$, donde $\hat{x} \in \R^n$, $\delta > 0$, entonces
+    Sea $f \colon \Rn \to \R$ una función diferenciable en el punto $x^k \in D \subset \Rn, f'(x^k) \neq 0$. Probar los siguientes resultados sobre soluciones $\bar{x}^k$ del problema linealizado en un conjunto $D$:
+    \begin{enumerate}[(a)]
+        \item Si $D = B(\hat{x}, \delta)$, donde $\hat{x} \in \Rn, \delta > 0$, entonces
+        \[
+            \bar{x}^k = \hat{x} - \delta f'(x^k)/\|f'(x^k)\|.
+        \]
+        \item Si $D = \{ x \in \Rn \mid x_j \in [a_j, b_j], j = 1, \dots, n \}$, donde se tiene que $a_j \le b_j$, entonces todo $\bar{x}^k$ satisfaciendo
+        \[
+            \bar{x}^k_j = \begin{cases} a_j, & \text{si } f'_{x_j}(x^k) > 0, \\ b_j, & \text{si } f'_{x_j}(x^k) < 0, \\ \in [a_j, b_j], & \text{si } f'_{x_j}(x^k) = 0, \end{cases}
+        \]
+        $j = 1, \dots, n$, es una solución.
+        \item Si $D = \{ x \in \Rn \mid x \ge 0, \sum_{i=1}^n x_i = c \}, c > 0$, entonces todo $\bar{x}^k$ satisfaciendo $\bar{x}^k_j = c$ para algún índice $j \in \{1, \dots, n\}$ tal que
+        \[
+            f'_{x_j}(x^k) = \min\{f'_{x_i}(x^k) \mid i = 1, \dots, n\},
+        \]
+        y $\bar{x}^k_i = 0$ para todo $i \in \{1, \dots, n\} \setminus \{j\}$, es una solución.
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    Sea $f \colon \Rn \to \R$ una función dos veces continuamente diferenciable, con matriz Hessiana $f''(x)$ definida positiva en todo punto $x \in D$. Sea $\bar{x}$ un minimizador local de $f$ en $D$.
+    Probar que existe $\delta > 0$ tal que, si $\|x^0 - \bar{x}\| < \delta$, entonces el método de Newton restringido está bien definido y genera una secuencia $\{x^k\}$ satisfaciendo $\|x^k - \bar{x}\| < \delta \; \forall k$; $\{x^k\} \to \bar{x}$ y la tasa de convergencia de $\{x^k\}$ a $\bar{x}$ es superlineal.
+\end{exercise}
+
+
+\addsubsec{Sección II: Métodos de penalización}
+
+\begin{exercise}
+    Probar las afirmaciones del Teorema de Convergencia Global de Penalización Externa (Teorema 4.3.1), suponiendo que $f$ y $\psi$ son inferiormente semi-continuas en $\Rn$, $\psi$ cumple las condiciones de ser nula en $D$ y estricta fuera de $D$, $D \neq \emptyset$ e $\inf_{x \in D} f(x) > -\infty$.
+\end{exercise}
+
+\begin{exercise}
+    Probar resultados análogos a aquellos de la Proposición de monotonía y del Teorema de Convergencia Global, para el método de penalización externa parcial (donde solo un subconjunto de restricciones se penaliza).
+\end{exercise}
+
+\begin{exercise}
+    Suponiendo en vez de la existencia de una solución local estricta del problema penalizado, la existencia de un conjunto de soluciones locales compacto y aislado, probar un resultado análogo a aquel del Teorema de Convergencia de Soluciones Locales (Teorema 4.3.2).
+\end{exercise}
+
+\begin{exercise}
+    Considerar el problema de restricciones mixtas, donde el conjunto factible $D$ es dado por $h(x)=0$ y $g(x) \le 0$. Sean las funciones $f \colon \Rn \to \R$, $h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ diferenciables en una vecindad de una solución local $\bar{x} \in \Rn$ del problema, con derivadas continuas en este punto. Considerando el problema auxiliar
     \[
-        \bar{x}^k = \hat{x} - \delta f'(x^k) / \|f'(x^k)\|.
+        \min f(x) + \|x - \bar{x}\|^2 \quad \text{sujeto a } x \in D,
     \]
-    \item Si $D = \{ x \in \R^n \mid x_j \in [a_j, b_j], j = 1, \dots, n \}$, donde se tiene que $a_j \le b_j$, $j = 1, \dots, n$, entonces todo $\bar{x}^k$ satisfaciendo
-    \[
-        \begin{cases}
-            \bar{x}^k_j = a_j, & \text{si } f'_{x_j}(x^k) > 0, \\
-            \bar{x}^k_j = b_j, & \text{si } f'_{x_j}(x^k) < 0, \\
-            \bar{x}^k_j \in [a_j, b_j], & \text{si } f'_{x_j}(x^k) = 0,
-        \end{cases}
-    \]
-    $j = 1, \dots, n$, es una solución de \eqref{eq:4.21}.
-    \item Si $D = \{ x \in \R^n \mid x \ge 0, \sum_{i=1}^n x_i = c \}$, $c > 0$, entonces todo $\bar{x}^k$ satisfaciendo $\bar{x}^k_j = c$ para algún índice $j \in \{1, \dots, n\}$ tal que
-    \[
-        f'_{x_j}(x^k) = \min \{ f'_{x_i}(x^k) \mid i = 1, \dots, n \},
-    \]
-    $\bar{x}^k_i = 0$ para todo $i \in \{1, \dots, n\} \setminus \{j\}$, es una solución de \eqref{eq:4.21}.
-\end{enumerate}
+    y utilizando los resultados de minimizadores estrictos, probar las condiciones de optimalidad de Fritz John.
 \end{exercise}
 
 \begin{exercise}
-Sea $f : \R^n \to \R$ una función dos veces continuamente diferenciable, con matriz Hessiana $f''(x)$ definida positiva en todo punto $x \in D$. Sea $\bar{x}$ un minimizador local de $f$ en $D$.
-
-Probar que existe $\delta > 0$ tal que, si $\|x^0 - \bar{x}\| < \delta$, entonces el método de Newton restringido está bien definido y genera una secuencia $\{x^k\}$ satisfaciendo $\|x^k - \bar{x}\| < \delta \ \forall k$; $x^k \to \bar{x} \ (k \to \infty)$ y la tasa de convergencia de $\{x^k\}$ a $\bar{x}$ es superlineal.
-\end{exercise}
-
-\TODO{Tercer Bloque de Ejercicios}
-
-\begin{exercise}
-    Probar las afirmaciones del Teorema 4.3.1, suponiendo que $f$ y $\psi$ son inferiormente semi-continuas en $\R^n$, $\psi$ satisface \eqref{eq:4.32}, $D \neq \emptyset$ e $\inf_{x \in D} f(x) > -\infty$.
-\end{exercise}
-
-\begin{exercise}
-    Probar resultados análogos a aquellos de la Proposición 4.3.1 y del Teorema 4.3.1, para el método de penalización externa parcial.
-\end{exercise}
-
-\begin{exercise}
-    Suponiendo en vez de la existencia de una solución local estricta del problema \eqref{eq:4.31}, la existencia de un conjunto de soluciones locales compacto y aislado, probar el resultado análogo a aquel del Teorema 4.3.2. (Entendemos que un conjunto $S \subset \R^n$ de soluciones locales es aislado cuando existe un número $\delta > 0$ tal que la vecindad $U(S, \delta) = \{ x \in \R^n \mid \dist(x, S) < \delta \}$ de $S$ no contiene soluciones locales que no pertenezcan a $S$.)
-\end{exercise}
-
-\begin{exercise}
-    Considerar el problema \eqref{eq:4.31}, donde el conjunto factible $D$ es dado por \eqref{eq:4.33}. Sean las funciones $\inmap{f}{\R^n}{\R}$, $\inmap{h}{\R^n}{\R^l}$ y $\inmap{g}{\R^n}{\R^m}$ diferenciables en una vecindad de una solución local $\bar{x} \in \R^n$ del problema, con derivadas continuas en este punto.
-    
-    Considerando el problema auxiliar
-    \[
-        \min f(x) + \| x - \bar{x} \|^2 \quad \text{sujeto a} \quad x \in D,
-    \]
-    y utilizando los resultados de los Teoremas 4.3.2 y 1.2.1, probar las condiciones de optimalidad de F. John (vea [12, Teorema 4.2.3]).
-\end{exercise}
-
-\begin{exercise}
-    Sean $\inmap{h}{\R^n}{\R^l}$ y $\inmap{g}{\R^n}{\R^m}$ funciones diferenciables en el punto $x \in \R^n$.
-    
-    Mostrar que la función $\psi$ definida por \eqref{eq:4.65} es diferenciable en $x$, en cada dirección $d \in \R^n$, y se tiene que
-    \begin{align}\label{eq:4.69}
-        \psi'(x; d) &= \sum_{i \in J^+(x)} \interno{h'_i(x)}{d} + \sum_{i \in J^0(x)} |\interno{h'_i(x)}{d}| \nonumber \\
-        &\quad - \sum_{i \in J^-(x)} \interno{h'_i(x)}{d} + \sum_{i \in I^+(x)} \interno{g'_i(x)}{d} \nonumber \\
-        &\quad + \sum_{i \in I^0(x)} \max\{0, \interno{g'_i(x)}{d}\},
-    \end{align}
-    donde
+    Sean $h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ funciones diferenciables en el punto $x \in \Rn$. Mostrar que la función $\psi$ definida como la suma de los valores absolutos de igualdades y la parte positiva de desigualdades es diferenciable en $x$ en cada dirección $d \in \Rn$, y se tiene que
     \begin{align*}
-        J^+(x) &= \{ i = 1, \dots, l \mid h_i(x) > 0 \}, \\
-        J^0(x) &= \{ i = 1, \dots, l \mid h_i(x) = 0 \}, \\
-        J^-(x) &= \{ i = 1, \dots, l \mid h_i(x) < 0 \}, \\
-        I^+(x) &= \{ i = 1, \dots, m \mid g_i(x) > 0 \}, \\
-        I^0(x) &= \{ i = 1, \dots, m \mid g_i(x) = 0 \}.
+        \psi'(x; d) &= \sum_{i \in J^+(x)} \interno{h'_i(x)}{d} + \sum_{i \in J^0(x)} |\interno{h'_i(x)}{d}| \\
+        &\quad - \sum_{i \in J^-(x)} \interno{h'_i(x)}{d} + \sum_{i \in I^+(x)} \interno{g'_i(x)}{d} \\
+        &\quad + \sum_{i \in I^0(x)} \max\{0, \interno{g'_i(x)}{d}\},
     \end{align*}
-    
-    En particular, si $x \in D$, se tiene que
-    \begin{equation}\label{eq:4.70}
-        \psi'(x; d) = \sum_{i=1}^l |\interno{h'_i(x)}{d}| + \sum_{i \in I(x)} \max\{0, \interno{g'_i(x)}{d}\},
-    \end{equation}
-    donde $I(x) = I^0(x)$ es el conjunto de las restricciones activas en $x \in D$.
+    donde $J^+(x) = \{ i \mid h_i(x) > 0 \}$, $J^0(x) = \{ i \mid h_i(x) = 0 \}$, etc.
 \end{exercise}
 
 \begin{exercise}
-    Probar resultados análogos a aquellos de los Teoremas 4.3.4, 4.3.5 y 4.3.6, para la penalización dada por \eqref{eq:4.68}.
-\end{exercise}
-
-\TODO{Cuarto Bloque de Ejercicios}
-
-\begin{exercise}
-    Probar el mismo resultado del Teorema 4.3.7 suponiendo que la función $f$ sea semi-continua inferiormente en $\R^n$, siendo que las otras hipótesis son las mismas del teorema.
+    Probar resultados análogos a aquellos de las condiciones necesarias, suficientes y de convergencia para la penalización exacta no-diferenciable utilizando la norma del supremo (función máximo).
 \end{exercise}
 
 \begin{exercise}
-    Sean $\inmap{f}{\R^n}{\R}$ y $\inmap{g}{\R^n}{\R^m}$ funciones convexas y diferenciables en $\R^n$. Sea $x(t)$ una solución del problema \eqref{eq:4.88}, donde la función objetivo es dada por \eqref{eq:4.87}.
-    
-    Si la función barrera $\psi$ es dada por \eqref{eq:4.85}, probar que
+    Probar el mismo resultado de Convergencia de los métodos de penalización interna suponiendo que la función $f$ sea semi-continua inferiormente en $\Rn$, siendo las otras hipótesis las mismas del teorema.
+\end{exercise}
+
+\begin{exercise}
+    Sean $f \colon \Rn \to \R$ y $g \colon \Rn \to \R^m$ funciones convexas y diferenciables en $\Rn$. Sea $x(t)$ una solución del problema de penalización interna. 
+    Si la función barrera $\psi$ es dada por la barrera logarítmica, probar que
     \[
         \bar{v} \le f(x(t)) \le \bar{v} + mt.
     \]
-    Si la función $\psi$ es dada por \eqref{eq:4.86}, probar que
+    Si la función $\psi$ es dada por la barrera inversa, probar que
     \[
         \bar{v} \le f(x(t)) \le \bar{v} - t \sum_{i=1}^m 1/g_i(x(t)).
     \]
 \end{exercise}
 
 \begin{exercise}
-    Probar análogos de la Proposición 4.3.3 y del Teorema 4.3.7 para el caso de la penalización interna parcial.
+    Probar análogos de la monotonía asintótica y del Teorema de convergencia global para el caso de la penalización interna parcial (donde solo un subconjunto de desigualdades es penalizado con barreras).
 \end{exercise}
-\TODO{Bloque 5}
+
+
+\addsubsec{Sección III: Métodos para problemas con restricciones de igualdad}
+
 \begin{exercise}
     Resolver el problema
     \[
-        \min -x_1 x_2 \quad \text{sujeto a} \quad x_1 + x_2 = 2,
+        \min -x_1 x_2 \quad \text{sujeto a } x_1 + x_2 = 2,
     \]
     utilizando el método de Newton para el sistema de Lagrange (el punto inicial puede ser arbitrario).
 \end{exercise}
 
 \begin{exercise}
-    Sean
-    \[
-        R = \{ x \in \R^n \mid \rank h'(x) = l \},
-    \]
-    \[
-        \inmap{\lambda_\tau}{R}{\R^l}, \quad \lambda_\tau(x) = (h'(x)(h'(x))^\top)^{-1}(\tau h(x) - h'(x)f'(x)),
-    \]
-    donde $\tau \in \R$ es un parámetro. Suponiendo que $\bar{x}$ sea un punto estacionario del problema \eqref{eq:4.96}, que satisfaga la condición de regularidad de las restricciones (1.9), calcular la derivada de $\lambda_\tau(\cdot)$ en $\bar{x}$. Utilizando el resultado obtenido, construir un método de Newton inexacto para la ecuación
-    \[
-        L'_x(x, \lambda_\tau(x)) = 0
-    \]
-    con respecto a $x \in \R^n$. Eligiendo $\tau$ de manera adecuada, analizar las propiedades de convergencia de este método.
+    Sean $R = \{ x \in \Rn \mid \text{rank } h'(x) = l \}$, $\lambda_\tau \colon R \to \R^l$, $\lambda_\tau(x) = (h'(x)(h'(x))^\top)^{-1}(\tau h(x) - h'(x)f'(x))$, donde $\tau \in \R$ es un parámetro. Suponiendo que $\bar{x}$ sea un punto estacionario que satisface la condición de regularidad de las restricciones, calcular la derivada de $\lambda_\tau(\cdot)$ en $\bar{x}$.
+    Utilizando el resultado obtenido, construir un método de Newton inexacto para la ecuación $L'_x(x, \lambda_\tau(x)) = 0$ en relación a $x \in \Rn$. Eligiendo $\tau$ de manera adecuada, analizar las propiedades de convergencia de este método.
 \end{exercise}
 
 \begin{exercise}
-    Probar los siguientes hechos que complementan las afirmaciones del Teorema 4.4.4:
+    Probar los siguientes hechos que complementan las afirmaciones de estimativa de tasa de convergencia del método de penalización cuadrática:
     \begin{enumerate}[(a)]
         \item Para todo número $\varepsilon > 0$ existe un número $c(\varepsilon) \ge \bar{c}$ tal que, para todo $c > c(\varepsilon)$, se tiene que
-        \begin{align*}
-            \frac{\|(L''(\bar{x}, \bar{\lambda}))^{-1}\| \|\bar{\lambda}\| - \varepsilon}{c} &\le \|x(c) - \bar{x}\| \\
-            &\le \frac{\|(L''(\bar{x}, \bar{\lambda}))^{-1}\| \|\bar{\lambda}\| + \varepsilon}{c}.
-        \end{align*}
-        \item Para todo $c > \bar{c}$ suficientemente grande, se tiene que la matriz $\varphi''(x(c); c)$ es definida positiva, i.e., el punto estacionario $x(c)$ del problema \eqref{eq:4.105} satisface la condición suficiente de segunda orden del Teorema 1.2.1(b).
+        \[
+            \frac{\|(L''_{xx}(\bar{x}, \bar{\lambda}))^{-1}\| \|\bar{\lambda}\| - \varepsilon}{c} \le \|x(c) - \bar{x}\| \le \frac{\|(L''_{xx}(\bar{x}, \bar{\lambda}))^{-1}\| \|\bar{\lambda}\| + \varepsilon}{c}.
+        \]
+        \item Para todo $c > \bar{c}$ suficientemente grande, se tiene que la matriz $\varphi''(x(c); c)$ es definida positiva, i.e., el punto estacionario $x(c)$ satisface la condición suficiente de segunda orden irrestricta.
     \end{enumerate}
 \end{exercise}
 
 \begin{exercise}
     Utilizando el método de penalización cuadrática, resolver el problema
     \[
-        \min x \quad \text{sujeto a} \quad x^p = 0,
+        \min x \quad \text{sujeto a } x^p = 0,
     \]
     donde $p \ge 2$ es un parámetro entero. Analizar la tasa de convergencia y explicar el fenómeno observado.
 \end{exercise}
 
 \begin{exercise}
-    Utilizando el método de penalización cuadrática, resolver los problemas
-    \begin{align*}
-        \min 2x_1^2 + (x_2 - 1)^2 \quad &\text{sujeto a} \quad x \in D = \{ x \in \R^2 \mid 2x_1 + x_2 = 0 \}, \\
-        \min x_1^2 + 2x_2^2 \quad &\text{sujeto a} \quad x \in D = \{ x \in \R^2 \mid 3x_1 + x_2 = 3 \}.
-    \end{align*}
-\end{exercise}
-
-\begin{exercise}
-    Probar que, para algunos $c > 0$ y $\lambda \in \R^l$, $x \in \R^n$ es un punto estacionario para el problema \eqref{eq:4.120}, si y solo si $\rank F'(x) = l$, entonces
+    Utilizando el método de penalización cuadrática, resolver los problemas:
     \[
-        \lambda + c h(x) = -(h'(x)(h'(x))^\top)^{-1} h'(x) f'(x)
+        \min 2x_1^2 + (x_2 - 1)^2 \quad \text{sujeto a } x \in D = \{ x \in \R^2 \mid 2x_1 + x_2 = 0 \},
     \]
-    (comparar con el Ejercicio 4.4.2).
-\end{exercise}
-
-\begin{exercise}
-    Probar el siguiente complemento a la afirmación (a) del Teorema 4.4.6: para cualquier par $(\lambda, c)$, si $c$ es suficientemente grande, entonces la matriz $L''_{xx}(x(\lambda, c), \lambda; c)$ es definida positiva, i.e., el punto estacionario $x(\lambda, c)$ del problema \eqref{eq:4.120} satisface la condición suficiente de segunda orden del Teorema 1.2.1(b) (comparar con el ítem (b) del Ejercicio 4.4.3 y con el Teorema 4.4.5).
-\end{exercise}
-
-\begin{exercise}
-    Probar el ítem (a) del Teorema 4.4.7.
-\end{exercise}
-
-\begin{exercise}
-    Sea $\R \subset \R^n$ el conjunto definido en el Ejercicio 4.4.2. Definimos
     \[
-        C(x) = (h'(x)(h'(x))^\top)^{-1} h'(x), \quad \lambda(x) = -C(x) f'(x), \quad x \in R.
-    \]
-    Mostrar que para la familia de funciones definida en \eqref{eq:4.125}, vale lo siguiente: para todo $c$ y todo $x \in R$,
-    \[
-        \min_{\lambda \in \R^l} \varphi(x, \lambda; c+1) = \varphi(x, \lambda(x); c+1) = L(x, \lambda(x); c).
+        \min x_1^2 + 2x_2^2 \quad \text{sujeto a } x \in D = \{ x \in \R^2 \mid 3x_1 + x_2 = 3 \}.
     \]
 \end{exercise}
 
 \begin{exercise}
-    Construir y analizar métodos de Newton inexactos para problemas de optimización irrestricta \eqref{eq:4.124} y \eqref{eq:4.126} con funciones objetivo dadas por las fórmulas \eqref{eq:4.123} y \eqref{eq:4.125}, respectivamente, así como para el problema
+    Probar que, si para algunos $c > 0$ y $\lambda \in \R^l$, $x \in \Rn$ es un punto estacionario para el problema de la Lagrangiana Aumentada, y se tiene $\text{rank } h'(x) = l$, entonces
     \[
-        \min L(x, \lambda(x); c) \quad \text{sujeto a} \quad x \in R
+        \lambda + ch(x) = -(h'(x)(h'(x))^\top)^{-1}h'(x)f'(x).
     \]
-    (en notación del Ejercicio 4.4.9).
-\end{exercise}
-\begin{exercise}
-    Mostrar que las funciones definidas en \eqref{eq:4.137} y en \eqref{eq:4.138} son funciones de complementariedad.
 \end{exercise}
 
 \begin{exercise}
-    Sea $\inmap{\omega}{\R}{\R}$ una función creciente cualquiera, $\omega(0) = 0$. Mostrar que
+    Probar el siguiente complemento de la convergencia de la Lagrangiana Aumentada: para cualquier par $(\lambda, c) \in \Delta(\bar{c}, \delta)$, se $c$ es suficientemente grande, entonces la matriz $L''_{xx}(x(\lambda, c), \lambda; c)$ es definida positiva, i.e., el punto estacionario $x(\lambda, c)$ satisface la condición suficiente de segunda orden.
+\end{exercise}
+
+\begin{exercise}
+    Probar la existencia de una vecindad $U$ en $\Rn$ y un parámetro límite de penalización para garantizar un único punto estacionario de la Lagrangiana aumentada (ítem (a) del Teorema 4.4.7 de Solodov).
+\end{exercise}
+
+\begin{exercise}
+    Sea $R \subset \Rn$ el conjunto definido en el Ejercicio de independencia lineal. Definimos $C(x) = (h'(x)(h'(x))^\top)^{-1}h'(x)$, $\lambda(x) = -C(x)f'(x)$, $x \in R$. Mostrar que para la familia de funciones penalizadas exactas diferenciables, vale lo siguiente: para todo $c$ y todo $x \in R$,
     \[
-        \inmap{\psi}{\R \times \R}{\R}, \quad \psi(a, b) = \omega(|a - b|) - \omega(a) - \omega(b),
+        \min_{\lambda \in \R^l} \varphi(x, \lambda; c + 1) = \varphi(x, \lambda(x); c + 1) = L(x, \lambda(x); c).
+    \]
+\end{exercise}
+
+\begin{exercise}
+    Construir y analizar métodos de Newton inexactos para los problemas de optimización irrestricta provenientes de las penalizaciones exactas diferenciables, así como para el problema
+    \[
+        \min L(x, \lambda(x); c) \quad \text{sujeto a } x \in R.
+    \]
+\end{exercise}
+
+
+\addsubsec{Sección IV: Métodos para problemas con restricciones mixtas}
+
+\begin{exercise}
+    Mostrar que la función del residuo natural $\psi(a, b) = \min\{a, b\}$ y la función de Fischer-Burmeister $\psi(a, b) = \sqrt{a^2 + b^2} - a - b$ son efectivamente funciones de complementariedad.
+\end{exercise}
+
+\begin{exercise}
+    Sea $\omega \colon \R \to \R$ una función creciente cualquiera, $\omega(0) = 0$. Mostrar que
+    \[
+        \psi \colon \R \times \R \to \R, \quad \psi(a, b) = \omega(|a - b|) - \omega(a) - \omega(b),
     \]
     es una función de complementariedad.
 \end{exercise}
 
 \begin{exercise}
-    Sea $\inmap{g}{\R^n}{\R^m}$ una función diferenciable en $\R^n$. Definimos una función $\inmap{\Phi}{\R^n \times \R^m}{\R^m}$ con componentes
+    Sea $g \colon \Rn \to \R^m$ una función diferenciable en $\Rn$. Definamos una función $\Phi \colon \Rn \times \R^m \to \R^m$ con componentes
     \[
-        \Phi_i(x, \mu) = \psi(-g_i(x), \mu_i), \quad x \in \R^n, \ \mu \in \R^m, \ i = 1, \dots, m,
+        \Phi_i(x, \mu) = \psi(-g_i(x), \mu_i), \quad x \in \Rn, \mu \in \R^m, i = 1, \dots, m,
     \]
-    donde $\psi$ es la función de complementariedad dada por \eqref{eq:4.137}.
-    
-    Mostrar que para todo $x \in \R^n$ tal que la derivada de $g$ sea continua en $x$, y todo $\mu \in \R^m$, el B-diferencial $\partial_B \Phi(x, \mu)$ sea un conjunto de matrices de la forma $(-A(x, \mu)g'(x), E^m - A(x, \mu))$, donde $A(x, \mu)$ es una matriz diagonal $m \times m$ con elementos
-    \begin{equation}\label{eq:4.139}
-        a_i(x, \mu) = \begin{cases} 
-            1, & \text{si } \mu_i > -g_i(x), \\ 
-            0 \text{ ou } 1, & \text{si } \mu_i = -g_i(x), \\ 
-            0, & \text{si } \mu_i < -g_i(x), 
-        \end{cases} \quad i = 1, \dots, m.
-    \end{equation}
+    donde $\psi$ es la función de complementariedad del residuo natural. Mostrar que para todo $x \in \Rn$ tal que la derivada de $g$ sea continua en $x$, y todo $\mu \in \R^m$, el B-diferencial $\partial_B \Phi(x, \mu)$ es el conjunto de matrices de la forma $(-A(x, \mu)g'(x), E^m - A(x, \mu))$, donde $A(x, \mu)$ es la matriz diagonal $m \times m$ con elementos
+    \[
+        a_i(x, \mu) = \begin{cases} 1, & \text{si } \mu_i > -g_i(x), \\ 0 \text{ o } 1, & \text{si } \mu_i = -g_i(x), \\ 0, & \text{si } \mu_i < -g_i(x), \end{cases} \quad i = 1, \dots, m.
+    \]
 \end{exercise}
 
 \begin{exercise}
-    En las condiciones del Ejercicio 4.5.3, considerar el caso en que $\psi$ es la función de complementariedad definida en \eqref{eq:4.138}.
-    
-    Mostrar que para todo $x \in \R^n$ tal que la derivada de $g$ sea continua en $x$, y todo $\mu \in \R^m$, $\partial_B \Phi(x, \mu)$ sea un conjunto de matrices de la forma $(A(x, \mu)g'(x), B(x, \mu))$, donde $A(x, \mu)$ y $B(x, \mu)$ son matrices diagonales $m \times m$ con elementos
-    \begin{equation}\label{eq:4.140}
-        a_i(x, \mu) = \begin{cases} 
-            1 + \frac{g_i(x)}{\sqrt{\mu_i^2 + g_i^2(x)}}, & \text{si } |\mu_i| + |g_i(x)| \neq 0, \\ 
-            1 + \alpha_i, & \text{si } |\mu_i| + |g_i(x)| = 0, 
-        \end{cases}
-    \end{equation}
-    \begin{equation}\label{eq:4.141}
-        b_i(x, \mu) = \begin{cases} 
-            1 - \frac{\mu_i}{\sqrt{\mu_i^2 + g_i^2(x)}}, & \text{si } |\mu_i| + |g_i(x)| \neq 0, \\ 
-            1 - \beta_i, & \text{si } |\mu_i| + |g_i(x)| = 0, 
-        \end{cases}
-    \end{equation}
-    $\alpha_i, \beta_i \in \R, \ \alpha_i^2 + \beta_i^2 = 1, \ i = 1, \dots, m$.
+    En las condiciones del Ejercicio anterior, considerar el caso en que $\psi$ es la función de complementariedad de Fischer-Burmeister. Mostrar que para todo $x \in \Rn$ tal que la derivada de $g$ sea continua en $x$, y todo $\mu \in \R^m$, $\partial_B \Phi(x, \mu)$ es el conjunto de matrices de la forma $(A(x, \mu)g'(x), B(x, \mu))$, donde $A(x, \mu)$ y $B(x, \mu)$ son las matrices diagonales $m \times m$ con elementos
+    \[
+        a_i(x, \mu) = \begin{cases} 1 + \frac{g_i(x)}{\sqrt{\mu_i^2 + g_i^2(x)}}, & \text{si } |\mu_i| + |g_i(x)| \neq 0, \\ 1 + \alpha_i, & \text{si } |\mu_i| + |g_i(x)| = 0, \end{cases}
+    \]
+    \[
+        b_i(x, \mu) = \begin{cases} \frac{\mu_i}{\sqrt{\mu_i^2 + g_i^2(x)}} - 1, & \text{si } |\mu_i| + |g_i(x)| \neq 0, \\ \beta_i - 1, & \text{si } |\mu_i| + |g_i(x)| = 0, \end{cases}
+    \]
+    con $\alpha_i, \beta_i \in \R$, $\alpha_i^2 + \beta_i^2 = 1$, $i = 1, \dots, m$.
+\end{exercise}
+
+\begin{exercise}
+    Mostrar que la función diferenciable $\psi(a, b) = 2ab - (\min\{0, a+b\})^2$ es una función de complementariedad.
+\end{exercise}
+
+\begin{exercise}
+    Utilizando los resultados del B-diferencial y subdiferencial de Clarke, probar la Proposición de Semi-diferenciabilidad de las reformulaciones del sistema KKT (Proposición 4.5.1).
+\end{exercise}
+
+\begin{exercise}
+    Probar que para $f \colon \Rn \to \R$, $h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ cualesquiera, el punto $\bar{x} \in \Rn$ es una solución local (estricta) del problema mixto original si, y solamente si, el punto $(\bar{x}, \bar{t})$, donde $\bar{t} \in \R^m$ es dado por $\bar{t}_i = \sqrt{-g_i(\bar{x})}$, está bien definido y es una solución local (estricta) del problema con variables de holgura.
+\end{exercise}
+
+\begin{exercise}
+    Probar que para cualesquiera $h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ diferenciables en el punto $x \in \Rn$, la validez de la condición de independencia lineal de los gradientes extendida en $x$ implica la condición de regularidad de las restricciones del problema reformulado con variables de holgura en el punto $(x, t)$ para todo $t \in \R^m$ tal que $t_i \neq 0 \; \forall i \in \{1, \dots, m\} \setminus (I(x) \cup I^+(x))$.
+\end{exercise}
+
+\begin{exercise}
+    Sean $f \colon \Rn \to \R$, $h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ funciones continuas en el punto $\tilde{x} \in \Rn$. Mostrar que para todo $c \ge 0$, un punto $\tilde{x}$ es solución local (estricta) del problema penalizado cuadráticamente para el problema mixto si, y solamente si, el punto $(\tilde{x}, t(\tilde{x}))$, donde la parte $t(\tilde{x}) \in \R^m$ evalúa la holgura óptima, es solución local (estricta) del problema penalizado con variables de holgura explícitas.
+\end{exercise}
+
+\begin{exercise}
+    Utilizando los Lemas que conectan el problema con holgura al original, así como la Estimativa de la Tasa de convergencia de penalización cuadrática con igualdades, probar las Estimativas de tasa de convergencia de los métodos de penalización cuadrática mixtos (Teorema 4.5.5).
+\end{exercise}
+
+\begin{exercise}
+    Utilizando el método de penalización cuadrática, resolver el problema
+    \[
+        \min x^2 - 4x \quad \text{sujeto a } x \in D = \{ x \in \R \mid x \le 1 \}.
+    \]
+\end{exercise}
+
+\begin{exercise}
+    Probar la equivalencia de puntos estacionarios (Lema 4.5.6) entre el problema de la Lagrangiana aumentada con restricciones mixtas y el problema con variables de holgura.
+\end{exercise}
+
+\begin{exercise}
+    Probar que si un punto es solución local del problema de Lagrangiana aumentada con holguras, la componente de holgura coincide explícitamente con la fórmula del minimizador analítico $t(x)$ (Lema 4.5.7).
+\end{exercise}
+
+\begin{exercise}
+    Utilizando los Lemas de conexión entre los problemas, probar el Teorema de Convergencia local del método de los multiplicadores para el caso de restricciones mixtas (Teorema 4.5.7).
+\end{exercise}
+
+\begin{exercise}
+    Sean $f \colon \Rn \to \R$, $h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ dos veces diferenciables en el punto $\bar{x} \in \Rn$. Mostrar que si $\bar{x}$ es un punto estacionario del problema original, con multiplicadores de Lagrange $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R^m_+$ asociados, entonces para todo $c_1 > 0$ y $c_2 \ge 0$, el punto $(\bar{x}, \bar{\lambda}, \bar{\mu})$ es estacionario para la función de penalización exacta diferenciable mixta.
+\end{exercise}
+
+\begin{exercise}
+    Probar la correspondencia análoga (Lema 4.5.8) entre los puntos estacionarios del problema de penalización exacta diferenciable original y su versión extendida con holguras.
+\end{exercise}
+
+\begin{exercise}
+    Utilizando las propiedades de la penalización exacta diferenciable para restricciones de igualdad, probar que el punto estacionario original es el único minimizador local estricto de la función penalizada mixta para un parámetro de penalización suficientemente grande (Teorema 4.5.8).
+\end{exercise}
+
+
+\addsubsec{Sección V: Programación cuadrática secuencial (SQP)}
+
+\begin{exercise}
+    Establecer relaciones entre el subproblema definido con la matriz $H_k = L''_{xx}(x^k, \lambda^k)$ pura, y el subproblema análogo, donde
+    \[
+        H_k = L''_{xx}(x^k, \lambda^k) + c_k(h'(x^k))^\top h'(x^k),
+    \]
+    $c_k > 0$. ¿Cuáles son las posibles ventajas de esta segunda elección en el contexto de SQP?
+\end{exercise}
+
+\begin{exercise}
+    Para un problema con restricciones de igualdad, considerar el siguiente método del gradiente proyectado modificado:
+    \[
+        x^{k+1} = P_{D_k}(x^k - \alpha_k f'(x^k)), \quad k = 0, 1, \dots,
+    \]
+    donde $\alpha_k > 0$ es el parámetro del tamaño de paso, y el conjunto $D_k$ es la linealización de las restricciones. Establecer relaciones con el método SQP (con elección de $H_k$ correspondiente). Estudiar convergencia local de este método.
+\end{exercise}
+
+\begin{exercise}
+    Mostrar que si $h \colon \Rn \to \R^l$ es una función afín, $g$ es una función convexa diferenciable en el punto $x^k \in \Rn$, y el conjunto factible $D$ del problema original es no-vacío, entonces el conjunto factible $D_k$ del subproblema de Programación Cuadrática también es no-vacío, para todo $k$.
+\end{exercise}
+
+\begin{exercise}
+    Sean funciones $f \colon \Rn \to \R$, $h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ diferenciables en el punto $x^k \in \Rn$, $H_k \in \R^{n \times n}$ una matriz simétrica, y $(t_k, d^k) \in \R \times \Rn$ un punto estacionario del problema de SQP con relajación elástica:
+    \[
+        \min c_k t + \interno{f'(x^k)}{d} + \frac{1}{2}\interno{H_k d}{d} \quad \text{sujeto a } (t, d) \in U_k,
+    \]
+    \[
+        U_k = \left\{ (t, d) \in \R \times \Rn \mid \begin{array}{l} -t \le h_j(x^k) + \interno{h'_j(x^k)}{d} \le t, \quad j = 1, \dots, l, \\ g_i(x^k) + \interno{g'_i(x^k)}{d} \le t, \quad i = 1, \dots, m. \end{array} \right\},
+    \]
+    donde $c_k > 0$. Sea $\varphi$ la función de penalización exacta con la norma infinito, donde
+    \[
+        \psi(x) = \max\{\|h(x)\|_\infty, 0, g_1(x), \dots, g_m(x)\}, \quad x \in \Rn.
+    \]
+    Mostrar que si $d^k \neq 0$, entonces $d^k$ es una dirección de descenso para la función $\varphi(\cdot; c_k)$ en el punto $x^k$.
+\end{exercise}
+
+
+\addsubsec{Sección VI: Identificación de las restricciones activas}
+
+\begin{exercise}
+    Probar que, si además de las hipótesis de la Proposición de Identificación de restricciones activas basadas en la distancia, el punto $\bar{x}$ satisface a la condición de regularidad de Mangasarian-Fromovitz, entonces existe un número $\delta > 0$ tal que la identificación perfecta de índices vale para todo el conjunto de la vecindad de la solución estacionaria.
 \end{exercise}
 
 %%% Local Variables:
