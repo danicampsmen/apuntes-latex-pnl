@@ -5,10 +5,12 @@
 \contentsline {section}{\numberline {1.2}Existencia de soluciones globales}{4}{section.1.2}%
 \contentsline {section}{\numberline {1.3}Condiciones de optimalidad para problemas sin restricciones}{6}{section.1.3}%
 \contentsline {section}{\numberline {1.4}Condiciones de optimalidad en forma primal para problemas con restricciones. El cono tangente.}{8}{section.1.4}%
+\contentsline {section}{\nonumberline Ejercicios del Capítulo}{10}{section*.2}%
 \contentsline {chapter}{\numberline {2}Problemas con Restricciones de Igualdad}{13}{chapter.2}%
 \contentsline {section}{\numberline {2.1}El Problema de Optimización y el Subespacio Tangente}{13}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Condiciones de Primer Orden y Estructura Afín}{16}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Condiciones Diferenciales de Segundo Orden}{18}{section.2.3}%
+\contentsline {section}{\nonumberline Ejercicios del Capítulo}{20}{section*.3}%
 \contentsline {chapter}{\numberline {3}Elementos de Análisis Convexo}{24}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Definiciones de convexidad. El problema de minimización convexo}{24}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Conjuntos convexos y Teoremas de Separación}{27}{section.3.2}%
@@ -22,10 +24,12 @@
 \contentsline {subsection}{\numberline {3.4.1}Propiedades básicas de las funciones convexas}{33}{subsection.3.4.1}%
 \contentsline {subsection}{\numberline {3.4.2}Funciones convexas diferenciables}{34}{subsection.3.4.2}%
 \contentsline {subsection}{\numberline {3.4.3}Funciones convexas no diferenciables}{34}{subsection.3.4.3}%
+\contentsline {section}{\nonumberline Ejercicios del Capítulo}{35}{section*.4}%
 \contentsline {chapter}{\numberline {4}Problemas con Restricciones Mixtas}{40}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Cono tangente en el caso de restricciones de igualdad y desigualdad}{40}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Condiciones de optimalidad de Karush-Kuhn-Tucker}{46}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Condiciones de optimalidad de segundo orden}{51}{section.4.3}%
+\contentsline {section}{\nonumberline Ejercicios del Capítulo 4}{57}{section*.5}%
 \contentsline {chapter}{\numberline {5}Elementos de la Teoría de Dualidad}{60}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Dualidad en programación lineal}{60}{section.5.1}%
 \contentsline {section}{\numberline {5.2}Dualidad para un problema general}{63}{section.5.2}%
@@ -38,6 +42,7 @@
 \contentsline {subsection}{\numberline {5.2.7}El Problema Dual de Wolfe}{68}{subsection.5.2.7}%
 \contentsline {subsection}{\numberline {5.2.8}Caracterización mediante Puntos de Silla}{68}{subsection.5.2.8}%
 \contentsline {subsection}{\numberline {5.2.9}Subgradiente de la Función Dual}{69}{subsection.5.2.9}%
+\contentsline {section}{\nonumberline Ejercicios del Capítulo 5}{69}{section*.6}%
 \contentsline {part}{\numberline {II}Métodos Computacionales}{73}{part.2}%
 \contentsline {chapter}{\numberline {6}Resumen Teórico y Preliminares Matemáticos}{74}{chapter.6}%
 \contentsline {section}{\numberline {6.1}Existencia de soluciones}{74}{section.6.1}%
@@ -46,6 +51,7 @@
 \contentsline {section}{\numberline {6.4}Dualidad}{76}{section.6.4}%
 \contentsline {section}{\numberline {6.5}Herramientas del Análisis y del Álgebra Lineal}{77}{section.6.5}%
 \contentsline {section}{\numberline {6.6}Elementos del Análisis no Diferenciable}{78}{section.6.6}%
+\contentsline {section}{\nonumberline Ejercicios de Preliminares Teóricos}{79}{section*.7}%
 \contentsline {chapter}{\numberline {7}Introducción a los Métodos de Optimización}{80}{chapter.7}%
 \contentsline {section}{\numberline {7.1}Clasificación de los métodos y nociones de convergencia}{80}{section.7.1}%
 \contentsline {subsection}{\numberline {7.1.1}Estrategia de muestreo: Métodos pasivos vs. secuenciales}{80}{subsection.7.1.1}%
@@ -56,29 +62,29 @@
 \contentsline {section}{\numberline {7.3}Métodos de optimización unidimensional}{84}{section.7.3}%
 \contentsline {subsection}{\numberline {7.3.1}Búsqueda en rejilla (Grid Search)}{84}{subsection.7.3.1}%
 \contentsline {subsection}{\numberline {7.3.2}Métodos de exclusión de intervalos}{85}{subsection.7.3.2}%
-\contentsline {subsubsection}{\nonumberline Método de Bisección}{85}{subsubsection*.2}%
-\contentsline {subsubsection}{\nonumberline Método de la Sección Áurea}{86}{subsubsection*.3}%
+\contentsline {subsubsection}{\nonumberline Método de Bisección}{85}{subsubsection*.8}%
+\contentsline {subsubsection}{\nonumberline Método de la Sección Áurea}{86}{subsubsection*.9}%
 \contentsline {subsection}{\numberline {7.3.3}Búsquedas en Dominios Semi-infinitos e Intervalos No Unimodales}{87}{subsection.7.3.3}%
-\contentsline {subsubsection}{\nonumberline Fase de acotamiento en intervalos semi-infinitos}{87}{subsubsection*.4}%
-\contentsline {subsubsection}{\nonumberline Robustez ante funciones no unimodales}{88}{subsubsection*.5}%
+\contentsline {subsubsection}{\nonumberline Fase de acotamiento en intervalos semi-infinitos}{87}{subsubsection*.10}%
+\contentsline {subsubsection}{\nonumberline Robustez ante funciones no unimodales}{88}{subsubsection*.11}%
 \contentsline {subsection}{\numberline {7.3.4}Interpolación polinómica cuadrática y salvaguardas}{88}{subsection.7.3.4}%
 \contentsline {chapter}{\numberline {8}Optimización No Restringida}{91}{chapter.8}%
 \contentsline {section}{\numberline {8.1}Métodos de descenso}{91}{section.8.1}%
 \contentsline {subsection}{\numberline {8.1.1}Esquema general de los métodos de descenso. Búsqueda lineal}{91}{subsection.8.1.1}%
-\contentsline {subsubsection}{\nonumberline 1. Regla de minimización unidimensional (Exact Line Search)}{92}{subsubsection*.6}%
-\contentsline {subsubsection}{\nonumberline 2. Regla de Armijo}{92}{subsubsection*.7}%
-\contentsline {subsubsection}{\nonumberline 3. Regla de Goldstein y Wolfe}{93}{subsubsection*.8}%
+\contentsline {subsubsection}{\nonumberline 1. Regla de minimización unidimensional (Exact Line Search)}{92}{subsubsection*.12}%
+\contentsline {subsubsection}{\nonumberline 2. Regla de Armijo}{92}{subsubsection*.13}%
+\contentsline {subsubsection}{\nonumberline 3. Regla de Goldstein y Wolfe}{93}{subsubsection*.14}%
 \contentsline {subsection}{\numberline {8.1.2}El método del gradiente}{94}{subsection.8.1.2}%
 \contentsline {section}{\numberline {8.2}El método de Newton}{96}{section.8.2}%
 \contentsline {subsection}{\numberline {8.2.1}El método de Newton para ecuaciones}{96}{subsection.8.2.1}%
 \contentsline {subsection}{\numberline {8.2.2}El método de Newton para optimización irrestricta}{97}{subsection.8.2.2}%
 \contentsline {subsection}{\numberline {8.2.3}Métodos Cuasi-Newton}{98}{subsection.8.2.3}%
-\contentsline {subsubsection}{\nonumberline La Ecuación de la Secante (Ecuación Cuasi-Newton)}{100}{subsubsection*.9}%
-\contentsline {subsubsection}{\nonumberline Método DFP (Davidon-Fletcher-Powell)}{100}{subsubsection*.10}%
-\contentsline {subsubsection}{\nonumberline Método BFGS (Broyden-Fletcher-Goldfarb-Shanno)}{101}{subsubsection*.11}%
+\contentsline {subsubsection}{\nonumberline La Ecuación de la Secante (Ecuación Cuasi-Newton)}{100}{subsubsection*.15}%
+\contentsline {subsubsection}{\nonumberline Método DFP (Davidon-Fletcher-Powell)}{100}{subsubsection*.16}%
+\contentsline {subsubsection}{\nonumberline Método BFGS (Broyden-Fletcher-Goldfarb-Shanno)}{101}{subsubsection*.17}%
 \contentsline {section}{\numberline {8.3}Estrategias de globalización}{101}{section.8.3}%
 \contentsline {subsection}{\numberline {8.3.1}Métodos con búsqueda lineal}{101}{subsection.8.3.1}%
-\contentsline {subsubsection}{\nonumberline Extensión a sistemas de ecuaciones (Funciones de Mérito)}{102}{subsubsection*.12}%
+\contentsline {subsubsection}{\nonumberline Extensión a sistemas de ecuaciones (Funciones de Mérito)}{102}{subsubsection*.18}%
 \contentsline {subsection}{\numberline {8.3.2}Métodos de Regiones de Confianza}{103}{subsection.8.3.2}%
 \contentsline {section}{\numberline {8.4}Métodos de Direcciones Conjugadas}{105}{section.8.4}%
 \contentsline {subsection}{\numberline {8.4.1}Métodos de direcciones conjugadas para funciones cuadráticas}{105}{subsection.8.4.1}%
@@ -107,7 +113,7 @@
 \contentsline {section}{\numberline {9.6}Programación Cuadrática Secuencial (SQP)}{149}{section.9.6}%
 \contentsline {subsection}{\numberline {9.6.1}El subproblema SQP general}{149}{subsection.9.6.1}%
 \contentsline {subsection}{\numberline {9.6.2}Estrategias de Globalización del Método SQP}{150}{subsection.9.6.2}%
-\contentsline {subsubsection}{\nonumberline La Función de Mérito Penalizada Exacta}{150}{subsubsection*.13}%
-\contentsline {subsubsection}{\nonumberline El Efecto Maratos y las fallas de la tasa superlineal}{150}{subsubsection*.14}%
-\contentsline {chapter}{\nonumberline Bibliografía}{157}{chapter*.15}%
+\contentsline {subsubsection}{\nonumberline La Función de Mérito Penalizada Exacta}{150}{subsubsection*.19}%
+\contentsline {subsubsection}{\nonumberline El Efecto Maratos y las fallas de la tasa superlineal}{150}{subsubsection*.20}%
+\contentsline {chapter}{\nonumberline Bibliografía}{157}{chapter*.21}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
