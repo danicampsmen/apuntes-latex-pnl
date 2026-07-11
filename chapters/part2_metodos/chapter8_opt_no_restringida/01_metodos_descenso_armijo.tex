@@ -21,7 +21,7 @@ Así obtenemos el iterando siguiente $x^{k+1} = x^k + \alpha_k d^k$. Repetimos e
 Sea $x \in \Rn$ un punto cualquiera, tal que $f'(x) \neq 0$. Consideremos los puntos de la forma $x + td$, donde $d = -f'(x)$. Por la Fórmula de Taylor de primer orden, para todo $t \ge 0$ tenemos que
 \begin{align*}
     f(x + td) &= f(x) - t\|f'(x)\|^2 + o(t\|f'(x)\|) \\
-              &= f(x) - t(\|f'(x)\|^2 + o(t)/t).
+              &= f(x) - t(\|f'(x)\|^2 - o(t)/t).
 \end{align*}
 Como para valores de $t > 0$ suficientemente pequeños se tiene que $\|f'(x)\|^2 > o(t)/t$, para esos valores vale que $f(x + td) < f(x)$. De hecho, como es fácil ver, el mismo raciocinio puede ser usado para cualquier dirección $d \in \Rn$ satisfaciendo $\interno{f'(x)}{d} < 0$. A continuación, formalizaremos estas observaciones.
 
