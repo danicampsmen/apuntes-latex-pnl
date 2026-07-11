@@ -66,7 +66,7 @@ donde los valores de la longitud del paso $\alpha_k > 0$ son elegidos para satis
     \label{eq:cond_descenso}
 \end{equation}
 i.e., la secuencia $\{f(x^k)\}$ de valores de la función objetivo tiene que ser decreciente.
-Naturalmente, estamos suponiendo que $\mathcal{D}_f(x^k) \neq \emptyset$ para todo $k$. En particular, el método para si $\mathcal{D}_f(x^k) = \emptyset$ en alguna iteración. Observamos que, por el hecho de que $d^k \in \mathcal{D}_f(x^k)$, un número $\alpha_k > 0$ satisfaciendo \eqref{eq:cond_descenso} siempre existe (por la propia definición de dirección de descenso). Por lo tanto, obtenemos una ``descida'' de miembros de la secuencia $\{x^k\}$ para curvas de nivel de la función $f$ asociadas a valores cada vez menores. 
+Naturalmente, estamos suponiendo que $\mathcal{D}_f(x^k) \neq \emptyset$ para todo $k$. En particular, el método para si $\mathcal{D}_f(x^k) = \emptyset$ en alguna iteración. Observamos que, por el hecho de que $d^k \in \mathcal{D}_f(x^k)$, un número $\alpha_k > 0$ satisfaciendo \eqref{eq:cond_descenso} siempre existe (por la propia definición de dirección de descenso). Por lo tanto, obtenemos un ``descenso'' de miembros de la secuencia $\{x^k\}$ para curvas de nivel de la función $f$ asociadas a valores cada vez menores. 
 
 Un método concreto, dentro de la clase descrita arriba, es dado por la elección específica de la dirección de descenso y por la regla que define la longitud del paso en esta dirección. La longitud del paso es calculada observando el comportamiento de la función $f$ a lo largo de la semirrecta a partir de $x^k$ en la dirección $d^k$, o a lo largo de un intervalo limitado en la misma dirección. Por eso, los procedimientos para este cálculo se llaman \textit{búsqueda lineal}.
 
