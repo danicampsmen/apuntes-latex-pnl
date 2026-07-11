@@ -2,6 +2,20 @@ https://github.com/danicampsmen/apuntes-latex-pnl/tree/main
 https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/apuntes-scr.cls
 
 ######################################################################
+referencias 
+######################################################################
+
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-1/Cap1-Solodov.pdf
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-1/Cap2-Solodov.pdf
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-1/Cap3-Solodov.pdf
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-1/Cap4-Solodov.pdf
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-1/Cap5-Solodov.pdf
+
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-2/cap1.pdf
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-2/cap2.pdf
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-2/cap3-Solodov.pdf
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-2/cap4-parte2.pdf
+######################################################################
 Parte 1 ##############################################################
 ######################################################################
 
