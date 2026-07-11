@@ -112,7 +112,7 @@ Obviamente, soluciones globales de este problema coinciden con soluciones del si
 
 Los métodos de penalización en el contexto general ya fueron considerados en § 4.3. Presentaremos ahora un método específico para el problema con restricciones de igualdad \eqref{eq:4.96}.
 
-Consideremos una familia de funciones penalizadas, obtenidas sumando a la función de penalización cuadrática $\|h(\cdot)\|^2/2$, multiplicada por el parámetro de penalización $c \ge 0$:
+Consideremos una familia de funciones penalizadas, obtenidas sumando \( f \)  a la función de penalización cuadrática $\|h(\cdot)\|^2/2$, multiplicada por el parámetro de penalización $c \ge 0$:
 \begin{equation}\label{eq:4.104}
     \inmap{\varphi(\cdot; c)}{\R^n}{\R}, \quad \varphi(x; c) = f(x) + \frac{c}{2}\|h(x)\|^2.
 \end{equation}
@@ -147,8 +147,8 @@ Tenemos el siguiente resultado sobre convergencia del método de penalización c
 \begin{proof}
     Como $x^k$ es un punto estacionario de \eqref{eq:4.105},
     \begin{align}
-        0 &= \varphi'(x_k; c_k) = f'(x_k) + c_k(h'(x_k))^\top h(x_k) \nonumber \\
-        &= f'(x_k) + (h'(x_k))^\top \lambda^k, \label{eq:4.107}
+        0 &= \varphi'(x^k; c_k) = f'(x^k) + c_k(h'(x^k))^\top h(x^k) \nonumber \\
+        &= f'(x^k) + (h'(x^k))^\top \lambda^k, \label{eq:4.107}
     \end{align}
     donde definimos $\lambda^k = c_k h(x^k)$, para todo $k$. Luego,
     \[
@@ -235,7 +235,7 @@ Finalmente, consideremos secuencias $\{c_i\} \subset \R$ y $\{x^i\} \subset \R^n
 \]
 Por lo tanto, $\chi^i \in U$ para todo $i$ suficientemente grande. Luego, $\chi^i = \chi(1/c_i)$ y, en particular, $x^i = x(c_i)$. Esto prueba que $x(c)$ es el único punto estacionario del problema \eqref{eq:4.105} en una vecindad $U$ de $\bar{x}$, para $c$ suficientemente grande.
 
-Como fue mostrado en la demostración arriba, las funciones $\xi(\cdot)$ y $\eta(\cdot)$, nulas en la demostración, son diferenciables en $(-\bar{t}, \bar{t})$. En particular, la función $x(\cdot)$ es diferenciable en $(\bar{c}, +\infty)$. Además de eso, se sigue de \eqref{eq:4.111}, que para todo $t \in (-\bar{t}, \bar{t})$ el punto $\xi(t)$ satisface la ecuación
+Como fue mostrado en la demostración arriba, las funciones $\xi(\cdot)$ y $\eta(\cdot)$, definidas en ellas, son diferenciables en $(-\bar{t}, \bar{t})$. En particular, la función $x(\cdot)$ es diferenciable en $(\bar{c}, +\infty)$. Además de eso, se sigue de \eqref{eq:4.111}, que para todo $t \in (-\bar{t}, \bar{t})$ el punto $\xi(t)$ satisface la ecuación
 \begin{equation}\label{eq:4.114}
     tf'(\xi) + (h'(\xi))^\top h(\xi) = 0
 \end{equation}
