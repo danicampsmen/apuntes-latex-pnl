@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  11 JUL 2026 06:21
+This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  11 JUL 2026 06:57
  restricted system commands enabled.
  file:line:error style messages enabled.
 **Apuntes-Programacion-No-Lineal.tex
@@ -2878,6 +2878,78 @@ LaTeX Warning: Label `eq:4.159' multiply defined.
 
 LaTeX Warning: Label `eq:4.159@cref' multiply defined.
 
+
+LaTeX Warning: Label `ex:4.3.1' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.3.1@cref' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.3.2' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.3.2@cref' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.3.3' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.3.3@cref' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.3.4' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.3.4@cref' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.3.5' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.3.5@cref' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.3.6' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.3.6@cref' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.4.1' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.4.1@cref' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.5.1' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.5.1@cref' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.5.2' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.5.2@cref' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.5.3' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.5.3@cref' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.6.1' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.6.1@cref' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.6.2' multiply defined.
+
+
+LaTeX Warning: Label `ex:4.6.2@cref' multiply defined.
+
 )
 \openout1 = Apuntes-Programacion-No-Lineal.aux
 
@@ -3125,13 +3197,47 @@ chapter 1.
 
 (./chapters/part1_optimalidad/chapter1_intro_optimizacion/01_conceptos_basicos.
 tex
+
+LaTeX Warning: Reference `v1:eq:problema_general_opt' on page 2 undefined on in
+put line 25.
+
+
+LaTeX Warning: Reference `v1:eq:problema_general_opt' on page 2 undefined on in
+put line 27.
+
+
+LaTeX Warning: Reference `v1:eq:problema_general_opt' on page 2 undefined on in
+put line 31.
+
+
 warning  (pdf backend): ignoring duplicate destination with the name 'page.2'
 [2
 
 ]
-Package cleveref Info: loaded `spanish' language definitions on input line 127.
 
- [3])
+LaTeX Warning: Reference `v1:eq:problema_general_opt' on page 3 undefined on in
+put line 65.
+
+
+LaTeX Warning: Reference `v1:eq:problema_max' on page 3 undefined on input line
+ 117.
+
+
+LaTeX Warning: Reference `v1:eq:problema_max' on page 3 undefined on input line
+ 117.
+
+Package cleveref Info: loaded `spanish' language definitions on input line 129.
+
+[3]
+
+LaTeX Warning: Reference `v1:eq:restricciones_mixtas_generales' on page 4 undef
+ined on input line 140.
+
+
+LaTeX Warning: Reference `v1:eq:problema_general_opt' on page 4 undefined on in
+put line 142.
+
+)
 (./chapters/part1_optimalidad/chapter1_intro_optimizacion/02_existencia_solucio
 nes.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 36.
@@ -3722,17 +3828,11 @@ Package cleveref Info: loaded `spanish' language definitions on input line 198.
 
 [158]
 
-LaTeX Warning: Reference `ex:4.5.5' on page 1 undefined on input line 207.
-
-
 LaTeX Warning: Reference `eq:1.17' on page 159 undefined on input line 247.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 248.
 
 [159]
-
-LaTeX Warning: Reference `ex:4.5.4' on page 1 undefined on input line 264.
-
 
 LaTeX Warning: Reference `ex:2.2.1' on page 1 undefined on input line 272.
 
@@ -3754,12 +3854,9 @@ Package cleveref Info: loaded `spanish' language definitions on input line 463.
 Package cleveref Info: loaded `spanish' language definitions on input line 472.
 
  [163]
-
-LaTeX Warning: Reference `ex:4.5.7' on page 1 undefined on input line 488.
-
 Package cleveref Info: loaded `spanish' language definitions on input line 514.
 
-[164]
+ [164]
 
 LaTeX Warning: Reference `eq:1.17' on page 165 undefined on input line 569.
 
@@ -3772,9 +3869,6 @@ LaTeX Warning: Reference `eq:1.25' on page 165 undefined on input line 574.
 Package cleveref Info: loaded `spanish' language definitions on input line 575.
 
 [165]
-
-LaTeX Warning: Reference `ex:4.5.8' on page 1 undefined on input line 587.
-
 
 LaTeX Warning: Reference `eq:1.25' on page 166 undefined on input line 594.
 
@@ -3793,9 +3887,6 @@ LaTeX Warning: Reference `thm:1.2.1' on page 1 undefined on input line 683.
 Package cleveref Info: loaded `spanish' language definitions on input line 695.
 
 [167]
-
-LaTeX Warning: Reference `ex:4.5.8' on page 1 undefined on input line 705.
-
 
 LaTeX Warning: Reference `sec:4.3.1' on page 1 undefined on input line 714.
 
@@ -3921,9 +4012,6 @@ Package cleveref Info: loaded `spanish' language definitions on input line 457.
 LaTeX Warning: Reference `sec:1.5' on page 1 undefined on input line 460.
 
 
-LaTeX Warning: Reference `ex:4.6.4' on page 1 undefined on input line 464.
-
-
 LaTeX Warning: Reference `sec:4.6.2' on page 1 undefined on input line 466.
 
 
@@ -3970,9 +4058,6 @@ LaTeX Warning: Reference `eq:4.293' on page 187 undefined on input line 694.
 
 
 LaTeX Warning: Reference `eq:4.294' on page 187 undefined on input line 694.
-
-
-LaTeX Warning: Reference `ex:4.6.4' on page 1 undefined on input line 694.
 
 
 LaTeX Warning: Citation '3' on page 187 undefined on input line 694.
@@ -4070,23 +4155,11 @@ LaTeX Warning: Reference `eq:1.9' on page 196 undefined on input line 225.
 LaTeX Warning: Reference `thm:1.2.1' on page 1 undefined on input line 240.
 
 
-LaTeX Warning: Reference `ex:4.4.2' on page 1 undefined on input line 267.
-
-
 LaTeX Warning: Reference `thm:1.2.1' on page 1 undefined on input line 271.
-
-
-LaTeX Warning: Reference `ex:4.4.3' on page 1 undefined on input line 271.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 272.
 
 [196]
-
-LaTeX Warning: Reference `ex:4.4.2' on page 1 undefined on input line 279.
-
-
-LaTeX Warning: Reference `ex:4.4.9' on page 1 undefined on input line 294.
-
 
 LaTeX Warning: Reference `eq:4.143' on page 197 undefined on input line 334.
 
@@ -4100,30 +4173,23 @@ LaTeX Warning: Reference `ex:1.6.5' on page 1 undefined on input line 338.
 LaTeX Warning: Reference `ex:1.6.3' on page 1 undefined on input line 338.
 
 
-LaTeX Warning: Reference `ex:4.4.3' on page 1 undefined on input line 354.
-
-
-LaTeX Warning: Reference `ex:4.4.7' on page 1 undefined on input line 373.
-
-
-LaTeX Warning: Reference `ex:4.5.15' on page 1 undefined on input line 385.
-
-
 LaTeX Warning: Reference `eq:4.293' on page 198 undefined on input line 411.
 
 
 LaTeX Warning: Reference `eq:4.294' on page 198 undefined on input line 411.
 
-)
+Package cleveref Info: loaded `spanish' language definitions on input line 416.
+
+[198])
 Package cleveref Info: loaded `spanish' language definitions on input line 143.
 
- [198]
+ [199]
 chapter without number
-[199
+[200
 
 
 ] (./Apuntes-Programacion-No-Lineal.ind)
-runsystem(latexminted cleantemp  --timestamp 20260711062126 619C487146398D9C4DAF
+runsystem(latexminted cleantemp  --timestamp 20260711065706 619C487146398D9C4DAF
 123F9D510570)...executed.
 
 (./Apuntes-Programacion-No-Lineal.aux
@@ -4152,15 +4218,15 @@ l'.
 )
 
 Here is how much of LuaTeX's memory you used:
- 86966 strings out of 475891
+ 86883 strings out of 475891
  476912,4101490 words of node,token memory allocated
- 55280 words of node memory still in use:
+ 55488 words of node memory still in use:
    8 hlist, 2 vlist, 5 rule, 1 local_par, 11 glue, 5 kern, 1 penalty, 6 sub_mlis
-t, 3 glyph, 20406 attribute, 102 glue_spec, 6799 attribute_list, 3 write nodes
-   avail lists: 1:16,2:79866,3:1565,4:70,5:1875,6:213,7:18395,8:86,9:3142,10:35,
+t, 3 glyph, 20484 attribute, 102 glue_spec, 6825 attribute_list, 3 write nodes
+   avail lists: 1:19,2:79762,3:1565,4:70,5:1878,6:215,7:18410,8:85,9:3142,10:35,
 11:1733,12:1
- 106064 multiletter control sequences out of 65536+600000
- 153 fonts using 68301927 bytes
+ 105980 multiletter control sequences out of 65536+600000
+ 153 fonts using 68302055 bytes
  125i,21n,128p,11236b,4829s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/fonts/opentype/stix/STIXTwoMath-Regular.otf></usr/share/fonts/openty
 pe/stix/STIXTwoMath-Regular.otf></usr/share/fonts/opentype/stix/STIXTwoMath-Regu
@@ -4171,11 +4237,11 @@ al/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreheros-regular.o
 tf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreher
 os-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msam10.pfb>
-Output written on Apuntes-Programacion-No-Lineal.pdf (205 pages, 1681059 bytes).
+Output written on Apuntes-Programacion-No-Lineal.pdf (206 pages, 1682091 bytes).
 
 
-PDF statistics: 4728 PDF objects out of 5155 (max. 8388607)
- 4447 compressed objects within 45 object streams
- 1725 named destinations out of 1728 (max. 1048576)
+PDF statistics: 4737 PDF objects out of 5155 (max. 8388607)
+ 4455 compressed objects within 45 object streams
+ 1726 named destinations out of 1728 (max. 1048576)
  1088 words of extra memory for PDF output out of 10000 (max. 100000000)
 

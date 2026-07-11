@@ -132,5 +132,5 @@
 \contentsline {subsection}{\numberline {9.5.3}Globalización de convergencia de SQP}{181}{subsection.9.5.3}%
 \contentsline {subsection}{\numberline {9.5.4}Restauración de la convergencia local superlineal}{187}{subsection.9.5.4}%
 \contentsline {subsection}{\numberline {9.5.5}Otras técnicas de globalización}{192}{subsection.9.5.5}%
-\contentsline {chapter}{\nonumberline Bibliografía}{199}{chapter*.35}%
+\contentsline {chapter}{\nonumberline Bibliografía}{200}{chapter*.35}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
