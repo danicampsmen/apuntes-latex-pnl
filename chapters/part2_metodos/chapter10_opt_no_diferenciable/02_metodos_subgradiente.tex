@@ -1,0 +1,181 @@
+% --- Archivo: 02_metodos_subgradiente.tex ---
+
+% =========================================================
+\section{Métodos de subgradiente}
+\label{v2:sec:5.1}
+% =========================================================
+
+En los métodos de subgradiente, la dificultad para garantizar el descenso de la función objetivo en cada iteración (véase el \cref{v2:exa:5.0.1} y los comentarios asociados) es ``resuelta'' simplemente fijando a priori una sucesión de valores de las longitudes de paso, sin preocuparse por el descenso de la función objetivo (al menos de una iteración para otra). Es bien claro que la fijación de la longitud de paso para una iteración $k$ antes de que el punto $x^k$ sea calculado (así como los valores $f(x^k)$ y $y^k \in \partial f(x^k)$), difícilmente puede dar una buena elección. Por lo tanto, esta manera de sortear la dificultad asociada al descenso de la función objetivo es puramente formal y, aun cuando resuelva la situación en el análisis de convergencia teórica, no es satisfactoria en la realidad.
+
+A continuación introducimos el método de subgradiente básico, donde utilizaremos subgradientes aproximados. Esto torna el esquema un poco más práctico, por lo menos en este aspecto (obviamente, la posibilidad de utilizar subgradientes aproximados no resuelve las dificultades principales, comentadas anteriormente). Recordemos que para $\varepsilon \ge 0$, el $\varepsilon$-subdiferencial de la función $f$ en el punto $x \in \Rn$ (véase \cref{v2:sec:1.3}) viene dado por
+\begin{equation}
+    \partial_\varepsilon f(x) = \{ y \in \Rn \mid f(z) \ge f(x) + \interno{y}{z - x} - \varepsilon \quad \forall z \in \Rn \}.
+    \label{v2:eq:5.3}
+\end{equation}
+El subdiferencial $\partial f(x)$ es obtenido tomando $\varepsilon = 0$.
+
+\vspace{0.3cm}
+\noindent \textbf{Algoritmo 5.1.1. (El método de subgradiente)} \\
+Elegir sucesiones $\{\varepsilon_k\}, \{\alpha_k\} \subset \R_+$. Elegir $x^0 \in \Rn$ y tomar $k := 0$.
+\begin{enumerate}[label=\arabic*., itemsep=0.1cm, topsep=0.1cm]
+    \item Calcular $d^k \in \partial_{\varepsilon_k} f(x^k)$.
+    \item Calcular
+    \begin{equation}
+        x^{k+1} = x^k - \alpha_k d^k.
+        \label{v2:eq:5.4}
+    \end{equation}
+    \item Tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
+\vspace{0.3cm}
+
+Estudiaremos propiedades de convergencia del Algoritmo 5.1.1.
+
+\begin{theorem}[Convergencia del método de subgradiente I]\label{v2:thm:5.1.1}
+    Sea $f : \Rn \to \R$ una función convexa en $\Rn$. Supongamos que en el Algoritmo 5.1.1 las sucesiones $\{\varepsilon_k\}$, $\{\alpha_k\}$ y $\{d^k\}$ satisfacen las condiciones
+    \begin{align}
+        \sum_{k=0}^\infty \alpha_k &= +\infty, \label{v2:eq:5.5} \\
+        \lim_{k \to \infty} \varepsilon_k &= 0, \label{v2:eq:5.6} \\
+        \lim_{k \to \infty} \alpha_k \norm{d^k}^2 &= 0. \label{v2:eq:5.7}
+    \end{align}
+    Entonces, para la sucesión $\{x^k\}$ generada por el Algoritmo 5.1.1, se tiene que
+    \[
+        \liminf_{k \to \infty} f(x^k) = \bar{v},
+    \]
+    donde $\bar{v} = \inf_{x \in \Rn} f(x)$.
+\end{theorem}
+
+\begin{proof}
+    Por las relaciones \eqref{v2:eq:5.3} y \eqref{v2:eq:5.4}, para cualquier $x \in \Rn$ tenemos que
+    \begin{align}
+        \norm{x^{k+1} - x}^2 &= \norm{x^k - x}^2 + 2\interno{x^{k+1} - x^k}{x^k - x} + \norm{x^{k+1} - x^k}^2 \nonumber \\
+        &= \norm{x^k - x}^2 + 2\alpha_k \interno{d^k}{x - x^k} + \alpha_k^2 \norm{d^k}^2 \nonumber \\
+        &\le \norm{x^k - x}^2 + 2\alpha_k (f(x) - f(x^k) + \varepsilon_k) + \alpha_k^2 \norm{d^k}^2. \label{v2:eq:5.8}
+    \end{align}
+    Supongamos que la afirmación no sea verdadera, i.e., que $\liminf_{k \to \infty} f(x^k) > \bar{v}$. En este caso, existen $x \in \Rn$, un número $\delta > 0$ y un índice $\bar{k}$, tales que
+    \begin{equation}
+        f(x) < f(x^k) - \delta \quad \forall k \ge \bar{k}.
+        \label{v2:eq:5.9}
+    \end{equation}
+    De \eqref{v2:eq:5.6} y \eqref{v2:eq:5.7}, se sigue que podemos tomar $\bar{k}$ suficientemente grande para satisfacer
+    \[
+        \alpha_k \norm{d^k}^2 + 2\varepsilon_k \le \delta \quad \forall k \ge \bar{k}.
+    \]
+    Combinando esta última relación con \eqref{v2:eq:5.8} y \eqref{v2:eq:5.9}, obtenemos que
+    \begin{align*}
+        \norm{x^{k+1} - x}^2 &\le \norm{x^k - x}^2 + \alpha_k(2\varepsilon_k + \alpha_k \norm{d^k}^2 - 2\delta) \\
+        &\le \norm{x^k - x}^2 - \delta \alpha_k \quad \forall k \ge \bar{k}.
+    \end{align*}
+    Por lo tanto,
+    \[
+        \delta \sum_{i=\bar{k}}^k \alpha_i \le \sum_{i=\bar{k}}^k \left( \norm{x^i - x}^2 - \norm{x^{i+1} - x}^2 \right) = \norm{x^{\bar{k}} - x}^2 - \norm{x^{k+1} - x}^2 \le \norm{x^{\bar{k}} - x}^2,
+    \]
+    de donde obtenemos una contradicción con \eqref{v2:eq:5.5} cuando $k \to \infty$.
+\end{proof}
+
+Si hiciéramos una normalización de las direcciones empleadas en el Algoritmo 5.1.1, las afirmaciones sobre convergencia del método pueden ser fortalecidas (para una elección de longitudes de paso más específica, véase \eqref{v2:eq:5.10} y \eqref{v2:eq:5.12} a continuación). Para simplificar, consideremos el caso de subgradientes exactos. Obtenemos entonces el esquema siguiente:
+\begin{equation}
+    x^{k+1} = x^k - \beta_k \frac{d^k}{\norm{d^k}}, \quad d^k \in \partial f(x^k), \quad k = 0, 1, \dots,
+    \label{v2:eq:5.10}
+\end{equation}
+donde $\beta_k > 0$ es el parámetro de longitud de paso (naturalmente, si en $x^k$ calculamos el subgradiente $d^k = 0$, el método se detiene).
+
+\begin{theorem}[Convergencia del método de subgradiente II]\label{v2:thm:5.1.2}
+    Sea $f : \Rn \to \R$ una función convexa en $\Rn$. Supongamos que el problema \eqref{v2:eq:5.1} tenga una solución. Supongamos que en el Algoritmo 5.1.1,
+    \begin{equation}
+        \varepsilon_k = 0, \quad \alpha_k = \frac{\beta_k}{\norm{d^k}} \quad \forall k,
+        \label{v2:eq:5.11}
+    \end{equation}
+    lo que corresponde a \eqref{v2:eq:5.10}, y que la sucesión $\{\beta_k\}$ satisfaga las condiciones
+    \begin{equation}
+        \sum_{k=0}^\infty \beta_k = +\infty, \quad \sum_{k=0}^\infty \beta_k^2 < +\infty.
+        \label{v2:eq:5.12}
+    \end{equation}
+    Entonces toda sucesión $\{x^k\}$ generada por el Algoritmo 5.1.1 converge a una solución del problema \eqref{v2:eq:5.1}.
+\end{theorem}
+
+\begin{proof}
+    Sea $\bar{x} \in \Rn$ una solución del problema \eqref{v2:eq:5.1}. Obviamente, $f(\bar{x}) \le f(x^k)$ para todo $k$. Tomando en \eqref{v2:eq:5.8} $x = \bar{x}$, y teniendo en cuenta también \eqref{v2:eq:5.11}, obtenemos que
+    \[
+        \norm{x^{k+1} - \bar{x}}^2 \le \norm{x^k - \bar{x}}^2 + \beta_k^2.
+    \]
+    El resto de la demostración es similar a la parte correspondiente del \cref{v1:thm:3.1.3}.
+    Sea $k$ arbitrario pero fijo. Utilizando la última desigualdad en cadena, para cualquier $j \ge k+1$, obtenemos
+    \begin{align}
+        \norm{x^j - \bar{x}}^2 &\le \norm{x^k - \bar{x}}^2 + \sum_{i=k}^{j-1} \beta_i^2 \label{v2:eq:5.13} \\
+        &\le \norm{x^k - \bar{x}}^2 + \sum_{i=0}^\infty \beta_i^2 < +\infty, \nonumber
+    \end{align}
+    por la segunda relación en \eqref{v2:eq:5.12}. Concluimos que la sucesión $\{x^k\}$ es acotada. Por lo tanto, por el \cref{v2:thm:1.3.9}, la sucesión $\{d^k\}$ también es acotada (ya que $d^k \in \partial f(x^k)$ para todo $k$). Por eso, de \eqref{v2:eq:5.11} y \eqref{v2:eq:5.12}, obtenemos que las relaciones \eqref{v2:eq:5.5}-\eqref{v2:eq:5.7} se satisfacen. Ahora, por el \cref{v2:thm:5.1.1}, tenemos que $\liminf_{k \to \infty} f(x^k) = f(\bar{x})$. Teniendo en cuenta la continuidad de la función $f$ en $\Rn$ (véase el \cref{v2:thm:1.3.3}) y el hecho de que la sucesión $\{x^k\}$ es acotada, concluimos que $\{x^k\}$ posee un punto de acumulación $\hat{x} \in \Rn$ tal que $f(\hat{x}) = f(\bar{x})$, i.e., $\hat{x}$ es una solución del problema \eqref{v2:eq:5.1}.
+    
+    Podemos entonces tomar $\bar{x} = \hat{x}$ en el análisis previo, para concluir, de \eqref{v2:eq:5.13}, que para todo $j \ge k+1$
+    \begin{equation}
+        \norm{x^j - \hat{x}}^2 \le \norm{x^k - \hat{x}}^2 + \sum_{i=k}^\infty \beta_i^2,
+        \label{v2:eq:5.14}
+    \end{equation}
+    donde, de \eqref{v2:eq:5.12},
+    \[
+        \lim_{k \to \infty} \left( \sum_{i=k}^\infty \beta_i^2 \right) = 0.
+    \]
+    En particular, para todo $\delta > 0$ arbitrariamente pequeño, podemos escoger $k$ suficientemente grande, tal que
+    \[
+        \delta/2 > \sum_{i=k}^\infty \beta_i^2.
+    \]
+    Como $\hat{x}$ es un punto de acumulación de la sucesión $\{x^k\}$, podemos también escoger un $k$ tal que
+    \[
+        \delta/2 > \norm{x^k - \hat{x}}^2.
+    \]
+    De \eqref{v2:eq:5.14}, concluimos que para todo $\delta > 0$, existe $k$ tal que
+    \[
+        \delta > \norm{x^j - \hat{x}}^2 \quad \forall j \ge k+1.
+    \]
+    Esto significa que $\{x^k\}$ converge a $\hat{x}$, que es una solución del problema.
+\end{proof}
+
+La propiedad que hace a los métodos de subgradiente funcionar es la siguiente. Si $\bar{x}$ es un minimizador de $f$, de \eqref{v2:eq:5.8} tenemos que
+\[
+    \norm{x^{k+1} - \bar{x}}^2 \le \norm{x^k - \bar{x}}^2 - 2\alpha_k(f(x^k) - f(\bar{x})) + \alpha_k^2 \norm{d^k}^2,
+\]
+donde $d^k \in \partial f(x^k)$. De donde obtenemos que
+\[
+    \norm{x^{k+1} - \bar{x}}^2 < \norm{x^k - \bar{x}}^2
+\]
+si
+\[
+    0 < \alpha_k < \frac{2(f(x^k) - f(\bar{x}))}{\norm{d^k}^2}.
+\]
+O sea, para pasos suficientemente cortos, la distancia al conjunto de soluciones disminuye. Sin embargo, cuando no conocemos el valor óptimo del problema, no hay cómo escoger una longitud de paso que garantice esta propiedad. Es por eso que tenemos que emplear reglas del tipo \eqref{v2:eq:5.12}, para que los valores de las longitudes de paso sean suficientemente cortos asintóticamente.
+
+Introduciendo el operador de proyección, los métodos de subgradiente pueden ser fácilmente extendidos al caso de optimización con restricciones. Naturalmente, estamos hablando de conjuntos viables convexos y, por razones prácticas, de estructura simple (que permita fórmulas de proyección explícitas).
+
+\begin{exercise}\label{v2:ejer:5.1.1}
+    Consideremos el problema
+    \[
+        \min f(x) \quad \text{sujeto a} \quad x \in D,
+    \]
+    donde $f : \Rn \to \R$ es una función convexa en $\Rn$ y $D \subset \Rn$ es un conjunto convexo y cerrado. Consideremos la modificación del Algoritmo 5.1.1, donde cambiamos la fórmula \eqref{v2:eq:5.4} por la fórmula
+    \[
+        x^{k+1} = P_D(x^k - \alpha_k d^k).
+    \]
+    Para esta modificación del Algoritmo 5.1.1 y el problema arriba, probar resultados análogos a aquellos de los \cref{v2:thm:5.1.1,v2:thm:5.1.2}.
+\end{exercise}
+
+La única atracción de los métodos de subgradiente es su extrema simplicidad (cuando el cálculo de subgradientes es fácil). Infelizmente, como ya comentamos arriba, estos métodos son poco eficientes y, a veces, completamente inútiles. La fijación a priori de valores de longitud de paso es una estrategia pésima. Es verdad que, en principio, podemos intentar definir $\beta_k$ en la iteración $k$ misma (y no fijar toda la sucesión $\{\beta_k\}$ justo al inicio). Existen algunas sugerencias en este sentido, que hasta pueden funcionar bien en la práctica para algunos tipos de problemas. Sin embargo, no hay nada claro sobre cómo hacer eso de manera matemáticamente sólida (en particular, para satisfacer las condiciones de convergencia del método). En este sentido, podemos afirmar también que las dos condiciones en \eqref{v2:eq:5.12} que la sucesión $\{\alpha_k\}$ debe satisfacer son, desde el punto de vista numérico, contradictorias: la segunda condición precisa que $\beta_k \to 0$ ($k \to \infty$), lo que torna $\beta_k$ nulo para $k$ grande en cualquier implementación computacional. Y esto imposibilita la validez de la primera condición en \eqref{v2:eq:5.12}. Por otro lado, el número de varias sucesiones $\{\beta_k\}$ que satisfacen \eqref{v2:eq:5.12} es claramente infinito, y el método no suministra ninguna estrategia para preferir una elección a otra (ni a priori, ni en una iteración $k$ dada). Esto indica que un método así difícilmente puede ser eficiente.
+
+Notemos también que un método con longitudes de paso dados por una regla del tipo \eqref{v2:eq:5.12}, necesariamente tiene una tasa de convergencia muy lenta; en particular, \textit{sublineal}. Y este es el caso incluso para problemas muy bien comportados. O sea, no importan las hipótesis y propiedades de un problema dado. La tasa de convergencia siempre es peor que lineal. Es claro que esto no es satisfactorio.
+
+Otra deficiencia, ya mencionada anteriormente, es que los métodos de subgradiente no poseen ninguna regla de parada confiable. La situación en que $\norm{d^k} \le \varepsilon$ puede nunca ocurrir (véase el \cref{v2:exa:5.0.2}). Por otro lado, la situación en que $\norm{x^{k+1} - x^k} \le \varepsilon$ (que es otra regla de parada popular en el caso diferenciable) no significa absolutamente nada en este contexto, ya que $\{\beta_k\} \to 0$ ($k \to \infty$) y, por lo tanto, $\norm{x^{k+1} - x^k} \to 0$, independientemente de cualquier cosa.
+
+Existen, sin embargo, unos pocos casos en los que los métodos de subgradiente pueden ser ligeramente mejorados. Una situación de este tipo es cuando el valor óptimo $\bar{v}$ del problema \eqref{v2:eq:5.1} es conocido.
+
+\begin{exercise}\label{v2:ejer:5.1.2}
+    Sea $f : \Rn \to \R$ una función convexa en $\Rn$. Supongamos que el problema \eqref{v2:eq:5.1} posee una solución y $\bar{v} = \min_{x \in \Rn} f(x)$. Probar que cualquier sucesión $\{x^k\}$ generada por el esquema \eqref{v2:eq:5.10}, donde $\beta_k = f(x^k) - \bar{v}$, converge a una solución de \eqref{v2:eq:5.1}, y se tiene que
+    \[
+        \liminf_{k \to \infty} \sqrt{k} (f(x^k) - \bar{v}) = 0.
+    \]
+    Si, además, la condición de crecimiento lineal de $f$ se satisface, i.e., si existen una vecindad $U$ del conjunto de soluciones $S$ de \eqref{v2:eq:5.1} y un número $\gamma > 0$ tales que
+    \[
+        f(x) - \bar{v} \ge \gamma \dist(x, S) \quad \forall x \in U,
+    \]
+    entonces la tasa de convergencia (en relación a las variables) es geométrica.
+\end{exercise}
+
+Cuando el valor de $\bar{v}$ no es conocido, podemos intentar modificar el método del \cref{v2:ejer:5.1.2}, haciendo actualización dinámica de aproximaciones inferiores para el valor de $\bar{v}$.

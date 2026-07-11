@@ -1,0 +1,88 @@
+% --- Archivo: 01_introduccion.tex ---
+
+\chapter{Métodos para optimización no diferenciable}
+\label{v2:chap:5}
+
+Este capítulo está dedicado al área de la optimización convexa no diferenciable. Resaltamos que las técnicas que se presentarán son relevantes incluso para la resolución de algunas clases de problemas que son, en principio, diferenciables y/o no convexos. Más precisamente, estamos hablando de aplicaciones prácticas de gran escala cuya resolución emplea estrategias de relajación Lagrangiana\footnote{En inglés: \textit{Lagrangian relaxation}.}, así como algunas otras técnicas de descomposición. Como vimos en \cite[Capítulo 5]{SolodovVol1} (véase también la \cref{v2:sec:1.4}), el dual de un problema de optimización cualquiera puede ser considerado como un problema de programación convexa, pero no diferenciable. Con frecuencia, la resolución del problema dual proporciona información muy útil sobre el problema primal y, bajo ciertas condiciones, puede incluso resultar en la resolución exacta del primal. Como veremos a continuación, los problemas no diferenciables necesitan el desarrollo de técnicas computacionales propias, diferentes de aquellas para el caso diferenciable.
+
+Consideremos entonces el problema
+\begin{equation}
+    \min f(x), \quad x \in \Rn,
+    \label{v2:eq:5.1}
+\end{equation}
+donde $f : \Rn \to \R$ es una función convexa en $\Rn$. Estamos pensando en situaciones en las que es cierto que $f$ no es diferenciable, o cuando la diferenciabilidad de $f$ difícilmente puede ser esperada.
+
+Por el \cref{v2:thm:1.3.9}(a), la derivada direccional de la función $f$ en el punto $x \in \Rn$ en la dirección $d \in \Rn$ satisface la condición
+\begin{equation}
+    f'(x; d) = \max \{ \interno{y}{d} \mid y \in \partial f(x) \},
+    \label{v2:eq:5.2}
+\end{equation}
+donde $\partial f(x)$ es el subdiferencial de $f$ en el punto $x$, i.e.,
+\[
+    \partial f(x) = \{ y \in \Rn \mid f(z) \ge f(x) + \interno{y}{z - x} \quad \forall z \in \Rn \}.
+\]
+De la relación \eqref{v2:eq:5.2}, obtenemos la siguiente condición que es necesaria y suficiente para que $d \in \Rn$ sea una dirección de descenso de $f$ en el punto $x$:
+\[
+    d \in \mathcal{D}_f(x) \iff \interno{y}{d} < 0 \quad \forall y \in \partial f(x).
+\]
+
+Una consecuencia inmediata de esto es el siguiente hecho, claramente desafortunado: para obtener una dirección de descenso de la función $f$ en un punto dado $x$, necesitamos conocer todo el conjunto subdiferencial $\partial f(x)$ (recordamos que este conjunto siempre es no vacío; véase el \cref{v2:thm:1.3.9}). En particular, tomando un subgradiente cualquiera, la dirección de anti-subgradiente puede no ser de descenso, como veremos en el siguiente ejemplo.
+
+\begin{example}\label{v2:exa:5.0.1}
+    Sea $f : \R^2 \to \R$, $f(x) = |x_1| + 2|x_2|$. Consideremos un punto $x = (x_1, 0)$, donde $x_1 > 0$ es arbitrario. Como es muy fácil de verificar,
+    \[
+        y = (1, 2) \in \partial f(x).
+    \]
+    Sin embargo, para todo $t > 0$ suficientemente pequeño,
+    \[
+        f(x - ty) = |x_1 - t| + 2|0 - 2t| = x_1 - t + 4t = x_1 + 3t > x_1 = f(x),
+    \]
+    lo que muestra que
+    \[
+        -y \notin \mathcal{D}_f(x).
+    \]
+    Este hecho se ilustra en la \cref{v2:fig:5.0.1}.
+\end{example}
+
+\begin{figure}[htpb]
+    \centering
+    \begin{tikzpicture}[>=Stealth, scale=1.5]
+        % Ejes
+        \draw[->] (-2.5, 0) -- (2.5, 0) node[right] {$x_1$};
+        \draw[->] (0, -1.5) -- (0, 1.5) node[above] {$x_2$};
+        
+        % Curvas de nivel f(x) = |x1| + 2|x2| = c
+        % Para c=1: vértices en (1,0), (0,0.5), (-1,0), (0,-0.5)
+        \draw[thick, MidnightBlue] (1,0) -- (0,0.5) -- (-1,0) -- (0,-0.5) -- cycle;
+        % Para c=2: vértices en (2,0), (0,1), (-2,0), (0,-1)
+        \draw[thick, MidnightBlue] (2,0) -- (0,1) -- (-2,0) -- (0,-1) -- cycle;
+        
+        % Punto x
+        \filldraw (2,0) circle (1pt) node[above right] {$x$};
+        
+        % Cono de direcciones de descenso (sombreado)
+        \fill[ForestGreen!20, draw=ForestGreen, thick] (2,0) -- (1,0.5) -- (1,-0.5) -- cycle;
+        \node[ForestGreen!70!black, font=\small, right] at (1, 1.2) {direcciones de descenso};
+        \draw[->, ForestGreen!70!black, bend left=20] (1.5, 1.1) to (1.7, 0.2);
+        
+        % Dirección -y = -(1, 2)
+        \draw[->, thick, red!80!black] (2,0) -- (1, -2) node[below right] {$-y$};
+        
+    \end{tikzpicture}
+    \caption{Las curvas de nivel de la función $f(x) = |x_1| + 2|x_2|$, las direcciones de descenso en el punto $x = (x_1, 0)$, donde $x_1 > 0$, y la dirección $-y = -(1, 2)$ que es un anti-subgradiente de $f$ en $x$ pero no es una dirección de descenso de $f$ en $x$.}
+    \label{v2:fig:5.0.1}
+\end{figure}
+
+Es importante resaltar que, en la gran mayoría de las aplicaciones prácticas, conocer todo el conjunto $\partial f(x)$ para cada $x$, es decir, todos los subgradientes, no puede ser esperado. Un buen ejemplo de esta situación es la relajación Lagrangiana, donde la evaluación de la función dual en un punto dado proporciona, en general, apenas un subgradiente (véase la \cref{v2:prop:1.4.1}). Es válido afirmar, sin lugar a dudas, que un método para optimización no diferenciable solo puede ser considerado práctico si funciona utilizando información \textit{incompleta}. O sea, para cada punto dado, la información disponible consiste en valores de la función objetivo y de \textit{un} subgradiente en este punto (y de construcciones que pueden ser obtenidas a través de información de este tipo, acumulada a lo largo de iteraciones anteriores).
+
+Lo expuesto arriba ya muestra que la utilización de ideas de descenso, comunes y naturales en el caso diferenciable, va a ser problemática en el caso en consideración. Al menos sin modificaciones bastante profundas.
+
+Otra dificultad importante consiste en la elección de reglas de parada confiables. En el caso de optimización diferenciable, una regla de parada razonable está dada por la condición $\norm{\nabla f(x^k)} \le \varepsilon$, donde $\varepsilon > 0$ es suficientemente pequeño. Es fácil ver que esta regla no puede ser extendida de manera directa al caso no diferenciable (esto tiene que ver con la falta de ``continuidad'' del operador punto-conjunto $x \rightrightarrows \partial f(x)$). Para ver esto, consideremos el siguiente ejemplo, bien simple.
+
+\begin{example}\label{v2:exa:5.0.2}
+    Sean $n = 1$, $f(x) = |x|$, $x \in \R$. Para cualquier punto $x^k \neq 0$, no importa cuán próximo a la solución $\bar{x} = 0$ del problema \eqref{v2:eq:5.1}, se tiene que $|y| = 1$ para todo $y \in \partial f(x^k)$. O sea, no importa cuán próximo está $x^k \neq 0$ a la solución, en $x^k$ no hay ningún subgradiente con norma pequeña. Más aún, incluso si tuviéramos la suerte de encontrar la solución exacta después de un número finito de iteraciones, i.e., $x^k = 0$ para algún $k$, este hecho puede no ser reconocido (y el método no va a parar) si conocemos apenas un subgradiente en cada punto. Esto porque la ``caja negra'', que calcula subgradientes, puede proporcionar cualquier $y \in \partial f(0) = [-1, 1]$ y, por lo tanto, $|y|$ puede ser grande.
+\end{example}
+
+No entrando en detalles, afirmamos que otros tipos de reglas de parada, comunes en el caso diferenciable, también son completamente inadecuadas en el caso no diferenciable.
+
+En este capítulo, primero consideraremos \textbf{métodos de subgradiente}, bien básicos. Entre otras cosas, esto se debe a razones históricas. Sin embargo, es importante dejar claro que los métodos de subgradiente son rústicos y generalmente ineficientes. Aún son utilizados, en gran parte debido a su extrema simplicidad, por personas de otras áreas que con frecuencia no conocen opciones más sofisticadas. Profesionales en optimización emplean métodos de subgradiente solamente en aplicaciones donde una aproximación a la solución bien grosera puede ser aceptable. Notemos también que los métodos de subgradiente no permiten ninguna regla de parada razonable. Este último problema es resuelto con el \textbf{método de planos cortantes}, que consideraremos a continuación. Cada iteración de este método consiste en la minimización del máximo de funciones afines, acumuladas en las iteraciones anteriores, que aproximan la función objetivo inferiormente. Notemos que esto puede ser hecho resolviendo un problema de programación lineal. Sin embargo, el método de planos cortantes también tiene algunas deficiencias serias. Por ejemplo, inestabilidad numérica. Los métodos verdaderamente satisfactorios son las versiones estabilizadas del método de planos cortantes, llamados \textbf{métodos de haces} (\textit{bundle methods}). Cada iteración de estos métodos consiste en la minimización del máximo de \textit{algunas} de las funciones afines acumuladas en las iteraciones anteriores, más un término cuadrático estabilizador. Notemos que esto puede ser hecho resolviendo un problema de programación cuadrática. Los métodos de haces ya vienen con reglas de parada confiables, control efectivo del tamaño de los subproblemas a ser resueltos en cada iteración (lo que no es posible en el método de planos cortantes), y eficiencia computacional comprobada. Puede decirse que fue el desarrollo de los métodos de haces lo que posibilitó la resolución de problemas no diferenciables en aplicaciones prácticas, especialmente cuando la precisión es importante.

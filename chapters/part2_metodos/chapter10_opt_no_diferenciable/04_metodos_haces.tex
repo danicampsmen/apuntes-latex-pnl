@@ -1,0 +1,309 @@
+% --- Archivo: 04_metodos_haces.tex ---
+
+% =========================================================
+\section{Métodos de haces}
+\label{v2:sec:5.3}
+% =========================================================
+
+De nuevo consideramos el problema de minimización irrestricta
+\begin{equation}
+    \min f(x), \quad x \in \Rn,
+    \label{v2:eq:5.24}
+\end{equation}
+donde $f : \Rn \to \R$ es una función convexa en $\Rn$, en general no diferenciable.
+
+Los métodos presentados a continuación se basan en la idea de aproximación lineal por partes (véase \cref{v2:sec:5.2}), complementada con un mecanismo de estabilización, una regla de parada altamente confiable, y una técnica que permite control total del tamaño de los subproblemas a ser resueltos. Así llegamos a una clase de métodos verdaderamente eficientes y prácticos.
+
+Primero, vamos a presentar una versión simplificada, para explicar mejor las ideas principales. Sea $x^k \in \Rn$ una aproximación actual de la solución del problema \eqref{v2:eq:5.24}, en el sentido de que $x^k$ es el ``mejor'' punto calculado hasta ahora. De nuevo, tenemos en la memoria la información acumulada hasta el inicio de la iteración con índice $k+1$, que consiste en los puntos $z^i \in \Rn$ y subgradientes $y^i \in \partial f(z^i)$, $i = 0, 1, \dots, k$. Llamamos a este conjunto de datos el \textit{haz}\footnote{En inglés: \textit{bundle}; métodos de haces -- \textit{bundle methods}.}. Resaltamos que aquí, el último punto calculado $z^k$ no necesariamente coincide con el punto $x^k$ (la diferencia quedará clara a continuación). El iterado siguiente $z^{k+1} \in \Rn$ es calculado resolviendo el problema
+\begin{equation}
+    \min \psi_k(x) + \frac{\gamma_k}{2} \norm{x - x^k}^2, \quad x \in \Rn,
+    \label{v2:eq:5.25}
+\end{equation}
+donde
+\begin{equation}
+    \psi_k : \Rn \to \R, \quad \psi_k(x) = \max_{i=0, 1, \dots, k} \{ f(z^i) + \interno{y^i}{x - z^i} \},
+    \label{v2:eq:5.26}
+\end{equation}
+es la aproximación de planos cortantes de la función objetivo $f$ (véase \cref{v2:sec:5.2}) y $\gamma_k > 0$ es un parámetro estabilizador (comparar con el subproblema \eqref{v2:eq:5.16}). El punto $x^k$ puede ser pensado como centro de estabilización, y el papel del término cuadrático (estabilizador) consiste en no permitir un desplazamiento muy grande del punto $z^{k+1}$ en relación al centro $x^k$, lo que puede ocurrir en el caso de minimización de la aproximación por planos cortantes. 
+
+La idea es cambiar el centro de estabilización solamente cuando eso esté realmente justificado, i.e., cuando el paso de $x^k$ a $z^{k+1}$ resulte en un decrecimiento suficiente de la función objetivo $f$. Si esto ocurre, tomamos entonces $x^{k+1} = z^{k+1}$. Este tipo de iteración se llama \textit{paso serio}\footnote{En inglés: \textit{serious step}.} (o aun, paso de descenso). Caso contrario, el centro de estabilización (la aproximación actual $x^k$) no cambia, i.e., tomamos $x^{k+1} = x^k$. Este tipo de iteración se llama \textit{paso nulo}\footnote{En inglés: \textit{null step}.}. Subrayamos que la información obtenida a través de la resolución del subproblema \eqref{v2:eq:5.25} en un paso nulo no es descartada: ella sirve para mejorar la aproximación de la función $f$ en la siguiente iteración.
+
+Para construir un método verdaderamente práctico, basado en las ideas presentadas, algunos detalles importantes tienen que ser incorporados. Notemos primero que la función $\psi_k$, definida en \eqref{v2:eq:5.26}, puede ser escrita de la siguiente manera equivalente:
+\begin{equation}
+    \psi_k(x) = f(x^k) + \max_{i=0, 1, \dots, k} \{ -e_i^k + \interno{y^i}{x - x^k} \},
+    \label{v2:eq:5.27}
+\end{equation}
+donde la expresión está ``centrada'' en el punto $x^k$ y utiliza los \textit{errores de linealización} en los puntos $z^i$ en relación a $x^k$:
+\begin{equation}
+    e_i^k := f(x^k) - f(z^i) - \interno{y^i}{x^k - z^i} \ge 0, \quad i = 0, 1, \dots, k.
+    \label{v2:eq:5.28}
+\end{equation}
+La desigualdad en \eqref{v2:eq:5.28} sigue directamente de la definición de subgradiente. Esta representación de la función $\psi_k$ está mejor adaptada a la implementación computacional (entre otras cosas, necesita menos memoria, ya que en vez de vectores $z^i \in \Rn$ utiliza números escalares $e_i^k \in \R$). Como puede ser visto directamente de \eqref{v2:eq:5.28} y de la definición del $\varepsilon$-subdiferencial (véase \cref{v2:sec:1.3}), se tiene que
+\begin{equation}
+    y^i \in \partial_{e_i^k} f(x^k), \quad i = 0, 1, \dots, k.
+    \label{v2:eq:5.29}
+\end{equation}
+Notemos que los errores de linealización en \eqref{v2:eq:5.28} tienen que ser modificados cada vez que cambia el centro $x^k$.
+
+Recordamos que la complejidad del subproblema \eqref{v2:eq:5.25} está directamente relacionada con el número de planos cortantes que definen $\psi_k$ en \eqref{v2:eq:5.26}, que es $k+1$. Como veremos más adelante, este también será el número de restricciones en la reformulación de \eqref{v2:eq:5.25} como un problema de programación cuadrática. Por razones prácticas, es altamente deseable mantener el número de restricciones computacionalmente realista. O sea, necesitamos alguna herramienta que permita descartar parte de la información acumulada de manera que, aun así, garantice convergencia del proceso iterativo. La eliminación de alguna información anterior significa la sustitución de la función dada por \eqref{v2:eq:5.26} por otra función, definida por un número menor de planos cortantes. Formalmente definimos
+\begin{equation}
+    \psi_k(x) = f(x^k) + \max_{i \in B_k} \{ -e_i^k + \interno{y^i}{x - x^k} \},
+    \label{v2:eq:5.30}
+\end{equation}
+donde $B_k$ es el conjunto de índices que define el haz actual, y se tiene que
+\begin{equation}
+    y^i \in \partial_{e_i^k} f(x^k), \quad i \in B_k.
+    \label{v2:eq:5.31}
+\end{equation}
+De la \cref{v2:def:1.3.5} del $\varepsilon$-subdiferencial, se tiene que
+\[
+    \forall x \in \Rn, \quad f(x) \ge f(x^k) + \interno{y^i}{x - x^k} - e_i^k, \quad \forall i \in B_k.
+\]
+Por lo tanto, de \eqref{v2:eq:5.30} obtenemos que
+\begin{equation}
+    f(x) \ge \psi_k(x) \quad \forall x \in \Rn, \quad k = 0, 1, \dots
+    \label{v2:eq:5.32}
+\end{equation}
+Subrayamos que en la definición arriba, $B_k$ no necesita contener a todos los índices $i = 0, 1, \dots, k$. Además, suponiendo que necesariamente $y^i \in \partial f(z^i)$ para algún índice anterior $i \in \{0, 1, \dots, k\}$, es claro que si no estamos empleando todos los planos cortantes obtenidos en los $k+1$ puntos anteriores, los $\varepsilon$-subgradientes en \eqref{v2:eq:5.31} tienen que ser construidos de manera inteligente para no perder aquella información que es esencial. Para este fin, la llamada \textit{función agregada} es fundamental. Esta función es definida a través de la solución del subproblema \eqref{v2:eq:5.25}, que estudiaremos a continuación.
+
+Evidentemente, la función objetivo del subproblema \eqref{v2:eq:5.25} es fuertemente convexa. Por lo tanto, \eqref{v2:eq:5.25} posee una solución que es única. Además, como es fácil verificar, el problema \eqref{v2:eq:5.25}, con $\psi_k$ dada por \eqref{v2:eq:5.30}, es equivalente al problema de programación cuadrática siguiente:
+\begin{equation}
+    \min t + \frac{\gamma_k}{2} \norm{x - x^k}^2 \quad \text{sujeto a} \quad (t, x) \in U_k,
+    \label{v2:eq:5.33}
+\end{equation}
+\begin{equation}
+    U_k = \left\{ (t, x) \in \R \times \Rn \;\middle|\; f(x^k) - e_i^k + \interno{y^i}{x - x^k} \le t, \quad i \in B_k \right\}.
+    \label{v2:eq:5.34}
+\end{equation}
+Mencionaremos también que, en vez del problema \eqref{v2:eq:5.33}-\eqref{v2:eq:5.34}, podemos resolver su dual (véase \cref{v2:sec:1.4}), que puede ser escrito como
+\begin{equation}
+    \min \frac{1}{2} \norm{\sum_{i \in B_k} \nu_i y^i}^2 + \gamma_k \sum_{i \in B_k} \nu_i e_i^k \quad \text{sujeto a} \quad \nu \in \mathcal{U}_k,
+    \label{v2:eq:5.35}
+\end{equation}
+\begin{equation}
+    \mathcal{U}_k = \left\{ \nu \in \R_+^{|B_k|} \;\middle|\; \sum_{i \in B_k} \nu_i = 1 \right\},
+    \label{v2:eq:5.36}
+\end{equation}
+véase el \cref{v2:lem:5.3.1} a continuación. Por el Teorema de Weierstrass, el problema dual siempre posee solución, ya que su conjunto viable es compacto y la función objetivo es continua. A ventaja del problema dual es que su conjunto viable posee una estructura que permite el uso de métodos computacionales especializados muy eficientes (el simplex estándar).
+
+\begin{lemma}[Dualidad del subproblema]\label{v2:lem:5.3.1}
+    Para el problema \eqref{v2:eq:5.33}-\eqref{v2:eq:5.34}, el dual viene dado por
+    \begin{equation}
+        \max f(x^k) - \frac{1}{2\gamma_k} \norm{\sum_{i \in B_k} \nu_i y^i}^2 - \sum_{i \in B_k} \nu_i e_i^k \quad \text{sujeto a} \quad \nu \in \mathcal{U}_k,
+        \label{v2:eq:5.37}
+    \end{equation}
+    donde el conjunto $\mathcal{U}_k$ está definido en \eqref{v2:eq:5.36}. Los dos problemas poseen soluciones y no hay brecha de dualidad.
+\end{lemma}
+
+\begin{proof}
+    El problema primal \eqref{v2:eq:5.33}-\eqref{v2:eq:5.34} es equivalente a \eqref{v2:eq:5.25}, que posee una única solución (como ya fue justificado). Ahora, por el \cref{v2:thm:1.4.3}, el dual no tiene brecha de dualidad (es evidente que el problema primal satisface la condición de regularidad de Slater).
+    Resta mostrar que el dual tiene el formato \eqref{v2:eq:5.37}. La Lagrangiana viene dada por:
+    \begin{align}
+        L(t, x, \nu) &= t + \frac{\gamma_k}{2} \norm{x - x^k}^2 + \sum_{i \in B_k} \nu_i(f(x^k) - e_i^k + \interno{y^i}{x - x^k} - t) \label{v2:eq:5.38} \\
+        &= \left( 1 - \sum_{i \in B_k} \nu_i \right)t + \frac{\gamma_k}{2} \norm{x - x^k}^2 + \sum_{i \in B_k} \nu_i \interno{y^i}{x - x^k} + \sum_{i \in B_k} \nu_i(f(x^k) - e_i^k). \nonumber
+    \end{align}
+    Evidentemente, el ínfimo sobre $t$ es $-\infty$ a menos que $\sum \nu_i = 1$. Maximizando la función dual sobre $x$ se obtiene la formulación \eqref{v2:eq:5.37} luego de completar cuadrados.
+\end{proof}
+
+\begin{lemma}[Propiedades del subproblema de programación cuadrática del método de haces]\label{v2:lem:5.3.2}
+    Sea $f : \Rn \to \R$ una función convexa. Para cualesquiera $x^k \in \Rn$, $y^i \in \partial_{e_i^k} f(x^k)$, $i \in B_k$, y $\gamma_k > 0$, sea
+    \begin{equation}
+        d^k = \sum_{i \in B_k} \nu_i^k y^i,
+        \label{v2:eq:5.39}
+    \end{equation}
+    donde $\nu^k \in \R^{|B_k|}$ es una solución del problema dual \eqref{v2:eq:5.35}-\eqref{v2:eq:5.36}. Entonces, la única solución $z^{k+1}$ del problema \eqref{v2:eq:5.25} viene dada por
+    \begin{equation}
+        z^{k+1} = x^k - \frac{1}{\gamma_k} d^k.
+        \label{v2:eq:5.40}
+    \end{equation}
+    Además, se tiene que
+    \begin{equation}
+        d^k \in \partial_{\varepsilon_k} f(x^k),
+        \label{v2:eq:5.41}
+    \end{equation}
+    donde
+    \begin{equation}
+        \varepsilon_k = \sum_{i \in B_k} \nu_i^k e_i^k \ge 0.
+        \label{v2:eq:5.42}
+    \end{equation}
+\end{lemma}
+
+Por la definición del subgradiente, a partir del Lema se tiene la relación crítica:
+\begin{equation}
+    d^k \in \partial \psi_k(z^{k+1}).
+    \label{v2:eq:5.43}
+\end{equation}
+Ahora, por la definición del subgradiente, tenemos que
+\begin{equation}
+    f(x) \ge \psi_k(x) \ge \psi_k(z^{k+1}) + \interno{d^k}{x - z^{k+1}} \quad \forall x \in \Rn,
+    \label{v2:eq:5.44}
+\end{equation}
+donde la primera desigualdad ya fue probada (véase \eqref{v2:eq:5.32}). Como no hay brecha de dualidad, el valor óptimo primal y dual coinciden, obteniendo:
+\begin{equation}
+    \psi_k(z^{k+1}) = f(x^k) - \frac{1}{\gamma_k} \norm{d^k}^2 - \varepsilon_k.
+    \label{v2:eq:5.45}
+\end{equation}
+
+Ahora estamos listos para introducir la \textbf{función agregada}, mencionada anteriormente:
+\begin{equation}
+    \psi_k^a : \Rn \to \R, \quad \psi_k^a(x) := f(x^k) - \varepsilon_k + \interno{d^k}{x - x^k},
+    \label{v2:eq:5.46}
+\end{equation}
+donde $d^k \in \Rn$ y $\varepsilon_k \ge 0$ son exactamente los definidos en el \cref{v2:lem:5.3.2}. Observamos que esta función está definida a través de la solución del subproblema de programación cuadrática. Notemos también que el \cref{v2:lem:5.3.2} implica en que
+\begin{equation}
+    f(x) \ge \psi_k^a(x) \quad \forall x \in \Rn,
+    \label{v2:eq:5.47}
+\end{equation}
+i.e., $\psi_k^a$ es una aproximación inferior de la función objetivo $f$.
+
+Para construir un método bien definido y convergente, precisamos garantizar que si un punto $x^k$ dado no es solución, entonces tras un número finito de pasos nulos obtenemos un paso serio de descenso. Necesitamos entonces remover planos anteriores de manera inteligente, conteniendo toda la información relevante en la \textit{función agregada} de forma tal que se satisfaga la condición:
+\begin{equation}
+    \psi_{k+1}(x) \ge \max \{ \psi_k^a(x), f(z^{k+1}) + \interno{y^{k+1}}{x - z^{k+1}} \} \quad \forall x \in \Rn.
+    \label{v2:eq:5.48}
+\end{equation}
+La condición \eqref{v2:eq:5.48} significa que a la hora de definir el nuevo haz, tras un paso nulo, es suficiente incluir el par $(y^{k+1}, e_{k+1}^{k+1})$, donde
+\begin{equation}
+    e_{k+1}^{k+1} = f(x^k) - f(z^{k+1}) - \interno{y^{k+1}}{x^k - z^{k+1}} \ge 0,
+    \label{v2:eq:5.49}
+\end{equation}
+y el par agregado $(d^k, \varepsilon_k)$. Como estrategia extrema, podemos remover todos los pares anteriores y calcular el punto $z^{k+2}$ como solución del problema 
+\[
+    \min \psi_{k+1}(x) + \frac{\gamma_{k+1}}{2} \norm{x - x^{k+1}}^2,
+\]
+donde
+\begin{equation}
+    \psi_{k+1}(x) = \max \{ \psi_k^a(x), f(z^{k+1}) + \interno{y^{k+1}}{x - z^{k+1}} \}.
+    \label{v2:eq:5.50}
+\end{equation}
+
+Para poder actualizar los errores de linealización cada vez que el centro de estabilización cambia, garantizando la validez de la inclusión, la fórmula siguiente garantiza esto:
+\begin{equation}
+    e_i^{k+1} = e_i^k + f(x^{k+1}) - f(x^k) + \interno{y^i}{x^k - x^{k+1}}, \quad i \in B_{k+1} \setminus \{k+1\}.
+    \label{v2:eq:5.51}
+\end{equation}
+
+Ahora ya podemos describir el método formalmente.
+
+\vspace{0.3cm}
+\noindent \textbf{Algoritmo 5.3.1. (El método de haces)} \\
+Fijar un número entero $M \ge 2$ (el tamaño máximo permitido del haz). Escoger $x^0 \in \Rn$ y tomar $k := 0$, $K := \emptyset$. Escoger $\sigma \in (0, 1)$. Calcular $f(x^0)$ y $y^0 \in \partial f(x^0)$. Tomar $z^0 := x^0$, $e_0^0 := 0$. Tomar $B_0 := \{0\}$ y definir el haz inicial, que contiene el único par $(y^0, e_0^0)$.
+\begin{enumerate}[label=\arabic*., itemsep=0.1cm, topsep=0.1cm]
+    \item Escoger $\gamma_k > 0$ y calcular $z^{k+1}$, la solución del problema \eqref{v2:eq:5.25}, con función objetivo dada por \eqref{v2:eq:5.30}.
+    \item Calcular $f(z^{k+1})$, $y^{k+1} \in \partial f(z^{k+1})$ y 
+    \begin{equation}
+        \Delta_k = f(x^k) - \psi_k(z^{k+1}) - \frac{\gamma_k}{2} \norm{z^{k+1} - x^k}^2.
+        \label{v2:eq:5.52}
+    \end{equation}
+    \item Si
+    \begin{equation}
+        f(x^k) - f(z^{k+1}) \ge \sigma \Delta_k,
+        \label{v2:eq:5.53}
+    \end{equation}
+    tomar $x^{k+1} := z^{k+1}$ e incluir el índice $k$ en el conjunto $K$ (\textbf{paso serio}). \\
+    Caso contrario, tomar $x^{k+1} := x^k$ (\textbf{paso nulo}).
+    \item Si $|B_k| < M$, tomar $B_{k+1} := B_k \cup \{k+1\}$. \\
+    Si $|B_k| = M$, escoger dos índices $i_1, i_2 \in B_k$ y tomar $B_{k+1} := (B_k \setminus \{i_2\}) \cup \{k+1\}$, $y^{i_1} := d^k$, $e_{i_1}^k := \varepsilon_k$, donde $d^k \in \Rn$ y $\varepsilon_k \ge 0$ están definidos en el \cref{v2:lem:5.3.2}.
+    \item Si $k \in K$, calcular $e_i^{k+1}$, $i \in B_{k+1} \setminus \{k+1\}$, por la fórmula \eqref{v2:eq:5.51}. Caso contrario, tomar $e_i^{k+1} := e_i^k$, $i \in B_{k+1} \setminus \{k+1\}$. \\
+    Calcular $e_{k+1}^{k+1}$ por la fórmula \eqref{v2:eq:5.49}. Definir el nuevo haz como el conjunto de pares $(y^i, e_i^{k+1})$, $i \in B_{k+1}$.
+    \item Tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
+\vspace{0.3cm}
+
+Haremos algunos comentarios sobre la regla de parada. De \eqref{v2:eq:5.41}, obtenemos que $\Delta_k$ se simplifica a
+\begin{equation}
+    \Delta_k = \varepsilon_k + \frac{\norm{d^k}^2}{2\gamma_k}.
+    \label{v2:eq:5.54}
+\end{equation}
+Tenemos entonces que $\Delta_k \ge 0$ y, si este número es pequeño, entonces son pequeños $\norm{d^k}$ y $\varepsilon_k$. Por lo tanto, la regla de parada basada en la condición de que $\Delta_k$ sea suficientemente pequeño, será satisfecha tras un número finito de iteraciones. 
+
+\begin{theorem}[Convergencia de los pasos serios del método de haces]\label{v2:thm:5.3.1}
+    Sea $f : \Rn \to \R$ una función convexa en $\Rn$. Supongamos que el Algoritmo 5.3.1 genera una sucesión de iteraciones para las cuales el conjunto $K$ de pasos serios es infinito. Supongamos que la sucesión $\{\gamma_k\}$ satisfaga la condición
+    \begin{equation}
+        \sum_{k \in K} \frac{1}{\gamma_k} = +\infty.
+        \label{v2:eq:5.55}
+    \end{equation}
+    Entonces, para la sucesión $\{x^k\}$ del Algoritmo 5.3.1 se tiene que
+    \begin{equation}
+        \lim_{k \to \infty} f(x^k) = \bar{v},
+        \label{v2:eq:5.56}
+    \end{equation}
+    donde $\bar{v} = \inf_{x \in \Rn} f(x)$, y para $k \in K$ se verifica
+    \begin{equation}
+        \Delta_k \to 0 \quad (k \to \infty).
+        \label{v2:eq:5.57}
+    \end{equation}
+    Si el problema \eqref{v2:eq:5.24} tiene una solución y
+    \begin{equation}
+        \gamma_k \ge \bar{\gamma} > 0 \quad \forall k \in K,
+        \label{v2:eq:5.58}
+    \end{equation}
+    entonces la sucesión $\{x^k\}$ converge a una solución del problema.
+\end{theorem}
+
+\begin{proof}
+    Por el \cref{v2:lem:5.3.2}, para todo $k \in K$ se tiene que
+    \begin{equation}
+        x^{k+1} = x^k - \frac{1}{\gamma_k} d^k, \quad d^k \in \partial_{\varepsilon_k} f(x^k),
+        \label{v2:eq:5.59}
+    \end{equation}
+    donde las cantidades $\gamma_k > 0$, $\norm{d^k}$, $\Delta_k \ge 0$ y $\varepsilon_k \ge 0$ están relacionadas por \eqref{v2:eq:5.54}.
+    Si $\bar{v} > -\infty$, tenemos que
+    \begin{equation}
+        \sum_{k \in K} \Delta_k \le \sum_{k \in K} \frac{f(x^k) - f(x^{k+1})}{\sigma} \le \frac{f(x^0) - \bar{v}}{\sigma} < +\infty.
+        \label{v2:eq:5.60}
+    \end{equation}
+    De aquí y de \eqref{v2:eq:5.54}, se sigue que
+    \begin{equation}
+        \sum_{k \in K} \varepsilon_k < +\infty, \quad \sum_{k \in K} \frac{\norm{d^k}^2}{\gamma_k} < +\infty.
+        \label{v2:eq:5.61}
+    \end{equation}
+    Ahora, las relaciones \eqref{v2:eq:5.55}, \eqref{v2:eq:5.59} y \eqref{v2:eq:5.61}, implican la convergencia:
+    \[
+        \liminf_{k \to \infty} f(x^k) = \bar{v}.
+    \]
+    Para todo $k \in K$, siendo que vale \eqref{v2:eq:5.59}, por el mismo razonamiento usado en la prueba del método de subgradiente, se tiene que
+    \begin{equation}
+        \norm{x^{k+1} - \bar{x}}^2 \le \norm{x^k - \bar{x}}^2 + \frac{\norm{d^k}^2}{\gamma_k^2} + \frac{2\varepsilon_k}{\gamma_k}.
+        \label{v2:eq:5.62}
+    \end{equation}
+    De \eqref{v2:eq:5.58} y \eqref{v2:eq:5.61}, se sigue que esta condición implica que $\{x^k\}$ converge al minimizador.
+\end{proof}
+
+\begin{theorem}[Convergencia de pasos nulos del método de haces]\label{v2:thm:5.3.2}
+    Sea $f : \Rn \to \R$ una función convexa. Supongamos que el Algoritmo 5.3.1 genera una sucesión para la cual el conjunto de pasos serios $K$ es finito, i.e., $x^k = x^{\bar{k}}$ para algún índice $\bar{k}$. Supongamos que la sucesión $\{\gamma_k\}$ sea limitada y satisfaga la condición
+    \begin{equation}
+        \gamma_{k+1} \ge \gamma_k \quad \forall k \ge \bar{k}.
+        \label{v2:eq:5.63}
+    \end{equation}
+    Entonces, $x^{\bar{k}}$ es una solución del problema \eqref{v2:eq:5.24}, y la sucesión $\{z^k\}$ converge a $x^{\bar{k}}$.
+\end{theorem}
+
+\begin{proof}
+    El análisis (que involucra las ecuaciones \eqref{v2:eq:5.64} a \eqref{v2:eq:5.71}) muestra que, gracias a la agregación del haz, la sucesión de subgradientes aproximados fuerza al algoritmo a encontrar que $0 \in \partial f(x^{\bar{k}})$. 
+    En particular, la función agregada satisface para todo $x \in \Rn$:
+    \begin{equation}
+        \psi_k^a(x) + \frac{\gamma_k}{2}\norm{x - x^{\bar{k}}}^2 = \psi_k(z^{k+1}) + \frac{\gamma_k}{2}\norm{z^{k+1} - x^{\bar{k}}}^2 + \frac{\gamma_k}{2}\norm{x - z^{k+1}}^2.
+        \label{v2:eq:5.64}
+    \end{equation}
+    Utilizando \eqref{v2:eq:5.32}, la definición de $z^{k+2}$, \eqref{v2:eq:5.48} y \eqref{v2:eq:5.63}, obtenemos que la secuencia $\{\psi_k(z^{k+1}) + \gamma_k \norm{z^{k+1} - x^{\bar{k}}}^2 / 2\}$ es monótona no decreciente y acotada superiormente. Evaluando el límite de paso nulo \eqref{v2:eq:5.53}, se concluye que:
+    \begin{equation}
+        0 \in \partial f(x^{\bar{k}}),
+        \label{v2:eq:5.70}
+    \end{equation}
+    lo cual significa que $x^{\bar{k}}$ es solución del problema.
+\end{proof}
+
+\begin{exercise}\label{v2:ejer:5.3.1}
+    Sean $f : \Rn \to \R$ y $g : \Rn \to \R^m$ funciones convexas en $\Rn$. Supongamos que la condición de Slater sea satisfecha.
+    Probar que para la familia de funciones parametrizadas 
+    \begin{equation}
+        \varphi(y; x) = \max \left\{ f(y) - f(x), \max_{i=1,\dots,m} \{0, g_i(y)\} \right\},
+        \label{v2:eq:5.75}
+    \end{equation}
+    las afirmaciones siguientes son equivalentes:
+    \begin{enumerate}[label=(\alph*)]
+        \item $\bar{x}$ es una solución del problema $\min \{f(x) \mid g(x) \le 0\}$ (eq. \eqref{v2:eq:5.73});
+        \item $\min \{ \varphi(y; \bar{x}) \mid y \in \Rn \} = \varphi(\bar{x}; \bar{x}) = 0$;
+        \item $0 \in \partial \varphi(\bar{x}; \bar{x})$, i.e., $0 \in \partial \psi(\bar{x})$, donde $\psi(\cdot) := \varphi(\cdot; \bar{x})$.
+    \end{enumerate}
+\end{exercise}

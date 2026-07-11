@@ -132,5 +132,9 @@
 \contentsline {subsection}{\numberline {9.5.3}Globalización de convergencia de SQP}{181}{subsection.9.5.3}%
 \contentsline {subsection}{\numberline {9.5.4}Restauración de la convergencia local superlineal}{187}{subsection.9.5.4}%
 \contentsline {subsection}{\numberline {9.5.5}Otras técnicas de globalización}{192}{subsection.9.5.5}%
-\contentsline {chapter}{\nonumberline Bibliografía}{200}{chapter*.35}%
+\contentsline {chapter}{\numberline {10}Métodos para optimización no diferenciable}{200}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Métodos de subgradiente}{202}{section.10.1}%
+\contentsline {section}{\numberline {10.2}El método de planos cortantes}{205}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Métodos de haces}{208}{section.10.3}%
+\contentsline {chapter}{\nonumberline Bibliografía}{214}{chapter*.35}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

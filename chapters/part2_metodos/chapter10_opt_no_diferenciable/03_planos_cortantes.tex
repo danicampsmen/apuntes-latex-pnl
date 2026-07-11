@@ -1,0 +1,206 @@
+% --- Archivo: 03_planos_cortantes.tex ---
+
+% =========================================================
+\section{El método de planos cortantes}
+\label{v2:sec:5.2}
+% =========================================================
+
+Consideremos el problema
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D,
+    \label{v2:eq:5.15}
+\end{equation}
+donde $D \subset \Rn$ es un conjunto convexo y cerrado, y $f : \Rn \to \R$ es una función convexa en $\Rn$. Supongamos también que $D$ sea acotado, lo que es necesario para garantizar la existencia de soluciones en los subproblemas del método a ser estudiado, principalmente en las iteraciones iniciales (la primera iteración consiste en la minimización de una función afín sobre el conjunto $D$, que claramente no tiene solución si $D = \Rn$).
+
+La idea principal del método de planos cortantes consiste en la utilización de la información acumulada a lo largo de las iteraciones anteriores para construir una aproximación (inferior) de la función $f$, lineal por partes, cada vez más precisa. En particular, este método pertenece a la clase de \textit{métodos con memoria} (véase \cref{v2:sec:2.1}). Consideramos que al inicio de la iteración con índice $k+1$, tenemos la siguiente información en la memoria: $x^i \in \Rn$, $y^i \in \partial f(x^i)$, $i = 0, 1, \dots, k$. La iteración (indexada por $k+1$) del método de planos cortantes consiste en la resolución del problema
+\begin{equation}
+    \min \psi_k(x) \quad \text{sujeto a} \quad x \in D,
+    \label{v2:eq:5.16}
+\end{equation}
+donde
+\begin{equation}
+    \psi_k : \Rn \to \R, \quad \psi_k(x) = \max_{i=0, 1, \dots, k} \{ f(x^i) + \interno{y^i}{x - x^i} \}.
+    \label{v2:eq:5.17}
+\end{equation}
+
+Notemos que si $D$ es un conjunto poliedral, \eqref{v2:eq:5.16} puede ser escrito en forma del siguiente problema de programación lineal:
+\begin{equation}
+    \min t \quad \text{sujeto a} \quad (t, x) \in U_k,
+    \label{v2:eq:5.18}
+\end{equation}
+\begin{equation}
+    U_k = \left\{ (t, x) \in \R \times D \;\middle|\; \begin{array}{l} f(x^i) + \interno{y^i}{x - x^i} \le t, \\ i = 0, 1, \dots, k. \end{array} \right\}.
+    \label{v2:eq:5.19}
+\end{equation}
+
+De la definición del subdiferencial y de \eqref{v2:eq:5.17}, inmediatamente obtenemos que
+\begin{equation}
+    f(x) \ge \psi_{k+1}(x) \ge \psi_k(x) \quad \forall x \in \Rn.
+    \label{v2:eq:5.20}
+\end{equation}
+A medida que más información es acumulada (o sea, cuando $k$ crece), la aproximación (inferior) \eqref{v2:eq:5.17} de la función $f$ se hace cada vez más precisa. Podemos esperar, entonces, que las soluciones de los subproblemas \eqref{v2:eq:5.16} aproximen cada vez mejor a las soluciones del problema original \eqref{v2:eq:5.15}.
+
+\vspace{0.3cm}
+\noindent \textbf{Algoritmo 5.2.1. (El método de planos cortantes)} \\
+Elegir $x^0 \in \Rn$ y tomar $k := 0$.
+\begin{enumerate}[label=\arabic*., itemsep=0.1cm, topsep=0.1cm]
+    \item Calcular $f(x^k)$ y $y^k \in \partial f(x^k)$.
+    \item Calcular $x^{k+1}$, una solución del problema \eqref{v2:eq:5.16}, donde la función objetivo está dada por \eqref{v2:eq:5.17}.
+    \item Tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
+\vspace{0.3cm}
+
+Tres iteraciones del método de planos cortantes se ilustran en la \cref{v2:fig:5.2.2}.
+
+\begin{figure}[htpb]
+    \centering
+    \begin{tikzpicture}[>=Stealth, scale=1.2]
+        \draw[->] (-2.5, 0) -- (4, 0) node[right] {$x$};
+        \draw[->] (-2, -1) -- (-2, 4) node[above] {$f$};
+        
+        % Función original f(x) (parábola)
+        \draw[thick, MidnightBlue, domain=-1.5:3.5, samples=100] plot (\x, {0.5*(\x - 1)^2 + 1});
+        
+        % Planos cortantes (rectas tangentes)
+        % En x0 = 0 -> f(0)=1.5, f'(0)=-1. Recta: y = -1(x - 0) + 1.5 = -x + 1.5
+        \draw[thick, ForestGreen, domain=-1:3] plot (\x, {-\x + 1.5});
+        \filldraw (0, 1.5) circle (1.5pt);
+        \node[below] at (0, 0) {$x^0$};
+        \draw[dashed] (0, 0) -- (0, 1.5);
+        
+        % En x1 = a = 3 -> f(3)=3, f'(3)=2. Recta: y = 2(x - 3) + 3 = 2x - 3
+        \draw[thick, ForestGreen, domain=1.5:3.5] plot (\x, {2*\x - 3});
+        \filldraw (3, 3) circle (1.5pt);
+        \node[below] at (3, 0) {$x^1 = a$};
+        \draw[dashed] (3, 0) -- (3, 3);
+        
+        % Intersección de plano 0 y plano 1: -x + 1.5 = 2x - 3 => 3x = 4.5 => x2 = 1.5
+        % En x2 = 1.5 -> f(1.5)=1.125, f'(1.5)=0.5. Recta: y = 0.5(x - 1.5) + 1.125 = 0.5x + 0.375
+        \draw[thick, ForestGreen, domain=-0.5:3.5] plot (\x, {0.5*\x + 0.375});
+        \filldraw (1.5, 1.125) circle (1.5pt);
+        \node[below] at (1.5, 0) {$x^2$};
+        \draw[dashed] (1.5, 0) -- (1.5, 1.125);
+        
+        % Intersección de plano 0 y plano 2: -x + 1.5 = 0.5x + 0.375 => 1.5x = 1.125 => x3 = 0.75
+        \filldraw (0.75, 0.75) circle (1.5pt);
+        \node[below] at (0.75, 0) {$x^3$};
+        \draw[dashed] (0.75, 0) -- (0.75, 0.75);
+    \end{tikzpicture}
+    \caption{Tres iteraciones del método de planos cortantes para la función $f$ en el conjunto $D = [0, a]$. Se tiene que $x^{k+1}$ es el minimizador de la aproximación $\psi_k$ en $D$. Después de cada iteración, un plano cortante más es introducido en la aproximación: $\psi_{k+1}(x) = \max\{\psi_k(x), f(x^{k+1}) + \interno{y^{k+1}}{x - x^{k+1}}\}$, $y^{k+1} \in \partial f(x^{k+1})$.}
+    \label{v2:fig:5.2.2}
+\end{figure}
+
+La ventaja más importante de este método en comparación con los métodos de subgradiente es la posibilidad de construir una regla de parada informativa. Para todo $k$, definimos
+\[
+    \Delta_k = f(x^{k+1}) - \psi_k(x^{k+1}).
+\]
+De la relación \eqref{v2:eq:5.20}, se sigue que $\Delta_k \ge 0$ y
+\[
+    f(x) \ge \psi_k(x) \ge \psi_k(x^{k+1}) = f(x^{k+1}) - \Delta_k \quad \forall x \in D.
+\]
+Por lo tanto,
+\[
+    f(x^{k+1}) \ge \bar{v} \ge f(x^{k+1}) - \Delta_k,
+\]
+donde $\bar{v}$ es el valor óptimo del problema \eqref{v2:eq:5.15}. Esta última relación significa que es razonable parar el método después de la iteración indexada por $k+1$, si $\Delta_k$ es pequeño (menor que la tolerancia escogida). Como mostraremos más adelante, para un cierto $k$ esto siempre va a ocurrir (véase el \cref{v2:thm:5.2.1}).
+
+¿Cuáles son las deficiencias del método de planos cortantes? En la práctica, la hipótesis de compacidad de $D$ en general no es muy restrictiva. Por ejemplo, en vez de comenzar por resolver subproblemas \eqref{v2:eq:5.16} con $k=0$, lo que ciertamente puede dar un problema ilimitado inferiormente cuando $D$ es ilimitado, podemos primero tomar unos $k > 0$ puntos (digamos, aleatorios) y solo después de eso comenzar efectivamente el proceso iterativo. Si la aproximación \eqref{v2:eq:5.17} contiene un número de puntos significativo, es muy probable que el subproblema asociado ya no sea ilimitado inferiormente, incluso para un conjunto viable $D$ ilimitado.
+
+La primera deficiencia más profunda es que la resolución de los subproblemas se hace más difícil a medida que más puntos se introducen en \eqref{v2:eq:5.17}. Esto es bien claro, ya que el número de restricciones escalares en el problema de programación lineal \eqref{v2:eq:5.18}, \eqref{v2:eq:5.19}, es exactamente el número de puntos anteriores $k+1$. Notemos que existen algunas estrategias de eliminación de algunos de los puntos anteriores en la aproximación \eqref{v2:eq:5.17}. Sin embargo, en el caso del método de planos cortantes estas estrategias no son completamente satisfactorias (comparar con los métodos de haces en la \cref{v2:sec:5.3}).
+
+Otra deficiencia seria del método de planos cortantes es su inestabilidad numérica. Más precisamente, las sucesiones $\{x^k\}$ y $\{f(x^k)\}$ con frecuencia muestran un comportamiento caótico. Para visualizar esto, basta observar el Algoritmo 5.2.1 cuando es aplicado al problema \eqref{v2:eq:5.15}, con $n=1$, $D = [-1, 1]$ y la función objetivo $f(x) = x^2$, $x \in \R$. Véase también la \cref{v2:fig:5.2.3}.
+
+\begin{figure}[htpb]
+    \centering
+    \begin{tikzpicture}[>=Stealth, scale=1.3]
+        \draw[->] (-3.5, 0) -- (3.5, 0) node[right] {$x$};
+        
+        % Función f(x)
+        \draw[thick, MidnightBlue, domain=-2.5:2.5, samples=100] plot (\x, {0.4*\x*\x + 0.5}) node[right] {$f$};
+        
+        % Solución \bar{x} = 0
+        \filldraw (0, 0) circle (1.5pt) node[below] {$\bar{x}$};
+        
+        % Punto x^k
+        \filldraw (0.8, 0) circle (1.5pt) node[below] {$x^k$};
+        \draw[dashed] (0.8, 0) -- (0.8, {0.4*0.8*0.8 + 0.5});
+        \filldraw (0.8, {0.4*0.8*0.8 + 0.5}) circle (1.5pt);
+        
+        % Tangente en x^k: f'(0.8) = 0.8*0.8 = 0.64. y = 0.64(x - 0.8) + 0.756 = 0.64x + 0.244
+        \draw[thick, ForestGreen, domain=-2:2] plot (\x, {0.64*\x + 0.244});
+        
+        % Otra tangente para forzar el cruce lejos (ej: en x=-0.3)
+        % Tangente en x=-0.3: f'(-0.3) = -0.24. y = -0.24(x + 0.3) + 0.536 = -0.24x + 0.464
+        \draw[thick, ForestGreen, domain=-2.5:1.5] plot (\x, {-0.24*\x + 0.464});
+        
+        % Intersección de tangentes: 0.64x + 0.244 = -0.24x + 0.464 => 0.88x = 0.22 => x = 0.25 (muy cerca).
+        % Haremos el dibujo conceptual para mostrar inestabilidad "lejos"
+        \draw[thick, ForestGreen] (-1.5, 2.5) -- (1, -1);
+        \draw[thick, ForestGreen] (2, 1.5) -- (-0.5, -2);
+        
+        \filldraw (-1.5, 0) circle (1.5pt) node[below left] {$x^{k+1}$};
+        \draw[dashed] (-1.5, 0) -- (-1.5, {0.4*1.5*1.5 + 0.5});
+    \end{tikzpicture}
+    \caption{La iteración del método de planos cortantes puede generar $x^{k+1}$ para el cual la distancia a la solución y el valor de la función objetivo aumentan en comparación con el iterado anterior $x^k$.}
+    \label{v2:fig:5.2.3}
+\end{figure}
+
+Aun siendo estos ejemplos muy especiales (en particular, $f$ es diferenciable y no está claro por qué emplear un método de optimización no diferenciable), lo que puede ser observado es relevante para entender las posibles dificultades de la aplicación del método en general. A propósito, el método de planos cortantes es realmente eficiente solamente cuando el problema posee una \textit{única} solución, que satisface la condición de crecimiento lineal (véase el \cref{v2:ejer:5.1.2}).
+
+\begin{theorem}[Convergencia del método de planos cortantes]\label{v2:thm:5.2.1}
+    Sean $D \subset \Rn$ un conjunto convexo compacto y $f : \Rn \to \R$ una función convexa en $\Rn$. 
+    Entonces, para toda sucesión $\{x^k\}$ generada por el Algoritmo 5.2.1, se tiene que
+    \begin{equation}
+        \lim_{k \to \infty} \psi_k(x^{k+1}) = \bar{v} = \liminf_{k \to \infty} f(x^k),
+        \label{v2:eq:5.21}
+    \end{equation}
+    donde $\bar{v} = \min_{x \in D} f(x)$, y las funciones $\psi_k$ están definidas por la fórmula \eqref{v2:eq:5.17}.
+\end{theorem}
+
+\begin{proof}
+    De la relación \eqref{v2:eq:5.20} se sigue que la sucesión $\{\psi_k(x^{k+1})\}$ es no decreciente y limitada superiormente por $\bar{v}$. Luego, esta sucesión converge. Supongamos que el límite de ella no sea $\bar{v}$, i.e., que exista un número $\delta > 0$ tal que
+    \begin{equation}
+        \psi_k(x^{k+1}) \le \bar{v} - \delta \quad \forall k.
+        \label{v2:eq:5.22}
+    \end{equation}
+    La sucesión $\{x^k\}$ es acotada (ya que $D$ es compacto). Tomando una subsucesión (si fuera necesario), podemos admitir que $\{x^k\}$ converge. Existe, entonces, un número $M > 0$ tal que, para todo $k$ suficientemente grande, tenemos
+    \[
+        \norm{x^{k+1} - x^k} \le \frac{\delta}{2M}, \quad \norm{y^k} \le M,
+    \]
+    donde la segunda desigualdad se sigue del \cref{v2:thm:1.3.9} (y del hecho de que $\{x^k\}$ es acotada). Combinando estas desigualdades con \eqref{v2:eq:5.17} y \eqref{v2:eq:5.22}, obtenemos que
+    \begin{align*}
+        \bar{v} - \delta &\ge \psi_k(x^{k+1}) \\
+        &\ge f(x^k) + \interno{y^k}{x^{k+1} - x^k} \\
+        &\ge \bar{v} - \norm{y^k} \norm{x^{k+1} - x^k} \\
+        &\ge \bar{v} - \delta/2,
+    \end{align*}
+    lo que es una contradicción. Acabamos de mostrar la primera igualdad en \eqref{v2:eq:5.21}.
+    
+    Supongamos ahora que la segunda igualdad en \eqref{v2:eq:5.21} no sea verdadera, i.e., que exista un número $\delta > 0$ tal que para todo $k$ suficientemente grande se tiene que
+    \[
+        f(x^k) \ge \bar{v} + \delta.
+    \]
+    Observamos que, por la definición \eqref{v2:eq:5.17},
+    \begin{align}
+        \psi_{k+1}(x^{k+1}) &= \max \{ \psi_k(x^{k+1}), f(x^{k+1}) \} \nonumber \\
+        &\ge f(x^{k+1}) \nonumber \\
+        &\ge \bar{v} + \delta, \label{v2:eq:5.23}
+    \end{align}
+    para todo $k$ suficientemente grande.
+    Pasando de nuevo a una subsucesión (si es necesario) podemos admitir que
+    \[
+        \norm{x^{k+1} - x^k} \le \frac{\delta}{2L},
+    \]
+    donde
+    \[
+        L = \sup \{ \norm{y} \mid y \in \cup_{x \in D} \partial f(x) \}.
+    \]
+    Recordamos que, por el \cref{v2:thm:1.3.9}, el número $L$ es finito y sirve como módulo de Lipschitz-continuidad de la función $f$ en el conjunto $D$. Como es fácil ver, $L$ también sirve como módulo de Lipschitz-continuidad de la función $\psi_{k+1}$ en $D$ (véase el \cref{v2:ejer:2.3.3}). Ahora, utilizando también \eqref{v2:eq:5.23} y \eqref{v2:eq:5.20}, obtenemos
+    \begin{align*}
+        \bar{v} + \delta &\le \psi_{k+1}(x^{k+1}) \\
+        &= \psi_{k+1}(x^k) + \psi_{k+1}(x^{k+1}) - \psi_{k+1}(x^k) \\
+        &\le \bar{v} + L \norm{x^{k+1} - x^k} \\
+        &\le \bar{v} + \delta/2,
+    \end{align*}
+    lo que de nuevo es una contradicción. Esto prueba la segunda igualdad en \eqref{v2:eq:5.21}.
+\end{proof}
