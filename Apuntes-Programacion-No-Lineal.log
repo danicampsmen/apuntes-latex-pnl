@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  11 JUL 2026 04:55
+This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  11 JUL 2026 05:29
  restricted system commands enabled.
  file:line:error style messages enabled.
 **Apuntes-Programacion-No-Lineal.tex
@@ -3856,7 +3856,7 @@ chapter without number
 
 
 ] (./Apuntes-Programacion-No-Lineal.ind)
-runsystem(latexminted cleantemp  --timestamp 20260711045513 619C487146398D9C4DAF
+runsystem(latexminted cleantemp  --timestamp 20260711052904 619C487146398D9C4DAF
 123F9D510570)...executed.
 
 (./Apuntes-Programacion-No-Lineal.aux
@@ -3890,10 +3890,10 @@ Here is how much of LuaTeX's memory you used:
  53448 words of node memory still in use:
    8 hlist, 2 vlist, 5 rule, 1 local_par, 11 glue, 5 kern, 1 penalty, 6 sub_mlis
 t, 3 glyph, 19719 attribute, 102 glue_spec, 6570 attribute_list, 3 write nodes
-   avail lists: 1:16,2:66401,3:1564,4:70,5:1702,6:216,7:16316,8:83,9:2848,10:35,
+   avail lists: 1:14,2:66401,3:1564,4:70,5:1702,6:222,7:16316,8:83,9:2848,10:35,
 11:1733,12:1
  105871 multiletter control sequences out of 65536+600000
- 152 fonts using 67738687 bytes
+ 152 fonts using 67738815 bytes
  125i,21n,128p,11236b,4829s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/fonts/opentype/stix/STIXTwoMath-Regular.otf></usr/share/fonts/openty
 pe/stix/STIXTwoMath-Regular.otf></usr/share/fonts/opentype/stix/STIXTwoMath-Regu
@@ -3904,7 +3904,7 @@ al/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreheros-regular.o
 tf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreher
 os-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msam10.pfb>
-Output written on Apuntes-Programacion-No-Lineal.pdf (198 pages, 1603878 bytes).
+Output written on Apuntes-Programacion-No-Lineal.pdf (198 pages, 1603873 bytes).
 
 
 PDF statistics: 3990 PDF objects out of 4296 (max. 8388607)
