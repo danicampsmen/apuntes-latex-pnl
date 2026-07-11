@@ -23,7 +23,7 @@ Sea $x \in \Rn$ un punto cualquiera, tal que $f'(x) \neq 0$. Consideremos los pu
     f(x + td) &= f(x) - t\|f'(x)\|^2 + o(t\|f'(x)\|) \\
               &= f(x) - t(\|f'(x)\|^2 - o(t)/t).
 \end{align*}
-Como para valores de $t > 0$ suficientemente pequeños se tiene que $\|f'(x)\|^2 > o(t)/t$, para esos valores vale que $f(x + td) < f(x)$. De hecho, como es fácil ver, el mismo raciocinio puede ser usado para cualquier dirección $d \in \Rn$ satisfaciendo $\interno{f'(x)}{d} < 0$. A continuación, formalizaremos estas observaciones.
+Como para valores de $t > 0$ suficientemente pequeños se tiene que $\|f'(x)\|^2 > o(t)/t$, para esos valores vale que $f(x + td) < f(x)$. De hecho, como es fácil ver, el mismo razonamiento puede ser usado para cualquier dirección $d \in \Rn$ satisfaciendo $\interno{f'(x)}{d} < 0$. A continuación, formalizaremos estas observaciones.
 
 \begin{definition}[Dirección de descenso]
     Decimos que $d \in \Rn$ es una dirección de descenso de la función $f \colon \Rn \to \R$ en el punto $x \in \Rn$, si existe $\varepsilon > 0$ tal que
