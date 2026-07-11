@@ -174,7 +174,7 @@ A continuación, probaremos las propiedades de convergencia del Algoritmo 4.3.1,
 
 El resultado siguiente prueba la convergencia asintótica del Algoritmo 4.3.1, además de mostrar que, en general, los puntos $x^k$ generados no son factibles. Con efecto, si el método genera un punto factible, él ya es una solución del problema original. No obstante, es claro que tal situación no puede ser esperada en general.
 
-\begin{theorem}[Convergencia global del método de penalización externa]\label{th:4.3.1}
+\begin{theorem}[Convergencia global del método de penalización externa]\label{thm:4.3.1}
     Sea $\{x^k\}$ una secuencia generada por el Algoritmo 4.3.1, donde $x^k$ es una solución global de \eqref{eq:4.38} con $c = c_k$.
     Entonces $x^k \in D$ si, y solamente si, $x^k$ es una solución global del problema \eqref{eq:4.31}.
     
@@ -231,7 +231,7 @@ donde $\varphi(\cdot; c)$ es dada por \eqref{eq:4.39} y $\psi$ es dada por \eqre
 
 En general, el problema \eqref{eq:4.38} puede no poseer soluciones o poseer varias. El resultado siguiente contiene, entre otras cosas, condiciones suficientes para garantizar la existencia de soluciones (locales) de \eqref{eq:4.38} y la convergencia de estas soluciones a una solución local del problema original. Así obtenemos una versión más práctica del Algoritmo 4.3.1, que trabaja con soluciones locales de problemas penalizados.
 
-\begin{theorem}[Convergencia de soluciones locales de problemas penalizados]\label{th:4.3.2}
+\begin{theorem}[Convergencia de soluciones locales de problemas penalizados]\label{thm:4.3.2}
     Sean $\inmap{f}{\R^n}{\R}$ y $\inmap{\psi}{\R^n}{\R_+}$ funciones continuas en $\R^n$, donde $\psi$ satisface \eqref{eq:4.32}. Sea $\bar{x} \in \R^n$ un minimizador local estricto del problema \eqref{eq:4.31}.
     
     Entonces existe un número $\delta > 0$ tal que para cualquier solución (global) $x(c)$ del problema
@@ -373,7 +373,7 @@ Ya vimos algunas situaciones de validez de estimativas de este tipo: por ejemplo
 
 Observemos que el resultado a seguir, además de estimativas de la tasa de convergencia, establece algunas situaciones en que métodos de penalización externa poseen convergencia finita. I.e., situaciones en las cuales $x^k$ sea una solución exacta del problema para algún $k$ suficientemente grande. Notemos que como fue probado en el Teorema 4.3.1 (vea \eqref{eq:4.44}), la condición \eqref{eq:4.54} a seguir siempre es satisfecha si $x^k$ es una solución global del problema penalizado. Puede ser visto que \eqref{eq:4.54} también vale si $x^k$ es una solución global del problema penalizado en un conjunto que contiene a $\bar{x}$ (en vez de todo el espacio). De cualquier manera, la condición \eqref{eq:4.54} es natural en el contexto de métodos de penalización. La segunda condición en \eqref{eq:4.55} significa la convergencia del método en consideración en relación a las variables del problema. A su vez, estas condiciones \eqref{eq:4.54} y \eqref{eq:4.55} serán satisfechas, por ejemplo, si $\bar{x}$ es una solución local estricta del problema original \eqref{eq:4.31}, y $x^k = x(c_k)$ es elegido como fue hecho en la demostración del Teorema 4.3.2.
 
-\begin{theorem}[Tasa de convergencia de métodos de penalización externa]\label{th:4.3.3}
+\begin{theorem}[Tasa de convergencia de métodos de penalización externa]\label{thm:4.3.3}
     Sean $\inmap{f}{\R^n}{\R}$ una función Lipschitz-continua con módulo $N > 0$ en una vecindad $U$ del punto $\bar{x} \in \R^n$, y $D \subset \R^n$ un conjunto cerrado. Sea $\bar{x}$ una solución local del problema \eqref{eq:4.31}. Supongamos, finalmente, que la función $\inmap{\psi}{\R^n}{\R_+}$, definida por \eqref{eq:4.32}, satisfaga la condición \eqref{eq:4.53} para algunos $M > 0$ y $\nu > 0$.
     
     Si las secuencias $\{c_k\} \subset \R_+$ y $\{x^k\} \subset \R^n$ son tales que
@@ -500,7 +500,7 @@ Precisaremos de la siguiente caracterización de la derivada direccional de la f
 
 Comenzamos con condiciones que son necesarias para que la penalización sea exacta.
 
-\begin{theorem}[Condiciones necesarias para penalización exacta]\label{th:4.3.4}
+\begin{theorem}[Condiciones necesarias para penalización exacta]\label{thm:4.3.4}
     Sea $\bar{x} \in \R^n$ una solución local (estricta) del problema penalizado \eqref{eq:4.66}.
     
     Si $\bar{x} \in D$, entonces $\bar{x}$ es una solución local (estricta) del problema original \eqref{eq:4.64}.
@@ -614,7 +614,7 @@ Primero mostraremos que, bajo ciertas condiciones, el valor de la Lagrangiana pr
 
 Consideremos ahora el caso convexo.
 
-\begin{theorem}[Penalización exacta en el caso convexo]\label{th:4.3.5}
+\begin{theorem}[Penalización exacta en el caso convexo]\label{thm:4.3.5}
     Sean $f$ y $g$ funciones convexas, diferenciables en el punto $\bar{x} \in \R^n$, y sea $h$ una función afín. Supongamos que existan multiplicadores de Lagrange $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m$ tales que las condiciones de optimalidad de Karush-Kuhn-Tucker (del Teorema 1.2.3(a)) son satisfechas (luego, $\bar{x}$ es una solución global del problema \eqref{eq:4.64}).
     
     Entonces para todo $c \ge \|(\bar{\lambda}, \bar{\mu})\|_\infty$, el punto $\bar{x}$ es una solución (global) del problema \eqref{eq:4.66}.
@@ -646,7 +646,7 @@ Consideremos ahora el caso convexo.
 
 Consideremos, finalmente, el caso no convexo, pero en el que una solución satisface la condición suficiente de segunda orden (por lo tanto, ella es estricta).
 
-\begin{theorem}[Penalización exacta en el caso de la condición suficiente de segunda orden]\label{th:4.3.6}
+\begin{theorem}[Penalización exacta en el caso de la condición suficiente de segunda orden]\label{thm:4.3.6}
     Sean $f, h$ y $g$ funciones dos veces diferenciables en $\bar{x} \in \R^n$. Supongamos también que existan multiplicadores de Lagrange $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m$ tales que la condición suficiente de segunda orden (del Teorema 1.2.3(b)) sea satisfecha (luego, $\bar{x}$ es una solución local estricta del problema \eqref{eq:4.64}).
     
     Entonces para todo $c > \|(\bar{\lambda}, \bar{\mu})\|_\infty$, el punto $\bar{x}$ es una solución local estricta del problema \eqref{eq:4.66}.

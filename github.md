@@ -55,6 +55,9 @@ https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part1_optim
 Parte 2 ##############################################################
 ######################################################################
 
+https://github.com/danicampsmen/apuntes-latex-pnl/tree/main
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/apuntes-scr.cls
+
 ######################################################################
 capítulo 6
 ######################################################################
@@ -94,8 +97,6 @@ https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metod
 capítulo 9
 ######################################################################
 
-https://github.com/danicampsmen/apuntes-latex-pnl/tree/main
-https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/apuntes-scr.cls
 https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter9_opt_restringida/01_gradiente_proyectado.tex
 https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter9_opt_restringida/02_direcciones_factibles.tex
 https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter9_opt_restringida/03_penalizacion_externa.tex

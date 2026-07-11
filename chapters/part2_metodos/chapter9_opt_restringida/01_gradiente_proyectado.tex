@@ -107,7 +107,7 @@ Observamos también que la utilización de longitud de paso fijo, suponiendo que
 \end{equation}
 es equivalente a la regla de Armijo con $\hat{\alpha} = \bar{\alpha}$ y $\sigma > 0$ suficientemente pequeño. Por lo tanto, este caso no requiere análisis separado.
 
-\begin{theorem}[Convergencia del método del gradiente proyectado]\label{th:4.1.1}
+\begin{theorem}[Convergencia del método del gradiente proyectado]\label{thm:4.1.1}
 Sean $D \subset \R^n$ un conjunto cerrado y convexo, $f : \R^n \to \R$ una función diferenciable en $\R^n$, con derivada Lipschitz-continua en $\R^n$ con módulo $L > 0$.
 
 Entonces cada punto de acumulación de cualquier secuencia $\{x^k\}$ generada por el Algoritmo 4.1.1 es un punto estacionario del problema \eqref{eq:4.1}. Si un punto de acumulación existe, o si la función $f$ es limitada inferiormente en $D$, entonces para cualquier secuencia limitada $\{t_k\} \subset \R_+$ se tiene que
@@ -159,7 +159,7 @@ donde
 \end{equation}
 con constantes $\delta > 0$ y $\gamma > 0$. En el caso de $D = \R^n$, estas condiciones ya fueron consideradas en § 3.1.2. Sin entrar en detalles, mencionamos que ambas son satisfechas si, por ejemplo, $f$ es una función cuadrática, $D$ es un conjunto poliédrico, y $S_0 \neq \emptyset$ (comparar con el Ejercicio 3.1.11).
 
-\begin{theorem}[Convergencia lineal del método del gradiente proyectado]\label{th:4.1.2}
+\begin{theorem}[Convergencia lineal del método del gradiente proyectado]\label{thm:4.1.2}
 Además de las hipótesis del Teorema 4.1.1, supongamos que el valor óptimo del problema \eqref{eq:4.1} sea finito y valga la condición \eqref{eq:4.14}, con $U$ definido en \eqref{eq:4.15} y algunos $\delta > 0$ y $\gamma > 0$. Supongamos también que valga la condición de separación de superficies de nivel críticas.
 
 Entonces cualquier secuencia $\{x^k\}$ generada por el Algoritmo 4.1.1 converge a un punto estacionario del problema \eqref{eq:4.1}. La tasa de convergencia con respecto a la función es lineal, y con respecto a las variables la tasa es geométrica.
