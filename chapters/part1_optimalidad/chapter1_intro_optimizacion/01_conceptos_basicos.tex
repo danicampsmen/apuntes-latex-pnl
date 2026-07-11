@@ -9,24 +9,26 @@
 \end{notation}
 
 % =========================================================
+\label{v1:chap:intro_opt}
 \section{Definiciones y algunos hechos básicos}
+\label{v1:sec:hechos_basicos}
 % =========================================================
 
 Sean dados conjuntos $D \subset \Rn$ y $\Omega \subset \Rn$ tales que $D \subset \Omega$, y una función $f : \Omega \to \R$. El problema principal a ser considerado en este libro es el de hallar un minimizador de $f$ en el conjunto $D$. Este problema se escribirá como:
 \begin{equation}
     \min f(x) \quad \text{sujeto a} \quad x \in D.
-    \label{eq:problema_general_opt}
+    \label{v1:eq:problema_general_opt}
 \end{equation}
 El conjunto $D$ será llamado \textbf{conjunto factible} del problema, los puntos de $D$ serán llamados \textbf{puntos factibles}, y $f$ será llamada \textbf{función objetivo}.
 
-\begin{definition}[Minimizadores]\label{def:minimizadores}
-    Dado el problema \eqref{eq:problema_general_opt}, un punto $\bar{x} \in D$ se denomina:
+\begin{definition}[Minimizadores]\label{v1:def:minimizadores}
+    Dado el problema \eqref{v1:eq:problema_general_opt}, un punto $\bar{x} \in D$ se denomina:
     \begin{enuthm}
-        \item \textbf{Minimizador global} de \eqref{eq:problema_general_opt}, si
+        \item \textbf{Minimizador global} de \eqref{v1:eq:problema_general_opt}, si
         \[
             f(\bar{x}) \le f(x) \quad \forall x \in D;
         \]
-        \item \textbf{Minimizador local} de \eqref{eq:problema_general_opt}, si existe una vecindad $U$ de $\bar{x}$ tal que
+        \item \textbf{Minimizador local} de \eqref{v1:eq:problema_general_opt}, si existe una vecindad $U$ de $\bar{x}$ tal que
         \[
             f(\bar{x}) \le f(x) \quad \forall x \in D \cap U.
         \]
@@ -59,8 +61,8 @@ El conjunto $D$ será llamado \textbf{conjunto factible} del problema, los punto
     Por la definición, es claro que todo minimizador global también es minimizador local, pero no recíprocamente. Si para todo $x \neq \bar{x}$ la desigualdad correspondiente es estricta, $\bar{x}$ será llamado \textbf{minimizador estricto} (global o local, respectivamente).
 \end{remark}
 
-\begin{definition}[Valor óptimo]\label{def:valor_optimo}
-    El \textbf{valor óptimo} del problema \eqref{eq:problema_general_opt} es el valor $\bar{v} \in [-\infty, +\infty)$ definido por
+\begin{definition}[Valor óptimo]\label{v1:def:valor_optimo}
+    El \textbf{valor óptimo} del problema \eqref{v1:eq:problema_general_opt} es el valor $\bar{v} \in [-\infty, +\infty)$ definido por
     \[
         \bar{v} = \inf_{x \in D} f(x).
     \]
@@ -80,7 +82,7 @@ decimos que $f$ satisface la \textbf{condición de crecimiento lineal} en el con
 \]
 Observamos que cualquiera de estas dos condiciones implica que $\bar{x}$ es un minimizador local estricto.
 
-\begin{proposition}\label{prop:crecimiento_implica_estricto}
+\begin{proposition}\label{v1:prop:crecimiento_implica_estricto}
     Si la función $f$ satisface la condición de crecimiento lineal o cuadrático en $D$ en torno a $\bar{x}$, entonces $\bar{x}$ es un minimizador local estricto de $f$.
 \end{proposition}
 
@@ -90,7 +92,7 @@ Observamos que cualquiera de estas dos condiciones implica que $\bar{x}$ es un m
 
 También es fácil ver que cualquier problema de maximización
 \begin{equation}
-    \max f(x) \quad \text{sujeto a} \quad x \in D \label{eq:problema_max}
+    \max f(x) \quad \text{sujeto a} \quad x \in D \label{v1:eq:problema_max}
 \end{equation}
 puede ser transformado en un problema de minimización equivalente:
 \[
@@ -111,8 +113,8 @@ puede ser transformado en un problema de minimización equivalente:
 \end{tikzpicture}
 \end{center}
 
-\begin{proposition}[Equivalencia entre maximización y minimización]\label{prop:equiv_max_min}
-    Sea el problema de maximización \eqref{eq:problema_max}. Un punto $\bar{x} \in D$ es maximizador de \eqref{eq:problema_max} si y solo si $\bar{x}$ es minimizador del problema equivalente $\min_{x \in D} -f(x)$. Además, se satisface que $\max_{x \in D} f(x) = -\min_{x \in D} (-f(x))$.
+\begin{proposition}[Equivalencia entre maximización y minimización]\label{v1:prop:equiv_max_min}
+    Sea el problema de maximización \eqref{v1:eq:problema_max}. Un punto $\bar{x} \in D$ es maximizador de \eqref{v1:eq:problema_max} si y solo si $\bar{x}$ es minimizador del problema equivalente $\min_{x \in D} -f(x)$. Además, se satisface que $\max_{x \in D} f(x) = -\min_{x \in D} (-f(x))$.
 \end{proposition}
 
 \begin{proof}
@@ -123,7 +125,7 @@ En particular, las soluciones locales y globales de ambos problemas son las mism
 
 Típicamente, el conjunto factible de un problema está definido por un sistema de igualdades y/o desigualdades y/o una inclusión, como, por ejemplo,
 \begin{equation}
-    D = \{x \in \Omega \mid h(x) = 0, \; g(x) \le 0\}, \label{eq:restricciones_mixtas_generales}
+    D = \{x \in \Omega \mid h(x) = 0, \; g(x) \le 0\}, \label{v1:eq:restricciones_mixtas_generales}
 \end{equation}
 donde $\Omega \subset \Rn$, $h : \Omega \to \R^l$ y $g : \Omega \to \R^m$ (suponemos que la función objetivo $f$ también está definida en el conjunto $\Omega$). El conjunto $\Omega$ representa lo que se llama \textbf{restricciones directas} y las restricciones de igualdad y desigualdad se llaman \textbf{restricciones funcionales}. Cabe resaltar que la separación de las restricciones en directas y funcionales en la mayoría de los casos es solo una cuestión de simple conveniencia. Por ejemplo, la restricción directa $x \in \Omega = \R_+^n$ puede escribirse en el formato funcional $x \in \{x \in \Rn \mid x_i \ge 0,\ i=1,\dots,n\}$. 
 
@@ -135,11 +137,11 @@ Las restricciones de desigualdad también pueden transformarse en igualdades med
 \[
     g_i(x) \le 0 \iff g_i(x) + z_i^2 = 0, \quad z_i \in \R.
 \]
-Sin embargo, las transformaciones de este tipo son indeseables, tanto desde el punto de vista teórico como desde el punto de vista computacional. En primer lugar, en muchos casos estas transformaciones llevan a condiciones de optimalidad más débiles que las obtenidas en un análisis directo de las restricciones originales. En segundo lugar, el número de restricciones y/o variables aumenta, lo que hace el problema más difícil de resolver en la práctica. Por estas razones, en capítulos posteriores estudiaremos el formato general de restricciones mixtas \eqref{eq:restricciones_mixtas_generales} de forma directa.
+Sin embargo, las transformaciones de este tipo son indeseables, tanto desde el punto de vista teórico como desde el punto de vista computacional. En primer lugar, en muchos casos estas transformaciones llevan a condiciones de optimalidad más débiles que las obtenidas en un análisis directo de las restricciones originales. En segundo lugar, el número de restricciones y/o variables aumenta, lo que hace el problema más difícil de resolver en la práctica. Por estas razones, en capítulos posteriores estudiaremos el formato general de restricciones mixtas \eqref{v1:eq:restricciones_mixtas_generales} de forma directa.
 
-Cuando $D = \Rn$, decimos que el problema \eqref{eq:problema_general_opt} es \textbf{irrestricto}, y cuando $D \neq \Rn$ hablamos de \textbf{optimización con restricciones}. 
+Cuando $D = \Rn$, decimos que el problema \eqref{v1:eq:problema_general_opt} es \textbf{irrestricto}, y cuando $D \neq \Rn$ hablamos de \textbf{optimización con restricciones}. 
 
-\begin{definition}[Tipos de problemas especiales]\label{def:tipos_problemas}
+\begin{definition}[Tipos de problemas especiales]\label{v1:def:tipos_problemas}
     \begin{enuthm}
         \item Decimos que un conjunto es \textbf{poliedral} cuando puede ser representado como el conjunto de las soluciones de un sistema finito de ecuaciones e inecuaciones lineales: $D = \{x \in \Rn \mid Ax = a,\; Bx \le b\}$.
         \item Una función $f : \Rn \to \R$ definida por $f(x) = \frac{1}{2}\interno{Qx}{x} + \interno{q}{x} + c$, donde $Q$ es una matriz simétrica, se llama \textbf{función cuadrática}.

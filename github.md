@@ -13,8 +13,12 @@ https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-1/Cap5-S
 
 https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-2/cap1.pdf
 https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-2/cap2.pdf
-https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-2/cap3-Solodov.pdf
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-2/cap3.pdf
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-2/cap4-parte1.pdf
 https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-2/cap4-parte2.pdf
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-2/cap4-parte3.pdf
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-2/cap5.pdf
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/Solodov-Vol-2/cap6.pdf
 ######################################################################
 Parte 1 ##############################################################
 ######################################################################
