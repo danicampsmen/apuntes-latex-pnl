@@ -1,0 +1,382 @@
+% --- Archivo: 03_metodo_simplex.tex ---
+
+% =========================================================
+\subsection{El método del simplex}
+\label{v2:sec:6.1.2}
+% =========================================================
+
+El método del simplex es históricamente el primer método computacional para optimización con restricciones. Fue él el que permitió la resolución de los primeros problemas de optimización de la ``vida real'', dando inicio al desarrollo de métodos computacionales de optimización. Aun siendo el método más ``viejo'', implementaciones sofisticadas de la idea básica son bien eficientes y son utilizadas hasta ahora.
+
+El método será presentado para el problema canónico
+\begin{equation}
+    \min \interno{c}{x} \quad \text{sujeto a} \quad x \in D = \{ x \in \Omega \mid Ax = b \},
+    \label{v2:eq:6.16}
+\end{equation}
+donde $c \in \Rn$, $A \in \R^{l \times n}$, $b \in \R^l$, $\Omega = \R^n_+$. Esto no reduce la generalidad, ya que todo problema de programación lineal puede ser escrito en este formato; véase la \cref{v2:sec:6.1.1}.
+
+De aquí en adelante,
+\[
+    J(x) = \{ j = 1, \dots, n \mid x_j > 0 \}
+\]
+es el conjunto de las coordenadas positivas del punto $x \in \Rn$, y $A^j$, $j = 1, \dots, n$, son las columnas de la matriz $A$.
+
+Basada en la \cref{v2:prop:6.1.1} y en los \cref{v2:thm:6.1.5,v2:thm:6.1.6}, la estrategia más simple para resolver un problema de programación lineal sería calcular todos los vértices del conjunto viable y escoger aquel con menor valor de la función objetivo. Algunas maneras de hacer esto fueron comentadas en la \cref{v2:sec:6.1.1}. Si el problema \eqref{v2:eq:6.16} posee soluciones, por lo menos una será encontrada después de un número finito de pasos. Teóricamente, esta estrategia puede ser aplicada a cualquier problema de programación lineal. Sin embargo, ya para dimensiones $n$ y $l$ del orden de algunas docenas (lo que es un problema pequeño), el número de cálculos necesarios torna a este método poco práctico. Por eso, este método no tiene valor práctico. Él, naturalmente, lleva a la idea principal del método del simplex: en vez del cálculo indiscriminado de todos los vértices del conjunto viable, el proceso tiene que ser ordenado de manera inteligente, evitando el cálculo de vértices claramente no óptimos (por ejemplo, con valor de la función objetivo mayor que el ya visto).
+
+Recordamos que, por el \cref{v2:thm:6.1.4}, el punto $\hat{x} \in D$ es un vértice del poliedro canónico $D$ definido en \eqref{v2:eq:6.16} si, y solamente si, las columnas $A^j$, $j \in J(\hat{x})$, de la matriz $A$ son linealmente independientes. Si el conjunto $J(\hat{x})$ contiene $l$ índices, el vértice es no degenerado; si el número de índices es menor que $l$, el vértice es degenerado.
+
+Notemos que para todo $x \in D$,
+\[
+    b = Ax = \sum_{j=1}^n A^j x_j = \sum_{j \in J(x)} A^j x_j,
+\]
+i.e., el vector $b$ en las restricciones es una combinación lineal de las columnas de la matriz $A$ que corresponden a las coordenadas positivas del punto viable $x$. Más aún, los multiplicadores en esta combinación son precisamente las coordenadas de $x$ positivas.
+
+\begin{definition}\label{v2:def:6.1.2}
+    Dado un vértice $\hat{x}$ del poliedro canónico $D$ definido en \eqref{v2:eq:6.16}, llamamos \textbf{base} del vértice $\hat{x}$ a cualquier conjunto de $l$ columnas linealmente independientes de la matriz $A$ que contiene a todas las columnas $A^j$, $j \in J(\hat{x})$.
+\end{definition}
+
+En otras palabras, $\mathcal{B} = \{ A^j, j \in J \}$, donde $J \subset \{1, \dots, n\}$, es una base del vértice $\hat{x}$ si, primero, $\mathcal{B}$ es una base de $\R^l$ (en particular, $J$ tiene que contener $l$ elementos) y, segundo, $J \supset J(\hat{x})$. Notemos que para un vértice no degenerado, la única base es $\mathcal{B} = \{ A^j, j \in J(\hat{x}) \}$. Un vértice degenerado puede poseer tanto más de una base como ninguna.
+
+La existencia de vértices degenerados en el caso de un poliedro canónico no es muy típica, en el sentido siguiente. Si hay un vértice degenerado, el vector $b$ está en un subespacio de $\R^l$ generado por menos de $l$ columnas de la matriz $A$. Por lo tanto, casi cualquier pequeña perturbación de $b$ eliminaría todos los vértices degenerados.
+
+Recordamos que por el \cref{v2:thm:6.1.5}, un poliedro canónico no vacío siempre posee al menos un vértice. Como es obvio, un vértice tiene una base si, y solamente si, $\rank A = l$. De aquí en adelante, supongamos que $\rank A = l$, lo que siempre puede ser garantizado eliminando aquellas restricciones de igualdad que son combinaciones lineales de las otras.
+
+El método del simplex es una estrategia especial de generar vértices $x^k$ del conjunto viable $D$ y las bases $\mathcal{B}_k$ asociadas. Para todo $k$, dependiendo de los signos de ciertos parámetros generados, se hace una de las siguientes tres conclusiones:
+\begin{enumerate}[label=\arabic*., itemsep=0.1cm, topsep=0.1cm]
+    \item El punto $x^k$ es una solución del problema \eqref{v2:eq:6.16};
+    \item El problema \eqref{v2:eq:6.16} no tiene solución;
+    \item Existe (y puede ser calculado explícitamente) un vértice $x^{k+1}$ del conjunto $D$, con base $\mathcal{B}_{k+1}$, tal que
+    \begin{equation}
+        x^{k+1} \neq x^k, \quad \interno{c}{x^{k+1}} < \interno{c}{x^k},
+        \label{v2:eq:6.17}
+    \end{equation}
+    o
+    \begin{equation}
+        x^{k+1} = x^k, \quad \mathcal{B}_{k+1} \neq \mathcal{B}_k.
+        \label{v2:eq:6.18}
+    \end{equation}
+\end{enumerate}
+
+El método del simplex puede ser interpretado como un método basado en la identificación de las restricciones activas (véase \cref{v2:sec:4.7}). Más precisamente, él determina el conjunto $I(\bar{x}) = \{1, \dots, n\} \setminus J(\bar{x})$ de las coordenadas nulas de un vértice óptimo $\bar{x}$, i.e., el conjunto de las restricciones de desigualdad del problema \eqref{v2:eq:6.16}, activas en $\bar{x}$. Después de eso, las coordenadas no nulas de $\bar{x}$ pueden ser calculadas resolviendo el sistema lineal
+\[
+    \sum_{j \in J(\bar{x})} A^j x_j = b.
+\]
+
+En los primeros dos casos listados arriba, el algoritmo, naturalmente, para. Si el vértice $x^k$ es no degenerado y estamos en el Caso 3, siempre se realiza \eqref{v2:eq:6.17}. Si el vértice $x^k$ es degenerado, puede ocurrir también \eqref{v2:eq:6.18}. Sin embargo, el método posee mecanismos para evitar la elección cíclica de las bases; en algún momento siempre ocurrirá el caso \eqref{v2:eq:6.17}, lo que significa que encontramos un nuevo vértice, mejor que el anterior.
+
+Como el número de vértices es finito y, cuando la solución del problema \eqref{v2:eq:6.16} existe, una de ellas es vértice, después de un número finito de pasos obtenemos una de las conclusiones 1 o 2. En otras palabras, si el problema \eqref{v2:eq:6.16} posee soluciones, una de ellas será encontrada después de un número finito de pasos. Si el problema \eqref{v2:eq:6.16} no tiene solución, esto también será descubierto después de un número finito de pasos.
+
+Cabe resaltar que, teóricamente, el método del simplex puede pasar por \textit{todos} los vértices del conjunto viable hasta terminar con la conclusión 1 o 2. O sea, existen ejemplos (¡artificiales!) donde el método no presenta ninguna ventaja con relación a la estrategia del cálculo indiscriminado de todos los vértices del conjunto viable. Sin embargo, en la práctica, el desempeño del método del simplex es mucho mejor que eso. Típicamente, el número de iteraciones queda entre $l$ y $2l$, y el método es muy adecuado para resolver problemas con $n$ y $l$ del orden de algunos miles.
+
+A continuación, presentaremos los detalles del método del simplex. Sean $x^0, x^1, \dots, x^k$ los vértices del poliedro $D$ ya calculados (un método para encontrar el primer vértice $x^0$ será comentado más adelante). Sea $\mathcal{B}_k = \{ A^j, j \in J_k \}$ una base del vértice $x^k$, donde $J_k \subset \{1, \dots, n\}$. Como tratamos de explicar una iteración del método (la iteración que genera el iterado siguiente $x^{k+1}$), para simplificar la notación omitimos el índice $k$, definiendo $x = x^k$, $\mathcal{B} = \mathcal{B}_k$, $J = J_k$.
+
+Como $\mathcal{B}$ es una base de $\R^l$, las columnas de la matriz $A$ son unívocamente representadas en la forma siguiente:
+\begin{equation}
+    A^i = \sum_{j \in J} \gamma_{ji} A^j, \quad i = 1, \dots, n,
+    \label{v2:eq:6.19}
+\end{equation}
+donde los números $\gamma_{ji} \in \R$, $j \in J$, $i = 1, \dots, n$, se llaman \textbf{coeficientes de sustitución}. Definimos de qué se llaman \textbf{estimaciones de sustitución}:
+\begin{equation}
+    \delta_i = c_i - \sum_{j \in J} c_j \gamma_{ji}, \quad i = 1, \dots, n.
+    \label{v2:eq:6.20}
+\end{equation}
+Notemos que
+\[
+    \gamma_{ji} = \begin{cases} 1, & \text{si } j = i, \\ 0, & \text{si } j \in J \setminus \{i\}, \end{cases} \qquad \delta_i = 0 \quad \forall i \in J,
+\]
+y para $i \in J$ los coeficientes y las estimaciones de sustitución no contienen información ninguna. Es el análisis de los signos de $\delta_i$ y de $\gamma_{ji}$ con $j \in J, i \notin J$, que permite hacer una de las tres conclusiones listadas anteriormente (de aquí en adelante, $i \notin J$ significa que $i \in \{1, \dots, n\} \setminus J$).
+
+A continuación, presentamos el criterio de optimalidad en el método del simplex.
+
+\begin{theorem}[Criterio de optimalidad en el método del simplex]\label{v2:thm:6.1.11}
+    Para $A \in \R^{l \times n}$ y $b \in \R^l$, sea $x \in D$ un vértice del poliedro $D$ definido en \eqref{v2:eq:6.16} con $\Omega = \R^n_+$, y sea $\mathcal{B} = \{ A^j, j \in J \}$ una base de este vértice, $J \subset \{1, \dots, n\}$.
+    Si para las estimaciones de sustitución, definidas en \eqref{v2:eq:6.19} y \eqref{v2:eq:6.20}, se tiene que
+    \begin{equation}
+        \delta_i \ge 0 \quad \forall i \notin J,
+        \label{v2:eq:6.21}
+    \end{equation}
+    entonces $x$ es una solución del problema \eqref{v2:eq:6.16}.
+\end{theorem}
+
+\begin{proof}
+    Consideremos el dual del problema \eqref{v2:eq:6.16}, i.e.,
+    \begin{equation}
+        \max \interno{b}{\lambda} \quad \text{sujeto a} \quad \lambda \in \Delta = \{ \lambda \in \R^l \mid A^T \lambda \le c \}.
+        \label{v2:eq:6.22}
+    \end{equation}
+    Por el \cref{v2:thm:6.1.7}, para probar la afirmación basta construir un punto $\lambda \in \Delta$ tal que
+    \begin{equation}
+        \interno{c}{x} = \interno{b}{\lambda}.
+        \label{v2:eq:6.23}
+    \end{equation}
+    Como $\mathcal{B}$ es una base de $\R^l$, existe un único $\lambda \in \R^l$ que satisface el sistema lineal
+    \begin{equation}
+        \interno{A^j}{\lambda} = c_j, \quad j \in J.
+        \label{v2:eq:6.24}
+    \end{equation}
+    Para este $\lambda$, teniendo en cuenta \eqref{v2:eq:6.19}-\eqref{v2:eq:6.21}, obtenemos que para todo $i \notin J$ se tiene que
+    \[
+        \interno{A^i}{\lambda} = \sum_{j \in J} \interno{A^j}{\lambda} \gamma_{ji} = \sum_{j \in J} c_j \gamma_{ji} = c_i - \delta_i \le c_i.
+    \]
+    En combinación con \eqref{v2:eq:6.24}, esto muestra la inclusión $\lambda \in \Delta$.
+    Ahora, como $\mathcal{B}$ es una base del vértice $x$, se tiene que $J(x) \subset J$, i.e., $x_j = 0$ $\forall j \notin J$. De aquí, de \eqref{v2:eq:6.24} y de la inclusión $x \in D$, obtenemos que
+    \[
+        \interno{c}{x} = \sum_{j=1}^n \interno{A^j}{\lambda} x_j = \interno{\sum_{j=1}^n A^j x_j}{\lambda} = \interno{Ax}{\lambda} = \interno{b}{\lambda},
+    \]
+    o sea, vale \eqref{v2:eq:6.23}.
+    De la demostración anterior se sigue que, si vale \eqref{v2:eq:6.21}, entonces una solución del problema dual \eqref{v2:eq:6.22} puede ser encontrada resolviendo el sistema lineal \eqref{v2:eq:6.24}.
+\end{proof}
+
+\begin{lemma}\label{v2:lem:6.1.2}
+    Sean satisfechas las hipótesis del \cref{v2:thm:6.1.11}. Para todo índice $s \notin J$ y todo $t \ge 0$, el punto $x(t) \in \Rn$ con coordenadas
+    \begin{equation}
+        x_j(t) = \begin{cases} 
+            x_j - t \gamma_{js}, & \text{si } j \in J, \\
+            t, & \text{si } j = s, \\
+            0, & \text{si } j \notin J, j \neq s,
+        \end{cases}
+        \label{v2:eq:6.25}
+    \end{equation}
+    satisface las siguientes relaciones:
+    \begin{equation}
+        Ax(t) = b,
+        \label{v2:eq:6.26}
+    \end{equation}
+    \begin{equation}
+        \interno{c}{x(t)} = \interno{c}{x} + t\delta_s.
+        \label{v2:eq:6.27}
+    \end{equation}
+\end{lemma}
+
+\begin{proof}
+    Utilizando \eqref{v2:eq:6.19}, \eqref{v2:eq:6.20} y \eqref{v2:eq:6.25}, obtenemos que
+    \begin{align*}
+        Ax(t) &= \sum_{j=1}^n A^j x_j(t) \\
+        &= \sum_{j \in J} A^j (x_j - t \gamma_{js}) + t A^s \\
+        &= \sum_{j \in J} A^j x_j + t \left( A^s - \sum_{j \in J} A^j \gamma_{js} \right) \\
+        &= \sum_{j=1}^n A^j x_j = Ax = b,
+    \end{align*}
+    y
+    \begin{align*}
+        \interno{c}{x(t)} &= \sum_{j=1}^n c_j x_j(t) \\
+        &= \sum_{j \in J} c_j (x_j - t \gamma_{js}) + t c_s \\
+        &= \sum_{j \in J} c_j x_j + t \left( c_s - \sum_{j \in J} c_j \gamma_{js} \right) \\
+        &= \sum_{j=1}^n c_j x_j + t \delta_s = \interno{c}{x} + t \delta_s,
+    \end{align*}
+    lo que verifica \eqref{v2:eq:6.26} y \eqref{v2:eq:6.27}.
+\end{proof}
+
+Presentamos ahora el criterio de insolubilidad en el método del simplex.
+
+\begin{theorem}[Criterio de insolubilidad en el método del simplex]\label{v2:thm:6.1.12}
+    Supongamos que valen las hipótesis del \cref{v2:thm:6.1.11}. Si para los coeficientes y las estimaciones de sustitución, definidas en \eqref{v2:eq:6.19} y \eqref{v2:eq:6.20}, existe un índice $s \notin J$ tal que
+    \begin{equation}
+        \delta_s < 0, \quad \gamma_{js} \le 0 \quad \forall j \in J,
+        \label{v2:eq:6.28}
+    \end{equation}
+    entonces el problema \eqref{v2:eq:6.16} no posee solución.
+\end{theorem}
+
+\begin{proof}
+    De \eqref{v2:eq:6.27} y \eqref{v2:eq:6.28}, para el punto $x(t)$, con coordenadas definidas en \eqref{v2:eq:6.25}, tenemos que
+    \[
+        x(t) \ge 0 \quad \forall t \ge 0,
+    \]
+    \[
+        \interno{c}{x(t)} = \interno{c}{x} + t \delta_s \to -\infty \quad (t \to +\infty).
+    \]
+    En combinación con \eqref{v2:eq:6.26}, estas dos relaciones muestran que $\inf_{x \in D} \interno{c}{x} = -\infty$.
+\end{proof}
+
+\begin{exercise}\label{v2:ejer:6.1.11}
+    Probar el resultado del \cref{v2:thm:6.1.12} empleando la teoría de dualidad, sin hacer uso del \cref{v2:lem:6.1.2}.
+\end{exercise}
+
+Supongamos ahora que existan índices $s \notin J$ y $j \in J$ tales que
+\begin{equation}
+    \delta_s < 0, \quad \gamma_{js} > 0.
+    \label{v2:eq:6.29}
+\end{equation}
+La idea de la iteración del método del simplex es la siguiente: procuramos cambiar la base del vértice actual de manera que se garantice que en el vértice nuevo (que corresponde a la nueva base) el valor de la función objetivo sea menor que en el vértice actual. Definimos
+\begin{equation}
+    \tilde{t} = \max \{ t \in \R_+ \mid x(t) \ge 0 \}.
+    \label{v2:eq:6.30}
+\end{equation}
+De \eqref{v2:eq:6.25} queda claro que
+\begin{equation}
+    \tilde{t} = \min \left\{ \frac{x_j}{\gamma_{js}} \;\middle|\; \gamma_{js} > 0, \; j \in J \right\}.
+    \label{v2:eq:6.31}
+\end{equation}
+Sea $r$ un índice donde se realiza el mínimo en la definición anterior, i.e.,
+\begin{equation}
+    r \in J, \quad \gamma_{rs} > 0, \quad \frac{x_r}{\gamma_{rs}} = \tilde{t}.
+    \label{v2:eq:6.32}
+\end{equation}
+Definimos también el conjunto
+\begin{equation}
+    \tilde{J} = (J \setminus \{r\}) \cup \{s\}.
+    \label{v2:eq:6.33}
+\end{equation}
+
+\begin{theorem}[Iteración del método del simplex]\label{v2:thm:6.1.13}
+    Supongamos que valen las hipótesis del \cref{v2:thm:6.1.11}. Si para los coeficientes y las estimaciones de sustitución, definidas en \eqref{v2:eq:6.19} y \eqref{v2:eq:6.20}, existen índices $s \notin J$ y $j \in J$ tales que vale \eqref{v2:eq:6.29}, entonces el punto $\tilde{x} = x(\tilde{t})$, definido por las fórmulas \eqref{v2:eq:6.25}, \eqref{v2:eq:6.31}, es un vértice del poliedro $D$ y el sistema $\tilde{\mathcal{B}} = \{ A^j, j \in \tilde{J} \}$, donde el conjunto $\tilde{J}$ viene dado por \eqref{v2:eq:6.33}, es una base de él. Además, si $\tilde{t} > 0$ entonces $\interno{c}{\tilde{x}} < \interno{c}{x}$; y si $\tilde{t} = 0$ entonces $\tilde{x} = x$, pero $\tilde{\mathcal{B}} \neq \mathcal{B}$.
+\end{theorem}
+
+\begin{proof}
+    De \eqref{v2:eq:6.25}, \eqref{v2:eq:6.30} y de la igualdad en \eqref{v2:eq:6.32}, se sigue que $\tilde{x} \ge 0$ y $\tilde{x}_r = x_r - \tilde{t}\gamma_{rs} = 0$. Por lo tanto, utilizando el \cref{v2:lem:6.1.2} y \eqref{v2:eq:6.33}, obtenemos que $\tilde{x} \in D$ y
+    \begin{equation}
+        J(\tilde{x}) \subset \tilde{J}.
+        \label{v2:eq:6.34}
+    \end{equation}
+    Además, de \eqref{v2:eq:6.19} tenemos
+    \[
+        A^s = \sum_{j \in J} \gamma_{js} A^j = \sum_{j \in J \setminus \{r\}} \gamma_{js} A^j + \gamma_{rs} A^r.
+    \]
+    Como de \eqref{v2:eq:6.32} tenemos que $\gamma_{rs} > 0$, concluimos que
+    \begin{equation}
+        A^r = \frac{1}{\gamma_{rs}} A^s - \sum_{j \in J \setminus \{r\}} \frac{\gamma_{js}}{\gamma_{rs}} A^j.
+        \label{v2:eq:6.35}
+    \end{equation}
+    De aquí, de \eqref{v2:eq:6.33} y del hecho de que $\mathcal{B}$ es una base de $\R^l$, se sigue que $\tilde{\mathcal{B}}$ también es una base de $\R^l$. Por lo tanto, por \eqref{v2:eq:6.34} y por el \cref{v2:thm:6.1.4}, el punto $\tilde{x}$ es un vértice de $D$ y $\tilde{\mathcal{B}}$ es una base de él.
+    La última afirmación del teorema se sigue de \eqref{v2:eq:6.25}, \eqref{v2:eq:6.27} y \eqref{v2:eq:6.29}.
+\end{proof}
+
+Observamos que la nueva base $\tilde{\mathcal{B}}$ se obtiene de la base anterior $\mathcal{B}$ sustituyendo la columna $A^r$ por la columna $A^s$. En otras palabras, la columna $A^r$ está eliminada de la base y la columna $A^s$ está incluida. A veces, el coeficiente de sustitución $\gamma_{rs}$ se llama elemento principal.
+
+Si $x$ es un vértice no degenerado, se tiene que $J(x) = J$, i.e., $x_j > 0$ $\forall j \in J$. En este caso, de \eqref{v2:eq:6.31} se sigue que $\tilde{t} > 0$. Por lo tanto, en la iteración de este tipo necesariamente se realiza \eqref{v2:eq:6.17}, i.e., el método genera un nuevo vértice, mejor que el anterior. Iteraciones de este tipo se ilustran en la \cref{v2:fig:6.1.3}.
+
+\begin{figure}[htpb]
+    \centering
+    \begin{tikzpicture}[>=Stealth, scale=1.3]
+        % Poliedro D
+        \coordinate (v1) at (0, 0);
+        \coordinate (v2) at (1, 2);
+        \coordinate (v3) at (3.5, 3);
+        \coordinate (v4) at (5, 1);
+        \coordinate (v5) at (3.5, -0.5);
+        
+        \fill[gray!30] (v1) -- (v2) -- (v3) -- (v4) -- (v5) -- cycle;
+        \draw[thick] (v1) -- (v2) -- (v3) -- (v4) -- (v5) -- cycle;
+        
+        % Vértices visitados por el simplex
+        \filldraw (v2) circle (2pt) node[left] {$x^k$};
+        \filldraw (v3) circle (2pt) node[above right] {$x^{k+1}$};
+        \filldraw (v4) circle (2pt) node[right] {$x^{k+2} = \bar{x}$};
+        
+        % Curvas de nivel
+        \draw[thick] (1.5, 3.5) -- (0.2, -0.5);
+        \draw[thick] (4, 4.5) -- (2.7, 0.5);
+        \draw[thick] (5.5, 2.5) -- (4.2, -1.5);
+        
+        % Vector C normal a las curvas de nivel, apuntando al descenso
+        \draw[->, thick] (1.5, -0.5) -- ++(-0.6, -0.2) node[above left] {$c$};
+        
+        \node at (2.5, 1) {$D$};
+    \end{tikzpicture}
+    \caption{Dos iteraciones del método del simplex que generan vértices no degenerados (y resultan en un decrecimiento de la función objetivo). El último iterado es la solución del problema.}
+    \label{v2:fig:6.1.3}
+\end{figure}
+
+Si $x$ es un vértice degenerado, posiblemente existe un índice $j \in J$ tal que $x_j = 0$ y $\gamma_{js} > 0$. En este caso, de \eqref{v2:eq:6.25} y \eqref{v2:eq:6.31} se sigue que $\tilde{t} = 0$, $\tilde{x} = x$, i.e., el método no genera un vértice nuevo y la iteración consiste solamente en el cambio de la base $\mathcal{B}$ del vértice $x$ por la base $\tilde{\mathcal{B}}$. Resaltamos que esto también es una operación no trivial, ya que para la nueva base tenemos que recalcular los coeficientes y las estimaciones de sustitución (y, posiblemente, el propio vértice será cambiado en la iteración siguiente). Sin embargo, también puede ocurrir que las iteraciones del método del simplex se reduzcan a la generación de bases para un mismo vértice. Como el número de bases es finito, a partir de un cierto momento ellas serán repetidas. O sea, el método entra en un \textit{ciclo}. Existen ejemplos (¡artificiales!) donde esto realmente ocurre, pero situaciones así no son típicas en la práctica computacional. Recordamos que la propia existencia de vértices degenerados ya es una situación rara, e incluso para un vértice degenerado, típicamente alguna base resulta en la generación de un vértice nuevo.
+
+Además de eso, la iteración del método del simplex puede ser organizada de manera que elimine la posibilidad de ciclo. La idea consiste en la utilización de ciertas estrategias especiales para la elección de columnas que dejan la base y que entran (en los casos cuando hay más de un candidato). Una estrategia más simple es la \textbf{regla de Bland}: en el caso cuando \eqref{v2:eq:6.29} se satisface, tomamos los menores números $s$ y $r$ entre los posibles, i.e.,
+\[
+    s = \min \{ i \mid i \notin J, \; \delta_i < 0 \},
+\]
+\[
+    r = \min \{ j \mid j \in J, \; \gamma_{js} > 0, \; x_j / \gamma_{js} = \tilde{t} \}.
+\]
+
+Estos últimos comentarios concluyen la descripción de una iteración del método del simplex. En la iteración siguiente, las mismas construcciones se repiten para el vértice $\tilde{x}$ y la base de él $\tilde{\mathcal{B}}$. Para eso, primero calculamos los coeficientes $\tilde{\gamma}_{ji}$ y las estimaciones $\tilde{\delta}_i$ de sustitución correspondientes, $j \in \tilde{J}$, $i = 1, \dots, n$. En principio, para esto necesitamos resolver el sistema lineal correspondiente (véase \eqref{v2:eq:6.19}). Sin embargo, no hay necesidad de resolver el sistema, ya que los coeficientes y las estimaciones de sustitución en las dos iteraciones siguientes tienen relaciones explícitas. En particular, utilizando \eqref{v2:eq:6.19}, \eqref{v2:eq:6.20} y \eqref{v2:eq:6.35}, es fácil verificar que para todo $i = 1, \dots, n$, se tiene que
+\[
+    \tilde{\gamma}_{ji} = \begin{cases} 
+        \gamma_{ji} - \gamma_{js} \gamma_{ri} / \gamma_{rs}, & \text{si } j \in J \setminus \{r\}, \\
+        \gamma_{ri} / \gamma_{rs}, & \text{si } j = s,
+    \end{cases}
+\]
+\[
+    \tilde{\delta}_i = \delta_i - \delta_s \frac{\gamma_{ri}}{\gamma_{rs}}.
+\]
+
+\begin{exercise}\label{v2:ejer:6.1.12}
+    Probar las fórmulas de arriba relacionando los coeficientes y las estimaciones de sustitución en las dos iteraciones siguientes del método del simplex.
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:6.1.13}
+    Encontrando todos los vértices del conjunto viable, resolver el problema
+    \[
+        \min x_1 + 2x_2 + 4x_3 \quad \text{sujeto a} \quad x \in D,
+    \]
+    \[
+        D = \{ x \in \R^3_+ \mid 2x_1 + 3x_2 + 4x_3 = 10, \; x_1 + x_2 - x_3 = 4 \}.
+    \]
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:6.1.14}
+    A partir del vértice $x = (0, 1, 3)$, hacer una iteración del método del simplex para el problema
+    \[
+        \min -x_1 - x_2 - x_3 \quad \text{sujeto a} \quad x \in D,
+    \]
+    \[
+        D = \{ x \in \R^3_+ \mid -2x_1 + x_2 + x_3 = 4, \; x_1 - 2x_2 + x_3 = 1 \}.
+    \]
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:6.1.15}
+    A partir del vértice $x = (1, 1, 0)$, hacer una iteración del método del simplex para el problema
+    \[
+        \min -x_1 + 2x_2 - x_3 \quad \text{sujeto a} \quad x \in D,
+    \]
+    \[
+        D = \{ x \in \R^3_+ \mid x_1 - x_2 + 2x_3 = 0, \; x_1 + x_2 + 5x_3 = 2 \}.
+    \]
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:6.1.16}
+    Aplicando el método del simplex a partir del vértice $x = (1, 0, 1, 0)$, resolver el problema
+    \[
+        \min -x_1 + 3x_2 + 5x_3 + x_4 \quad \text{sujeto a} \quad x \in D,
+    \]
+    \[
+        D = \{ x \in \R^4_+ \mid x_1 + 4x_2 + 4x_3 + x_4 = 5, \; x_1 + 7x_2 + 8x_3 + 2x_4 = 9 \}.
+    \]
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:6.1.17}
+    Aplicando el método del simplex a partir del vértice $x = (0, 0, 1, 3)$, resolver el problema
+    \[
+        \min -3x_1 - x_2 - x_3 + x_4 \quad \text{sujeto a} \quad x \in D,
+    \]
+    \[
+        D = \{ x \in \R^4_+ \mid x_1 - x_2 + x_3 = 1, \; 2x_1 + x_2 + x_4 = 3 \}.
+    \]
+\end{exercise}
+
+Para finalizar, comentamos el asunto del cálculo de un vértice inicial (que es necesario para comenzar el proceso descrito arriba). A veces, esta tarea no es difícil. Consideremos, por ejemplo, el siguiente problema de programación lineal:
+\[
+    \min \interno{c}{x} \quad \text{sujeto a} \quad x \in D = \{ x \in \Omega \mid Ax \ge b \},
+\]
+donde $c \in \Rn$, $A \in \R^{l \times n}$, $b \in \R^l$, $\Omega = \R^n_+$. Consideremos el caso cuando $b \ge 0$. Este problema puede ser transformado al formato canónico:
+\begin{equation}
+    \min \interno{c}{x} \quad \text{sujeto a} \quad (x, y) \in \tilde{D} = \{ z = (x, y) \in \tilde{\Omega} \mid Ax - y = b \},
+    \label{v2:eq:6.36}
+\end{equation}
+donde $\tilde{\Omega} = \R^n_+ \times \R^m_+$. Es fácil ver que el punto $z = (0, b)$ es un vértice del poliedro canónico $\tilde{D}$, y que la base canónica del espacio $\R^m$ es una base de este vértice.
+
+En el caso general, el cálculo de un vértice inicial es comparable en costos computacionales con el método del simplex propiamente dicho. El esquema siguiente para el cálculo de un vértice inicial es llamado \textbf{método de base artificial}. De hecho, él es el método del simplex aplicado a un problema auxiliar.
+
+Sin pérdida de generalidad, admitimos que en el problema \eqref{v2:eq:6.16} tenemos $b \ge 0$ (esto siempre puede ser garantizado cambiando los signos de las restricciones, donde sea necesario). Consideremos el siguiente problema auxiliar:
+\begin{equation}
+    \min \sum_{i=1}^l y_i \quad \text{sujeto a} \quad (x, y) \in \tilde{D},
+    \label{v2:eq:6.37}
+\end{equation}
+donde el conjunto $\tilde{D}$ está definido en \eqref{v2:eq:6.36}. Por lo visto arriba, en este caso sabemos un vértice $z = (0, b)$ del poliedro $\tilde{D}$ y una base de él. A partir de este vértice, aplicamos el método del simplex para resolver el problema \eqref{v2:eq:6.36}. Como la función objetivo de este problema está limitada inferiormente (por cero) y el conjunto viable $\tilde{D}$ es no vacío, por el \cref{v2:thm:6.1.1}, el problema \eqref{v2:eq:6.37} tiene soluciones. Luego, el método del simplex encontraría una solución $z^0 = (x^0, y^0)$, que es un vértice del poliedro $\tilde{D}$.
+
+Existen dos posibilidades. Si $y^0 \neq 0$, el valor óptimo del problema \eqref{v2:eq:6.37} es positivo y el conjunto viable $D$ del problema \eqref{v2:eq:6.16} es vacío. En efecto, si un punto $x \in D$ existiera, tendríamos $z = (x, 0) \in \tilde{D}$ con valor de la función objetivo del problema \eqref{v2:eq:6.37} nulo en el punto $z$. Pero esto contradice el hecho de que $z^0$ es una solución del problema \eqref{v2:eq:6.37}. Por otro lado, si $y^0 = 0$, se tiene que $x^0$ es un vértice de $D$, ya que esto es equivalente a que $(x^0, 0)$ sea un vértice de $\tilde{D}$.
+
+El método de base artificial también puede ser equipado con el cálculo de una base del vértice inicial $x^0$.
+
+\begin{exercise}\label{v2:ejer:6.1.18}
+    Probar que, bajo las condiciones del \cref{v2:thm:6.1.11}, si el vértice $x$ es no degenerado, entonces vale la afirmación inversa a aquella del teorema: si $x$ es una solución del problema \eqref{v2:eq:6.16}, entonces la condición \eqref{v2:eq:6.21} se satisface; y si $x$ es una única solución, entonces $\delta_i > 0$ $\forall i \notin J$.
+    
+    Construir un ejemplo mostrando que para un vértice degenerado, tal afirmación puede ser falsa.
+\end{exercise}

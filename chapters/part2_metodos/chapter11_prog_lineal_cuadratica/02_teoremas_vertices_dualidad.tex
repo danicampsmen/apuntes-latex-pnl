@@ -1,0 +1,336 @@
+% --- Archivo: 02_teoremas_vertices_dualidad.tex ---
+
+A continuación presentamos un criterio de existencia de vértices.
+
+\begin{theorem}[Existencia de vértices de un conjunto poliedral]\label{v2:thm:6.1.3}
+    Para cualesquiera $A_1 \in \R^{l \times n}$, $A_2 \in \R^{m \times n}$, $b_1 \in \R^l$ y $b_2 \in \R^m$, el poliedro $D$ definido en \eqref{v2:eq:6.6} posee al menos un vértice si, y solamente si, $D \neq \emptyset$ y la matriz
+    \[
+        A = \begin{pmatrix} A_1 \\ A_2 \end{pmatrix}
+    \]
+    tiene rango $n$. Más aún, si $\rank A = n$, entonces para todo punto $x \in D$ existe un vértice $\hat{x}$ tal que $I(x) \subset I(\hat{x})$.
+\end{theorem}
+
+\begin{proof}
+    El hecho de que las condiciones arriba son necesarias para la existencia de un vértice es obvio. Probaremos que esas condiciones también son suficientes.
+    
+    Sea $x \in D$ arbitrario. Definimos los conjuntos $I = I(x)$, $J = \{1, \dots, m\} \setminus I$. Si las filas de la matriz $A_1$ y las filas $(A_2)_i$, $i \in I$, forman en $\Rn$ un sistema de rango $n$, entonces $x$ es un vértice, por definición. Supongamos que el rango de este sistema sea $r < n$. En este caso, existe un vector $d \in \Rn \setminus \{0\}$ tal que
+    \begin{equation}
+        A_1 d = 0, \quad \interno{(A_2)_i}{d} = 0 \quad \forall i \in I.
+        \label{v2:eq:6.7}
+    \end{equation}
+    Si $\interno{(A_2)_i}{d} = 0$ $\forall i \in J$, obtendremos que $Ad = 0$, en contradicción con la hipótesis de que $\rank A = n$. Por lo tanto, existe un índice $i \in J$ tal que $\interno{(A_2)_i}{d} \neq 0$. Sin pérdida de generalidad, podemos admitir que $\interno{(A_2)_i}{d} < 0$.
+    
+    Para todo $t \ge 0$, consideremos puntos de la forma $x(t) = x + td$. Utilizando \eqref{v2:eq:6.7}, tenemos que
+    \[
+        A_1 x(t) = A_1 x + t A_1 d = b_1,
+    \]
+    \begin{equation}
+        \interno{(A_2)_i}{x(t)} = \interno{(A_2)_i}{x} + t\interno{(A_2)_i}{d} = (b_2)_i \quad \forall i \in I.
+        \label{v2:eq:6.8}
+    \end{equation}
+    Por lo tanto, $x(t) \in D$ si, y solamente si,
+    \[
+        \interno{(A_2)_i}{x(t)} = \interno{(A_2)_i}{x} + t\interno{(A_2)_i}{d} \ge (b_2)_i \quad \forall i \in J.
+    \]
+    Definimos
+    \[
+        t_1 = \max \{ t \in \R_+ \mid x(t) \in D \}.
+    \]
+    Como es fácil ver, existe un índice $i_1 \in J$ tal que $\interno{(A_2)_{i_1}}{d} < 0$ y
+    \begin{equation}
+        0 < t_1 = \frac{(b_2)_{i_1} - \interno{(A_2)_{i_1}}{x}}{\interno{(A_2)_{i_1}}{d}}
+        \label{v2:eq:6.9}
+    \end{equation}
+    (comparar con el Ejercicio 4.1.8; notemos que para todo $i \in J$, se tiene que $(b_2)_i - \interno{(A_2)_i}{x} < 0$).
+    Definimos $x^1 = x(t_1)$, $I_1 = I(x^1)$. De \eqref{v2:eq:6.8} se sigue la inclusión
+    \begin{equation}
+        I \subset I_1.
+        \label{v2:eq:6.10}
+    \end{equation}
+    De \eqref{v2:eq:6.9} obtenemos
+    \[
+        \interno{(A_2)_{i_1}}{x^1} = \interno{(A_2)_{i_1}}{x} + \frac{(b_2)_{i_1} - \interno{(A_2)_{i_1}}{x}}{\interno{(A_2)_{i_1}}{d}} \interno{(A_2)_{i_1}}{d} = (b_2)_{i_1},
+    \]
+    i.e., $i_1 \in I_1$. Si vale
+    \[
+        (A_2)_{i_1} = A_1^T y + \sum_{i \in I} \beta_i (A_2)_i
+    \]
+    para algunos $y \in \R^l$ y $\beta_i$, $i \in I$, de \eqref{v2:eq:6.7} se sigue la contradicción
+    \[
+        0 > \interno{(A_2)_{i_1}}{d} = \interno{y}{A_1 d} + \sum_{i \in I} \beta_i \interno{(A_2)_i}{d} = 0.
+    \]
+    Concluimos entonces que las filas de la matriz $A_1$ y $(A_2)_i$, $i \in I_1$, forman en $\Rn$ un sistema de rango $r_1 > r$.
+    
+    Si $r_1 = n$, entonces $x^1$ es un vértice y, teniendo en cuenta \eqref{v2:eq:6.10}, esto concluye la demostración. Si $r_1 < n$, podemos repetir la construcción anterior, cambiando el punto $x$ por $x^1$. Repitiendo la construcción $s$ veces, obtenemos puntos $x, x^1, x^2, \dots, x^s \in D$, satisfaciendo
+    \[
+        I(x) \subset I(x^1) \subset I(x^2) \subset \dots \subset I(x^s),
+    \]
+    \[
+        r < r_1 < r_2 < \dots < r_s,
+    \]
+    donde $r_k$ es el rango de filas de la matriz $A_1$, complementadas por $(A_2)_i$, $i \in I(x^k)$, $k = 1, \dots, s$. Es claro que para algún número $s$ obtendremos $r_s = n$, lo que significa que $\hat{x} = x^s$ es un vértice e $I(x) \subset I(x^s)$.
+\end{proof}
+
+Si queremos encontrar todos los vértices de un poliedro $D$ de la forma \eqref{v2:eq:6.6}, podemos seguir el esquema siguiente. Para todo conjunto $I \subset \{1, \dots, m\}$ con $(n - l)$-elementos, resolvemos el sistema lineal
+\[
+    A_1 x = b_1, \quad \interno{(A_2)_i}{x} = (b_2)_i, \quad i \in I.
+\]
+Si la solución existe, es única, y pertenece a $D$, entonces ella es un vértice de $D$. Caso contrario, consideramos otro conjunto $I$.
+
+El conjunto viable del problema canónico \eqref{v2:eq:6.3} se llama poliedro canónico (recordamos que en \eqref{v2:eq:6.3} $\Omega = \R^n_+$, $A \in \R^{l \times n}$, $b \in \R^l$). Para todo $x \in \Rn$, denotamos
+\[
+    J(x) = \{ j = 1, \dots, n \mid x_j > 0 \}.
+\]
+Denotamos por $A^1, \dots, A^n$ las columnas de la matriz $A$.
+
+\begin{theorem}[Vértices del poliedro canónico]\label{v2:thm:6.1.4}
+    Para $A \in \R^{l \times n}$ y $b \in \R^l$ cualesquiera, el punto $\hat{x} \in D$ es un vértice del poliedro canónico definido en \eqref{v2:eq:6.3} (con $\Omega = \R^n_+$) si, y solamente si, las columnas $A^j$, $j \in J(\hat{x})$, de la matriz $A$ son linealmente independientes. Si el conjunto $J(\hat{x})$ tiene $l$ elementos, entonces el vértice $\hat{x}$ es no degenerado, y si el número de elementos en $J(\hat{x})$ es menor que $l$, el vértice es degenerado.
+\end{theorem}
+
+\begin{exercise}\label{v2:ejer:6.1.2}
+    Probar el \cref{v2:thm:6.1.4}.
+\end{exercise}
+
+Una propiedad importante de los poliedros canónicos es la siguiente.
+
+\begin{theorem}[Existencia de vértices de los poliedros canónicos]\label{v2:thm:6.1.5}
+    Para $A \in \R^{l \times n}$ y $b \in \R^l$ cualesquiera, el poliedro canónico $D$ definido en \eqref{v2:eq:6.3} (con $\Omega = \R^n_+$) tiene al menos un vértice. Más aún, para todo punto $x \in D$ existe un vértice $\hat{x}$ del poliedro $D$ tal que $J(x) \supset J(\hat{x})$.
+\end{theorem}
+
+\begin{exercise}\label{v2:ejer:6.1.3}
+    Utilizando el \cref{v2:thm:6.1.3}, probar el \cref{v2:thm:6.1.5}.
+\end{exercise}
+
+Para encontrar vértices de un poliedro canónico, puede ser empleado el siguiente esquema especial. Para cada conjunto $J \subset \{1, \dots, n\}$ tal que las columnas $A^j$, $j \in J$, de la matriz $A$ son linealmente independientes, resolvemos el sistema lineal
+\[
+    \sum_{j \in J} A^j x_j = b.
+\]
+Si este sistema posee una solución con coordenadas $\hat{x}_j \ge 0$ $\forall j \in J$, tomando $\hat{x}_j = 0$, $j \in \{1, \dots, n\} \setminus J$, obtenemos un vértice $\hat{x} = (\hat{x}_1, \dots, \hat{x}_n)$. Caso contrario, consideramos otro conjunto $J$.
+
+El resultado siguiente, que es un corolario inmediato de los \cref{v2:thm:6.1.2} y \cref{v2:thm:6.1.3}, es importante para el cálculo de soluciones de un problema de programación lineal. La intuición geométrica sugiere que si un problema lineal posee soluciones, una de las soluciones es vértice del conjunto viable del problema (si existen vértices), véase la \cref{v2:fig:6.1.2}.
+
+\begin{figure}[htpb]
+    \centering
+    \begin{tikzpicture}[>=Stealth, scale=1.5]
+        % --- Izquierda (Poliedro cerrado) ---
+        \begin{scope}[shift={(0,0)}]
+            \coordinate (v1) at (0, 0);
+            \coordinate (v2) at (1.5, 0.5);
+            \coordinate (v3) at (2, -0.8);
+            \coordinate (v4) at (0.5, -1.2);
+            \coordinate (v5) at (-0.5, -0.5);
+            
+            \fill[gray!30] (v1) -- (v2) -- (v3) -- (v4) -- (v5) -- cycle;
+            \draw[thick] (v1) -- (v2) -- (v3) -- (v4) -- (v5) -- cycle;
+            
+            % Curvas de nivel
+            \draw[thick] (0.2, 0.8) -- (1, -1.5) node[below] {$c$};
+            \draw[thick] (0.8, 1) -- (1.6, -1.3);
+            \draw[thick] (1.4, 1.2) -- (2.2, -1.1);
+            
+            \filldraw (v2) circle (1.5pt) node[right] {$\bar{x}$};
+            \node at (0.5, -0.2) {$D$};
+        \end{scope}
+
+        % --- Derecha (Poliedro ilimitado) ---
+        \begin{scope}[shift={(4,0)}]
+            \coordinate (w1) at (0.5, 0.8);
+            \coordinate (w2) at (2.5, 0);
+            \coordinate (w3) at (1.8, -1.2);
+            \coordinate (w4) at (-0.2, -0.4);
+            
+            % Relleno con desvanecimiento (representado como polígono extendido)
+            \fill[gray!30] (w1) -- (w2) -- (w3) -- (0, -0.5) -- cycle; 
+            
+            \draw[thick] (w1) -- (w2) -- (w3);
+            % Líneas que indican infinitud
+            \draw[thick, dashed] (w1) -- ++(-1, 0.4);
+            \draw[thick, dashed] (w3) -- ++(-1, -0.5);
+            
+            % Curvas de nivel
+            \draw[thick] (1, -1.5) -- (-0.2, 0.5) node[below] {$c$};
+            \draw[thick] (1.6, -1.2) -- (0.4, 0.8);
+            \draw[thick] (2.2, -0.9) -- (1, 1.1);
+            \draw[thick] (2.8, -0.6) -- (1.6, 1.4);
+            
+            \filldraw (w2) circle (1.5pt) node[above right] {$\bar{x}$};
+            \node at (1, -0.2) {$D$};
+            
+            \node[above, font=\small] at (1.5, 1.5) {conjunto de soluciones};
+            \draw[->] (1.5, 1.4) -- (w2);
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Cuando un problema de programación lineal posee soluciones y el conjunto viable tiene vértices, uno de los vértices es solución del problema (en el dibujo, las rectas paralelas son curvas de nivel de la función objetivo $\interno{c}{x}$).}
+    \label{v2:fig:6.1.2}
+\end{figure}
+
+Como el número de vértices es finito (\cref{v2:prop:6.1.1}), la estrategia más obvia es simplemente calcular todos los vértices (por ejemplo, utilizando los esquemas presentados arriba) y escoger uno con el valor mínimo de la función objetivo. Naturalmente, tal estrategia no puede ser eficiente, pero el resultado no deja de ser importante.
+
+\begin{theorem}\label{v2:thm:6.1.6}
+    Si un problema de programación lineal posee soluciones y si el conjunto viable del problema tiene al menos un vértice, entonces uno de los vértices es solución del problema.
+\end{theorem}
+
+Como es fácil verificar, el problema dual (véase \cref{v2:sec:1.4} y \cite[\S 5.1]{SolodovVol1}) del problema \eqref{v2:eq:6.1}, \eqref{v2:eq:6.2} (donde $\Omega = \R^{n_1} \times \R^{n_2}_+$) viene dado por
+\begin{equation}
+    \max \interno{b_1}{\lambda} + \interno{b_2}{\mu} \quad \text{sujeto a} \quad (\lambda, \mu) \in \Delta,
+    \label{v2:eq:6.11}
+\end{equation}
+\begin{equation}
+    \Delta = \left\{ (\lambda, \mu) \in \R^l \times \R^m_+ \;\middle|\; \begin{array}{l} A_{11}^T \lambda + A_{21}^T \mu = c_1, \\ A_{12}^T \lambda + A_{22}^T \mu \le c_2. \end{array} \right\}.
+    \label{v2:eq:6.12}
+\end{equation}
+Recordamos que el dual del dual de un problema de programación lineal también es un problema de programación lineal.
+El dual del problema canónico \eqref{v2:eq:6.3} (donde $\Omega = \R^n_+$) es
+\[
+    \max \interno{b}{\lambda} \quad \text{sujeto a} \quad \lambda \in \Delta = \{ \lambda \in \R^l \mid A^T \lambda \le c \}.
+\]
+Si colocamos este último problema en la forma \eqref{v2:eq:6.1}, \eqref{v2:eq:6.2}, y escribimos su dual de acuerdo con \eqref{v2:eq:6.11}, \eqref{v2:eq:6.12}, obtendremos de nuevo el problema en el formato \eqref{v2:eq:6.3} (para obtener exactamente \eqref{v2:eq:6.3}, es necesario transformar maximización en minimización cambiando el signo de la función objetivo). Lo mismo vale también para el problema general \eqref{v2:eq:6.1}, \eqref{v2:eq:6.2}. O sea, dualizando el problema dos veces resulta en el problema de la estructura original.
+
+Recordamos que por la relación de \textit{dualidad débil} (véase el \cref{v2:thm:1.4.2}), se tiene que
+\begin{align}
+    \interno{c_1}{x_1} + \interno{c_2}{x_2} &\ge \interno{b_1}{\lambda} + \interno{b_2}{\mu} \label{v2:eq:6.13} \\
+    &\forall (x_1, x_2) \in D, \quad \forall (\lambda, \mu) \in \Delta, \nonumber
+\end{align}
+y en particular,
+\[
+    \bar{v} \ge \bar{\omega},
+\]
+donde
+\[
+    \bar{v} = \inf \{ \interno{c_1}{x_1} + \interno{c_2}{x_2} \mid (x_1, x_2) \in D \}
+\]
+es el valor óptimo del problema primal y
+\[
+    \bar{\omega} = \sup \{ \interno{b_1}{\lambda} + \interno{b_2}{\mu} \mid (\lambda, \mu) \in \Delta \}
+\]
+es el valor óptimo del problema dual.
+
+El caso importante es cuando para algunos $(\bar{x}_1, \bar{x}_2) \in D$ y $(\bar{\lambda}, \bar{\mu}) \in \Delta$ se realiza igualdad en la relación \eqref{v2:eq:6.13}, i.e.,
+\begin{equation}
+    \interno{c_1}{\bar{x}_1} + \interno{c_2}{\bar{x}_2} = \interno{b_1}{\bar{\lambda}} + \interno{b_2}{\bar{\mu}}.
+    \label{v2:eq:6.14}
+\end{equation}
+De \eqref{v2:eq:6.13} se sigue que, en este caso, $(\bar{x}_1, \bar{x}_2)$ es una solución del problema primal \eqref{v2:eq:6.1}, \eqref{v2:eq:6.2}, e $(\bar{\lambda}, \bar{\mu})$ es una solución del problema dual \eqref{v2:eq:6.11}, \eqref{v2:eq:6.12}, y que no hay brecha de dualidad:
+\begin{equation}
+    \bar{v} = \bar{\omega}.
+    \label{v2:eq:6.15}
+\end{equation}
+
+\begin{lemma}\label{v2:lem:6.1.1}
+    Bajo las hipótesis del \cref{v2:thm:6.1.2}, sean $D$ y $\Delta$ los conjuntos definidos en \eqref{v2:eq:6.2} y \eqref{v2:eq:6.12}, respectivamente.
+    Para $(\bar{x}_1, \bar{x}_2) \in D$ e $(\bar{\lambda}, \bar{\mu}) \in \Delta$ cualesquiera, la relación \eqref{v2:eq:6.14} vale como igualdad si, y solamente si, las condiciones \eqref{v2:eq:6.5} se satisfacen.
+\end{lemma}
+
+\begin{proof}
+    De $(\bar{x}_1, \bar{x}_2) \in D$ e $(\bar{\lambda}, \bar{\mu}) \in \Delta$ obtenemos que
+    \begin{align*}
+        \interno{c_1}{\bar{x}_1} + \interno{c_2}{\bar{x}_2} &\ge \interno{A_{11}^T \bar{\lambda} + A_{21}^T \bar{\mu}}{\bar{x}_1} + \interno{A_{12}^T \bar{\lambda} + A_{22}^T \bar{\mu}}{\bar{x}_2} \\
+        &= \interno{\bar{\lambda}}{A_{11}\bar{x}_1 + A_{12}\bar{x}_2} + \interno{\bar{\mu}}{A_{21}\bar{x}_1 + A_{22}\bar{x}_2} \\
+        &\ge \interno{\bar{\lambda}}{b_1} + \interno{\bar{\mu}}{b_2}.
+    \end{align*}
+    Si vale \eqref{v2:eq:6.14}, el lado izquierdo es igual al lado derecho en la relación de arriba, y todas las desigualdades valen como igualdades. Es fácil ver que esto solo es posible si valen las condiciones \eqref{v2:eq:6.5}. Recíprocamente, si vale \eqref{v2:eq:6.5}, las desigualdades en la relación arriba se vuelven igualdades, lo que resulta en \eqref{v2:eq:6.14}.
+\end{proof}
+
+Recordamos que \eqref{v2:eq:6.5} son \textit{condiciones de complementariedad} para el problema primal. Tenemos entonces que \eqref{v2:eq:6.14}, o equivalentemente, las condiciones de complementariedad \eqref{v2:eq:6.5}, son suficientes para optimalidad de puntos viables $(\bar{x}_1, \bar{x}_2)$ en el problema primal y puntos viables $(\bar{\lambda}, \bar{\mu})$ en el problema dual. Para ver que estas condiciones son también necesarias, notemos que la inclusión $(\bar{\lambda}, \bar{\mu}) \in \Delta$ coincide con \eqref{v2:eq:6.4}, complementada por $\bar{\mu} \ge 0$. De aquí, del \cref{v2:lem:6.1.1} y del \cref{v2:thm:6.1.2}, obtenemos condiciones de optimalidad siguientes.
+
+\begin{theorem}\label{v2:thm:6.1.7}
+    Bajo las hipótesis del \cref{v2:thm:6.1.2}, sean $D$ y $\Delta$ los conjuntos definidos en \eqref{v2:eq:6.2} y \eqref{v2:eq:6.12}, respectivamente.
+    El punto $(\bar{x}_1, \bar{x}_2) \in D$ es una solución del problema primal \eqref{v2:eq:6.1}, \eqref{v2:eq:6.2}, si, y solamente si, existe $(\bar{\lambda}, \bar{\mu}) \in \Delta$ satisfaciendo \eqref{v2:eq:6.14} o, equivalentemente, \eqref{v2:eq:6.5}. En este caso, $(\bar{\lambda}, \bar{\mu})$ es una solución del problema dual \eqref{v2:eq:6.11}, \eqref{v2:eq:6.12}.
+\end{theorem}
+
+El \cref{v2:thm:6.1.7} contiene las siguientes dos afirmaciones clásicas.
+
+\begin{theorem}[Dualidad fuerte]\label{v2:thm:6.1.8}
+    Un problema de programación lineal posee una solución si, y solamente si, su dual posee una solución.
+    En este caso, los valores óptimos de los dos problemas son iguales.
+\end{theorem}
+
+\begin{theorem}\label{v2:thm:6.1.9}
+    Bajo las hipótesis del \cref{v2:thm:6.1.7}, los puntos $(\bar{x}_1, \bar{x}_2) \in D$ e $(\bar{\lambda}, \bar{\mu}) \in \Delta$ son soluciones de los problemas \eqref{v2:eq:6.1}, \eqref{v2:eq:6.2}, y \eqref{v2:eq:6.11}, \eqref{v2:eq:6.12}, si, y solamente si, valen las condiciones de complementariedad \eqref{v2:eq:6.5}.
+\end{theorem}
+
+Finalmente, de los Teoremas \ref{v2:thm:6.1.1} y \ref{v2:thm:6.1.8} se sigue el siguiente resultado de existencia de soluciones en programación lineal.
+
+\begin{theorem}\label{v2:thm:6.1.10}
+    Si los conjuntos viables de un problema de programación lineal y de su dual son no vacíos, entonces ambos problemas tienen solución. Si solo uno de los problemas posee conjunto viable no vacío, entonces el valor óptimo de este problema es infinito.
+\end{theorem}
+
+Como comentamos en \cite[Capítulo 5]{SolodovVol1}, resolver el problema dual de un problema dado (no necesariamente de programación lineal) puede ser bien útil, principalmente cuando él es más simple que el problema original y no hay brecha de dualidad. Esta afirmación queda aún más clara en el caso de programación lineal. Habiendo resuelto el problema dual, esta solución puede ser usada para obtener una solución del problema primal, por ejemplo con ayuda del \cref{v2:thm:6.1.9}.
+
+\begin{exercise}\label{v2:ejer:6.1.4}
+    Haciendo dibujos geométricos, formular hipótesis sobre soluciones de los problemas duales para
+    \[
+        \min -7x_1 - x_3 + 4x_4 \quad \text{sujeto a} \quad x \in D,
+    \]
+    \[
+        D = \{ x \in \R^4_+ \mid -x_1 + x_2 - 2x_3 + x_4 \ge -6, -2x_1 - x_2 + x_3 \ge 1 \};
+    \]
+    \[
+        \min 2x_1 + 3x_2 + 2x_3 + 3x_4 \quad \text{sujeto a} \quad x \in D,
+    \]
+    \[
+        D = \{ x \in \R^4_+ \mid 2x_1 - x_2 - x_3 + x_4 \ge 2, -x_1 - 3x_2 + x_3 + x_4 \ge 1 \}.
+    \]
+    Verificar las hipótesis y encontrar soluciones de los problemas primales, utilizando el resultado del \cref{v2:thm:6.1.9}.
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:6.1.5}
+    Encontrar todas las soluciones del problema
+    \[
+        \min x_1 + x_2 + x_3 + x_4 \quad \text{sujeto a} \quad x \in D,
+    \]
+    \[
+        D = \{ x \in \R^4_+ \mid x_1 - x_2 \ge 0, x_1 + x_2 - x_3 + x_4 \ge 1 \}.
+    \]
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:6.1.6}
+    Formular el dual para el problema
+    \[
+        \min \sum_{j=1}^s \interno{c_j}{x_j} \quad \text{sujeto a} \quad (x_1, \dots, x_s) \in D,
+    \]
+    \[
+        D = \left\{ (x_1, \dots, x_s) \in \Omega \;\middle|\; A_j x_j \ge b_j, \; j = 1, \dots, s, \quad \sum_{j=1}^s B_j x_j \ge d \right\},
+    \]
+    donde $c_j \in \R^{n_j}$, $A \in \R^{m_j \times n_j}$, $b_j \in \R^{m_j}$ y $B \in \R^{m \times n_j}$, $j = 1, \dots, s$, $d \in \R^m$, $\Omega = \prod_{j=1}^s \R^{n_j}_+$.
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:6.1.7}
+    Formular el dual para el problema
+    \[
+        \min \sum_{j=1}^s \interno{c_j}{x_j} \quad \text{sujeto a} \quad (x_1, \dots, x_s) \in D,
+    \]
+    \[
+        D = \{ (x_1, \dots, x_s) \in \Omega \mid A x_j \ge x_{j-1}, \; j = 1, \dots, s \},
+    \]
+    donde $c_j \in \R^n$, $j = 1, \dots, s$, $A \in \R^{n \times n}$, $x_0 \in \Rn$ es dado, $\Omega = \prod_{j=1}^s \R^n_+$.
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:6.1.8}
+    Resolver el problema
+    \[
+        \min \interno{c}{x} \quad \text{sujeto a} \quad x \in D = \{ x \in \Omega \mid \interno{a}{x} = b \},
+    \]
+    donde $c, a \in \Rn$, $b \in \R$, $a > 0$, $b > 0$, $\Omega = \R^n_+$.
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:6.1.9}
+    Resolver el problema
+    \[
+        \min \sum_{j=1}^n j x_j \quad \text{sujeto a} \quad x \in D,
+    \]
+    \[
+        D = \left\{ x \in \Omega \;\middle|\; \sum_{j=1}^i x_j \ge i, \; i = 1, \dots, n \right\},
+    \]
+    donde $\Omega = \R^n_+$.
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:6.1.10}
+    El conjunto de soluciones de un problema de programación lineal puede
+    \begin{enumerate}[label=(\alph*)]
+        \item contener un solo punto;
+        \item contener más de un punto y ser acotado;
+        \item ser ilimitado.
+    \end{enumerate}
+    Construir ejemplos mostrando que para un par de problemas primal y dual, todas las combinaciones de los escenarios de arriba son posibles.
+\end{exercise}

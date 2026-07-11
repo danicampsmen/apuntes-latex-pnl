@@ -1,0 +1,198 @@
+% --- Archivo: 05_programacion_cuadratica.tex ---
+
+% =========================================================
+\section{Programación cuadrática}
+\label{v2:sec:6.2}
+% =========================================================
+
+Nuestro interés en problemas de programación cuadrática se debe a la misma razón que en el caso de la programación lineal: ellos aparecen como subproblemas en varios métodos para problemas de optimización más generales. Un ejemplo importante es el método de programación cuadrática secuencial, considerado en la \cref{v2:sec:4.6}. Naturalmente, la eficiencia de los métodos de este tipo depende de la eficiencia de resolución de los subproblemas cuadráticos.
+
+Como fue en el caso lineal, en el caso convexo de la programación cuadrática también existen algoritmos con convergencia finita. A continuación presentaremos un método de este tipo, llamado método de puntos especiales. Otros métodos pueden ser consultados en [8]. Problemas de programación cuadrática convexos también pueden ser resueltos por varios algoritmos con convergencia asintótica, bien eficientes. Un ejemplo es el de los métodos de puntos interiores (generalizaciones de aquellos de la \cref{v2:sec:6.1.3} para el caso cuadrático), véase [20].
+
+Consideramos el problema de programación cuadrática
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \{ x \in \Rn \mid Ax \le b \},
+    \label{v2:eq:6.69}
+\end{equation}
+donde
+\[
+    f : \Rn \to \R, \quad f(x) = \frac{1}{2} \interno{Cx}{x} + \interno{c}{x},
+\]
+$C \in \R^{n \times n}$ es una matriz simétrica definida positiva, $c \in \Rn$, $A \in \R^{m \times n}$, $b \in \R^m$. El formato de las restricciones no reduce la generalidad, ya que cualesquiera restricciones lineales pueden ser transformadas a esta forma. Notemos también que el método a ser presentado puede ser modificado para resolver un problema donde la matriz $C$ es semidefinida positiva (en vez de definida positiva).
+
+Suponiendo que $D \neq \emptyset$, el problema \eqref{v2:eq:6.69} tiene una única solución, ya que la función objetivo del problema es fuertemente convexa en el conjunto viable $D$ que es convexo (véase el \cref{v2:cor:1.3.1}).
+
+\subsection{Puntos especiales}
+\label{v2:sec:6.2.1}
+
+Sean $A_i$, $i = 1, \dots, m$, las filas de la matriz $A$. El método a ser presentado se basa en la noción siguiente.
+
+\begin{definition}\label{v2:def:6.2.1}
+    Un punto $\hat{x} \in D$ se llama \textbf{punto especial} del problema \eqref{v2:eq:6.69}, si existe un conjunto $I \subset \{1, \dots, m\}$ tal que $\hat{x}$ es una solución del problema
+    \begin{equation}
+        \min f(x) \quad \text{sujeto a} \quad x \in D_I = \{ x \in \Rn \mid \interno{A_i}{x} = b_i, \; i \in I \}
+        \label{v2:eq:6.70}
+    \end{equation}
+    (los casos de $I = \emptyset$ e $I = \{1, \dots, m\}$ no están excluidos).
+\end{definition}
+
+La solución de un problema de programación cuadrática fuertemente convexo es un punto especial.
+
+\begin{theorem}\label{v2:thm:6.2.1}
+    Para cualquier matriz $C \in \R^{n \times n}$ simétrica definida positiva, y cualesquiera $c \in \Rn$, $A \in \R^{m \times n}$ y $b \in \R^m$, el número de puntos especiales en el problema \eqref{v2:eq:6.69} es finito. Más aún, la solución de este problema es un punto especial.
+\end{theorem}
+
+\begin{proof}
+    Es claro que el número de problemas de la forma \eqref{v2:eq:6.70} es finito. Como la función objetivo es fuertemente convexa, cada problema no puede poseer más de una solución (para $I$ tales que $D_I = \emptyset$, no hay solución). Por eso, el número de puntos especiales es finito.
+    
+    Sea $\bar{x} \in \Rn$ la solución del problema \eqref{v2:eq:6.69}. Como es fácil ver, $\bar{x}$ es una solución local del problema
+    \[
+        \min f(x) \quad \text{sujeto a} \quad x \in \bar{D} = \{ x \in \Rn \mid \interno{A_i}{x} \le b_i, \; i \in I(\bar{x}) \},
+    \]
+    donde $I(\bar{x}) = \{ i = 1, \dots, m \mid \interno{A_i}{\bar{x}} = b_i \}$ es el conjunto de índices de las restricciones activas en $\bar{x}$. Como este problema es convexo, $\bar{x}$ es una solución global de él. Luego, $\bar{x}$ es una solución del problema \eqref{v2:eq:6.70} con $I = I(\bar{x})$, ya que el conjunto viable de él es menor.
+\end{proof}
+
+Este resultado muestra que una manera de resolver el problema \eqref{v2:eq:6.69} es calcular todos los puntos especiales y escoger aquel con menor valor de la función objetivo. Para encontrar todos los puntos especiales del problema \eqref{v2:eq:6.69}, es suficiente resolver los problemas \eqref{v2:eq:6.70} para todos los conjuntos $I \subset \{1, \dots, m\}$ tales que $D_I \neq \emptyset$, y verificar la viabilidad de las soluciones obtenidas para el problema \eqref{v2:eq:6.69}.
+
+Con relación a la resolución de un problema de la forma \eqref{v2:eq:6.70} (con restricciones de igualdad), notemos que él puede ser reducido a la minimización irrestricta de una función cuadrática fuertemente convexa. Para eso, podemos utilizar la proyección al conjunto $D_I$, o la representación de puntos del conjunto $D_I$ en la base del subespacio lineal $\{ x \in \Rn \mid \interno{A_i}{x} = 0, \; i \in I \}$, o la relajación Lagrangiana (véase [20]). El problema de minimización irrestricta de una función cuadrática fuertemente convexa puede ser resuelto en un número de pasos finito, por ejemplo utilizando el método de los gradientes conjugados (\cref{v2:sec:3.4}) o métodos del Álgebra Lineal.
+
+El cálculo de todos los puntos especiales es un procedimiento finito. Pero, como también fue en el caso del cálculo de todos los vértices del conjunto viable para encontrar una solución en problemas de programación lineal, él no tiene valor práctico. El número de soluciones de problemas \eqref{v2:eq:6.70} es $2^m$, y esta estrategia requiere un número de cálculos muy grande ya para $n$ y $m$ modestos. Por eso, como en la construcción del método del simplex, es natural intentar evitar el cálculo indiscriminado de puntos especiales, sustituyéndolo por un proceso más ordenado.
+
+\begin{exercise}\label{v2:ejer:6.2.1}
+    Encontrando todos los puntos especiales, resolver los problemas
+    \[
+        \min x_1^2 + x_2^2 \quad \text{sujeto a} \quad x \in D,
+    \]
+    \[
+        D = \{ x \in \R^2 \mid -x_1 - x_2 \le -4, \; x_1 \le 5, \; x_2 \le 3 \};
+    \]
+    \[
+        \min (x_1 - 1)^2 + (x_2 + 1)^2 \quad \text{sujeto a} \quad x \in D,
+    \]
+    \[
+        D = \{ x \in \R^2 \mid -x_1 + x_2 \le 1, \; x_1 + x_2 \le 1, \; x_2 \ge 0 \}.
+    \]
+\end{exercise}
+
+\subsection{El método de puntos especiales}
+\label{v2:sec:6.2.2}
+
+El método de puntos especiales calcula puntos especiales del problema \eqref{v2:eq:6.69} de manera que el valor de la función objetivo $f$ en cada punto quede menor que en el anterior. Por el \cref{v2:thm:6.2.1}, este proceso es finito y termina en la solución del problema \eqref{v2:eq:6.69}.
+
+Sean $x^0, x^1, \dots, x^k$ los puntos especiales ya encontrados. La tarea es verificar si el punto $x^k$ es la solución o no y, en el segundo caso, encontrar otro punto especial $x^{k+1}$ del problema \eqref{v2:eq:6.69} tal que
+\begin{equation}
+    f(x^{k+1}) < f(x^k).
+    \label{v2:eq:6.71}
+\end{equation}
+Esto se hace en dos pasos.
+
+El papel del primer paso es encontrar un punto (no necesariamente especial) $\tilde{x}^k \in \Rn$ tal que
+\begin{equation}
+    f(\tilde{x}^k) < f(x^k), \quad \tilde{x}^k \in D,
+    \label{v2:eq:6.72}
+\end{equation}
+o determinar que tal punto no existe (lo que significa que $x^k$ es la solución del problema \eqref{v2:eq:6.69}). Esto puede ser hecho de varias maneras. Por ejemplo, podemos hacer una iteración del método de direcciones viables (véase \cref{v2:sec:4.2}) para el problema \eqref{v2:eq:6.69} a partir del punto $x^k$.
+
+Teniendo en cuenta la linealidad de las restricciones en \eqref{v2:eq:6.69}, en vez de \eqref{v2:eq:4.26}, \eqref{v2:eq:4.27}, consideremos el subproblema (de programación lineal) simplificado:
+\begin{equation}
+    \min \interno{f'(x^k)}{d} = \interno{C x^k + c}{d} \quad \text{sujeto a} \quad d \in D_k,
+    \label{v2:eq:6.73}
+\end{equation}
+\begin{equation}
+    D_k = \left\{ d \in \Rn \;\middle|\; \begin{array}{l} \interno{A_i}{d} \le 0, \; i \in I(x^k), \\ -1 \le d_j \le 1, \; j = 1, \dots, n \end{array} \right\}.
+    \label{v2:eq:6.74}
+\end{equation}
+Sean $d^k$ una solución de este subproblema y $v_k = \interno{f'(x^k)}{d^k}$ el valor óptimo del mismo. Si $v_k = 0$, el método se detiene.
+
+\begin{exercise}\label{v2:ejer:6.2.2}
+    Sean $C \in \R^{n \times n}$ una matriz simétrica semidefinida positiva, $c \in \Rn$, $A \in \R^{m \times n}$, $b \in \R^m$. 
+    Mostrar que si en el punto $x^k \in D$, donde el conjunto $D$ está definido en \eqref{v2:eq:6.69}, el valor óptimo del problema \eqref{v2:eq:6.73}, \eqref{v2:eq:6.74}, es cero, entonces $x^k$ es la solución del problema \eqref{v2:eq:6.69}.
+\end{exercise}
+
+En el caso de $v_k < 0$, de acuerdo con los Lemas \ref{v2:lem:3.1.1}, \ref{v2:lem:4.1.3} y el Ejercicio 4.1.7, se tiene que $d^k \in \mathcal{D}_f(x^k) \cap \mathcal{V}_D(x^k)$, i.e., tenemos una dirección viable de descenso. Por lo tanto, las condiciones \eqref{v2:eq:6.72} serán satisfechas para $\tilde{x}^k = x^k + \alpha d^k$ y todo $\alpha > 0$ suficientemente pequeño. El valor concreto $\alpha = \alpha_k$ puede ser escogido de varias maneras. Por ejemplo, haciendo una búsqueda lineal a partir del valor inicial $\hat{\alpha} > 0$, hasta que \eqref{v2:eq:6.72} se satisfaga. Podemos también tomar $\alpha_k$ como solución del problema unidimensional
+\begin{equation}
+    \min f(x^k + \alpha d^k) \quad \text{sujeto a} \quad \alpha \in [0, \hat{\alpha}_k],
+    \label{v2:eq:6.75}
+\end{equation}
+donde
+\begin{align}
+    \hat{\alpha}_k &= \max \{ \alpha \in \R_+ \mid x^k + \alpha d^k \in D \} \nonumber \\
+    &= \min \left\{ \frac{b_i - \interno{A_i}{x^k}}{\interno{A_i}{d^k}} \;\middle|\; \interno{A_i}{d^k} > 0, \; i = 1, \dots, m \right\}
+    \label{v2:eq:6.76}
+\end{align}
+(la última igualdad es fácil de verificar; comparar con \eqref{v2:eq:6.76}). Así, de \eqref{v2:eq:6.79}-\eqref{v2:eq:6.81} y de la convexidad de la función $f$, tenemos que
+\[
+    f(\xi^{s+1}) \le t_s f(\tilde{\xi}^s) + (1 - t_s) f(\xi^s) \le f(\xi^s).
+\]
+
+*(Nota de traducción: Para resolver \eqref{v2:eq:6.75}, utilizando los hechos de que $f$ es una función cuadrática y $C$ es una matriz definida positiva, obtenemos la siguiente fórmula explícita para la solución del problema \eqref{v2:eq:6.75}):*
+\[
+    \alpha_k = \min \left\{ - \frac{\interno{Cx^k + c}{d^k}}{\interno{Cd^k}{d^k}}, \hat{\alpha}_k \right\}.
+\]
+
+En el segundo paso (si no paramos en el primero), calculamos un punto especial $x^{k+1}$ del problema \eqref{v2:eq:6.69} que satisfaga la desigualdad
+\begin{equation}
+    f(x^{k+1}) \le f(\tilde{x}^k).
+    \label{v2:eq:6.77}
+\end{equation}
+Para esto, generamos una sucesión auxiliar
+\begin{equation}
+    \xi^0, \tilde{\xi}^0, \xi^1, \tilde{\xi}^1, \dots, \xi^s, \tilde{\xi}^s, \dots
+    \label{v2:eq:6.78}
+\end{equation}
+de puntos en $\Rn$ de la manera especificada a continuación.
+Tomamos $\xi^0 = \tilde{x}^k$. Sea $\xi^s \in D$ un punto ya construido. Como $\xi^s$ tomamos la solución del problema \eqref{v2:eq:6.70} con $I = I(\xi^s)$. Como el punto $\xi^s$ es viable en este problema, se tiene que
+\begin{equation}
+    f(\tilde{\xi}^s) \le f(\xi^s).
+    \label{v2:eq:6.79}
+\end{equation}
+Hay dos posibilidades.
+Si $\tilde{\xi}^s \in D$, entonces $\tilde{\xi}^s$ es un punto especial del problema \eqref{v2:eq:6.69}, por la definición. En este caso, el proceso de construcción de la sucesión \eqref{v2:eq:6.78} se detiene: tomamos $x^{k+1} = \tilde{\xi}^s$.
+Si $\tilde{\xi}^s \notin D$, tomamos como $\xi^{s+1}$ el punto del intervalo con extremos $\xi^s$ y $\tilde{\xi}^s$ que está más próximo a $\tilde{\xi}^s$ entre todos los puntos del intervalo que son viables en el problema \eqref{v2:eq:6.69}, i.e.,
+\begin{equation}
+    \xi^{s+1} = \xi^s + t_s (\tilde{\xi}^s - \xi^s),
+    \label{v2:eq:6.80}
+\end{equation}
+\begin{align}
+    t_s &= \max \{ t \in [0, 1] \mid \xi^s + t(\tilde{\xi}^s - \xi^s) \in D \} \nonumber \\
+    &= \min \left\{ \frac{b_i - \interno{A_i}{\xi^s}}{\interno{A_i}{\tilde{\xi}^s - \xi^s}} \;\middle|\; \interno{A_i}{\tilde{\xi}^s - \xi^s} > 0, \; i = 1, \dots, m \right\}
+    \label{v2:eq:6.81}
+\end{align}
+(la última igualdad es fácil de verificar; comparar con \eqref{v2:eq:6.76}). Así, de \eqref{v2:eq:6.79}-\eqref{v2:eq:6.81} y de la convexidad de la función $f$, tenemos que
+\begin{equation}
+    f(\xi^{s+1}) \le t_s f(\tilde{\xi}^s) + (1 - t_s) f(\xi^s) \le f(\xi^s).
+    \label{v2:eq:6.82}
+\end{equation}
+Obviamente, $I(\xi^{s+1}) \subset I(\xi^s)$. Sea $i = i_s$ un índice para el cual se realiza el mínimo en \eqref{v2:eq:6.81}. Se tiene que $i_s \notin I(\xi^s)$ y
+\[
+    \interno{A_{i_s}}{\xi^{s+1}} = \interno{A_{i_s}}{\xi^s} + \frac{b_{i_s} - \interno{A_{i_s}}{\xi^s}}{\interno{A_{i_s}}{\tilde{\xi}^s - \xi^s}} \interno{A_{i_s}}{\tilde{\xi}^s - \xi^s} = b_{i_s},
+\]
+i.e., $i_s \in I(\xi^{s+1})$ y, en particular, el conjunto $I(\xi^{s+1})$ contiene al menos un elemento más del que $I(\xi^s)$. Pero todos estos conjuntos están contenidos en $\{1, \dots, m\}$. Por lo tanto, para algún $s$, acontecerá que $\tilde{\xi}^s \in D$, i.e., el proceso de construcción de la sucesión \eqref{v2:eq:6.78} es finito. Para el punto especial $x^{k+1} = \tilde{\xi}^s$ así generado, por \eqref{v2:eq:6.79} y \eqref{v2:eq:6.82}, tenemos que
+\[
+    f(x^{k+1}) = f(\tilde{\xi}^s) \le f(\xi^s) \le f(\xi^{s-1}) \le \dots \le f(\xi^0) = f(\tilde{x}^k),
+\]
+i.e., vale \eqref{v2:eq:6.77}. De la desigualdad en \eqref{v2:eq:6.72} y \eqref{v2:eq:6.77}, obtenemos \eqref{v2:eq:6.71}. Esto concluye la descripción de una iteración del método.
+
+Como fue en el caso del método del simplex, necesitamos especificar cómo calcular el primer punto especial $x^0$. Para eso, podemos primero encontrar un punto $\tilde{x}^{-1} \in D$ viable cualquiera (por ejemplo, empleando el método de base artificial presentado en el \cref{v2:sec:6.1.2}), y después utilizar el segundo paso del algoritmo anterior.
+
+En algunos casos, es conveniente aplicar el método de puntos especiales al dual del problema a ser resuelto. Notemos que el dual del problema \eqref{v2:eq:6.69} viene dado por
+\begin{equation}
+    \max -\frac{1}{2}\interno{AC^{-1}A^T \mu}{\mu} - \interno{AC^{-1}c + b}{\mu} - \frac{1}{2}\interno{C^{-1}c}{c}, \quad \mu \in \R^m_+.
+    \label{v2:eq:6.83}
+\end{equation}
+Si $\bar{\mu}$ es una solución del problema dual, la única solución del problema primal puede ser calculada por la fórmula explícita:
+\[
+    \bar{x} = -C^{-1}(c + A^T \bar{\mu}).
+\]
+En particular, resolviendo el problema dual \eqref{v2:eq:6.83}, fácilmente obtenemos la solución del problema primal \eqref{v2:eq:6.69}. Notemos que las restricciones del problema \eqref{v2:eq:6.83} son muy simples y varias partes del método de puntos especiales se simplifican. En principio, la matriz $AC^{-1}A^T$ es semidefinida positiva, pero no es definida positiva cuando $\rank A < m$. Sin embargo, como ya fue comentado, el método de puntos especiales puede ser extendido al caso en el que la función objetivo cuadrática es convexa, pero no fuertemente.
+
+\begin{exercise}\label{v2:ejer:6.2.3}
+    Para el punto viable $\tilde{x} = (0, 3)$ del problema
+    \[
+        \min (x_1 - 6)^2 + x_2^2 \quad \text{sujeto a} \quad x \in D,
+    \]
+    \[
+        D = \{ x \in \R^2 \mid x_1 + x_2 \le 4, \; 3x_1 + 2x_2 \le 8, \; -4x_1 + x_2 \le 4 \},
+    \]
+    aplicar el método de construcción de un punto especial, sin aumentar el valor de la función objetivo (i.e., el segundo paso de una iteración del método de puntos especiales).
+\end{exercise}

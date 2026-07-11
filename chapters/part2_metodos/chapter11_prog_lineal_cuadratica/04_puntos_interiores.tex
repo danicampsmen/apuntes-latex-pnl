@@ -1,0 +1,543 @@
+% --- Archivo: 04_puntos_interiores.tex ---
+
+% =========================================================
+\subsection{Métodos de puntos interiores}
+\label{v2:sec:6.1.3}
+% =========================================================
+
+Los métodos de puntos interiores se volvieron bastante populares a partir de los años 80 del siglo pasado. El interés inicial se debió a la complejidad polinomial de estos métodos, lo que los diferencia del método del simplex que tiene complejidad exponencial (véase comentarios más adelante). Un poco más tarde, fueron desarrolladas versiones de los métodos de puntos interiores bien competitivas también desde el punto de vista computacional. A propósito, actualmente los métodos de puntos interiores son los más indicados para problemas de gran escala. A continuación presentaremos algunas ideas básicas, sin entrar en todos los detalles.
+
+Comenzamos con algunos comentarios sobre la complejidad de algoritmos. Informalmente hablando, por \textit{complejidad} de un método entendemos la dependencia de la cantidad máxima de cálculos (iteraciones, operaciones aritméticas, etc.) necesarias para encontrar una solución exacta del problema en función de las dimensiones del problema de la clase en consideración. Si esta dependencia puede ser acotada superiormente por un polinomio (con respecto a las dimensiones del problema), hablamos de complejidad polinomial. Si la cota superior tiene forma exponencial, hablamos entonces de complejidad exponencial. Resaltamos que en cuestión están estimaciones para ``el peor caso posible'', i.e., para los problemas más difíciles de resolver (por el método en consideración).
+
+Los métodos de puntos interiores poseen complejidad polinomial. El método del simplex, por otro lado, tiene complejidad exponencial, ya que la naturaleza de este último tiene aspectos claramente combinatorios (recordamos que para encontrar una solución, el método del simplex puede precisar calcular todos los vértices del conjunto viable).
+
+Consideremos un problema de programación lineal, por ejemplo, en forma canónica:
+\begin{equation}
+    \min \interno{c}{x} \quad \text{sujeto a} \quad x \in D = \{ x \in \R^n_+ \mid Ax = b \},
+    \label{v2:eq:6.38}
+\end{equation}
+donde $c \in \Rn$, $A \in \R^{l \times n}$, $b \in \R^l$ son dados. La cantidad de cálculos típicamente es medida en términos de la dimensión del problema \eqref{v2:eq:6.38}, como se llama al número
+\[
+    s = q + n + l,
+\]
+donde $q$ es el número total de bits (en inglés) necesarios para representar elementos de $c$, $A$ y $b$, suponiendo que ellos sean números enteros (números reales pueden ser representados por enteros). El significado del número $s$ es el siguiente: $2^s$ es un número ``muy grande'', en el sentido de que es mayor que el resultado de cualquier operación aritmética utilizando los datos del problema. Luego, $2^{-s}$ es un número ``muy pequeño'', que posee las propiedades siguientes. Si $\hat{x}$ es un vértice del poliedro $D$ entonces, primero, $\hat{x}_j \notin (0, 2^{-s})$ $\forall j = 1, \dots, n$, y segundo, $\interno{c}{\hat{x}} - \bar{v} \notin (0, 2^{-s})$, donde $\bar{v} = \inf_{x \in D} \interno{c}{x}$ es el valor óptimo del problema \eqref{v2:eq:6.38}.
+
+Recordamos que el método del simplex es finito: él encuentra una solución exacta después de un número finito de iteraciones. Como veremos más adelante, los métodos de puntos interiores no tienen convergencia finita, apenas asintótica (ya que ellos siempre generan puntos en el interior del conjunto viable, y la solución de un problema de programación lineal está siempre en la frontera). Sin embargo, teniendo una aproximación a la solución suficientemente buena, la solución exacta puede ser obtenida utilizando la llamada \textit{técnica de purificación}\footnote{En inglés: \textit{purification procedure}.}, que para un punto $x \in D$ cualquiera encuentra un vértice $\hat{x}$ del poliedro $D$ tal que $\interno{c}{\hat{x}} \le \interno{c}{x}$, en un número de operaciones aritméticas de orden $O(n^3)$. Naturalmente, la técnica de purificación tiene un papel puramente teórico (el de viabilizar una comparación entre el método del simplex, que es finito, y los métodos de puntos interiores, que no son finitos). Ella no es utilizada en la práctica computacional.
+
+Teniendo en cuenta lo dicho arriba, en el análisis de la complejidad de los métodos de puntos interiores se considera que ellos paran cuando un iterado $x$ satisface la desigualdad
+\begin{equation}
+    \interno{c}{x} - \bar{v} < 2^{-s}.
+    \label{v2:eq:6.39}
+\end{equation}
+Cuando hablamos de la complejidad polinomial de métodos de puntos interiores, entendemos lo siguiente. La cantidad de cálculos necesarios para que el método alcance la propiedad \eqref{v2:eq:6.39} puede ser acotada por un polinomio en relación a $n$. Habiendo calculado un punto $x$ que satisface \eqref{v2:eq:6.39}, puede ser utilizada la técnica de purificación para encontrar un vértice que es una solución exacta del problema. Como la complejidad de la purificación es polinomial, ella no interfiere en la complejidad polinomial del método como un todo. Naturalmente, versiones diferentes de los métodos de puntos interiores poseen diferentes estimaciones de complejidad. En términos de número de iteraciones, hay estimaciones de orden $O(\sqrt{n} s)$, y en términos de operaciones aritméticas, de orden $O(n^{3.5} s)$.
+
+Por otro lado, es claro que el número de vértices del poliedro $D$ puede depender de $n$ de manera exponencial (por ejemplo, una caja en $\Rn$ tiene $2^n$ vértices). Y como comentamos en la \cref{v2:sec:6.1.2}, el método del simplex puede calcular todos los vértices hasta encontrar una solución del problema. Tales ejemplos existen y muestran que la complejidad del método del simplex es exponencial (¡en el sentido del peor caso posible!).
+
+Sin embargo, es importante resaltar lo siguiente. Aunque la complejidad atractiva de un método dado sea ciertamente deseable, ella puede reflejarse muy poco en el desempeño del método cuando es aplicado a problemas típicos o de interés práctico. No es raro que métodos con mejores estimaciones de complejidad sean menos eficientes en la práctica que métodos con propiedades, en principio, peores. Por ejemplo, existen métodos de puntos interiores que poseen complejidad polinomial, pero no tienen ningún valor computacional (en particular, son mucho peores que el método del simplex). Por otro lado, hay métodos de puntos interiores muy buenos (en particular, versiones primal-dual) que son computacionalmente eficientes, y actualmente son la elección para problemas muy grandes.
+
+Los métodos de puntos interiores (principalmente, versiones primales) pueden ser pensados como implementaciones aproximadas de los métodos de barreras (véase \cref{v2:sec:4.3.3}).
+
+A continuación, consideraremos un método de puntos interiores para el problema canónico \eqref{v2:eq:6.38}. Recordamos que esto no reduce la generalidad. En este contexto, es conveniente tomar
+\[
+    \Omega = \{ x \in \Rn \mid Ax = b \},
+\]
+tratando las restricciones de igualdad como abstractas, y penalizar las restricciones $x \ge 0$. Supongamos que el conjunto viable $D$ en \eqref{v2:eq:6.38} sea acotado y que $D^0 \neq \emptyset$, donde
+\begin{equation}
+    D^0 = \{ x \in \Omega \mid x > 0 \}.
+    \label{v2:eq:6.40}
+\end{equation}
+Supongamos también que $\rank A = l$, lo que siempre puede ser garantizado eliminando restricciones que son consecuencias de las otras, si fuera necesario.
+
+Definimos la \textbf{trayectoria central} (primal) del problema \eqref{v2:eq:6.38} como la función $x : (\R_+ \setminus \{0\}) \to D^0$, donde para todo valor del parámetro $t > 0$ de la penalización, $x(t)$ es la solución del problema
+\begin{equation}
+    \min \varphi(x; t) \quad \text{sujeto a} \quad x \in D^0,
+    \label{v2:eq:6.41}
+\end{equation}
+donde
+\begin{equation}
+    \varphi(\cdot; t) : \{ x \in \Rn \mid x > 0 \} \to \R, \quad \varphi(x; t) = \interno{c}{x} - t \sum_{j=1}^n \log x_j.
+    \label{v2:eq:6.42}
+\end{equation}
+Como la función objetivo en \eqref{v2:eq:6.41} es coerciva en el conjunto viable, el problema en cuestión posee solución. Más aún, como el problema es de programación convexa y la función objetivo es estrictamente convexa, la solución es única. Por lo tanto, la trayectoria central está bien definida.
+
+Intuitivamente, parece natural seguir la trayectoria central ``comenzando'' con $t = +\infty$ hasta $t = 0$. Por eso, es común definir el valor de $x$ para $t = +\infty$ de la manera siguiente. Observemos que para todo $t > 0$, el problema \eqref{v2:eq:6.41}, con la función objetivo definida en \eqref{v2:eq:6.42}, tiene la misma solución que
+\[
+    \max \sum_{j=1}^n \log x_j - \frac{1}{t} \interno{c}{x} \quad \text{sujeto a} \quad x \in D^0.
+\]
+Tomando el límite cuando $t \to +\infty$, obtenemos el problema
+\[
+    \max \sum_{j=1}^n \log x_j \quad \text{sujeto a} \quad x \in D^0.
+\]
+Definimos $x(+\infty)$ como la solución de este problema. Este punto inicial de la trayectoria central se llama \textbf{centro analítico} del conjunto $D$ definido en \eqref{v2:eq:6.38}. Notemos que él depende de $A$ y $b$ (i.e., del conjunto viable) y no depende de $c$ (i.e., de la función objetivo). El centro analítico de un conjunto y algunas trayectorias centrales están ilustradas en la \cref{v2:fig:6.1.4}.
+
+\begin{figure}[htpb]
+    \centering
+    \begin{tikzpicture}[>=Stealth, scale=1.3]
+        % Poliedro D
+        \coordinate (v1) at (0, 0);
+        \coordinate (v2) at (4, -0.5);
+        \coordinate (v3) at (5, 2.5);
+        \coordinate (v4) at (1, 2);
+        
+        \fill[gray!30] (v1) -- (v2) -- (v3) -- (v4) -- cycle;
+        \draw[thick] (v1) -- (v2) -- (v3) -- (v4) -- cycle;
+        
+        % Centro analítico
+        \coordinate (center) at (2.2, 1.2);
+        \filldraw (center) circle (2pt) node[right] {$x(+\infty)$};
+        
+        % Vértices óptimos para dos diferentes c
+        \coordinate (opt1) at (v1);
+        \coordinate (opt2) at (v3);
+        
+        % Trayectorias
+        \draw[thick, ForestGreen, -] (center) to[out=200, in=50] (opt1);
+        \draw[thick, MidnightBlue, -] (center) to[out=20, in=230] (opt2);
+        
+        \filldraw (opt1) circle (2pt);
+        \filldraw (opt2) circle (2pt) node[right] {$\bar{x} = x(0)$};
+        
+        % Punto intermedio en una trayectoria
+        \filldraw (3.7, 1.9) circle (1.5pt) node[below right] {$x(t)$};
+        
+        % Vectores objetivo c
+        \draw[->, thick, MidnightBlue] (opt2) -- ++(-1.5, 0.8) node[left] {$c$};
+        \draw[->, thick, ForestGreen] (opt1) -- ++(1, -0.8);
+        
+        \node at (3.5, 0.2) {$D$};
+    \end{tikzpicture}
+    \caption{El centro analítico de $D$ y las trayectorias centrales para dos funciones objetivo diferentes.}
+    \label{v2:fig:6.1.4}
+\end{figure}
+
+Observemos también que para $t > 0$, el punto $x(t)$ es el centro analítico de la intersección del conjunto $D$ con el hiperplano donde la función objetivo del problema \eqref{v2:eq:6.38} tiene el valor $\interno{c}{x(t)}$, i.e., $x(t)$ es la solución del problema
+\[
+    \max \sum_{j=1}^n \log x_j \quad \text{sujeto a} \quad x \in D^0_t = \{ x \in D^0 \mid \interno{c}{x} = \interno{c}{x(t)} \}.
+\]
+Este hecho se ilustra en la \cref{v2:fig:6.1.5}.
+
+\begin{figure}[htpb]
+    \centering
+    \begin{tikzpicture}[>=Stealth, scale=1.4]
+        % Representación de D en 3D/2D
+        \coordinate (vtopL) at (0, 3);
+        \coordinate (vtopR) at (4, 3);
+        \coordinate (vbot) at (2, 0);
+        
+        \fill[gray!20] (vtopL) -- (vtopR) -- (vbot) -- cycle;
+        \draw[thick] (vtopL) -- (vtopR) -- (vbot) -- cycle;
+        
+        % Vértice óptimo
+        \filldraw (vbot) circle (2pt) node[below] {$\bar{x} = x(0)$};
+        
+        % Hiperplanos de nivel c^T x = const
+        \draw[thick, dashed] (0.5, 2.25) -- (3.5, 2.25);
+        \draw[thick, dashed] (1, 1.5) -- (3, 1.5) node[right, xshift=2mm] {$\{x \mid \interno{c}{x} = \interno{c}{x(t)}\}$};
+        
+        % Centro analítico x(+infty)
+        \coordinate (xinf) at (2, 2.25);
+        \filldraw (xinf) circle (2pt) node[above right] {$x(+\infty)$};
+        
+        % x(t) en la trayectoria
+        \coordinate (xt) at (2, 1.5);
+        \filldraw (xt) circle (2pt) node[above left] {$x(t)$};
+        
+        % Trayectoria
+        \draw[thick, MidnightBlue] (xinf) to[out=270, in=90] (xt) to[out=270, in=90] (vbot);
+        
+        % Dirección de c
+        \draw[->, thick] (1, 0) -- ++(0.5, 0.8) node[above left] {$c$};
+        
+        \node at (0.8, 2.6) {$D$};
+    \end{tikzpicture}
+    \caption{El punto $x(t)$ de la trayectoria central es el centro analítico de la intersección de $D$ con el hiperplano donde el valor de la función objetivo es $\interno{c}{x(t)}$.}
+    \label{v2:fig:6.1.5}
+\end{figure}
+
+Puede ser probado que el límite $\lim_{t \to 0^+} x(t)$ existe y es el centro analítico del conjunto de las soluciones del problema \eqref{v2:eq:6.38}. No vamos a probar este resultado, porque la justificación del \cref{v2:sec:4.3.3} ya sirve como motivación suficiente para intentar encontrar alguna estrategia de seguir la trayectoria central, principalmente si pudimos hacer esto de manera computacionalmente barata, sin precisar calcular valores exactos (o casi exactos) de la función $x$ (o sea, sin resolver los subproblemas penalizados).
+
+El esquema básico de los métodos de puntos interiores (primales) es el siguiente.
+
+\vspace{0.3cm}
+\noindent \textbf{Algoritmo 6.1.1. (El método de puntos interiores primal)} \\
+Escoger parámetro inicial $t_0 > 0$. Para el conjunto $D^0$ definido en \eqref{v2:eq:6.40}, escoger $x^{-1} \in D^0$ y tomar $k := 0$.
+\begin{enumerate}[label=\arabic*., itemsep=0.1cm, topsep=0.1cm]
+    \item A partir del punto $x^{k-1}$, calcular $x^k \in D^0$ dando algunos pasos de un método (típicamente, Newtoniano) para el problema \eqref{v2:eq:6.41}, donde la función objetivo está dada en \eqref{v2:eq:6.42} con $t = t_k$.
+    \item Escoger $t_{k+1} \in (0, t_k)$.
+    \item Tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
+\vspace{0.3cm}
+
+En este esquema, el punto $x^{-1}$ debe ser suficientemente próximo a $x(t_0)$, y el número de pasos del método interno debe garantizar que, para todo $x^{k-1}$, el punto siguiente $x^k$ quede suficientemente próximo a $x(t_k)$. Existen métodos con complejidad polinomial que permiten para $t_0 > 0$ arbitrario aproximar $x(t_0)$ con cualquier precisión deseada.
+
+Es claro que el Algoritmo 6.1.1 es solo un esquema básico. Para obtener un método completo, será necesario especificar varios detalles. Por ejemplo, la regla de decrecimiento del parámetro $t_k$ a lo largo de las iteraciones es muy importante. Si la sucesión de parámetros disminuye despacio, entonces para todo $k$ el punto $x(t_k)$ estará próximo a $x(t_{k-1})$, y podemos esperar que unos pocos pasos (tal vez apenas un) del método interno a partir del punto $x^{k-1}$ producirán $x^k$ lo suficientemente próximo a $x(t_k)$ para garantizar convergencia del algoritmo. Un poco más adelante mostraremos que esto realmente ocurre. Sin embargo, esta estrategia puede requerir un número grande de iteraciones (del método externo) para generar un punto $x(t_k)$ próximo al conjunto de soluciones del problema \eqref{v2:eq:6.38}, ya que muchas actualizaciones serán necesarias para que $t_k$ llegue próximo a cero. La alternativa es disminuir el parámetro más rápidamente, a costa de aumentar el número de iteraciones del método interno. En el primer caso, hablamos de \textit{métodos de pasos cortos}\footnote{En inglés: \textit{short-step methods}.}, y en el segundo -- de \textit{métodos de pasos largos}\footnote{En inglés: \textit{long-step methods}.}. Consideremos los métodos de pasos cortos, que tienen estimaciones de complejidad mejores. Resaltamos, sin embargo, que las buenas implementaciones de los métodos de pasos largos son, usualmente, más eficientes en la práctica.
+
+Sea $x \in D^0$ la aproximación actual a la solución del problema \eqref{v2:eq:6.41}. Definimos el paso Newtoniano para este problema: la aproximación siguiente $\tilde{x} \in \Rn$ se calcula como solución del problema
+\begin{equation}
+    \min \interno{\varphi'(x; t)}{\xi - x} + \frac{1}{2}\interno{\varphi''(x; t)(\xi - x)}{\xi - x} \quad \text{sujeto a} \quad \xi \in \Omega.
+    \label{v2:eq:6.43}
+\end{equation}
+Si ignoramos en el problema \eqref{v2:eq:6.41} las restricciones funcionales $x > 0$ (lo que puede ser hecho, en cierto sentido; véase los comentarios en \cref{v2:sec:4.3.3}), el problema \eqref{v2:eq:6.43} puede ser interpretado como una iteración del método de Newton irrestricto con longitud de paso unitario (véase \cref{v2:sec:4.1.3}) o, ya que las restricciones que definen $\Omega$ son lineales, como una iteración del método de programación cuadrática secuencial (véase \cref{v2:sec:4.6}).
+
+De aquí en adelante, denotamos $e = (1, \dots, 1) \in \Rn$. Para todo $x \in \Rn$, denotamos por $X \in \R^{n \times n}$ la matriz diagonal con coeficientes $(x_1, \dots, x_n)$. Definimos también las siguientes funciones:
+\begin{equation}
+    \lambda : (\R_+ \setminus \{0\}) \times D^0 \to \R^l, \quad \lambda(t, x) = (A X^2 A^T)^{-1} A X (X c - te),
+    \label{v2:eq:6.44}
+\end{equation}
+\begin{equation}
+    d : (\R_+ \setminus \{0\}) \times D^0 \to \Rn, \quad d(t, x) = \frac{1}{t} X (c - A^T \lambda(t, x)) - e.
+    \label{v2:eq:6.45}
+\end{equation}
+
+\begin{exercise}\label{v2:ejer:6.1.19}
+    Para $t > 0$ y $x \in D^0$ dados, sea $\tilde{x} \in \Rn$ la solución del problema \eqref{v2:eq:6.43}, donde la función $\varphi(\cdot; t)$ está definida en \eqref{v2:eq:6.42}, $c \in \Rn$, $A \in \R^{l \times n}$, $b \in \R^l$, $\Omega = \{ x \in \Rn \mid Ax = b \}$, y el conjunto $D^0$ es dado por \eqref{v2:eq:6.40}. Sean los vectores $d(t, x) \in \Rn$ y $\lambda(t, x) \in \R^l$ definidos por \eqref{v2:eq:6.44}, \eqref{v2:eq:6.45}.
+    Probar que
+    \[
+        \tilde{x} = x - X d(t, x),
+    \]
+    y que $\lambda(t, x)$ es la solución del problema
+    \[
+        \min \norm{\frac{1}{t} X (c - A^T y) - e}, \quad y \in \R^l.
+    \]
+    Mostrar que $d(t, x) = 0$ si, y solamente si, $x$ es una solución del problema \eqref{v2:eq:6.41}.
+\end{exercise}
+
+Por lo tanto, el vector $-d(t, x) = X^{-1}(\tilde{x} - x)$ puede ser considerado como un paso del método de Newton para el problema \eqref{v2:eq:6.41} a partir del punto $x$, precondicionado por la matriz $X^{-1}$. Como veremos a continuación, $\norm{d(t, x)}$ sirve como medida de proximidad de $x$ a $x(t)$. El resultado a ser presentado puede ser pensado también como una caracterización de convergencia del método general de barreras (véase \cref{v2:sec:4.3.3}) cuando es aplicado al problema de programación lineal \eqref{v2:eq:6.38}. Para el método de puntos interiores, el resultado es importante porque establece la precisión con la que los subproblemas tienen que ser resueltos para garantizar convergencia del método.
+
+\begin{proposition}\label{v2:prop:6.1.2}
+    Sean $c \in \Rn$, $A \in \R^{l \times n}$, $b \in \R^l$. Sean $\Omega = \{ x \in \Rn \mid Ax = b \}$ y $D^0$ el conjunto definido en \eqref{v2:eq:6.40}. Sean $\lambda$ y $d$ las funciones definidas por las fórmulas \eqref{v2:eq:6.44}, \eqref{v2:eq:6.45}.
+    Entonces, si para el número $t > 0$ y el punto $x \in D^0$ dados vale que $\norm{d(t, x)} < 1$, se tiene que
+    \begin{align}
+        \interno{c}{x} - \bar{v} &\le \interno{c}{x} - \interno{b}{\lambda(t, x)} \nonumber \\
+        &\le t(n + \sqrt{n}\norm{d(t, x)}) \nonumber \\
+        &< t(n + \sqrt{n}), \label{v2:eq:6.46}
+    \end{align}
+    donde $\bar{v} = \inf_{x \in D} \interno{c}{x}$.
+\end{proposition}
+
+\begin{proof}
+    Por \eqref{v2:eq:6.45}, tenemos que
+    \[
+        \norm{\frac{1}{t} X(c - A^T \lambda(t, x)) - e} < 1,
+    \]
+    de donde se sigue que $X(c - A^T \lambda(t, x)) > 0$. De aquí y de la condición $x \in D^0$, obtenemos que
+    \begin{equation}
+        c - A^T \lambda(t, x) > 0.
+        \label{v2:eq:6.47}
+    \end{equation}
+    Por eso, para cualquier solución $\bar{x}$ del problema \eqref{v2:eq:6.38}, tenemos que
+    \[
+        \bar{v} = \interno{c}{\bar{x}} \ge \interno{A^T \lambda(t, x)}{\bar{x}} = \interno{\lambda(t, x)}{A\bar{x}} = \interno{\lambda(t, x)}{b},
+    \]
+    donde tuvimos en cuenta que $\bar{x} \in D$. Esto verifica la primera desigualdad en \eqref{v2:eq:6.46}. Ahora, por la desigualdad de Cauchy-Schwarz, tenemos lo siguiente:
+    \begin{align*}
+        \interno{e}{\frac{1}{t} X(c - A^T \lambda(t, x)) - e} &\le \norm{e} \norm{\frac{1}{t} X(c - A^T \lambda(t, x)) - e} \\
+        &= \sqrt{n} \norm{d(t, x)} \\
+        &< \sqrt{n}.
+    \end{align*}
+    Por otro lado,
+    \begin{align*}
+        \interno{e}{\frac{1}{t} X(c - A^T \lambda(t, x)) - e} &= \frac{1}{t} \interno{x}{c - A^T \lambda(t, x)} - \norm{e}^2 \\
+        &= \frac{1}{t} (\interno{c}{x} - \interno{b}{\lambda(t, x)}) - n,
+    \end{align*}
+    donde tuvimos en cuenta que $x \in \Omega$. Combinando las dos últimas relaciones, obtenemos las últimas dos desigualdades en \eqref{v2:eq:6.46}.
+\end{proof}
+
+Recordamos que el punto $x$ en consideración es viable en el problema \eqref{v2:eq:6.38}. Además de eso, en las condiciones de la \cref{v2:prop:6.1.2}, vale \eqref{v2:eq:6.47}. Por eso, el punto $\lambda(t, x)$ es viable en el problema dual de \eqref{v2:eq:6.38}, i.e., en el problema
+\begin{equation}
+    \max \interno{b}{\lambda} \quad \text{sujeto a} \quad \lambda \in \Delta = \{ \lambda \in \R^l \mid A^T \lambda \le c \}.
+    \label{v2:eq:6.48}
+\end{equation}
+Más aún, la relación \eqref{v2:eq:6.46} proporciona una estimación de proximidad entre los valores $\interno{c}{x}$ y $\interno{b}{\lambda(t, x)}$, y la diferencia entre ellos tiende a cero cuando $t \to 0$ (comparar con el \cref{v2:thm:6.1.7}).
+
+A continuación, probaremos que el conjunto
+\[
+    \{ x \in D^0 \mid \norm{d(t, x)} < 1 \}
+\]
+está contenido en la región de convergencia cuadrática del método Newtoniano para el problema auxiliar \eqref{v2:eq:6.41} descrito arriba. Después de eso, mostraremos cómo debe ser actualizado el parámetro de barrera $t$ para garantizar que el iterado siguiente valga lo mismo, i.e., que él también quede en la región de convergencia rápida del método Newtoniano, para el nuevo subproblema (con nuevo valor de $t$).
+
+\begin{proposition}\label{v2:prop:6.1.3}
+    En las condiciones de la \cref{v2:prop:6.1.2}, si para el número $t > 0$ y el punto $x \in D^0$ dados vale que $\norm{d(t, x)} < 1$, entonces el punto $\tilde{x} = x - Xd(t, x)$ satisface
+    \begin{equation}
+        \tilde{x} \in D^0, \quad \norm{d(t, \tilde{x})} \le \norm{d(t, x)}^2.
+        \label{v2:eq:6.49}
+    \end{equation}
+\end{proposition}
+
+\begin{proof}
+    Definimos $z = X(c - A^T \lambda(t, x))/t$. Por \eqref{v2:eq:6.45}, tenemos que $d(t, x) = z - e$. De la condición $\norm{d(t, x)} < 1$ se sigue que $0 < z_j < 2$ $\forall j = 1, \dots, n$. Además de eso,
+    \[
+        \tilde{x} = x - X(z - e) = 2x - Xz.
+    \]
+    Por lo tanto, $\tilde{x}_j = (2 - z_j) x_j > 0$ $\forall j = 1, \dots, n$. Por la primera afirmación del Ejercicio 6.1.19, tenemos que $\tilde{x} \in \Omega$. Luego, vale la inclusión en \eqref{v2:eq:6.49}. El punto $\lambda(t, \tilde{x})$ es la solución del problema
+    \[
+        \min \norm{\frac{1}{t} \tilde{X}(c - A^T y) - e}, \quad y \in \R^l
+    \]
+    (véase el \cref{v2:ejer:6.1.19}). Por lo tanto,
+    \begin{align*}
+        \norm{d(t, \tilde{x})} &= \norm{\frac{1}{t} \tilde{X}(c - A^T \lambda(t, \tilde{x})) - e} \\
+        &\le \norm{\frac{1}{t} \tilde{X}(c - A^T \lambda(t, x)) - e} \\
+        &= \norm{\tilde{X} X^{-1} z - e}.
+    \end{align*}
+    Recordando que $\tilde{x} = 2x - Xz$, obtenemos
+    \[
+        \tilde{X} X^{-1} z = (2X - ZX) X^{-1} z = 2z - Zz.
+    \]
+    De las dos últimas relaciones se sigue que
+    \begin{align*}
+        \norm{d(t, \tilde{x})}^2 &\le \norm{2z - Zz - e}^2 \\
+        &= \sum_{j=1}^n (2z_j - z_j^2 - 1)^2 = \sum_{j=1}^n (z_j - 1)^4 \\
+        &\le \left( \sum_{j=1}^n (z_j - 1)^2 \right)^2 \\
+        &= \norm{z - e}^4 = \norm{d(t, x)}^4,
+    \end{align*}
+    lo que verifica \eqref{v2:eq:6.49}.
+\end{proof}
+
+El resultado que acabamos de probar muestra que si $\norm{d(t, x)}$ es suficientemente pequeño, después de un paso Newtoniano $\norm{d(t, \tilde{x})}$ queda aún menor. Por eso, si el valor $\tilde{t}$ del nuevo parámetro de barrera no es muy diferente de $t$, podemos esperar que el valor de $\norm{d(\tilde{t}, \tilde{x})}$ también sea suficientemente pequeño. Más precisamente, tenemos lo siguiente.
+
+\begin{proposition}\label{v2:prop:6.1.4}
+    En las condiciones de la \cref{v2:prop:6.1.2}, si para el número $t > 0$ y el punto $x \in D^0$ dados vale que $\norm{d(t, x)} = \delta < 1$, entonces para cualquier $\theta \in (0, \sqrt{n})$, el número
+    \begin{equation}
+        \tilde{t} = (1 - \theta / \sqrt{n})t \in (0, t)
+        \label{v2:eq:6.50}
+    \end{equation}
+    y el punto $\tilde{x} = x - Xd(t, x)$ satisfacen
+    \[
+        \norm{d(\tilde{t}, \tilde{x})} \le \frac{\delta^2 + \theta}{1 - \theta / \sqrt{n}}.
+    \]
+    En particular, si $\theta \le \delta(1 - \delta) / (1 + \delta)$, entonces
+    \[
+        \norm{d(\tilde{t}, \tilde{x})} \le \delta.
+    \]
+\end{proposition}
+
+\begin{proof}
+    De \eqref{v2:eq:6.45}, de la desigualdad en \eqref{v2:eq:6.49}, de \eqref{v2:eq:6.50}, y del hecho de que $\lambda(\tilde{t}, \tilde{x})$ es la solución del problema
+    \[
+        \min \norm{\frac{1}{\tilde{t}} \tilde{X}(c - A^T y) - e}, \quad y \in \R^l
+    \]
+    (véase el \cref{v2:ejer:6.1.19}), obtenemos que
+    \begin{align*}
+        \norm{d(\tilde{t}, \tilde{x})} &= \norm{\frac{1}{\tilde{t}} \tilde{X}(c - A^T \lambda(\tilde{t}, \tilde{x})) - e} \\
+        &\le \norm{\frac{1}{\tilde{t}} \tilde{X}(c - A^T \lambda(t, \tilde{x})) - e} \\
+        &= \norm{\frac{\tilde{X}(c - A^T \lambda(t, \tilde{x}))}{(1 - \theta / \sqrt{n})t} - e} \\
+        &= \norm{\frac{d(t, \tilde{x}) + e}{1 - \theta / \sqrt{n}} - e} \\
+        &= \frac{\norm{d(t, \tilde{x}) + \theta e / \sqrt{n}}}{1 - \theta / \sqrt{n}} \\
+        &\le \frac{\norm{d(t, \tilde{x})} + \theta \norm{e} / \sqrt{n}}{1 - \theta / \sqrt{n}} \\
+        &\le \frac{\norm{d(t, x)}^2 + \theta}{1 - \theta / \sqrt{n}} \\
+        &= \frac{\delta^2 + \theta}{1 - \theta / \sqrt{n}},
+    \end{align*}
+    como fue enunciado.
+\end{proof}
+
+Resumiendo, si tomar $x^{-1}$ suficientemente próximo a $x(t_0)$ y controlar los parámetros de barrera $t_k$ de manera adecuada, para todo $k$ un paso Newtoniano será suficiente para aproximar $x(t_k)$ con precisión satisfactoria. En particular, siempre podemos forzar a que los puntos $x^k$ queden tan próximos a la trayectoria central como deseemos. Como ya fue comentado arriba, esto viene con cierto costo -- los parámetros $t_k$ tienen que ser disminuidos lentamente (véase la fórmula \eqref{v2:eq:6.50} en la \cref{v2:prop:6.1.4}). Aun así, los resultados presentados son importantes y sirven como base para el desarrollo de métodos más sofisticados y más prácticos.
+
+Un aspecto importante que está ausente en el Algoritmo 6.1.1 es el precondicionamiento. Notemos que si el punto $x^{k-1} \in D^0$ está próximo a la frontera del ortante no negativo, esto puede llevar a hacer pasos muy cortos, así como a inestabilidad numérica (ya que la matriz $X^{k-1}$ será casi degenerada; véase las fórmulas \eqref{v2:eq:6.44}, \eqref{v2:eq:6.45}). Esta dificultad puede ser aliviada haciendo precondicionamiento del subproblema, por ejemplo de la siguiente manera. En el espacio $\Rn$, aplicamos la transformación lineal de las variables, dada por $(X^{k-1})^{-1}$. El elemento $x^{k-1}$ será transformado en $\xi^{k-1} = e$. Calculamos $-d(t_k, \xi^{k-1})$ como el paso Newtoniano para el problema precondicionado \eqref{v2:eq:6.41} con $t = t_k$ (notemos que $X^{k-1} = E^n$). Tomamos $\xi^k = \xi^{k-1} - d(t_k, \xi^{k-1})$, e invertimos la transformación de las variables: $x^k = X^{k-1} \xi^k$. La idea consiste en alejar el punto actual de la frontera de $\R^n_+$, aumentando así el ``espacio para maniobra''. Además de eso, varias fórmulas relacionadas a la barrera (y a las derivadas de ella) se simplifican después de esta transformación de las variables.
+
+A continuación, presentamos métodos de puntos interiores \textit{primal-duales}. Por el \cref{v2:thm:6.1.2}, las condiciones necesarias y suficientes de optimalidad para el problema \eqref{v2:eq:6.38} están dadas por el sistema
+\begin{equation}
+    A^T \lambda + z = c, \quad Ax = b,
+    \label{v2:eq:6.51}
+\end{equation}
+\begin{equation}
+    x \ge 0, \quad z \ge 0, \quad \interno{z}{x} = 0,
+    \label{v2:eq:6.52}
+\end{equation}
+con respecto a $(x, \lambda, z) \in \Rn \times \R^l \times \Rn$, donde la variable dual $z$ corresponde a la restricción $x \ge 0$ del problema primal. La idea de los métodos de puntos interiores primal-duales consiste en la modificación del sistema anterior para eliminar el aspecto no diferenciable (o, también, combinatorio) de la condición de complementariedad en \eqref{v2:eq:6.52}. Para este fin, cambiamos \eqref{v2:eq:6.52} por las condiciones siguientes:
+\begin{equation}
+    x_j > 0, \quad z_j > 0, \quad x_j z_j = t, \quad j = 1, \dots, n,
+    \label{v2:eq:6.53}
+\end{equation}
+donde $t > 0$ es un parámetro (que se aproxima a cero a lo largo de las iteraciones). Así, ignorando las desigualdades estrictas, en vez de \eqref{v2:eq:6.51}, \eqref{v2:eq:6.52}, obtenemos el sistema
+\begin{equation}
+    A^T \lambda + z = c, \quad Ax = b, \quad XZe = te.
+    \label{v2:eq:6.54} % Note: PDF numbers this in the equation block, next is dual problem
+\end{equation}
+El problema dual \eqref{v2:eq:6.48} puede ser escrito como
+\begin{equation}
+    \max \interno{b}{\lambda} \quad \text{sujeto a} \quad (\lambda, z) \in \tilde{\Delta},
+    \tag{6.54}\label{v2:eq:6.54_dual} % Re-using number structurally
+\end{equation}
+donde
+\begin{equation}
+    \tilde{\Delta} = \{ (\lambda, z) \in \R^l \times \R^n_+ \mid A^T \lambda + z = c \}.
+    \label{v2:eq:6.55}
+\end{equation}
+Para $t > 0$ fijo, consideremos el siguiente problema auxiliar:
+\begin{equation}
+    \min \varphi(x, z; t), \quad (x, (\lambda, z)) \in D^0 \times \tilde{\Delta}^0,
+    \label{v2:eq:6.56}
+\end{equation}
+donde $D^0$ está definido en \eqref{v2:eq:6.40} con $\Omega = \{ x \in \Rn \mid Ax = b \}$,
+\begin{equation}
+    \tilde{\Delta}^0 = \{ (\lambda, z) \in \tilde{\Omega} \mid z > 0 \},
+    \label{v2:eq:6.57}
+\end{equation}
+\begin{equation}
+    \tilde{\Omega} = \{ (\lambda, z) \in \R^l \times \Rn \mid A^T \lambda + z = c \},
+    \label{v2:eq:6.58}
+\end{equation}
+\[
+    \varphi(\cdot; t) : \{ x \in \Rn \mid x > 0 \} \times \{ z \in \Rn \mid z > 0 \} \to \R,
+\]
+\begin{equation}
+    \varphi(x, z; t) = \interno{x}{z} - t \sum_{j=1}^n \log(z_j x_j).
+    \label{v2:eq:6.59}
+\end{equation}
+
+La \textbf{trayectoria central primal-dual} está definida como la función
+\[
+    (x(\cdot), (\nu(\cdot), \zeta(\cdot))) : (\R_+ \setminus \{0\}) \to D^0 \times \tilde{\Delta}^0,
+\]
+donde para todo $t > 0$ el valor de la función es la solución del problema \eqref{v2:eq:6.56}.
+
+\begin{exercise}\label{v2:ejer:6.1.20}
+    Sean $c \in \Rn$, $A \in \R^{l \times n}$, $b \in \R^l$. Sean $\Omega = \{ x \in \Rn \mid Ax = b \}$, $D^0$ el conjunto definido en \eqref{v2:eq:6.40} y $\tilde{\Delta}^0$ el conjunto definido por \eqref{v2:eq:6.57}, \eqref{v2:eq:6.58}.
+    Mostrar que para todo número $t > 0$ dado, la solución del problema \eqref{v2:eq:6.56}, con la función objetivo dada por \eqref{v2:eq:6.59}, está caracterizada por el sistema de ecuaciones \eqref{v2:eq:6.53}.
+\end{exercise}
+
+Una iteración del método de puntos interiores primal-dual consiste en lo siguiente. Para un parámetro $t_k > 0$ dado, en el punto actual $(x^k, \lambda^k, z^k) \in \Rn \times \R^l \times \Rn$ tal que $x^k > 0$ y $(\lambda^k, z^k) \in \tilde{\Delta}^0$, definimos la dirección Newtoniana para el sistema \eqref{v2:eq:6.53}. Habiendo calculado esta dirección, hacemos una búsqueda lineal para la función de mérito
+\begin{equation}
+    \tilde{\varphi} : \Rn \times \Rn \to \R, \quad \tilde{\varphi}(x, z) = \interno{x}{z} + \norm{Ax - b},
+    \label{v2:eq:6.60}
+\end{equation}
+disminuyendo el valor de ella, y al mismo tiempo garantizando que la aproximación siguiente $(x^{k+1}, \lambda^{k+1}, z^{k+1})$ satisfaga las desigualdades $x^{k+1} > 0$ y $z^{k+1} > 0$. Notemos que
+\[
+    0 < \interno{x^k}{z^k} = \interno{c}{x^k} - \interno{b}{\lambda^k} + \interno{b - Ax^k}{\lambda^k}.
+\]
+En particular, si $x^k \in \Omega$ (y, por lo tanto, $x^k \in D^0$), se tiene que
+\[
+    \tilde{\varphi}(x^k, z^k) = \interno{c}{x^k} - \interno{b}{\lambda^k}.
+\]
+En general, la convergencia de $\tilde{\varphi}(x^k, z^k)$ a cero significa que
+\[
+    \interno{c}{x^k} - \interno{b}{\lambda^k} \to 0, \quad \{A x^k\} \to b \quad (k \to \infty).
+\]
+Si esto ocurre, del \cref{v2:thm:6.1.7} se sigue que todo punto de acumulación de la sucesión $\{(x^k, \lambda^k)\}$ es una solución primal-dual del problema \eqref{v2:eq:6.38}. Notemos que, como veremos más adelante, la viabilidad primal de puntos de acumulación de la sucesión $\{x^k\}$ no es automática en métodos de este tipo (a diferencia de los métodos de puntos interiores primales). La inclusión del segundo término en la definición de la función de mérito $\tilde{\varphi}$ tiene por objetivo resolver esta dificultad, al menos en el límite.
+
+\vspace{0.3cm}
+\noindent \textbf{Algoritmo 6.1.2. (El método de puntos interiores primal-dual)} \\
+Escoger un número $t_0 > 0$. Para el conjunto $\tilde{\Delta}^0$ definido por \eqref{v2:eq:6.57}, \eqref{v2:eq:6.58}, escoger $(x^0, \lambda^0, z^0) \in \Rn \times \R^l \times \Rn$, $x^0 > 0$, $(\lambda^0, z^0) \in \tilde{\Delta}^0$. Tomar $k := 0$.
+\begin{enumerate}[label=\arabic*., itemsep=0.1cm, topsep=0.1cm]
+    \item Calcular $(d_x^k, d_\lambda^k, d_z^k) \in \Rn \times \R^l \times \Rn$, el paso Newtoniano para el sistema \eqref{v2:eq:6.53} a partir del punto $(x^k, \lambda^k, z^k)$, con $t = t_k$.
+    \item Tomar
+    \[
+        (x^{k+1}, \lambda^{k+1}, z^{k+1}) = (x^k, \lambda^k, z^k) + \alpha_k (d_x^k, d_\lambda^k, d_z^k),
+    \]
+    donde el parámetro de la longitud de paso $\alpha_k \in (0, 1]$ es calculado para satisfacer
+    \[
+        x^{k+1} > 0, \quad z^{k+1} > 0, \quad \tilde{\varphi}(x^{k+1}, z^{k+1}) < \tilde{\varphi}(x^k, z^k).
+    \]
+    \item Escoger $t_{k+1} \in (0, t_k)$.
+    \item Tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
+\vspace{0.3cm}
+
+Como fue el caso de los métodos de puntos interiores primales, en la práctica tenemos que agregar al Algoritmo 6.1.2 alguna técnica de precondicionamiento. La descripción y el análisis completo de los métodos de puntos interiores primal-duales requieren muchos detalles técnicos que están fuera del alcance de este libro. Presentaremos apenas algunos pasos, para ayudar a la intuición del lector.
+
+\begin{exercise}\label{v2:ejer:6.1.21}
+    Sean $x \in \Rn$, $x > 0$, $(\lambda, z) \in \tilde{\Delta}^0$, donde el conjunto $\tilde{\Delta}^0$ está dado por \eqref{v2:eq:6.57}, \eqref{v2:eq:6.58}, $c \in \Rn$, $A \in \R^{l \times n}$, $b \in \R^l$.
+    Mostrar que para un número $t > 0$ dado, la dirección Newtoniana $(d_x, d_\lambda, d_z) \in \Rn \times \R^l \times \Rn$ para el sistema \eqref{v2:eq:6.53} a partir del punto $(x, \lambda, z)$, viene dada por las ecuaciones
+    \begin{align}
+        d_\lambda &= (A Z^{-1} X A^T)^{-1} (A Z^{-1} (XZ e - te) + b - Ax), \nonumber \\
+        d_z &= -A^T d_\lambda, \label{v2:eq:6.61} \\
+        d_x &= Z^{-1} (te - XZ e) - Z^{-1} X d_z. \nonumber
+    \end{align}
+    Mostrar que el punto $x + d_x$ es viable en el problema primal \eqref{v2:eq:6.38}, y que el punto $(\lambda + d_\lambda, z + d_z)$ es viable en el problema dual \eqref{v2:eq:6.54_dual}, \eqref{v2:eq:6.55}.
+\end{exercise}
+
+Si en las condiciones del \cref{v2:ejer:6.1.21} el parámetro de la longitud de paso satisface $\alpha \in (0, 1)$, el punto $x + \alpha d_x$ ya puede ser inviable en el problema primal. Pero, como puede ser visto fácilmente, el punto $(\lambda + \alpha d_\lambda, z + \alpha d_z)$ permanece viable en el problema dual. A continuación, mostraremos que un control adecuado de los valores de $t$ y $\alpha$ garantiza el decrecimiento de la función de mérito $\tilde{\varphi}$.
+
+\begin{proposition}\label{v2:prop:6.1.5}
+    Sean $c \in \Rn$, $A \in \R^{l \times n}$, $b \in \R^l$. Sean $x \in \Rn$, $x > 0$, $(\lambda, z) \in \tilde{\Delta}^0$, donde el conjunto $\tilde{\Delta}^0$ está dado por \eqref{v2:eq:6.57}, \eqref{v2:eq:6.58}. Para $t > 0$ dado, sea $(d_x, d_\lambda, d_z) \in \Rn \times \R^l \times \Rn$ la dirección Newtoniana para el sistema \eqref{v2:eq:6.53} a partir del punto $(x, \lambda, z)$.
+    Entonces para todo $\alpha \in (0, 1]$, se tiene que
+    \begin{equation}
+        A(x + \alpha d_x) - b = (1 - \alpha)(Ax - b),
+        \label{v2:eq:6.62}
+    \end{equation}
+    \begin{align}
+        \tilde{\varphi}(x + \alpha d_x, z + \alpha d_z) &= \tilde{\varphi}(x, z) + \alpha^2 \interno{Ax - b}{d_\lambda} \label{v2:eq:6.63} \\
+        &\quad - \alpha (\interno{x}{z} - nt + \norm{Ax - b}), \nonumber
+    \end{align}
+    donde la función $\tilde{\varphi}$ está dada por \eqref{v2:eq:6.60}.
+\end{proposition}
+
+\begin{proof}
+    La dirección Newtoniana para el sistema \eqref{v2:eq:6.53} a partir del punto $(x, \lambda, z)$ viene dada por las ecuaciones
+    \begin{equation}
+        A^T d_\lambda + d_z = 0, \quad A d_x = b - Ax, \quad Z d_x + X d_z = te - XZe.
+        \label{v2:eq:6.64}
+    \end{equation}
+    De la segunda ecuación obtenemos que
+    \[
+        A(x + \alpha d_x) - b = Ax + \alpha(b - Ax) - b = (1 - \alpha)(Ax - b),
+    \]
+    lo que prueba \eqref{v2:eq:6.62}.
+    Además de eso,
+    \begin{equation}
+        \interno{x + \alpha d_x}{z + \alpha d_z} = \interno{x}{z} + \alpha^2 \interno{d_x}{d_z} + \alpha (\interno{x}{d_z} + \interno{z}{d_x}).
+        \label{v2:eq:6.65}
+    \end{equation}
+    Multiplicando los lados izquierdo y derecho de la última igualdad en \eqref{v2:eq:6.64} por $e$, obtenemos que
+    \[
+        \interno{x}{d_z} + \interno{z}{d_x} = \interno{e}{te - XZe} = nt - \interno{x}{z}.
+    \]
+    Ahora, utilizando \eqref{v2:eq:6.61} y la segunda igualdad en \eqref{v2:eq:6.64}, tenemos que
+    \[
+        \interno{d_x}{d_z} = -\interno{d_x}{A^T d_\lambda} = \interno{Ax - b}{d_\lambda}.
+    \]
+    Las dos últimas relaciones permiten reescribir \eqref{v2:eq:6.65} como
+    \[
+        \interno{x + \alpha d_x}{z + \alpha d_z} = \interno{x}{z} - \alpha (\interno{x}{z} - nt) + \alpha^2 \interno{Ax - b}{d_\lambda}.
+    \]
+    De aquí, teniendo también en cuenta \eqref{v2:eq:6.60} y \eqref{v2:eq:6.62}, concluimos que
+    \begin{align*}
+        \tilde{\varphi}(x + \alpha d_x, z + \alpha d_z) &= \interno{x + \alpha d_x}{z + \alpha d_z} + \norm{A(x + \alpha d_x) - b} \\
+        &= \interno{x}{z} - \alpha(\interno{x}{z} - nt) \\
+        &\quad + \alpha^2 \interno{Ax - b}{d_\lambda} + (1 - \alpha) \norm{Ax - b},
+    \end{align*}
+    lo que verifica \eqref{v2:eq:6.63}.
+\end{proof}
+
+Como se sigue de \eqref{v2:eq:6.62}, la medida de inviabilidad en el problema primal está decreciendo para cualquier valor de la longitud de paso $\alpha \in (0, 1]$, si el punto $x$ no es viable en \eqref{v2:eq:6.38} (y si $x$ es viable, el punto nuevo $x + \alpha d_x$ también es viable). Además de eso, como se sigue de \eqref{v2:eq:6.63}, si $t < \interno{x}{z}/n$, existe un número $\bar{\alpha} > 0$ tal que todo $\alpha \in (0, \bar{\alpha})$ resulta en un decrecimiento de la función $\tilde{\varphi}$.
+
+Una construcción inteligente de las sucesiones $\{t_k\}$ y $\{\alpha_k\}$, además del precondicionamiento, permiten el desarrollo de métodos de puntos interiores primal-duales muy eficientes (véase [20]).
+
+Finalmente, comentaremos que métodos de puntos interiores pueden ser extendidos también a algunas clases de problemas no lineales convexos (véase [10]).
+
+\begin{exercise}\label{v2:ejer:6.1.22}
+    Considerar el problema
+    \begin{equation}
+        \min f(x) \quad \text{sujeto a} \quad x \in D = \{ x \in \Rn \mid Ax = b, g(x) \le 0 \},
+        \label{v2:eq:6.66}
+    \end{equation}
+    donde las funciones $f : \Rn \to \R$ y $g : \Rn \to \R^m$ son convexas y dos veces continuamente diferenciables en $\Rn$, $A \in \R^{l \times n}$, $b \in \R^l$. Sean $\rank A = l$, $\rank g'(x) = m$ $\forall x \in D$. Supongamos que exista un punto $\tilde{x} \in D$ tal que $g(\tilde{x}) < 0$. Definimos la trayectoria central primal-dual como la función
+    \[
+        (x(\cdot), \nu(\cdot), \zeta(\cdot)) : (\R_+ \setminus \{0\}) \to \Rn \times \R^l \times \R^m,
+    \]
+    donde para todo $t > 0$ el valor de la función es la solución del sistema
+    \begin{equation}
+        f'(x) + A^T \lambda + (g'(x))^T \mu = 0, \quad Ax = b,
+        \label{v2:eq:6.67}
+    \end{equation}
+    \begin{equation}
+        g_i(x) < 0, \quad \mu_i > 0, \quad \mu_i g_i(x) = t, \quad i = 1, \dots, m,
+        \label{v2:eq:6.68}
+    \end{equation}
+    con respecto a $(x, \lambda, \mu) \in \Rn \times \R^l \times \R^m$. Probar que las afirmaciones siguientes son equivalentes:
+    \begin{enumerate}[label=(\alph*)]
+        \item El conjunto de soluciones del problema \eqref{v2:eq:6.66} es no vacío y acotado.
+        \item Para todo $t > 0$, el sistema \eqref{v2:eq:6.67}, \eqref{v2:eq:6.68}, posee una única solución (en particular, la trayectoria central primal-dual está bien definida).
+        \item El sistema \eqref{v2:eq:6.67}, \eqref{v2:eq:6.68}, tiene una única solución para algún valor de $t > 0$.
+        \item El sistema
+        \[
+            f'(x) + A^T \lambda + (g'(x))^T \mu = 0, \quad g(x) < 0, \quad \mu > 0
+        \]
+        tiene una solución.
+        \item El sistema
+        \[
+            f'(x) + A^T \lambda + (g'(x))^T \mu = 0, \quad \mu > 0
+        \]
+        tiene una solución.
+    \end{enumerate}
+\end{exercise}

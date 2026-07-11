@@ -1,0 +1,172 @@
+% --- Archivo: 01_intro_teoria_pl.tex ---
+
+\chapter{Programación lineal y cuadrática}
+\label{v2:chap:6}
+
+En este último capítulo presentaremos algunos métodos especiales para resolver problemas de programación lineal y de programación cuadrática. La importancia de problemas de este tipo se debe al hecho de que aparecen como subproblemas en varios algoritmos de uso general, como ya hemos visto anteriormente. Sin embargo, nuestra presentación se limitará solo a algunas consideraciones básicas, ya que el tratamiento detallado podría merecer incluso un libro separado.
+
+% =========================================================
+\section{Programación lineal}
+\label{v2:sec:6.1}
+% =========================================================
+
+Recordamos que llamamos problema de programación lineal a un problema de optimización donde la función objetivo es lineal y el conjunto viable es un poliedro (o sea, conjunto de soluciones de un sistema de ecuaciones e inecuaciones lineales). En particular, tal problema es convexo. Por lo tanto, toda solución local es global. Más aún, todo punto estacionario es una solución. A continuación, presentaremos un resumen de propiedades de problemas lineales.
+
+\subsection{Elementos de teoría de la programación lineal}
+\label{v2:sec:6.1.1}
+
+El problema de programación lineal en formato general viene dado por
+\begin{equation}
+    \min \interno{c_1}{x_1} + \interno{c_2}{x_2} \quad \text{sujeto a} \quad (x_1, x_2) \in D,
+    \label{v2:eq:6.1}
+\end{equation}
+\begin{equation}
+    D = \left\{ (x_1, x_2) \in \Omega \;\middle|\; \begin{array}{l} A_{11}x_1 + A_{12}x_2 = b_1, \\ A_{21}x_1 + A_{22}x_2 \ge b_2 \end{array} \right\},
+    \label{v2:eq:6.2}
+\end{equation}
+donde $c_1 \in \R^{n_1}$, $c_2 \in \R^{n_2}$, $A_{11} \in \R^{l \times n_1}$, $A_{12} \in \R^{l \times n_2}$, $A_{21} \in \R^{m \times n_1}$, $A_{22} \in \R^{m \times n_2}$, $b_1 \in \R^l$, $b_2 \in \R^m$, $\Omega = \R^{n_1} \times \R^{n_2}_+$.
+El tratamiento de $x_2 \ge 0$ como restricción abstracta es conveniente en este contexto.
+
+\begin{exercise}\label{v2:ejer:6.1.1}
+    Sea $X = \{ x \in \Rn \mid Ax \ge b \}$ un conjunto acotado con interior no vacío, donde $A \in \R^{m \times n}$, $b \in \R^m$. 
+    Formular el problema de incluir en $X$ una bola de radio máximo como un problema de programación lineal.
+\end{exercise}
+
+En la teoría de programación lineal, el problema en formato canónico, donde tomamos en \eqref{v2:eq:6.1}, \eqref{v2:eq:6.2}, $n_1 = m = 0$, tiene un papel especial. Simplificando la notación tomando $n = n_2$, el problema canónico puede ser escrito como
+\begin{equation}
+    \min \interno{c}{x} \quad \text{sujeto a} \quad x \in D = \{ x \in \Omega \mid Ax = b \},
+    \label{v2:eq:6.3}
+\end{equation}
+donde $c = c_2 \in \Rn$, $A = A_{12} \in \R^{l \times n}$, $b = b_1 \in \R^l$, $\Omega = \R^n_+$. Observamos que el problema general \eqref{v2:eq:6.1}, \eqref{v2:eq:6.2}, siempre puede ser transformado al formato canónico, introduciendo variables adicionales:
+\[
+    \min \interno{c_1}{u^1 - u^2} + \interno{c_2}{x_2} \quad \text{sujeto a} \quad (u^1, u^2, x_2, y) \in \tilde{D},
+\]
+\[
+    \tilde{D} = \left\{ (u^1, u^2, x_2, y) \in \tilde{\Omega} \;\middle|\; \begin{array}{l} A_{11}(u^1 - u^2) + A_{12}x_2 = b_1, \\ A_{21}(u^1 - u^2) + A_{22}x_2 - y = b_2 \end{array} \right\},
+\]
+donde $\tilde{\Omega} = \R^{n_1}_+ \times \R^{n_1}_+ \times \R^{n_2}_+ \times \R^m_+$. Los conjuntos viables y de las soluciones del problema anterior y de \eqref{v2:eq:6.1}, \eqref{v2:eq:6.2}, están en una correspondencia obvia.
+
+\begin{theorem}[Existencia de soluciones en un problema de programación lineal]\label{v2:thm:6.1.1}
+    Si el conjunto viable de un problema de programación lineal es no vacío y el valor óptimo es finito, entonces este problema posee una solución.
+\end{theorem}
+
+\begin{proof}
+    La afirmación es una consecuencia del Teorema 5.1.2 del Volumen 1 (véase \cite[Teorema 5.1.2]{SolodovVol1}), pero reproduciremos la prueba.
+    
+    Por lo dicho anteriormente sobre la transformación del problema general \eqref{v2:eq:6.1}, \eqref{v2:eq:6.2}, en problema canónico, podemos considerar este último. Sea el conjunto viable $D$ del problema \eqref{v2:eq:6.3} no vacío y sea
+    \[
+        \bar{v} = \inf_{x \in D} \interno{c}{x} < +\infty.
+    \]
+    Supongamos que la afirmación del teorema no sea verdadera, i.e., que el sistema
+    \[
+        Ax = b, \quad \interno{c}{x} = \bar{v}, \quad x \ge 0
+    \]
+    con respecto a $x \in \Rn$ no tenga solución. Como es fácil ver, este sistema no tiene solución si, y solamente si, el sistema
+    \[
+        Ax - tb = 0, \quad \interno{c}{x} - t\bar{v} = 0, \quad x \ge 0, \quad t > 0
+    \]
+    con respecto a $(x, t) \in \Rn \times \R$ no tiene solución. Aplicando al último sistema el Teorema de la Alternativa de Motzkin (véase el \cref{v1:thm:3.3.1} del Volumen 1), concluimos que existe $(y, \tau) \in \R^l \times \R$ tal que
+    \[
+        A^T y + \tau c \ge 0, \quad \interno{b}{y} + \tau \bar{v} < 0.
+    \]
+    Para todo $x \in D$, de la primera relación obtenemos que
+    \[
+        \interno{A^T y}{x} + \tau \interno{c}{x} \ge 0,
+    \]
+    ya que $x \ge 0$. De donde, utilizando también la segunda relación, tenemos que
+    \[
+        \tau \interno{c}{x} \ge -\interno{y}{Ax} = -\interno{y}{b} > \tau \bar{v}.
+    \]
+    Por lo tanto,
+    \[
+        \inf_{x \in D} \tau \interno{c}{x} > \tau \bar{v} = \tau \inf_{x \in D} \interno{c}{x},
+    \]
+    lo que es una contradicción, cualquiera que sea el valor de $\tau$.
+\end{proof}
+
+En programación lineal, una solución solo puede no existir cuando el conjunto viable del problema es vacío, o cuando la función objetivo es ilimitada inferiormente en este conjunto. Como sabemos, en el caso no lineal, un problema puede no poseer soluciones incluso cuando la función objetivo es limitada inferiormente en el conjunto viable no vacío.
+
+Por los Teoremas 1.2.3 y 1.3.8, tenemos las siguientes condiciones de optimalidad.
+
+\begin{theorem}[Condiciones de optimalidad en programación lineal]\label{v2:thm:6.1.2}
+    Sean $c_1 \in \R^{n_1}$, $c_2 \in \R^{n_2}$, $A_{11} \in \R^{l \times n_1}$, $A_{12} \in \R^{l \times n_2}$, $A_{21} \in \R^{m \times n_1}$, $A_{22} \in \R^{m \times n_2}$, $b_1 \in \R^l$, $b_2 \in \R^m$, $\Omega = \R^{n_1} \times \R^{n_2}_+$.
+    El punto $(\bar{x}_1, \bar{x}_2) \in D$ es una solución del problema \eqref{v2:eq:6.1}, \eqref{v2:eq:6.2}, si, y solamente si, existen $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R^m_+$ tales que
+    \begin{equation}
+        A_{11}^T \bar{\lambda} + A_{21}^T \bar{\mu} = c_1, \quad A_{12}^T \bar{\lambda} + A_{22}^T \bar{\mu} \le c_2,
+        \label{v2:eq:6.4}
+    \end{equation}
+    \begin{equation}
+        \interno{\bar{\mu}}{A_{21}\bar{x}_1 + A_{22}\bar{x}_2 - b_2} = 0, \quad \interno{A_{12}^T \bar{\lambda} + A_{22}^T \bar{\mu} - c_2}{\bar{x}_2} = 0.
+        \label{v2:eq:6.5}
+    \end{equation}
+\end{theorem}
+
+A continuación recordamos la noción de vértice del poliedro $D$. Aquí es conveniente tomar $n_2 = 0$, i.e., considerar el caso donde no hay restricciones abstractas (ellas pueden ser incluidas en las restricciones de desigualdad). Tomando también $n = n_1$, podemos escribir \eqref{v2:eq:6.2} en la forma
+\begin{equation}
+    D = \{ x \in \Rn \mid A_1 x = b_1, A_2 x \ge b_2 \},
+    \label{v2:eq:6.6}
+\end{equation}
+donde $A_1 = A_{11} \in \R^{l \times n}$, $A_2 = A_{21} \in \R^{m \times n}$. Como siempre, para un punto $x \in \Rn$ cualquiera,
+\[
+    I(x) = \{ i = 1, \dots, m \mid \interno{(A_2)_i}{x} = (b_2)_i \}
+\]
+es el conjunto de índices de las restricciones activas en $x$, donde $(A_2)_1, \dots, (A_2)_m$ son las filas de la matriz $A_2$.
+
+\begin{definition}[Vértice]\label{v2:def:6.1.1}
+    Un punto $\hat{x} \in D$ se llama \textbf{vértice} del poliedro $D$ definido por \eqref{v2:eq:6.6}, si las filas de la matriz $A_1$ y las filas de la matriz $A_2$ indexadas por $i \in I(\hat{x})$, forman en $\Rn$ un sistema de rango $n$. Si el número de elementos en este sistema es igual a $n$, entonces el vértice $\hat{x}$ se llama \textbf{no degenerado}, y si el número es mayor que $n$, entonces el vértice es \textbf{degenerado}.
+\end{definition}
+
+La \cref{v2:fig:6.1.1} ilustra esta definición.
+
+\begin{figure}[htpb]
+    \centering
+    \begin{tikzpicture}[>=Stealth, scale=1.5]
+        % Definición de coordenadas de los vértices
+        \coordinate (x3) at (0, 0);
+        \coordinate (x1) at (3, 1.5);
+        \coordinate (x2) at (6, 0);
+        
+        % Relleno del poliedro D
+        \fill[gray!30] (x3) -- (x1) -- (x2) -- cycle;
+        
+        % Bordes del poliedro
+        \draw[thick] (x3) -- (x1) node[midway, above left] {};
+        \draw[thick] (x1) -- (x2) node[midway, above right] {};
+        \draw[thick] (x3) -- (x2) node[midway, below] {};
+        
+        % Puntos
+        \filldraw (x3) circle (1pt) node[above left] {$x^3$};
+        \filldraw (x1) circle (1pt) node[above] {$x^1$};
+        \filldraw (x2) circle (1pt) node[right] {$x^2$};
+        
+        % Punto y en la arista x1-x2
+        \coordinate (y) at (4.5, 0.75);
+        \filldraw (y) circle (1pt) node[above right] {$y$};
+        
+        % Vectores normales (B_i)
+        % B1 (normal a x3-x1)
+        \draw[->, thick] (1.5, 0.75) -- ++(-0.5, 1) node[above] {$B_2$};
+        % B2 (normal a x1-x2)
+        \draw[->, thick] (4.5, 0.75) -- ++(0.5, 1) node[above] {$B_1$};
+        
+        % En el vértice x2 degenerado hay múltiples normales ilustradas
+        \draw[->, thick] (x2) -- ++(0.5, 0.8) node[above] {$B_3$};
+        \draw[->, thick] (x2) -- ++(-0.6, 0.9) node[above left] {$B_4$};
+        \draw[->, thick] (x2) -- ++(-0.5, -0.8) node[below] {$B_2$}; 
+        
+        % Etiqueta del conjunto D
+        \node at (1.5, 0.2) {$D$};
+    \end{tikzpicture}
+    \caption{Los puntos $x^1$, $x^2$ y $x^3$ son vértices del conjunto poliedral $D \subset \Rn$, $n=2$, definido por las desigualdades $\interno{B_i}{x} \ge b_i$, $i=1,\dots,4$. Por ejemplo, se tiene que $I(x^1)=\{1,2\}$ y los vectores $B_1$ y $B_2$ forman una matriz de rango $2=n$; $x^1$ es un vértice no degenerado. Se tiene que $I(x^2)=\{2,3,4\}$ y los vectores $B_2, B_3$ y $B_4$ forman una matriz de rango $2=n$; $x^2$ es un vértice degenerado. El punto $y \in D$ no es un vértice: $I(y)=\{2\}$ y el vector $B_2$ forma una matriz de rango $1 < n=2$.}
+    \label{v2:fig:6.1.1}
+\end{figure}
+
+En otras palabras, $\hat{x} \in D$ es un vértice del poliedro $D$ dado por \eqref{v2:eq:6.6}, si $\hat{x}$ es la única solución del sistema lineal
+\[
+    A_1 x = b_1, \quad \interno{(A_2)_i}{x} = (b_2)_i, \quad i \in I(\hat{x}).
+\]
+De aquí, inmediatamente obtenemos el siguiente hecho.
+
+\begin{proposition}\label{v2:prop:6.1.1}
+    El número de vértices de un conjunto poliedral cualquiera es finito.
+\end{proposition}
