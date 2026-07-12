@@ -2,96 +2,97 @@
 
 % =========================================================
 \section{Teoremas de alternativa}
+\label{v1:sec:3.3}
 % =========================================================
 
 A continuación, consideramos sistemas de ecuaciones e inecuaciones lineales, relacionados en el sentido de que existen dos alternativas: si un sistema no posee soluciones, entonces el otro posee soluciones, y ambos sistemas no pueden poseer soluciones simultáneamente. Un resultado de este tipo será usado para caracterizar el cono dual del cono tangente en el caso de restricciones mixtas de igualdad y desigualdad y para formular las condiciones de optimalidad en forma primal-dual para problemas con este tipo de restricciones.
 
-\begin{theorem}[Teorema de la Alternativa de Motzkin]\label{thm:motzkin}
-    Para cualesquiera matrices $A_i \in \R^{m_i \times n}$, $i = 0, 1, 2$, con $A_0 \neq 0$, uno, y solamente uno, de los dos sistemas siguientes posee solución:
-    \begin{equation}
-        A_0 x > 0, \quad A_1 x = 0, \quad A_2 x \ge 0, \quad x \in \Rn, \label{eq:motzkin_1}
-    \end{equation}
-    o
-    \begin{equation}
-        \begin{aligned}
-            & A_0^\top y^0 + A_1^\top y^1 + A_2^\top y^2 = 0, \\
-            & (y^0, y^1, y^2) \in (\R^{m_0}_+ \setminus \{0\}) \times \R^{m_1} \times \R^{m_2}_+.
-        \end{aligned} \label{eq:motzkin_2}
-    \end{equation}
+\begin{theorem}[Teorema de la Alternativa de Motzkin]\label{v1:thm:3.3.1}
+ Para cualesquiera matrices $A_i \in \R^{m_i \times n}$, $i = 0, 1, 2$, con $A_0 \neq 0$, uno, y solamente uno, de los dos sistemas siguientes posee solución:
+ \begin{equation}
+ A_0 x > 0, \quad A_1 x = 0, \quad A_2 x \ge 0, \quad x \in \Rn, \label{v1:eq:3.9}
+ \end{equation}
+ o
+ \begin{equation}
+ \begin{aligned}
+ & A_0^\top y^0 + A_1^\top y^1 + A_2^\top y^2 = 0, \\
+ & (y^0, y^1, y^2) \in (\R^{m_0}_+ \setminus \{0\}) \times \R^{m_1} \times \R^{m_2}_+.
+ \end{aligned} \label{v1:eq:3.10}
+ \end{equation}
 \end{theorem}
 
 \begin{proof}
-    Primero supongamos que \eqref{eq:motzkin_2} tenga una solución $(y^0, y^1, y^2)$. Si $x$ fuese solución de \eqref{eq:motzkin_1}, entonces:
-    \[
-        0 = \interno{A_0^\top y^0 + A_1^\top y^1 + A_2^\top y^2}{x} = \interno{y^0}{A_0 x} + \interno{y^1}{A_1 x} + \interno{y^2}{A_2 x} \ge \interno{y^0}{A_0 x} > 0,
-    \]
-    donde para obtener la primera desigualdad usamos el hecho de que todas las coordenadas de los vectores involucrados son no negativas, y para obtener la segunda usamos además los hechos de que $y_i^0 \ge 0$, $(A_0 x)_i > 0$ $\forall i$, y para algún índice la coordenada de $y^0$ es estrictamente positiva. La contradicción muestra que cuando \eqref{eq:motzkin_2} tiene solución, \eqref{eq:motzkin_1} no puede tenerla.
+ Primero supongamos que \eqref{v1:eq:3.10} tenga una solución $(y^0, y^1, y^2)$. Si $x$ fuese solución de \eqref{v1:eq:3.9}, entonces:
+ \[
+ 0 = \interno{A_0^\top y^0 + A_1^\top y^1 + A_2^\top y^2}{x} = \interno{y^0}{A_0 x} + \interno{y^1}{A_1 x} + \interno{y^2}{A_2 x} \ge \interno{y^0}{A_0 x} > 0,
+ \]
+ donde para obtener la primera desigualdad usamos el hecho de que todas las coordenadas de los vectores involucrados son no negativas, y para obtener la segunda usamos además los hechos de que $y_i^0 \ge 0$, $(A_0 x)_i > 0$ $\forall i$, y para algún índice la coordenada de $y^0$ es estrictamente positiva. La contradicción muestra que cuando \eqref{v1:eq:3.10} tiene solución, \eqref{v1:eq:3.9} no puede tenerla.
 
-    Supongamos ahora que \eqref{eq:motzkin_2} no tenga solución. Es decir,
-    \[
-        0 \notin \left\{ z \in \Rn \;\middle|\; \begin{aligned} &z = A_0^\top y^0 + A_1^\top y^1 + A_2^\top y^2, \\ &y^0 \in \R^{m_0}_+ \setminus \{0\}, \ y^1 \in \R^{m_1}, \ y^2 \in \R^{m_2}_+ \end{aligned} \right\}.
-    \]
-    Como $y^0 \in \R^{m_0}_+ \setminus \{0\}$, dividiendo $z$ por $\sum y_i^0 > 0$, vemos que esta propiedad es equivalente a $0 \notin D$, donde $D = D_1 + D_2$, con:
-    \begin{align*}
-        D_1 &= \left\{ z \in \Rn \;\middle|\; z = A_0^\top y^0, \ y^0 \in \R^{m_0}_+, \ \sum_{i=1}^{m_0} y_i^0 = 1 \right\}, \\
-        D_2 &= \left\{ z \in \Rn \;\middle|\; z = A_1^\top y^1 + A_2^\top y^2, \ y^1 \in \R^{m_1}, \ y^2 \in \R^{m_2}_+ \right\}.
-    \end{align*}
-    El conjunto $D_1$ es la clausura convexa de las columnas de $A_0^\top$ (que son finitas), por lo tanto, es compacto. El conjunto $D_2$ es un cono con un número finito de generadores; por lo tanto, es convexo y cerrado. La suma $D = D_1 + D_2$ es un conjunto convexo y cerrado (al sumar un compacto y un cerrado).
-    
-    Como $0 \notin D$, por el Teorema de Separación Estricta, existe un hiperplano que separa $0$ de $D$ estrictamente; es decir, existe $x \in \Rn \setminus \{0\}$ y $c \in \R$ tales que:
-    \[
-        \interno{x}{z} > c > 0 \quad \forall z \in D. \label{eq:motzkin_separacion}
-    \]
-    Como $D_2$ es un cono, si existiera $y \in D_2$ tal que $\interno{x}{y} < 0$, tomando múltiplos grandes contradeciríamos la separación. Así, $\interno{x}{y} \ge 0$ para todo $y \in D_2$, lo que implica:
-    \[
-        A_1 x = 0, \quad A_2 x \ge 0.
-    \]
-    Finalmente, tomando $y^0 = e^i$ (vectores de la base canónica), deducimos que $\interno{e^i}{A_0 x} > c > 0$, lo que implica $A_0 x > 0$. Hemos hallado una solución para \eqref{eq:motzkin_1}.
+ Supongamos ahora que \eqref{v1:eq:3.10} no tenga solución. Es decir,
+ \[
+ 0 \notin \left\{ z \in \Rn \;\middle|\; \begin{aligned} &z = A_0^\top y^0 + A_1^\top y^1 + A_2^\top y^2, \\ &y^0 \in \R^{m_0}_+ \setminus \{0\}, \ y^1 \in \R^{m_1}, \ y^2 \in \R^{m_2}_+ \end{aligned} \right\}.
+ \]
+ Como $y^0 \in \R^{m_0}_+ \setminus \{0\}$, dividiendo $z$ por $\sum y_i^0 > 0$, vemos que esta propiedad es equivalente a $0 \notin D$, donde $D = D_1 + D_2$, con:
+ \begin{align*}
+ D_1 &= \left\{ z \in \Rn \;\middle|\; z = A_0^\top y^0, \ y^0 \in \R^{m_0}_+, \ \sum_{i=1}^{m_0} y_i^0 = 1 \right\}, \\
+ D_2 &= \left\{ z \in \Rn \;\middle|\; z = A_1^\top y^1 + A_2^\top y^2, \ y^1 \in \R^{m_1}, \ y^2 \in \R^{m_2}_+ \right\}.
+ \end{align*}
+ El conjunto $D_1$ es la clausura convexa de las columnas de $A_0^\top$ (que son finitas), por lo tanto, es compacto. El conjunto $D_2$ es un cono con un número finito de generadores; por lo tanto, es convexo y cerrado. La suma $D = D_1 + D_2$ es un conjunto convexo y cerrado (al sumar un compacto y un cerrado).
+ 
+ Como $0 \notin D$, por el Teorema de Separación Estricta, existe un hiperplano que separa $0$ de $D$ estrictamente; es decir, existe $x \in \Rn \setminus \{0\}$ y $c \in \R$ tales que:
+ \[
+ \interno{x}{z} > c > 0 \quad \forall z \in D. \label{v1:eq:3.11}
+ \]
+ Como $D_2$ es un cono, si existiera $y \in D_2$ tal que $\interno{x}{y} < 0$, tomando múltiplos grandes contradeciríamos la separación. Así, $\interno{x}{y} \ge 0$ para todo $y \in D_2$, lo que implica:
+ \[
+ A_1 x = 0, \quad A_2 x \ge 0.
+ \]
+ Finalmente, tomando $y^0 = e^i$ (vectores de la base canónica), deducimos que $\interno{e^i}{A_0 x} > c > 0$, lo que implica $A_0 x > 0$. Hemos hallado una solución para \eqref{v1:eq:3.9}.
 \end{proof}
 
 El famoso Lema de Farkas se obtiene como una consecuencia del Teorema de Motzkin.
 
-\begin{lemma}[Lema de Farkas]\label{lem:farkas}
-    Para cualquier matriz $A \in \R^{m \times n}$ y cualquier $b \in \Rn$, uno, y solamente uno, de los siguientes sistemas posee solución:
-    \begin{equation}
-        A x \le 0, \quad \interno{b}{x} > 0, \quad x \in \Rn, \label{eq:farkas_1}
-    \end{equation}
-    o
-    \begin{equation}
-        A^\top y = b, \quad y \in \R^m_+. \label{eq:farkas_2}
-    \end{equation}
+\begin{lemma}[Lema de Farkas]\label{v1:lem:3.3.1}
+ Para cualquier matriz $A \in \R^{m \times n}$ y cualquier $b \in \Rn$, uno, y solamente uno, de los siguientes sistemas posee solución:
+ \begin{equation}
+ A x \le 0, \quad \interno{b}{x} > 0, \quad x \in \Rn, \label{v1:eq:3.12}
+ \end{equation}
+ o
+ \begin{equation}
+ A^\top y = b, \quad y \in \R^m_+. \label{v1:eq:3.13}
+ \end{equation}
 \end{lemma}
 
 \begin{proof}
-    Aplicando el Teorema de Motzkin (\cref{thm:motzkin}) con las elecciones $A_0 = b^\top \in \R^{1 \times n}$ y $A_2 = -A \in \R^{m \times n}$ (y sin matriz $A_1$), la alternativa a \eqref{eq:farkas_1} es:
-    \[
-        y^0 b - A^\top y^2 = 0, \quad (y^0, y^2) \in (\R_+ \setminus \{0\}) \times \R^m_+.
-    \]
-    Como $y^0 > 0$, dividiendo por $y^0$ y llamando $y = y^2 / y^0$, obtenemos exactamente el sistema \eqref{eq:farkas_2}.
+ Aplicando el Teorema de Motzkin (\cref{v1:thm:3.3.1}) con las elecciones $A_0 = b^\top \in \R^{1 \times n}$ y $A_2 = -A \in \R^{m \times n}$ (y sin matriz $A_1$), la alternativa a \eqref{v1:eq:3.12} es:
+ \[
+ y^0 b - A^\top y^2 = 0, \quad (y^0, y^2) \in (\R_+ \setminus \{0\}) \times \R^m_+.
+ \]
+ Como $y^0 > 0$, dividiendo por $y^0$ y llamando $y = y^2 / y^0$, obtenemos exactamente el sistema \eqref{v1:eq:3.13}.
 \end{proof}
 
 El Lema de Farkas ya permite probar las condiciones de optimalidad en forma primal-dual en el caso especial de restricciones de desigualdad lineales. 
 
-\begin{corollary}\label{cor:farkas_optimalidad}
-    Sea $\bar{x} \in \Rn$ una solución local del problema $\min f(x)$ sujeto a $Bx \le b$, donde $f : \Rn \to \R$ es diferenciable en $\bar{x}$, $B \in \R^{m \times n}$, $b \in \R^m$. Entonces existe $\bar{\mu} \in \R^m_+$ tal que
-    \[
-        \nabla f(\bar{x}) + B^\top \bar{\mu} = 0, \quad \bar{\mu}_i = 0 \text{ para } i \notin I(\bar{x}),
-    \]
-    donde $I(\bar{x}) = \{i \mid \interno{B_i}{\bar{x}} = b_i\}$.
+\begin{corollary}\label{v1:cor:3.3.1}
+ Sea $\bar{x} \in \Rn$ una solución local del problema $\min f(x)$ sujeto a $Bx \le b$, donde $f : \Rn \to \R$ es diferenciable en $\bar{x}$, $B \in \R^{m \times n}$, $b \in \R^m$. Entonces existe $\bar{\mu} \in \R^m_+$ tal que
+ \[
+ \nabla f(\bar{x}) + B^\top \bar{\mu} = 0, \quad \bar{\mu}_i = 0 \text{ para } i \notin I(\bar{x}),
+ \]
+ donde $I(\bar{x}) = \{i \mid \interno{B_i}{\bar{x}} = b_i\}$.
 \end{corollary}
 
 \begin{proof}
-    Sea $C = \{ d \in \Rn \mid \interno{B_i}{d} \le 0, \ i \in I(\bar{x}) \}$. Para todo $d \in C$, se tiene que $B(\bar{x} + td) \le b$ para todo $t > 0$ suficientemente pequeño, por lo tanto $d \in \mathcal{V}_D(\bar{x}) \subset \mathcal{B}_D(\bar{x})$. Por el Teorema de la condición necesaria primal, $\interno{\nabla f(\bar{x})}{d} \ge 0$ para todo $d \in C$. 
-    
-    Es decir, el sistema $\interno{\nabla f(\bar{x})}{d} < 0$, $\interno{B_i}{d} \le 0$ para $i \in I(\bar{x})$ no tiene solución. Por el Lema de Farkas, el sistema alternativo $(B_{I(\bar{x})})^\top \mu = -\nabla f(\bar{x})$ con $\mu \in \R^{|I(\bar{x})|}_+$ tiene solución. Definiendo $\bar{\mu}_i = 0$ para $i \notin I(\bar{x})$, obtenemos el resultado.
+ Sea $C = \{ d \in \Rn \mid \interno{B_i}{d} \le 0, \ i \in I(\bar{x}) \}$. Para todo $d \in C$, se tiene que $B(\bar{x} + td) \le b$ para todo $t > 0$ suficientemente pequeño, por lo tanto $d \in \mathcal{V}_D(\bar{x}) \subset \mathcal{B}_D(\bar{x})$. Por el Teorema de la condición necesaria primal (\cref{v1:thm:1.4.1}), $\interno{\nabla f(\bar{x})}{d} \ge 0$ para todo $d \in C$. 
+ 
+ Es decir, el sistema $\interno{\nabla f(\bar{x})}{d} < 0$, $\interno{B_i}{d} \le 0$ para $i \in I(\bar{x})$ no tiene solución. Por el Lema de Farkas (\cref{v1:lem:3.3.1}), el sistema alternativo $(B_{I(\bar{x})})^\top \mu = -\nabla f(\bar{x})$ con $\mu \in \R^{|I(\bar{x})|}_+$ tiene solución. Definiendo $\bar{\mu}_i = 0$ para $i \notin I(\bar{x})$, obtenemos el resultado.
 \end{proof}
 
 \begin{notabox}[Otros Teoremas de Alternativa]
-    Existen otros teoremas clásicos de alternativa que surgen como variantes lógicas del Lema de Farkas y el Teorema de Motzkin, muy útiles en teoría de juegos y economía matemática:
-    \begin{itemize}
-        \item \textbf{Teorema de Tucker:} Los sistemas $A x \ge 0, Ax \neq 0$ y $A^\top y = 0, y > 0$ son mutuamente excluyentes.
-        \item \textbf{Teoremas de Gale:} Alternativas puras sobre igualdades/desigualdades (ej. $Ax = b, x \ge 0$ vs $A^\top y \ge 0, \interno{b}{y} < 0$).
-        \item \textbf{Teorema de Gordan:} $Ax < 0$ vs $A^\top y = 0, y \in \R^m_+ \setminus \{0\}$.
-    \end{itemize}
-    (Las demostraciones de estos teoremas se proponen como ejercicios en la sección final de este capítulo).
+ Existen otros teoremas clásicos de alternativa que surgen como variantes lógicas del Lema de Farkas y el Teorema de Motzkin, muy útiles en teoría de juegos y economía matemática:
+ \begin{itemize}
+ \item \textbf{Teorema de Tucker:} Los sistemas $A x \ge 0, Ax \neq 0$ y $A^\top y = 0, y > 0$ son mutuamente excluyentes.
+ \item \textbf{Teoremas de Gale:} Alternativas puras sobre igualdades/desigualdades (ej. $Ax = b, x \ge 0$ vs $A^\top y \ge 0, \interno{b}{y} < 0$).
+ \item \textbf{Teorema de Gordan:} $Ax < 0$ vs $A^\top y = 0, y \in \R^m_+ \setminus \{0\}$.
+ \end{itemize}
+ (Las demostraciones de estos teoremas se proponen como ejercicios en la sección final de este capítulo).
 \end{notabox}

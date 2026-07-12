@@ -1,5 +1,10 @@
 % --- Archivo: 01_cono_tangente_mixto.tex ---
 
+\chapter{capitulo 4}
+\label{cha:capitulo-4}
+
+
+
 En este capítulo contamos con las herramientas necesarias para abordar el problema de optimización general con restricciones mixtas de igualdad y desigualdad. Estudiaremos la caracterización del cono tangente para los conjuntos definidos por este tipo de restricciones, lo que nos permitirá derivar las condiciones de optimalidad primal-dual de Karush-Kuhn-Tucker (KKT). Asimismo, desarrollaremos las condiciones necesarias y suficientes de segundo orden.
 
 Consideramos el problema de optimización con restricciones mixtas de igualdad y desigualdad:
@@ -372,3 +377,7 @@ Para caracterizar adecuadamente el cono tangente y establecer $\mathcal{B}_D(\ba
 \begin{example}[Cota de Robinson]\label{ex:robinson_residual}
     Considérese $D = \R_+^2$ definido por $g_1(x) = -x_1 \le 0$ y $g_2(x) = -x_2 \le 0$. El operador residual es $\Psi(x) = (\max\{0, -x_1\}, \max\{0, -x_2\})$. El operador $\max\{0, \cdot\}$ anula los términos correspondientes a las desigualdades que se satisfacen, cuantificando únicamente el error o violación de las restricciones. Por ejemplo, si $x = (-3, -4)^\top$, $\norm{\Psi(x)} = 5$, lo cual coincide exactamente con la distancia del punto a su proyección en el cuadrante $(0,0)^\top$. En este caso se verifica la cota con $M=1$.
 \end{example}
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:

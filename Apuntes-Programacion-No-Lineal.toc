@@ -17,129 +17,129 @@
 \contentsline {subsection}{Parte I: Mecánica Primal-Dual y Fallas Topológicas}{20}{section*.7}%
 \contentsline {subsection}{Parte II: Condiciones Diferenciales de Segundo Orden y Matriz KKT}{21}{section*.8}%
 \contentsline {subsection}{Parte III: Aplicaciones Físicas, Análisis de Sensibilidad y Variedades Matriciales}{22}{section*.9}%
-\contentsline {section}{\numberline {2.4}Definiciones de convexidad. El problema de minimización convexo}{23}{section.2.4}%
-\contentsline {section}{\numberline {2.5}Conjuntos convexos y Teoremas de Separación}{26}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}Propiedades básicas de conjuntos convexos}{26}{subsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.5.2}Cono de Recesión y Generadores Finitos}{28}{subsection.2.5.2}%
-\contentsline {subsection}{\numberline {2.5.3}El operador de proyección}{29}{subsection.2.5.3}%
-\contentsline {subsection}{\numberline {2.5.4}Teoremas de Separación}{29}{subsection.2.5.4}%
-\contentsline {subsection}{\numberline {2.5.5}Puntos Extremos}{30}{subsection.2.5.5}%
-\contentsline {section}{\numberline {2.6}Teoremas de alternativa}{30}{section.2.6}%
-\contentsline {section}{\numberline {2.7}Funciones convexas}{32}{section.2.7}%
-\contentsline {subsection}{\numberline {2.7.1}Propiedades básicas de las funciones convexas}{32}{subsection.2.7.1}%
-\contentsline {subsection}{\numberline {2.7.2}Funciones convexas diferenciables}{33}{subsection.2.7.2}%
-\contentsline {subsection}{\numberline {2.7.3}Funciones convexas no diferenciables}{34}{subsection.2.7.3}%
-\contentsline {section}{\nonumberline Ejercicios del Capítulo}{34}{section*.10}%
-\contentsline {subsection}{Parte I: Mecánica Primal-Dual y Fallas Topológicas}{34}{section*.11}%
-\contentsline {subsection}{Parte II: Condiciones Diferenciales de Segundo Orden y Matriz KKT}{35}{section*.12}%
-\contentsline {subsection}{Parte III: Aplicaciones Físicas, Análisis de Sensibilidad y Variedades Matriciales}{36}{section*.13}%
-\contentsline {subsection}{Parte IV: Teoremas de Alternativa y Análisis Convexo}{37}{section*.14}%
-\contentsline {section}{\numberline {2.8}Cono tangente en el caso de restricciones de igualdad y desigualdad}{39}{section.2.8}%
-\contentsline {section}{\numberline {2.9}Condiciones de optimalidad de Karush-Kuhn-Tucker}{44}{section.2.9}%
-\contentsline {section}{\numberline {2.10}Condiciones de optimalidad de segundo orden}{49}{section.2.10}%
-\contentsline {section}{\nonumberline Ejercicios del Capítulo 4}{55}{section*.15}%
-\contentsline {subsection}{Parte I: Mecánica Primal-Dual y Condición de Mangasarian-Fromovitz}{55}{section*.16}%
-\contentsline {subsection}{Parte II: Condiciones de Segundo Orden}{56}{section*.17}%
-\contentsline {subsection}{Parte III: Tópicos Avanzados - Dualidad, Conos Convexos y KKT Singular}{57}{section*.18}%
-\contentsline {section}{\numberline {2.11}Dualidad en programación lineal}{57}{section.2.11}%
-\contentsline {section}{\numberline {2.12}Dualidad para un problema general}{60}{section.2.12}%
-\contentsline {subsection}{\numberline {2.12.1}Formulación Minimax del Problema Primal}{60}{subsection.2.12.1}%
-\contentsline {subsection}{\numberline {2.12.2}El Problema Dual General}{61}{subsection.2.12.2}%
-\contentsline {subsection}{\numberline {2.12.3}Teorema de Dualidad Débil}{61}{subsection.2.12.3}%
-\contentsline {subsection}{\numberline {2.12.4}Patologías y Casos Límite en la Teoría de Dualidad}{62}{subsection.2.12.4}%
-\contentsline {subsection}{\numberline {2.12.5}Teoría de Multiplicadores de Lagrange Globales}{63}{subsection.2.12.5}%
-\contentsline {subsection}{\numberline {2.12.6}Dualidad Fuerte y la Condición de Slater}{64}{subsection.2.12.6}%
-\contentsline {subsection}{\numberline {2.12.7}El Problema Dual de Wolfe}{65}{subsection.2.12.7}%
-\contentsline {subsection}{\numberline {2.12.8}Caracterización mediante Puntos de Silla}{65}{subsection.2.12.8}%
-\contentsline {subsection}{\numberline {2.12.9}Subgradiente de la Función Dual}{66}{subsection.2.12.9}%
-\contentsline {section}{\nonumberline Ejercicios del Capítulo 5}{67}{section*.19}%
-\contentsline {subsection}{Parte I: Dualidad en Programación Lineal}{67}{section*.20}%
-\contentsline {subsection}{Parte II: Dualidad en Problemas Generales y Puntos de Silla}{68}{section*.21}%
-\contentsline {part}{\numberline {II}Métodos Computacionales}{70}{part.2}%
-\contentsline {chapter}{\numberline {3}Resumen Teórico y Preliminares Matemáticos}{71}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Existencia de soluciones}{71}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Condiciones de optimalidad}{72}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Convexidad}{73}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Dualidad}{73}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Herramientas del Análisis y del Álgebra Lineal}{74}{section.3.5}%
-\contentsline {section}{\numberline {3.6}Elementos del Análisis no Diferenciable}{75}{section.3.6}%
-\contentsline {section}{\nonumberline Ejercicios de Preliminares Teóricos}{76}{section*.22}%
-\contentsline {chapter}{\numberline {4}Introducción a los Métodos de Optimización}{77}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Clasificación de los métodos y nociones de convergencia}{77}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Estrategia de muestreo: Métodos pasivos vs. secuenciales}{77}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Estructura del esquema iterativo: Métodos sin memoria vs. con memoria}{77}{subsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.1.3}Orden del método}{78}{subsection.4.1.3}%
-\contentsline {subsection}{\numberline {4.1.4}Tipos de convergencia}{78}{subsection.4.1.4}%
-\contentsline {section}{\numberline {4.2}Tasas de convergencia y reglas de parada}{79}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Métodos de optimización unidimensional}{81}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Búsqueda en rejilla (Grid Search)}{81}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Métodos de exclusión de intervalos}{82}{subsection.4.3.2}%
-\contentsline {subsubsection}{\nonumberline Método de Bisección}{82}{subsubsection*.23}%
-\contentsline {subsubsection}{\nonumberline Método de la Sección Áurea}{83}{subsubsection*.24}%
-\contentsline {subsection}{\numberline {4.3.3}Búsquedas en Dominios Semi-infinitos e Intervalos No Unimodales}{84}{subsection.4.3.3}%
-\contentsline {subsubsection}{\nonumberline Fase de acotamiento en intervalos semi-infinitos}{84}{subsubsection*.25}%
-\contentsline {subsubsection}{\nonumberline Robustez ante funciones no unimodales}{85}{subsubsection*.26}%
-\contentsline {subsection}{\numberline {4.3.4}Interpolación polinómica cuadrática y salvaguardas}{85}{subsection.4.3.4}%
-\contentsline {section}{\nonumberline Ejercicios del Capítulo}{86}{section*.27}%
-\contentsline {chapter}{\numberline {5}Optimización No Restringida}{88}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Métodos de descenso}{88}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Esquema general de los métodos de descenso. Búsqueda lineal.}{88}{subsection.5.1.1}%
-\contentsline {section}{\numberline {5.2}El método del gradiente}{91}{section.5.2}%
-\contentsline {section}{\numberline {5.3}El método de Newton. Métodos cuasi-Newton.}{94}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}El método de Newton para ecuaciones}{94}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Método de Newton para optimización irrestricta}{95}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}Métodos cuasi-Newton}{96}{subsection.5.3.3}%
-\contentsline {section}{\numberline {5.4}Estrategias de globalización}{99}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Métodos con búsqueda lineal}{99}{subsection.5.4.1}%
-\contentsline {subsubsection}{\nonumberline Estrategias para sistemas de ecuaciones no lineales}{101}{subsubsection*.28}%
-\contentsline {subsection}{\numberline {5.4.2}Métodos de regiones de confianza}{101}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.4.3}Métodos de continuación paramétricos}{105}{subsection.5.4.3}%
-\contentsline {section}{\numberline {5.5}Métodos de direcciones conjugadas}{109}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}Métodos de direcciones conjugadas para funciones cuadráticas}{109}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}El método de los gradientes conjugados}{112}{subsection.5.5.2}%
-\contentsline {section}{\numberline {5.6}Métodos que no utilizan derivadas}{114}{section.5.6}%
-\contentsline {section}{\nonumberline Ejercicios del Capítulo}{115}{section*.29}%
-\contentsline {subsection}{Sección I: Métodos de Descenso y Gradiente}{115}{section*.30}%
-\contentsline {subsection}{Sección II: Método de Newton y Cuasi-Newton}{117}{section*.31}%
-\contentsline {subsection}{Sección III: Estrategias de Globalización}{118}{section*.32}%
-\contentsline {subsection}{Sección IV: Direcciones Conjugadas}{119}{section*.33}%
-\contentsline {subsection}{Sección V: Métodos sin Derivadas}{119}{section*.34}%
-\contentsline {chapter}{\numberline {6}Métodos para Optimización con Restricción}{121}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Métodos para conjuntos factibles de estructura simple}{121}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Métodos del gradiente proyectado}{121}{subsection.6.1.1}%
-\contentsline {subsection}{\numberline {6.1.2}Direcciones factibles y métodos de descenso}{124}{subsection.6.1.2}%
-\contentsline {subsection}{\numberline {6.1.3}Método del gradiente restringido. Método de Newton restringido}{125}{subsection.6.1.3}%
-\contentsline {section}{\numberline {6.2}Métodos de penalización}{126}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Penalización externa}{127}{subsection.6.2.1}%
-\contentsline {subsection}{\numberline {6.2.2}Penalización externa exacta}{134}{subsection.6.2.2}%
-\contentsline {subsection}{\numberline {6.2.3}Penalización interna. Métodos de barreras}{139}{subsection.6.2.3}%
-\contentsline {section}{\numberline {6.3}Métodos para problemas con restricciones de igualdad}{142}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Métodos de Newton para el sistema de Lagrange}{143}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.3.2}El método de penalización cuadrática}{145}{subsection.6.3.2}%
-\contentsline {subsection}{\numberline {6.3.3}Lagrangianas aumentadas y funciones de penalización exacta diferenciables}{148}{subsection.6.3.3}%
-\contentsline {section}{\numberline {6.4}Métodos para problemas con restricciones mixtas}{152}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}Métodos de Newton generalizados}{153}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}Métodos de Newton generalizados para el sistema de Karush-Kuhn-Tucker}{154}{subsection.6.4.2}%
-\contentsline {subsection}{\numberline {6.4.3}Métodos de penalización cuadrática}{161}{subsection.6.4.3}%
-\contentsline {subsection}{\numberline {6.4.4}Lagrangianas aumentadas}{166}{subsection.6.4.4}%
-\contentsline {subsection}{\numberline {6.4.5}Penalización exacta diferenciable}{169}{subsection.6.4.5}%
-\contentsline {section}{\numberline {6.5}Programación cuadrática secuencial}{170}{section.6.5}%
-\contentsline {subsection}{\numberline {6.5.1}Restricciones de igualdad}{170}{subsection.6.5.1}%
-\contentsline {subsection}{\numberline {6.5.2}Restricciones mixtas}{171}{subsection.6.5.2}%
-\contentsline {subsection}{\numberline {6.5.3}Globalización de convergencia de SQP}{178}{subsection.6.5.3}%
-\contentsline {subsection}{\numberline {6.5.4}Restauración de la convergencia local superlineal}{184}{subsection.6.5.4}%
-\contentsline {subsection}{\numberline {6.5.5}Otras técnicas de globalización}{189}{subsection.6.5.5}%
-\contentsline {chapter}{\numberline {7}Métodos para optimización no diferenciable}{197}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Métodos de subgradiente}{199}{section.7.1}%
-\contentsline {section}{\numberline {7.2}El método de planos cortantes}{202}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Métodos de haces}{205}{section.7.3}%
-\contentsline {chapter}{\numberline {8}Programación lineal y cuadrática}{211}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Programación lineal}{211}{section.8.1}%
-\contentsline {subsection}{\numberline {8.1.1}Elementos de teoría de la programación lineal}{211}{subsection.8.1.1}%
-\contentsline {subsection}{\numberline {8.1.2}El método del simplex}{217}{subsection.8.1.2}%
-\contentsline {subsection}{\numberline {8.1.3}Métodos de puntos interiores}{223}{subsection.8.1.3}%
-\contentsline {section}{\numberline {8.2}Programación cuadrática}{233}{section.8.2}%
-\contentsline {subsection}{\numberline {8.2.1}Puntos especiales}{233}{subsection.8.2.1}%
-\contentsline {subsection}{\numberline {8.2.2}El método de puntos especiales}{234}{subsection.8.2.2}%
-\contentsline {chapter}{\nonumberline Bibliografía}{237}{chapter*.36}%
+\contentsline {chapter}{\numberline {3}Análisis convexo}{24}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Definiciones de convexidad. El problema de minimización convexo}{24}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Conjuntos convexos y Teoremas de Separación}{27}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Propiedades básicas de conjuntos convexos}{27}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Cono de Recesión y Generadores Finitos}{29}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}El operador de proyección}{29}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Teoremas de Separación}{30}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}Puntos Extremos}{30}{subsection.3.2.5}%
+\contentsline {section}{\numberline {3.3}Teoremas de alternativa}{31}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Funciones convexas}{33}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Propiedades básicas de las funciones convexas}{33}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Funciones convexas diferenciables}{34}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Funciones convexas no diferenciables}{34}{subsection.3.4.3}%
+\contentsline {section}{\nonumberline Ejercicios del Capítulo}{35}{section*.10}%
+\contentsline {subsection}{Parte I: Teoremas de Alternativa}{35}{section*.11}%
+\contentsline {subsection}{Parte II: Análisis Convexo}{35}{section*.12}%
+\contentsline {chapter}{\numberline {4}capitulo 4}{37}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Cono tangente en el caso de restricciones de igualdad y desigualdad}{37}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Condiciones de optimalidad de Karush-Kuhn-Tucker}{43}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Condiciones de optimalidad de segundo orden}{48}{section.4.3}%
+\contentsline {section}{\nonumberline Ejercicios del Capítulo 4}{54}{section*.13}%
+\contentsline {subsection}{Parte I: Mecánica Primal-Dual y Condición de Mangasarian-Fromovitz}{54}{section*.14}%
+\contentsline {subsection}{Parte II: Condiciones de Segundo Orden}{55}{section*.15}%
+\contentsline {subsection}{Parte III: Tópicos Avanzados - Dualidad, Conos Convexos y KKT Singular}{55}{section*.16}%
+\contentsline {section}{\numberline {4.4}Dualidad en programación lineal}{56}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Dualidad para un problema general}{59}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Formulación Minimax del Problema Primal}{59}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}El Problema Dual General}{60}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Teorema de Dualidad Débil}{60}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Patologías y Casos Límite en la Teoría de Dualidad}{61}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.5}Teoría de Multiplicadores de Lagrange Globales}{62}{subsection.4.5.5}%
+\contentsline {subsection}{\numberline {4.5.6}Dualidad Fuerte y la Condición de Slater}{63}{subsection.4.5.6}%
+\contentsline {subsection}{\numberline {4.5.7}El Problema Dual de Wolfe}{64}{subsection.4.5.7}%
+\contentsline {subsection}{\numberline {4.5.8}Caracterización mediante Puntos de Silla}{64}{subsection.4.5.8}%
+\contentsline {subsection}{\numberline {4.5.9}Subgradiente de la Función Dual}{65}{subsection.4.5.9}%
+\contentsline {section}{\nonumberline Ejercicios del Capítulo 5}{65}{section*.17}%
+\contentsline {subsection}{Parte I: Dualidad en Programación Lineal}{65}{section*.18}%
+\contentsline {subsection}{Parte II: Dualidad en Problemas Generales y Puntos de Silla}{66}{section*.19}%
+\contentsline {part}{\numberline {II}Métodos Computacionales}{69}{part.2}%
+\contentsline {chapter}{\numberline {5}Resumen Teórico y Preliminares Matemáticos}{70}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Existencia de soluciones}{70}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Condiciones de optimalidad}{71}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Convexidad}{72}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Dualidad}{72}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Herramientas del Análisis y del Álgebra Lineal}{73}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Elementos del Análisis no Diferenciable}{74}{section.5.6}%
+\contentsline {section}{\nonumberline Ejercicios de Preliminares Teóricos}{75}{section*.20}%
+\contentsline {chapter}{\numberline {6}Introducción a los Métodos de Optimización}{76}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Clasificación de los métodos y nociones de convergencia}{76}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Estrategia de muestreo: Métodos pasivos vs. secuenciales}{76}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Estructura del esquema iterativo: Métodos sin memoria vs. con memoria}{76}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}Orden del método}{77}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}Tipos de convergencia}{77}{subsection.6.1.4}%
+\contentsline {section}{\numberline {6.2}Tasas de convergencia y reglas de parada}{78}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Métodos de optimización unidimensional}{80}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Búsqueda en rejilla (Grid Search)}{80}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Métodos de exclusión de intervalos}{81}{subsection.6.3.2}%
+\contentsline {subsubsection}{\nonumberline Método de Bisección}{81}{subsubsection*.21}%
+\contentsline {subsubsection}{\nonumberline Método de la Sección Áurea}{82}{subsubsection*.22}%
+\contentsline {subsection}{\numberline {6.3.3}Búsquedas en Dominios Semi-infinitos e Intervalos No Unimodales}{83}{subsection.6.3.3}%
+\contentsline {subsubsection}{\nonumberline Fase de acotamiento en intervalos semi-infinitos}{83}{subsubsection*.23}%
+\contentsline {subsubsection}{\nonumberline Robustez ante funciones no unimodales}{84}{subsubsection*.24}%
+\contentsline {subsection}{\numberline {6.3.4}Interpolación polinómica cuadrática y salvaguardas}{84}{subsection.6.3.4}%
+\contentsline {section}{\nonumberline Ejercicios del Capítulo}{85}{section*.25}%
+\contentsline {chapter}{\numberline {7}Optimización No Restringida}{87}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Métodos de descenso}{87}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Esquema general de los métodos de descenso. Búsqueda lineal.}{87}{subsection.7.1.1}%
+\contentsline {section}{\numberline {7.2}El método del gradiente}{90}{section.7.2}%
+\contentsline {section}{\numberline {7.3}El método de Newton. Métodos cuasi-Newton.}{93}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}El método de Newton para ecuaciones}{93}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Método de Newton para optimización irrestricta}{94}{subsection.7.3.2}%
+\contentsline {subsection}{\numberline {7.3.3}Métodos cuasi-Newton}{95}{subsection.7.3.3}%
+\contentsline {section}{\numberline {7.4}Estrategias de globalización}{98}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Métodos con búsqueda lineal}{98}{subsection.7.4.1}%
+\contentsline {subsubsection}{\nonumberline Estrategias para sistemas de ecuaciones no lineales}{100}{subsubsection*.26}%
+\contentsline {subsection}{\numberline {7.4.2}Métodos de regiones de confianza}{100}{subsection.7.4.2}%
+\contentsline {subsection}{\numberline {7.4.3}Métodos de continuación paramétricos}{104}{subsection.7.4.3}%
+\contentsline {section}{\numberline {7.5}Métodos de direcciones conjugadas}{108}{section.7.5}%
+\contentsline {subsection}{\numberline {7.5.1}Métodos de direcciones conjugadas para funciones cuadráticas}{108}{subsection.7.5.1}%
+\contentsline {subsection}{\numberline {7.5.2}El método de los gradientes conjugados}{111}{subsection.7.5.2}%
+\contentsline {section}{\numberline {7.6}Métodos que no utilizan derivadas}{113}{section.7.6}%
+\contentsline {section}{\nonumberline Ejercicios del Capítulo}{114}{section*.27}%
+\contentsline {subsection}{Sección I: Métodos de Descenso y Gradiente}{114}{section*.28}%
+\contentsline {subsection}{Sección II: Método de Newton y Cuasi-Newton}{116}{section*.29}%
+\contentsline {subsection}{Sección III: Estrategias de Globalización}{117}{section*.30}%
+\contentsline {subsection}{Sección IV: Direcciones Conjugadas}{118}{section*.31}%
+\contentsline {subsection}{Sección V: Métodos sin Derivadas}{118}{section*.32}%
+\contentsline {chapter}{\numberline {8}Métodos para Optimización con Restricción}{120}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Métodos para conjuntos factibles de estructura simple}{120}{section.8.1}%
+\contentsline {subsection}{\numberline {8.1.1}Métodos del gradiente proyectado}{120}{subsection.8.1.1}%
+\contentsline {subsection}{\numberline {8.1.2}Direcciones factibles y métodos de descenso}{123}{subsection.8.1.2}%
+\contentsline {subsection}{\numberline {8.1.3}Método del gradiente restringido. Método de Newton restringido}{124}{subsection.8.1.3}%
+\contentsline {section}{\numberline {8.2}Métodos de penalización}{125}{section.8.2}%
+\contentsline {subsection}{\numberline {8.2.1}Penalización externa}{126}{subsection.8.2.1}%
+\contentsline {subsection}{\numberline {8.2.2}Penalización externa exacta}{133}{subsection.8.2.2}%
+\contentsline {subsection}{\numberline {8.2.3}Penalización interna. Métodos de barreras}{138}{subsection.8.2.3}%
+\contentsline {section}{\numberline {8.3}Métodos para problemas con restricciones de igualdad}{141}{section.8.3}%
+\contentsline {subsection}{\numberline {8.3.1}Métodos de Newton para el sistema de Lagrange}{142}{subsection.8.3.1}%
+\contentsline {subsection}{\numberline {8.3.2}El método de penalización cuadrática}{144}{subsection.8.3.2}%
+\contentsline {subsection}{\numberline {8.3.3}Lagrangianas aumentadas y funciones de penalización exacta diferenciables}{147}{subsection.8.3.3}%
+\contentsline {section}{\numberline {8.4}Métodos para problemas con restricciones mixtas}{151}{section.8.4}%
+\contentsline {subsection}{\numberline {8.4.1}Métodos de Newton generalizados}{152}{subsection.8.4.1}%
+\contentsline {subsection}{\numberline {8.4.2}Métodos de Newton generalizados para el sistema de Karush-Kuhn-Tucker}{153}{subsection.8.4.2}%
+\contentsline {subsection}{\numberline {8.4.3}Métodos de penalización cuadrática}{160}{subsection.8.4.3}%
+\contentsline {subsection}{\numberline {8.4.4}Lagrangianas aumentadas}{165}{subsection.8.4.4}%
+\contentsline {subsection}{\numberline {8.4.5}Penalización exacta diferenciable}{168}{subsection.8.4.5}%
+\contentsline {section}{\numberline {8.5}Programación cuadrática secuencial}{169}{section.8.5}%
+\contentsline {subsection}{\numberline {8.5.1}Restricciones de igualdad}{169}{subsection.8.5.1}%
+\contentsline {subsection}{\numberline {8.5.2}Restricciones mixtas}{170}{subsection.8.5.2}%
+\contentsline {subsection}{\numberline {8.5.3}Globalización de convergencia de SQP}{177}{subsection.8.5.3}%
+\contentsline {subsection}{\numberline {8.5.4}Restauración de la convergencia local superlineal}{183}{subsection.8.5.4}%
+\contentsline {subsection}{\numberline {8.5.5}Otras técnicas de globalización}{188}{subsection.8.5.5}%
+\contentsline {chapter}{\numberline {9}Métodos para optimización no diferenciable}{196}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Métodos de subgradiente}{198}{section.9.1}%
+\contentsline {section}{\numberline {9.2}El método de planos cortantes}{201}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Métodos de haces}{204}{section.9.3}%
+\contentsline {chapter}{\numberline {10}Programación lineal y cuadrática}{210}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Programación lineal}{210}{section.10.1}%
+\contentsline {subsection}{\numberline {10.1.1}Elementos de teoría de la programación lineal}{210}{subsection.10.1.1}%
+\contentsline {subsection}{\numberline {10.1.2}El método del simplex}{216}{subsection.10.1.2}%
+\contentsline {subsection}{\numberline {10.1.3}Métodos de puntos interiores}{222}{subsection.10.1.3}%
+\contentsline {section}{\numberline {10.2}Programación cuadrática}{232}{section.10.2}%
+\contentsline {subsection}{\numberline {10.2.1}Puntos especiales}{232}{subsection.10.2.1}%
+\contentsline {subsection}{\numberline {10.2.2}El método de puntos especiales}{233}{subsection.10.2.2}%
+\contentsline {chapter}{\nonumberline Bibliografía}{236}{chapter*.34}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

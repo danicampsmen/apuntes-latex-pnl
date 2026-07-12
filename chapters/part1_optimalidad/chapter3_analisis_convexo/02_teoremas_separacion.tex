@@ -1,7 +1,7 @@
 % --- Archivo: 02_teoremas_separacion.tex ---
 
 \section{Conjuntos convexos y Teoremas de Separación}
-\label{sec:conjuntos_convexos-teoremas_separacion}
+\label{v1:sec:3.2}
 
 Estudiaremos los conjuntos convexos con más profundidad, abarcando la estructura de conjuntos, la proyección ortogonal y la separación mediante hiperplanos.
 
@@ -9,321 +9,325 @@ Estudiaremos los conjuntos convexos con más profundidad, abarcando la estructur
 \subsection{Propiedades básicas de conjuntos convexos}
 % =========================================================
 
-\begin{proposition}\label{prop:interseccion_convexos}
-    Sean $D_i \subset \Rn$, $i \in I$, conjuntos convexos, donde $I$ es un conjunto cualquiera (posiblemente infinito). Entonces la intersección $D = \bigcap_{i\in I} D_i$ también es un conjunto convexo.
+\begin{proposition}\label{v1:prop:3.2.1}
+ Sean $D_i \subset \Rn$, $i \in I$, conjuntos convexos, donde $I$ es un conjunto cualquiera (posiblemente infinito). Entonces la intersección $D = \bigcap_{i\in I} D_i$ también es un conjunto convexo.
 \end{proposition}
 
 \begin{proof}
-    Sean $x \in D$ e $y \in D$. Por la definición de intersección, $x \in D_i$ e $y \in D_i$ para todo $i \in I$. Como los conjuntos $D_i$ son convexos, $\alpha x + (1 - \alpha)y \in D_i$ para todo $i \in I$. Por la definición de la intersección, se sigue que la combinación convexa pertenece a $D$, es decir, $D$ es convexo.
+ Sean $x \in D$ e $y \in D$. Por la definición de intersección, $x \in D_i$ e $y \in D_i$ para todo $i \in I$. Como los conjuntos $D_i$ son convexos, $\alpha x + (1 - \alpha)y \in D_i$ para todo $i \in I$. Por la definición de la intersección, se sigue que la combinación convexa pertenece a $D$, es decir, $D$ es convexo.
 \end{proof}
 
-\begin{corollary}
-    Un conjunto poliédrico en $\Rn$ es convexo.
+\begin{corollary}\label{v1:cor:3.2.1}
+ Un conjunto poliédrico en $\Rn$ es convexo.
 \end{corollary}
 
 \begin{proof}
-    Un conjunto poliédrico es el conjunto de soluciones de un sistema finito de ecuaciones e inecuaciones lineales, es decir, una intersección de semiespacios e hiperplanos que son conjuntos convexos. Por lo tanto, un conjunto poliédrico es convexo por la \cref{prop:interseccion_convexos}.
+ Un conjunto poliédrico es el conjunto de soluciones de un sistema finito de ecuaciones e inecuaciones lineales, es decir, una intersección de semiespacios e hiperplanos que son conjuntos convexos. Por lo tanto, un conjunto poliédrico es convexo por la \cref{v1:prop:3.2.1}.
 \end{proof}
 
 A continuación mostramos que la clausura y el interior de un conjunto convexo son conjuntos convexos.
 
-\begin{proposition}\label{prop:clausura_interior_convexos}
-    Sea $D \subset \Rn$ un conjunto convexo. Entonces $\cl D$ e $\interior D$ son conjuntos convexos.
+\begin{proposition}\label{v1:prop:3.2.2}
+ Sea $D \subset \Rn$ un conjunto convexo. Entonces $\cl D$ e $\interior D$ son conjuntos convexos.
 \end{proposition}
 
 \begin{proof}
-    Sean $x, y \in \cl D$, $\alpha \in [0, 1]$. Elegimos secuencias $\{x^k\}, \{y^k\} \subset D$ tales que $\{x^k\} \to x$ e $\{y^k\} \to y$. Por la convexidad de $D$, $\alpha x^k + (1 - \alpha)y^k \in D$. Pasando al límite obtenemos que $\alpha x + (1 - \alpha)y \in \cl D$.
-    
-    Sean $x, y \in \interior D$. Fijamos $\epsilon > 0$ tal que $B(x, \epsilon) \subset D$ y $B(y, \epsilon) \subset D$. Para mostrar que $z = \alpha x + (1 - \alpha)y \in \interior D$, tomamos un vector $q$ con $\norm{q} \leq \epsilon$. Observamos que $z + q = \alpha(x + q) + (1 - \alpha)(y + q)$. Obviamente, $x + q \in B(x, \epsilon) \subset D$ e $y + q \in B(y, \epsilon) \subset D$. Por la convexidad, concluimos que $z + q \in D$. Por lo tanto, $B(z, \epsilon) \subset D$, lo que significa que $z \in \interior D$.
+ Sean $x, y \in \cl D$, $\alpha \in [0, 1]$. Elegimos secuencias $\{x^k\}, \{y^k\} \subset D$ tales que $\{x^k\} \to x$ e $\{y^k\} \to y$. Por la convexidad de $D$, $\alpha x^k + (1 - \alpha)y^k \in D$. Pasando al límite obtenemos que $\alpha x + (1 - \alpha)y \in \cl D$.
+ 
+ Sean $x, y \in \interior D$. Fijamos $\epsilon > 0$ tal que $B(x, \epsilon) \subset D$ y $B(y, \epsilon) \subset D$. Para mostrar que $z = \alpha x + (1 - \alpha)y \in \interior D$, tomamos un vector $q$ con $\norm{q} \leq \epsilon$. Observamos que $z + q = \alpha(x + q) + (1 - \alpha)(y + q)$. Obviamente, $x + q \in B(x, \epsilon) \subset D$ e $y + q \in B(y, \epsilon) \subset D$. Por la convexidad, concluimos que $z + q \in D$. Por lo tanto, $B(z, \epsilon) \subset D$, lo que significa que $z \in \interior D$.
 \end{proof}
 
-\begin{proposition}\label{prop:suma_minkowski_cerrada}
-    Sean $D_i \subset \Rn$, $i = 1, 2$, conjuntos convexos cerrados. Si uno de ellos también es acotado (luego, compacto), entonces la suma de Minkowski $D_1 + D_2$ es convexa y cerrada.
+\begin{proposition}\label{v1:prop:3.2.3}
+ Sean $D_i \subset \Rn$, $i = 1, 2$, conjuntos convexos cerrados. Si uno de ellos también es acotado (luego, compacto), entonces la suma de Minkowski $D_1 + D_2$ es convexa y cerrada.
 \end{proposition}
 
 \begin{proof}
-    Es fácil ver que el conjunto $D = D_1 + D_2$ es convexo. Mostraremos que $D$ es cerrado, suponiendo que $D_2$ sea acotado.
-    
-    Sea $\{x^k\} \to x$, con $x^k \in D$. Para todo $k$ existen $x^{k,1} \in D_1$ e $x^{k,2} \in D_2$ tales que $x^k = x^{k,1} + x^{k,2}$. Es claro que la secuencia $\{x^{k,2}\}$ es acotada. Como la secuencia de la suma converge, se sigue que $\{x^{k,1}\}$ también es acotada. Luego, tiene un punto de acumulación, digamos $\bar{x}^1$. Sea $\{x^{k_j,1}\} \to \bar{x}^1$. Podemos admitir que $\{x^{k_j,2}\} \to \bar{x}^2$, eligiendo una subsecuencia si es necesario. Como $D_1$ y $D_2$ son cerrados, $\bar{x}^1 \in D_1$ y $\bar{x}^2 \in D_2$. Por lo tanto, $x = \bar{x}^1 + \bar{x}^2 \in D_1 + D_2 = D$, lo que muestra que $D$ es cerrado.
+ Es fácil ver que el conjunto $D = D_1 + D_2$ es convexo. Mostraremos que $D$ es cerrado, suponiendo que $D_2$ sea acotado.
+ 
+ Sea $\{x^k\} \to x$, con $x^k \in D$. Para todo $k$ existen $x^{k,1} \in D_1$ e $x^{k,2} \in D_2$ tales que $x^k = x^{k,1} + x^{k,2}$. Es claro que la secuencia $\{x^{k,2}\}$ es acotada. Como la secuencia de la suma converge, se sigue que $\{x^{k,1}\}$ también es acotada. Luego, tiene un punto de acumulación, digamos $\bar{x}^1$. Sea $\{x^{k_j,1}\} \to \bar{x}^1$. Podemos admitir que $\{x^{k_j,2}\} \to \bar{x}^2$, eligiendo una subsecuencia si es necesario. Como $D_1$ y $D_2$ son cerrados, $\bar{x}^1 \in D_1$ y $\bar{x}^2 \in D_2$. Por lo tanto, $x = \bar{x}^1 + \bar{x}^2 \in D_1 + D_2 = D$, lo que muestra que $D$ es cerrado.
 \end{proof}
 
 Observamos que para $D_1$ y $D_2$ convexos y cerrados es posible que $D_1 + D_2$ no sea cerrado si ambos son no acotados (por ejemplo, si $D_1$ es el eje $x_1$ y $D_2$ es el epígrafe de $1/x_1$).
 
-\begin{definition}[Combinación convexa]
-    Dados $x^i \in \Rn$, $\alpha_i \in [0, 1]$, $i = 1, \dots, p$, tales que $\sum_{i=1}^p \alpha_i = 1$, el punto $\sum_{i=1}^p \alpha_i x^i$ se llama \deftech{combinación convexa} de los puntos $x^i \in \Rn$ con parámetros $\alpha_i$.
+\begin{definition}[Combinación convexa]\label{v1:def:3.2.1}
+ Dados $x^i \in \Rn$, $\alpha_i \in [0, 1]$, $i = 1, \dots, p$, tales que $\sum_{i=1}^p \alpha_i = 1$, el punto $\sum_{i=1}^p \alpha_i x^i$ se llama \textbf{combinación convexa} de los puntos $x^i \in \Rn$ con parámetros $\alpha_i$.
 \end{definition}
 
-\begin{theorem}[Caracterización por combinaciones convexas]\label{thm:convex_combinations}
-    Un conjunto $D \subset \Rn$ es convexo si, y solo si, para cualesquiera $p \in \symbb{N}$, $x^i \in D$ y $\alpha_i \in [0, 1]$ tales que $\sum_{i=1}^p \alpha_i = 1$, la combinación convexa $\sum_{i=1}^p \alpha_i x^i$ pertenece a $D$.
+\begin{theorem}[Caracterización por combinaciones convexas]\label{v1:thm:3.2.1}
+ Un conjunto $D \subset \Rn$ es convexo si, y solo si, para cualesquiera $p \in \symbb{N}$, $x^i \in D$ y $\alpha_i \in [0, 1]$ tales que $\sum_{i=1}^p \alpha_i = 1$, la combinación convexa $\sum_{i=1}^p \alpha_i x^i$ pertenece a $D$.
 \end{theorem}
 
 \begin{proof}
-    Si $D$ contiene todas las combinaciones convexas de sus puntos, en particular contiene las combinaciones de dos puntos, luego $D$ es convexo. Supongamos que $D$ sea convexo. La prueba se realiza por inducción en $p$. Para $p = 1$ es trivial. Supongamos que vale para $j \geq 1$ puntos y consideremos $p = j + 1$. Sea $x = \sum_{i=1}^{j+1} \alpha_i x^i$. Si $\alpha_{j+1} = 1$, entonces $x = x^{j+1} \in D$. Si $\alpha_{j+1} \in [0, 1)$, escribimos
-    \begin{equation}
-        x = (1 - \alpha_{j+1})y + \alpha_{j+1} x^{j+1}, \label{eq:comb_convexa_recursiva}
-    \end{equation}
-    donde $y = \sum_{i=1}^j \frac{\alpha_i}{1 - \alpha_{j+1}} x^i$. Como los coeficientes de $y$ suman $1$, $y \in D$ por hipótesis de inducción. Luego, \eqref{eq:comb_convexa_recursiva} muestra que $x$ es una combinación convexa de dos puntos de $D$, por lo que $x \in D$.
+ Si $D$ contiene todas las combinaciones convexas de sus puntos, en particular contiene las combinaciones de dos puntos, luego $D$ es convexo. Supongamos que $D$ sea convexo. La prueba se realiza por inducción en $p$. Para $p = 1$ es trivial. Supongamos que vale para $j \geq 1$ puntos y consideremos $p = j + 1$. Sea $x = \sum_{i=1}^{j+1} \alpha_i x^i$. Si $\alpha_{j+1} = 1$, entonces $x = x^{j+1} \in D$. Si $\alpha_{j+1} \in [0, 1)$, escribimos
+ \begin{equation}
+ x = (1 - \alpha_{j+1})y + \alpha_{j+1} x^{j+1}, \label{v1:eq:3.4}
+ \end{equation}
+ donde $y = \sum_{i=1}^j \frac{\alpha_i}{1 - \alpha_{j+1}} x^i$. Como los coeficientes de $y$ suman $1$, $y \in D$ por hipótesis de inducción. Luego, \eqref{v1:eq:3.4} muestra que $x$ es una combinación convexa de dos puntos de $D$, por lo que $x \in D$.
 \end{proof}
 
-\begin{corollary}[Desigualdad de Jensen]\label{cor:jensen}
-    Sean $D \subset \Rn$ un conjunto convexo y $f \colon D \to \R$ una función convexa en $D$. Entonces para cualesquiera $p \in \symbb{N}$, $x^i \in D$ y $\alpha_i \in \R_+$ tales que $\sum_{i=1}^p \alpha_i = 1$, se tiene que:
-    \begin{equation}
-        f\left(\sum_{i=1}^p \alpha_i x^i\right) \leq \sum_{i=1}^p \alpha_i f(x^i). \label{eq:desigualdad_jensen}
-    \end{equation}
+\begin{corollary}[Desigualdad de Jensen]\label{v1:cor:3.2.2}
+ Sean $D \subset \Rn$ un conjunto convexo y $f \colon D \to \R$ una función convexa en $D$. Entonces para cualesquiera $p \in \symbb{N}$, $x^i \in D$ y $\alpha_i \in \R_+$ tales que $\sum_{i=1}^p \alpha_i = 1$, se tiene que:
+ \begin{equation}
+ f\left(\sum_{i=1}^p \alpha_i x^i\right) \leq \sum_{i=1}^p \alpha_i f(x^i). \label{v1:eq:3.5}
+ \end{equation}
 \end{corollary}
 
 \begin{proof}
-    Por la definición de epígrafe, $(x^i, f(x^i)) \in E_f$. Por la convexidad de $f$, $E_f$ es un conjunto convexo en $\Rn \times \R$ (\cref{thm:epigrafe_convexo}). Por el \cref{thm:convex_combinations}, la combinación convexa pertenece a $E_f$:
-    \[
-        \left(\sum_{i=1}^p \alpha_i x^i, \sum_{i=1}^p \alpha_i f(x^i)\right) = \sum_{i=1}^p \alpha_i (x^i, f(x^i)) \in E_f.
-    \]
-    Usando la definición de epígrafe, obtenemos la \cref{eq:desigualdad_jensen}.
+ Por la definición de epígrafe, $(x^i, f(x^i)) \in E_f$. Por la convexidad de $f$, $E_f$ es un conjunto convexo en $\Rn \times \R$ (\cref{v1:thm:3.1.4}). Por el \cref{v1:thm:3.2.1}, la combinación convexa pertenece a $E_f$:
+ \[
+ \left(\sum_{i=1}^p \alpha_i x^i, \sum_{i=1}^p \alpha_i f(x^i)\right) = \sum_{i=1}^p \alpha_i (x^i, f(x^i)) \in E_f.
+ \]
+ Usando la definición de epígrafe, obtenemos la \eqref{v1:eq:3.5}.
 \end{proof}
 
-\begin{theorem}[Teorema de Carathéodory]\label{thm:caratheodory}
-    Sea $x \in \Rn$ una combinación convexa de puntos del conjunto $D \subset \Rn$. Entonces existen $x^i \in D$ y $\alpha_i \in \R_+$, $i = 1, \dots, n + 1$, tales que $x = \sum_{i=1}^{n+1} \alpha_i x^i$ y $\sum_{i=1}^{n+1} \alpha_i = 1$.
+\begin{theorem}[Teorema de Carathéodory]\label{v1:thm:3.2.2}
+ Sea $x \in \Rn$ una combinación convexa de puntos del conjunto $D \subset \Rn$. Entonces existen $x^i \in D$ y $\alpha_i \in \R_+$, $i = 1, \dots, n + 1$, tales que $x = \sum_{i=1}^{n+1} \alpha_i x^i$ y $\sum_{i=1}^{n+1} \alpha_i = 1$.
 \end{theorem}
 
 \begin{proof}
-    Supongamos que $x$ es una combinación convexa de $p > n + 1$ puntos: $x = \sum_{i=1}^p \beta_i x^i$, con $\sum \beta_i = 1$ y $\beta_i > 0$. Como $p > n + 1$, los $p - 1$ vectores $\{x^i - x^p\}$ son linealmente dependientes, es decir, existen $\gamma_i$ (no todos nulos) tales que $0 = \sum_{i=1}^{p-1} \gamma_i (x^i - x^p)$. Definiendo $\gamma_p = -\sum_{i=1}^{p-1} \gamma_i$, obtenemos $\sum_{i=1}^p \gamma_i = 0$ y $\sum_{i=1}^p \gamma_i x^i = 0$.
-    
-    Podemos admitir que algún $\gamma_j > 0$. Sea $j$ el índice que maximiza la relación $\gamma_i / \beta_i$. Definimos $q_i = \beta_i - (\beta_j / \gamma_j) \gamma_i$. Por construcción, $q_j = 0$, $q_i \ge 0$, $\sum q_i = 1$ y $\sum q_i x^i = x$. Hemos expresado $x$ como una combinación convexa de $p - 1$ puntos. Repitiendo este proceso, llegamos a $n + 1$ puntos.
+ Supongamos que $x$ es una combinación convexa de $p > n + 1$ puntos: $x = \sum_{i=1}^p \beta_i x^i$, con $\sum \beta_i = 1$ y $\beta_i > 0$. Como $p > n + 1$, los $p - 1$ vectores $\{x^i - x^p\}$ son linealmente dependientes, es decir, existen $\gamma_i$ (no todos nulos) tales que $0 = \sum_{i=1}^{p-1} \gamma_i (x^i - x^p)$. Definiendo $\gamma_p = -\sum_{i=1}^{p-1} \gamma_i$, obtenemos $\sum_{i=1}^p \gamma_i = 0$ y $\sum_{i=1}^p \gamma_i x^i = 0$.
+ 
+ Podemos admitir que algún $\gamma_j > 0$. Sea $j$ el índice que maximiza la relación $\gamma_i / \beta_i$. Definimos $q_i = \beta_i - (\beta_j / \gamma_j) \gamma_i$. Por construcción, $q_j = 0$, $q_i \ge 0$, $\sum q_i = 1$ y $\sum q_i x^i = x$. Hemos expresado $x$ como una combinación convexa de $p - 1$ puntos. Repitiendo este proceso, llegamos a $n + 1$ puntos.
 \end{proof}
 
-\begin{definition}[Cierre convexo o envoltura convexa]\label{def:cierre_convexo}
-    Sea $D \subset \Rn$ un conjunto cualquiera. El \deftech{cierre convexo} de $D$, denotado por $\conv D$, es el menor conjunto convexo en $\Rn$ que contiene a $D$ (o la intersección de todos los conjuntos convexos que contienen a $D$).
+\begin{definition}[Cierre convexo o envoltura convexa]\label{v1:def:3.2.2}
+ Sea $D \subset \Rn$ un conjunto cualquiera. El \textbf{cierre convexo} de $D$, denotado por $\conv D$, es el menor conjunto convexo en $\Rn$ que contiene a $D$ (o la intersección de todos los conjuntos convexos que contienen a $D$).
 \end{definition}
 
-\begin{proposition}\label{prop:convex_hull_combinations}
-    El cierre convexo $\conv D$ es el conjunto de todas las combinaciones convexas de puntos de $D$.
+\begin{proposition}\label{v1:prop:3.2.4}
+ El cierre convexo $\conv D$ es el conjunto de todas las combinaciones convexas de puntos de $D$.
 \end{proposition}
 
 \begin{proof}
-    Sea $C$ el conjunto de todas las combinaciones convexas. Como $\conv D$ es convexo y contiene a $D$, por el \cref{thm:convex_combinations} debe contener a $C$, luego $C \subset \conv D$. Por otro lado, es fácil demostrar que $C$ es convexo (la combinación convexa de dos combinaciones convexas sigue siendo una combinación convexa cuyos coeficientes suman 1). Como $D \subset C$ y $C$ es convexo, $\conv D \subset C$.
+ Sea $C$ el conjunto de todas las combinaciones convexas. Como $\conv D$ es convexo y contiene a $D$, por el \cref{v1:thm:3.2.1} debe contener a $C$, luego $C \subset \conv D$. Por otro lado, es fácil demostrar que $C$ es convexo (la combinación convexa de dos combinaciones convexas sigue siendo una combinación convexa cuyos coeficientes suman 1). Como $D \subset C$ y $C$ es convexo, $\conv D \subset C$.
 \end{proof}
 
-\begin{proposition}\label{prop:conv_compact_is_compact}
-    Sea $D \subset \Rn$ un conjunto compacto. Entonces $\conv D$ es compacto.
+\begin{proposition}\label{v1:prop:3.2.5}
+ Sea $D \subset \Rn$ un conjunto compacto. Entonces $\conv D$ es compacto.
 \end{proposition}
 
 \begin{proof}
-    Primero mostraremos que $\conv D$ es acotado. Todo $x \in \conv D$ es una combinación convexa $\sum \alpha_i x^i$. Por la desigualdad triangular, $\|x\| \leq \sum \alpha_i \|x^i\| \leq \sup_{y\in D} \|y\| < +\infty$.
-    
-    Para ver que es cerrado, sea $\{y^k\} \to y$ con $y^k \in \conv D$. Por el \cref{thm:caratheodory}, $y^k = \sum_{i=1}^{n+1} \alpha_{k,i} x^{k,i}$. Por compacidad, las secuencias $\{x^{k,i}\}$ y $\{\alpha_{k,i}\}$ son acotadas. Pasando a una subsecuencia convergente, los límites $x^i \in D$ y $\alpha_i \ge 0$ satisfacen $\sum \alpha_i = 1$ y $y = \sum \alpha_i x^i \in \conv D$.
+ Primero mostraremos que $\conv D$ es acotado. Todo $x \in \conv D$ es una combinación convexa $\sum \alpha_i x^i$. Por la desigualdad triangular, $\norm{x} \leq \sum \alpha_i \norm{x^i} \leq \sup_{y\in D} \norm{y} < +\infty$.
+ 
+ Para ver que es cerrado, sea $\{y^k\} \to y$ con $y^k \in \conv D$. Por el \cref{v1:thm:3.2.2}, $y^k = \sum_{i=1}^{n+1} \alpha_{k,i} x^{k,i}$. Por compacidad, las secuencias $\{x^{k,i}\}$ y $\{\alpha_{k,i}\}$ son acotadas. Pasando a una subsecuencia convergente, los límites $x^i \in D$ y $\alpha_i \ge 0$ satisfacen $\sum \alpha_i = 1$ y $y = \sum \alpha_i x^i \in \conv D$.
 \end{proof}
 
-\begin{proposition}\label{prop:dual_cierre_convexo}
-    Sea $K \subset \Rn$ un cono cualquiera. Se tiene:
-    \[
-        K^* = (\cl K)^* = (\conv K)^*.
-    \]
+\begin{proposition}\label{v1:prop:3.2.6}
+ Sea $K \subset \Rn$ un cono cualquiera. Se tiene:
+ \[
+ K^* = (\cl K)^* = (\conv K)^*.
+ \]
 \end{proposition}
 
 \begin{proof}
-    La primera igualdad ya fue establecida en la \cref{prop:dual_clausura_cono}. $\conv K$ es un cono. De la inclusión $K \subset \conv K$ obtenemos $(\conv K)^* \subset K^*$. Si $y \in K^*$, para cualquier $d = \sum \alpha_i d^i \in \conv K$ con $d^i \in K$, se tiene $\interno{y}{d} = \sum \alpha_i \interno{y}{d^i} \leq 0$. Luego $K^* \subset (\conv K)^*$.
+ La primera igualdad ya fue establecida en la \cref{v1:prop:3.1.3}. $\conv K$ es un cono. De la inclusión $K \subset \conv K$ obtenemos $(\conv K)^* \subset K^*$. Si $y \in K^*$, para cualquier $d = \sum \alpha_i d^i \in \conv K$ con $d^i \in K$, se tiene $\interno{y}{d} = \sum \alpha_i \interno{y}{d^i} \leq 0$. Luego $K^* \subset (\conv K)^* $ .
 \end{proof}
 
 % =========================================================
 \subsection{Cono de Recesión y Generadores Finitos}
 % =========================================================
 
-\begin{definition}[Dirección de recesión]\label{def:direccion_recesion}
-    Decimos que $d \in \Rn$ es una \deftech{dirección de recesión} del conjunto convexo $D \subset \Rn$ cuando:
-    \[
-        x + td \in D \quad \forall x \in D, \, \forall t \in \R_+.
-    \]
+\begin{definition}[Dirección de recesión]\label{v1:def:3.2.3}
+ Decimos que $d \in \Rn$ es una \textbf{dirección de recesión} del conjunto convexo $D \subset \Rn$ cuando:
+ \[
+ x + td \in D \quad \forall x \in D, \, \forall t \in \R_+.
+ \]
 \end{definition}
 
 Denotamos por $\mathcal{R}_D$ el \usual{cono de recesión}.
 
-\begin{proposition}[Cono de recesión de un conjunto convexo]\label{prop:cono_recesion}
-    Sea $D \subset \Rn$ un conjunto convexo, cerrado y no vacío. Entonces:
-    \begin{tasks}(1)
-        \task $\mathcal{R}_D$ es un cono convexo, cerrado y no vacío.
-        \task $d \in \mathcal{R}_D$ si, y solo si, existe $x \in D$ tal que $x + td \in D$ para todo $t \in \R_+$.
-        \task $\mathcal{R}_D \neq \{0\}$ si, y solo si, $D$ es ilimitado.
-    \end{tasks}
+\begin{proposition}[Cono de recesión de un conjunto convexo]\label{v1:prop:3.2.7}
+ Sea $D \subset \Rn$ un conjunto convexo, cerrado y no vacío. Entonces:
+ \begin{tasks}(1)
+ \task $\mathcal{R}_D$ es un cono convexo, cerrado y no vacío.
+ \task $d \in \mathcal{R}_D$ si, y solo si, existe $x \in D$ tal que $x + td \in D$ para todo $t \in \R_+$.
+ \task $\mathcal{R}_D \neq \{0\}$ si, y solo si, $D$ es ilimitado.
+ \end{tasks}
 \end{proposition}
 
 \begin{proof}
-    \textbf{(a)} Es obvio que $0 \in \mathcal{R}_D$. Si $d^1, d^2 \in \mathcal{R}_D$ y $\alpha \in [0,1]$, para $x \in D$ y $t \geq 0$, $x + t(\alpha d^1 + (1 - \alpha)d^2) = \alpha(x + td^1) + (1 - \alpha)(x + td^2) \in D$, por lo que es convexo. La cerradura sigue por la cerradura de $D$.
-    
-    \textbf{(b)} Si existe $\bar{x}$ tal que $\bar{x} + td \in D$ para todo $t$, para cualquier otro $x \in D$ definimos $d^k = \frac{\norm{d}}{\norm{x^k - \bar{x}}} (x^k - \bar{x})$ donde $x^k = x + ktd \in D$. Se puede demostrar (tomando convexidad con $\bar{x} + td^k$) que en el límite $x + td \in D$.
-    
-    \textbf{(c)} Si $D$ contiene una semirrecta, es ilimitado. Si $D$ es ilimitado, tomamos una secuencia $\norm{x^k - x} \to \infty$. Los vectores normalizados $d^k = (x^k - x)/\norm{x^k - x}$ tienen un punto de acumulación $d \neq 0$. Por convexidad, $x + t d^k \in D$ para $k$ grande. En el límite $x + td \in D$, luego $d \in \mathcal{R}_D$.
+ \textbf{(a)} Es obvio que $0 \in \mathcal{R}_D$. Si $d^1, d^2 \in \mathcal{R}_D$ y $\alpha \in [0,1]$, para $x \in D$ y $t \geq 0$, $x + t(\alpha d^1 + (1 - \alpha)d^2) = \alpha(x + td^1) + (1 - \alpha)(x + td^2) \in D$, por lo que es convexo. La cerradura sigue por la cerradura de $D$.
+ 
+ \textbf{(b)} Si existe $\bar{x}$ tal que $\bar{x} + td \in D$ para todo $t$, para cualquier otro $x \in D$ definimos $d^k = \frac{\norm{d}}{\norm{x^k - \bar{x}}} (x^k - \bar{x})$ donde $x^k = x + ktd \in D$. Se puede demostrar (tomando convexidad con $\bar{x} + td^k$) que en el límite $x + td \in D$.
+ 
+ \textbf{(c)} Si $D$ contiene una semirrecta, es ilimitado. Si $D$ es ilimitado, tomamos una secuencia $\norm{x^k - x} \to \infty$. Los vectores normalizados $d^k = (x^k - x)/\norm{x^k - x}$ tienen un punto de acumulación $d \neq 0$. Por convexidad, $x + t d^k \in D$ para $k$ grande. En el límite $x + td \in D$, luego $d \in \mathcal{R}_D$.
 \end{proof}
 
-\begin{definition}[Cono con número finito de generadores]\label{def:cono_generadores_finitos}
-    Un cono $K \subset \Rn$ tiene un \deftech{número finito de generadores} cuando existen $a^1, \dots, a^p \in \Rn$ tales que $K = \text{cone}\{a^i, \, i = 1, \dots, p\}$.
+\begin{definition}[Cono con número finito de generadores]\label{v1:def:3.2.4}
+ Un cono $K \subset \Rn$ tiene un \textbf{número finito de generadores} cuando existen $a^1, \dots, a^p \in \Rn$ tales que $K = \text{cone}\{a^i, \, i = 1, \dots, p\}$.
 \end{definition}
 
-\begin{proposition}\label{prop:cono_generadores_finitos}
-    Sean $a^i \in \Rn$, $i = 1, \dots, p$. Se tiene que:
-    \begin{equation}
-        \text{cone}\{a^i, \, i = 1, \dots, p\} = \left\{ x \in \Rn \;\middle|\; x = \sum_{i=1}^p \mu_i a^i, \, \mu_i \geq 0, \, i = 1, \dots, p \right\}. \label{eq:cono_gen_suma}
-    \end{equation}
+\begin{proposition}\label{v1:prop:3.2.8}
+ Sean $a^i \in \Rn$, $i = 1, \dots, p$. Se tiene que:
+ \begin{equation}
+ \text{cone}\{a^i, \, i = 1, \dots, p\} = \left\{ x \in \Rn \;\middle|\; x = \sum_{i=1}^p \mu_i a^i, \, \mu_i \geq 0, \, i = 1, \dots, p \right\}. \label{v1:eq:3.6}
+ \end{equation}
 \end{proposition}
 
 \begin{proof}
-    Sea $C$ el lado derecho de \eqref{eq:cono_gen_suma}. $C$ es un cono convexo y contiene los $a^i$, por lo que $\text{cone}\{a^i\} \subset C$. Por otro lado, cualquier $x \in C$ con $\sum \mu_i > 0$ se puede escribir como $(\sum \mu_i) \sum \beta_i a^i$, donde $\beta_i = \mu_i / \sum \mu_i$ suman 1. Así, $x$ es un múltiplo positivo de una combinación convexa de los $a^i$, por lo que $x \in \text{cone}(\conv\{a^i\}) = \text{cone}\{a^i\}$. Luego $C \subset \text{cone}\{a^i\}$.
+ Sea $C$ el lado derecho de \eqref{v1:eq:3.6}. $C$ es un cono convexo y contiene los $a^i$, por lo que $\text{cone}\{a^i\} \subset C$. Por otro lado, cualquier $x \in C$ con $\sum \mu_i > 0$ se puede escribir como $(\sum \mu_i) \sum \beta_i a^i$, donde $\beta_i = \mu_i / \sum \mu_i$ suman 1. Así, $x$ es un múltiplo positivo de una combinación convexa de los $a^i$, por lo que $x \in \text{cone}(\conv\{a^i\}) = \text{cone}\{a^i\}$. Luego $C \subset \text{cone}\{a^i\}$.
 \end{proof}
 
-\begin{lemma}\label{lem:cono_gen_finito_cerrado}
-    Cualquier cono que tiene un número finito de generadores es convexo y cerrado.
+\begin{lemma}\label{v1:lem:3.2.1}
+ Cualquier cono que tiene un número finito de generadores es convexo y cerrado.
 \end{lemma}
 
 \begin{proof}
-    Se prueba por inducción en $p$. Para $p=1$ es una semirrecta cerrada (o $\{0\}$). Para $p+1$, o bien el cono es un subespacio (que es cerrado), o existe un generador que no puede ser negado dentro del cono. En ese caso, se descompone como $K_{p+1} = K_p + \text{cone}\{a^{p+1}\}$. Resolviendo un problema de minimización sobre la intersección compacta, se acotan los coeficientes y se asegura que el límite de secuencias convergentes pertenece al cono.
+ Se prueba por inducción en $p$. Para $p=1$ es una semirrecta cerrada (o $\{0\}$). Para $p+1$, o bien el cono es un subespacio (que es cerrado), o existe un generador que no puede ser negado dentro del cono. En ese caso, se descompone como $K_{p+1} = K_p + \text{cone}\{a^{p+1}\}$. Resolviendo un problema de minimización sobre la intersección compacta, se acotan los coeficientes y se asegura que el límite de secuencias convergentes pertenece al cono.
 \end{proof}
 
-\begin{definition}[Cono poliédrico]
-    Decimos que un cono $K \subset \Rn$ es \deftech{poliédrico} si es el conjunto de soluciones de un sistema lineal homogéneo: $K = \{ x \in \Rn \mid Q_1 x \leq 0, \, Q_2 x = 0 \}$.
+\begin{definition}[Cono poliédrico]\label{v1:def:3.2.5}
+ Decimos que un cono $K \subset \Rn$ es \textbf{poliédrico} si es el conjunto de soluciones de un sistema lineal homogéneo: $K = \{ x \in \Rn \mid Q_1 x \leq 0, \, Q_2 x = 0 \}$.
 \end{definition}
 
-\begin{theorem}[Teorema de Minkowski-Weyl]
-    Un cono $K \subset \Rn$ tiene un número finito de generadores si, y solamente si, $K$ es un cono poliédrico.
+\begin{theorem}[Teorema de Minkowski-Weyl]\label{v1:thm:3.2.3}
+ Un cono $K \subset \Rn$ tiene un número finito de generadores si, y solamente si, $K$ es un cono poliédrico.
 \end{theorem}
 
 % =========================================================
 \subsection{El operador de proyección}
 % =========================================================
 
-\begin{theorem}[Teorema de la Proyección]\label{thm:proyeccion_convexa}
-    Sea $D \subset \Rn$ un conjunto convexo y cerrado. Para todo $x \in \Rn$, la proyección $P_D(x)$ existe y es única. Además, $\bar{x} = P_D(x)$ si, y solamente si,
-    \begin{equation}
-        \bar{x} \in D, \quad \interno{x - \bar{x}}{y - \bar{x}} \leq 0 \quad \forall y \in D, \label{eq:desigualdad_proyeccion}
-    \end{equation}
-    o, equivalentemente, $x - \bar{x} \in \mathcal{N}_D(\bar{x})$.
+\begin{theorem}[Teorema de la Proyección]\label{v1:thm:3.2.4}
+ Sea $D \subset \Rn$ un conjunto convexo y cerrado. Para todo $x \in \Rn$, la proyección $P_D(x)$ existe y es única. Además, $\bar{x} = P_D(x)$ si, y solamente si,
+ \begin{equation}
+ \bar{x} \in D, \quad \interno{x - \bar{x}}{y - \bar{x}} \leq 0 \quad \forall y \in D, \label{v1:eq:3.7}
+ \end{equation}
+ o, equivalentemente, $x - \bar{x} \in \mathcal{N}_D(\bar{x})$.
 \end{theorem}
 
 \begin{proof}
-    Si $\bar{x}$ resuelve la proyección, para cualquier $y \in D$, el punto $x(\alpha) = (1 - \alpha)\bar{x} + \alpha y \in D$ para $\alpha \in [0, 1]$. Desarrollando $\norm{x - \bar{x}}^2 \leq \norm{x - x(\alpha)}^2$, dividiendo por $\alpha$ y tomando el límite, se obtiene $\interno{x - \bar{x}}{y - \bar{x}} \leq 0$.
-    
-    Si se cumple \eqref{eq:desigualdad_proyeccion}, entonces $\norm{x - y}^2 = \norm{x - \bar{x}}^2 + \norm{y - \bar{x}}^2 - 2\interno{x - \bar{x}}{y - \bar{x}} \ge \norm{x - \bar{x}}^2$. Luego $\bar{x}$ minimiza la distancia.
-    
-    Si existiera $\hat{x}$ otra proyección, $\interno{x - \bar{x}}{\hat{x} - \bar{x}} \leq 0$ y $\interno{x - \hat{x}}{\bar{x} - \hat{x}} \leq 0$. Sumando obtenemos $-\norm{\hat{x} - \bar{x}}^2 \ge 0$, de donde $\hat{x} = \bar{x}$.
+ Si $\bar{x}$ resuelve la proyección, para cualquier $y \in D$, el punto $x(\alpha) = (1 - \alpha)\bar{x} + \alpha y \in D$ para $\alpha \in [0, 1]$. Desarrollando $\norm{x - \bar{x}}^2 \leq \norm{x - x(\alpha)}^2$, dividiendo por $\alpha$ y tomando el límite, se obtiene $\interno{x - \bar{x}}{y - \bar{x}} \leq 0$.
+ 
+ Si se cumple \eqref{v1:eq:3.7}, entonces $\norm{x - y}^2 = \norm{x - \bar{x}}^2 + \norm{y - \bar{x}}^2 - 2\interno{x - \bar{x}}{y - \bar{x}} \ge \norm{x - \bar{x}}^2$. Luego $\bar{x}$ minimiza la distancia.
+ 
+ Si existiera $\hat{x}$ otra proyección, $\interno{x - \bar{x}}{\hat{x} - \bar{x}} \leq 0$ y $\interno{x - \hat{x}}{\bar{x} - \hat{x}} \leq 0$. Sumando obtenemos $-\norm{\hat{x} - \bar{x}}^2 \ge 0$, de donde $\hat{x} = \bar{x}$.
 \end{proof}
 
-\begin{corollary}[Operador de proyección no expansivo]
-    Sea $D \subset \Rn$ un conjunto convexo y cerrado. Entonces $\forall x, y \in \Rn$:
-    \begin{equation}
-        \norm{P_D(x) - P_D(y)} \leq \norm{x - y}. \label{eq:proyeccion_no_expansiva}
-    \end{equation}
+\begin{corollary}[Operador de proyección no expansivo]\label{v1:cor:3.2.3}
+ Sea $D \subset \Rn$ un conjunto convexo y cerrado. Entonces $\forall x, y \in \Rn$:
+ \begin{equation}
+ \norm{P_D(x) - P_D(y)} \leq \norm{x - y}. \label{v1:eq:3.8}
+ \end{equation}
 \end{corollary}
 
 \begin{proof}
-    Evaluando \eqref{eq:desigualdad_proyeccion} dos veces y sumando, se obtiene $\norm{P_D(x) - P_D(y)}^2 \le \interno{x - y}{P_D(x) - P_D(y)}$. Aplicando Cauchy-Schwarz, se deduce \eqref{eq:proyeccion_no_expansiva}.
+ Evaluando \eqref{v1:eq:3.7} dos veces y sumando, se obtiene $\norm{P_D(x) - P_D(y)}^2 \le \interno{x - y}{P_D(x) - P_D(y)}$. Aplicando Cauchy-Schwarz, se deduce \eqref{v1:eq:3.8}.
 \end{proof}
 
 % =========================================================
 \subsection{Teoremas de Separación}
 % =========================================================
 
-\begin{definition}[Hiperplano de separación]
-    El hiperplano $H(a, c) = \{ x \in \Rn \mid \interno{a}{x} = c \}$ \deftech{separa} los conjuntos $D_1$ y $D_2$ si:
-    \[
-        \interno{a}{x^1} \leq c \leq \interno{a}{x^2} \quad \forall x^1 \in D_1, \, \forall x^2 \in D_2.
-    \]
-    La separación es \usual{estricta} cuando las desigualdades son estrictas.
+\begin{definition}[Hiperplano de separación]\label{v1:def:3.2.6}
+ El hiperplano $H(a, c) = \{ x \in \Rn \mid \interno{a}{x} = c \}$ \textbf{separa} los conjuntos $D_1$ y $D_2$ si:
+ \[
+ \interno{a}{x^1} \leq c \leq \interno{a}{x^2} \quad \forall x^1 \in D_1, \, \forall x^2 \in D_2.
+ \]
+ La separación es \textbf{estricta} cuando las desigualdades son estrictas.
 \end{definition}
 
-\begin{lemma}[Lema de Minkowski]\label{lem:minkowski}
-    Sea $D \subset \Rn$ un conjunto convexo no vacío. Si $x \notin \cl D$, entonces existen $a \in \Rn \setminus \{0\}$ y $c \in \R$ tales que:
-    \[
-        \interno{a}{x} = c, \quad \interno{a}{y} > c \quad \forall y \in D.
-    \]
+\begin{lemma}[Lema de Minkowski]\label{v1:lem:3.2.2}
+ Sea $D \subset \Rn$ un conjunto convexo no vacío. Si $x \notin \cl D$, entonces existen $a \in \Rn \setminus \{0\}$ y $c \in \R$ tales que:
+ \[
+ \interno{a}{x} = c, \quad \interno{a}{y} > c \quad \forall y \in D.
+ \]
 \end{lemma}
 
 \begin{proof}
-    Sea $\bar{x} = P_{\cl D}(x)$. Definimos $a = \bar{x} - x \neq 0$ y $c = \interno{\bar{x} - x}{x}$. Para $y \in D$, por el \cref{thm:proyeccion_convexa}, $\interno{a}{y} = \interno{\bar{x} - x}{y} \geq \interno{\bar{x} - x}{\bar{x}} = c + \norm{\bar{x} - x}^2 > c$.
+ Sea $\bar{x} = P_{\cl D}(x)$. Definimos $a = \bar{x} - x \neq 0$ y $c = \interno{\bar{x} - x}{x}$. Para $y \in D$, por el \cref{v1:thm:3.2.4}, $\interno{a}{y} = \interno{\bar{x} - x}{y} \geq \interno{\bar{x} - x}{\bar{x}} = c + \norm{\bar{x} - x}^2 > c$.
 \end{proof}
 
-\begin{lemma}[Separación en la frontera]\label{lem:separacion_frontera}
-    Si $x \in \text{fr } D$, entonces existe un \usual{hiperplano de soporte}: $a \in \Rn \setminus \{0\}$ tal que $\interno{a}{x} = c$ y $\interno{a}{y} \geq c$ para todo $y \in D$.
+\begin{lemma}[Separación en la frontera]\label{v1:lem:3.2.3}
+ Si $x \in \text{fr } D$, entonces existe un \usual{hiperplano de soporte}: $a \in \Rn \setminus \{0\}$ tal que $\interno{a}{x} = c$ y $\interno{a}{y} \geq c$ para todo $y \in D$.
 \end{lemma}
 
 \begin{proof}
-    Tomamos $\{x^k\} \to x$ con $x^k \notin \cl D$. Por el \cref{lem:minkowski}, existen $a^k$ (normalizados) y $c_k$. Extraemos una subsucesión convergente $\{a^k\} \to a \neq 0$. En el límite, se cumple la separación.
+ Tomamos $\{x^k\} \to x$ con $x^k \notin \cl D$. Por el \cref{v1:lem:3.2.2}, existen $a^k$ (normalizados) y $c_k$. Extraemos una subsucesión convergente $\{a^k\} \to a \neq 0$. En el límite, se cumple la separación.
 \end{proof}
 
-\begin{theorem}[Teorema de Separación]\label{thm:separacion}
-    Sean $D_1, D_2 \subset \Rn$ conjuntos convexos disjuntos. Existen $a \in \Rn \setminus \{0\}$ y $c \in \R$ tales que $\interno{a}{x^1} \leq c \leq \interno{a}{x^2}$ para todo $x^1 \in D_1, x^2 \in D_2$.
+\begin{theorem}[Teorema de Separación]\label{v1:thm:3.2.5}
+ Sean $D_1, D_2 \subset \Rn$ conjuntos convexos disjuntos. Existen $a \in \Rn \setminus \{0\}$ y $c \in \R$ tales que $\interno{a}{x^1} \leq c \leq \interno{a}{x^2}$ para todo $x^1 \in D_1, x^2 \in D_2$.
 \end{theorem}
 
 \begin{proof}
-    El conjunto $D = D_2 - D_1$ es convexo y $0 \notin D$. Si $0 \notin \cl D$, aplicamos el \cref{lem:minkowski}; si $0 \in \text{fr } D$, aplicamos el \cref{lem:separacion_frontera}. En ambos casos, existe $a \neq 0$ tal que $\interno{a}{x^2 - x^1} \ge 0$. Elegimos $c = (\sup_{D_1}\interno{a}{x^1} + \inf_{D_2}\interno{a}{x^2})/2$.
+ El conjunto $D = D_2 - D_1$ es convexo y $0 \notin D$. Si $0 \notin \cl D$, aplicamos el \cref{v1:lem:3.2.2}; si $0 \in \text{fr } D$, aplicamos el \cref{v1:lem:3.2.3}. En ambos casos, existe $a \neq 0$ tal que $\interno{a}{x^2 - x^1} \ge 0$. Elegimos $c = (\sup_{D_1}\interno{a}{x^1} + \inf_{D_2}\interno{a}{x^2})/2$.
 \end{proof}
 
-\begin{theorem}[Teorema de Separación Estricta]\label{thm:separacion_estricta}
-    Sean $D_1, D_2 \subset \Rn$ convexos, cerrados y no vacíos, con uno de ellos compacto. Entonces $D_1 \cap D_2 = \emptyset$ si, y solamente si, pueden ser separados estrictamente.
+\begin{theorem}[Teorema de Separación Estricta]\label{v1:thm:3.2.6}
+ Sean $D_1, D_2 \subset \Rn$ convexos, cerrados y no vacíos, con uno de ellos compacto. Entonces $D_1 \cap D_2 = \emptyset$ si, y solamente si, pueden ser separados estrictamente.
 \end{theorem}
 
 \begin{proof}
-    Sea $D_2$ compacto. La función distancia $\text{dist}(x, D_1)$ alcanza su mínimo en $D_2$ en un punto $a^2$. Sea $a^1 = P_{D_1}(a^2)$. Como son disjuntos, $a = a^2 - a^1 \neq 0$. Usando propiedades de proyección para $a^1$ y $a^2$, se demuestra que $\interno{a}{x^1} \leq \interno{a}{a^1} < \interno{a}{a^2} \leq \interno{a}{x^2}$, permitiendo una separación estricta con $c$ en el punto medio.
+ Sea $D_2$ compacto. La función distancia $\text{dist}(x, D_1)$ alcanza su mínimo en $D_2$ en un punto $a^2$. Sea $a^1 = P_{D_1}(a^2)$. Como son disjuntos, $a = a^2 - a^1 \neq 0$. Usando propiedades de proyección para $a^1$ y $a^2$, se demuestra que $\interno{a}{x^1} \leq \interno{a}{a^1} < \interno{a}{a^2} \leq \interno{a}{x^2}$, permitiendo una separación estricta con $c$ en el punto medio.
 \end{proof}
 
-\begin{proposition}\label{prop:doble_dual_cierre}
-    Sea $K \subset \Rn$ un cono cualquiera. Se tiene:
-    \[
-        (K^*)^* = \cl \conv K.
-    \]
-    Si $D$ es convexo y $\bar{x} \in D$, $(\mathcal{N}_D(\bar{x}))^* = \mathcal{T}_D(\bar{x})$.
+\begin{proposition}\label{v1:prop:3.2.9}
+ Sea $K \subset \Rn$ un cono cualquiera. Se tiene:
+ \[
+ (K^*)^* = \cl \conv K.
+ \]
+ Si $D$ es convexo y $\bar{x} \in D$, $(\mathcal{N}_D(\bar{x}))^* = \mathcal{T}_D(\bar{x})$.
 \end{proposition}
 
 \begin{proof}
-    Por definición, $\cl \conv K \subset (K^*)^*$. Si $x \notin \cl \conv K$, por separación estricta (\cref{thm:separacion_estricta}), existe $a \neq 0$ tal que $\interno{a}{x} > c > \interno{a}{d}$ para todo $d \in \cl \conv K$. Tomando $d=0$ resulta $c>0$, por lo que $\interno{a}{x} > 0$. Para $d \in K$, se deduce que $\interno{a}{d} \le 0$ (de lo contrario la semirrecta rompería la cota $c$). Así, $a \in K^*$, lo que muestra que $x \notin (K^*)^*$. La última afirmación sigue de identificar $\mathcal{N}_D(\bar{x}) = \mathcal{T}_D(\bar{x})^*$.
+ Por definición, $\cl \conv K \subset (K^*)^*$. Si $x \notin \cl \conv K$, por separación estricta (\cref{v1:thm:3.2.6}), existe $a \neq 0$ tal que $\interno{a}{x} > c > \interno{a}{d}$ para todo $d \in \cl \conv K$. Tomando $d=0$ resulta $c>0$, por lo que $\interno{a}{x} > 0$. Para $d \in K$, se deduce que $\interno{a}{d} \le 0$ (de lo contrario la semirrecta rompería la cota $c$). Así, $a \in K^*$, lo que muestra que $x \notin (K^*)^*$. La última afirmación sigue de identificar $\mathcal{N}_D(\bar{x}) = \mathcal{T}_D(\bar{x})^*$.
 \end{proof}
 
 % =========================================================
 \subsection{Puntos Extremos}
 % =========================================================
 
-\begin{definition}[Punto extremo]\label{def:punto_extremo}
-    Decimos que $x \in D$ es un \deftech{punto extremo} del conjunto convexo $D$ cuando no puede ser representado por una combinación convexa de dos puntos diferentes de $D$ (es decir, $x = \alpha x^1 + (1-\alpha)x^2 \implies x=x^1=x^2$). Denotamos el conjunto por $E(D)$.
+\begin{definition}[Punto extremo]\label{v1:def:3.2.7}
+ Decimos que $x \in D$ es un \textbf{punto extremo} del conjunto convexo $D$ cuando no puede ser representado por una combinación convexa de dos puntos diferentes de $D$ (es decir, $x = \alpha x^1 + (1-\alpha)x^2 \implies x=x^1=x^2$). Denotamos el conjunto por $E(D)$.
 \end{definition}
 
-\begin{lemma}\label{lem:extremos_semiespacio}
-    Sea $D \subset \Rn$ un conjunto convexo no vacío y $C$ un semiespacio cerrado tal que $D \subset C$. Entonces $E(D \cap \text{fr } C) \subset E(D)$.
+\begin{lemma}\label{v1:lem:3.2.4}
+ Sea $D \subset \Rn$ un conjunto convexo no vacío y $C$ un semiespacio cerrado tal que $D \subset C$. Entonces $E(D \cap \text{fr } C) \subset E(D)$.
 \end{lemma}
 
 \begin{proof}
-    Sea $\bar{x} \in E(D \cap \text{fr } C)$. Si $\bar{x} = \alpha x^1 + (1 - \alpha)x^2$ para $x^i \in D$, evaluando el producto interno que define el hiperplano $\text{fr } C$ se deduce que ambos $x^i$ deben yacer exactamente en la frontera, forzando a que $x^i \in D \cap \text{fr } C$, y por la extremidad relativa, $x^1 = x^2$.
+ Sea $\bar{x} \in E(D \cap \text{fr } C)$. Si $\bar{x} = \alpha x^1 + (1 - \alpha)x^2$ para $x^i \in D$, evaluando el producto interno que define el hiperplano $\text{fr } C$ se deduce que ambos $x^i$ deben yacer exactamente en la frontera, forzando a que $x^i \in D \cap \text{fr } C$, y por la extremidad relativa, $x^1 = x^2$.
 \end{proof}
 
-\begin{proposition}\label{prop:existencia_extremos}
-    Sea $D \subset \Rn$ convexo, cerrado y no vacío. $D$ tiene puntos extremos ($E(D) \neq \emptyset$) si, y solamente si, $D$ no contiene ninguna recta.
+\begin{proposition}\label{v1:prop:3.2.10}
+ Sea $D \subset \Rn$ convexo, cerrado y no vacío. $D$ tiene puntos extremos ($E(D) \neq \emptyset$) si, y solamente si, $D$ no contiene ninguna recta.
 \end{proposition}
 
 \begin{proof}
-    Si $D$ contiene una recta que pasa por $x$, $x$ se puede escribir como el punto medio de $x+d$ y $x-d$, por lo que no es extremo. El recíproco se demuestra por inducción en la dimensión $n$, interceptando el conjunto con hiperplanos de soporte y utilizando el \cref{lem:extremos_semiespacio}.
+ Si $D$ contiene una recta que pasa por $x$, $x$ se puede escribir como el punto medio de $x+d$ y $x-d$, por lo que no es extremo. El recíproco se demuestra por inducción en la dimensión $n$, interceptando el conjunto con hiperplanos de soporte y utilizando el \cref{v1:lem:3.2.4}.
 \end{proof}
 
-\begin{theorem}[Teorema de Krein-Milman]\label{thm:krein_milman}
-    Sea $D \subset \Rn$ un conjunto convexo compacto. Entonces:
-    \[
-        D = \conv E(D).
-    \]
+\begin{theorem}[Teorema de Krein-Milman]\label{v1:thm:3.2.7}
+ Sea $D \subset \Rn$ un conjunto convexo compacto. Entonces:
+ \[
+ D = \conv E(D).
+ \]
 \end{theorem}
 
 \begin{proof}
-    Por inducción en $n$. Para $n=1$ es obvio. Supongamos válido en $\Rn$. Para $D \subset \R^{n+1}$, si $\bar{x} \in \text{fr } D$, el hiperplano de soporte reduce la dimensión del problema, y por hipótesis inductiva y el \cref{lem:extremos_semiespacio}, $\bar{x}$ se forma por extremos de $D$. Si $\bar{x} \in \interior D$, cualquier recta que pase por $\bar{x}$ corta a la frontera en dos puntos (por compacidad); como $\bar{x}$ es combinación convexa de ellos, queda probado.
+ Por inducción en $n$. Para $n=1$ es obvio. Supongamos válido en $\Rn$. Para $D \subset \R^{n+1}$, si $\bar{x} \in \text{fr } D$, el hiperplano de soporte reduce la dimensión del problema, y por hipótesis inductiva y el \cref{v1:lem:3.2.4}, $\bar{x}$ se forma por extremos de $D$. Si $\bar{x} \in \interior D$, cualquier recta que pase por $\bar{x}$ corta a la frontera en dos puntos (por compacidad); como $\bar{x}$ es combinación convexa de ellos, queda probado.
 \end{proof}
 
-\begin{proposition}\label{prop:vertices_poliedro}
-    Sea $x \in D$, donde $D = \{ x \in \Rn \mid B_i x \leq b_i \}$ es un conjunto poliédrico. Entonces $x$ es un vértice (punto extremo) de $D$ si, y solamente si, las filas correspondientes a las restricciones activas ($I(x)$) tienen rango $n$.
+\begin{proposition}\label{v1:prop:3.2.11}
+ Sea $x \in D$, donde $D = \{ x \in \Rn \mid B_i x \leq b_i \}$ es un conjunto poliédrico. Entonces $x$ es un vértice (punto extremo) de $D$ si, y solamente si, las filas correspondientes a las restricciones activas ($I(x)$) tienen rango $n$.
 \end{proposition}
 
 \begin{proof}
-    Si el rango es $n$, una perturbación $x \pm d$ viola las restricciones activas salvo que $d=0$. Si el rango es menor que $n$, existe $d \in \text{ker} B_I \setminus \{0\}$. Un desplazamiento $x \pm td$ se mantiene en la cara activa, demostrando que $x$ no es extremo.
+ Si el rango es $n$, una perturbación $x \pm d$ viola las restricciones activas salvo que $d=0$. Si el rango es menor que $n$, existe $d \in \text{ker} B_I \setminus \{0\}$. Un desplazamiento $x \pm td$ se mantiene en la cara activa, demostrando que $x$ no es extremo.
 \end{proof}
 
-\begin{corollary}
-    El número de vértices de un conjunto poliédrico cualquiera es finito.
+\begin{corollary}\label{v1:cor:3.2.4}
+ El número de vértices de un conjunto poliédrico cualquiera es finito.
 \end{corollary}
 
-\begin{theorem}[Representación de conjuntos poliédricos sin rectas]\label{thm:representacion_poliedro}
-    Sea $D$ un conjunto poliédrico que no contiene ninguna recta. Entonces:
-    \[
-        D = \conv E(D) + \mathcal{R}_D.
-    \]
+\begin{theorem}[Representación de conjuntos poliédricos sin rectas]\label{v1:thm:3.2.8}
+ Sea $D$ un conjunto poliédrico que no contiene ninguna recta. Entonces:
+ \[
+ D = \conv E(D) + \mathcal{R}_D.
+ \]
 \end{theorem}
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:

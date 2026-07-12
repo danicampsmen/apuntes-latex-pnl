@@ -1,229 +1,234 @@
 % --- Archivo: 01_conjuntos_funciones_convexas.tex ---
 
+\chapter{Análisis convexo}
+\label{v1:chap:3}
+
 En este capítulo estudiamos conjuntos convexos y funciones convexas. La convexidad es una noción muy importante en la teoría de optimización. Con hipótesis de convexidad, las condiciones necesarias de optimalidad pasan a ser suficientes. En otras palabras, todo punto estacionario se convierte en una solución del problema. En particular, cualquier minimizador local es global. Además, en el caso convexo podemos desarrollar la teoría de dualidad en su forma más completa, es decir, asociar al problema original (primal) otro problema, llamado dual, que bajo ciertas hipótesis es equivalente al original y a veces es más fácil de resolver. 
 
 Finalmente, las herramientas del Análisis Convexo serán necesarias para la caracterización del cono dual al cono tangente en el caso de restricciones mixtas (de igualdad y desigualdad), lo que resulta en las condiciones de optimalidad primal-duales de Karush-Kuhn-Tucker. Cabe resaltar que este capítulo no constituye un curso de Análisis Convexo completo; además de resultados básicos, presentamos solo el material que será necesario a lo largo de este libro.
 
 % =========================================================
 \section{Definiciones de convexidad. El problema de minimización convexo}
+\label{v1:sec:3.1}
 % =========================================================
 
 Un conjunto convexo se caracteriza por contener todos los segmentos cuyos extremos pertenecen al conjunto.
 
-\begin{definition}[Conjunto convexo]\label{def:conjunto_convexo}
-    Un conjunto $D \subset \Rn$ se llama \deftech{conjunto convexo} si para cualesquiera $x \in D$, $y \in D$ y $\alpha \in [0, 1]$, se tiene que
-    \[
-        \alpha x + (1 - \alpha)y \in D.
-    \]
-    El punto $\alpha x + (1 - \alpha)y$, donde $\alpha \in [0, 1]$, se llama \usual{combinación convexa} de $x$ e $y$ (con parámetro $\alpha$).
+\begin{definition}[Conjunto convexo]\label{v1:def:3.1.1}
+ Un conjunto $D \subset \Rn$ se llama \deftech{conjunto convexo} si para cualesquiera $x \in D$, $y \in D$ y $\alpha \in [0, 1]$, se tiene que
+ \[
+ \alpha x + (1 - \alpha)y \in D.
+ \]
+ El punto $\alpha x + (1 - \alpha)y$, donde $\alpha \in [0, 1]$, se llama \usual{combinación convexa} de $x$ e $y$ (con parámetro $\alpha$).
 \end{definition}
 
 El conjunto vacío, el espacio $\Rn$ y un conjunto que contiene un solo punto son trivialmente convexos. Cualquier conjunto no convexo es trivialmente no convexo.
 
 A continuación mostramos que la dualización de un cono cualquiera (incluso no convexo) siempre produce un cono convexo.
 
-\begin{proposition}\label{prop:dual_cono_convexo_cerrado}
-    Para todo cono $\emptyset \neq K \subset \Rn$, el cono dual $K^*$ siempre es convexo y cerrado.
+\begin{proposition}\label{v1:prop:3.1.1}
+ Para todo cono $\emptyset \neq K \subset \Rn$, el cono dual $K^*$ siempre es convexo y cerrado.
 \end{proposition}
 
 \begin{proof}
-    Sean $x \in K^*$ e $y \in K^*$, es decir, $\interno{x}{d} \leq 0$ e $\interno{y}{d} \leq 0$ para todo $d \in K$. Sea $\alpha \in [0, 1]$. Para cualquier $d \in K$, tenemos que:
-    \[
-        \interno{\alpha x + (1 - \alpha)y}{d} = \alpha \interno{x}{d} + (1 - \alpha) \interno{y}{d} \leq 0,
-    \]
-    es decir, $\alpha x + (1 - \alpha)y \in K^*$. Por lo tanto, $K^*$ es convexo. 
-    
-    Sea $\{y^k\} \subset K^*$, $\{y^k\} \to y$ ($k \to \infty$). Fijando $d \in K$ arbitrario, y pasando al límite cuando $k \to \infty$ en la relación $\interno{y^k}{d} \leq 0$, obtenemos que $\interno{y}{d} \leq 0$. Por lo tanto, como $d \in K$ era arbitrario, $y \in K^*$. Esto muestra que $K^*$ es cerrado.
+ Sean $x \in K^*$ e $y \in K^*$, es decir, $\interno{x}{d} \leq 0$ e $\interno{y}{d} \leq 0$ para todo $d \in K$. Sea $\alpha \in [0, 1]$. Para cualquier $d \in K$, tenemos que:
+ \[
+ \interno{\alpha x + (1 - \alpha)y}{d} = \alpha \interno{x}{d} + (1 - \alpha) \interno{y}{d} \leq 0,
+ \]
+ es decir, $\alpha x + (1 - \alpha)y \in K^*$. Por lo tanto, $K^*$ es convexo. 
+ 
+ Sea $\{y^k\} \subset K^*$, $\{y^k\} \to y$ ($k \to \infty$). Fijando $d \in K$ arbitrario, y pasando al límite cuando $k \to \infty$ en la relación $\interno{y^k}{d} \leq 0$, obtenemos que $\interno{y}{d} \leq 0$. Por lo tanto, como $d \in K$ era arbitrario, $y \in K^*$. Esto muestra que $K^*$ es cerrado.
 \end{proof}
 
 Otros criterios de convexidad de conjuntos se presentarán en la siguiente sección. Mostramos a continuación que, para un conjunto convexo, el cono tangente (usual o de Bouligand) está dado por la clausura de todas las direcciones viables. Pero primero introducimos la siguiente noción.
 
-\begin{definition}[Cápsula cónica o envoltura cónica]\label{def:capsula_conica}
-    Dado un conjunto $D \subset \Rn$ cualquiera, la \deftech{cápsula cónica} de $D$, denotado por $\text{cone } D$, es el menor cono convexo en $\Rn$ que contiene a $D$ (o, equivalentemente, la intersección de todos los conos convexos en $\Rn$ que contienen a $D$).
+\begin{definition}[Cápsula cónica o envoltura cónica]\label{v1:def:3.1.2}
+ Dado un conjunto $D \subset \Rn$ cualquiera, la \deftech{cápsula cónica} de $D$, denotado por $\text{cone } D$, es el menor cono convexo en $\Rn$ que contiene a $D$ (o, equivalentemente, la intersección de todos los conos convexos en $\Rn$ que contienen a $D$).
 \end{definition}
 
 Para un conjunto convexo, la cápsula cónica está compuesto por todos los múltiplos no negativos de elementos del conjunto.
 
-\begin{proposition}[Cápsula cónica de un conjunto convexo]\label{prop:capsula_conica_convexa}
-    Sea $D \subset \Rn$ un conjunto convexo. Se tiene que:
-    \[
-        \text{cone } D = \{d \in \Rn \mid d = \alpha x, \, x \in D, \, \alpha \in \R_+\}.
-    \]
+\begin{proposition}[Cápsula cónica de un conjunto convexo]\label{v1:prop:3.1.2}
+ Sea $D \subset \Rn$ un conjunto convexo. Se tiene que:
+ \[
+ \text{cone } D = \{d \in \Rn \mid d = \alpha x, \, x \in D, \, \alpha \in \R_+\}.
+ \]
 \end{proposition}
 
 \begin{proof}
-    Denotamos $C = \{d \in \Rn \mid d = \alpha x, \, x \in D, \, \alpha \in \R_+\}$. Como el conjunto $\text{cone } D$ es un cono, para todo $x \in D \subset \text{cone } D$, tenemos que $\alpha x \in \text{cone } D$ para todo $\alpha \in \R_+$. Luego, $C \subset \text{cone } D$.
-    
-    Observamos que $C$ es un cono que contiene a $D$ (basta tomar $\alpha = 1$). Por lo tanto, si demostramos que $C$ es convexo, $C$ será un cono convexo que contiene a $D$, de donde la inclusión $\text{cone } D \subset C$ será obvia por la \cref{def:capsula_conica}.
-    
-    Sean $d^1 \in C$, $d^2 \in C$, es decir, $d^i = \alpha_i x^i$, $\alpha_i \in \R_+$ e $x^i \in D$, $i = 1, 2$. Sea $d = t d^1 + (1 - t)d^2 = t \alpha_1 x^1 + (1 - t)\alpha_2 x^2$, con $t \in [0, 1]$. Cuando $t \in \{0, 1\}$ o $\alpha_i = 0$ para algún $i \in \{1, 2\}$, la inclusión $d \in C$ es obvia. Supongamos entonces que $t \in (0, 1)$, $\alpha_i > 0$, $i = 1, 2$. Definimos:
-    \[
-        \beta = \left(1 + \frac{\alpha_2(1-t)}{\alpha_1 t}\right)^{-1} \in (0, 1).
-    \]
-    Por la convexidad de $D$, tenemos que $x = \beta x^1 + (1 - \beta)x^2 \in D$. Además,
-    \[
-        \frac{\alpha_1 t}{\beta} x = \alpha_1 t (x^1 + (1/\beta - 1)x^2) = t \alpha_1 x^1 + (1 - t)\alpha_2 x^2 = d,
-    \]
-    mostrando que $d \in C$. Esto prueba que $C$ es convexo.
+ Denotamos $C = \{d \in \Rn \mid d = \alpha x, \, x \in D, \, \alpha \in \R_+\}$. Como el conjunto $\text{cone } D$ es un cono, para todo $x \in D \subset \text{cone } D$, tenemos que $\alpha x \in \text{cone } D$ para todo $\alpha \in \R_+$. Luego, $C \subset \text{cone } D$.
+ 
+ Observamos que $C$ es un cono que contiene a $D$ (basta tomar $\alpha = 1$). Por lo tanto, si demostramos que $C$ es convexo, $C$ será un cono convexo que contiene a $D$, de donde la inclusión $\text{cone } D \subset C$ será obvia por la \cref{v1:def:3.1.2}.
+ 
+ Sean $d^1 \in C$, $d^2 \in C$, es decir, $d^i = \alpha_i x^i$, $\alpha_i \in \R_+$ e $x^i \in D$, $i = 1, 2$. Sea $d = t d^1 + (1 - t)d^2 = t \alpha_1 x^1 + (1 - t)\alpha_2 x^2$, con $t \in [0, 1]$. Cuando $t \in \{0, 1\}$ o $\alpha_i = 0$ para algún $i \in \{1, 2\}$, la inclusión $d \in C$ es obvia. Supongamos entonces que $t \in (0, 1)$, $\alpha_i > 0$, $i = 1, 2$. Definimos:
+ \[
+ \beta = \left(1 + \frac{\alpha_2(1-t)}{\alpha_1 t}\right)^{-1} \in (0, 1).
+ \]
+ Por la convexidad de $D$, tenemos que $x = \beta x^1 + (1 - \beta)x^2 \in D$. Además,
+ \[
+ \frac{\alpha_1 t}{\beta} x = \alpha_1 t (x^1 + (1/\beta - 1)x^2) = t \alpha_1 x^1 + (1 - t)\alpha_2 x^2 = d,
+ \]
+ mostrando que $d \in C$. Esto prueba que $C$ es convexo.
 \end{proof}
 
 A continuación probaremos un resultado importante sobre el cono tangente de un conjunto convexo.
 
-\begin{theorem}[Direcciones viables y cono tangente de un conjunto convexo]\label{thm:capsula_conica_convexa}
-    Sea $D \subset \Rn$ un conjunto convexo, $\bar{x} \in D$. Entonces:
-    \[
-        \mathcal{V}_D(\bar{x}) = \text{cone}(D - \{\bar{x}\}),
-    \]
-    \[
-        \mathcal{T}_D(\bar{x}) = \mathcal{B}_D(\bar{x}) = \cl \mathcal{V}_D(\bar{x}) = \cl \text{cone}(D - \{\bar{x}\}).
-    \]
-    En particular, $\mathcal{T}_D(\bar{x})$ es convexo y cerrado.
+\begin{theorem}[Direcciones viables y cono tangente de un conjunto convexo]\label{v1:thm:3.1.1}
+ Sea $D \subset \Rn$ un conjunto convexo, $\bar{x} \in D$. Entonces:
+ \[
+ \mathcal{V}_D(\bar{x}) = \text{cone}(D - \{\bar{x}\}),
+ \]
+ \[
+ \mathcal{T}_D(\bar{x}) = \mathcal{B}_D(\bar{x}) = \cl \mathcal{V}_D(\bar{x}) = \cl \text{cone}(D - \{\bar{x}\}).
+ \]
+ En particular, $\mathcal{T}_D(\bar{x})$ es convexo y cerrado.
 \end{theorem}
 
 \begin{proof}
-    Es fácil ver que el conjunto $D - \{\bar{x}\}$ es convexo. Por lo tanto, por la \cref{prop:capsula_conica_convexa}:
-    \begin{equation}
-        \text{cone}(D - \{\bar{x}\}) = \{d \in \Rn \mid d = \alpha(x - \bar{x}), \, x \in D, \, \alpha \in \R_+\}. \label{eq:cono_trasladado}
-    \end{equation}
-    
-    Sea $d \in \text{cone}(D - \{\bar{x}\})$, $d \neq 0$ (luego, $\alpha > 0$). Esto significa que $\bar{x} + d/\alpha = x \in D$. Por la convexidad de $D$, se sigue que $\bar{x} + t d \in D$ para todo $t \in [0, 1/\alpha]$, es decir, $d \in \mathcal{V}_D(\bar{x})$. Recíprocamente, para $d \in \mathcal{V}_D(\bar{x})$ se tiene que $\bar{x} + td \in D$ para todo $t \in [0, \epsilon]$. Por lo tanto, existe $x \in D$ tal que $x = \bar{x} + td$, $t > 0$. Luego, $d = (x - \bar{x})/t$, es decir, $d \in \text{cone}(D - \{\bar{x}\})$. Así, $\mathcal{V}_D(\bar{x}) = \text{cone}(D - \{\bar{x}\})$.
-    
-    Como se estableció en el Capítulo 1, siempre se tiene que $\cl \mathcal{V}_D(\bar{x}) \subset \mathcal{T}_D(\bar{x}) \subset \mathcal{B}_D(\bar{x})$. Probamos la afirmación mostrando que $\mathcal{B}_D(\bar{x}) \subset \cl \mathcal{V}_D(\bar{x})$.
-    
-    Sea $d \in \mathcal{B}_D(\bar{x})$, es decir, existen $\{t_k\} \to 0+$ e $\{d^k\} \to d$ tales que $\bar{x} + t_k d^k \in D$ para todo $k$. Como ya mostramos, esto significa que $d^k \in \mathcal{V}_D(\bar{x})$. En particular, concluimos que $d = \lim_{k\to\infty} d^k \in \cl \mathcal{V}_D(\bar{x})$.
+ Es fácil ver que el conjunto $D - \{\bar{x}\}$ es convexo. Por lo tanto, por la \cref{v1:prop:3.1.2}:
+ \begin{equation}
+ \text{cone}(D - \{\bar{x}\}) = \{d \in \Rn \mid d = \alpha(x - \bar{x}), \, x \in D, \, \alpha \in \R_+\}. \label{v1:eq:3.1}
+ \end{equation}
+ 
+ Sea $d \in \text{cone}(D - \{\bar{x}\})$, $d \neq 0$ (luego, $\alpha > 0$). Esto significa que $\bar{x} + d/\alpha = x \in D$. Por la convexidad de $D$, se sigue que $\bar{x} + t d \in D$ para todo $t \in [0, 1/\alpha]$, es decir, $d \in \mathcal{V}_D(\bar{x})$. Recíprocamente, para $d \in \mathcal{V}_D(\bar{x})$ se tiene que $\bar{x} + td \in D$ para todo $t \in [0, \epsilon]$. Por lo tanto, existe $x \in D$ tal que $x = \bar{x} + td$, $t > 0$. Luego, $d = (x - \bar{x})/t$, es decir, $d \in \text{cone}(D - \{\bar{x}\})$. Así, $\mathcal{V}_D(\bar{x}) = \text{cone}(D - \{\bar{x}\})$.
+ 
+ Como se estableció en el Capítulo 1, siempre se tiene que $\cl \mathcal{V}_D(\bar{x}) \subset \mathcal{T}_D(\bar{x}) \subset \mathcal{B}_D(\bar{x})$. Probamos la afirmación mostrando que $\mathcal{B}_D(\bar{x}) \subset \cl \mathcal{V}_D(\bar{x})$.
+ 
+ Sea $d \in \mathcal{B}_D(\bar{x})$, es decir, existen $\{t_k\} \to 0+$ e $\{d^k\} \to d$ tales que $\bar{x} + t_k d^k \in D$ para todo $k$. Como ya mostramos, esto significa que $d^k \in \mathcal{V}_D(\bar{x})$. En particular, concluimos que $d = \lim_{k\to\infty} d^k \in \cl \mathcal{V}_D(\bar{x})$.
 \end{proof}
 
 A continuación mostramos que un cono y su clausura tienen el mismo cono dual.
 
-\begin{proposition}\label{prop:dual_clausura_cono}
-    Sea $K \subset \Rn$ un cono cualquiera. Entonces $\cl K$ es un cono y se tiene que:
-    \[
-        K^* = (\cl K)^*.
-    \]
-    En particular, si $D \subset \Rn$ es un conjunto convexo y $\bar{x} \in D$, se tiene que:
-    \[
-        (\mathcal{T}_D(\bar{x}))^* = (\mathcal{V}_D(\bar{x}))^* = (\text{cone}(D - \{\bar{x}\}))^*.
-    \]
+\begin{proposition}\label{v1:prop:3.1.3}
+ Sea $K \subset \Rn$ un cono cualquiera. Entonces $\cl K$ es un cono y se tiene que:
+ \[
+ K^* = (\cl K)^*.
+ \]
+ En particular, si $D \subset \Rn$ es un conjunto convexo y $\bar{x} \in D$, se tiene que:
+ \[
+ (\mathcal{T}_D(\bar{x}))^* = (\mathcal{V}_D(\bar{x}))^* = (\text{cone}(D - \{\bar{x}\}))^*.
+ \]
 \end{proposition}
 
 \begin{proof}
-    El hecho de que $\cl K$ sea un cono es fácil de verificar. Por la definición de cono dual, la inclusión $K \subset \cl K$ implica que $(\cl K)^* \subset K^*$.
-    
-    Sean $y \in K^*$ y $d \in \cl K$ cualesquiera. Existe $\{d^k\} \subset K$ tal que $\{d^k\} \to d$. Tenemos que $\interno{y}{d^k} \leq 0$ para todo $k$. Pasando al límite cuando $k \to \infty$, obtenemos que $\interno{y}{d} \leq 0$. Por lo tanto, $y \in (\cl K)^*$, es decir, $K^* \subset (\cl K)^*$. Ahora, la última afirmación se sigue del \cref{thm:cono_tangente_convexo}.
+ El hecho de que $\cl K$ sea un cono es fácil de verificar. Por la definición de cono dual, la inclusión $K \subset \cl K$ implica que $(\cl K)^* \subset K^*$.
+ 
+ Sean $y \in K^*$ y $d \in \cl K$ cualesquiera. Existe $\{d^k\} \subset K$ tal que $\{d^k\} \to d$. Tenemos que $\interno{y}{d^k} \leq 0$ para todo $k$. Pasando al límite cuando $k \to \infty$, obtenemos que $\interno{y}{d} \leq 0$. Por lo tanto, $y \in (\cl K)^*$, es decir, $K^* \subset (\cl K)^*$. Ahora, la última afirmación se sigue del \cref{v1:thm:3.1.1}.
 \end{proof}
 
 Otra noción útil en Análisis Convexo es la de cono normal.
 
-\begin{definition}[Cono normal]\label{def:cono_normal}
-    Sean $D \subset \Rn$ un conjunto convexo y $\bar{x} \in D$. El \deftech{cono normal} (o cono de direcciones normales) en el punto $\bar{x}$ con respecto al conjunto $D$ está dado por:
-    \[
-        \mathcal{N}_D(\bar{x}) = \{d \in \Rn \mid \interno{d}{x - \bar{x}} \leq 0 \; \forall x \in D\}.
-    \]
+\begin{definition}[Cono normal]\label{v1:def:3.1.3}
+ Sean $D \subset \Rn$ un conjunto convexo y $\bar{x} \in D$. El \deftech{cono normal} (o cono de direcciones normales) en el punto $\bar{x}$ con respecto al conjunto $D$ está dado por:
+ \[
+ \mathcal{N}_D(\bar{x}) = \{d \in \Rn \mid \interno{d}{x - \bar{x}} \leq 0 \; \forall x \in D\}.
+ \]
 \end{definition}
 
 A continuación, mostramos que, en el caso convexo, el dual del cono tangente es exactamente el cono normal.
 
-\begin{theorem}[El cono normal es el dual del cono tangente]\label{thm:normal_dual_tangente}
-    Sea $D \subset \Rn$ un conjunto convexo y $\bar{x} \in D$. Entonces:
-    \[
-        (\mathcal{T}_D(\bar{x}))^* = (\mathcal{V}_D(\bar{x}))^* = (\text{cone}(D - \{\bar{x}\}))^* = \mathcal{N}_D(\bar{x}).
-    \]
+\begin{theorem}[El cono normal es el dual del cono tangente]\label{v1:thm:3.1.2}
+ Sea $D \subset \Rn$ un conjunto convexo y $\bar{x} \in D$. Entonces:
+ \[
+ (\mathcal{T}_D(\bar{x}))^* = (\mathcal{V}_D(\bar{x}))^* = (\text{cone}(D - \{\bar{x}\}))^* = \mathcal{N}_D(\bar{x}).
+ \]
 \end{theorem}
 
 \begin{proof}
-    Las primeras dos igualdades ya fueron probadas en la \cref{prop:dual_clausura_cono}. Supongamos que $y \in (\text{cone}(D - \{\bar{x}\}))^*$, es decir, $\interno{y}{d} \leq 0$ para todo $d \in \text{cone}(D - \{\bar{x}\})$. En particular, $\interno{y}{x - \bar{x}} \leq 0$ para todo $x \in D$, es decir, $y \in \mathcal{N}_D(\bar{x})$.
-    
-    Supongamos que $y \in \mathcal{N}_D(\bar{x})$. Tenemos que $\interno{y}{x - \bar{x}} \leq 0$ para todo $x \in D$, es decir, $\interno{y}{d} \leq 0$ para todo $d \in (D - \{\bar{x}\})$. Luego, $\interno{y}{d} \leq 0$ para todo $d \in \text{cone}(D - \{\bar{x}\})$. Concluimos que $y \in (\text{cone}(D - \{\bar{x}\}))^*$.
+ Las primeras dos igualdades ya fueron probadas en la \cref{v1:prop:3.1.3}. Supongamos que $y \in (\text{cone}(D - \{\bar{x}\}))^*$, es decir, $\interno{y}{d} \leq 0$ para todo $d \in \text{cone}(D - \{\bar{x}\})$. En particular, $\interno{y}{x - \bar{x}} \leq 0$ para todo $x \in D$, es decir, $y \in \mathcal{N}_D(\bar{x})$.
+ 
+ Supongamos que $y \in \mathcal{N}_D(\bar{x})$. Tenemos que $\interno{y}{x - \bar{x}} \leq 0$ para todo $x \in D$, es decir, $\interno{y}{d} \leq 0$ para todo $d \in (D - \{\bar{x}\})$. Luego, $\interno{y}{d} \leq 0$ para todo $d \in \text{cone}(D - \{\bar{x}\})$. Concluimos que $y \in (\text{cone}(D - \{\bar{x}\}))^*$.
 \end{proof}
 
 Como consecuencia de la caracterización del cono tangente y de su dual, obtenemos las siguientes condiciones de optimalidad para un problema con conjunto factible convexo.
 
-\begin{theorem}[Condición necesaria de primer orden]\label{thm:cn1_convexo}
-    Sea $D \subset \Rn$ un conjunto convexo y $f \colon \Rn \to \R$ una función diferenciable en el punto $\bar{x} \in D$. Si $\bar{x}$ es un minimizador local de $f$ en el conjunto $D$, entonces:
-    \begin{equation}
-        \interno{f'(\bar{x})}{x - \bar{x}} \geq 0 \quad \forall x \in D, \label{eq:desigualdad_variacional_convexa}
-    \end{equation}
-    o, equivalentemente,
-    \begin{equation}
-        -f'(\bar{x}) \in \mathcal{N}_D(\bar{x}). \label{eq:gradiente_cono_normal}
-    \end{equation}
+\begin{theorem}[Condición necesaria de primer orden]\label{v1:thm:3.1.3}
+ Sea $D \subset \Rn$ un conjunto convexo y $f \colon \Rn \to \R$ una función diferenciable en el punto $\bar{x} \in D$. Si $\bar{x}$ es un minimizador local de $f$ en el conjunto $D$, entonces:
+ \begin{equation}
+ \interno{\nabla f(\bar{x})}{x - \bar{x}} \geq 0 \quad \forall x \in D, \label{v1:eq:3.2}
+ \end{equation}
+ o, equivalentemente,
+ \begin{equation}
+ -\nabla f(\bar{x}) \in \mathcal{N}_D(\bar{x}). \label{v1:eq:3.3}
+ \end{equation}
 \end{theorem}
 
 \begin{proof}
-    Por las condiciones primales de primer orden del Capítulo 1, $\interno{f'(\bar{x})}{d} \geq 0$ para todo $d \in \mathcal{B}_D(\bar{x})$. Por el \cref{thm:cono_tangente_convexo}, tenemos que:
-    \[
-        \{d \in \Rn \mid d = x - \bar{x}, \, x \in D\} \subset \text{cone}(D - \{\bar{x}\}) \subset \mathcal{B}_D(\bar{x}),
-    \]
-    lo que implica \eqref{eq:desigualdad_variacional_convexa}. Por la \cref{def:cono_normal}, \eqref{eq:desigualdad_variacional_convexa} y \eqref{eq:gradiente_cono_normal} son equivalentes.
+ Por las condiciones primales de primer orden del Capítulo 1, $\interno{\nabla f(\bar{x})}{d} \geq 0$ para todo $d \in \mathcal{B}_D(\bar{x})$. Por el \cref{v1:thm:3.1.1}, tenemos que:
+ \[
+ \{d \in \Rn \mid d = x - \bar{x}, \, x \in D\} \subset \text{cone}(D - \{\bar{x}\}) \subset \mathcal{B}_D(\bar{x}),
+ \]
+ lo que implica \eqref{v1:eq:3.2}. Por la \cref{v1:def:3.1.3}, \eqref{v1:eq:3.2} y \eqref{v1:eq:3.3} son equivalentes.
 \end{proof}
 
-Si la función $f$ es convexa, la condición necesaria de optimalidad dada en el \cref{thm:cn1_convexo} también es suficiente.
+Si la función $f$ es convexa, la condición necesaria de optimalidad dada en el \cref{v1:thm:3.1.3} también es suficiente.
 
-\begin{definition}[Funciones convexas, estrictas y fuertes]\label{def:funcion_convexa}
-    Sea $D \subset \Rn$ un conjunto convexo. Se dice que una función $f \colon D \to \R$ es \deftech{convexa} en $D$ si para cualesquiera $x \in D$, $y \in D$ y $\alpha \in [0, 1]$, se tiene:
-    \[
-        f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y).
-    \]
-    La función $f$ se dice \deftech{estrictamente convexa} cuando la desigualdad anterior es estricta para todos los $x \neq y$ y $\alpha \in (0, 1)$.
-    
-    La función $f$ se dice \deftech{fuertemente convexa} con módulo $\gamma > 0$, cuando para cualesquiera $x, y \in D$ y $\alpha \in [0, 1]$, se tiene:
-    \[
-        f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y) - \gamma \alpha (1 - \alpha) \norm{x - y}^2.
-    \]
+\begin{definition}[Funciones convexas, estrictas y fuertes]\label{v1:def:3.1.4}
+ Sea $D \subset \Rn$ un conjunto convexo. Se dice que una función $f \colon D \to \R$ es \deftech{convexa} en $D$ si para cualesquiera $x \in D$, $y \in D$ y $\alpha \in [0, 1]$, se tiene:
+ \[
+ f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y).
+ \]
+ La función $f$ se dice \deftech{estrictamente convexa} cuando la desigualdad anterior es estricta para todos los $x \neq y$ y $\alpha \in (0, 1)$.
+ 
+ La función $f$ se dice \deftech{fuertemente convexa} con módulo $\gamma > 0$, cuando para cualesquiera $x, y \in D$ y $\alpha \in [0, 1]$, se tiene:
+ \[
+ f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y) - \gamma \alpha (1 - \alpha) \norm{x - y}^2.
+ \]
 \end{definition}
 
 Es obvio que una función fuertemente convexa es estrictamente convexa, y una función estrictamente convexa es convexa. La función $f(x) = x^2$ es fuertemente convexa. La función $f(x) = \E^x$ es estrictamente (pero no fuertemente) convexa. Una función afín $f(x) = x$ es convexa (pero no estricta).
 
-\begin{definition}[Epígrafe]\label{def:epigrafe}
-    El \deftech{epígrafe} de la función $f \colon D \to \R$ es el conjunto:
-    \[
-        E_f = \{(x, c) \in D \times \R \mid f(x) \leq c\}.
-    \]
+\begin{definition}[Epígrafe]\label{v1:def:3.1.5}
+ El \deftech{epígrafe} de la función $f \colon D \to \R$ es el conjunto:
+ \[
+ E_f = \{(x, c) \in D \times \R \mid f(x) \leq c\}.
+ \]
 \end{definition}
 
 La relación entre convexidad de conjuntos y de funciones está dada por el siguiente teorema.
 
-\begin{theorem}[El epígrafe caracteriza la convexidad]\label{thm:epigrafe_convexo}
-    Sea $D \subset \Rn$ un conjunto convexo. Una función $f \colon D \to \R$ es convexa en $D$ si, y solo si, el epígrafe de $f$ es un conjunto convexo en $\Rn \times \R$.
+\begin{theorem}[El epígrafe caracteriza la convexidad]\label{v1:thm:3.1.4}
+ Sea $D \subset \Rn$ un conjunto convexo. Una función $f \colon D \to \R$ es convexa en $D$ si, y solo si, el epígrafe de $f$ es un conjunto convexo en $\Rn \times \R$.
 \end{theorem}
 
 \begin{proof}
-    Supongamos primero que $E_f$ es convexo. Sean $x \in D$ e $y \in D$ cualesquiera. Obviamente, $(x, f(x)) \in E_f$ y $(y, f(y)) \in E_f$. Por la convexidad de $E_f$, para todo $\alpha \in [0, 1]$ tenemos que:
-    \[
-        \alpha(x, f(x)) + (1 - \alpha)(y, f(y)) \in E_f.
-    \]
-    Por la definición de epígrafe, esto es equivalente a decir que $f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y)$, es decir, $f$ es convexa.
-    
-    Supongamos ahora que $f$ es convexa. Sean $(x, c_1) \in E_f$ y $(y, c_2) \in E_f$. Como $f(x) \leq c_1$ y $f(y) \leq c_2$, por la convexidad de $f$, para todo $\alpha \in [0, 1]$ se tiene $f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y) \leq \alpha c_1 + (1 - \alpha)c_2$, lo que significa que $(\alpha x + (1 - \alpha)y, \alpha c_1 + (1 - \alpha)c_2) \in E_f$, es decir, $E_f$ es convexo.
+ Supongamos primero que $E_f$ es convexo. Sean $x \in D$ e $y \in D$ cualesquiera. Obviamente, $(x, f(x)) \in E_f$ y $(y, f(y)) \in E_f$. Por la convexidad de $E_f$, para todo $\alpha \in [0, 1]$ tenemos que:
+ \[
+ \alpha(x, f(x)) + (1 - \alpha)(y, f(y)) \in E_f.
+ \]
+ Por la definición de epígrafe, esto es equivalente a decir que $f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y)$, es decir, $f$ es convexa.
+ 
+ Supongamos ahora que $f$ es convexa. Sean $(x, c_1) \in E_f$ y $(y, c_2) \in E_f$. Como $f(x) \leq c_1$ y $f(y) \leq c_2$, por la convexidad de $f$, para todo $\alpha \in [0, 1]$ se tiene $f(\alpha x + (1 - \alpha)y) \leq \alpha f(x) + (1 - \alpha)f(y) \leq \alpha c_1 + (1 - \alpha)c_2$, lo que significa que $(\alpha x + (1 - \alpha)y, \alpha c_1 + (1 - \alpha)c_2) \in E_f$, es decir, $E_f$ es convexo.
 \end{proof}
 
 Decimos que $\min_{x \in D} f(x)$ es un \deftech{problema de minimización convexo} cuando $D \subset \Rn$ es un conjunto convexo y $f \colon D \to \R$ es una función convexa. La importancia de la convexidad se puede ver en el siguiente resultado.
 
-\begin{theorem}[Teorema de minimización convexo]\label{thm:minimizacion_convexa}
-    Sean $D \subset \Rn$ un conjunto convexo y $f \colon D \to \R$ una función convexa en $D$. Entonces todo minimizador local del problema es global. Además, el conjunto de minimizadores es convexo. Si $f$ es estrictamente convexa, no puede haber más de un minimizador.
+\begin{theorem}[Teorema de minimización convexo]\label{v1:thm:3.1.5}
+ Sean $D \subset \Rn$ un conjunto convexo y $f \colon D \to \R$ una función convexa en $D$. Entonces todo minimizador local del problema es global. Además, el conjunto de minimizadores es convexo. Si $f$ es estrictamente convexa, no puede haber más de un minimizador.
 \end{theorem}
 
 \begin{proof}
-    Supongamos que $\bar{x} \in D$ sea un minimizador local que no es global. Entonces existe $y \in D$ tal que $f(y) < f(\bar{x})$. Definimos $x(\alpha) = \alpha y + (1 - \alpha)\bar{x}$. Por la convexidad de $D$, $x(\alpha) \in D$ para todo $\alpha \in (0, 1)$. Por la convexidad de $f$, para todo $\alpha \in (0, 1)$, se tiene:
-    \[
-        f(x(\alpha)) \leq \alpha f(y) + (1 - \alpha)f(\bar{x}) = f(\bar{x}) + \alpha(f(y) - f(\bar{x})) < f(\bar{x}).
-    \]
-    Tomando $\alpha > 0$ suficientemente pequeño, $x(\alpha)$ está arbitrariamente próximo al punto $\bar{x}$, y aun así $f(x(\alpha)) < f(\bar{x})$. Esto contradice el hecho de que $\bar{x}$ es un minimizador local.
-    
-    Sea $S \subset D$ el conjunto de los minimizadores (globales) e $\bar{v} \in \R$ el valor óptimo. Para cualesquiera $x, \bar{x} \in S$ y $\alpha \in [0, 1]$, por la convexidad de $f$ obtenemos $f(\alpha x + (1 - \alpha)\bar{x}) \leq \alpha \bar{v} + (1 - \alpha)\bar{v} = \bar{v}$, lo que implica que de hecho $f(\alpha x + (1 - \alpha)\bar{x}) = \bar{v}$ y, por lo tanto, la combinación convexa pertenece a $S$. Luego $S$ es convexo.
-    
-    Si $f$ es estrictamente convexa y existieran $x, \bar{x} \in S$ distintos, entonces para $\alpha \in (0, 1)$:
-    \[
-        f(\alpha x + (1 - \alpha)\bar{x}) < \alpha f(x) + (1 - \alpha)f(\bar{x}) = \bar{v},
-    \]
-    lo que resulta en una contradicción. Concluimos que en este caso el minimizador es único.
+ Supongamos que $\bar{x} \in D$ sea un minimizador local que no es global. Entonces existe $y \in D$ tal que $f(y) < f(\bar{x})$. Definimos $x(\alpha) = \alpha y + (1 - \alpha)\bar{x}$. Por la convexidad de $D$, $x(\alpha) \in D$ para todo $\alpha \in (0, 1)$. Por la convexidad de $f$, para todo $\alpha \in (0, 1)$, se tiene:
+ \[
+ f(x(\alpha)) \leq \alpha f(y) + (1 - \alpha)f(\bar{x}) = f(\bar{x}) + \alpha(f(y) - f(\bar{x})) < f(\bar{x}).
+ \]
+ Tomando $\alpha > 0$ suficientemente pequeño, $x(\alpha)$ está arbitrariamente próximo al punto $\bar{x}$, y aun así $f(x(\alpha)) < f(\bar{x})$. Esto contradice el hecho de que $\bar{x}$ es un minimizador local.
+ 
+ Sea $S \subset D$ el conjunto de los minimizadores (globales) e $\bar{v} \in \R$ el valor óptimo. Para cualesquiera $x, \bar{x} \in S$ y $\alpha \in [0, 1]$, por la convexidad de $f$ obtenemos $f(\alpha x + (1 - \alpha)\bar{x}) \leq \alpha \bar{v} + (1 - \alpha)\bar{v} = \bar{v}$, lo que implica que de hecho $f(\alpha x + (1 - \alpha)\bar{x}) = \bar{v}$ y, por lo tanto, la combinación convexa pertenece a $S$. Luego $S$ es convexo.
+ 
+ Si $f$ es estrictamente convexa y existieran $x, \bar{x} \in S$ distintos, entonces para $\alpha \in (0, 1)$:
+ \[
+ f(\alpha x + (1 - \alpha)\bar{x}) < \alpha f(x) + (1 - \alpha)f(\bar{x}) = \bar{v},
+ \]
+ lo que resulta en una contradicción. Concluimos que en este caso el minimizador es único.
 \end{proof}
 
-\begin{definition}[Función cóncava]
-    Si $D \subset \Rn$ es un conjunto convexo, decimos que una función $f \colon D \to \R$ es una \deftech{función cóncava} en $D$, cuando la función $(-f)$ es convexa en $D$.
+\begin{definition}[Función cóncava]\label{v1:def:3.1.6}
+ Si $D \subset \Rn$ es un conjunto convexo, decimos que una función $f \colon D \to \R$ es una \deftech{función cóncava} en $D$, cuando la función $(-f)$ es convexa en $D$.
 \end{definition}
 
-Es fácil ver que las afirmaciones del \cref{thm:minimizacion_convexa} son verdaderas si sustituimos la minimización de una función convexa por la maximización de una función cóncava.
+Es fácil ver que las afirmaciones del \cref{v1:thm:3.1.5} son verdaderas si sustituimos la minimización de una función convexa por la maximización de una función cóncava.
+
 %%% Local Variables:
 %%% mode: LaTeX
 %%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
