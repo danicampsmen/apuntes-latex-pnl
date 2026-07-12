@@ -2,74 +2,438 @@
 
 \addsec{Ejercicios del Capítulo}
 
-\addsubsec{Parte I: Teoremas de Alternativa}
+\addsubsec{Sección 3.1: Definiciones y hechos básicos de convexidad}
 
-\begin{exercise}[Teorema de Tucker]\label{v1:ejer:3.1}
- Pruebe el Teorema de la Alternativa de Tucker: Para cualesquiera matrices $A_i$, $i=0,1,2$, con $A_0 \neq 0$, uno y solo uno de los sistemas posee solución:
- \[
- A_0 x \ge 0 \ (\text{con } A_0 x \neq 0), \quad A_1 x = 0, \quad A_2 x \ge 0, \quad x \in \Rn;
- \]
- o
- \[
- A_0^\top y^0 + A_1^\top y^1 + A_2^\top y^2 = 0, \quad y^0 > 0, \ y^2 \ge 0.
- \]
+\begin{exercise}\label{v1:ejer:3.1.1}
+ Mostrar que los siguientes conjuntos en $\Rn$ son convexos:
+ \begin{enumerate}[label=(\alph*)]
+  \item Cualquier subespacio de $\Rn$.
+  \item Cualquier semiespacio en $\Rn$, i.e., un conjunto $\{ x \in \Rn \mid \interno{a}{x} \le c \}$, donde $a \in \Rn$ y $c \in \R$.
+  \item Cualquier hiperplano en $\Rn$, i.e., un conjunto $\{ x \in \Rn \mid \interno{a}{x} = c \}$, donde $a \in \Rn$ y $c \in \R$.
+  \item Una bola en $\Rn$, i.e., un conjunto $\{ x \in \Rn \mid \norm{x} \le c \}$, donde $c \in \R_+$.
+ \end{enumerate}
 \end{exercise}
 
-\begin{exercise}[Teoremas de Gale I y II]\label{v1:ejer:3.2}
- Demuestre los Teoremas de Alternativa de Gale:
- \begin{enuthm}
- \item $Ax = a \ (x \ge 0)$ vs $A^\top y \ge 0 \ (\interno{a}{y} < 0)$.
- \item $Ax \le a \ (x \ge 0)$ vs $A^\top y \ge 0 \ (\interno{a}{y} < 0, \ y \ge 0)$.
- \end{enuthm}
+\begin{exercise}\label{v1:ejer:3.1.2}
+ Mostrar que el conjunto $\{ x \in \Rn \mid \norm{x} = c \}$, donde $c \in \R_+$, es convexo si, y solamente si, $c = 0$.
+ (En particular, una esfera no trivial con $c > 0$ no es convexa).
 \end{exercise}
 
-\begin{exercise}[Teoremas de Gordan y Stiemke]\label{v1:ejer:3.3}
- Demuestre los Teoremas de Alternativa:
- \begin{enuthm}
- \item \textbf{Gordan:} $Ax < 0$ vs $A^\top y = 0 \ (y \ge 0, y \neq 0)$.
- \item \textbf{Stiemke:} $Ax \le 0 \ (Ax \neq 0)$ vs $A^\top y = 0 \ (y > 0)$.
- \end{enuthm}
+\begin{exercise}\label{v1:ejer:3.1.3}
+ Sea $Q \in \R^{n \times n}$ una matriz simétrica semidefinida positiva. Probar que el conjunto $\{ x \in \Rn \mid \interno{Qx}{x} \le c \}$ es convexo para todo $c \in \R_+$.
 \end{exercise}
 
-\addsubsec{Parte II: Análisis Convexo}
-
-\begin{exercise}[Desigualdad de la media y Cobb-Douglas]\label{v1:ejer:3.4}
- Sean $\alpha_i > 0, \ i=1,\dots,p$. Probar utilizando propiedades de funciones convexas:
+\begin{exercise}\label{v1:ejer:3.1.4}
+ Sea $D \subset \Rn$ un conjunto convexo. Supongamos que $x \in \interior D$ y $y \in \text{fr } D$. Probar que
  \[
- \frac{1}{p}\sum_{i=1}^p \alpha_i \ge \left(\prod_{i=1}^p \alpha_i\right)^{1/p}.
+ ((1 - \alpha)x + \alpha y) \begin{cases} \in \interior D, & \text{si } \alpha \in [0, 1), \\ \notin D, & \text{si } \alpha > 1. \end{cases}
  \]
 \end{exercise}
 
-\begin{exercise}[Módulo de convexidad fuerte]\label{v1:ejer:3.5}
+\begin{exercise}\label{v1:ejer:3.1.5}
+ Sea $K \subset \Rn$ un cono. Probar que $K$ es convexo si, y solamente si, $K = K + K$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.1.6}
+ Sean $D$ un conjunto convexo en $\Rn$ y $c_1 > 0, c_2 > 0$. Probar que $(c_1 + c_2)D = c_1 D + c_2 D$.
+ Mostrar que la afirmación puede ser falsa cuando $D$ no es convexo.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.1.7}
+ Probar que cuando $D = \R_+^n$, la condición de optimalidad en el Teorema 3.1.3 es equivalente a la siguiente condición de complementariedad:
+ \[
+ \bar{x}_i \ge 0, \quad (\nabla f(\bar{x}))_i \ge 0, \quad \bar{x}_i (\nabla f(\bar{x}))_i = 0, \quad i = 1, \dots, n.
+ \]
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.1.8}
+ Sea $f : \Rn \to \R$ una función (fuertemente) convexa y sean $x \in \Rn$ y $d \in \Rn$ cualesquiera. Probar que la función $\psi : \R \to \R$, $\psi(\alpha) = f(x + \alpha d)$, es (fuertemente) convexa.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.1.9}
+ Sea $f : \R^m \to \R$ una función convexa. Sean $A \in \R^{m \times n}$ y $a \in \R^m$. Probar que la función $\phi(x) = f(Ax + a)$ es convexa en $\Rn$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.1.10}
  Probar que la función $f(x) = \norm{x}^2$ es fuertemente convexa con módulo $\gamma = 1$.
 \end{exercise}
 
-\begin{exercise}[Linealidad afín]\label{v1:ejer:3.6}
- Sea $f$ una función convexa y al mismo tiempo cóncava en $\Rn$. Mostrar que esto implica que $f$ es una función afín (es decir, $f(x) = \interno{a}{x} + c$).
+\begin{exercise}\label{v1:ejer:3.1.11}
+ Sea $f : \Rn \to \R$ una función convexa y, al mismo tiempo, cóncava. Mostrar que esto implica que $f$ es una función afín, i.e., $f(x) = \interno{a}{x} + c$ para todo $x \in \Rn$, donde $a \in \Rn$ y $c \in \R$.
 \end{exercise}
 
-\begin{exercise}[Condiciones paramétricas de convexidad]\label{v1:ejer:3.7}
- ¿Para qué valores del parámetro $\sigma \in \R$ la función $f(x) = (\sigma + 6)x_1^2 + 2\sigma x_1 x_2 + x_2^2$ es convexa en $\R^2$?
+\addsubsec{Sección 3.2: Conjuntos convexos y Teoremas de separación}
+
+\begin{exercise}\label{v1:ejer:3.2.1}
+ Sean $D$ y $C$ conjuntos convexos en $\Rn$. Mostrar que los siguientes conjuntos son convexos:
+ \begin{enumerate}[label=(\alph*)]
+  \item $D + C = \{ x \in \Rn \mid x = y + z, y \in D, z \in C \}$.
+  \item $cD = \{ x \in \Rn \mid x = cy, y \in D \}$, con $c \in \R$ arbitrario.
+  \item $A(D) = \{ y \in \R^m \mid y = Ax, x \in D \}$, con $A \in \R^{m \times n}$ arbitraria.
+  \item $A^{-1}(D) = \{ x \in \R^m \mid Ax \in D \}$, con $A \in \R^{n \times m}$ arbitraria.
+ \end{enumerate}
 \end{exercise}
 
-\begin{exercise}[Funciones generadoras convexas]\label{v1:ejer:3.8}
+\begin{exercise}\label{v1:ejer:3.2.2}
+ Sean $\alpha_i > 0, i = 1, \dots, p$. Probar que
+ \[
+ \frac{1}{p} \sum_{i=1}^p \alpha_i \ge \left( \prod_{i=1}^p \alpha_i \right)^{1/p}, \qquad \left( \sum_{i=1}^p \alpha_i \right) \left( \sum_{i=1}^p \frac{1}{\alpha_i} \right) \ge p^2.
+ \]
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.3}
+ Sea $D \subset \Rn$ un conjunto abierto. Probar que $\conv D$ es abierto.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.4}
+ Sea $\emptyset \neq D \subset \Rn$ un conjunto acotado. Probar que $\cl(\conv D) = \conv(\cl D)$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.5}
+ Sea $\emptyset \neq D \subset \Rn$. Probar que $\text{cone } D = \text{cone}(\conv D)$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.6}
+ Construir un ejemplo mostrando que, aun siendo $D$ un conjunto convexo y compacto, es posible que $\text{cone } D$ no sea cerrado.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.7}
+ Sean $C$ y $D$ dos conjuntos no vacíos de $\Rn$. Probar que $\conv(C + D) = \conv C + \conv D$ y $\conv(C \times D) = \conv C \times \conv D$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.8}
+ Sean $K_1$ y $K_2$ conos convexos en $\Rn$. Probar que
+ \[
+ K_1 + K_2 = \conv(K_1 \cup K_2), \qquad K_1 \cap K_2 = \bigcap_{\alpha \in [0,1]} (\alpha K_1 + (1 - \alpha)K_2).
+ \]
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.9}
+ Sea $K$ un cono convexo en $\Rn$. Probar que $\interior K \cup \{0\}$ es un cono convexo y $(\interior K \cup \{0\})^* = K^*$ si $\interior K$ es no vacío.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.10}
+ Sean $A \in \R^{l \times n}$, $a \in \R^l$, $B \in \R^{m \times n}$, $b \in \R^m$. Probar que para el conjunto poliédrico $D = \{ x \in \Rn \mid Ax = a, Bx \le b \}$, se tiene $\mathcal{R}_D = \{ d \in \Rn \mid Ad = 0, Bd \le 0 \}$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.11}
+ Sea $\emptyset \neq D \subset \Rn$ un conjunto convexo cerrado, y $x \in \Rn$ cualquiera. Probar que $\bar{x} = P_D(x)$ si, y solamente si, $\bar{x} \in D, \ \langle x - \bar{x}, y - \bar{x} \rangle \le 0 \quad \forall y \in D$. \textit{(Nota: La expresión en la desigualdad estándar de proyección fue corregida respecto al original para reflejar la ortogonalidad geométrica usual).}
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.12}
+ Sea $K \subset \Rn$ un cono cerrado (no necesariamente convexo) y $y \in K^*$. Probar que la proyección de $y$ sobre $K$ es única y es igual a 0.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.13}
+ Sea $\emptyset \neq K \subset \Rn$ un cono convexo cerrado. Probar que $\bar{x} = P_K(x)$ si, y solamente si, $\bar{x} \in K$, $x - \bar{x} \in K^*$, $\interno{\bar{x}}{x - \bar{x}} = 0$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.14}
+ Sea $\emptyset \neq K \subset \Rn$ un cono convexo cerrado. Probar que las siguientes afirmaciones son equivalentes:
+ \begin{enumerate}[label=(\alph*)]
+  \item $\bar{x} = P_K(x)$ y $\bar{x}^* = P_{K^*}(x)$.
+  \item $x = \bar{x} + \bar{x}^*$, donde $\bar{x} \in K$, $\bar{x}^* \in K^*$, $\interno{\bar{x}}{\bar{x}^*} = 0$.
+ \end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.15}
+ Sea $\emptyset \neq D \subset \Rn$ un conjunto convexo cerrado. Probar que la función-distancia $\dist(x, D) = \min_{z \in D} \norm{z - x}, \ x \in \Rn$, es convexa en $\Rn$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.16}
+ Sea $D \subset \Rn$ un conjunto convexo cerrado. Probar que para todo $x \in D$ y todo $d \in \Rn$, la función $\phi_1 : \R_+ \to \R$, $\phi_1(t) = \norm{P_D(x + td) - x}$, es monótona no decreciente, y la función $\phi_2 : \R_+ \setminus \{0\} \to \R$, $\phi_2(t) = \phi_1(t)/t$, es monótona no creciente.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.17}
+ Sean $D_i \subset \Rn, i=1,2$, conjuntos convexos tales que $\interior D_i \neq \emptyset, i=1,2$, y $\interior D_1 \cap \interior D_2 = \emptyset$. Probar que $D_1$ y $D_2$ son separables.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.18}
+ Sean $D_1$ y $D_2$ conjuntos convexos en $\Rn$ tales que $\interior D_1 \neq \emptyset$. Probar que $D_1$ y $D_2$ son separables si, y solamente si, $\interior D_1 \cap D_2 = \emptyset$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.19}
+ Sea $K \subset \Rn$ un cono y $x \in \text{fr } K$. Probar que si un hiperplano $H$ separa $x$ y $K$, entonces $0 \in H$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.20}
+ Sea $D \subset \Rn$ un conjunto convexo y cerrado tal que $D \neq \emptyset, D \neq \Rn$ y $\Rn \setminus D$ es convexo. Probar que $D$ es un semiespacio.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.21}
+ Sean $K_1$ y $K_2$ conos convexos cerrados no vacíos en $\Rn$. Probar que $(K_1 \cap K_2)^* = \cl(K_1^* + K_2^*)$.
+ Considerando $K_1 = \{ x \in \R^3 \mid x_1^2 + x_2^2 \le x_3^2, x_3 \le 0 \}$ y $K_2 = \{ x \in \R^3 \mid x_2 = -x_3 \}$, mostrar que la operación ``cl'' no puede ser omitida en la relación de arriba.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.22}
+ Sea $D \subset \Rn$ un conjunto convexo. Probar que $\bar{x} \in D$ es un punto extremo de $D$ si, y solamente si, el conjunto $D \setminus \{\bar{x}\}$ es convexo.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.23}
+ Sea $D \subset \Rn$ un conjunto convexo. Probar que si $\bar{x}$ es un punto extremo de $D$, entonces $\bar{x} \in \text{fr } D$ ($\bar{x}$ pertenece a la frontera de $D$). En particular, un conjunto abierto convexo no tiene puntos extremos.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.24}
+ Sean $B \in \R^{m \times n}, b \in \R^m$ y $D = \{ x \in \Rn \mid Bx \le b \} \neq \emptyset$. Probar que $D$ tiene puntos extremos si, y solamente si, $\ker B = \{0\}$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.25}
+ Sean $B \in \R^{m \times n}, b \in \R^m$ y $D = \{ x \in \Rn \mid Bx \le b, x \ge 0 \}$. Definamos $\tilde{D} = \{ (x, \sigma) \in \Rn \times \R^m \mid Bx + \sigma = b, x \ge 0, \sigma \ge 0 \}$. Probar que $(x, \sigma)$ es un punto extremo de $\tilde{D}$ si, y solamente si, $x$ es un punto extremo de $D$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.26}
+ Sea $U$ una caja en torno a $\bar{x} \in \Rn$, i.e., $U = \{ x \in \Rn \mid -\delta \le x_i - \bar{x}_i \le \delta, i=1,\dots,n \}, \delta > 0$. Mostrar que $U$ es el cierre convexo de $2^n$ puntos cuyas coordenadas son $\bar{x}_i + \delta$ o $\bar{x}_i - \delta$ (en todas las combinaciones posibles).
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.27}
+ Probar que los vértices del conjunto $D = \{ x \in \R_+^n \mid \sum_{i=1}^n x_i = 1 \}$ son los elementos de la base canónica de $\Rn$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.2.28}
+ Sea $D \subset \Rn$ un conjunto poliédrico. Sea $A \in \R^{l \times n}$ una matriz cuyas columnas son linealmente independientes. Probar que $x$ es un vértice de $D$ si, y solamente si, $Ax$ es un vértice del conjunto $A(D)$ en $\R^l$. Construir un ejemplo mostrando que la afirmación es falsa cuando las columnas de $A$ son linealmente dependientes.
+\end{exercise}
+
+\addsubsec{Sección 3.3: Teoremas de alternativa}
+
+\begin{exercise}\label{v1:ejer:3.3.1}
+ Probar el Teorema de la Alternativa de Tucker: Para matrices $A_0 \in \R^{m_0 \times n} \ (A_0 \neq 0)$, $A_1 \in \R^{m_1 \times n}$ y $A_2 \in \R^{m_2 \times n}$, uno y solamente uno de los sistemas posee solución:
+ \[
+ A_0 x \ge 0 \ (A_0 x \neq 0), \quad A_1 x = 0, \quad A_2 x \ge 0, \quad x \in \Rn,
+ \]
+ o
+ \[
+ A_0^\top y^0 + A_1^\top y^1 + A_2^\top y^2 = 0, \quad (y^0, y^1, y^2) \in \R^{m_0}_{++} \times \R^{m_1} \times \R^{m_2}_+.
+ \]
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.3.2}
+ Probar el Teorema de la Alternativa de Gale I:
+ \[
+ Ax = a, \ x \in \R_+^n \quad \text{o} \quad A^\top y \ge 0, \ \interno{a}{y} < 0, \ y \in \R^m.
+ \]
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.3.3}
+ Probar el Teorema de la Alternativa de Gale II:
+ \[
+ Ax \le a, \ x \in \R_+^n \quad \text{o} \quad A^\top y \ge 0, \ \interno{a}{y} < 0, \ y \in \R_+^m.
+ \]
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.3.4}
+ Probar el Teorema de la Alternativa de Gordan:
+ \[
+ Ax < 0, \ x \in \Rn \quad \text{o} \quad A^\top y = 0, \ \interno{a}{y} \le 0, \ y \in \R_+^m \setminus \{0\}.
+ \]
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.3.5}
+ Probar el Teorema de la Alternativa de Stiemke:
+ \[
+ Ax \le 0, \ Ax \neq 0, \ x \in \Rn \quad \text{o} \quad A^\top y = 0, \ \interno{a}{y} \le 0, \ y \in \R_{++}^m.
+ \]
+\end{exercise}
+
+\addsubsec{Sección 3.4: Funciones convexas}
+
+\begin{exercise}\label{v1:ejer:3.4.1}
+ Construir un ejemplo mostrando que, para una función $\psi$ convexa que no sea no decreciente, la afirmación de la Proposición 3.4.3 (composición) puede ser falsa.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.2}
+ Probar que, cuando en la Proposición 3.4.3 $g$ es una función afín, la afirmación es verdadera para $\psi$ convexa cualquiera.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.3}
+ Sean $f_i : \Rn \to \R, i=1,\dots,p$, funciones convexas en $\Rn$. Probar que para $q \ge 1$, la función $f : \Rn \to \R$, $f(x) = \sum_{i=1}^p (\max\{0, f_i(x)\})^q$ es convexa en $\Rn$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.4}
+ Probar que la función $f(x) = (\max\{\E^x, x^2\} + 1/x)^2$ es convexa en $\R_+ \setminus \{0\}$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.5}
+ Sean $\alpha_i \ge 0, i=1,\dots,n, \sum_{i=1}^n \alpha_i = 1$. Probar que la función $f(x) = \prod_{i=1}^n x_i^{\alpha_i}$, $x \in \Rn$, es cóncava en $\R_+^n$. (Esta función es importante en Economía Matemática y se llama función de Cobb-Douglas).
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.6}
+ Probar que para $a \in \R_+^n$ y $b > 0$ cualesquiera, la función $f(x) = \frac{1}{\interno{a}{x} + b}$ es convexa en $\R_+^n$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.7}
+ Sea $D \subset \Rn$ un conjunto convexo. Probar que $f: D \to \R$ es cuasiconvexa en $D$ si, y solamente si, $f(\alpha x + (1 - \alpha)y) \le \max\{f(x), f(y)\} \quad \forall x, y \in D, \ \forall \alpha \in [0, 1]$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.8}
+ Sea $f: D \to \R$ una función cuasiconvexa en el conjunto convexo $D$. Probar que todo minimizador local estricto de $f$ en $D$ es minimizador global. Probar que todo minimizador local estricto de $f$ en $D$ es un punto extremo de $D$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.9}
+ Sea $h: \Rn \to \R$ una función estrictamente convexa. Probar que si el conjunto $\{ x \in \Rn \mid h(x) = 0 \}$ contiene más de un punto, entonces él no es convexo.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.10}
+ Probar el Teorema 3.4.4.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.11}
+ Sean $D$ y $C$ conjuntos convexos en $\Rn$ y $\R^m$, respectivamente. Consideremos $\phi(x,y)$, una función convexa en $D \times C$ tal que $\inf_{y \in C} \phi(x,y) > -\infty$ para todo $x \in D$ fijo. Probar que la función $f(x) = \inf_{y \in C} \phi(x,y)$ es convexa en $D$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.12}
+ Sea $f$ una función convexa en $\R_+$ que es limitada superiormente en $\R_+$. Probar que $f$ es no creciente en $\R_+$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.13}
+ Sea $D \subset \Rn$ un conjunto convexo cerrado no vacío y $f: \Rn \to \R$ una función convexa. Suponiendo que $\bar{x} \in D$, mostrar que las siguientes afirmaciones son equivalentes:
+ \begin{enumerate}[label=(\alph*)]
+  \item $\bar{x}$ es una solución del problema $\min f(x)$ sujeto a $x \in D$.
+  \item $\exists \beta > 0$ tal que $\bar{x}$ es una solución del problema irrestricto $\min (f(x) + \beta \dist(x, D)), \ x \in \Rn$.
+ \end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.14}
+ Resolver el problema $\min f(x)$ sujeto a $x \in D$, donde:
+ \begin{enumerate}[label=(\alph*)]
+  \item $f(x) = 2x_1^2 + 4x_2^2 - 5x_1 x_2, \quad D = \{ x \in \R^2 \mid 0 \le x_1 \le 1, \ 0 \le x_2 \le 1 \}$.
+  \item $f(x) = 2x_1^4 + x_2^4, \quad D = \left\{ x \in \R^2 \mathrel{\Bigg|} \begin{aligned} -x_1 + 2x_2 &\le 3, \\ 3x_1 + x_2 &\le 5, \\ 2x_1 + 3x_2 &\ge 1 \end{aligned} \right\}$.
+  \item $f(x) = x_1^2 + x_2^2 + x_3^2 + x_4^2, \quad D = \left\{ x \in \R^4 \mathrel{\Bigg|} \begin{aligned} x_1 - 2x_2 + 4x_3 - x_4 &= 1, \\ 2x_1 + 3x_2 + x_3 + 2x_4 &= 3 \end{aligned} \right\}$.
+ \end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.15}
+ Probar que la función $f(x) = x_1^2 / x_2$ es convexa en el conjunto $D = \{ x \in \R^2 \mid x_2 > 0 \}$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.16}
+ ¿Para cuáles valores del parámetro $\sigma \in \R$ la función $f(x) = (\sigma + 6)x_1^2 + 2\sigma x_1 x_2 + x_2^2$ es convexa en $\R^2$?
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.17}
+ ¿Para cuáles valores del parámetro $\sigma \in \R$ la función $f(x) = x_1^2 + 4x_2^2 + (\sigma + 2)x_3^2 + x_1 x_2 + 2x_1 x_3 + x_2 x_3, \ x \in \R^3$, es convexa en $\R^3$?
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.18}
  Probar que las siguientes funciones son convexas en $\Rn$:
- \begin{enuthm}
- \item $f(x) = \ln\left(\sum_{i=1}^n \E^{x_i}\right)$.
- \item $f(x) = \E^{\interno{Qx}{x}}$, donde $Q$ es una matriz simétrica y semidefinida positiva.
- \end{enuthm}
+ \begin{enumerate}[label=(\alph*)]
+  \item $f(x) = \ln(\sum_{i=1}^n \E^{x_i})$.
+  \item $f(x) = \E^{\interno{Qx}{x}}$, donde $Q \in \R^{n \times n}$ es una matriz semidefinida positiva.
+  \item $f(x) = (1 + \norm{x}^2)^{1/2}$.
+ \end{enumerate}
 \end{exercise}
 
-\begin{exercise}[Minimización analítica en cajas]\label{v1:ejer:3.9}
- Resolver de forma analítica el problema $\min f(x)$ sujeto a $x \in D$:
- \begin{enuthm}
- \item $f(x) = 2x_1^2 + 4x_2^2 - 5x_1 x_2, \quad D = \{x \in \R^2 \mid 0 \le x_1 \le 1, \ 0 \le x_2 \le 1\}$.
- \item $f(x) = 4x_1^2 - x_1 x_2 + 2x_2^2, \quad D = \{x \in \R^2 \mid 4 \le x_1 \le 8, \ -1 \le x_2 \le 2\}$.
- \end{enuthm}
+\begin{exercise}\label{v1:ejer:3.4.19}
+ Sea $D \subset \Rn$ un conjunto convexo y abierto y $f: D \to \R$ una función diferenciable en $D$. Probar que las propiedades siguientes son equivalentes:
+ \begin{enumerate}[label=(\alph*)]
+  \item La función $f$ es estrictamente convexa en $D$.
+  \item Para todo $x \in D$ y todo $y \in D$ tales que $x \neq y$, $f(y) > f(x) + \interno{\nabla f(x)}{y - x}$.
+  \item Para todo $x \in D$ y todo $y \in D$ tales que $x \neq y$, $\interno{\nabla f(y) - \nabla f(x)}{y - x} > 0$.
+ \end{enumerate}
+ Cuando $f$ es dos veces diferenciable en $D$, probar que $f$ es estrictamente convexa en $D$ si:
+ \begin{enumerate}
+  \item[(d)] Para todo $x \in D$, $\interno{\nabla^2 f(x)d}{d} > 0 \quad \forall d \in \Rn \setminus \{0\}$.
+ \end{enumerate}
 \end{exercise}
 
-\begin{exercise}[Operaciones que preservan convexidad]\label{v1:ejer:3.10}
- Probar que la función $f(x) = \max\{ \E^x, x^2 \} + 1/x$ es convexa en el dominio $\R_+ \setminus \{0\}$.
+\begin{exercise}\label{v1:ejer:3.4.20}
+ Probar el Teorema 3.4.10.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.21}
+ Resolver el problema $\min f(x)$ sujeto a $x \in D$, donde:
+ \begin{enumerate}[label=(\alph*)]
+  \item $f(x) = 2x_1^2 + x_1 x_2 + x_2^2, \quad D = \{ x \in \R^2 \mid -1 \le x_1 \le 1, \ x_2 \ge 2 \}$.
+  \item $f(x) = 4x_1^2 - x_1 x_2 + 2x_2^2, \quad D = \{ x \in \R^2 \mid 4 \le x_1 \le 8, \ -1 \le x_2 \le 2 \}$.
+ \end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.22}
+ Encontrar todos los valores de $\sigma \in \R$ para los cuales el punto $\bar{x} = 0$ es una solución del problema
+ \[
+ \min \E^{\sigma^2 x_1} + \E^{\sigma^2 x_2} + 2\sigma x_1 - x_2 \quad \text{sujeto a} \quad 0 \le x_1 \le 1, \ -1 \le x_2 \le 0.
+ \]
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.23}
+ Sea $\emptyset \neq D \subset \Rn$ un conjunto convexo cerrado y $f: \Rn \to \R_+, \ f(x) = (\dist(x, D))^2$. Probar que $f$ es convexa y diferenciable en $\Rn$ y que $\nabla f(x) = 2(x - P_D(x)) \quad \forall x \in \Rn$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.24}
+ Probar que, bajo las hipótesis del Teorema 3.4.8, además de las relaciones establecidas en ese teorema, las siguientes afirmaciones también son equivalentes:
+ \begin{enumerate}[label=(\alph*)]
+  \item $\bar{x}$ es un minimizador de $f$ en $D$.
+  \item $P_{\mathcal{T}_D(\bar{x})}(-\nabla f(\bar{x})) = 0$.
+  \item $\langle \nabla f(\bar{x}), P_{\mathcal{T}_D(\bar{x})}(-\nabla f(\bar{x})) \rangle \ge 0$.
+ \end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.25}
+ Sea $f: \Rn \to \R$ una función convexa diferenciable y $D \subset \Rn$ un conjunto convexo cerrado. Definimos la función $F: \Rn \to \Rn$, $F(x) = P_D(x - \nabla f(x))$. Probar que $x \in \Rn$ es un punto fijo de $F$ (i.e., $F(x) = x$) si, y solamente si, $x$ es un minimizador de $f$ en $D$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.26}
+ Sea $f$ una función convexa y diferenciable en $\Rn$. Probar que para todo $\lambda > 0$, el sistema de ecuaciones $\nabla f(x) = -\lambda x$ posee una única solución.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.27}
+ Sea $f$ una función fuertemente convexa y diferenciable en $\Rn$. Probar que para el (único) minimizador $\bar{x}$ de $f$ en $\Rn$, existe $M > 0$ tal que $\norm{x - \bar{x}} \le M \norm{\nabla f(x)} \quad \forall x \in \Rn$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.28}
+ Sea $f$ una función fuertemente convexa y diferenciable en $\Rn$ y $\bar{x}$ la (única) solución del problema $\min f(x)$ sujeto a $x \ge 0$. Probar que existe $M > 0$ tal que para todo $x \in \Rn$ se tiene
+ \[
+ M \norm{x - \bar{x}}^2 \le (\interno{x}{\nabla f(x)})^2 + \sum_{i=1}^n (\max\{0, -(\nabla f(x))_i\})^2 + \sum_{i=1}^n (\max\{0, -x_i\})^2.
+ \]
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.29}
+ Sea $f: \Rn \to \R$ una función convexa. Probar que $\interno{y^1 - y^2}{x^1 - x^2} \ge 0 \quad \forall x^i \in \Rn \text{ e } \forall y^i \in \partial f(x^i), \ i = 1, 2$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.30}
+ Resolver el problema $\min f(x), x \in \Rn$, donde
+ \begin{enumerate}[label=(\alph*)]
+  \item $f(x) = \max\{x_1^2 + x_2^2, x_1 + x_2 + 1\}, \ n = 2$;
+  \item $f(x) = \max\{x_1^2 + x_2, x_1 + x_2^2\}, \ n = 2$;
+  \item $f(x) = \max\{x^2, x^2 - 2x + \sigma\}, \ n = 1$ y $\sigma \in \R$ es un parámetro arbitrario;
+  \item $f(x) = \norm{x} - \interno{a}{x}, \ n = 2$ y $a \in \R^2$ es fijo, pero arbitrario;
+  \item $f(x) = \norm{x}^2 / 2 + \norm{x - a}$ y $a \in \Rn$ es fijo, pero arbitrario.
+ \end{enumerate}
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.31}
+ Encontrar el punto $x \in \R^r$ tal que la suma de las distancias entre $x$ y puntos $x^i \in \R^r, i=1,\dots,p$, dados sea mínima.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.32}
+ Encontrar el punto $x \in \R^2$ tal que la suma de los cuadrados de las distancias entre $x$ y los vértices de un triángulo dado en $\R^2$ sea mínima.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.33}
+ Sean $\psi: \R^l \to \R$ una función convexa y $A \in \R^{l \times n}$. Sea $f: \Rn \to \R, \ f(x) = \psi(Ax)$. Probar que $\partial f(x) = A^\top \partial \psi(Ax) = \{ y \in \Rn \mid y = A^\top z, \ z \in \partial \psi(Ax) \}$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.34}
+ Sean $g: \Rn \to \R$ una función convexa, y $\psi: \R \to \R$ una función convexa diferenciable y no decreciente. Sea $f: \Rn \to \R, \ f(x) = \psi(g(x))$. Probar que $\partial f(x) = \psi'(g(x)) \partial g(x) = \{ y \in \Rn \mid y = \psi'(g(x))z, \ z \in \partial g(x) \}$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.35}
+ Sea $f: \Rn \to \R$ una función convexa. Mostrar que $\bar{y} \in \Rn$ es la solución del problema $\min \norm{y}$ sujeto a $y \in \partial f(x)$ (equivalentemente, $\bar{y} = P_{\partial f(x)}(0)$) se, y solamente se, $\bar{y} = 0$ o $\bar{y}/\norm{\bar{y}}$ es la solución del problema $\min f'(x; y)$ sujeto a $\norm{y} \le 1$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.36}
+ Sea $f: \Rn \to \R$ una función convexa. Supongamos que $x \in \Rn$ sea tal que el conjunto de nivel asociado $L = L_{f,\Rn}(f(x)) = \{ z \in \Rn \mid f(z) \le f(x) \}$ sea no vacío. Mostrar que
+ \[
+ \mathcal{T}_L(x) = \{ d \in \Rn \mid f'(x; d) \le 0 \}, \quad \mathcal{N}_L(x) = \cl(\text{cone } \partial f(x)).
+ \]
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.37}
+ Sean $f_i: \Rn \to \R, \ i=1,\dots,p$, funciones convexas, y $f(x) = \sum_{i=1}^p f_i(x)$ y $\epsilon \in \R_+$. Probar que $\partial_\epsilon f(x) \subset \sum_{i=1}^p \partial_{\epsilon_i} f_i(x) \subset \partial_{p\epsilon} f(x)$.
+\end{exercise}
+
+\begin{exercise}\label{v1:ejer:3.4.38}
+ Sean $f: \Rn \to \R$ una función convexa y $\epsilon \in \R_+$. Suponiendo que $\{x^k\} \to x$, $\{ \epsilon_k \to 0 \}$, y $\epsilon_k \ge 0$, para todo $k$, probar que si $\{y^k\}$ es tal que $y^k \in \partial_{\epsilon_k} f(x^k)$ para todo $k$, la sucesión $\{y^k\}$ es limitada y que todos sus puntos de acumulación pertenecen a $\partial f(x)$.
 \end{exercise}
 
 %%% Local Variables:

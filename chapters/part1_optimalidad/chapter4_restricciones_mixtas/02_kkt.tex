@@ -4,278 +4,278 @@
 \section{Condiciones de optimalidad de Karush-Kuhn-Tucker}
 % =========================================================
 
-En esta sección deducimos las condiciones analíticas de optimalidad de primer orden para problemas con restricciones mixtas a partir de la caracterización del cono tangente desarrollada en la sección anterior. Como se demostró, la condición necesaria primal establece que el opuesto del gradiente pertenece al cono dual del cono de linealización: $-\nabla f(\bar{x}) \in \mathcal{H}(\bar{x})^*$. Utilizando la parametrización de este cono dual obtenida en el \cref{lem:dual_cono_linealizacion}, expresaremos esta relación geométrica como un sistema algebraico de multiplicadores de Lagrange, conocido como condiciones de Karush-Kuhn-Tucker (KKT).
+En esta sección deducimos las condiciones analíticas de optimalidad de primer orden para problemas con restricciones mixtas a partir de la caracterización del cono tangente desarrollada en la sección anterior. Como se demostró, la condición necesaria primal establece que el opuesto del gradiente pertenece al cono dual del cono de linealización: $-\nabla f(\bar{x}) \in \mathcal{H}(\bar{x})^*$. Utilizando la parametrización de este cono dual obtenida en el \cref{v1:lem:dual_cono_linealizacion}, expresaremos esta relación geométrica como un sistema algebraico de multiplicadores de Lagrange, conocido como condiciones de Karush-Kuhn-Tucker (KKT).
 
-\begin{theorem}[Condiciones de Karush-Kuhn-Tucker]\label{thm:kkt_necesarias}
-    Supongamos que $\bar{x} \in D$ es una solución local del problema \eqref{eq:problema_mixto}-\eqref{eq:conjunto_mixto}, donde $f, h, g$ son funciones continuamente diferenciables en $\bar{x}$.
-    
-    Si el punto $\bar{x}$ satisface alguna de las condiciones de regularidad de las restricciones detalladas en la \cref{def:regularidad_mixta} (independencia lineal, linealidad afín, Slater o MFCQ), entonces existen multiplicadores $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R^m$ con $\bar{\mu} \ge 0$, tales que:
-    \begin{align}
-        \nabla f(\bar{x}) + \sum_{i=1}^l \bar{\lambda}_i \nabla h_i(\bar{x}) + \sum_{i=1}^m \bar{\mu}_i \nabla g_i(\bar{x}) &= 0, \label{eq:kkt_estacionariedad} \\
-        \bar{\mu}_i g_i(\bar{x}) &= 0 \quad \forall i \in \{1,\dots,m\}. \label{eq:kkt_complementariedad}
-    \end{align}
+\begin{theorem}[Condiciones de Karush-Kuhn-Tucker]\label{v1:thm:4.2.1}
+ Supongamos que $\bar{x} \in D$ es una solución local del problema \eqref{v1:eq:4.1}-\eqref{v1:eq:4.2}, donde $f, h, g$ son funciones continuamente diferenciables en $\bar{x}$.
+ 
+ Si el punto $\bar{x}$ satisface alguna de las condiciones de regularidad de las restricciones detalladas en la \cref{v1:def:regularidad_mixta} (independencia lineal, linealidad afín, Slater o MFCQ), entonces existen multiplicadores $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R^m$ con $\bar{\mu} \ge 0$, tales que:
+ \begin{align}
+ \nabla f(\bar{x}) + \sum_{i=1}^l \bar{\lambda}_i \nabla h_i(\bar{x}) + \sum_{i=1}^m \bar{\mu}_i \nabla g_i(\bar{x}) &= 0, \label{v1:eq:4.18} \\
+ \bar{\mu}_i g_i(\bar{x}) &= 0 \quad \forall i \in \{1,\dots,m\}. \label{v1:eq:4.19}
+ \end{align}
 \end{theorem}
 
 \begin{proof}
-    Bajo cualquiera de las condiciones de regularidad supuestas, el Teorema de la Condición Necesaria Primal (\cref{thm:necesaria_primal_mixto}) establece que la derivada direccional es no negativa sobre todo el cono de linealización, es decir, $\langle \nabla f(\bar{x}), d \rangle \ge 0 \quad \forall d \in \mathcal{H}(\bar{x})$. En términos de conos duales, esto equivale a la afirmación geométrica:
-    \[
-        -\nabla f(\bar{x}) \in \mathcal{H}(\bar{x})^*.
-    \]
-    Por el \cref{lem:dual_cono_linealizacion}, conocemos la parametrización de los elementos de $\mathcal{H}(\bar{x})^*$. Por lo tanto, se garantiza la existencia de multiplicadores $\bar{\lambda} \in \R^l$ y $\hat{\mu}_i \ge 0$ para $i \in I(\bar{x})$ tales que:
-    \[
-        -\nabla f(\bar{x}) = \sum_{i=1}^l \bar{\lambda}_i \nabla h_i(\bar{x}) + \sum_{i \in I(\bar{x})} \hat{\mu}_i \nabla g_i(\bar{x}).
-    \]
-    Definimos el vector $\bar{\mu} \in \R^m$ haciendo $\bar{\mu}_i = \hat{\mu}_i$ si $i \in I(\bar{x})$, y $\bar{\mu}_i = 0$ si $i \notin I(\bar{x})$. Al agrupar los términos se obtiene la condición de estacionariedad \eqref{eq:kkt_estacionariedad}.
-    
-    Por otra parte, si la restricción $i$ es activa ($i \in I(\bar{x})$), se tiene $g_i(\bar{x}) = 0$, lo que anula el producto $\bar{\mu}_i g_i(\bar{x})$. Si es inactiva ($i \notin I(\bar{x})$), por construcción se tiene $\bar{\mu}_i = 0$, lo que también anula el producto. Esto demuestra la condición de complementariedad \eqref{eq:kkt_complementariedad}.
+ Bajo cualquiera de las condiciones de regularidad supuestas, el Teorema de la Condición Necesaria Primal (\cref{v1:thm:necesaria_primal_mixto}) establece que la derivada direccional es no negativa sobre todo el cono de linealización, es decir, $\langle \nabla f(\bar{x}), d \rangle \ge 0 \quad \forall d \in \mathcal{H}(\bar{x})$. En términos de conos duales, esto equivale a la afirmación geométrica:
+ \[
+ -\nabla f(\bar{x}) \in \mathcal{H}(\bar{x})^*.
+ \]
+ Por el \cref{v1:lem:dual_cono_linealizacion}, conocemos la parametrización de los elementos de $\mathcal{H}(\bar{x})^*$. Por lo tanto, se garantiza la existencia de multiplicadores $\bar{\lambda} \in \R^l$ y $\hat{\mu}_i \ge 0$ para $i \in I(\bar{x})$ tales que:
+ \[
+ -\nabla f(\bar{x}) = \sum_{i=1}^l \bar{\lambda}_i \nabla h_i(\bar{x}) + \sum_{i \in I(\bar{x})} \hat{\mu}_i \nabla g_i(\bar{x}).
+ \]
+ Definimos el vector $\bar{\mu} \in \R^m$ haciendo $\bar{\mu}_i = \hat{\mu}_i$ si $i \in I(\bar{x})$, y $\bar{\mu}_i = 0$ si $i \notin I(\bar{x})$. Al agrupar los términos se obtiene la condición de estacionariedad \eqref{v1:eq:4.18}.
+ 
+ Por otra parte, si la restricción $i$ es activa ($i \in I(\bar{x})$), se tiene $g_i(\bar{x}) = 0$, lo que anula el producto $\bar{\mu}_i g_i(\bar{x})$. Si es inactiva ($i \notin I(\bar{x})$), por construcción se tiene $\bar{\mu}_i = 0$, lo que también anula el producto. Esto demuestra la condición de complementariedad \eqref{v1:eq:4.19}.
 \end{proof}
 
 \begin{notabox}[La condición de holgura complementaria]
-    La condición $\bar{\mu}_i g_i(\bar{x}) = 0$ establece que para cada restricción de desigualdad se debe cumplir al menos una de las dos condiciones siguientes:
-    \begin{itemize}
-        \item Si la restricción no es activa ($g_i(\bar{x}) < 0$), el multiplicador asociado es nulo ($\bar{\mu}_i = 0$).
-        \item Si el multiplicador es estrictamente positivo ($\bar{\mu}_i > 0$), la restricción debe satisfacerse con igualdad ($g_i(\bar{x}) = 0$).
-    \end{itemize}
-    Esta relación introduce un componente combinatorio en el cálculo de los puntos estacionarios, al requerir el análisis de los distintos casos de restricciones activas e inactivas.
+ La condición $\bar{\mu}_i g_i(\bar{x}) = 0$ establece que para cada restricción de desigualdad se debe cumplir al menos una de las dos condiciones siguientes:
+ \begin{itemize}
+ \item Si la restricción no es activa ($g_i(\bar{x}) < 0$), el multiplicador asociado es nulo ($\bar{\mu}_i = 0$).
+ \item Si el multiplicador es estrictamente positivo ($\bar{\mu}_i > 0$), la restricción debe satisfacerse con igualdad ($g_i(\bar{x}) = 0$).
+ \end{itemize}
+ Esta relación introduce un componente combinatorio en el cálculo de los puntos estacionarios, al requerir el análisis de los distintos casos de restricciones activas e inactivas.
 \end{notabox}
 
-\begin{definition}[Complementariedad Estricta]\label{def:complementariedad_estricta}
-    Sea $\bar{x}$ un punto estacionario KKT con multiplicadores $(\bar{\lambda}, \bar{\mu})$. Se dice que se satisface la \textbf{condición de complementariedad estricta} si:
-    \[
-        \bar{\mu}_i - g_i(\bar{x}) > 0 \quad \forall i = 1, \dots, m.
-    \]
-    Esta condición excluye el caso degenerado en el que coinciden $g_i(\bar{x}) = 0$ y $\bar{\mu}_i = 0$. Esto equivale a exigir que toda restricción activa en el punto tenga un multiplicador estrictamente positivo.
+\begin{definition}[Complementariedad Estricta]\label{v1:def:complementariedad_estricta}
+ Sea $\bar{x}$ un punto estacionario KKT con multiplicadores $(\bar{\lambda}, \bar{\mu})$. Se dice que se satisface la \textbf{condición de complementariedad estricta} si:
+ \[
+ \bar{\mu}_i - g_i(\bar{x}) > 0 \quad \forall i = 1, \dots, m.
+ \]
+ Esta condición excluye el caso degenerado en el que coinciden $g_i(\bar{x}) = 0$ y $\bar{\mu}_i = 0$. Esto equivale a exigir que toda restricción activa en el punto tenga un multiplicador estrictamente positivo.
 \end{definition}
 
-\begin{example}[Análisis por casos del sistema KKT]\label{ex:kkt_mixto_esfera}
-    Considérese el problema de minimizar la suma de las coordenadas sobre el hemisferio superior de la circunferencia unitaria:
-    \[
-        \min f(x) = x_1 + x_2 \quad \text{sujeto a} \quad \begin{aligned} &h(x) = x_1^2 + x_2^2 - 1 = 0 \\ &g(x) = -x_2 \le 0 \end{aligned}
-    \]
-    El conjunto factible $D$ es el arco semicircular definido por $x_2 \ge 0$. El gradiente de la igualdad es $\nabla h(x) = (2x_1, 2x_2)^\top \neq 0$ en todo punto factible, lo que garantiza la condición LICQ.
-    
-    Cualquier mínimo local debe cumplir el sistema KKT. Con $\nabla f = (1,1)^\top$ y $\nabla g = (0,-1)^\top$, el sistema se formula como:
-    \begin{conditions}
-        \conditem $1 + 2\lambda x_1 = 0$ \\
-        \conditem $1 + 2\lambda x_2 - \mu = 0$ \\
-        \conditem $\mu(-x_2) = 0$ \\
-        \conditem $x_1^2 + x_2^2 = 1, \quad x_2 \ge 0, \quad \mu \ge 0$
-    \end{conditions}
-    
-    Analizamos las soluciones mediante los dos casos que define la condición de complementariedad:
-    
-    \textbf{Caso 1: Restricción inactiva ($\mu = 0$).} Suponiendo $x_2 > 0$, la condición de complementariedad exige $\mu = 0$. Las ecuaciones de estacionariedad se reducen a:
-    \[
-        1 + 2\lambda x_1 = 0 \implies x_1 = -\frac{1}{2\lambda}, \qquad 1 + 2\lambda x_2 = 0 \implies x_2 = -\frac{1}{2\lambda}.
-    \]
-    Sustituyendo en la ecuación de la circunferencia: $\frac{2}{4\lambda^2} = 1 \implies \lambda = \pm \frac{1}{\sqrt{2}}$. Dado que asumimos $x_2 > 0$, la única raíz compatible es $\lambda = -1/\sqrt{2}$. Obtenemos el primer punto KKT: $\bar{x}^{(1)} = \left( \frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}} \right)^\top$, con $\lambda = -\frac{1}{\sqrt{2}}, \ \mu = 0$.
-    
-    \textbf{Caso 2: Restricción activa ($\mu > 0$).} Esto implica que la restricción se cumple con igualdad, es decir, $x_2 = 0$. Por la ecuación de la circunferencia, se tiene $x_1^2 = 1 \implies x_1 = \pm 1$. Evaluamos ambos casos:
-    \begin{itemize}
-        \item Si $x_1 = 1, x_2 = 0$: $1 + 2\lambda = 0 \implies \lambda = -1/2$. Sustituyendo se obtiene $1 - \mu = 0 \implies \mu = 1 \ge 0$. Obtenemos: $\bar{x}^{(2)} = (1, 0)^\top$, con $\lambda = -\frac{1}{2}, \ \mu = 1$.
-        \item Si $x_1 = -1, x_2 = 0$: $1 - 2\lambda = 0 \implies \lambda = 1/2$. Sustituyendo resulta $1 - \mu = 0 \implies \mu = 1 \ge 0$. Obtenemos: $\bar{x}^{(3)} = (-1, 0)^\top$, con $\lambda = \frac{1}{2}, \ \mu = 1$.
-    \end{itemize}
-    
-    Evaluando la función objetivo $f(x) = x_1 + x_2$ en los tres puntos obtenidos: $f(\bar{x}^{(1)}) = \sqrt{2} \approx 1.41$, $f(\bar{x}^{(2)}) = 1$, y $f(\bar{x}^{(3)}) = -1$. Por el Teorema de Weierstrass, se concluye que el punto $\bar{x}^{(3)} = (-1,0)^\top$ es el minimizador global del problema.
+\begin{example}[Análisis por casos del sistema KKT]\label{v1:exa:kkt_mixto_esfera}
+ Considérese el problema de minimizar la suma de las coordenadas sobre el hemisferio superior de la circunferencia unitaria:
+ \[
+ \min f(x) = x_1 + x_2 \quad \text{sujeto a} \quad \begin{aligned} &h(x) = x_1^2 + x_2^2 - 1 = 0 \\ &g(x) = -x_2 \le 0 \end{aligned}
+ \]
+ El conjunto factible $D$ es el arco semicircular definido por $x_2 \ge 0$. El gradiente de la igualdad es $\nabla h(x) = (2x_1, 2x_2)^\top \neq 0$ en todo punto factible, lo que garantiza la condición LICQ.
+ 
+ Cualquier mínimo local debe cumplir el sistema KKT. Con $\nabla f = (1,1)^\top$ y $\nabla g = (0,-1)^\top$, el sistema se formula como:
+ \begin{conditions}
+ \conditem $1 + 2\lambda x_1 = 0$ \\
+ \conditem $1 + 2\lambda x_2 - \mu = 0$ \\
+ \conditem $\mu(-x_2) = 0$ \\
+ \conditem $x_1^2 + x_2^2 = 1, \quad x_2 \ge 0, \quad \mu \ge 0$
+ \end{conditions}
+ 
+ Analizamos las soluciones mediante los dos casos que define la condición de complementariedad:
+ 
+ \textbf{Caso 1: Restricción inactiva ($\mu = 0$).} Suponiendo $x_2 > 0$, la condición de complementariedad exige $\mu = 0$. Las ecuaciones de estacionariedad se reducen a:
+ \[
+ 1 + 2\lambda x_1 = 0 \implies x_1 = -\frac{1}{2\lambda}, \qquad 1 + 2\lambda x_2 = 0 \implies x_2 = -\frac{1}{2\lambda}.
+ \]
+ Sustituyendo en la ecuación de la circunferencia: $\frac{2}{4\lambda^2} = 1 \implies \lambda = \pm \frac{1}{\sqrt{2}}$. Dado que asumimos $x_2 > 0$, la única raíz compatible es $\lambda = -1/\sqrt{2}$. Obtenemos el primer punto KKT: $\bar{x}^{(1)} = \left( \frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}} \right)^\top$, con $\lambda = -\frac{1}{\sqrt{2}}, \ \mu = 0$.
+ 
+ \textbf{Caso 2: Restricción activa ($\mu > 0$).} Esto implica que la restricción se cumple con igualdad, es decir, $x_2 = 0$. Por la ecuación de la circunferencia, se tiene $x_1^2 = 1 \implies x_1 = \pm 1$. Evaluamos ambos casos:
+ \begin{itemize}
+ \item Si $x_1 = 1, x_2 = 0$: $1 + 2\lambda = 0 \implies \lambda = -1/2$. Sustituyendo se obtiene $1 - \mu = 0 \implies \mu = 1 \ge 0$. Obtenemos: $\bar{x}^{(2)} = (1, 0)^\top$, con $\lambda = -\frac{1}{2}, \ \mu = 1$.
+ \item Si $x_1 = -1, x_2 = 0$: $1 - 2\lambda = 0 \implies \lambda = 1/2$. Sustituyendo resulta $1 - \mu = 0 \implies \mu = 1 \ge 0$. Obtenemos: $\bar{x}^{(3)} = (-1, 0)^\top$, con $\lambda = \frac{1}{2}, \ \mu = 1$.
+ \end{itemize}
+ 
+ Evaluando la función objetivo $f(x) = x_1 + x_2$ en los tres puntos obtenidos: $f(\bar{x}^{(1)}) = \sqrt{2} \approx 1.41$, $f(\bar{x}^{(2)}) = 1$, y $f(\bar{x}^{(3)}) = -1$. Por el Teorema de Weierstrass, se concluye que el punto $\bar{x}^{(3)} = (-1,0)^\top$ es el minimizador global del problema.
 \end{example}
 
-\begin{definition}[Sistema KKT y Lagrangiana]\label{def:kkt_sistema}
-    La \textbf{función Lagrangiana} $L : \Rn \times \R^l \times \R^m \to \R$ para el problema con restricciones mixtas se define como:
-    \[
-        L(x, \lambda, \mu) = f(x) + \langle \lambda, h(x) \rangle + \langle \mu, g(x) \rangle.
-    \]
-    El sistema de ecuaciones e inecuaciones:
-    \[
-        \nabla_x L(x, \lambda, \mu) = 0, \quad h(x) = 0, \quad g(x) \le 0, \quad \mu \ge 0, \quad \mu_i g_i(x) = 0 \quad \forall i=1,\dots,m,
-    \]
-    se denomina \textbf{Sistema de Karush-Kuhn-Tucker (KKT)}. El conjunto de todos los multiplicadores asociados a un punto estacionario $\bar{x} \in D$ se denota por:
-    \[
-        \mathcal{M}(\bar{x}) = \left\{ (\lambda, \mu) \in \R^l \times \R^m \mathrel{\Bigg|} \begin{aligned} &\nabla_x L(\bar{x}, \lambda, \mu) = 0, \\ &\mu \ge 0, \: \mu_i g_i(\bar{x}) = 0 \ \forall i \end{aligned} \right\}.
-    \]
+\begin{definition}[Sistema KKT y Lagrangiana]\label{v1:def:kkt_sistema}
+ La \textbf{función Lagrangiana} $L : \Rn \times \R^l \times \R^m \to \R$ para el problema con restricciones mixtas se define como:
+ \[
+ L(x, \lambda, \mu) = f(x) + \langle \lambda, h(x) \rangle + \langle \mu, g(x) \rangle.
+ \]
+ El sistema de ecuaciones e inecuaciones:
+ \[
+ \nabla_x L(x, \lambda, \mu) = 0, \quad h(x) = 0, \quad g(x) \le 0, \quad \mu \ge 0, \quad \mu_i g_i(x) = 0 \quad \forall i=1,\dots,m,
+ \]
+ se denomina \textbf{Sistema de Karush-Kuhn-Tucker (KKT)}. El conjunto de todos los multiplicadores asociados a un punto estacionario $\bar{x} \in D$ se denota por:
+ \[
+ \mathcal{M}(\bar{x}) = \left\{ (\lambda, \mu) \in \R^l \times \R^m \mathrel{\Bigg|} \begin{aligned} &\nabla_x L(\bar{x}, \lambda, \mu) = 0, \\ &\mu \ge 0, \: \mu_i g_i(\bar{x}) = 0 \ \forall i \end{aligned} \right\}.
+ \]
 \end{definition}
 
 Bajo condiciones de convexidad, las condiciones necesarias de primer orden pasan a ser también suficientes para garantizar la optimalidad global.
 
-\begin{theorem}[Suficiencia de KKT bajo Convexidad]\label{thm:kkt_suficientes_convexo}
-    Sea $\bar{x} \in \Rn$ un punto estacionario del problema \eqref{eq:problema_mixto}-\eqref{eq:conjunto_mixto} (es decir, $\mathcal{M}(\bar{x}) \neq \emptyset$).
-    
-    Si las funciones $f$ y $g_i$ son funciones convexas en $\Rn$, y la función de igualdad $h$ es afín, entonces $\bar{x}$ es un minimizador global del problema.
+\begin{theorem}[Suficiencia de KKT bajo Convexidad]\label{v1:thm:4.2.2}
+ Sea $\bar{x} \in \Rn$ un punto estacionario del problema \eqref{v1:eq:4.1}-\eqref{v1:eq:4.2} (es decir, $\mathcal{M}(\bar{x}) \neq \emptyset$).
+ 
+ Si las funciones $f$ y $g_i$ son funciones convexas en $\Rn$, y la función de igualdad $h$ es afín, entonces $\bar{x}$ es un minimizador global del problema.
 \end{theorem}
 
 \begin{proof}
-    Sea $(\bar{\lambda}, \bar{\mu}) \in \mathcal{M}(\bar{x})$ el vector de multiplicadores asociado. Dado que $\bar{\mu}_i \ge 0$ y las funciones $g_i$ son convexas, la combinación cónica $\sum \bar{\mu}_i g_i(x)$ es convexa. Como $h$ es afín, el término $\sum \bar{\lambda}_i h_i(x)$ también lo es. Por tanto, la función $x \mapsto L(x, \bar{\lambda}, \bar{\mu})$ es convexa en $\Rn$.
-    
-    Al ser $\bar{x}$ un punto estacionario, se cumple $\nabla_x L(\bar{x}, \bar{\lambda}, \bar{\mu}) = 0$. Utilizando la propiedad de primer orden para funciones convexas diferenciables, se tiene:
-    \[
-        L(x, \bar{\lambda}, \bar{\mu}) \ge L(\bar{x}, \bar{\lambda}, \bar{\mu}) \quad \forall x \in \Rn.
-    \]
-    Para cualquier punto factible $x \in D$, evaluando las restricciones se cumple $h(x) = 0$ y $g(x) \le 0$. Puesto que $\bar{\mu} \ge 0$, se verifica:
-    \[
-        f(x) \ge f(x) + \sum_{i=1}^l \bar{\lambda}_i h_i(x) + \sum_{i=1}^m \bar{\mu}_i g_i(x) = L(x, \bar{\lambda}, \bar{\mu}).
-    \]
-    Usando la minimalidad de la Lagrangiana en $\bar{x}$ y la condición de complementariedad $\bar{\mu}_i g_i(\bar{x}) = 0$:
-    \[
-        L(x, \bar{\lambda}, \bar{\mu}) \ge L(\bar{x}, \bar{\lambda}, \bar{\mu}) = f(\bar{x}).
-    \]
-    Por transitividad, se concluye que $f(x) \ge f(\bar{x})$ para todo punto factible $x \in D$, lo que demuestra que $\bar{x}$ es un minimizador global.
+ Sea $(\bar{\lambda}, \bar{\mu}) \in \mathcal{M}(\bar{x})$ el vector de multiplicadores asociado. Dado que $\bar{\mu}_i \ge 0$ y las funciones $g_i$ son convexas, la combinación cónica $\sum \bar{\mu}_i g_i(x)$ es convexa. Como $h$ es afín, el término $\sum \bar{\lambda}_i h_i(x)$ también lo es. Por tanto, la función $x \mapsto L(x, \bar{\lambda}, \bar{\mu})$ es convexa en $\Rn$.
+ 
+ Al ser $\bar{x}$ un punto estacionario, se cumple $\nabla_x L(\bar{x}, \bar{\lambda}, \bar{\mu}) = 0$. Utilizando la propiedad de primer orden para funciones convexas diferenciables, se tiene:
+ \[
+ L(x, \bar{\lambda}, \bar{\mu}) \ge L(\bar{x}, \bar{\lambda}, \bar{\mu}) \quad \forall x \in \Rn.
+ \]
+ Para cualquier punto factible $x \in D$, evaluando las restricciones se cumple $h(x) = 0$ y $g(x) \le 0$. Puesto que $\bar{\mu} \ge 0$, se verifica:
+ \[
+ f(x) \ge f(x) + \sum_{i=1}^l \bar{\lambda}_i h_i(x) + \sum_{i=1}^m \bar{\mu}_i g_i(x) = L(x, \bar{\lambda}, \bar{\mu}).
+ \]
+ Usando la minimalidad de la Lagrangiana en $\bar{x}$ y la condición de complementariedad $\bar{\mu}_i g_i(\bar{x}) = 0$:
+ \[
+ L(x, \bar{\lambda}, \bar{\mu}) \ge L(\bar{x}, \bar{\lambda}, \bar{\mu}) = f(\bar{x}).
+ \]
+ Por transitividad, se concluye que $f(x) \ge f(\bar{x})$ para todo punto factible $x \in D$, lo que demuestra que $\bar{x}$ es un minimizador global.
 \end{proof}
 
 \begin{notabox}[Dualidad y condiciones de punto de silla]
-    La demostración del \cref{thm:kkt_suficientes_convexo} utiliza la propiedad de punto de silla de la función Lagrangiana:
-    \[
-        L(\bar{x}, \lambda, \mu) \le L(\bar{x}, \bar{\lambda}, \bar{\mu}) \le L(x, \bar{\lambda}, \bar{\mu}) \quad \forall x \in \Rn, \ \forall \lambda \in \R^l, \ \forall \mu \in \R_+^m.
-    \]
-    Esta relación de min-max es fundamental en la teoría de dualidad y en el diseño de algoritmos primal-duales.
+ La demostración del \cref{v1:thm:4.2.2} utiliza la propiedad de punto de silla de la función Lagrangiana:
+ \[
+ L(\bar{x}, \lambda, \mu) \le L(\bar{x}, \bar{\lambda}, \bar{\mu}) \le L(x, \bar{\lambda}, \bar{\mu}) \quad \forall x \in \Rn, \ \forall \lambda \in \R^l, \ \forall \mu \in \R_+^m.
+ \]
+ Esta relación de min-max es fundamental en la teoría de dualidad y en el diseño de algoritmos primal-duales.
 \end{notabox}
 
-\begin{example}[Falta de convexidad en las restricciones]\label{ex:falla_kkt_convexo}
-    Considérese el problema:
-    \[
-        \min f(x) = x_2 \quad \text{sujeto a} \quad g(x) = -x_1^2 - x_2^2 \le 0.
-    \]
-    El conjunto factible es $\R^2$, el cual es convexo. Sin embargo, la función objetivo no está acotada inferiormente en $\R^2$, por lo que no existe un mínimo global.
-    
-    El origen $\bar{x} = (0,0)^\top$ es un punto estacionario, puesto que $\nabla g(\bar{x}) = (0,0)^\top$, y el sistema de primer orden no admite solución con multiplicador estrictamente positivo para la restricción modificada $g(x) = -x_1^2 + x_2 \le 0$.
-    
-    No es posible aplicar el \cref{thm:kkt_suficientes_convexo} en este caso debido a que la función $g(x) = -x_1^2 + x_2$ no es convexa en $\R^2$ (su Hessiano es indefinido). El teorema exige la convexidad de las funciones que definen las restricciones, no únicamente la del conjunto factible resultante.
+\begin{example}[Falta de convexidad en las restricciones]\label{v1:exa:falla_kkt_convexo}
+ Considérese el problema:
+ \[
+ \min f(x) = x_2 \quad \text{sujeto a} \quad g(x) = -x_1^2 - x_2^2 \le 0.
+ \]
+ El conjunto factible es $\R^2$, el cual es convexo. Sin embargo, la función objetivo no está acotada inferiormente en $\R^2$, por lo que no existe un mínimo global.
+ 
+ El origen $\bar{x} = (0,0)^\top$ es un punto estacionario, puesto que $\nabla g(\bar{x}) = (0,0)^\top$, y el sistema de primer orden no admite solución con multiplicador estrictamente positivo para la restricción modificada $g(x) = -x_1^2 + x_2 \le 0$.
+ 
+ No es posible aplicar el \cref{v1:thm:4.2.2} en este caso debido a que la función $g(x) = -x_1^2 + x_2$ no es convexa en $\R^2$ (su Hessiano es indefinido). El teorema exige la convexidad de las funciones que definen las restricciones, no únicamente la del conjunto factible resultante.
 \end{example}
 
-\begin{example}[Resolución de un problema convexo]\label{ex:kkt_resolucion}
-    Minimicemos la función $f(x) = x_1^2 + 3x_2^2$ sujeta a:
-    \[
-        g_1(x) = 1 - x_1 - 2x_2 \le 0, \quad g_2(x) = 1 - 2x_1 - x_2 \le 0.
-    \]
-    La función objetivo es estrictamente convexa y las restricciones son afines, lo que asegura que se satisfacen las condiciones de regularidad. El sistema KKT está dado por:
-    \begin{conditions}
-        \conditem $2x_1 - \mu_1 - 2\mu_2 = 0$ \\
-        \conditem $6x_2 - 2\mu_1 - \mu_2 = 0$ \\
-        \conditem $\mu_1(1 - x_1 - 2x_2) = 0$ \\
-        \conditem $\mu_2(1 - 2x_1 - x_2) = 0$ \\
-        \conditem $\mu_1 \ge 0, \ \mu_2 \ge 0$ \\
-        \conditem $g_1(x) \le 0, \ g_2(x) \le 0$
-    \end{conditions}
-    Analizamos los posibles casos según la complementariedad:
-    \begin{itemize}
-        \item \textbf{Caso 1 ($\mu_1 = 0, \mu_2 = 0$):} De las ecuaciones de estacionariedad se obtiene $x_1 = 0, x_2 = 0$. Evaluando las restricciones: $g_1(0,0) = 1 > 0$, lo que es infactible.
-        \item \textbf{Caso 2 ($\mu_1 = 0, \mu_2 > 0$):} La complementariedad exige $2x_1 + x_2 = 1$. Con $\mu_1 = 0$, se tiene $2x_1 = 2\mu_2$ y $6x_2 = \mu_2$, de donde $x_1 = 6x_2$. Sustituyendo en la restricción activa se obtiene $x_2 = 1/13$ y $x_1 = 6/13$. Evaluando la restricción inactiva: $g_1(6/13, 1/13) = 5/13 > 0$, lo que es infactible.
-        \item \textbf{Caso 3 ($\mu_1 > 0, \mu_2 = 0$):} Se requiere $x_1 + 2x_2 = 1$. Las ecuaciones de estacionariedad implican $2x_1 = \mu_1$ y $6x_2 = 2\mu_1$, lo que da $x_1 = 1.5 x_2$. Sustituyendo en la restricción se obtiene $x_2 = 2/7$ y $x_1 = 3/7$. Evaluando las condiciones restantes: $g_2(3/7, 2/7) = -1/7 \le 0$ y el multiplicador es $\mu_1 = 6/7 \ge 0$.
-    \end{itemize}
-    Se verifican todas las condiciones. El punto estacionario único es $\bar{x} = (3/7, 2/7)^\top$ con multiplicadores $\bar{\mu} = (6/7, 0)^\top$, el cual corresponde al minimizador global.
+\begin{example}[Resolución de un problema convexo]\label{v1:exa:4.2.1}
+ Minimicemos la función $f(x) = x_1^2 + 3x_2^2$ sujeta a:
+ \[
+ g_1(x) = 1 - x_1 - 2x_2 \le 0, \quad g_2(x) = 1 - 2x_1 - x_2 \le 0.
+ \]
+ La función objetivo es estrictamente convexa y las restricciones son afines, lo que asegura que se satisfacen las condiciones de regularidad. El sistema KKT está dado por:
+ \begin{conditions}
+ \conditem $2x_1 - \mu_1 - 2\mu_2 = 0$ \\
+ \conditem $6x_2 - 2\mu_1 - \mu_2 = 0$ \\
+ \conditem $\mu_1(1 - x_1 - 2x_2) = 0$ \\
+ \conditem $\mu_2(1 - 2x_1 - x_2) = 0$ \\
+ \conditem $\mu_1 \ge 0, \ \mu_2 \ge 0$ \\
+ \conditem $g_1(x) \le 0, \ g_2(x) \le 0$
+ \end{conditions}
+ Analizamos los posibles casos según la complementariedad:
+ \begin{itemize}
+ \item \textbf{Caso 1 ($\mu_1 = 0, \mu_2 = 0$):} De las ecuaciones de estacionariedad se obtiene $x_1 = 0, x_2 = 0$. Evaluando las restricciones: $g_1(0,0) = 1 > 0$, lo que es infactible.
+ \item \textbf{Caso 2 ($\mu_1 = 0, \mu_2 > 0$):} La complementariedad exige $2x_1 + x_2 = 1$. Con $\mu_1 = 0$, se tiene $2x_1 = 2\mu_2$ y $6x_2 = \mu_2$, de donde $x_1 = 6x_2$. Sustituyendo en la restricción activa se obtiene $x_2 = 1/13$ y $x_1 = 6/13$. Evaluando la restricción inactiva: $g_1(6/13, 1/13) = 5/13 > 0$, lo que es infactible.
+ \item \textbf{Caso 3 ($\mu_1 > 0, \mu_2 = 0$):} Se requiere $x_1 + 2x_2 = 1$. Las ecuaciones de estacionariedad implican $2x_1 = \mu_1$ y $6x_2 = 2\mu_1$, lo que da $x_1 = 1.5 x_2$. Sustituyendo en la restricción se obtiene $x_2 = 2/7$ y $x_1 = 3/7$. Evaluando las condiciones restantes: $g_2(3/7, 2/7) = -1/7 \le 0$ y el multiplicador es $\mu_1 = 6/7 \ge 0$.
+ \end{itemize}
+ Se verifican todas las condiciones. El punto estacionario único es $\bar{x} = (3/7, 2/7)^\top$ con multiplicadores $\bar{\mu} = (6/7, 0)^\top$, el cual corresponde al minimizador global.
 \end{example}
 
 Las propiedades algebraicas del conjunto de multiplicadores $\mathcal{M}(\bar{x})$ dependen del cumplimiento de las condiciones de regularidad en el punto estacionario.
 
-\begin{definition}[Condición Estricta de Mangasarian-Fromovitz - SMFCQ]\label{def:smfcq}
-    Sea $\bar{x} \in D$ un punto estacionario y sea $\bar{\mu}$ un vector de multiplicadores en $\mathcal{M}(\bar{x})$. Definimos los conjuntos de índices activos según el signo del multiplicador:
-    \[
-        I_+(\bar{x}) = \{ i \in I(\bar{x}) \mid \bar{\mu}_i > 0 \}, \quad I_0(\bar{x}) = \{ i \in I(\bar{x}) \mid \bar{\mu}_i = 0 \}.
-    \]
-    El punto cumple \textbf{SMFCQ} si los gradientes $\{ \nabla h_i(\bar{x}) \}_{i=1}^l \cup \{ \nabla g_i(\bar{x}) \}_{i \in I_+(\bar{x})}$ son linealmente independientes y existe un vector $\bar{d} \in \Rn$ tal que $\langle \nabla h_i(\bar{x}), \bar{d} \rangle = 0$, $\langle \nabla g_i(\bar{x}), \bar{d} \rangle = 0$ para $i \in I_+(\bar{x})$, y $\langle \nabla g_i(\bar{x}), \bar{d} \rangle < 0$ para $i \in I_0(\bar{x})$.
+\begin{definition}[Condición Estricta de Mangasarian-Fromovitz - SMFCQ]\label{v1:def:smfcq}
+ Sea $\bar{x} \in D$ un punto estacionario y sea $\bar{\mu}$ un vector de multiplicadores en $\mathcal{M}(\bar{x})$. Definimos los conjuntos de índices activos según el signo del multiplicador:
+ \[
+ I_+(\bar{x}) = \{ i \in I(\bar{x}) \mid \bar{\mu}_i > 0 \}, \quad I_0(\bar{x}) = \{ i \in I(\bar{x}) \mid \bar{\mu}_i = 0 \}.
+ \]
+ El punto cumple \textbf{SMFCQ} si los gradientes $\{ \nabla h_i(\bar{x}) \}_{i=1}^l \cup \{ \nabla g_i(\bar{x}) \}_{i \in I_+(\bar{x})}$ son linealmente independientes y existe un vector $\bar{d} \in \Rn$ tal que $\langle \nabla h_i(\bar{x}), \bar{d} \rangle = 0$, $\langle \nabla g_i(\bar{x}), \bar{d} \rangle = 0$ para $i \in I_+(\bar{x})$, y $\langle \nabla g_i(\bar{x}), \bar{d} \rangle < 0$ para $i \in I_0(\bar{x})$.
 \end{definition}
 
-\begin{proposition}[Propiedades del Conjunto de Multiplicadores]\label{prop:propiedades_multiplicadores}
-    Sea $\bar{x} \in \Rn$ un punto estacionario del problema ($\mathcal{M}(\bar{x}) \neq \emptyset$).
-    \begin{enuthm}
-        \item El conjunto $\mathcal{M}(\bar{x})$ es compacto si y solo si se cumple la condición MFCQ.
-        \item El conjunto $\mathcal{M}(\bar{x})$ consta de un único punto si y solo si se cumple la condición SMFCQ.
-    \end{enuthm}
+\begin{proposition}[Propiedades del Conjunto de Multiplicadores]\label{v1:prop:4.2.2}
+ Sea $\bar{x} \in \Rn$ un punto estacionario del problema ($\mathcal{M}(\bar{x}) \neq \emptyset$).
+ \begin{enuthm}
+ \item El conjunto $\mathcal{M}(\bar{x})$ es compacto si y solo si se cumple la condición MFCQ.
+ \item El conjunto $\mathcal{M}(\bar{x})$ consta de un único punto si y solo si se cumple la condición SMFCQ.
+ \end{enuthm}
 \end{proposition}
 
 \begin{proof}
-    Demostramos (a). La propiedad de ser cerrado se deduce directamente de que $\mathcal{M}(\bar{x})$ está definido mediante igualdades e inecuaciones continuas. Supongamos, por reducción al absurdo, que el conjunto no está acotado, por lo que existe una sucesión $\{ (\lambda^k, \mu^k) \} \subset \mathcal{M}(\bar{x})$ tal que $\norm{(\lambda^k, \mu^k)} \to \infty$.
-    
-    Dividiendo las ecuaciones del sistema KKT correspondientes a cada $k$ por el escalar $\norm{(\lambda^k, \mu^k)} > 0$, se obtiene una sucesión en la esfera unitaria. Por el Teorema de Bolzano-Weierstrass, existe una subsucesión convergente hacia un vector límite $(\tilde{\lambda}, \tilde{\mu}) \in (\R^l \times \R_+^m)$ con $\norm{(\tilde{\lambda}, \tilde{\mu})} = 1$. Pasando al límite en la ecuación normalizada, se obtiene:
-    \[
-        0 = \sum_{i=1}^l \tilde{\lambda}_i \nabla h_i(\bar{x}) + \sum_{i \in I(\bar{x})} \tilde{\mu}_i \nabla g_i(\bar{x}), \quad \text{con } \tilde{\mu}_i \ge 0.
-    \]
-    Por la caracterización dual de Mangasarian-Fromovitz (\cref{prop:dual_mfcq}), si se cumple MFCQ este sistema homogéneo admite únicamente la solución trivial $(\tilde{\lambda}, \tilde{\mu}) = 0$. Esto contradice que el vector límite tiene norma unitaria, concluyendo que el conjunto de multiplicadores es compacto.
+ Demostramos (a). La propiedad de ser cerrado se deduce directamente de que $\mathcal{M}(\bar{x})$ está definido mediante igualdades e inecuaciones continuas. Supongamos, por reducción al absurdo, que el conjunto no está acotado, por lo que existe una sucesión $\{ (\lambda^k, \mu^k) \} \subset \mathcal{M}(\bar{x})$ tal que $\norm{(\lambda^k, \mu^k)} \to \infty$.
+ 
+ Dividiendo las ecuaciones del sistema KKT correspondientes a cada $k$ por el escalar $\norm{(\lambda^k, \mu^k)} > 0$, se obtiene una sucesión en la esfera unitaria. Por el Teorema de Bolzano-Weierstrass, existe una subsucesión convergente hacia un vector límite $(\tilde{\lambda}, \tilde{\mu}) \in (\R^l \times \R_+^m)$ con $\norm{(\tilde{\lambda}, \tilde{\mu})} = 1$. Pasando al límite en la ecuación normalizada, se obtiene:
+ \[
+ 0 = \sum_{i=1}^l \tilde{\lambda}_i \nabla h_i(\bar{x}) + \sum_{i \in I(\bar{x})} \tilde{\mu}_i \nabla g_i(\bar{x}), \quad \text{con } \tilde{\mu}_i \ge 0.
+ \]
+ Por la caracterización dual de Mangasarian-Fromovitz (\cref{v1:prop:4.1.2}), si se cumple MFCQ este sistema homogéneo admite únicamente la solución trivial $(\tilde{\lambda}, \tilde{\mu}) = 0$. Esto contradice que el vector límite tiene norma unitaria, concluyendo que el conjunto de multiplicadores es compacto.
 \end{proof}
 
-\begin{example}[Geometría del conjunto de multiplicadores]\label{ex:propiedades_multiplicadores}
-    Considérese el problema en $\R^2$ con dos restricciones de desigualdad:
-    \begin{mini*}{ }{f(x) = x_1}{}{ }
-        \addConstraint{g_1( x ) = -x_1 + x_2\le 0}
-        \addConstraint{g_2( x ) =- x_1 - x_2\le 0}
-    \end{mini*}
-    El mínimo global se alcanza en $\bar{x} = (0,0)^\top$, donde ambas restricciones son activas. Los gradientes son $\nabla g_1 = (-1, 1)^\top$ y $\nabla g_2 = (-1, -1)^\top$. Dado que son linealmente independientes, se verifican MFCQ y SMFCQ.
-    
-    Planteando el sistema KKT: $(1,0)^\top + \mu_1(-1,1)^\top + \mu_2(-1,-1)^\top = 0$, cuya única solución es $\bar{\mu} = (1/2, 1/2)^\top$. En este caso, el conjunto de multiplicadores es un único punto.
-    
-    \vspace{0.5em}
-    \noindent\textbf{1. Incumplimiento de SMFCQ con MFCQ (Compactibilidad):} \\
-    Añadiendo la restricción redundante $g_3(x) = -x_1 \le 0$, en el origen se tiene $\nabla g_3 = (-1, 0)^\top$. El conjunto de gradientes ya no es linealmente independiente, pero el vector $\bar{d} = (1,0)^\top$ sigue cumpliendo $\langle \nabla g_i, \bar{d} \rangle < 0$ para todo $i$, por lo que se mantiene MFCQ.
-    
-    El sistema KKT resulta en:
-    \[
-        \begin{pmatrix} 1 \\ 0 \end{pmatrix} + \mu_1 \begin{pmatrix} -1 \\ 1 \end{pmatrix} + \mu_2 \begin{pmatrix} -1 \\ -1 \end{pmatrix} + \mu_3 \begin{pmatrix} -1 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}.
-    \]
-    De la segunda coordenada se deduce $\mu_1 = \mu_2$. Sustituyendo en la primera se obtiene $\mu_3 = 1 - 2\mu_1$. Dado que los multiplicadores deben ser no negativos, se requiere $0 \le \mu_1 \le 1/2$. El conjunto de multiplicadores es:
-    \[
-        \mathcal{M}(\bar{x}) = \left\{ \begin{pmatrix} \mu_1 \\ \mu_1 \\ 1 - 2\mu_1 \end{pmatrix} \mathrel{\Bigg|} \mu_1 \in \left[0, \frac{1}{2}\right] \right\}.
-    \]
-    Al no cumplirse SMFCQ no se cumple la unicidad, pero bajo MFCQ el conjunto $\mathcal{M}(\bar{x})$ es un segmento de recta compacto en $\R^3$.
-    
-    \vspace{0.5em}
-    \noindent\textbf{2. Falta de acotamiento por incumplimiento de MFCQ:} \\
-    Sustituyendo la tercera restricción por $g_4(x) = x_1 \le 0$, se tiene $\nabla g_4 = (1,0)^\top$. En este caso, cualquier dirección factible con $d_1 > 0$ contradice la restricción $g_4$, por lo que no se satisface MFCQ. El sistema KKT es:
-    \[
-        \begin{pmatrix} 1 \\ 0 \end{pmatrix} + \mu_1 \begin{pmatrix} -1 \\ 1 \end{pmatrix} + \mu_2 \begin{pmatrix} -1 \\ -1 \end{pmatrix} + \mu_4 \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}.
-    \]
-    Esto implica $\mu_1 = \mu_2$ y $\mu_4 = 2\mu_1 - 1$. Como se requiere $\mu_4 \ge 0$, se tiene $\mu_1 \ge 1/2$. El conjunto de multiplicadores es:
-    \[
-        \mathcal{M}(\bar{x}) = \left\{ \begin{pmatrix} \mu_1 \\ \mu_1 \\ 2\mu_1 - 1 \end{pmatrix} \mathrel{\Bigg|} \mu_1 \in \left[\frac{1}{2}, +\infty \right) \right\}.
-    \]
-    Al no cumplirse MFCQ, el conjunto de multiplicadores es un rayo no acotado.
+\begin{example}[Geometría del conjunto de multiplicadores]\label{v1:exa:propiedades_multiplicadores}
+ Considérese el problema en $\R^2$ con dos restricciones de desigualdad:
+ \begin{mini*}{ }{f(x) = x_1}{}{ }
+ \addConstraint{g_1( x ) = -x_1 + x_2\le 0}
+ \addConstraint{g_2( x ) =- x_1 - x_2\le 0}
+ \end{mini*}
+ El mínimo global se alcanza en $\bar{x} = (0,0)^\top$, donde ambas restricciones son activas. Los gradientes son $\nabla g_1 = (-1, 1)^\top$ y $\nabla g_2 = (-1, -1)^\top$. Dado que son linealmente independientes, se verifican MFCQ y SMFCQ.
+ 
+ Planteando el sistema KKT: $(1,0)^\top + \mu_1(-1,1)^\top + \mu_2(-1,-1)^\top = 0$, cuya única solución es $\bar{\mu} = (1/2, 1/2)^\top$. En este caso, el conjunto de multiplicadores es un único punto.
+ 
+ \vspace{0.5em}
+ \noindent\textbf{1. Incumplimiento de SMFCQ con MFCQ (Compactibilidad):} \\
+ Añadiendo la restricción redundante $g_3(x) = -x_1 \le 0$, en el origen se tiene $\nabla g_3 = (-1, 0)^\top$. El conjunto de gradientes ya no es linealmente independiente, pero el vector $\bar{d} = (1,0)^\top$ sigue cumpliendo $\langle \nabla g_i, \bar{d} \rangle < 0$ para todo $i$, por lo que se mantiene MFCQ.
+ 
+ El sistema KKT resulta en:
+ \[
+ \begin{pmatrix} 1 \\ 0 \end{pmatrix} + \mu_1 \begin{pmatrix} -1 \\ 1 \end{pmatrix} + \mu_2 \begin{pmatrix} -1 \\ -1 \end{pmatrix} + \mu_3 \begin{pmatrix} -1 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}.
+ \]
+ De la segunda coordenada se deduce $\mu_1 = \mu_2$. Sustituyendo en la primera se obtiene $\mu_3 = 1 - 2\mu_1$. Dado que los multiplicadores deben ser no negativos, se requiere $0 \le \mu_1 \le 1/2$. El conjunto de multiplicadores es:
+ \[
+ \mathcal{M}(\bar{x}) = \left\{ \begin{pmatrix} \mu_1 \\ \mu_1 \\ 1 - 2\mu_1 \end{pmatrix} \mathrel{\Bigg|} \mu_1 \in \left[0, \frac{1}{2}\right] \right\}.
+ \]
+ Al no cumplirse SMFCQ no se cumple la unicidad, pero bajo MFCQ el conjunto $\mathcal{M}(\bar{x})$ es un segmento de recta compacto en $\R^3$.
+ 
+ \vspace{0.5em}
+ \noindent\textbf{2. Falta de acotamiento por incumplimiento de MFCQ:} \\
+ Sustituyendo la tercera restricción por $g_4(x) = x_1 \le 0$, se tiene $\nabla g_4 = (1,0)^\top$. En este caso, cualquier dirección factible con $d_1 > 0$ contradice la restricción $g_4$, por lo que no se satisface MFCQ. El sistema KKT es:
+ \[
+ \begin{pmatrix} 1 \\ 0 \end{pmatrix} + \mu_1 \begin{pmatrix} -1 \\ 1 \end{pmatrix} + \mu_2 \begin{pmatrix} -1 \\ -1 \end{pmatrix} + \mu_4 \begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}.
+ \]
+ Esto implica $\mu_1 = \mu_2$ y $\mu_4 = 2\mu_1 - 1$. Como se requiere $\mu_4 \ge 0$, se tiene $\mu_1 \ge 1/2$. El conjunto de multiplicadores es:
+ \[
+ \mathcal{M}(\bar{x}) = \left\{ \begin{pmatrix} \mu_1 \\ \mu_1 \\ 2\mu_1 - 1 \end{pmatrix} \mathrel{\Bigg|} \mu_1 \in \left[\frac{1}{2}, +\infty \right) \right\}.
+ \]
+ Al no cumplirse MFCQ, el conjunto de multiplicadores es un rayo no acotado.
 \end{example}
 
 Si en un mínimo local no se cumple ninguna condición de regularidad, el sistema KKT clásico puede no tener solución. Para tratar estos casos se introducen las condiciones de Fritz John.
 
-\begin{theorem}[Condiciones de Fritz John]\label{thm:fritz_john}
-    Sea $\bar{x} \in D$ un minimizador local de \eqref{eq:problema_mixto}-\eqref{eq:conjunto_mixto}. Independientemente de las condiciones de regularidad, existe un vector no nulo $(\lambda_0, \bar{\lambda}, \bar{\mu}) \in \R \times \R^l \times \R^m$ tal que:
-    \begin{align}
-        \lambda_0 \nabla f(\bar{x}) + \sum_{i=1}^l \bar{\lambda}_i \nabla h_i(\bar{x}) + \sum_{i=1}^m \bar{\mu}_i \nabla g_i(\bar{x}) &= 0, \\
-        \bar{\mu}_i g_i(\bar{x}) &= 0 \quad \forall i=1,\dots,m, \nonumber \\
-        \lambda_0 \ge 0, \quad \bar{\mu} \ge 0, \quad (\lambda_0, \bar{\lambda}, \bar{\mu}) &\neq 0. \nonumber
-    \end{align}
+\begin{theorem}[Condiciones de Fritz John]\label{v1:thm:4.2.3}
+ Sea $\bar{x} \in D$ un minimizador local de \eqref{v1:eq:4.1}-\eqref{v1:eq:4.2}. Independientemente de las condiciones de regularidad, existe un vector no nulo $(\lambda_0, \bar{\lambda}, \bar{\mu}) \in \R \times \R^l \times \R^m$ tal que:
+ \begin{align}
+ \lambda_0 \nabla f(\bar{x}) + \sum_{i=1}^l \bar{\lambda}_i \nabla h_i(\bar{x}) + \sum_{i=1}^m \bar{\mu}_i \nabla g_i(\bar{x}) &= 0, \\
+ \bar{\mu}_i g_i(\bar{x}) &= 0 \quad \forall i=1,\dots,m, \nonumber \\
+ \lambda_0 \ge 0, \quad \bar{\mu} \ge 0, \quad (\lambda_0, \bar{\lambda}, \bar{\mu}) &\neq 0. \nonumber
+ \end{align}
 \end{theorem}
 
 \begin{proof}
-    Consideramos dos casos.
-    
-    \textbf{Caso 1:} Si se cumple la condición de regularidad MFCQ, por el \cref{thm:kkt_necesarias} se garantiza la existencia de multiplicadores KKT $(\bar{\lambda}, \bar{\mu})$. En este caso basta definir $\lambda_0 = 1$ para obtener la solución $(1, \bar{\lambda}, \bar{\mu}) \neq 0$.
-    
-    \textbf{Caso 2:} Si no se cumple MFCQ, por la \cref{prop:dual_mfcq} existe una solución no nula del sistema dual homogéneo:
-    \[
-        \sum_{i=1}^l \bar{\lambda}_i \nabla h_i(\bar{x}) + \sum_{i \in I(\bar{x})} \bar{\mu}_i \nabla g_i(\bar{x}) = 0, \quad \text{con } \bar{\mu}_i \ge 0 \text{ y } (\bar{\lambda}, \bar{\mu}) \neq 0.
-    \]
-    Definiendo el escalar $\lambda_0 = 0$ y completando $\bar{\mu}_i = 0$ para $i \notin I(\bar{x})$, se obtiene el vector no nulo $(\lambda_0, \bar{\lambda}, \bar{\mu})$ que satisface el sistema de Fritz John.
+ Consideramos dos casos.
+ 
+ \textbf{Caso 1:} Si se cumple la condición de regularidad MFCQ, por el \cref{v1:thm:4.2.1} se garantiza la existencia de multiplicadores KKT $(\bar{\lambda}, \bar{\mu})$. En este caso basta definir $\lambda_0 = 1$ para obtener la solución $(1, \bar{\lambda}, \bar{\mu}) \neq 0$.
+ 
+ \textbf{Caso 2:} Si no se cumple MFCQ, por la \cref{v1:prop:4.1.2} existe una solución no nula del sistema dual homogéneo:
+ \[
+ \sum_{i=1}^l \bar{\lambda}_i \nabla h_i(\bar{x}) + \sum_{i \in I(\bar{x})} \bar{\mu}_i \nabla g_i(\bar{x}) = 0, \quad \text{con } \bar{\mu}_i \ge 0 \text{ y } (\bar{\lambda}, \bar{\mu}) \neq 0.
+ \]
+ Definiendo el escalar $\lambda_0 = 0$ y completando $\bar{\mu}_i = 0$ para $i \notin I(\bar{x})$, se obtiene el vector no nulo $(\lambda_0, \bar{\lambda}, \bar{\mu})$ que satisface el sistema de Fritz John.
 \end{proof}
 
-\begin{example}[Puntos estacionarios con $\lambda_0 = 0$]\label{ex:fritz_john_cuspide}
-    Considérese el problema:
-    
-    \begin{mini*}{ }{f( x ) = -x_1}{}{ }
-        \addConstraint{g_1( x ) =- x_1^1 + x_2}{\le 0}
-        \addConstraint{g_2( x ) =- x_1 -x_2}{\le 0}
-    \end{mini*}
-    
-    El único punto factible es el origen $\bar{x} = (0,0)^\top$, que corresponde al mínimo global. Los gradientes activos en este punto son $\nabla g_1(\bar{x}) = (0, 1)^\top$ y $\nabla g_2(\bar{x}) = (0, -1)^\top$. Como se tiene $\nabla g_1 + \nabla g_2 = 0$, los gradientes son linealmente dependientes y no se cumple la condición MFCQ.
-    
-    Intentando plantear el sistema KKT tradicional ($\lambda_0 = 1$):
-    \[
-        \nabla f(\bar{x}) + \mu_1 \nabla g_1(\bar{x}) + \mu_2 \nabla g_2(\bar{x}) = \begin{pmatrix} -1 \\ 0 \end{pmatrix} + \mu_1 \begin{pmatrix} 0 \\ 1 \end{pmatrix} + \mu_2 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}.
-    \]
-    La primera ecuación requiere $-1 = 0$, lo que es una contradicción. Por lo tanto, no existen multiplicadores de KKT.
-    
-    Sin embargo, planteando el sistema de Fritz John con $\lambda_0 = 0$:
-    \[
-        0 \cdot \begin{pmatrix} -1 \\ 0 \end{pmatrix} + \mu_1 \begin{pmatrix} 0 \\ 1 \end{pmatrix} + \mu_2 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0 \\ \mu_1 - \mu_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}.
-    \]
-    Cualquier elección con $\mu_1 = \mu_2 > 0$ proporciona una solución válida. El hecho de que $\lambda_0 = 0$ indica que el punto es geométricamente singular, y el gradiente de la función objetivo no interviene en la estacionariedad.
+\begin{example}[Puntos estacionarios con $\lambda_0 = 0$]\label{v1:exa:fritz_john_cuspide}
+ Considérese el problema:
+ 
+ \begin{mini*}{ }{f( x ) = -x_1}{}{ }
+ \addConstraint{g_1( x ) =- x_1^1 + x_2}{\le 0}
+ \addConstraint{g_2( x ) =- x_1 -x_2}{\le 0}
+ \end{mini*}
+ 
+ El único punto factible es el origen $\bar{x} = (0,0)^\top$, que corresponde al mínimo global. Los gradientes activos en este punto son $\nabla g_1(\bar{x}) = (0, 1)^\top$ y $\nabla g_2(\bar{x}) = (0, -1)^\top$. Como se tiene $\nabla g_1 + \nabla g_2 = 0$, los gradientes son linealmente dependientes y no se cumple la condición MFCQ.
+ 
+ Intentando plantear el sistema KKT tradicional ($\lambda_0 = 1$):
+ \[
+ \nabla f(\bar{x}) + \mu_1 \nabla g_1(\bar{x}) + \mu_2 \nabla g_2(\bar{x}) = \begin{pmatrix} -1 \\ 0 \end{pmatrix} + \mu_1 \begin{pmatrix} 0 \\ 1 \end{pmatrix} + \mu_2 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}.
+ \]
+ La primera ecuación requiere $-1 = 0$, lo que es una contradicción. Por lo tanto, no existen multiplicadores de KKT.
+ 
+ Sin embargo, planteando el sistema de Fritz John con $\lambda_0 = 0$:
+ \[
+ 0 \cdot \begin{pmatrix} -1 \\ 0 \end{pmatrix} + \mu_1 \begin{pmatrix} 0 \\ 1 \end{pmatrix} + \mu_2 \begin{pmatrix} 0 \\ -1 \end{pmatrix} = \begin{pmatrix} 0 \\ \mu_1 - \mu_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}.
+ \]
+ Cualquier elección con $\mu_1 = \mu_2 > 0$ proporciona una solución válida. El hecho de que $\lambda_0 = 0$ indica que el punto es geométricamente singular, y el gradiente de la función objetivo no interviene en la estacionariedad.
 \end{example}
 
 \begin{warningbox}[Dificultades numéricas en presencia de multiplicadores singulares]
-    Aunque el Teorema de Fritz John garantiza la existencia de multiplicadores en presencia de puntos singulares, este resultado suele ser indeseable desde el punto de vista algorítmico.
-    
-    Si un método numérico converge a un punto donde $\lambda_0 = 0$, el algoritmo ignora la función objetivo $f(x)$ y realiza iteraciones destinadas únicamente a satisfacer la factibilidad de las restricciones. Por ello, en optimización no lineal es de gran importancia asegurar que se cumplan condiciones de regularidad como MFCQ para garantizar que $\lambda_0 = 1$ y mantener la convergencia hacia el óptimo de la función objetivo.
+ Aunque el Teorema de Fritz John garantiza la existencia de multiplicadores en presencia de puntos singulares, este resultado suele ser indeseable desde el punto de vista algorítmico.
+ 
+ Si un método numérico converge a un punto donde $\lambda_0 = 0$, el algoritmo ignora la función objetivo $f(x)$ y realiza iteraciones destinadas únicamente a satisfacer la factibilidad de las restricciones. Por ello, en optimización no lineal es de gran importancia asegurar que se cumplan condiciones de regularidad como MFCQ para garantizar que $\lambda_0 = 1$ y mantener la convergencia hacia el óptimo de la función objetivo.
 \end{warningbox}
