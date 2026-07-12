@@ -1,28 +1,32 @@
 % --- Archivo: 01_subespacio_tangente.tex ---
 
+\chapter{Restricciones de igualdad}
+\label{v1:chap:2}
+
 Este capítulo presenta las condiciones teóricas de optimalidad para problemas con restricciones de igualdad, definidos sobre variedades diferenciables. A partir del Teorema de Lyusternik, se establece la relación entre la topología del cono tangente y el núcleo de la matriz Jacobiana, para luego deducir las condiciones de primer y segundo orden mediante multiplicadores de Lagrange.
 
 \begin{notation}
-    Dada una función vectorial diferenciable $h : \Rn \to \R^l$, denotaremos por $J_h(x) \in \R^{l \times n}$ a su matriz Jacobiana evaluada en el punto $x$. Consecuentemente, las filas de esta matriz corresponden a los gradientes transpuestos $\nabla h_i(x)^\top$, para $i = 1, \dots, l$.
+ Dada una función vectorial diferenciable $h : \Rn \to \R^l$, denotaremos por $J_h(x) \in \R^{l \times n}$ a su matriz Jacobiana evaluada en el punto $x$. Consecuentemente, las filas de esta matriz corresponden a los gradientes transpuestos $\nabla h_i(x)^\top$, para $i = 1, \dots, l$.
 \end{notation}
 
 % =========================================================
-\section{El Problema de Optimización y el Subespacio Tangente}
+\section{El problema de optimización y el subespacio tangente}
+\label{v1:sec:2.1}
 % =========================================================
 
-\begin{definition}[Problema con Restricciones de Igualdad]\label{def:problema_igualdad}
-    Sean $f : \Rn \to \R$ y $h : \Rn \to \R^l$ funciones de clase $\mathcal{C}^1$ (y de clase $\mathcal{C}^2$ cuando el análisis lo requiera). Se define el \textbf{conjunto factible} $D$ como la variedad algebraica descrita por el sistema de igualdades:
-    \[
-        D = \{ x \in \Rn \mid h(x) = 0 \}.
-    \]
-    El \textbf{problema de optimización con restricciones de igualdad} consiste en hallar un elemento en $D$ que minimice a la función objetivo $f$. Este problema se denota formalmente mediante la expresión:
-    \begin{equation}
-        \min f(x) \quad \text{sujeto a} \quad x \in D.
-        \label{eq:problema_igualdad}
-    \end{equation}
+\begin{definition}[Problema con restricciones de igualdad]\label{v1:def:2.1.1}
+ Sean $f : \Rn \to \R$ y $h : \Rn \to \R^l$ funciones de clase $\mathcal{C}^1$ (y de clase $\mathcal{C}^2$ cuando el análisis lo requiera). Se define el \textbf{conjunto factible} $D$ como la variedad algebraica descrita por el sistema de igualdades:
+ \[
+ D = \{ x \in \Rn \mid h(x) = 0 \}.
+ \]
+ El \textbf{problema de optimización con restricciones de igualdad} consiste en hallar un elemento en $D$ que minimice a la función objetivo $f$. Este problema se denota formalmente mediante la expresión:
+ \begin{equation}
+ \min f(x) \quad \text{sujeto a} \quad x \in D.
+ \label{v1:eq:2.1}
+ \end{equation}
 \end{definition}
 
-\begin{proposition}\label{prop:bouligand_en_kernel}
+\begin{proposition}\label{v1:prop:2.1.1}
 	Supóngase que $h : \Rn \to \R^l$ es diferenciable en $\bar{x} \in D$. Entonces, el cono de Bouligand está contenido en el núcleo del Jacobiano:
 	\[
 		\mathcal{B}_D(\bar{x}) \subset \ker J_h(\bar{x}).
@@ -32,16 +36,16 @@ Este capítulo presenta las condiciones teóricas de optimalidad para problemas 
 \begin{proof}
 	El vector nulo pertenece a ambos conjuntos. Sea $d \in \mathcal{B}_D(\bar{x}) \setminus \{0\}$. Por definición secuencial, existen sucesiones $\{t_k\} \to 0^+$ y $\{d^k\} \to d$, tales que $\bar{x} + t_k d^k \in D$ para todo $k \in \N$. Consecuentemente, $h(\bar{x} + t_k d^k) = 0$. Aplicando el desarrollo de Taylor de primer orden a la función vectorial $h$:
 	\[
-        0 = h(\bar{x} + t_k d^k) - h(\bar{x}) = t_k J_h(\bar{x})d^k + o(t_k \norm{d^k}).
+ 0 = h(\bar{x} + t_k d^k) - h(\bar{x}) = t_k J_h(\bar{x})d^k + o(t_k \norm{d^k}).
 	\]
 	Dividiendo por el escalar $t_k > 0$ y tomando el límite cuando $k \to \infty$, la convergencia $d^k \to d$ implica que $J_h(\bar{x})d = 0$. Por consiguiente, $d \in \ker J_h(\bar{x})$.
 \end{proof}
 
 \begin{notabox}[Interpretación Geométrica del Núcleo]
-    El álgebra lineal indica que $d \in \ker J_h(\bar{x})$ equivale a $\interno{\nabla h_i(\bar{x})}{d} = 0$ para cada restricción $i$. Geométricamente, esto significa que cualquier movimiento en la dirección de $d$ debe ser ortogonal a los gradientes de las superficies que definen a $D$. De este modo, $d$ es tangente a la superficie en primer orden.
+ El álgebra lineal indica que $d \in \ker J_h(\bar{x})$ equivale a $\interno{\nabla h_i(\bar{x})}{d} = 0$ para cada restricción $i$. Geométricamente, esto significa que cualquier movimiento en la dirección de $d$ debe ser ortogonal a los gradientes de las superficies que definen a $D$. De este modo, $d$ es tangente a la superficie en primer orden.
 \end{notabox}
 
-\begin{definition}[Condiciones de Regularidad]\label{def:condiciones_regularidad}
+\begin{definition}[Condiciones de regularidad]\label{v1:def:2.1.2}
 	Decimos que el punto $\bar{x} \in D$ es \textbf{regular} (o satisface una calificación de restricciones) si cumple una de las siguientes propiedades:
 	\begin{enuthm}
 		\item \textbf{Independencia Lineal de los Gradientes (LICQ):} El operador lineal $J_h(\bar{x})$ es sobreyectivo; esto es, $\rk J_h(\bar{x}) = l$. Algebraicamente, esto equivale a afirmar que la transformación transpuesta es inyectiva: $\ker(J_h(\bar{x})^\top) = \{0\}$. (Nótese que esto exige la condición topológica $l \le n$).
@@ -51,53 +55,53 @@ Este capítulo presenta las condiciones teóricas de optimalidad para problemas 
 
 Para establecer la topología local de la variedad, se requiere un resultado analítico preparatorio basado en el Teorema de la Función Implícita clásico.
 
-\begin{lemma}[Existencia de Función Implícita Acotada]\label{lem:funcion_implicita_acotada}
-    Sean $F : \R^s \times \Rn \to \R^l$ diferenciable en una vecindad de $(\bar{p}, \bar{y})$ y $\nabla_y F$ continua en dicho punto. Supóngase que $F(\bar{p}, \bar{y}) = 0$ y que el rango de la matriz Jacobiana parcial es máximo: $\rk J_y F(\bar{p}, \bar{y}) = l$.
-    
-    Entonces, existen una vecindad $U$ de $\bar{p}$ y una constante $M > 0$ tales que, para todo $p \in U$, existe un único $y(p) \in \Rn$ que satisface $F(p, y(p)) = 0$ y la acotación:
-    \[
-        \norm{y(p) - \bar{y}} \le M \norm{F(p, \bar{y})}.
-    \]
+\begin{lemma}[Existencia de Función Implícita Acotada]\label{v1:lem:2.1.1}
+ Sean $F : \R^s \times \Rn \to \R^l$ diferenciable en una vecindad de $(\bar{p}, \bar{y})$ y $\nabla_y F$ continua en dicho punto. Supóngase que $F(\bar{p}, \bar{y}) = 0$ y que el rango de la matriz Jacobiana parcial es máximo: $\rk J_y F(\bar{p}, \bar{y}) = l$.
+ 
+ Entonces, existen una vecindad $U$ de $\bar{p}$ y una constante $M > 0$ tales que, para todo $p \in U$, existe un único $y(p) \in \Rn$ que satisface $F(p, y(p)) = 0$ y la acotación:
+ \[
+ \norm{y(p) - \bar{y}} \le M \norm{F(p, \bar{y})}.
+ \]
 \end{lemma}
 
 \begin{proof}
-    Como $J_y F(\bar{p}, \bar{y}) \in \R^{l \times n}$ tiene rango $l$, sus filas son linealmente independientes. Sea $A \in \R^{(n-l) \times n}$ una matriz cuyas filas completan una base de $\Rn$. Construimos el operador extendido $\Phi : \R^s \times \Rn \to \R^l \times \R^{n-l}$ mediante:
-    \[
-        \Phi(p, y) = \begin{pmatrix} F(p, y) \\ A(y - \bar{y}) \end{pmatrix}.
-    \]
-    Evaluando en el punto base, $\Phi(\bar{p}, \bar{y}) = 0$. El Jacobiano parcial respecto a $y$ es la matriz cuadrada $J_y \Phi(\bar{p}, \bar{y}) = \begin{pmatrix} J_y F(\bar{p}, \bar{y}) \\ A \end{pmatrix} \in \R^{n \times n}$, la cual es no singular por construcción.
-    
-    Por el Teorema de la Función Implícita, existe una función diferenciable $y : U \to \Rn$ definida en una vecindad de $\bar{p}$ tal que $y(\bar{p}) = \bar{y}$ y $\Phi(p, y(p)) = 0$. Esto último implica que $F(p, y(p)) = 0$ y $A(y(p) - \bar{y}) = 0$.
-    
-    Aplicando el Teorema del Valor Medio sobre el operador inverso local $\Phi(p, \cdot)$ y utilizando la desigualdad triangular para el difeomorfismo continuo, se deduce la existencia de una constante $M$ dependiente de $\norm{J_y \Phi^{-1}}$ que satisface la acotación requerida.
+ Como $J_y F(\bar{p}, \bar{y}) \in \R^{l \times n}$ tiene rango $l$, sus filas son linealmente independientes. Sea $A \in \R^{(n-l) \times n}$ una matriz cuyas filas completan una base de $\Rn$. Construimos el operador extendido $\Phi : \R^s \times \Rn \to \R^l \times \R^{n-l}$ mediante:
+ \[
+ \Phi(p, y) = \begin{pmatrix} F(p, y) \\ A(y - \bar{y}) \end{pmatrix}.
+ \]
+ Evaluando en el punto base, $\Phi(\bar{p}, \bar{y}) = 0$. El Jacobiano parcial respecto a $y$ es la matriz cuadrada $J_y \Phi(\bar{p}, \bar{y}) = \begin{pmatrix} J_y F(\bar{p}, \bar{y}) \\ A \end{pmatrix} \in \R^{n \times n}$, la cual es no singular por construcción.
+ 
+ Por el Teorema de la Función Implícita, existe una función diferenciable $y : U \to \Rn$ definida en una vecindad de $\bar{p}$ tal que $y(\bar{p}) = \bar{y}$ y $\Phi(p, y(p)) = 0$. Esto último implica que $F(p, y(p)) = 0$ y $A(y(p) - \bar{y}) = 0$.
+ 
+ Aplicando el Teorema del Valor Medio sobre el operador inverso local $\Phi(p, \cdot)$ y utilizando la desigualdad triangular para el difeomorfismo continuo, se deduce la existencia de una constante $M$ dependiente de $\norm{J_y \Phi^{-1}}$ que satisface la acotación requerida.
 \end{proof}
 
 \begin{notabox}[Justificación Geométrica de la Corrección Ortogonal]
-    Si un punto $x$ no cumple las restricciones ($h(x) \neq 0$), se busca una corrección $\Delta x$ tal que $h(x + \Delta x) = 0$. Geométricamente, la trayectoria más corta para retornar a la variedad es ortogonal a ella. Dado que el espacio ortogonal al plano tangente ($\ker J_h$) coincide con la imagen de la matriz transpuesta ($\im J_h^\top$), la corrección óptima tiene la forma $\Delta x = J_h(\bar{x})^\top \xi$, donde $\xi \in \R^l$ es un vector de ponderación. Este concepto fundamenta el desarrollo del Teorema de Lyusternik.
+ Si un punto $x$ no cumple las restricciones ($h(x) \neq 0$), se busca una corrección $\Delta x$ tal que $h(x + \Delta x) = 0$. Geométricamente, la trayectoria más corta para retornar a la variedad es ortogonal a ella. Dado que el espacio ortogonal al plano tangente ($\ker J_h$) coincide con la imagen de la matriz transpuesta ($\im J_h^\top$), la corrección óptima tiene la forma $\Delta x = J_h(\bar{x})^\top \xi$, donde $\xi \in \R^l$ es un vector de ponderación. Este concepto fundamenta el desarrollo del Teorema de Lyusternik.
 \end{notabox}
 
-\begin{example}\label{ex:funcion_implicita_acotada}
-    Para ilustrar el Lema de la Función Implícita Acotada, consideremos la intersección de una circunferencia de radio paramétrico $p$ con la recta vertical $y_1 = 1$. Modelamos esto mediante el campo vectorial $F : \R \times \R^2 \to \R^2$ dado por:
-    \[
-        F(p, y) = \begin{pmatrix} y_1^2 + y_2^2 - p^2 \\ y_1 - 1 \end{pmatrix}.
-    \]
-    Fijemos el parámetro nominal $\bar{p} = \sqrt{2}$ y el punto de solución nominal $\bar{y} = (1, 1)^\top$. Se verifica de manera directa que $F(\sqrt{2}, (1,1)) = 0$.
-    
-    Evaluamos el Jacobiano parcial respecto a las variables espaciales $y$:
-    \[
-        J_y F(p, y) = \begin{pmatrix} 2y_1 & 2y_2 \\ 1 & 0 \end{pmatrix} \implies J_y F(\bar{p}, \bar{y})
-        = \begin{pmatrix} 2 & 2 \\ 1 & 0 \end{pmatrix}.
-    \]
-    El determinante de esta matriz es $-2 \neq 0$. Por lo tanto, $\rk J_y F(\bar{p}, \bar{y}) = 2 = l$, por lo que las hipótesis del \cref{lem:funcion_implicita_acotada} se cumplen.
-    
-    Si se perturba el radio de la circunferencia ligeramente, pasando a un nuevo parámetro $p \approx \sqrt{2}$ y manteniendo el punto en $\bar{y} = (1,1)$, el error algebraico inducido es:
-    \[
-        F(p, \bar{y}) = \begin{pmatrix} 1^2 + 1^2 - p^2 \\ 1 - 1 \end{pmatrix} = \begin{pmatrix} 2 - p^2 \\ 0 \end{pmatrix}.
-    \]
-    El lema asegura que existe una raíz exacta $y(p)$ para el sistema perturbado, y que la distancia desde el punto antiguo $\bar{y}$ a la nueva raíz $y(p)$ está acotada por este error: $\norm{y(p) - \bar{y}} \le M \norm{F(p, \bar{y})} = M \absolute{2 - p^2}$. En este caso, la nueva raíz analítica es $y(p) = (1, \sqrt{p^2 - 1})^\top$, y mediante el desarrollo de Taylor se verifica que la distancia $\absolute{\sqrt{p^2 - 1} - 1}$ decae a la misma velocidad que la perturbación $\absolute{p^2 - 2}$.
+\begin{example}\label{v1:exa:2.1.1}
+ Para ilustrar el Lema de la Función Implícita Acotada, consideremos la intersección de una circunferencia de radio paramétrico $p$ con la recta vertical $y_1 = 1$. Modelamos esto mediante el campo vectorial $F : \R \times \R^2 \to \R^2$ dado por:
+ \[
+ F(p, y) = \begin{pmatrix} y_1^2 + y_2^2 - p^2 \\ y_1 - 1 \end{pmatrix}.
+ \]
+ Fijemos el parámetro nominal $\bar{p} = \sqrt{2}$ y el punto de solución nominal $\bar{y} = (1, 1)^\top$. Se verifica de manera directa que $F(\sqrt{2}, (1,1)) = 0$.
+ 
+ Evaluamos el Jacobiano parcial respecto a las variables espaciales $y$:
+ \[
+ J_y F(p, y) = \begin{pmatrix} 2y_1 & 2y_2 \\ 1 & 0 \end{pmatrix} \implies J_y F(\bar{p}, \bar{y})
+ = \begin{pmatrix} 2 & 2 \\ 1 & 0 \end{pmatrix}.
+ \]
+ El determinante de esta matriz es $-2 \neq 0$. Por lo tanto, $\rk J_y F(\bar{p}, \bar{y}) = 2 = l$, por lo que las hipótesis del \cref{v1:lem:2.1.1} se cumplen.
+ 
+ Si se perturba el radio de la circunferencia ligeramente, pasando a un nuevo parámetro $p \approx \sqrt{2}$ y manteniendo el punto en $\bar{y} = (1,1)$, el error algebraico inducido es:
+ \[
+ F(p, \bar{y}) = \begin{pmatrix} 1^2 + 1^2 - p^2 \\ 1 - 1 \end{pmatrix} = \begin{pmatrix} 2 - p^2 \\ 0 \end{pmatrix}.
+ \]
+ El lema asegura que existe una raíz exacta $y(p)$ para el sistema perturbado, y que la distancia desde el punto antiguo $\bar{y}$ a la nueva raíz $y(p)$ está acotada por este error: $\norm{y(p) - \bar{y}} \le M \norm{F(p, \bar{y})} = M \absolute{2 - p^2}$. En este caso, la nueva raíz analítica es $y(p) = (1, \sqrt{p^2 - 1})^\top$, y mediante el desarrollo de Taylor se verifica que la distancia $\absolute{\sqrt{p^2 - 1} - 1}$ decae a la misma velocidad que la perturbación $\absolute{p^2 - 2}$.
 \end{example}
 
-\begin{theorem}[Lyusternik: Estimación de Viabilidad]\label{thm:lyusternik}
+\begin{theorem}[Lyusternik: Estimación de Viabilidad]\label{v1:thm:2.1.1}
 	Supóngase que $h : \Rn \to \R^l$ es continuamente diferenciable en una vecindad de $\bar{x} \in D$ y que satisface la condición LICQ. Entonces, existen una vecindad $U$ de $\bar{x}$ y una constante $M > 0$ tales que:
 	\[
 		\dist(x, D) \le M \norm{h(x)} \quad \forall x \in U.
@@ -105,32 +109,32 @@ Para establecer la topología local de la variedad, se requiere un resultado ana
 \end{theorem}
 
 \begin{proof}
-    Definimos el campo paramétrico $F : \Rn \times \Rn \to \R^l$ mediante la traslación $F(x, \xi) = h(x + \xi)$. Tratando a $x$ como el parámetro y a $\xi$ como la variable, evaluamos en el punto base $(\bar{x}, 0)$. Se tiene $F(\bar{x}, 0) = h(\bar{x}) = 0$. El Jacobiano respecto a la variable $\xi$ es $J_\xi F(\bar{x}, 0) = J_h(\bar{x})$, el cual, por la hipótesis LICQ, tiene rango máximo $l$. Las hipótesis del \cref{lem:funcion_implicita_acotada} se verifican.
-    
-    Por consiguiente, existen una vecindad $U$ de $\bar{x}$ y un número $M > 0$ tales que, para cada $x \in U$, existe una perturbación $\xi(x) \in \Rn$ que cumple $0 = F(x, \xi(x)) = h(x + \xi(x))$. Esto asegura que el punto trasladado $x + \xi(x) \in D$. Además, el \cref{lem:funcion_implicita_acotada} establece la cota $\norm{\xi(x)} \le M \norm{F(x, 0)} = M \norm{h(x)}$.
-    Por la definición métrica de distancia a un conjunto:
-    \[
-        \dist(x, D) \le \norm{(x + \xi(x)) - x} = \norm{\xi(x)} \le M \norm{h(x)}.
-    \]
+ Definimos el campo paramétrico $F : \Rn \times \Rn \to \R^l$ mediante la traslación $F(x, \xi) = h(x + \xi)$. Tratando a $x$ como el parámetro y a $\xi$ como la variable, evaluamos en el punto base $(\bar{x}, 0)$. Se tiene $F(\bar{x}, 0) = h(\bar{x}) = 0$. El Jacobiano respecto a la variable $\xi$ es $J_\xi F(\bar{x}, 0) = J_h(\bar{x})$, el cual, por la hipótesis LICQ, tiene rango máximo $l$. Las hipótesis del \cref{v1:lem:2.1.1} se verifican.
+ 
+ Por consiguiente, existen una vecindad $U$ de $\bar{x}$ y un número $M > 0$ tales que, para cada $x \in U$, existe una perturbación $\xi(x) \in \Rn$ que cumple $0 = F(x, \xi(x)) = h(x + \xi(x))$. Esto asegura que el punto trasladado $x + \xi(x) \in D$. Además, el \cref{v1:lem:2.1.1} establece la cota $\norm{\xi(x)} \le M \norm{F(x, 0)} = M \norm{h(x)}$.
+ Por la definición métrica de distancia a un conjunto:
+ \[
+ \dist(x, D) \le \norm{(x + \xi(x)) - x} = \norm{\xi(x)} \le M \norm{h(x)}.
+ \]
 \end{proof}
 
-\begin{example}[Acotación de Lyusternik en la Esfera]\label{ex:lyusternik_esfera}
-    Considérese la variedad esférica unitaria en $\R^2$, definida por $h(x) = x_1^2 + x_2^2 - 1 = 0 \implies D = \{ x \in \R^2 \mid \norm{x}^2 = 1 \}$.
-    Tomemos un punto nominal en el polo norte, $\bar{x} = (0,1) \in D$. El Jacobiano evaluado en este punto es $J_h(\bar{x}) = (0, 2)$. Dado que $\rk J_h(\bar{x}) = 1$, la condición LICQ se cumple en $\bar{x}$. El \cref{thm:lyusternik} asegura la existencia de una constante $M > 0$ y una vecindad $U$ de $\bar{x}$ tal que $\dist(x, D) \le M \absolute{h(x)}$ para todo $x \in U$.
-    
-    Analíticamente, para $x \in \R^2 \setminus \{0\}$, la distancia es $\dist(x, D) = \absolute{\norm{x} - 1}$. La violación algebraica es $\absolute{h(x)} = \absolute{\norm{x}^2 - 1} = \dist(x, D) \cdot (\norm{x} + 1)$. Despejando, obtenemos $\dist(x, D) = \frac{1}{\norm{x} + 1} \absolute{h(x)}$. En una vecindad $U$ alrededor de $\bar{x} = (0,1)$, la norma satisface $\norm{x} \approx 1$. Si restringimos $U$ a la bola de radio $1/2$ centrada en $\bar{x}$, para todo $x \in U$ se cumple que $\norm{x} \ge 1/2$, lo que implica $\frac{1}{\norm{x} + 1} \le \frac{2}{3}$.
-    Así, se obtiene la constante de Lyusternik $M = 2/3$. En este caso, el error algebraico $\absolute{h(x)}$ acota la distancia geométrica al conjunto.
+\begin{example}[Acotación de Lyusternik en la Esfera]\label{v1:exa:2.1.2}
+ Considérese la variedad esférica unitaria en $\R^2$, definida por $h(x) = x_1^2 + x_2^2 - 1 = 0 \implies D = \{ x \in \R^2 \mid \norm{x}^2 = 1 \}$.
+ Tomemos un punto nominal en el polo norte, $\bar{x} = (0,1) \in D$. El Jacobiano evaluado en este punto es $J_h(\bar{x}) = (0, 2)$. Dado que $\rk J_h(\bar{x}) = 1$, la condición LICQ se cumple en $\bar{x}$. El \cref{v1:thm:2.1.1} asegura la existencia de una constante $M > 0$ y una vecindad $U$ de $\bar{x}$ tal que $\dist(x, D) \le M \absolute{h(x)}$ para todo $x \in U$.
+ 
+ Analíticamente, para $x \in \R^2 \setminus \{0\}$, la distancia es $\dist(x, D) = \absolute{\norm{x} - 1}$. La violación algebraica es $\absolute{h(x)} = \absolute{\norm{x}^2 - 1} = \dist(x, D) \cdot (\norm{x} + 1)$. Despejando, obtenemos $\dist(x, D) = \frac{1}{\norm{x} + 1} \absolute{h(x)}$. En una vecindad $U$ alrededor de $\bar{x} = (0,1)$, la norma satisface $\norm{x} \approx 1$. Si restringimos $U$ a la bola de radio $1/2$ centrada en $\bar{x}$, para todo $x \in U$ se cumple que $\norm{x} \ge 1/2$, lo que implica $\frac{1}{\norm{x} + 1} \le \frac{2}{3}$.
+ Así, se obtiene la constante de Lyusternik $M = 2/3$. En este caso, el error algebraico $\absolute{h(x)}$ acota la distancia geométrica al conjunto.
 \end{example}
 
 \begin{warningbox}[Colapso de la Geometría por falta de Regularidad]
-    La condición LICQ es un requisito fundamental para asegurar la regularidad del punto. Consideremos la restricción escalar $h(x) = x^2 = 0$, con el conjunto $D = \{0\}$. En $\bar{x} = 0$, el gradiente se anula ($h'(0) = 0$), por lo que no se cumple LICQ. Para cualquier $x \notin D$, se tiene:
-    \[
-        \frac{\dist(x, D)}{\norm{h(x)}} = \frac{\absolute{x}}{x^2} = \frac{1}{\absolute{x}} \to +\infty \quad \text{cuando } x \to 0.
-    \]
-    No existe ninguna constante $M$ finita que acote esta relación, por lo que la equivalencia entre la caracterización algebraica y la topológica deja de cumplirse.
+ La condición LICQ es un requisito fundamental para asegurar la regularidad del punto. Consideremos la restricción escalar $h(x) = x^2 = 0$, con el conjunto $D = \{0\}$. En $\bar{x} = 0$, el gradiente se anula ($h'(0) = 0$), por lo que no se cumple LICQ. Para cualquier $x \notin D$, se tiene:
+ \[
+ \frac{\dist(x, D)}{\norm{h(x)}} = \frac{\absolute{x}}{x^2} = \frac{1}{\absolute{x}} \to +\infty \quad \text{cuando } x \to 0.
+ \]
+ No existe ninguna constante $M$ finita que acote esta relación, por lo que la equivalencia entre la caracterización algebraica y la topológica deja de cumplirse.
 \end{warningbox}
 
-\begin{theorem}[Teorema del Subespacio Tangente]\label{thm:subespacio_tangente}
+\begin{theorem}[Teorema del Subespacio Tangente]\label{v1:thm:2.1.2}
 	Sea $h : \Rn \to \R^l$ de clase $\mathcal{C}^1$ en $\bar{x} \in D$.
 	\begin{enuthm}
 		\item Si se satisface la condición LICQ en $\bar{x}$, entonces los conos topológicos y el subespacio algebraico coinciden:
@@ -142,40 +146,40 @@ Para establecer la topología local de la variedad, se requiere un resultado ana
 \end{theorem}
 
 \begin{proof}
-    \textbf{Parte (1):} Por la \cref{prop:bouligand_en_kernel}, $\mathcal{B}_D(\bar{x}) \subset \ker J_h(\bar{x})$. Inversamente, sea $d \in \ker J_h(\bar{x})$. Por el Teorema de Lyusternik (\cref{thm:lyusternik}), para $t > 0$ suficientemente pequeño se tiene $\dist(\bar{x} + td, D) \le M \norm{h(\bar{x} + td)}$. Expandiendo $h$ por Taylor y utilizando que $h(\bar{x}) = 0$ y $J_h(\bar{x})d = 0$:
+ \textbf{Parte (1):} Por la \cref{v1:prop:2.1.1}, $\mathcal{B}_D(\bar{x}) \subset \ker J_h(\bar{x})$. Inversamente, sea $d \in \ker J_h(\bar{x})$. Por el Teorema de Lyusternik (\cref{v1:thm:2.1.1}), para $t > 0$ suficientemente pequeño se tiene $\dist(\bar{x} + td, D) \le M \norm{h(\bar{x} + td)}$. Expandiendo $h$ por Taylor y utilizando que $h(\bar{x}) = 0$ y $J_h(\bar{x})d = 0$:
 	\[
 		h(\bar{x} + td) = h(\bar{x}) + t J_h(\bar{x})d + o(t) = o(t).
 	\]
-    Consecuentemente, $\dist(\bar{x} + td, D) \le M \norm{o(t)} = o(t)$. Esto corresponde a la definición de dirección tangente, por lo que $d \in \mathcal{T}_D(\bar{x})$. De la cadena de inclusiones $\ker J_h(\bar{x}) \subset \mathcal{T}_D(\bar{x}) \subset \mathcal{B}_D(\bar{x}) \subset \ker J_h(\bar{x})$, se deduce la igualdad de los conjuntos.
+ Consecuentemente, $\dist(\bar{x} + td, D) \le M \norm{o(t)} = o(t)$. Esto corresponde a la definición de dirección tangente, por lo que $d \in \mathcal{T}_D(\bar{x})$. De la cadena de inclusiones $\ker J_h(\bar{x}) \subset \mathcal{T}_D(\bar{x}) \subset \mathcal{B}_D(\bar{x}) \subset \ker J_h(\bar{x})$, se deduce la igualdad de los conjuntos.
 
-    \textbf{Parte (2):} Para $h(x) = Ax - a$, se tiene $J_h(\bar{x}) = A$. Si $d \in \ker A$, para cualquier escalar $t \in \R$: $h(\bar{x} + td) = A(\bar{x} + td) - a = (A\bar{x} - a) + tAd = h(\bar{x}) = 0$. Luego $\bar{x} + td \in D$ para todo $t$, lo que demuestra que $d \in \mathcal{V}_D(\bar{x})$.
+ \textbf{Parte (2):} Para $h(x) = Ax - a$, se tiene $J_h(\bar{x}) = A$. Si $d \in \ker A$, para cualquier escalar $t \in \R$: $h(\bar{x} + td) = A(\bar{x} + td) - a = (A\bar{x} - a) + tAd = h(\bar{x}) = 0$. Luego $\bar{x} + td \in D$ para todo $t$, lo que demuestra que $d \in \mathcal{V}_D(\bar{x})$.
 \end{proof}
 
-\begin{example}[Colapso Analítico del Cono Tangente en $\R^3$]\label{ex:subespacio_tangente}
-    Considérese la curva en $\R^3$ formada por la intersección de un cilindro parabólico y un plano, definida por el sistema algebraico $h(x) = (x_1^2 - x_2, x_1 + x_3 - 1)^\top = 0$. Elegimos el punto $\bar{x} = (1, 1, 0)^\top \in D$. El subespacio nulo del Jacobiano evaluado en $\bar{x}$ está generado por el vector director $d = (1, 2, -1)^\top$. Es decir: $\ker J_h(\bar{x}) = \Span{ (1, 2, -1)^\top}$.
-    
-    Verificamos que este vector pertenece a $\mathcal{T}_D(\bar{x})$. Construimos una curva $x(t) \in D$ parametrizada que pase por $\bar{x}$. Tomando $x_1 = 1 + t$, el sistema exige $x_2(t) = 1 + 2t + t^2$ y $x_3(t) = -t$. La curva factible es $x(t) = (1+t, \, 1+2t+t^2, \, -t)^\top$. Desarrollando: $x(t) = \bar{x} + td + r(t)$, donde el residuo es $r(t) = (0, t^2, 0)^\top$. La norma del residuo satisface $\norm{r(t)} = o(t)$. Por definición, se tiene que $d \in \mathcal{T}_D(\bar{x})$.
+\begin{example}[Colapso Analítico del Cono Tangente en $\R^3$]\label{v1:exa:2.1.3}
+ Considérese la curva en $\R^3$ formada por la intersección de un cilindro parabólico y un plano, definida por el sistema algebraico $h(x) = (x_1^2 - x_2, x_1 + x_3 - 1)^\top = 0$. Elegimos el punto $\bar{x} = (1, 1, 0)^\top \in D$. El subespacio nulo del Jacobiano evaluado en $\bar{x}$ está generado por el vector director $d = (1, 2, -1)^\top$. Es decir: $\ker J_h(\bar{x}) = \Span{ (1, 2, -1)^\top}$.
+ 
+ Verificamos que este vector pertenece a $\mathcal{T}_D(\bar{x})$. Construimos una curva $x(t) \in D$ parametrizada que pase por $\bar{x}$. Tomando $x_1 = 1 + t$, el sistema exige $x_2(t) = 1 + 2t + t^2$ y $x_3(t) = -t$. La curva factible es $x(t) = (1+t, \, 1+2t+t^2, \, -t)^\top$. Desarrollando: $x(t) = \bar{x} + td + r(t)$, donde el residuo es $r(t) = (0, t^2, 0)^\top$. La norma del residuo satisface $\norm{r(t)} = o(t)$. Por definición, se tiene que $d \in \mathcal{T}_D(\bar{x})$.
 \end{example}
 
-\begin{theorem}[Condición Necesaria en Forma Primal]\label{thm:cn_primal_igualdad}
-    Sea $\bar{x} \in D$ un minimizador local del problema \eqref{eq:problema_igualdad}. Si $\bar{x}$ es regular (cumple LICQ o linealidad), entonces el gradiente de la función objetivo se anula a lo largo de todo el subespacio tangente:
-    \begin{equation}
-        \interno{\nabla f(\bar{x})}{d} = 0 \quad \forall d \in \ker J_h(\bar{x}).
-    \end{equation}
+\begin{theorem}[Condición necesaria en forma primal]\label{v1:thm:2.1.3}
+ Sea $\bar{x} \in D$ un minimizador local del problema \eqref{v1:eq:2.1}. Si $\bar{x}$ es regular (cumple LICQ o linealidad), entonces el gradiente de la función objetivo se anula a lo largo de todo el subespacio tangente:
+ \begin{equation}
+ \interno{\nabla f(\bar{x})}{d} = 0 \quad \forall d \in \ker J_h(\bar{x}).
+ \end{equation}
 \end{theorem}
 
 \begin{proof}
-    De acuerdo con la caracterización general del \cref{chap:intro_opt}, si $\bar{x}$ es un mínimo local, se cumple que $\interno{\nabla f(\bar{x})}{d} \ge 0$ para todo $d \in \mathcal{B}_D(\bar{x})$. Por la regularidad y el \cref{thm:subespacio_tangente}, se tiene $\mathcal{B}_D(\bar{x}) = \ker J_h(\bar{x})$. Esta desigualdad se aplica sobre el subespacio nulo. Dado que $\ker J_h(\bar{x})$ es un subespacio vectorial, si $d \in \ker J_h(\bar{x})$, su opuesto simétrico $-d$ también pertenece a $\ker J_h(\bar{x})$. Evaluando la desigualdad en dicho vector: $\interno{\nabla f(\bar{x})}{-d} \ge 0 \implies \interno{\nabla f(\bar{x})}{d} \le 0$. De ambas desigualdades se deduce la igualdad a cero.
+ De acuerdo con la caracterización general del \cref{v1:chap:1}, si $\bar{x}$ es un mínimo local, se cumple que $\interno{\nabla f(\bar{x})}{d} \ge 0$ para todo $d \in \mathcal{B}_D(\bar{x})$. Por la regularidad y el \cref{v1:thm:2.1.2}, se tiene $\mathcal{B}_D(\bar{x}) = \ker J_h(\bar{x})$. Esta desigualdad se aplica sobre el subespacio nulo. Dado que $\ker J_h(\bar{x})$ es un subespacio vectorial, si $d \in \ker J_h(\bar{x})$, su opuesto simétrico $-d$ también pertenece a $\ker J_h(\bar{x})$. Evaluando la desigualdad en dicho vector: $\interno{\nabla f(\bar{x})}{-d} \ge 0 \implies \interno{\nabla f(\bar{x})}{d} \le 0$. De ambas desigualdades se deduce la igualdad a cero.
 \end{proof}
 
-\begin{example}[Ortogonalidad Primal en el Cilindro]\label{ex:cn_primal}
-    Considérese el problema de minimizar la distancia al origen de un punto restringido a yacer sobre un cilindro desplazado en $\R^3$: $\min \frac{1}{2}(x_1^2 + x_2^2 + x_3^2)$ sujeto a $h(x) = (x_1 - 2)^2 + x_2^2 - 1 = 0$. Geométricamente, el punto del cilindro más cercano al origen es $\bar{x} = (1, 0, 0)^\top$. El Jacobiano de la restricción evaluado en $\bar{x}$ es $\nabla h(\bar{x}) = (-2, 0, 0)^\top$, por lo que se cumple LICQ. El subespacio tangente en $\bar{x}$ es el plano vertical $x_1 = 1$ generado por $d = (0, d_2, d_3)^\top$. El gradiente de la función objetivo en $\bar{x}$ es $\nabla f(\bar{x}) = (1, 0, 0)^\top$. El producto interno $\interno{\nabla f(\bar{x})}{d} = 0$. De este modo se verifica la condición necesaria: el gradiente es ortogonal al subespacio de direcciones tangentes.
+\begin{example}[Ortogonalidad Primal en el Cilindro]\label{v1:exa:2.1.4}
+ Considérese el problema de minimizar la distancia al origen de un punto restringido a yacer sobre un cilindro desplazado en $\R^3$: $\min \frac{1}{2}(x_1^2 + x_2^2 + x_3^2)$ sujeto a $h(x) = (x_1 - 2)^2 + x_2^2 - 1 = 0$. Geométricamente, el punto del cilindro más cercano al origen es $\bar{x} = (1, 0, 0)^\top$. El Jacobiano de la restricción evaluado en $\bar{x}$ es $\nabla h(\bar{x}) = (-2, 0, 0)^\top$, por lo que se cumple LICQ. El subespacio tangente en $\bar{x}$ es el plano vertical $x_1 = 1$ generado por $d = (0, d_2, d_3)^\top$. El gradiente de la función objetivo en $\bar{x}$ es $\nabla f(\bar{x}) = (1, 0, 0)^\top$. El producto interno $\interno{\nabla f(\bar{x})}{d} = 0$. De este modo se verifica la condición necesaria: el gradiente es ortogonal al subespacio de direcciones tangentes.
 \end{example}
 
-\begin{corollary}[Singularidad Topológica por Exceso de Restricciones]\label{cor:punto_aislado}
-    Supóngase que el punto $\bar{x} \in D$ satisface la condición LICQ y que la dimensión de las restricciones es mayor o igual que la dimensión del espacio primal ($l \ge n$). Entonces, $\bar{x}$ es un \textbf{punto aislado} del conjunto factible $D$, y es un minimizador local estricto para cualquier función continua $f$.
+\begin{corollary}[Singularidad Topológica por Exceso de Restricciones]\label{v1:cor:2.1.1}
+ Supóngase que el punto $\bar{x} \in D$ satisface la condición LICQ y que la dimensión de las restricciones es mayor o igual que la dimensión del espacio primal ($l \ge n$). Entonces, $\bar{x}$ es un \textbf{punto aislado} del conjunto factible $D$, y es un minimizador local estricto para cualquier función continua $f$.
 \end{corollary}
 
 \begin{proof}
-    Por el Teorema del Rango de Álgebra Lineal, $\dim(\ker J_h(\bar{x})) = n - \rk J_h(\bar{x})$. Bajo LICQ, el rango es máximo: $\rk J_h(\bar{x}) = \min(l, n) = n$. Sustituyendo, se tiene que $\dim(\ker J_h(\bar{x})) = 0$, lo que implica $\ker J_h(\bar{x}) = \{0\}$. Aplicando el Teorema del Subespacio Tangente (\cref{thm:subespacio_tangente}), los conos topológicos se reducen a $\mathcal{T}_D(\bar{x}) = \mathcal{B}_D(\bar{x}) = \{0\}$. Al no existir direcciones tangentes no nulas, no es posible definir una sucesión en $D \setminus \{\bar{x}\}$ que converja a $\bar{x}$. Por lo tanto, existe una vecindad $U$ de $\bar{x}$ tal que $D \cap U = \{\bar{x}\}$. Al ser el único punto factible en dicha vecindad, la condición $f(\bar{x}) \le f(x)$ se cumple trivialmente para todo $x \in D \cap U$.
+ Por el Teorema del Rango de Álgebra Lineal, $\dim(\ker J_h(\bar{x})) = n - \rk J_h(\bar{x})$. Bajo LICQ, el rango es máximo: $\rk J_h(\bar{x}) = \min(l, n) = n$. Sustituyendo, se tiene que $\dim(\ker J_h(\bar{x})) = 0$, lo que implica $\ker J_h(\bar{x}) = \{0\}$. Aplicando el Teorema del Subespacio Tangente (\cref{v1:thm:2.1.2}), los conos topológicos se reducen a $\mathcal{T}_D(\bar{x}) = \mathcal{B}_D(\bar{x}) = \{0\}$. Al no existir direcciones tangentes no nulas, no es posible definir una sucesión en $D \setminus \{\bar{x}\}$ que converja a $\bar{x}$. Por lo tanto, existe una vecindad $U$ de $\bar{x}$ tal que $D \cap U = \{\bar{x}\}$. Al ser el único punto factible en dicha vecindad, la condición $f(\bar{x}) \le f(x)$ se cumple trivialmente para todo $x \in D \cap U$.
 \end{proof}

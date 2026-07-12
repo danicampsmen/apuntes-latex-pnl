@@ -1,158 +1,158 @@
 % --- Archivo: 04_cono_tangente_primal.tex ---
 
 % =========================================================
-\section{Condiciones de optimalidad en forma primal para problemas con restricciones. El cono tangente.}
-\label{v1:sec:condiciones_primales}
+\section{Condiciones de optimalidad en forma primal para problemas con restricciones. El cono tangente}
+\label{v1:sec:1.4}
 % =========================================================
 
 Consideramos ahora un problema en formato general
 \begin{equation}
-    \min f(x) \quad \text{sujeto a} \quad x \in D, \label{v1:eq:problema_general_restricciones}
+ \min f(x) \quad \text{sujeto a} \quad x \in D, \label{v1:eq:1.11}
 \end{equation}
 donde $D \subset \Rn$ es un conjunto dado (no vacío) y $f : \Rn \to \R$ es la función objetivo. 
 Para desarrollar las condiciones de optimalidad necesitamos estudiar la estructura del conjunto factible mediante \textbf{direcciones viables} y \textbf{direcciones tangentes}.
 
-\begin{definition}[Dirección viable]\label{v1:def:direccion_viable}
-    Decimos que $d \in \Rn$ es una \textbf{dirección viable} en relación al conjunto $D$ en el punto $\bar{x} \in D$, cuando existe $\varepsilon > 0$ tal que
-    \[
-        \bar{x} + td \in D \quad \forall t \in [0, \varepsilon].
-    \]
-    Denotamos por $\mathcal{V}_D(\bar{x})$ el conjunto de todas las direcciones viables en relación al conjunto $D$ en el punto $\bar{x} \in D$.
+\begin{definition}[Dirección viable]\label{v1:def:1.4.1}
+ Decimos que $d \in \Rn$ es una \textbf{dirección viable} en relación al conjunto $D$ en el punto $\bar{x} \in D$, cuando existe $\varepsilon > 0$ tal que
+ \[
+ \bar{x} + td \in D \quad \forall t \in [0, \varepsilon].
+ \]
+ Denotamos por $\mathcal{V}_D(\bar{x})$ el conjunto de todas las direcciones viables en relación al conjunto $D$ en el punto $\bar{x} \in D$.
 \end{definition}
 
 \begin{center}
 \begin{tikzpicture}[>=Stealth, scale=1.2]
-    \draw[fill=MidnightBlue!10, draw=MidnightBlue!80!black, thick] (0,0) -- (3,0) -- (3,2) -- (0.5,2) -- (0,1) -- cycle;
-    \filldraw (1,1) circle (1.5pt) node[below] {$\bar{x}$};
-    \draw[->, thick, ForestGreen] (1,1) -- (2.5,1.5) node[right] {$d^1$};
-    \draw[->, thick, ForestGreen] (1,1) -- (1.5,1.8) node[above] {$d^2$};
-    \draw[->, thick, red!80!black] (1,1) -- (0,2) node[left] {$d^3$ (no viable)};
-    \node[MidnightBlue!80!black] at (2.5,0.5) {$D$};
+ \draw[fill=MidnightBlue!10, draw=MidnightBlue!80!black, thick] (0,0) -- (3,0) -- (3,2) -- (0.5,2) -- (0,1) -- cycle;
+ \filldraw (1,1) circle (1.5pt) node[below] {$\bar{x}$};
+ \draw[->, thick, ForestGreen] (1,1) -- (2.5,1.5) node[right] {$d^1$};
+ \draw[->, thick, ForestGreen] (1,1) -- (1.5,1.8) node[above] {$d^2$};
+ \draw[->, thick, red!80!black] (1,1) -- (0,2) node[left] {$d^3$ (no viable)};
+ \node[MidnightBlue!80!black] at (2.5,0.5) {$D$};
 \end{tikzpicture}
 \end{center}
 
-\begin{definition}[Cono]\label{v1:def:cono}
-    Un conjunto $K \subset \Rn$ se llama \textbf{cono} cuando
-    \[
-        d \in K \implies td \in K \quad \forall t \in \R_+.
-    \]
+\begin{definition}[Cono]\label{v1:def:1.4.2}
+ Un conjunto $K \subset \Rn$ se llama \textbf{cono} cuando
+ \[
+ d \in K \implies td \in K \quad \forall t \in \R_+.
+ \]
 \end{definition}
 
 Es fácil ver que para $D \subset \Rn$ y $\bar{x} \in D$ cualesquiera, el conjunto $\mathcal{V}_D(\bar{x})$ siempre es un cono no vacío (al menos, $0 \in \mathcal{V}_D(\bar{x})$).
 
-\begin{definition}[Dirección de descenso]\label{v1:def:direccion_descenso}
-    Decimos que $d \in \Rn$ es una \textbf{dirección de descenso} de $f : \Rn \to \R$ en el punto $\bar{x} \in \Rn$, si existe $\varepsilon > 0$ tal que
-    \[
-        f(\bar{x} + td) < f(\bar{x}) \quad \forall t \in (0, \varepsilon].
-    \]
-    Denotamos por $\mathcal{D}_f(\bar{x})$ el conjunto de todas las direcciones de descenso de la función $f$ en el punto $\bar{x}$.
+\begin{definition}[Dirección de descenso]\label{v1:def:1.4.3}
+ Decimos que $d \in \Rn$ es una \textbf{dirección de descenso} de $f : \Rn \to \R$ en el punto $\bar{x} \in \Rn$, si existe $\varepsilon > 0$ tal que
+ \[
+ f(\bar{x} + td) < f(\bar{x}) \quad \forall t \in (0, \varepsilon].
+ \]
+ Denotamos por $\mathcal{D}_f(\bar{x})$ el conjunto de todas las direcciones de descenso de la función $f$ en el punto $\bar{x}$.
 \end{definition}
 
 El conjunto $\mathcal{D}_f(\bar{x})$ puede ser vacío, pero el conjunto $\mathcal{D}_f(\bar{x}) \cup \{0\}$ es siempre un cono.
 
-\begin{lemma}[Direcciones de descenso]\label{v1:lem:caracterizacion_descenso}
-    Sea $f : \Rn \to \R$ una función diferenciable en el punto $\bar{x} \in \Rn$. Entonces:
-    \begin{enuthm}
-        \item Para todo $d \in \mathcal{D}_f(\bar{x})$, se tiene que $\interno{\nabla f(\bar{x})}{d} \le 0$.
-        \item Si $d \in \Rn$ satisface $\interno{\nabla f(\bar{x})}{d} < 0$, entonces $d \in \mathcal{D}_f(\bar{x})$.
-    \end{enuthm}
+\begin{lemma}[Direcciones de descenso]\label{v1:lem:1.4.1}
+ Sea $f : \Rn \to \R$ una función diferenciable en el punto $\bar{x} \in \Rn$. Entonces:
+ \begin{enuthm}
+ \item Para todo $d \in \mathcal{D}_f(\bar{x})$, se tiene que $\interno{\nabla f(\bar{x})}{d} \le 0$.
+ \item Si $d \in \Rn$ satisface $\interno{\nabla f(\bar{x})}{d} < 0$, entonces $d \in \mathcal{D}_f(\bar{x})$.
+ \end{enuthm}
 \end{lemma}
 
 \begin{proof}
-    Sea $d \in \mathcal{D}_f(\bar{x})$. Para todo $t > 0$ suficientemente pequeño, $0 > f(\bar{x} + td) - f(\bar{x}) = t(\interno{\nabla f(\bar{x})}{d} + o(t)/t)$. Pasando al límite cuando $t \to 0^+$, obtenemos $0 \ge \interno{\nabla f(\bar{x})}{d}$, lo que prueba el ítem (a).
-    
-    Si $\interno{\nabla f(\bar{x})}{d} < 0$, tenemos que $f(\bar{x} + td) - f(\bar{x}) = t(\interno{\nabla f(\bar{x})}{d} + o(t)/t) \le \frac{t}{2}\interno{\nabla f(\bar{x})}{d} < 0$ para todo $t > 0$ suficientemente pequeño, implicando que $d \in \mathcal{D}_f(\bar{x})$.
+ Sea $d \in \mathcal{D}_f(\bar{x})$. Para todo $t > 0$ suficientemente pequeño, $0 > f(\bar{x} + td) - f(\bar{x}) = t(\interno{\nabla f(\bar{x})}{d} + o(t)/t)$. Pasando al límite cuando $t \to 0^+$, obtenemos $0 \ge \interno{\nabla f(\bar{x})}{d}$, lo que prueba el ítem (a).
+ 
+ Si $\interno{\nabla f(\bar{x})}{d} < 0$, tenemos que $f(\bar{x} + td) - f(\bar{x}) = t(\interno{\nabla f(\bar{x})}{d} + o(t)/t) \le \frac{t}{2}\interno{\nabla f(\bar{x})}{d} < 0$ para todo $t > 0$ suficientemente pequeño, implicando que $d \in \mathcal{D}_f(\bar{x})$.
 \end{proof}
 
-Si $\bar{x} \in D$ es un minimizador local de \eqref{v1:eq:problema_general_restricciones}, obviamente $\mathcal{D}_f(\bar{x}) \cap \mathcal{V}_D(\bar{x}) = \emptyset$. Por el \cref{v1:lem:caracterizacion_descenso}, tenemos entonces que $\interno{\nabla f(\bar{x})}{d} \ge 0$ para todo $d \in \mathcal{V}_D(\bar{x})$. Sin embargo, esta condición no siempre proporciona información útil, porque $\mathcal{V}_D(\bar{x})$ puede contener solo al vector nulo. Necesitamos considerar las \textbf{direcciones tangentes}.
+Si $\bar{x} \in D$ es un minimizador local de \eqref{v1:eq:1.11}, obviamente $\mathcal{D}_f(\bar{x}) \cap \mathcal{V}_D(\bar{x}) = \emptyset$. Por el \cref{v1:lem:1.4.1}, tenemos entonces que $\interno{\nabla f(\bar{x})}{d} \ge 0$ para todo $d \in \mathcal{V}_D(\bar{x})$. Sin embargo, esta condición no siempre proporciona información útil, porque $\mathcal{V}_D(\bar{x})$ puede contener solo al vector nulo. Necesitamos considerar las \textbf{direcciones tangentes}.
 
-\begin{definition}[Dirección tangente y cono tangente]\label{v1:def:cono_tangente}
-    Decimos que $d \in \Rn$ es una \textbf{dirección tangente} en relación al conjunto $D$ en el punto $\bar{x} \in D$ cuando
-    \[
-        \dist(\bar{x} + td, D) = o(t), \quad t \in \R_+.
-    \]
-    Denotamos por $\mathcal{T}_D(\bar{x})$ el conjunto de todas las direcciones tangentes, el cual forma un cono.
+\begin{definition}[Dirección tangente y cono tangente]\label{v1:def:1.4.4}
+ Decimos que $d \in \Rn$ es una \textbf{dirección tangente} en relación al conjunto $D$ en el punto $\bar{x} \in D$ cuando
+ \[
+ \dist(\bar{x} + td, D) = o(t), \quad t \in \R_+.
+ \]
+ Denotamos por $\mathcal{T}_D(\bar{x})$ el conjunto de todas las direcciones tangentes, el cual forma un cono.
 \end{definition}
 
 Claramente, $\mathcal{V}_D(\bar{x}) \subset \mathcal{T}_D(\bar{x})$. Otra noción útil es la del \textbf{cono de Bouligand}:
 \begin{equation}
-    \mathcal{B}_D(\bar{x}) = \left\{ d \in \Rn \;\middle|\; \begin{aligned} &\exists \{t_k\} \subset \R_+, \, \{t_k\} \to 0^+, \\ &\dist(\bar{x} + t_k d, D) = o(t_k) \end{aligned} \right\}. \label{v1:eq:cono_bouligand}
+ \mathcal{B}_D(\bar{x}) = \left\{ d \in \Rn \;\middle|\; \begin{aligned} &\exists \{t_k\} \subset \R_+, \, \{t_k\} \to 0^+, \\ &\dist(\bar{x} + t_k d, D) = o(t_k) \end{aligned} \right\}. \label{v1:eq:1.12}
 \end{equation}
 De forma equivalente, $d \in \mathcal{B}_D(\bar{x})$ si existen sucesiones $\{t_k\} \to 0^+$ y $\{d^k\} \to d$ tales que $\bar{x} + t_k d^k \in D$ para todo $k$. En general, $\mathcal{T}_D(\bar{x}) \subset \mathcal{B}_D(\bar{x})$. 
 
-\begin{example}\label{v1:exa:cono_bouligand_tangente}
-    Sean $q \in (0,1)$ y $D = \{0\} \cup \{q^0, q^1, q^2, \dots\} \subset \R$. En $\bar{x} = 0 \in D$, para todo $d > 0$, eligiendo $t_k = q^k / d$ y $d^k = d$, tenemos $\bar{x} + t_k d^k = q^k \in D$. Así que $d \in \mathcal{B}_D(\bar{x})$ y $\mathcal{B}_D(\bar{x}) = \R_+$. Sin embargo, se puede demostrar analíticamente que $\mathcal{T}_D(\bar{x}) = \{0\}$, probando que $\mathcal{T}_D(\bar{x}) \neq \mathcal{B}_D(\bar{x})$.
+\begin{example}\label{v1:exa:1.4.1}
+ Sean $q \in (0,1)$ y $D = \{0\} \cup \{q^0, q^1, q^2, \dots\} \subset \R$. En $\bar{x} = 0 \in D$, para todo $d > 0$, eligiendo $t_k = q^k / d$ y $d^k = d$, tenemos $\bar{x} + t_k d^k = q^k \in D$. Así que $d \in \mathcal{B}_D(\bar{x})$ y $\mathcal{B}_D(\bar{x}) = \R_+$. Sin embargo, se puede demostrar analíticamente que $\mathcal{T}_D(\bar{x}) = \{0\}$, probando que $\mathcal{T}_D(\bar{x}) \neq \mathcal{B}_D(\bar{x})$.
 \end{example}
 
-\begin{theorem}[Condición necesaria en forma primal]\label{v1:thm:cn_primal}
-    Sean $D \subset \Rn$ y $f : \Rn \to \R$ diferenciable en el punto $\bar{x} \in D$. Si $\bar{x}$ es una solución local del problema de minimizar $f$ en $D$, entonces
-    \begin{equation}
-        \interno{\nabla f(\bar{x})}{d} \ge 0 \quad \forall d \in \mathcal{B}_D(\bar{x}). \label{v1:eq:condicion_primal_primer_orden}
-    \end{equation}
+\begin{theorem}[Condición necesaria en forma primal]\label{v1:thm:1.4.1}
+ Sean $D \subset \Rn$ y $f : \Rn \to \R$ diferenciable en el punto $\bar{x} \in D$. Si $\bar{x}$ es una solución local del problema de minimizar $f$ en $D$, entonces
+ \begin{equation}
+ \interno{\nabla f(\bar{x})}{d} \ge 0 \quad \forall d \in \mathcal{B}_D(\bar{x}). \label{v1:eq:1.13}
+ \end{equation}
 \end{theorem}
 
 \begin{proof}
-    Fijemos $d \in \mathcal{B}_D(\bar{x}) \setminus \{0\}$ y las sucesiones asociadas $\{t_k\} \to 0^+$ y $\{d^k\} \to d$ tales que $\bar{x} + t_k d^k \in D$. Como $\bar{x}$ es un minimizador local, para todo $k$ suficientemente grande:
-    \[
-        0 \le f(\bar{x} + t_k d^k) - f(\bar{x}) = t_k \interno{\nabla f(\bar{x})}{d^k} + o(t_k).
-    \]
-    Dividiendo por $t_k > 0$ y pasando al límite, obtenemos \eqref{v1:eq:condicion_primal_primer_orden}.
+ Fijemos $d \in \mathcal{B}_D(\bar{x}) \setminus \{0\}$ y las sucesiones asociadas $\{t_k\} \to 0^+$ y $\{d^k\} \to d$ tales que $\bar{x} + t_k d^k \in D$. Como $\bar{x}$ es un minimizador local, para todo $k$ suficientemente grande:
+ \[
+ 0 \le f(\bar{x} + t_k d^k) - f(\bar{x}) = t_k \interno{\nabla f(\bar{x})}{d^k} + o(t_k).
+ \]
+ Dividiendo por $t_k > 0$ y pasando al límite, obtenemos \eqref{v1:eq:1.13}.
 \end{proof}
 
-Decimos que $\bar{x} \in \Rn$ es un \textbf{punto estacionario} del problema \eqref{v1:eq:problema_general_restricciones} si $\bar{x} \in D$ y vale \eqref{v1:eq:condicion_primal_primer_orden}. 
+Decimos que $\bar{x} \in \Rn$ es un \textbf{punto estacionario} del problema \eqref{v1:eq:1.11} si $\bar{x} \in D$ y vale \eqref{v1:eq:1.13}. 
 
-\begin{corollary}\label{v1:cor:estacionario_interior}
-    Sea $\bar{x} \in \interior D$ una solución local del problema \eqref{v1:eq:problema_general_restricciones} tal que $f$ es diferenciable en $\bar{x}$. Entonces $\nabla f(\bar{x}) = 0$.
+\begin{corollary}\label{v1:cor:1.4.1}
+ Sea $\bar{x} \in \interior D$ una solución local del problema \eqref{v1:eq:1.11} tal que $f$ es diferenciable en $\bar{x}$. Entonces $\nabla f(\bar{x}) = 0$.
 \end{corollary}
 
 La condición de optimalidad puede transformarse a la forma primal-dual usando el cono dual.
 
-\begin{definition}[Cono dual]\label{v1:def:cono_dual}
-    El \textbf{cono dual} de un cono $K \subset \Rn$ se define por
-    \[
-        K^* = \{y \in \Rn \mid \interno{y}{d} \le 0 \quad \forall d \in K\}.
-    \]
+\begin{definition}[Cono dual]\label{v1:def:1.4.5}
+ El \textbf{cono dual} de un cono $K \subset \Rn$ se define por
+ \[
+ K^* = \{y \in \Rn \mid \interno{y}{d} \le 0 \quad \forall d \in K\}.
+ \]
 \end{definition}
 
-Usando esta noción, la condición de optimalidad \eqref{v1:eq:condicion_primal_primer_orden} es equivalente a
+Usando esta noción, la condición de optimalidad \eqref{v1:eq:1.13} es equivalente a
 \begin{equation}
-    -\nabla f(\bar{x}) \in (\mathcal{B}_D(\bar{x}))^*. \label{v1:eq:condicion_dual_primal}
+ -\nabla f(\bar{x}) \in (\mathcal{B}_D(\bar{x}))^*. \label{v1:eq:1.14}
 \end{equation}
 
 \begin{center}
 \begin{tikzpicture}[>=Stealth, scale=0.9]
-    \fill[MidnightBlue!10, draw=MidnightBlue!60!black, thick] (0,0) -- (2,-1) -- (2,1) -- cycle;
-    \node[MidnightBlue!80!black] at (1.5,0.2) {$\mathcal{B}_D(\bar{x})$};
-    \fill[red!10, draw=red!60!black, thick] (0,0) -- (-1,2) -- (1,2) -- cycle;
-    \node[red!60!black] at (0,1.5) {$(\mathcal{B}_D(\bar{x}))^*$};
-    \draw[->, thick, ForestGreen] (0,0) -- (0.8,0.2) node[right] {$\nabla f(\bar{x})$};
-    \draw[->, thick, purple!80!black] (0,0) -- (-0.8,1.0) node[left] {$-\nabla f(\bar{x})$};
-    \draw[dashed, gray] (0,0) -- (2,2);
-    \draw[dashed, gray] (0,0) -- (-2,2);
+ \fill[MidnightBlue!10, draw=MidnightBlue!60!black, thick] (0,0) -- (2,-1) -- (2,1) -- cycle;
+ \node[MidnightBlue!80!black] at (1.5,0.2) {$\mathcal{B}_D(\bar{x})$};
+ \fill[red!10, draw=red!60!black, thick] (0,0) -- (-1,2) -- (1,2) -- cycle;
+ \node[red!60!black] at (0,1.5) {$(\mathcal{B}_D(\bar{x}))^*$};
+ \draw[->, thick, ForestGreen] (0,0) -- (0.8,0.2) node[right] {$\nabla f(\bar{x})$};
+ \draw[->, thick, purple!80!black] (0,0) -- (-0.8,1.0) node[left] {$-\nabla f(\bar{x})$};
+ \draw[dashed, gray] (0,0) -- (2,2);
+ \draw[dashed, gray] (0,0) -- (-2,2);
 \end{tikzpicture}
 \end{center}
 
-\begin{theorem}[Condición suficiente en forma primal]\label{v1:thm:cs_primal}
-    Sean $D \subset \Rn$ y $f : \Rn \to \R$ diferenciable en $\bar{x} \in D$. Entonces
-    \begin{equation}
-        \interno{\nabla f(\bar{x})}{d} > 0 \quad \forall d \in \mathcal{B}_D(\bar{x}) \setminus \{0\} \label{v1:eq:cs_primal}
-    \end{equation}
-    si, y solamente si, $f$ satisface en $D$ en torno a $\bar{x}$ la condición de crecimiento lineal:
-    \begin{equation}
-        f(x) - f(\bar{x}) \ge \beta \norm{x - \bar{x}} \quad \forall x \in D \cap U. \label{v1:eq:condicion_crecimiento_lineal}
-    \end{equation}
-    En particular, \eqref{v1:eq:condicion_crecimiento_lineal} implica que $\bar{x}$ es minimizador local estricto.
+\begin{theorem}[Condición suficiente en forma primal]\label{v1:thm:1.4.2}
+ Sean $D \subset \Rn$ y $f : \Rn \to \R$ diferenciable en $\bar{x} \in D$. Entonces
+ \begin{equation}
+ \interno{\nabla f(\bar{x})}{d} > 0 \quad \forall d \in \mathcal{B}_D(\bar{x}) \setminus \{0\} \label{v1:eq:1.15}
+ \end{equation}
+ si, y solamente si, $f$ satisface en $D$ en torno a $\bar{x}$ la condición de crecimiento lineal:
+ \begin{equation}
+ f(x) - f(\bar{x}) \ge \beta \norm{x - \bar{x}} \quad \forall x \in D \cap U. \label{v1:eq:1.16}
+ \end{equation}
+ En particular, \eqref{v1:eq:1.16} implica que $\bar{x}$ es minimizador local estricto.
 \end{theorem}
 
 \begin{proof}
-    Supongamos que \eqref{v1:eq:cs_primal} valga, pero no \eqref{v1:eq:condicion_crecimiento_lineal}. Existe $\{x^k\} \subset D \setminus \{\bar{x}\}$ convergiendo a $\bar{x}$ tal que $f(x^k) - f(\bar{x}) < \frac{1}{k} \norm{x^k - \bar{x}}$. Definiendo $t_k = \norm{x^k - \bar{x}}$ y $d^k = (x^k - \bar{x})/t_k$, podemos extraer una subsucesión convergente $d^k \to d$ ($\norm{d}=1$). Así $d \in \mathcal{B}_D(\bar{x}) \setminus \{0\}$. Evaluando el gradiente, obtenemos $0 \ge \interno{\nabla f(\bar{x})}{d}$, en contradicción con \eqref{v1:eq:cs_primal}.
-    
-    El recíproco es directo evaluando \eqref{v1:eq:condicion_crecimiento_lineal} a lo largo de las trayectorias que definen el cono de Bouligand y tomando el límite para el gradiente.
+ Supongamos que \eqref{v1:eq:1.15} valga, pero no \eqref{v1:eq:1.16}. Existe $\{x^k\} \subset D \setminus \{\bar{x}\}$ convergiendo a $\bar{x}$ tal que $f(x^k) - f(\bar{x}) < \frac{1}{k} \norm{x^k - \bar{x}}$. Definiendo $t_k = \norm{x^k - \bar{x}}$ y $d^k = (x^k - \bar{x})/t_k$, podemos extraer una subsucesión convergente $d^k \to d$ ($\norm{d}=1$). Así $d \in \mathcal{B}_D(\bar{x}) \setminus \{0\}$. Evaluando el gradiente, obtenemos $0 \ge \interno{\nabla f(\bar{x})}{d}$, en contradicción con \eqref{v1:eq:1.15}.
+ 
+ El recíproco es directo evaluando \eqref{v1:eq:1.16} a lo largo de las trayectorias que definen el cono de Bouligand y tomando el límite para el gradiente.
 \end{proof}
 
-\begin{proposition}[Relaciones entre conos]\label{v1:prop:relaciones_conos}
-    Sean $D \subset \Rn$ y $\bar{x} \in D$. Los conos $\mathcal{T}_D(\bar{x})$ y $\mathcal{B}_D(\bar{x})$ son cerrados y se tiene que
-    \[
-        \{0\} \subset \cl \mathcal{V}_D(\bar{x}) \subset \mathcal{T}_D(\bar{x}) \subset \mathcal{B}_D(\bar{x}).
-    \]
+\begin{proposition}[Relaciones entre conos]\label{v1:prop:1.4.1}
+ Sean $D \subset \Rn$ y $\bar{x} \in D$. Los conos $\mathcal{T}_D(\bar{x})$ y $\mathcal{B}_D(\bar{x})$ son cerrados y se tiene que
+ \[
+ \{0\} \subset \cl \mathcal{V}_D(\bar{x}) \subset \mathcal{T}_D(\bar{x}) \subset \mathcal{B}_D(\bar{x}).
+ \]
 \end{proposition}

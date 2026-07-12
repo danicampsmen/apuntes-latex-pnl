@@ -124,6 +124,21 @@ https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metod
 https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter9_opt_restringida/07_sqp.tex
 https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter9_opt_restringida/exercises.tex
 
+######################################################################
+capítulo 10
+######################################################################
 
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter10_opt_no_diferenciable/01_introduccion.tex
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter10_opt_no_diferenciable/02_metodos_subgradiente.tex
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter10_opt_no_diferenciable/03_planos_cortantes.tex
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter10_opt_no_diferenciable/04_metodos_haces.tex
 
+######################################################################
+capítulo 11
+######################################################################
 
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter11_prog_lineal_cuadratica/01_intro_teoria_pl.tex
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter11_prog_lineal_cuadratica/02_teoremas_vertices_dualidad.tex
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter11_prog_lineal_cuadratica/03_metodo_simplex.tex
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter11_prog_lineal_cuadratica/04_puntos_interiores.tex
+https://github.com/danicampsmen/apuntes-latex-pnl/blob/main/chapters/part2_metodos/chapter11_prog_lineal_cuadratica/05_programacion_cuadratica.tex

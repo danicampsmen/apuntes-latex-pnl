@@ -2,122 +2,122 @@
 
 % =========================================================
 \section{Condiciones de optimalidad para problemas sin restricciones}
-\label{v1:sec:condiciones_irrestrictos}
+\label{v1:sec:1.3}
 % =========================================================
 
 Consideremos el problema de minimización irrestricta
 \begin{equation}
-    \min f(x), \quad x \in \Rn, \label{v1:eq:problema_irrestricto_basico}
+ \min f(x), \quad x \in \Rn, \label{v1:eq:1.6}
 \end{equation}
-donde $f : \Rn \to \R$. A continuación estudiaremos las condiciones que deben ser satisfechas cuando un $\bar{x} \in \Rn$ dado es minimizador (local) del problema \eqref{v1:eq:problema_irrestricto_basico}. Condiciones de este tipo se llaman \textbf{condiciones necesarias de optimalidad}. También estudiaremos las condiciones que garantizan que un punto dado es minimizador local del problema (\textbf{condiciones suficientes de optimalidad}). Cabe notar que todos los resultados presentados a continuación son también verdaderos para un problema con restricciones $\min_{x \in D} f(x)$ siempre que el punto de interés $\bar{x}$ esté en el interior del conjunto factible $D$.
+donde $f : \Rn \to \R$. A continuación estudiaremos las condiciones que deben ser satisfechas cuando un $\bar{x} \in \Rn$ dado es minimizador (local) del problema \eqref{v1:eq:1.6}. Condiciones de este tipo se llaman \textbf{condiciones necesarias de optimalidad}. También estudiaremos las condiciones que garantizan que un punto dado es minimizador local del problema (\textbf{condiciones suficientes de optimalidad}). Cabe notar que todos los resultados presentados a continuación son también verdaderos para un problema con restricciones $\min_{x \in D} f(x)$ siempre que el punto de interés $\bar{x}$ esté en el interior del conjunto factible $D$.
 
-\begin{theorem}[Condición necesaria de primer orden - Fermat]\label{v1:thm:cn1_irrestricto}
-    Supongamos que la función $f : \Rn \to \R$ sea diferenciable en el punto $\bar{x} \in \Rn$.
-    Si $\bar{x}$ es un minimizador local irrestricto de $f$, entonces
-    \begin{equation}
-        \nabla f(\bar{x}) = 0. \label{v1:eq:cn1_irrestricto}
-    \end{equation}
+\begin{theorem}[Condición necesaria de primer orden - Fermat]\label{v1:thm:1.3.1}
+ Supongamos que la función $f : \Rn \to \R$ sea diferenciable en el punto $\bar{x} \in \Rn$.
+ Si $\bar{x}$ es un minimizador local irrestricto de $f$, entonces
+ \begin{equation}
+ \nabla f(\bar{x}) = 0. \label{v1:eq:1.7}
+ \end{equation}
 \end{theorem}
 
 \begin{proof}
-    Sea $d \in \Rn$ arbitrario. Por la definición de minimizador local, existe $\varepsilon > 0$ tal que
-    \[
-        f(\bar{x}) \le f(\bar{x} + td) \quad \forall t \in [0, \varepsilon].
-    \]
-    Por la diferenciabilidad de $f$ en $\bar{x}$,
-    \[
-        f(\bar{x} + td) = f(\bar{x}) + t\interno{\nabla f(\bar{x})}{d} + o(t).
-    \]
-    Luego, $0 \le t\interno{\nabla f(\bar{x})}{d} + o(t)$.
-    Dividiendo por $t > 0$ y tomando el límite cuando $t \to 0^+$, obtenemos
-    \[
-        0 \le \interno{\nabla f(\bar{x})}{d}.
-    \]
-    Como $d \in \Rn$ es arbitrario, podemos elegir $d = -\nabla f(\bar{x})$, lo que resulta en la condición $0 \le \interno{\nabla f(\bar{x})}{-\nabla f(\bar{x})} = -\norm{\nabla f(\bar{x})}^2$. De donde sigue que $\nabla f(\bar{x}) = 0$.
+ Sea $d \in \Rn$ arbitrario. Por la definición de minimizador local, existe $\varepsilon > 0$ tal que
+ \[
+ f(\bar{x}) \le f(\bar{x} + td) \quad \forall t \in [0, \varepsilon].
+ \]
+ Por la diferenciabilidad de $f$ en $\bar{x}$,
+ \[
+ f(\bar{x} + td) = f(\bar{x}) + t\interno{\nabla f(\bar{x})}{d} + o(t).
+ \]
+ Luego, $0 \le t\interno{\nabla f(\bar{x})}{d} + o(t)$.
+ Dividiendo por $t > 0$ y tomando el límite cuando $t \to 0^+$, obtenemos
+ \[
+ 0 \le \interno{\nabla f(\bar{x})}{d}.
+ \]
+ Como $d \in \Rn$ es arbitrario, podemos elegir $d = -\nabla f(\bar{x})$, lo que resulta en la condición $0 \le \interno{\nabla f(\bar{x})}{-\nabla f(\bar{x})} = -\norm{\nabla f(\bar{x})}^2$. De donde sigue que $\nabla f(\bar{x}) = 0$.
 \end{proof}
 
-\begin{definition}[Punto estacionario]\label{v1:def:punto_estacionario}
-    Decimos que un punto $\bar{x} \in \Rn$ es \textbf{estacionario} (o \textbf{crítico}) para el problema \eqref{v1:eq:problema_irrestricto_basico}, si vale la condición \eqref{v1:eq:cn1_irrestricto}.
+\begin{definition}[Punto estacionario]\label{v1:def:1.3.1}
+ Decimos que un punto $\bar{x} \in \Rn$ es \textbf{estacionario} (o \textbf{crítico}) para el problema \eqref{v1:eq:1.6}, si vale la condición \eqref{v1:eq:1.7}.
 \end{definition}
 
-Por lo tanto, si $f$ es diferenciable, las soluciones locales del problema \eqref{v1:eq:problema_irrestricto_basico} deben ser puntos estacionarios. Claramente, lo mismo vale para los problemas de maximización. A continuación, presentamos las condiciones de segundo orden.
+Por lo tanto, si $f$ es diferenciable, las soluciones locales del problema \eqref{v1:eq:1.6} deben ser puntos estacionarios. Claramente, lo mismo vale para los problemas de maximización. A continuación, presentamos las condiciones de segundo orden.
 
-\begin{theorem}[Condición necesaria de segunda orden]\label{v1:thm:cn2_irrestricto}
-    Supongamos que $f : \Rn \to \R$ sea dos veces diferenciable en el punto $\bar{x} \in \Rn$.
-    Si $\bar{x}$ es un minimizador local irrestricto de $f$, entonces vale \eqref{v1:eq:cn1_irrestricto} y la matriz Hessiana de $f$ en el punto $\bar{x}$ es \textbf{semidefinida positiva}, es decir,
-    \begin{equation}
-        \interno{\nabla^2 f(\bar{x})d}{d} \ge 0 \quad \forall d \in \Rn. \label{v1:eq:cn2_irrestricto}
-    \end{equation}
+\begin{theorem}[Condición necesaria de segunda orden]\label{v1:thm:1.3.2}
+ Supongamos que $f : \Rn \to \R$ sea dos veces diferenciable en el punto $\bar{x} \in \Rn$.
+ Si $\bar{x}$ es un minimizador local irrestricto de $f$, entonces vale \eqref{v1:eq:1.7} y la matriz Hessiana de $f$ en el punto $\bar{x}$ es \textbf{semidefinida positiva}, es decir,
+ \begin{equation}
+ \interno{\nabla^2 f(\bar{x})d}{d} \ge 0 \quad \forall d \in \Rn. \label{v1:eq:1.8}
+ \end{equation}
 \end{theorem}
 
 \begin{proof}
-    La condición \eqref{v1:eq:cn1_irrestricto} ya fue obtenida por el \cref{v1:thm:cn1_irrestricto}. Sea $d \in \Rn$ arbitrario. Si $\bar{x}$ es minimizador local del problema \eqref{v1:eq:problema_irrestricto_basico}, entonces para todo $t > 0$ suficientemente pequeño
-    \[
-        0 \le f(\bar{x} + td) - f(\bar{x})
-        = \interno{\nabla f(\bar{x})}{td} + \frac{1}{2}\interno{\nabla^2 f(\bar{x})(td)}{td} + o(t^2)
-        = \frac{t^2}{2}\interno{\nabla^2 f(\bar{x})d}{d} + o(t^2).
-    \]
-    Dividiendo ambos lados por $t^2 > 0$ y pasando al límite cuando $t \to 0^+$, obtenemos \eqref{v1:eq:cn2_irrestricto}.
+ La condición \eqref{v1:eq:1.7} ya fue obtenida por el \cref{v1:thm:1.3.1}. Sea $d \in \Rn$ arbitrario. Si $\bar{x}$ es minimizador local del problema \eqref{v1:eq:1.6}, entonces para todo $t > 0$ suficientemente pequeño
+ \[
+ 0 \le f(\bar{x} + td) - f(\bar{x})
+ = \interno{\nabla f(\bar{x})}{td} + \frac{1}{2}\interno{\nabla^2 f(\bar{x})(td)}{td} + o(t^2)
+ = \frac{t^2}{2}\interno{\nabla^2 f(\bar{x})d}{d} + o(t^2).
+ \]
+ Dividiendo ambos lados por $t^2 > 0$ y pasando al límite cuando $t \to 0^+$, obtenemos \eqref{v1:eq:1.8}.
 \end{proof}
 
-Si en un punto estacionario $\bar{x}$ en vez de \eqref{v1:eq:cn2_irrestricto} vale una condición más fuerte (la matriz Hessiana es definida positiva), podemos afirmar que de hecho $\bar{x}$ es un minimizador local estricto con crecimiento cuadrático.
+Si en un punto estacionario $\bar{x}$ en vez de \eqref{v1:eq:1.8} vale una condición más fuerte (la matriz Hessiana es definida positiva), podemos afirmar que de hecho $\bar{x}$ es un minimizador local estricto con crecimiento cuadrático.
 
-\begin{theorem}[Condición suficiente de segunda orden]\label{v1:thm:cs2_irrestricto}
-    Supongamos que $f : \Rn \to \R$ sea dos veces diferenciable en el punto $\bar{x} \in \Rn$. Si $\bar{x}$ es un punto estacionario (es decir, si vale \eqref{v1:eq:cn1_irrestricto}) y si la matriz Hessiana de $f$ en $\bar{x}$ es definida positiva, es decir,
-    \begin{equation}
-        \interno{\nabla^2 f(\bar{x})d}{d} > 0 \quad \forall d \in \Rn \setminus \{0\}, \label{v1:eq:cs2_irrestricto}
-    \end{equation}
-    entonces $f$ satisface en torno a $\bar{x}$ la condición de crecimiento cuadrático: existen una vecindad $U$ de $\bar{x}$ y un número $\beta > 0$ tales que
-    \begin{equation}
-        f(x) - f(\bar{x}) \ge \beta \norm{x - \bar{x}}^2 \quad \forall x \in U. \label{v1:eq:crecimiento_cuadratico}
-    \end{equation}
-    En particular, $\bar{x}$ es minimizador local estricto del problema \eqref{v1:eq:problema_irrestricto_basico}. Recíprocamente, si vale \eqref{v1:eq:crecimiento_cuadratico}, entonces $\bar{x}$ satisface las condiciones \eqref{v1:eq:cn1_irrestricto} y \eqref{v1:eq:cs2_irrestricto}.
+\begin{theorem}[Condición suficiente de segunda orden]\label{v1:thm:1.3.3}
+ Supongamos que $f : \Rn \to \R$ sea dos veces diferenciable en el punto $\bar{x} \in \Rn$. Si $\bar{x}$ es un punto estacionario (es decir, si vale \eqref{v1:eq:1.7}) y si la matriz Hessiana de $f$ en $\bar{x}$ es definida positiva, es decir,
+ \begin{equation}
+ \interno{\nabla^2 f(\bar{x})d}{d} > 0 \quad \forall d \in \Rn \setminus \{0\}, \label{v1:eq:1.9}
+ \end{equation}
+ entonces $f$ satisface en torno a $\bar{x}$ la condición de crecimiento cuadrático: existen una vecindad $U$ de $\bar{x}$ y un número $\beta > 0$ tales que
+ \begin{equation}
+ f(x) - f(\bar{x}) \ge \beta \norm{x - \bar{x}}^2 \quad \forall x \in U. \label{v1:eq:1.10}
+ \end{equation}
+ En particular, $\bar{x}$ es minimizador local estricto del problema \eqref{v1:eq:1.6}. Recíprocamente, si vale \eqref{v1:eq:1.10}, entonces $\bar{x}$ satisface las condiciones \eqref{v1:eq:1.7} y \eqref{v1:eq:1.9}.
 \end{theorem}
 
 \begin{proof}
-    Supongamos que valgan las condiciones \eqref{v1:eq:cn1_irrestricto} y \eqref{v1:eq:cs2_irrestricto}, pero no \eqref{v1:eq:crecimiento_cuadratico}. Entonces existe $\{x^k\} \subset \Rn \setminus \{\bar{x}\}$ tal que $\{x^k\} \to \bar{x}$ cuando $k \to \infty$ y
-    \[
-        f(x^k) - f(\bar{x}) < \frac{1}{k} \norm{x^k - \bar{x}}^2 \quad \forall k.
-    \]
-    Como la sucesión $\{(x^k - \bar{x}) / \norm{x^k - \bar{x}}\}$ es acotada, posee puntos de acumulación. Escogiendo una subsucesión, podemos admitir que
-    \[
-        \frac{x^k - \bar{x}}{\norm{x^k - \bar{x}}} \to d \in \Rn \setminus \{0\} \quad (\norm{d} = 1).
-    \]
-    Obtenemos que
-    \[
-        \frac{1}{k} \norm{x^k - \bar{x}}^2 > f(x^k) - f(\bar{x})
-        = \frac{1}{2}\interno{\nabla^2 f(\bar{x})(x^k - \bar{x})}{x^k - \bar{x}} + o(\norm{x^k - \bar{x}}^2),
-    \]
-    donde usamos \eqref{v1:eq:cn1_irrestricto}. Dividiendo por $\norm{x^k - \bar{x}}^2 > 0$ y tomando el límite cuando $k \to \infty$, obtenemos
-    \[
-        0 \ge \frac{1}{2} \interno{\nabla^2 f(\bar{x})d}{d},
-    \]
-    en contradicción con \eqref{v1:eq:cs2_irrestricto}.
+ Supongamos que valgan las condiciones \eqref{v1:eq:1.7} y \eqref{v1:eq:1.9}, pero no \eqref{v1:eq:1.10}. Entonces existe $\{x^k\} \subset \Rn \setminus \{\bar{x}\}$ tal que $\{x^k\} \to \bar{x}$ cuando $k \to \infty$ y
+ \[
+ f(x^k) - f(\bar{x}) < \frac{1}{k} \norm{x^k - \bar{x}}^2 \quad \forall k.
+ \]
+ Como la sucesión $\{(x^k - \bar{x}) / \norm{x^k - \bar{x}}\}$ es acotada, posee puntos de acumulación. Escogiendo una subsucesión, podemos admitir que
+ \[
+ \frac{x^k - \bar{x}}{\norm{x^k - \bar{x}}} \to d \in \Rn \setminus \{0\} \quad (\norm{d} = 1).
+ \]
+ Obtenemos que
+ \[
+ \frac{1}{k} \norm{x^k - \bar{x}}^2 > f(x^k) - f(\bar{x})
+ = \frac{1}{2}\interno{\nabla^2 f(\bar{x})(x^k - \bar{x})}{x^k - \bar{x}} + o(\norm{x^k - \bar{x}}^2),
+ \]
+ donde usamos \eqref{v1:eq:1.7}. Dividiendo por $\norm{x^k - \bar{x}}^2 > 0$ y tomando el límite cuando $k \to \infty$, obtenemos
+ \[
+ 0 \ge \frac{1}{2} \interno{\nabla^2 f(\bar{x})d}{d},
+ \]
+ en contradicción con \eqref{v1:eq:1.9}.
 
-    Supongamos ahora que valga la condición de crecimiento cuadrático \eqref{v1:eq:crecimiento_cuadratico}. Como ella implica que $\bar{x}$ es un minimizador local, obtenemos \eqref{v1:eq:cn1_irrestricto} por el \cref{v1:thm:cn1_irrestricto}. Para cualquier $d \in \Rn$ y $t \in \R$ suficientemente pequeño, $\bar{x} + td \in U$. Utilizando \eqref{v1:eq:crecimiento_cuadratico} y \eqref{v1:eq:cn1_irrestricto}, obtenemos que
-    \[
-        \beta t^2 \norm{d}^2 \le f(\bar{x} + td) - f(\bar{x})
-        = \frac{t^2}{2}\interno{\nabla^2 f(\bar{x})d}{d} + o(t^2).
-    \]
-    Dividiendo por $t^2 > 0$ y tomando el límite cuando $t \to 0$, obtenemos
-    $\beta \norm{d}^2 \le \frac{1}{2}\interno{\nabla^2 f(\bar{x})d}{d}$, lo que significa que $\nabla^2 f(\bar{x})$ es definida positiva.
+ Supongamos ahora que valga la condición de crecimiento cuadrático \eqref{v1:eq:1.10}. Como ella implica que $\bar{x}$ es un minimizador local, obtenemos \eqref{v1:eq:1.7} por el \cref{v1:thm:1.3.1}. Para cualquier $d \in \Rn$ y $t \in \R$ suficientemente pequeño, $\bar{x} + td \in U$. Utilizando \eqref{v1:eq:1.10} y \eqref{v1:eq:1.7}, obtenemos que
+ \[
+ \beta t^2 \norm{d}^2 \le f(\bar{x} + td) - f(\bar{x})
+ = \frac{t^2}{2}\interno{\nabla^2 f(\bar{x})d}{d} + o(t^2).
+ \]
+ Dividiendo por $t^2 > 0$ y tomando el límite cuando $t \to 0$, obtenemos
+ $\beta \norm{d}^2 \le \frac{1}{2}\interno{\nabla^2 f(\bar{x})d}{d}$, lo que significa que $\nabla^2 f(\bar{x})$ es definida positiva.
 \end{proof}
 
-Cabe resaltar que las condiciones \eqref{v1:eq:cn1_irrestricto} y \eqref{v1:eq:cn2_irrestricto} no son suficientes para que un punto sea minimizador (ej: $f(x)=x^3$ en $x=0$). Por otro lado, \eqref{v1:eq:cn1_irrestricto} y \eqref{v1:eq:cs2_irrestricto} no son necesarias para que un punto sea minimizador (ej: $f(x)=x^4$ en $x=0$). 
+Cabe resaltar que las condiciones \eqref{v1:eq:1.7} y \eqref{v1:eq:1.8} no son suficientes para que un punto sea minimizador (ej: $f(x)=x^3$ en $x=0$). Por otro lado, \eqref{v1:eq:1.7} y \eqref{v1:eq:1.9} no son necesarias para que un punto sea minimizador (ej: $f(x)=x^4$ en $x=0$). 
 
-\begin{example}\label{v1:exa:minimax_local}
-    Encontremos los minimizadores y maximizadores locales irrestrictos de la función $f(x) = x_1^3 + x_2^3 - 3x_1x_2$. Es fácil ver que $f$ no es acotada ni inferior ni superiormente, por lo que no hay óptimos globales. Los puntos estacionarios son $x^1 = (0,0)$ y $x^2 = (1,1)$. Las matrices Hessianas son:
-    \[
-        \nabla^2 f(x^1) = \begin{pmatrix} 0 & -3 \\ -3 & 0 \end{pmatrix}, \quad
-        \nabla^2 f(x^2) = \begin{pmatrix} 6 & -3 \\ -3 & 6 \end{pmatrix}.
-    \]
-    La matriz $\nabla^2 f(x^1)$ no es ni semidefinida positiva ni semidefinida negativa. Por el \cref{v1:thm:cn2_irrestricto}, $x^1$ no es ni minimizador ni maximizador. Como la matriz $\nabla^2 f(x^2)$ es definida positiva, por los \cref{v1:thm:cn1_irrestricto,v1:thm:cs2_irrestricto}, $x^2$ es el único minimizador local estricto.
+\begin{example}\label{v1:exa:1.3.1}
+ Encontremos los minimizadores y maximizadores locales irrestrictos de la función $f(x) = x_1^3 + x_2^3 - 3x_1x_2$. Es fácil ver que $f$ no es acotada ni inferior ni superiormente, por lo que no hay óptimos globales. Los puntos estacionarios son $x^1 = (0,0)$ y $x^2 = (1,1)$. Las matrices Hessianas son:
+ \[
+ \nabla^2 f(x^1) = \begin{pmatrix} 0 & -3 \\ -3 & 0 \end{pmatrix}, \quad
+ \nabla^2 f(x^2) = \begin{pmatrix} 6 & -3 \\ -3 & 6 \end{pmatrix}.
+ \]
+ La matriz $\nabla^2 f(x^1)$ no es ni semidefinida positiva ni semidefinida negativa. Por el \cref{v1:thm:1.3.2}, $x^1$ no es ni minimizador ni maximizador. Como la matriz $\nabla^2 f(x^2)$ es definida positiva, por los \cref{v1:thm:1.3.1,v1:thm:1.3.3}, $x^2$ es el único minimizador local estricto.
 \end{example}
 
-\begin{example}\label{v1:exa:min_global_coercitividad}
-    Encontremos las soluciones globales del problema
-    \[
-        \min f(x) = x_1 + \frac{x_2^2}{4x_1} + \frac{x_3^2}{x_2} + \frac{2}{x_3} \quad \text{sujeto a} \quad x \in D = \{x \in \R^3 \mid x_i > 0\}.
-    \]
-    El conjunto $D$ es abierto, así que todo punto factible pertenece al interior. Resolviendo \eqref{v1:eq:cn1_irrestricto}, encontramos que el único punto estacionario es $\bar{x} = (1/2, 1, 1)$. Se puede verificar que él es minimizador global comprobando que $f$ es coercitiva en $D$ (véase la \cref{v1:def:coercitividad}).
+\begin{example}\label{v1:exa:1.3.2}
+ Encontremos las soluciones globales del problema
+ \[
+ \min f(x) = x_1 + \frac{x_2^2}{4x_1} + \frac{x_3^2}{x_2} + \frac{2}{x_3} \quad \text{sujeto a} \quad x \in D = \{x \in \R^3 \mid x_i > 0\}.
+ \]
+ El conjunto $D$ es abierto, así que todo punto factible pertenece al interior. Resolviendo \eqref{v1:eq:1.7}, encontramos que el único punto estacionario es $\bar{x} = (1/2, 1, 1)$. Se puede verificar que él es minimizador global comprobando que $f$ es coercitiva en $D$ (véase la \cref{v1:def:1.2.3}).
 \end{example}

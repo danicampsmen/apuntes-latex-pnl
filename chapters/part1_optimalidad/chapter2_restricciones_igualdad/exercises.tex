@@ -4,11 +4,11 @@
 
 \addsubsec{Parte I: Mecánica Primal-Dual y Fallas Topológicas}
 
-\begin{exercise}
+\begin{exercise}\label{v1:ejer:2.1}
 	Determínense los minimizadores y maximizadores globales del funcional lineal $f(x) = \sum_{i=1}^n x_i$ sobre la esfera unitaria $D = \{ x \in \Rn \mid \norm{x}^2 = 1 \}$.
 \end{exercise}
 
-\begin{exercise}
+\begin{exercise}\label{v1:ejer:2.2}
 	Hállense los minimizadores de la función $f(x) = \norm{x}^2$ sujetos a las siguientes restricciones:
 	\begin{enumerate}
 		\item[(a)] El hiperplano afín $h(x) = 1 - \sum_{i=1}^n x_i = 0$.
@@ -16,131 +16,132 @@
 	\end{enumerate}
 \end{exercise}
 
-\begin{exercise}
+\begin{exercise}\label{v1:ejer:2.3}
 	Verifíquese analíticamente que el punto $\bar{x} = (0,0) \in \R^2$ es la solución global del problema $\min x_2$ sujeto a la intersección de las circunferencias $(x_1 - 1)^2 + x_2^2 = 1$ y $(x_1 + 1)^2 + x_2^2 = 1$. Demuestre que $\bar{x}$ no cumple con las condiciones de regularidad y que el sistema de Lagrange no admite solución en dicho punto.
 \end{exercise}
 
-\begin{exercise}
+\begin{exercise}\label{v1:ejer:2.4}
 	Demuestre que $\bar{x} = (0,0) \in \R^2$ es la solución global del problema $\min x_1^2 + x_2^2$ sujeto a la restricción $(x_1 - 1)^3 = x_2^2$, y explique por qué las condiciones de optimalidad de Lagrange no se cumplen en este punto debido a la falta de regularidad (falla de LICQ).
 \end{exercise}
 
-\begin{exercise}[Pérdida de la condición LICQ por reformulación no lineal]
-    Sea el conjunto factible $D = \{ x \in \Rn \mid h(x) = 0 \}$, donde $h : \Rn \to \R^l$ cumple la condición LICQ en todo punto de $D$. Considérese el problema de minimización de $f(x)$ sobre $D$. Supóngase que se reformula el problema utilizando la restricción escalar equivalente: $\tilde{h}(x) = \frac{1}{2}\norm{h(x)}^2 = 0$.
-    \begin{enuthm}
-        \item Demuestre que el nuevo conjunto factible $\tilde{D} = \{ x \in \Rn \mid \tilde{h}(x) = 0 \}$ coincide con $D$.
-        \item Pruebe analíticamente que ningún punto de $\tilde{D}$ cumple la condición de regularidad LICQ para la restricción $\tilde{h}$.
-        \item Explique por qué el sistema de Lagrange asociado a $\tilde{h}$ no permite identificar los puntos óptimos del problema original, analizando la diferencia entre la representación algebraica y el conjunto geométrico.
-    \end{enuthm}
+\begin{exercise}[Pérdida de la condición LICQ por reformulación no lineal]\label{v1:ejer:2.5}
+ Sea el conjunto factible $D = \{ x \in \Rn \mid h(x) = 0 \}$, donde $h : \Rn \to \R^l$ cumple la condición LICQ en todo punto de $D$. Considérese el problema de minimización de $f(x)$ sobre $D$. Supóngase que se reformula el problema utilizando la restricción escalar equivalente: $\tilde{h}(x) = \frac{1}{2}\norm{h(x)}^2 = 0$.
+ \begin{enuthm}
+ \item Demuestre que el nuevo conjunto factible $\tilde{D} = \{ x \in \Rn \mid \tilde{h}(x) = 0 \}$ coincide con $D$.
+ \item Pruebe analíticamente que ningún punto de $\tilde{D}$ cumple la condición de regularidad LICQ para la restricción $\tilde{h}$.
+ \item Explique por qué el sistema de Lagrange asociado a $\tilde{h}$ no permite identificar los puntos óptimos del problema original, analizando la diferencia entre la representación algebraica y el conjunto geométrico.
+ \end{enuthm}
 \end{exercise}
 
-\begin{exercise}[El Cilindro y el Plano Tangente]
-    Considérese la superficie descrita por $h(x) = x_1^2 + x_2^2 - x_3 = 0$ (un paraboloide).
-    \begin{enuthm}
-        \item Evalúe el punto $\bar{x} = (1, 1, 2)^\top$. Demuestre que se cumple LICQ y halle una base ortonormal para el subespacio tangente $\ker J_h(\bar{x})$.
-        \item Considere la curva parametrizada $x(t) = (\cos t, \sin t, 1)^\top$. Verifique que la curva pertenece a la variedad para todo $t$, y demuestre que el vector velocidad $x'(0)$ es una combinación lineal de los vectores de la base obtenida en el inciso anterior.
-    \end{enuthm}
+\begin{exercise}[El Cilindro y el Plano Tangente]\label{v1:ejer:2.6}
+ Considérese la superficie descrita por $h(x) = x_1^2 + x_2^2 - x_3 = 0$ (un paraboloide).
+ \begin{enuthm}
+ \item Evalúe el punto $\bar{x} = (1, 1, 2)^\top$. Demuestre que se cumple LICQ y halle una base ortonormal para el subespacio tangente $\ker J_h(\bar{x})$.
+ \item Considere la curva parametrizada $x(t) = (\cos t, \sin t, 1)^\top$. Verifique que la curva pertenece a la variedad para todo $t$, y demuestre que el vector velocidad $x'(0)$ es una combinación lineal de los vectores de la base obtenida en el inciso anterior.
+ \end{enuthm}
 \end{exercise}
 
-\begin{exercise}[Dependencia Funcional y Conjuntos de Nivel]
-    Sea $f : \R^2 \to \R$ una función escalar de clase $\mathcal{C}^1$. Considérese el problema de minimizar $f(x)$ sujeto a que el punto pertenezca a una curva de nivel de otra función suave: $h(x) = g(x) - c = 0$. Demuestre que, si el punto $\bar{x}$ es un óptimo regular, entonces las curvas de nivel de $f$ y de $g$ que pasan por $\bar{x}$ son tangentes entre sí en dicho punto. Interprete este resultado geométricamente usando los gradientes.
+\begin{exercise}[Dependencia Funcional y Conjuntos de Nivel]\label{v1:ejer:2.7}
+ Sea $f : \R^2 \to \R$ una función escalar de clase $\mathcal{C}^1$. Considérese el problema de minimizar $f(x)$ sujeto a que el punto pertenezca a una curva de nivel de otra función suave: $h(x) = g(x) - c = 0$. Demuestre que, si el punto $\bar{x}$ es un óptimo regular, entonces las curvas de nivel de $f$ y de $g$ que pasan por $\bar{x}$ son tangentes entre sí en dicho punto. Interprete este resultado geométricamente usando los gradientes.
 \end{exercise}
 
-\begin{exercise}[Intersección de dimensión mixta y puntos aislados]
-    Sea el conjunto factible en $\R^3$ definido por $h_1(x) = x_1^2 + x_2^2 - x_3 = 0$ y $h_2(x) = x_3 = 0$.
-    \begin{enuthm}
-        \item Describa geométricamente el conjunto resultante $D$.
-        \item Demuestre que el único punto en $D$ es el origen $(0,0,0)^\top$.
-        \item Calcule la matriz Jacobiana $J_h(0)$. Determine si el origen es un punto regular y analice, desde una perspectiva geométrica y topológica, por qué la intersección de estas restricciones produce un punto aislado en lugar de una curva.
-    \end{enuthm}
+\begin{exercise}[Intersección de dimensión mixta y puntos aislados]\label{v1:ejer:2.8}
+ Sea el conjunto factible en $\R^3$ definido por $h_1(x) = x_1^2 + x_2^2 - x_3 = 0$ y $h_2(x) = x_3 = 0$.
+ \begin{enuthm}
+ \item Describa geométricamente el conjunto resultante $D$.
+ \item Demuestre que el único punto en $D$ es el origen $(0,0,0)^\top$.
+ \item Calcule la matriz Jacobiana $J_h(0)$. Determine si el origen es un punto regular y analice, desde una perspectiva geométrica y topológica, por qué la intersección de estas restricciones produce un punto aislado en lugar de una curva.
+ \end{enuthm}
 \end{exercise}
 
 \addsubsec{Parte II: Condiciones Diferenciales de Segundo Orden y Matriz KKT}
-\begin{exercise}
+
+\begin{exercise}\label{v1:ejer:2.9}
 	Determine los extremos locales y globales de la función $f(x) = x_1^3 / 3 + x_2$ restringida a la esfera $D = \{ x \in \R^2 \mid x_1^2 + x_2^2 = 2 \}$.
 \end{exercise}
 
-\begin{exercise}[El Sistema Lineal de Karush-Kuhn-Tucker]
+\begin{exercise}[El Sistema Lineal de Karush-Kuhn-Tucker]\label{v1:ejer:2.10}
 	Sea el funcional cuadrático generalizado $f(x) = \frac{1}{2}\interno{Qx}{x} + \interno{q}{x}$ sujeto a la restricción afín sobreyectiva $Ax = a$. Asumiendo que $Q$ es simétrica y definida positiva, pruébese la unicidad de la solución primal-dual y determínese analíticamente el sistema matricial de bloques (Matriz KKT) que resuelven los vectores $x$ y $\lambda$ simultáneamente.
 \end{exercise}
 
-\begin{exercise}[No-singularidad Numérica de la Matriz KKT]
-    Generalizando el ejercicio anterior, sea $\bar{x} \in D$ un punto estacionario regular (LICQ) para un problema no lineal de optimización, con multiplicador único $\bar{\lambda}$. Defínase el Hessiano $H = \nabla_{xx}^2 L(\bar{x}, \bar{\lambda}) \in \R^{n \times n}$ y el Jacobiano $A = J_h(\bar{x}) \in \R^{l \times n}$. Supóngase que se cumple la condición suficiente de segundo orden estricta: $\interno{Hd}{d} > 0$ para todo $d \in \ker A \setminus \{0\}$. Demuéstrese que la matriz de bloques KKT:
-    \[
-        K = \begin{pmatrix} H & A^\top \\ A & 0 \end{pmatrix} \in \R^{(n+l) \times (n+l)}
-    \]
-    es invertible. \textit{(Ayuda: Suponga que $K \begin{pmatrix} d \\ y \end{pmatrix} = 0$, multiplique la primera fila de bloques por $d^\top$ y utilice la condición de positividad sobre el núcleo para deducir que $d=0$).}
+\begin{exercise}[No-singularidad Numérica de la Matriz KKT]\label{v1:ejer:2.11}
+ Generalizando el ejercicio anterior, sea $\bar{x} \in D$ un punto estacionario regular (LICQ) para un problema no lineal de optimización, con multiplicador único $\bar{\lambda}$. Defínase el Hessiano $H = \nabla_{xx}^2 L(\bar{x}, \bar{\lambda}) \in \R^{n \times n}$ y el Jacobiano $A = J_h(\bar{x}) \in \R^{l \times n}$. Supóngase que se cumple la condición suficiente de segundo orden estricta: $\interno{Hd}{d} > 0$ para todo $d \in \ker A \setminus \{0\}$. Demuéstrese que la matriz de bloques KKT:
+ \[
+ K = \begin{pmatrix} H & A^\top \\ A & 0 \end{pmatrix} \in \R^{(n+l) \times (n+l)}
+ \]
+ es invertible. \textit{(Ayuda: Suponga que $K \begin{pmatrix} d \\ y \end{pmatrix} = 0$, multiplique la primera fila de bloques por $d^\top$ y utilice la condición de positividad sobre el núcleo para deducir que $d=0$).}
 \end{exercise}
 
-\begin{exercise}[Valores Propios como Extremos de Rayleigh]
+\begin{exercise}[Valores Propios como Extremos de Rayleigh]\label{v1:ejer:2.12}
 	Sea $Q \in \R^{n \times n}$ una matriz simétrica. Utilícese el sistema de optimalidad para encontrar todos los minimizadores y maximizadores de la forma cuadrática $f(x) = \interno{Qx}{x}$ sobre la esfera unitaria $D = \{ x \in \Rn \mid \norm{x}^2 = 1 \}$. Caracterícese el conjunto de multiplicadores de Lagrange en términos de los autovalores de la matriz $Q$.
 \end{exercise}
 
-\begin{exercise}[Degeneración de la Condición Necesaria]
-    Considérese el problema $\min f(x) = x_1^4 + x_2^4$ sujeto a $h(x) = x_1 + x_2 = 0$. Verifique analíticamente que $\bar{x} = (0,0)$ es el minimizador global estricto del problema. Sin embargo, al calcular la matriz Hessiana de la Lagrangiana evaluada sobre el núcleo de la restricción, demuestre que el resultado es la matriz nula. \textit{Muestre que cuando las de menor orden se anulan, las aproximaciones cuadráticas no bastan para asegurar la suficiencia analítica de segundo orden.}
+\begin{exercise}[Degeneración de la Condición Necesaria]\label{v1:ejer:2.13}
+ Considérese el problema $\min f(x) = x_1^4 + x_2^4$ sujeto a $h(x) = x_1 + x_2 = 0$. Verifique analíticamente que $\bar{x} = (0,0)$ es el minimizador global estricto del problema. Sin embargo, al calcular la matriz Hessiana de la Lagrangiana evaluada sobre el núcleo de la restricción, demuestre que el resultado es la matriz nula. \textit{Muestre que cuando las de menor orden se anulan, las aproximaciones cuadráticas no bastan para asegurar la suficiencia analítica de segundo orden.}
 \end{exercise}
 
-\begin{exercise}[Descomposición Espectral en Lagrange]
-    Minimice la función $f(x) = x_1^2 + x_2^2 + x_3^2$ sujeta a la restricción no lineal $h(x) = x_1 x_2 x_3 - 1 = 0$.
-    \begin{enuthm}
-        \item Encuentre todos los puntos estacionarios y sus respectivos multiplicadores de Lagrange.
-        \item Calcule la matriz Hessiana de la Lagrangiana en dichos puntos.
-        \item Proyecte la matriz Hessiana sobre el subespacio tangente y utilice el criterio de los autovalores para determinar cuáles puntos son mínimos locales. \textit{(Ayuda: Analice la simetría de las coordenadas).}
-    \end{enuthm}
+\begin{exercise}[Descomposición Espectral en Lagrange]\label{v1:ejer:2.14}
+ Minimice la función $f(x) = x_1^2 + x_2^2 + x_3^2$ sujeta a la restricción no lineal $h(x) = x_1 x_2 x_3 - 1 = 0$.
+ \begin{enuthm}
+ \item Encuentre todos los puntos estacionarios y sus respectivos multiplicadores de Lagrange.
+ \item Calcule la matriz Hessiana de la Lagrangiana en dichos puntos.
+ \item Proyecte la matriz Hessiana sobre el subespacio tangente y utilice el criterio de los autovalores para determinar cuáles puntos son mínimos locales. \textit{(Ayuda: Analice la simetría de las coordenadas).}
+ \end{enuthm}
 \end{exercise}
 
-\begin{exercise}[Puntos de Ensilladura Restringidos]
-    Considere el problema $\min x_1 x_2$ sujeto a $x_1 + x_2 = 2$. Demuestre que el único punto estacionario del sistema de Lagrange es $\bar{x} = (1,1)^\top$. Evaluando las condiciones necesarias y suficientes de segundo orden, pruebe que este punto no es un minimizador local, sino que corresponde a un máximo global restringido.
+\begin{exercise}[Puntos de Ensilladura Restringidos]\label{v1:ejer:2.15}
+ Considere el problema $\min x_1 x_2$ sujeto a $x_1 + x_2 = 2$. Demuestre que el único punto estacionario del sistema de Lagrange es $\bar{x} = (1,1)^\top$. Evaluando las condiciones necesarias y suficientes de segundo orden, pruebe que este punto no es un minimizador local, sino que corresponde a un máximo global restringido.
 \end{exercise}
 
-\begin{exercise}[La Matriz Fronteada (Bordered Hessian)]
-    Sea un problema con restricciones afines $Ax = a$. La matriz KKT $K = \begin{pmatrix} H & A^\top \\ A & 0 \end{pmatrix}$ es simétrica. Demuestre que, incluso si $H$ es estrictamente definida positiva, la matriz de bloques completa $K$ es siempre indefinida (posee tanto autovalores estrictamente positivos como estrictamente negativos). \textit{Este resultado explica por qué los algoritmos de optimización numérica suelen utilizar factorizaciones como $LDL^\top$ en lugar de la factorización de Cholesky.}
+\begin{exercise}[La Matriz Fronteada (Bordered Hessian)]\label{v1:ejer:2.16}
+ Sea un problema con restricciones afines $Ax = a$. La matriz KKT $K = \begin{pmatrix} H & A^\top \\ A & 0 \end{pmatrix}$ es simétrica. Demuestre que, incluso si $H$ es estrictamente definida positiva, la matriz de bloques completa $K$ es siempre indefinida (posee tanto autovalores estrictamente positivos como estrictamente negativos). \textit{Este resultado explica por qué los algoritmos de optimización numérica suelen utilizar factorizaciones como $LDL^\top$ en lugar de la factorización de Cholesky.}
 \end{exercise}
 
 \addsubsec{Parte III: Aplicaciones Físicas, Análisis de Sensibilidad y Variedades Matriciales}
 
-\begin{exercise}[Precio Sombra y Análisis de Sensibilidad]
-    Considérese el problema parametrizado $\min f(x)$ sujeto a $h(x) = p$, donde $p \in \R^l$ es un vector de perturbaciones de frontera. Sea $\bar{x}$ un mínimo local estricto para el problema nominal ($p = 0$), regular (LICQ) y que satisface las condiciones suficientes de segundo orden con multiplicador único $\bar{\lambda}$. Invocando el Teorema de la Función Implícita sobre el sistema KKT, existe una trayectoria suave de minimizadores locales $x(p)$ con $x(0) = \bar{x}$. Defínase la función valor óptimo $v(p) = f(x(p))$. Aplicando la regla de la cadena multivariable y la ecuación estacionaria de Lagrange, demuéstrese rigurosamente que: $\nabla_p v(0) = -\bar{\lambda}$. \textit{Interprete este resultado desde una perspectiva geométrica y económica, relacionando el multiplicador de Lagrange con la sensibilidad del valor óptimo frente a variaciones en el término independiente de la restricción.}
+\begin{exercise}[Precio Sombra y Análisis de Sensibilidad]\label{v1:ejer:2.17}
+ Considérese el problema parametrizado $\min f(x)$ sujeto a $h(x) = p$, donde $p \in \R^l$ es un vector de perturbaciones de frontera. Sea $\bar{x}$ un mínimo local estricto para el problema nominal ($p = 0$), regular (LICQ) y que satisface las condiciones suficientes de segundo orden con multiplicador único $\bar{\lambda}$. Invocando el Teorema de la Función Implícita sobre el sistema KKT, existe una trayectoria suave de minimizadores locales $x(p)$ con $x(0) = \bar{x}$. Defínase la función valor óptimo $v(p) = f(x(p))$. Aplicando la regla de la cadena multivariable y la ecuación estacionaria de Lagrange, demuéstrese rigurosamente que: $\nabla_p v(0) = -\bar{\lambda}$. \textit{Interprete este resultado desde una perspectiva geométrica y económica, relacionando el multiplicador de Lagrange con la sensibilidad del valor óptimo frente a variaciones en el término independiente de la restricción.}
 \end{exercise}
 
-\begin{exercise}[Problema Isoperimétrico de Herón]
+\begin{exercise}[Problema Isoperimétrico de Herón]\label{v1:ejer:2.18}
 	Entre todos los triángulos de perímetro fijo $2p > 0$, utilícense las condiciones de optimalidad de Lagrange de primero y segundo orden para demostrar que el triángulo que maximiza el área es el triángulo equilátero. \textit{(Ayuda: Modele el problema maximizando el cuadrado del área mediante la fórmula de Herón $f(x,y,z) = p(p-x)(p-y)(p-z)$ sujeto a la restricción afín $x+y+z = 2p$).}
 \end{exercise}
 
-\begin{exercise}[Principio de Fermat y la Ley de Snell]
-    Un rayo de luz viaja desde el punto $A = (0, y_A)$ en un medio isótropo con velocidad $v_1$, hasta un punto $B = (x_B, y_B)$ en un medio con velocidad $v_2$. La interfaz de refracción entre ambos medios es la recta horizontal $y = 0$. Modele el problema buscando el punto de cruce $P = (x, y) \in \R^2$ que minimiza el tiempo total de viaje $T(x, y) = \frac{\norm{P - A}}{v_1} + \frac{\norm{B - P}}{v_2}$ sujeto a la restricción de frontera $h(x,y) = y = 0$. Resolviendo el sistema de Lagrange, obténgase analíticamente la Ley de Snell.
+\begin{exercise}[Principio de Fermat y la Ley de Snell]\label{v1:ejer:2.19}
+ Un rayo de luz viaja desde el punto $A = (0, y_A)$ en un medio isótropo con velocidad $v_1$, hasta un punto $B = (x_B, y_B)$ en un medio con velocidad $v_2$. La interfaz de refracción entre ambos medios es la recta horizontal $y = 0$. Modele el problema buscando el punto de cruce $P = (x, y) \in \R^2$ que minimiza el tiempo total de viaje $T(x, y) = \frac{\norm{P - A}}{v_1} + \frac{\norm{B - P}}{v_2}$ sujeto a la restricción de frontera $h(x,y) = y = 0$. Resolviendo el sistema de Lagrange, obténgase analíticamente la Ley de Snell.
 \end{exercise}
 
-\begin{exercise}[Distribución Uniforme y Entropía de Shannon]
-    En Teoría de la Información, la entropía de una distribución de probabilidad discreta $x \in \Rn$ (con $x_i > 0$) se define como el funcional $\mathcal{H}(x) = -\sum_{i=1}^n x_i \ln(x_i)$. Demuestre analíticamente que el problema de maximización de entropía $\max \mathcal{H}(x)$ sujeto a $\sum_{i=1}^n x_i = 1$ es resuelto unívocamente por la distribución uniforme $\bar{x}_i = 1/n$ para todo $i$. Verifique el carácter de máximo global analizando los autovalores de la matriz Hessiana.
+\begin{exercise}[Distribución Uniforme y Entropía de Shannon]\label{v1:ejer:2.20}
+ En Teoría de la Información, la entropía de una distribución de probabilidad discreta $x \in \Rn$ (con $x_i > 0$) se define como el funcional $\mathcal{H}(x) = -\sum_{i=1}^n x_i \ln(x_i)$. Demuestre analíticamente que el problema de maximización de entropía $\max \mathcal{H}(x)$ sujeto a $\sum_{i=1}^n x_i = 1$ es resuelto unívocamente por la distribución uniforme $\bar{x}_i = 1/n$ para todo $i$. Verifique el carácter de máximo global analizando los autovalores de la matriz Hessiana.
 \end{exercise}
 
-\begin{exercise}[Proyección sobre el Grupo Ortogonal: El Problema de Procrustes]
-    Sea el espacio de matrices cuadradas $M_n(\R)$ equipado con el producto de Frobenius $\interno{X}{Y}_F = \Tr(X^\top Y)$. Considérese el problema de encontrar la matriz ortogonal más cercana a una matriz dada $A \in M_n(\R)$:
-    \[
-        \min \frac{1}{2} \norm{X - A}_F^2 \quad \text{sujeto a} \quad X^\top X - I = 0.
-    \]
-    Haciendo uso de las derivadas de Fréchet para funciones matriciales, defina la Lagrangiana (donde el multiplicador de Lagrange es una matriz simétrica $\Lambda \in M_n(\R)$) y derive la ecuación matricial estacionaria.
+\begin{exercise}[Proyección sobre el Grupo Ortogonal: El Problema de Procrustes]\label{v1:ejer:2.21}
+ Sea el espacio de matrices cuadradas $M_n(\R)$ equipado con el producto de Frobenius $\interno{X}{Y}_F = \Tr(X^\top Y)$. Considérese el problema de encontrar la matriz ortogonal más cercana a una matriz dada $A \in M_n(\R)$:
+ \[
+ \min \frac{1}{2} \norm{X - A}_F^2 \quad \text{sujeto a} \quad X^\top X - I = 0.
+ \]
+ Haciendo uso de las derivadas de Fréchet para funciones matriciales, defina la Lagrangiana (donde el multiplicador de Lagrange es una matriz simétrica $\Lambda \in M_n(\R)$) y derive la ecuación matricial estacionaria.
 \end{exercise}
 
-\begin{exercise}[Mecánica Clásica: El Péndulo Simple]
-    Un péndulo consiste en una masa $m$ sujeta al extremo de una varilla rígida de longitud $L$ sin masa, cuyo otro extremo está fijo en el origen $(0,0)$. La posición de la masa se denota por $(x,y)$. La energía potencial es $V(x,y) = mgy$. Modele las posiciones de equilibrio del péndulo determinando los extremos de $V(x,y)$ sujetos a la restricción de longitud $x^2 + y^2 = L^2$. Interprete el multiplicador de Lagrange como la fuerza de tensión en la varilla.
+\begin{exercise}[Mecánica Clásica: El Péndulo Simple]\label{v1:ejer:2.22}
+ Un péndulo consiste en una masa $m$ sujeta al extremo de una varilla rígida de longitud $L$ sin masa, cuyo otro extremo está fijo en el origen $(0,0)$. La posición de la masa se denota por $(x,y)$. La energía potencial es $V(x,y) = mgy$. Modele las posiciones de equilibrio del péndulo determinando los extremos de $V(x,y)$ sujetos a la restricción de longitud $x^2 + y^2 = L^2$. Interprete el multiplicador de Lagrange como la fuerza de tensión en la varilla.
 \end{exercise}
 
-\begin{exercise}[Microeconomía: Maximización de Utilidad]
-    Un consumidor desea maximizar su función de utilidad Cobb-Douglas $U(x_1, x_2) = x_1^\alpha x_2^\beta$ (con $\alpha, \beta > 0$), sujeto a su restricción presupuestaria $p_1 x_1 + p_2 x_2 = I$, donde $p_i$ son los precios e $I$ el ingreso disponible.
-    \begin{enuthm}
-        \item Encuentre las funciones de demanda marshallianas $x_1(p_1, p_2, I)$ y $x_2(p_1, p_2, I)$ resolviendo el sistema de Lagrange.
-        \item Calcule el multiplicador de Lagrange óptimo $\lambda^*$.
-        \item Demuestre analíticamente que $\lambda^* = \frac{\partial U^*}{\partial I}$, verificando que el multiplicador representa la ``utilidad marginal del ingreso''.
-    \end{enuthm}
+\begin{exercise}[Microeconomía: Maximización de Utilidad]\label{v1:ejer:2.23}
+ Un consumidor desea maximizar su función de utilidad Cobb-Douglas $U(x_1, x_2) = x_1^\alpha x_2^\beta$ (con $\alpha, \beta > 0$), sujeto a su restricción presupuestaria $p_1 x_1 + p_2 x_2 = I$, donde $p_i$ son los precios e $I$ el ingreso disponible.
+ \begin{enuthm}
+ \item Encuentre las funciones de demanda marshallianas $x_1(p_1, p_2, I)$ y $x_2(p_1, p_2, I)$ resolviendo el sistema de Lagrange.
+ \item Calcule el multiplicador de Lagrange óptimo $\lambda^*$.
+ \item Demuestre analíticamente que $\lambda^* = \frac{\partial U^*}{\partial I}$, verificando que el multiplicador representa la ``utilidad marginal del ingreso''.
+ \end{enuthm}
 \end{exercise}
 
-\begin{exercise}[Problema de Optimización de Carteras de Markowitz]
-    Un inversor desea construir un portafolio con $n$ activos financieros. Sea $x \in \Rn$ el vector de ponderación de cada activo (fracción del capital invertido), tal que $\sum x_i = 1$. Sea $\Sigma \in \R^{n \times n}$ la matriz de covarianza de los retornos (simétrica y definida positiva) y $\mu \in \Rn$ el vector de retornos esperados. El inversor desea minimizar la varianza de la cartera $\frac{1}{2} x^\top \Sigma x$, sujeto a obtener un retorno esperado objetivo $\mu^\top x = R$, y a que la suma de las ponderaciones sea igual a 1 ($e^\top x = 1$, donde $e$ es el vector de unos). Escriba el sistema KKT, halle la solución analítica para las ponderaciones óptimas $x^*$ y demuestre que dicha solución es única.
+\begin{exercise}[Problema de Optimización de Carteras de Markowitz]\label{v1:ejer:2.24}
+ Un inversor desea construir un portafolio con $n$ activos financieros. Sea $x \in \Rn$ el vector de ponderación de cada activo (fracción del capital invertido), tal que $\sum x_i = 1$. Sea $\Sigma \in \R^{n \times n}$ la matriz de covarianza de los retornos (simétrica y definida positiva) y $\mu \in \Rn$ el vector de retornos esperados. El inversor desea minimizar la varianza de la cartera $\frac{1}{2} x^\top \Sigma x$, sujeto a obtener un retorno esperado objetivo $\mu^\top x = R$, y a que la suma de las ponderaciones sea igual a 1 ($e^\top x = 1$, donde $e$ es el vector de unos). Escriba el sistema KKT, halle la solución analítica para las ponderaciones óptimas $x^*$ y demuestre que dicha solución es única.
 \end{exercise}
 
-\begin{exercise}[Mínimos Cuadrados Restringidos]
-    En estimación estadística, a menudo se requiere estimar parámetros sujetos a un conjunto de restricciones lineales exactas. Considere el problema de regresión $\min \frac{1}{2} \norm{Y - X\beta}^2$ sujeto a $C\beta = d$, donde $Y \in \R^m$, $X \in \R^{m \times n}$ (con rango de columnas completo), $C \in \R^{l \times n}$ (rango de filas completo) y $d \in \R^l$. Encuentre la expresión analítica cerrada del estimador restringido $\beta^*$ resolviendo el sistema de ecuaciones de Lagrange y compárelo con el estimador de mínimos cuadrados ordinarios irrestricto $\hat{\beta} = (X^\top X)^{-1}X^\top Y$.
+\begin{exercise}[Mínimos Cuadrados Restringidos]\label{v1:ejer:2.25}
+ En estimación estadística, a menudo se requiere estimar parámetros sujetos a un conjunto de restricciones lineales exactas. Considere el problema de regresión $\min \frac{1}{2} \norm{Y - X\beta}^2$ sujeto a $C\beta = d$, donde $Y \in \R^m$, $X \in \R^{m \times n}$ (con rango de columnas completo), $C \in \R^{l \times n}$ (rango de filas completo) y $d \in \R^l$. Encuentre la expresión analítica cerrada del estimador restringido $\beta^*$ resolviendo el sistema de ecuaciones de Lagrange y compárelo con el estimador de mínimos cuadrados ordinarios irrestricto $\hat{\beta} = (X^\top X)^{-1}X^\top Y$.
 \end{exercise}
 
 %%% Local Variables:

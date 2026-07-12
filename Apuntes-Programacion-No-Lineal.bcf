@@ -2395,7 +2395,10 @@
     <bcf:citekey order="17" intorder="2">20</bcf:citekey>
     <bcf:citekey order="18" intorder="1">12</bcf:citekey>
     <bcf:citekey order="19" intorder="1">SolodovVol1</bcf:citekey>
-    <bcf:citekey order="20" intorder="1" nocite="1">*</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">SolodovVol1</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">SolodovVol1</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">SolodovVol1</bcf:citekey>
+    <bcf:citekey order="23" intorder="1" nocite="1">*</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

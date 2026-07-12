@@ -1,68 +1,69 @@
 % --- Archivo: 03_segundo_orden.tex ---
 
 % =========================================================
-\section{Condiciones Diferenciales de Segundo Orden}
+\section{Condiciones diferenciales de segundo orden}
+\label{v1:sec:2.3}
 % =========================================================
 
-\begin{theorem}[Condición Necesaria de Segundo Orden]\label{thm:lagrange_2do_orden_nec}
+\begin{theorem}[Condición necesaria de segundo orden]\label{v1:thm:2.3.1}
 	Supóngase que $f, h$ son de clase $\mathcal{C}^2$ en una vecindad de $\bar{x} \in D$, siendo $\bar{x}$ un minimizador local regular. Entonces, para todo $\lambda \in \mathcal{M}(\bar{x})$, el operador Hessiano de la Lagrangiana es semidefinido positivo al restringirse sobre el subespacio tangente:
 	\begin{equation}
 		\interno{\nabla_{xx}^2 L(\bar{x}, \lambda) d}{d} \ge 0 \quad \forall d \in \ker J_h(\bar{x}).
-        \label{eq:condicion_nec_2da_orden}
+        \label{v1:eq:2.2}
 	\end{equation}
 \end{theorem}
 
 \begin{proof}
-	Sea $d \in \ker J_h(\bar{x})$. Por el Teorema del Subespacio Tangente (\cref{thm:subespacio_tangente}), $d \in \mathcal{T}_D(\bar{x})$. Por definición secuencial, para todo $t \in \R$ suficientemente pequeño, existe un punto $x(t) \in D$ parametrizado por $x(t) = \bar{x} + td + r(t)$, donde $\norm{r(t)} = o(t)$. Como la trayectoria yace en la variedad factible, $h(x(t)) = 0$ y $h(\bar{x}) = 0$. Por consiguiente, para cualquier $\lambda \in \mathcal{M}(\bar{x})$, la variación de la función objetivo coincide con la variación de la Lagrangiana: $f(x(t)) - f(\bar{x}) = L(x(t), \lambda) - L(\bar{x}, \lambda)$.
-    
-    Aplicando el desarrollo de Fréchet de segundo orden a la Lagrangiana en torno a $\bar{x}$ (y denotando $\Delta x = td + r(t)$):
-    \[
-        L(x(t), \lambda) - L(\bar{x}, \lambda) = \interno{\nabla_x L(\bar{x}, \lambda)}{\Delta x} + \frac{1}{2}\interno{\nabla_{xx}^2 L(\bar{x}, \lambda)\Delta x}{\Delta x} + o(\norm{\Delta x}^2).
-    \]
-    Como $\lambda \in \mathcal{M}(\bar{x})$, el término lineal se anula. Al expandir la forma cuadrática, y dado que $\norm{r(t)} = o(t)$, los términos cruzados y dependientes de $r(t)$ se incorporan al término residual $o(t^2)$, obteniéndose $f(x(t)) - f(\bar{x}) = \frac{t^2}{2}\interno{\nabla_{xx}^2 L(\bar{x}, \lambda)d}{d} + o(t^2)$. Dado que $\bar{x}$ es un mínimo local, se requiere que $f(x(t)) - f(\bar{x}) \ge 0$. Sustituyendo esta condición, dividiendo por $t^2 > 0$ y tomando el límite cuando $t \to 0$, se concluye que $\interno{\nabla_{xx}^2 L(\bar{x}, \lambda)d}{d} \ge 0$.
+	Sea $d \in \ker J_h(\bar{x})$. Por el Teorema del Subespacio Tangente (\cref{v1:thm:2.1.2}), $d \in \mathcal{T}_D(\bar{x})$. Por definición secuencial, para todo $t \in \R$ suficientemente pequeño, existe un punto $x(t) \in D$ parametrizado por $x(t) = \bar{x} + td + r(t)$, donde $\norm{r(t)} = o(t)$. Como la trayectoria yace en la variedad factible, $h(x(t)) = 0$ y $h(\bar{x}) = 0$. Por consiguiente, para cualquier $\lambda \in \mathcal{M}(\bar{x})$, la variación de la función objetivo coincide con la variación de la Lagrangiana: $f(x(t)) - f(\bar{x}) = L(x(t), \lambda) - L(\bar{x}, \lambda)$.
+ 
+ Aplicando el desarrollo de Fréchet de segundo orden a la Lagrangiana en torno a $\bar{x}$ (y denotando $\Delta x = td + r(t)$):
+ \[
+ L(x(t), \lambda) - L(\bar{x}, \lambda) = \interno{\nabla_x L(\bar{x}, \lambda)}{\Delta x} + \frac{1}{2}\interno{\nabla_{xx}^2 L(\bar{x}, \lambda)\Delta x}{\Delta x} + o(\norm{\Delta x}^2).
+ \]
+ Como $\lambda \in \mathcal{M}(\bar{x})$, el término lineal se anula. Al expandir la forma cuadrática, y dado que $\norm{r(t)} = o(t)$, los términos cruzados y dependientes de $r(t)$ se incorporan al término residual $o(t^2)$, obteniéndose $f(x(t)) - f(\bar{x}) = \frac{t^2}{2}\interno{\nabla_{xx}^2 L(\bar{x}, \lambda)d}{d} + o(t^2)$. Dado que $\bar{x}$ es un mínimo local, se requiere que $f(x(t)) - f(\bar{x}) \ge 0$. Sustituyendo esta condición, dividiendo por $t^2 > 0$ y tomando el límite cuando $t \to 0$, se concluye que $\interno{\nabla_{xx}^2 L(\bar{x}, \lambda)d}{d} \ge 0$.
 \end{proof}
 
 \begin{notabox}[Propiedad cancelativa de la Lagrangiana]
-    En la demostración anterior ocurre una simplificación relevante. Si se aplicara el desarrollo de Taylor directamente a la función objetivo $f(x(t))$ usando el vector tangente $\Delta x = td + r(t)$, el término lineal $\interno{\nabla f(\bar{x})}{r(t)}$ introduciría un error de orden $o(t)/t^2$ que no se anula al dividir por $t^2$. Al emplear la función Lagrangiana, la condición de primer orden garantiza que $\nabla_x L(\bar{x}, \lambda) = 0$. Este hecho \textbf{anula el efecto del término residual $r(t)$} en primer orden, permitiendo que el término de segundo orden ($\nabla^2_{xx} L$) determine el comportamiento asintótico de la función.
+ En la demostración anterior ocurre una simplificación relevante. Si se aplicara el desarrollo de Taylor directamente a la función objetivo $f(x(t))$ usando el vector tangente $\Delta x = td + r(t)$, el término lineal $\interno{\nabla f(\bar{x})}{r(t)}$ introduciría un error de orden $o(t)/t^2$ que no se anula al dividir por $t^2$. Al emplear la función Lagrangiana, la condición de primer orden garantiza que $\nabla_x L(\bar{x}, \lambda) = 0$. Este hecho \textbf{anula el efecto del término residual $r(t)$} en primer orden, permitiendo que el término de segundo orden ($\nabla^2_{xx} L$) determine el comportamiento asintótico de la función.
 \end{notabox}
 
-\begin{example}[La Curvatura de la Restricción Domina]\label{ex:cn_2do_orden}
-    Considérese el problema de maximizar la altura sobre una parábola invertida, equivalente a $\min f(x) = -x_2$ sujeto a $h(x) = x_2 - x_1^2 = 0$. El único punto estacionario geométrico es el vértice de la parábola, $\bar{x} = (0,0)^\top$. El gradiente de la restricción es $\nabla h(x) = (-2x_1, 1)^\top$. Evaluado en el origen resulta en $(0, 1)^\top \neq 0$, lo que cumple la condición LICQ. Planteamos el sistema de Lagrange de primer orden: $\nabla f(\bar{x}) + \lambda \nabla h(\bar{x}) = (0, -1)^\top + \lambda (0, 1)^\top = (0, 0)^\top$, lo que implica $\bar{\lambda} = 1$. 
-    
-    Evaluamos ahora la Condición Necesaria de Segundo Orden. Las matrices Hessianas de las funciones individuales son nulas o constantes. La matriz Hessiana global de la Lagrangiana evaluada en $(\bar{x}, \bar{\lambda})$ es $\nabla_{xx}^2 L(\bar{x}, \bar{\lambda}) = \begin{pmatrix} -2 & 0 \\ 0 & 0 \end{pmatrix}$. Esta matriz es semidefinida negativa. Calculamos el núcleo de la matriz Jacobiana, obteniendo $\ker J_h(\bar{x}) = \{ (d_1, 0)^\top \mid d_1 \in \R \}$. Para una dirección tangente genérica $d = (d_1, 0)^\top$, proyectamos la Hessiana de la Lagrangiana: $\interno{\nabla_{xx}^2 L(\bar{x}, \bar{\lambda}) d}{d} = -2d_1^2$. Para todo $d_1 \neq 0$, esta forma cuadrática proyectada resulta en un valor estrictamente negativo. Por lo tanto, la condición necesaria de segundo orden \eqref{eq:condicion_nec_2da_orden} \textbf{no se cumple}. Se concluye entonces que $\bar{x} = (0,0)^\top$ no es un mínimo local.
+\begin{example}[La curvatura de la restricción domina]\label{v1:exa:2.3.1}
+ Considérese el problema de maximizar la altura sobre una parábola invertida, equivalente a $\min f(x) = -x_2$ sujeto a $h(x) = x_2 - x_1^2 = 0$. El único punto estacionario geométrico es el vértice de la parábola, $\bar{x} = (0,0)^\top$. El gradiente de la restricción es $\nabla h(x) = (-2x_1, 1)^\top$. Evaluado en el origen resulta en $(0, 1)^\top \neq 0$, lo que cumple la condición LICQ. Planteamos el sistema de Lagrange de primer orden: $\nabla f(\bar{x}) + \lambda \nabla h(\bar{x}) = (0, -1)^\top + \lambda (0, 1)^\top = (0, 0)^\top$, lo que implica $\bar{\lambda} = 1$. 
+ 
+ Evaluamos ahora la Condición Necesaria de Segundo Orden. Las matrices Hessianas de las funciones individuales son nulas o constantes. La matriz Hessiana global de la Lagrangiana evaluada en $(\bar{x}, \bar{\lambda})$ es $\nabla_{xx}^2 L(\bar{x}, \bar{\lambda}) = \begin{pmatrix} -2 & 0 \\ 0 & 0 \end{pmatrix}$. Esta matriz es semidefinida negativa. Calculamos el núcleo de la matriz Jacobiana, obteniendo $\ker J_h(\bar{x}) = \{ (d_1, 0)^\top \mid d_1 \in \R \}$. Para una dirección tangente genérica $d = (d_1, 0)^\top$, proyectamos la Hessiana de la Lagrangiana: $\interno{\nabla_{xx}^2 L(\bar{x}, \bar{\lambda}) d}{d} = -2d_1^2$. Para todo $d_1 \neq 0$, esta forma cuadrática proyectada resulta en un valor estrictamente negativo. Por lo tanto, la condición necesaria de segundo orden \eqref{v1:eq:2.2} \textbf{no se cumple}. Se concluye entonces que $\bar{x} = (0,0)^\top$ no es un mínimo local.
 \end{example}
 
-\begin{theorem}[Condición Suficiente de Segundo Orden]\label{thm:lagrange_2do_orden_suf}
+\begin{theorem}[Condición suficiente de segundo orden]\label{v1:thm:2.3.2}
 	Sea $\bar{x} \in D$, con $f, h$ de clase $\mathcal{C}^2$. Si la estructura diferencial en el punto satisface la condición estrictamente definida positiva sobre el núcleo:
-    \begin{equation}
-     \label{eq:condicion_suf_2da_orden}
-    \forall d \in \ker J_h(\bar{x}) \setminus \{0\}, \quad \exists \lambda \in \mathcal{M}(\bar{x}) \quad \tq \quad \interno{\nabla_{xx}^2 L(\bar{x}, \lambda) d}{d} > 0,
-     \end{equation}
-     entonces $\bar{x}$ es un minimizador local estricto, y satisface la condición de crecimiento cuadrático local sobre $D$. Recíprocamente, si se verifica una de las condiciones de regularidad y el crecimiento cuadrático local rige, entonces la condición \eqref{eq:condicion_suf_2da_orden} se cumple necesariamente.
+ \begin{equation}
+ \forall d \in \ker J_h(\bar{x}) \setminus \{0\}, \quad \exists \lambda \in \mathcal{M}(\bar{x}) \quad \tq \quad \interno{\nabla_{xx}^2 L(\bar{x}, \lambda) d}{d} > 0,
+ \label{v1:eq:2.3}
+ \end{equation}
+ entonces $\bar{x}$ es un minimizador local estricto, y satisface la condición de crecimiento cuadrático local sobre $D$. Recíprocamente, si se verifica una de las condiciones de regularidad y el crecimiento cuadrático local rige, entonces la condición \eqref{v1:eq:2.3} se cumple necesariamente.
  \end{theorem}
 
 \begin{proof}
-	Para demostrar la suficiencia, supóngase por reducción al absurdo que la condición \eqref{eq:condicion_suf_2da_orden} se verifica, pero el crecimiento cuadrático no se cumple. En tal caso, existe una sucesión factible $\{x^k\} \subset D \setminus \{\bar{x}\}$ que converge a $\bar{x}$ y que satisface $f(x^k) - f(\bar{x}) < \frac{1}{k} \norm{x^k - \bar{x}}^2$ para todo $k \in \N$. Por compacidad, se extrae una subsucesión de direcciones normalizadas $d^k$ convergente a un vector unitario $d \in \mathcal{B}_D(\bar{x}) \subset \ker J_h(\bar{x})$.
+	Para demostrar la suficiencia, supóngase por reducción al absurdo que la condición \eqref{v1:eq:2.3} se verifica, pero el crecimiento cuadrático no se cumple. En tal caso, existe una sucesión factible $\{x^k\} \subset D \setminus \{\bar{x}\}$ que converge a $\bar{x}$ y que satisface $f(x^k) - f(\bar{x}) < \frac{1}{k} \norm{x^k - \bar{x}}^2$ para todo $k \in \N$. Por compacidad, se extrae una subsucesión de direcciones normalizadas $d^k$ convergente a un vector unitario $d \in \mathcal{B}_D(\bar{x}) \subset \ker J_h(\bar{x})$.
 
-	Sea $\lambda \in \mathcal{M}(\bar{x})$ el multiplicador cuya existencia asegura la hipótesis \eqref{eq:condicion_suf_2da_orden} para esta dirección particular. Sustituyendo el desarrollo de Fréchet de la Lagrangiana: $\frac{1}{k} \norm{x^k - \bar{x}}^2 > \frac{1}{2} \interno{\nabla_{xx}^2 L(\bar{x}, \lambda)(x^k - \bar{x})}{x^k - \bar{x}} + o(\norm{x^k - \bar{x}}^2)$. Dividiendo la desigualdad por $\norm{x^k - \bar{x}}^2 > 0$ y tomando el límite cuando $k \to \infty$, se obtiene $0 \ge \interno{\nabla_{xx}^2 L(\bar{x}, \lambda)d}{d}$, lo cual contradice la hipótesis de positividad estricta.
-    
-    Para probar el recíproco, supóngase que el crecimiento cuadrático se cumple con una constante $\beta > 0$, se sostiene la condición de regularidad, pero la condición \eqref{eq:condicion_suf_2da_orden} no se verifica. Esto implica la existencia de una dirección $d \in \ker J_h(\bar{x}) \setminus \{0\}$ tal que para todo $\lambda \in \mathcal{M}(\bar{x})$, la forma cuadrática es $\le 0$. Dado que $d \in \mathcal{T}_D(\bar{x})$, existe una trayectoria factible $x(t) = \bar{x} + td + r(t) \in D$. Evaluando la condición de crecimiento cuadrático: $\beta \norm{td + r(t)}^2 \le f(x(t)) - f(\bar{x}) = \frac{t^2}{2} \interno{\nabla_{xx}^2 L(\bar{x}, \lambda)d}{d} + o(t^2) \le o(t^2)$. Dividiendo la ecuación por $t^2$ y tomando el límite cuando $t \to 0^+$, el residuo se anula obteniéndose $\beta \norm{d}^2 \le 0$. Como $\beta > 0$, esto implica que $d=0$, lo cual contradice la elección de un vector $d \neq 0$.
+	Sea $\lambda \in \mathcal{M}(\bar{x})$ el multiplicador cuya existencia asegura la hipótesis \eqref{v1:eq:2.3} para esta dirección particular. Sustituyendo el desarrollo de Fréchet de la Lagrangiana: $\frac{1}{k} \norm{x^k - \bar{x}}^2 > \frac{1}{2} \interno{\nabla_{xx}^2 L(\bar{x}, \lambda)(x^k - \bar{x})}{x^k - \bar{x}} + o(\norm{x^k - \bar{x}}^2)$. Dividiendo la desigualdad por $\norm{x^k - \bar{x}}^2 > 0$ y tomando el límite cuando $k \to \infty$, se obtiene $0 \ge \interno{\nabla_{xx}^2 L(\bar{x}, \lambda)d}{d}$, lo cual contradice la hipótesis de positividad estricta.
+ 
+ Para probar el recíproco, supóngase que el crecimiento cuadrático se cumple con una constante $\beta > 0$, se sostiene la condición de regularidad, pero la condición \eqref{v1:eq:2.3} no se verifica. Esto implica la existencia de una dirección $d \in \ker J_h(\bar{x}) \setminus \{0\}$ tal que para todo $\lambda \in \mathcal{M}(\bar{x})$, la forma cuadrática es $\le 0$. Dado que $d \in \mathcal{T}_D(\bar{x})$, existe una trayectoria factible $x(t) = \bar{x} + td + r(t) \in D$. Evaluando la condición de crecimiento cuadrático: $\beta \norm{td + r(t)}^2 \le f(x(t)) - f(\bar{x}) = \frac{t^2}{2} \interno{\nabla_{xx}^2 L(\bar{x}, \lambda)d}{d} + o(t^2) \le o(t^2)$. Dividiendo la ecuación por $t^2$ y tomando el límite cuando $t \to 0^+$, el residuo se anula obteniéndose $\beta \norm{d}^2 \le 0$. Como $\beta > 0$, esto implica que $d=0$, lo cual contradice la elección de un vector $d \neq 0$.
 \end{proof}
 
-\begin{example}[La Silla de Montar Restringida]\label{ex:cs_2do_orden}
-    Considérese la minimización de una función de silla clásica sujeta a una restricción lineal: $\min f(x) = x_1^2 - x_2^2$ sujeto a $h(x) = x_1 - x_2 = 0$. El origen $\bar{x} = (0,0)^\top$ es el único punto de intersección y candidato a análisis. El sistema de Lagrange se cumple para el multiplicador $\bar{\lambda} = 0$. A nivel irrestricto, la matriz Hessiana de la función objetivo es indefinida (con autovalores $2$ y $-2$). Dado que la restricción es afín, $\nabla_{xx}^2 L(\bar{x}, \bar{\lambda}) = \nabla^2 f(\bar{x})$. 
-    
-    Aplicamos el \cref{thm:lagrange_2do_orden_suf} analizando el subespacio tangente (núcleo del Jacobiano), que está generado por $d = (d_1, d_1)^\top$. Evaluando la forma cuadrática proyectada de la Lagrangiana, se obtiene $2d_1^2 - 2d_1^2 = 0$. La forma cuadrática proyectada resulta ser idénticamente cero, por lo que la condición de positividad estricta no se cumple y el análisis diferencial de segundo orden no es concluyente. No obstante, si se sustituye la restricción $x_1 = x_2$ directamente en la función objetivo, se observa que $f(x(t)) = 0$. La función es constante a lo largo del subespacio tangente y el punto es un mínimo global no estricto.
+\begin{example}[La silla de montar restringida]\label{v1:exa:2.3.2}
+ Considérese la minimización de una función de silla clásica sujeta a una restricción lineal: $\min f(x) = x_1^2 - x_2^2$ sujeto a $h(x) = x_1 - x_2 = 0$. El origen $\bar{x} = (0,0)^\top$ es el único punto de intersección y candidato a análisis. El sistema de Lagrange se cumple para el multiplicador $\bar{\lambda} = 0$. A nivel irrestricto, la matriz Hessiana de la función objetivo es indefinida (con autovalores $2$ y $-2$). Dado que la restricción es afín, $\nabla_{xx}^2 L(\bar{x}, \bar{\lambda}) = \nabla^2 f(\bar{x})$. 
+ 
+ Aplicamos el \cref{v1:thm:2.3.2} analizando el subespacio tangente (núcleo del Jacobiano), que está generado por $d = (d_1, d_1)^\top$. Evaluando la forma cuadrática proyectada de la Lagrangiana, se obtiene $2d_1^2 - 2d_1^2 = 0$. La forma cuadrática proyectada resulta ser idénticamente cero, por lo que la condición de positividad estricta no se cumple y el análisis diferencial de segundo orden no es concluyente. No obstante, si se sustituye la restricción $x_1 = x_2$ directamente en la función objetivo, se observa que $f(x(t)) = 0$. La función es constante a lo largo del subespacio tangente y el punto es un mínimo global no estricto.
 \end{example}
 
-\begin{example}[La Hessiana Proyectada Positiva]\label{ex:cs_2do_orden_exitoso}
-    Considérese el problema: $\min f(x) = x_1^2 - x_2^2$ sujeto a $h(x) = x_2 = 0$. El punto estacionario en el origen es $\bar{x} = (0,0)^\top$. El sistema de Lagrange evaluado en el origen resulta en $\bar{\lambda} = 0$. La matriz Hessiana de la Lagrangiana es indefinida en el espacio total. Aplicamos el \cref{thm:lagrange_2do_orden_suf} calculando el subespacio tangente: $\ker J_h(\bar{x}) = \{ (d_1, 0)^\top \mid d_1 \in \R \}$. Para una dirección tangente no nula, evaluamos la forma cuadrática proyectada obteniendo $2d_1^2 > 0$. Este resultado ilustra la aplicación del teorema: aunque la matriz Hessiana global presenta un autovalor negativo en la dirección de $x_2$, la restricción descarta este eje de descenso. En el subespacio tangente permitido, la curvatura es estrictamente positiva. En consecuencia, se concluye que $\bar{x} = (0,0)^\top$ es un mínimo local estricto.
+\begin{example}[La Hessiana proyectada positiva]\label{v1:exa:2.3.3}
+ Considérese el problema: $\min f(x) = x_1^2 - x_2^2$ sujeto a $h(x) = x_2 = 0$. El punto estacionario en el origen es $\bar{x} = (0,0)^\top$. El sistema de Lagrange evaluado en el origen resulta en $\bar{\lambda} = 0$. La matriz Hessiana de la Lagrangiana es indefinida en el espacio total. Aplicamos el \cref{v1:thm:2.3.2} calculando el subespacio tangente: $\ker J_h(\bar{x}) = \{ (d_1, 0)^\top \mid d_1 \in \R \}$. Para una dirección tangente no nula, evaluamos la forma cuadrática proyectada obteniendo $2d_1^2 > 0$. Este resultado ilustra la aplicación del teorema: aunque la matriz Hessiana global presenta un autovalor negativo en la dirección de $x_2$, la restricción descarta este eje de descenso. En el subespacio tangente permitido, la curvatura es estrictamente positiva. En consecuencia, se concluye que $\bar{x} = (0,0)^\top$ es un mínimo local estricto.
 \end{example}
 
-\begin{warningbox}[Ventaja sobre Criterios Clásicos]
-    La literatura clásica frecuentemente exige una condición suficiente basada en un multiplicador único. Dicha formulación exige utilizar un único multiplicador común para todas las direcciones. El \cref{thm:lagrange_2do_orden_suf} resulta más general, ya que al ser $\mathcal{M}(\bar{x})$ un conjunto afín, permite asociar diferentes multiplicadores a distintas direcciones tangentes para verificar la condición de positividad.
+\begin{warningbox}[Ventaja sobre criterios clásicos]
+ La literatura clásica frecuentemente exige una condición suficiente basada en un multiplicador único. Dicha formulación exige utilizar un único multiplicador común para todas las direcciones. El \cref{v1:thm:2.3.2} resulta más general, ya que al ser $\mathcal{M}(\bar{x})$ un conjunto afín, permite asociar diferentes multiplicadores a distintas direcciones tangentes para verificar la condición de positividad.
 \end{warningbox}
 
-\begin{counterexample}[Colapso del multiplicador uniforme]\label{ex:patologico_multiplicador}
+\begin{counterexample}[Colapso del multiplicador uniforme]\label{v1:exa:2.3.4}
 	Sean $f(x) = -x_1^2 - x_2^2$ y $h(x) = (x_1 x_2, \, x_1^2 - x_2^2)^\top = 0$. El origen $\bar{x} = 0$ es el único punto factible. Los gradientes se anulan en dicho punto, lo que da lugar a $\ker J_h(0) = \R^2$ y $\mathcal{M}(0) = \R^2$. El operador Hessiano de la Lagrangiana tiene traza $-4$ para cualquier valor de $\lambda$. Dado que la traza es negativa, esta matriz no puede ser definida positiva. En consecuencia, no existe un multiplicador único $\bar{\lambda}$ que garantice la positividad de la forma cuadrática para toda dirección $d$. Sin embargo, para cada dirección específica $d \neq 0$, es posible elegir un vector $\lambda(d)$ adecuado que asegure la positividad de la forma cuadrática.
 \end{counterexample}
