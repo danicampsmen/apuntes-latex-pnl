@@ -1,170 +1,170 @@
 % --- Archivo: exercises.tex ---
 
-\addsec{Ejercicios del Capítulo 5}
+\addsec{Ejercicios del Capítulo}
 
 \addsubsec{Parte I: Dualidad en Programación Lineal}
 
-\begin{exercise}[Dualidad en formato lineal general]
-    Sea el problema de programación lineal en formato general:
-    \begin{mini*}{}{\interno{c_1}{x_1} + \interno{c_2}{x_2}}{}{ }
-        \addConstraint{( x_1, x_2 )}{\in  D}
-    \end{mini*}
-    donde el conjunto factible $D$ está definido por:
-    \[
-        D = \left\{ (x_1, x_2) \in \R^{n_1} \times \R^{n_2}_+ \mathrel{\bigg|}
-          \begin{aligned}
-            B_{11}x_1 + B_{12}x_2 &= b_1, \\
-            B_{21}x_1 + B_{22}x_2 &\ge b_2
-          \end{aligned}
-        \right\},
-    \]
-    con $c_1 \in \R^{n_1}$, $c_2 \in \R^{n_2}$, $B_{11} \in \R^{l \times n_1}$, $B_{12} \in \R^{l \times n_2}$, $B_{21} \in \R^{m \times n_1}$,
-    $B_{22} \in \R^{m \times n_2}$, $b_1 \in \R^l$ y $b_2 \in \R^m$.
-    
-    Demuestre que el problema dual asociado viene dado por:
-    \begin{maxi*}{ }{\interno{b_1}{\lambda}}{}{ }
-        \addConstraint{( \lambda , \mu  )}{\in \Delta }
-    \end{maxi*}
-    donde el conjunto factible dual es:
-    \[
-        \Delta = \left\{ (\lambda, \mu) \in \R^l \times \R^m_+ \mathrel{\bigg|}
-          \begin{aligned}
-            B_{11}^\top \lambda + B_{21}^\top \mu &= c_1, \\
-            B_{12}^\top \lambda + B_{22}^\top \mu &\le c_2
-          \end{aligned}
-        \right\},
-    \]
-    y verifique que se cumplen todas las relaciones de dualidad débil y fuerte para este par de problemas.
+\begin{exercise}[Dualidad en formato lineal general]\label{v1:ejer:5.1.1}
+ Sea el problema de programación lineal en formato general:
+ \begin{mini*}{}{\interno{c_1}{x_1} + \interno{c_2}{x_2}}{}{ }
+ \addConstraint{( x_1, x_2 )}{\in D}
+ \end{mini*}
+ donde el conjunto factible $D$ está definido por:
+ \[
+ D = \left\{ (x_1, x_2) \in \R^{n_1} \times \R^{n_2}_+ \mathrel{\bigg|}
+ \begin{aligned}
+ B_{11}x_1 + B_{12}x_2 &= b_1, \\
+ B_{21}x_1 + B_{22}x_2 &\ge b_2
+ \end{aligned}
+ \right\},
+ \]
+ con $c_1 \in \R^{n_1}$, $c_2 \in \R^{n_2}$, $B_{11} \in \R^{l \times n_1}$, $B_{12} \in \R^{l \times n_2}$, $B_{21} \in \R^{m \times n_1}$,
+ $B_{22} \in \R^{m \times n_2}$, $b_1 \in \R^l$ y $b_2 \in \R^m$.
+ 
+ Demuestre que el problema dual asociado viene dado por:
+ \begin{maxi*}{ }{\interno{b_1}{\lambda}}{}{ }
+ \addConstraint{( \lambda , \mu )}{\in \Delta }
+ \end{maxi*}
+ donde el conjunto factible dual es:
+ \[
+ \Delta = \left\{ (\lambda, \mu) \in \R^l \times \R^m_+ \mathrel{\bigg|}
+ \begin{aligned}
+ B_{11}^\top \lambda + B_{21}^\top \mu &= c_1, \\
+ B_{12}^\top \lambda + B_{22}^\top \mu &\le c_2
+ \end{aligned}
+ \right\},
+ \]
+ y verifique que se cumplen todas las relaciones de dualidad débil y fuerte para este par de problemas.
 \end{exercise}
 
-\begin{exercise}[Verificación numérica de dualidad]
-    Dado el problema de programación lineal de maximización:
-     \begin{maxi*}{ }{\interno{c}{x}}{}{ }
-        \addConstraint{Bx}{\leq b}
-        \addConstraint{x}{\geq  0}
-    \end{maxi*}
-    donde:
-    \[
-        B = \begin{pmatrix} 2 & 1 & 1 & 0 & 0 \\ 1 & 2 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 & 1 \end{pmatrix}, \quad c
-        = \begin{pmatrix} 4 \\ 5 \\ 0 \\ 0 \\ 0 \end{pmatrix}, \quad b = \begin{pmatrix} 8 \\ 7 \\ 3 \end{pmatrix}.
-    \]
-    Formule el problema dual de minimización correspondiente y verifique que los puntos $\bar{x} = (3, 2, 0, 0, 1)^\top$
-    y $\bar{\mu} = (1, 2, 0)^\top$ son las soluciones óptimas de los problemas primal y dual, respectivamente.
+\begin{exercise}[Verificación numérica de dualidad]\label{v1:ejer:5.1.2}
+ Dado el problema de programación lineal de maximización:
+ \begin{maxi*}{ }{\interno{c}{x}}{}{ }
+ \addConstraint{Bx}{\leq b}
+ \addConstraint{x}{\geq 0}
+ \end{maxi*}
+ donde:
+ \[
+ B = \begin{pmatrix} 2 & 1 & 1 & 0 & 0 \\ 1 & 2 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 & 1 \end{pmatrix}, \quad c
+ = \begin{pmatrix} 4 \\ 5 \\ 0 \\ 0 \\ 0 \end{pmatrix}, \quad b = \begin{pmatrix} 8 \\ 7 \\ 3 \end{pmatrix}.
+ \]
+ Formule el problema dual de minimización correspondiente y verifique que los puntos $\bar{x} = (3, 2, 0, 0, 1)^\top$
+ y $\bar{\mu} = (1, 2, 0)^\top$ son las soluciones óptimas de los problemas primal y dual, respectivamente.
 \end{exercise}
 
-\begin{exercise}[Acotamiento y optimalidad en sistemas homogéneos]
-    Demuestre que el problema de maximización lineal $\max \interno{c}{x}$ sujeto a $Ax = 0, x \ge 0$ tiene un valor óptimo finito si y solo si $\bar{x} = 0$ es una solución óptima del problema.
+\begin{exercise}[Acotamiento y optimalidad en sistemas homogéneos]\label{v1:ejer:5.1.3}
+ Demuestre que el problema de maximización lineal $\max \interno{c}{x}$ sujeto a $Ax = 0, x \ge 0$ tiene un valor óptimo finito si y solo si $\bar{x} = 0$ es una solución óptima del problema.
 \end{exercise}
 
-\begin{exercise}[Análisis de sensibilidad paramétrica]
-    Para el problema lineal paramétrico:
-    \begin{mini*}
-      {}{3x_1 + 4x_2 + x_3 + x_4}{}{}
-      \addConstraint{x_1 + x_2 + x_3 - x_4}{\ge 2}
-      \addConstraint{-2x_1 + 2x_2 + x_3 + x_4}{\ge \sigma}
-      \addConstraint{x_i}{\ge 0, \quad}{i = 1, \dots, 4}
-    \end{mini*}
-    donde $\sigma \in \R$ es un parámetro real.
-    \begin{enuthm}
-        \item Formule el problema dual asociado.
-        \item Resuelva el problema dual analíticamente para cada valor posible de $\sigma$.
-        \item Utilizando la solución dual, determine el valor óptimo del problema primal en función de $\sigma$.
-    \end{enuthm}
+\begin{exercise}[Análisis de sensibilidad paramétrica]\label{v1:ejer:5.1.4}
+ Para el problema lineal paramétrico:
+ \begin{mini*}
+ {}{3x_1 + 4x_2 + x_3 + x_4}{}{}
+ \addConstraint{x_1 + x_2 + x_3 - x_4}{\ge 2}
+ \addConstraint{-2x_1 + 2x_2 + x_3 + x_4}{\ge \sigma}
+ \addConstraint{x_i}{\ge 0, \quad}{i = 1, \dots, 4}
+ \end{mini*}
+ donde $\sigma \in \R$ es un parámetro real.
+ \begin{enuthm}
+ \item Formule el problema dual asociado.
+ \item Resuelva el problema dual analíticamente para cada valor posible de $\sigma$.
+ \item Utilizando la solución dual, determine el valor óptimo del problema primal en función de $\sigma$.
+ \end{enuthm}
 \end{exercise}
 
 \addsubsec{Parte II: Dualidad en Problemas Generales y Puntos de Silla}
 
-\begin{exercise}[Dual de un problema de programación cuadrática]
-    Dado el problema de programación cuadrática $\min \frac{1}{2}\interno{Qx}{x} + \interno{q}{x}$ sujeto a $Bx \le b$, donde $Q \in \R^{n \times n}$ es una matriz simétrica definida positiva, $q \in \Rn$, $B \in \R^{m \times n}$ y $b \in \R^m$.
-    
-    Demuestre que el problema dual asociado puede formularse como el siguiente problema de maximización cuadrática sobre el ortante no negativo:
-    \begin{maxi*}{\mu \geq 0}{\left\{- \frac{1}{2} \interno{\left( B Q^{-1} B^{\top} \mu \right)}{\mu} - \interno{b + B Q ^{-1} q}{\mu } - \frac{1}{2} \interno{Q^{-1} q}{q} \right\} }{}{ }
-    \end{maxi*}
+\begin{exercise}[Dual de un problema de programación cuadrática]\label{v1:ejer:5.2.1}
+ Dado el problema de programación cuadrática $\min \frac{1}{2}\interno{Qx}{x} + \interno{q}{x}$ sujeto a $Bx \le b$, donde $Q \in \R^{n \times n}$ es una matriz simétrica definida positiva, $q \in \Rn$, $B \in \R^{m \times n}$ y $b \in \R^m$.
+ 
+ Demuestre que el problema dual asociado puede formularse como el siguiente problema de maximización cuadrática sobre el ortante no negativo:
+ \begin{maxi*}{\mu \geq 0}{\left\{- \frac{1}{2} \interno{\left( B Q^{-1} B^{\top} \mu \right)}{\mu} - \interno{b + B Q ^{-1} q}{\mu } - \frac{1}{2} \interno{Q^{-1} q}{q} \right\} }{}{ }
+ \end{maxi*}
 \end{exercise}
 
-\begin{exercise}[Cálculo analítico de la función dual]
-    Calcule analíticamente la función dual $\varphi(\mu)$ y resuelva de forma exacta el problema dual del problema general
-    $\min f(x)$ sujeto a $x \in \Omega$ con $g(x) \le 0$, para cada uno de los siguientes casos:
-    \begin{enuthm}
-        \item $f(x) = x_1 - x_2, \quad g(x) = x_1 + x_2 - 1, \quad \Omega = \R^2_+$.
-        \item $f(x) = \frac{1}{2}(x_1^2 + x_2^2), \quad g(x) = x_1 - 1, \quad \Omega = \R^2$.
-        \item $f(x) = x, \quad g(x) = x^2, \quad \Omega = \R$.
-    \end{enuthm}
-    En cada caso, determine si existe salto de dualidad.
+\begin{exercise}[Cálculo analítico de la función dual]\label{v1:ejer:5.2.2}
+ Calcule analíticamente la función dual $\varphi(\mu)$ y resuelva de forma exacta el problema dual del problema general
+ $\min f(x)$ sujeto a $x \in \Omega$ con $g(x) \le 0$, para cada uno de los siguientes casos:
+ \begin{enuthm}
+ \item $f(x) = x_1 - x_2, \quad g(x) = x_1 + x_2 - 1, \quad \Omega = \R^2_+$.
+ \item $f(x) = \frac{1}{2}(x_1^2 + x_2^2), \quad g(x) = x_1 - 1, \quad \Omega = \R^2$.
+ \item $f(x) = x, \quad g(x) = x^2, \quad \Omega = \R$.
+ \end{enuthm}
+ En cada caso, determine si existe salto de dualidad.
 \end{exercise}
 
-\begin{exercise}[Dualidad en problemas de proyección]
-    Sean $A \in \R^{m \times n}$ una matriz de rango completo de filas y $z \in \Rn$ un punto de proyección fijo. Demuestre que el
-    problema dual asociado al problema de proyección ortogonal $\min \frac{1}{2 \norm{z-x}^2}$ sujeto a $Ax = 0$ es equivalente a un problema de proyección de un vector transformado sobre la imagen de la matriz transpuesta $A^\top$ (un subespacio afín).
+\begin{exercise}[Dualidad en problemas de proyección]\label{v1:ejer:5.2.3}
+ Sean $A \in \R^{m \times n}$ una matriz de rango completo de filas y $z \in \Rn$ un punto de proyección fijo. Demuestre que el
+ problema dual asociado al problema de proyección ortogonal $\min \frac{1}{2 \norm{z-x}^2}$ sujeto a $Ax = 0$ es equivalente a un problema de proyección de un vector transformado sobre la imagen de la matriz transpuesta $A^\top$ (un subespacio afín).
 \end{exercise}
 
-\begin{exercise}[Invariancia y dependencia de la formación dual]
-    Considere las dos formulaciones matemáticamente equivalentes del mismo problema geométrico:
-    \[
-        \begin{aligned}
-          \text{(P1)} \quad & \min \interno{a}{x} \quad \text{sujeto a} \quad \norm{x} \le 1, \\
-          \text{(P2)} \quad & \min \interno{a}{x} \quad \text{sujeto a} \quad \norm{x}^2 \le 1.
-        \end{aligned}
-    \]
-    Demuestre que sus respectivos problemas duales de Lagrange son algebraicamente diferentes y analice cómo influye la elección de la función de restricción en la suavidad de la función dual.
+\begin{exercise}[Invariancia y dependencia de la formación dual]\label{v1:ejer:5.2.4}
+ Considere las dos formulaciones matemáticamente equivalentes del mismo problema geométrico:
+ \[
+ \begin{aligned}
+ \text{(P1)} \quad & \min \interno{a}{x} \quad \text{sujeto a} \quad \norm{x} \le 1, \\
+ \text{(P2)} \quad & \min \interno{a}{x} \quad \text{sujeto a} \quad \norm{x}^2 \le 1.
+ \end{aligned}
+ \]
+ Demuestre que sus respectivos problemas duales de Lagrange son algebraicamente diferentes y analice cómo influye la elección de la función de restricción en la suavidad de la función dual.
 \end{exercise}
 
-\begin{exercise}[Teorema de Everett]
-    Sean $(\lambda, \mu) \in \R^l \times \R^m_+$ y sea $x(\lambda, \mu) \in \Omega$ una solución óptima del problema de optimización no restringido de la Lagrangiana $\min_{x \in D} L(x, \lambda, \mu)$. Demuestre que el punto $x(\lambda, \mu)$ es una solución óptima del problema perturbado $\min f(x)$ sujeto a $h(x) = y$ y $g(x) \le z$, donde los vectores de perturbación están definidos por $y = h(x(\lambda, \mu))$ y $z_j = g_j(x(\lambda, \mu))$ si $\mu_j > 0$, o $z_j \ge g_j(x(\lambda, \mu))$ si $\mu_j = 0$.
+\begin{exercise}[Teorema de Everett]\label{v1:ejer:5.2.5}
+ Sean $(\lambda, \mu) \in \R^l \times \R^m_+$ y sea $x(\lambda, \mu) \in \Omega$ una solución óptima del problema de optimización no restringido de la Lagrangiana $\min_{x \in D} L(x, \lambda, \mu)$. Demuestre que el punto $x(\lambda, \mu)$ es una solución óptima del problema perturbado $\min f(x)$ sujeto a $h(x) = y$ y $g(x) \le z$, donde los vectores de perturbación están definidos por $y = h(x(\lambda, \mu))$ y $z_j = g_j(x(\lambda, \mu))$ si $\mu_j > 0$, o $z_j \ge g_j(x(\lambda, \mu))$ si $\mu_j = 0$.
 \end{exercise}
 
-\begin{exercise}[Puntos de Silla e Igualdad Minimax]\label{ex:minimax_punto_silla}
-    Demuestre algebraicamente que $(\bar{x}, \bar{\lambda}, \bar{\mu}) \in \Omega \times \R^l \times \R^m_+$ es un punto de silla de la Lagrangiana
-    si y solo si se verifica la igualdad de los valores minimax:
-    \[
-        \min_{x \in \Omega} \sup_{\substack{\lambda \in \R^l \\ \mu \ge 0}} L(x, \lambda, \mu) = \max_{\substack{\lambda \in \R^l \\ \mu \ge 0}} \inf_{x \in \Omega}
-        L(x, \lambda, \mu) = L(\bar{x}, \bar{\lambda}, \bar{\mu}).
-    \]
+\begin{exercise}[Puntos de Silla e Igualdad Minimax]\label{v1:ejer:5.2.6}
+ Demuestre algebraicamente que $(\bar{x}, \bar{\lambda}, \bar{\mu}) \in \Omega \times \R^l \times \R^m_+$ es un punto de silla de la Lagrangiana
+ si y solo si se verifica la igualdad de los valores minimax:
+ \[
+ \min_{x \in \Omega} \sup_{\substack{\lambda \in \R^l \\ \mu \ge 0}} L(x, \lambda, \mu) = \max_{\substack{\lambda \in \R^l \\ \mu \ge 0}} \inf_{x \in \Omega}
+ L(x, \lambda, \mu) = L(\bar{x}, \bar{\lambda}, \bar{\mu}).
+ \]
 \end{exercise}
 
-\begin{exercise}[Proyección sobre un semiespacio]
-    Sean $a \in \Rn \setminus \{0\}$ y $b \in \Rn$. Formule y resuelva de manera analítica el problema dual asociado al problema de minimización $\min \frac{1}{2} \norm{x} ^2 - \interno{b}{x}$ sujeto a $\interno{a}{x} \le 0$. Utilice la solución del problema dual para obtener la solución óptima del problema primal.
+\begin{exercise}[Proyección sobre un semiespacio]\label{v1:ejer:5.2.7}
+ Sean $a \in \Rn \setminus \{0\}$ y $b \in \Rn$. Formule y resuelva de manera analítica el problema dual asociado al problema de minimización $\min \frac{1}{2} \norm{x} ^2 - \interno{b}{x}$ sujeto a $\interno{a}{x} \le 0$. Utilice la solución del problema dual para obtener la solución óptima del problema primal.
 \end{exercise}
 
-\begin{exercise}[Descomposición dual en optimización separable]
-    Considere un problema con estructura separable donde las variables y las funciones pueden dividirse en $p$ bloques independientes:
-       \begin{mini*}{ }{\sum_{j=1}^{p} f_j ( x_j )}{}{ }
-        \addConstraint{\sum_{j=1}^{p} h_j ( x_j )}{= 0}{}
-        \addConstraint{\sum_{j=1}^{p} g_j( x_j )}{\leq  0}{}
-        \addConstraint{x_j}{ \in \Omega_j, \quad j=1, \dots , p}
-        \end{mini*}
-    donde $\Omega_j \subset \R^{n_j}$, $f_j : \Omega_j \to \R$, $h_j : \Omega_j \to \R^l$ y $g_j : \Omega_j \to \R^m$.
-    
-    Demuestre que la función dual $\varphi(\lambda, \mu)$ de este problema general puede descomponerse en la suma de $p$ funciones duales independientes $\varphi(\lambda, \mu) = \sum_{j=1}^p \varphi_j(\lambda, \mu)$, donde cada componente se calcula resolviendo un subproblema local:
-    \[
-        \varphi_j(\lambda, \mu) = \inf_{x_j \in \Omega_j} \left\{ f_j(x_j) + \interno{\lambda}{h_j(x_j)} + \interno{\mu}{g_j(x_j)} \right\}.
-    \]
-    Explique la importancia de esta propiedad en el desarrollo de algoritmos de optimización distribuida (descomposición dual).
+\begin{exercise}[Descomposición dual en optimización separable]\label{v1:ejer:5.2.8}
+ Considere un problema con estructura separable donde las variables y las funciones pueden dividirse en $p$ bloques independientes:
+ \begin{mini*}{ }{\sum_{j=1}^{p} f_j ( x_j )}{}{ }
+ \addConstraint{\sum_{j=1}^{p} h_j ( x_j )}{= 0}{}
+ \addConstraint{\sum_{j=1}^{p} g_j( x_j )}{\leq 0}{}
+ \addConstraint{x_j}{ \in \Omega_j, \quad j=1, \dots , p}
+ \end{mini*}
+ donde $\Omega_j \subset \R^{n_j}$, $f_j : \Omega_j \to \R$, $h_j : \Omega_j \to \R^l$ y $g_j : \Omega_j \to \R^m$.
+ 
+ Demuestre que la función dual $\varphi(\lambda, \mu)$ de este problema general puede descomponerse en la suma de $p$ funciones duales independientes $\varphi(\lambda, \mu) = \sum_{j=1}^p \varphi_j(\lambda, \mu)$, donde cada componente se calcula resolviendo un subproblema local:
+ \[
+ \varphi_j(\lambda, \mu) = \inf_{x_j \in \Omega_j} \left\{ f_j(x_j) + \interno{\lambda}{h_j(x_j)} + \interno{\mu}{g_j(x_j)} \right\}.
+ \]
+ Explique la importancia de esta propiedad en el desarrollo de algoritmos de optimización distribuida (descomposición dual).
 \end{exercise}
 
-\begin{exercise}[Formulación de Consenso y Descomposición Dual]
-    Considere el problema de optimización no separable con acoplamiento por la variable de decisión única $x$:
-    \begin{mini*}{ }{\sum_{i=0}^{m} f_i( x )}{}{ }
-        \addConstraint{x \in D_i,}{\quad }{i=0, \dots , m}
-    \end{mini*}
-    donde $f_i : \Rn \to \R$ son funciones convexas y $D_i \subset \Rn$ son conjuntos poliedrales acotados tales que $\bigcap_{i=0}^m D_i \neq \emptyset$.
-    
-    Para transformar este problema primal en uno con estructura separable, introducimos variables locales independientes $x_i \in \Rn$ para cada bloque ($i=1, \dots, m$) junto con una variable de consenso global $x_0 \in \Rn$, imponiendo las restricciones de acoplamiento $x_i = x_0$:
-    \begin{mini*}{x_0, x_1, \dots , x_m \in \R^n}{\sum_{i=0}^{m}f_i( x_i )}{}{ }
-        \addConstraint{x_i - x_0 = 0,}{\quad }{i = 1, \dots , m}
-        \addConstraint{x_i \in D_i,}{\quad }{i = 0, \dots , m}
-    \end{mini*}
-    \begin{enuthm}
-        \item Demuestre que el problema dual de Lagrange asociado a esta formulación se puede escribir de la forma:
-        \[
-            \max_{\lambda_1, \dots, \lambda_m \in \Rn} \left\{ \varphi_0 \left( \sum_{i=1}^m \lambda_i \right) + \sum_{i=1}^m \varphi_i(\lambda_i) \right\} ,
-        \]
-        donde las funciones duales componentes vienen dadas por:
-        \[
-            \varphi_0(u) = \min_{x_0 \in D_0} \{ f_0(x_0) - \interno{u}{x_0} \}, \quad \varphi_i(\lambda_i) = \min_{x_i \in D_i} \{ f_i(x_i) + \interno{\lambda_i}{x_i} \}, \quad i=1, \dots, m.
-        \]
-        \item Demuestre que este par de problemas satisface la dualidad fuerte, justificando la nulidad del salto de dualidad.
-    \end{enuthm}
+\begin{exercise}[Formulación de Consenso y Descomposición Dual]\label{v1:ejer:5.2.9}
+ Considere el problema de optimización no separable con acoplamiento por la variable de decisión única $x$:
+ \begin{mini*}{ }{\sum_{i=0}^{m} f_i( x )}{}{ }
+ \addConstraint{x \in D_i,}{\quad }{i=0, \dots , m}
+ \end{mini*}
+ donde $f_i : \Rn \to \R$ son funciones convexas y $D_i \subset \Rn$ son conjuntos poliedrales acotados tales que $\bigcap_{i=0}^m D_i \neq \emptyset$.
+ 
+ Para transformar este problema primal en uno con estructura separable, introducimos variables locales independientes $x_i \in \Rn$ para cada bloque ($i=1, \dots, m$) junto con una variable de consenso global $x_0 \in \Rn$, imponiendo las restricciones de acoplamiento $x_i = x_0$:
+ \begin{mini*}{x_0, x_1, \dots , x_m \in \R^n}{\sum_{i=0}^{m}f_i( x_i )}{}{ }
+ \addConstraint{x_i - x_0 = 0,}{\quad }{i = 1, \dots , m}
+ \addConstraint{x_i \in D_i,}{\quad }{i = 0, \dots , m}
+ \end{mini*}
+ \begin{enuthm}
+ \item Demuestre que el problema dual de Lagrange asociado a esta formulación se puede escribir de la forma:
+ \[
+ \max_{\lambda_1, \dots, \lambda_m \in \Rn} \left\{ \varphi_0 \left( \sum_{i=1}^m \lambda_i \right) + \sum_{i=1}^m \varphi_i(\lambda_i) \right\} ,
+ \]
+ donde las funciones duales componentes vienen dadas por:
+ \[
+ \varphi_0(u) = \min_{x_0 \in D_0} \{ f_0(x_0) - \interno{u}{x_0} \}, \quad \varphi_i(\lambda_i) = \min_{x_i \in D_i} \{ f_i(x_i) + \interno{\lambda_i}{x_i} \}, \quad i=1, \dots, m.
+ \]
+ \item Demuestre que este par de problemas satisface la dualidad fuerte, justificando la nulidad del salto de dualidad.
+ \end{enuthm}
 \end{exercise}
 
 %%% Local Variables:

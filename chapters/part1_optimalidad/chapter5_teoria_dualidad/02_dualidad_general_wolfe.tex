@@ -5,13 +5,13 @@
 % =========================================================
 
 El análisis de dualidad se extiende a problemas con restricciones no lineales de igualdad y desigualdad mediante la función Lagrangiana. Dado el problema general de optimización, al cual llamaremos \textbf{problema primal}:
-\begin{mini}{x}{f(x)}{\label{eq:primal_general}}{}
+\begin{mini}{x}{f(x)}{\label{v1:eq:primal_general}}{}
     \addConstraint{x \in D = \{x \in \Omega \mid h(x) = 0, \, g(x) \le 0\} }
 \end{mini}
 donde $\Omega \subset \Rn$, $f \colon \Omega \to \R$, $h \colon \Omega \to \R^l$ y $g \colon \Omega \to \R^m$.
 
-\begin{definition}[Función Lagrangiana]\label{def:lagrangiana_general}
-    Asociada al problema primal \eqref{eq:primal_general}, se define la \textbf{función Lagrangiana} con respecto a las restricciones funcionales como la aplicación $L \colon \Omega \times \R^l \times \R^m \to \R$ dada por:
+\begin{definition}[Función Lagrangiana]\label{v1:def:lagrangiana_general}
+    Asociada al problema primal \eqref{v1:eq:primal_general}, se define la \textbf{función Lagrangiana} con respecto a las restricciones funcionales como la aplicación $L \colon \Omega \times \R^l \times \R^m \to \R$ dada por:
     \begin{equation}
         L(x, \lambda, \mu) = f(x) + \interno{\lambda}{h(x)} + \interno{\mu}{g(x)},
     \end{equation}
@@ -24,7 +24,7 @@ donde $\Omega \subset \Rn$, $f \colon \Omega \to \R$, $h \colon \Omega \to \R^l$
 
 La Lagrangiana penaliza implícitamente la violación de las restricciones funcionales al buscar el peor escenario respecto a las variables duales.
 
-\begin{lemma}[Penalización implícita]\label{lem:sup_lagrangiana}
+\begin{lemma}[Penalización implícita]\label{v1:lem:sup_lagrangiana}
     Para cualquier $x \in \Omega$, se verifica:
     \begin{equation}
         \sup_{\substack{\lambda \in \R^l \\ \mu \ge 0}} L(x, \lambda, \mu) =
@@ -32,7 +32,7 @@ La Lagrangiana penaliza implícitamente la violación de las restricciones funci
             f(x)    & \text{si } x \in D, \\
             +\infty & \text{si } x \in \Omega \setminus D.
         \end{cases}
-        \label{eq:sup_lagrangiana}
+        \label{v1:eq:sup_lagrangiana}
     \end{equation}
 \end{lemma}
 
@@ -43,20 +43,20 @@ La Lagrangiana penaliza implícitamente la violación de las restricciones funci
 \end{proof}
 
 \begin{remark}
-    El \cref{lem:sup_lagrangiana} permite reescribir de forma equivalente el problema primal \eqref{eq:primal_general} como un problema (tipo minimax) sin restricciones funcionales, sobre el conjunto base $\Omega$:
+    El \cref{v1:lem:sup_lagrangiana} permite reescribir de forma equivalente el problema primal \eqref{v1:eq:primal_general} como un problema (tipo minimax) sin restricciones funcionales, sobre el conjunto base $\Omega$:
     \begin{equation}
         \min \left\{ \sup_{(\lambda, \mu) \in \R^l \times \R^m_+} L(x, \lambda, \mu) \right\} \quad \text{sujeto a} \quad x \in \Omega.
-        \label{eq:minimax_primal_problem}
+        \label{v1:eq:minimax_primal_problem}
     \end{equation}
     Además, el \textbf{valor óptimo primal} $\bar{v}$ queda caracterizado por la ecuación:
     \begin{equation}
         \bar{v} = \inf_{x \in \Omega} \left\{ \sup_{(\lambda, \mu) \in \R^l \times \R^m_+} L(x, \lambda, \mu) \right\},
-        \label{eq:minimax_primal_value}
+        \label{v1:eq:minimax_primal_value}
     \end{equation}
     donde es obligatorio el uso del operador ínfimo ($\inf$), ya que, en ausencia de compacidad en $\Omega$, el mínimo global podría no alcanzarse.
 \end{remark}
 
-\begin{example}[Evaluación del supremo de la Lagrangiana]\label{ex:penalizacion_lagrangiana}
+\begin{example}[Evaluación del supremo de la Lagrangiana]\label{v1:exa:penalizacion_lagrangiana}
     Dado el problema en $\Omega = \R^2$:
     \begin{mini*}{ }{x_1 + x_2}{}{ }
         \addConstraint{x_1 ^2 + x_2 ^2 - 1}{= 0}
@@ -74,10 +74,10 @@ La Lagrangiana penaliza implícitamente la violación de las restricciones funci
 \subsection{El Problema Dual General}
 % ---------------------------------------------------------
 
-El \textbf{problema dual} se define alternando el orden de los operadores de optimización en la formulación minimax del primal \eqref{eq:minimax_primal_problem}:
+El \textbf{problema dual} se define alternando el orden de los operadores de optimización en la formulación minimax del primal \eqref{v1:eq:minimax_primal_problem}:
 \begin{equation}
     \bar{w} = \max_{\substack{\lambda \in \R^l \\ \mu \ge 0}} \left\{ \inf_{x \in \Omega} L(x, \lambda, \mu) \right\}.
-    \label{eq:minimax_dual}
+    \label{v1:eq:minimax_dual}
 \end{equation}
 
 Para simplificar su análisis, introducimos la \textbf{función dual} $\varphi : \R^l \times \R^m \to [-\infty, +\infty)$ como el ínfimo parcial respecto a las variables primales:
@@ -87,10 +87,10 @@ Para simplificar su análisis, introducimos la \textbf{función dual} $\varphi :
 El dominio de factibilidad dual es el conjunto $\Delta = \{(\lambda, \mu) \in \R^l \times \R^m \mid \mu \ge 0, \, \varphi(\lambda, \mu) > -\infty\}$, de modo que el problema dual se expresa como:
 \begin{equation}
     \max \varphi(\lambda, \mu) \quad \text{sujeto a} \quad (\lambda, \mu) \in \Delta.
-    \label{eq:dual_general}
+    \label{v1:eq:dual_general}
 \end{equation}
 
-\begin{theorem}[Propiedades de la función dual]\label{thm:propiedades_dual}
+\begin{theorem}[Propiedades de la función dual]\label{v1:thm:propiedades_dual}
     El conjunto de factibilidad dual $\Delta$ es convexo y la función dual $\varphi$ es cóncava sobre $\Delta$.
 \end{theorem}
 
@@ -104,7 +104,7 @@ El problema dual siempre es un problema de optimización convexa (maximización 
 \subsection{Teorema de Dualidad Débil}
 % ---------------------------------------------------------
 
-\begin{theorem}[Teorema de Dualidad Débil]\label{thm:dualidad_debil_general}
+\begin{theorem}[Teorema de Dualidad Débil]\label{v1:thm:dualidad_debil_general}
     Para cualquier punto factible primal $x \in D$ y cualquier punto factible dual $(\lambda, \mu) \in \Delta$, se cumple:
     \begin{equation}
         \varphi(\lambda, \mu) \le f(x).
@@ -119,7 +119,7 @@ El problema dual siempre es un problema de optimización convexa (maximización 
     Como $h(x) = 0$ y $\interno{\mu}{g(x)} \le 0$ para todo $\mu \ge 0$, se deduce que $L(x, \lambda, \mu) \le f(x)$.
 \end{proof}
 
-\begin{example}[Obtención analítica de la función dual]\label{ex:propiedades_dual}
+\begin{example}[Obtención analítica de la función dual]\label{v1:exa:propiedades_dual}
     Sea el problema de optimización:
     \[
         \min \quad x^2 \quad \text{sujeto a} \quad x - 2 \le 0.
@@ -139,7 +139,7 @@ El problema dual siempre es un problema de optimización convexa (maximización 
     La diferencia entre el valor óptimo primal $\bar{v}$ y el dual $\bar{w}$ se llama \textbf{salto de dualidad} ($\bar{v} - \bar{w} \ge 0$).
 \end{definition}
 
-\begin{corollary}[Ausencia de salto de dualidad]\label{cor:no_gap}
+\begin{corollary}[Ausencia de salto de dualidad]\label{v1:cor:no_gap}
     Si existen puntos factibles $\bar{x} \in D$ y $(\bar{\lambda}, \bar{\mu}) \in \Delta$ tales que $f(\bar{x}) = \varphi(\bar{\lambda}, \bar{\mu})$, entonces $\bar{x}$ y $(\bar{\lambda}, \bar{\mu})$ son soluciones óptimas globales de sus respectivos problemas, y el salto de dualidad es nulo.
 \end{corollary}
 
@@ -149,7 +149,7 @@ El problema dual siempre es un problema de optimización convexa (maximización 
 
 Los siguientes tres ejemplos ilustran cómo la falta de convexidad o la estructura de los dominios pueden impedir el alcance de los óptimos o dar lugar a saltos de dualidad estrictamente positivos.
 
-\begin{example}[Mínimo primal no alcanzado, sin salto de dualidad]\label{ex:no_primal_sol}
+\begin{example}[Mínimo primal no alcanzado, sin salto de dualidad]\label{v1:exa:no_primal_sol}
     Sea el problema de optimización definido sobre el conjunto base abierto $\Omega = (0, +\infty)$:
     \begin{mini*}{ }{1 / x}{}{ }
         \addConstraint{-x}{\le 0}
@@ -164,7 +164,7 @@ Los siguientes tres ejemplos ilustran cómo la falta de convexidad o la estructu
     Así, el dominio dual es el conjunto unitario $\Delta = \{0\}$. El problema dual consiste en evaluar $\varphi(0) = 0$, con valor óptimo dual $\bar{w} = 0$. No existe salto de dualidad ($\bar{v} = \bar{w} = 0$) y el dual admite solución óptima en $\bar{\mu} = 0$, pero el primal no es soluble.
 \end{example}
 
-\begin{example}[Óptimo primal existente, sin salto, pero dual no soluble]\label{ex:no_dual_sol}
+\begin{example}[Óptimo primal existente, sin salto, pero dual no soluble]\label{v1:exa:no_dual_sol}
     Sea el problema en $\Omega = \R$:
     \begin{mini*}{ }{x}{}{ }
         \addConstraint{x^2}{\le 0}
@@ -177,7 +177,7 @@ Los siguientes tres ejemplos ilustran cómo la falta de convexidad o la estructu
     El conjunto de factibilidad dual es el intervalo abierto $\Delta = (0, +\infty)$. El problema dual es $\max_{\mu > 0} (-1/(4\mu))$. Al aproximar $\mu \to \infty$, el supremo es $\bar{w} = 0$. Sin embargo, este valor no se alcanza para ningún multiplicador finito en el dominio abierto $\Delta$. El salto de dualidad es nulo, pero el problema dual no posee solución.
 \end{example}
 
-\begin{example}[Salto de dualidad estrictamente positivo]\label{ex:duality_gap}
+\begin{example}[Salto de dualidad estrictamente positivo]\label{v1:exa:duality_gap}
     Tomemos el problema de optimización discreta sobre el conjunto no convexo $\Omega = \{0, 1\}$:
     \begin{mini*} {}{x_1 + x_2}{}{}
         \addConstraint{x_1^2 + x_2^2 - 2}{\le 0.}
@@ -202,17 +202,17 @@ Los siguientes tres ejemplos ilustran cómo la falta de convexidad o la estructu
 \subsection{Teoría de Multiplicadores de Lagrange Globales}
 % ---------------------------------------------------------
 
-\begin{definition}[Multiplicador de Lagrange Global]\label{def:lagrange_multiplier_global}
-    Un vector $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m_+$ es un \textbf{multiplicador de Lagrange global} para el problema primal \eqref{eq:primal_general} si cumple:
+\begin{definition}[Multiplicador de Lagrange Global]\label{v1:def:lagrange_multiplier_global}
+    Un vector $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m_+$ es un \textbf{multiplicador de Lagrange global} para el problema primal \eqref{v1:eq:primal_general} si cumple:
     \begin{equation}
         \bar{v} = \inf_{x \in \Omega} L(x, \bar{\lambda}, \bar{\mu}).
-        \label{eq:def_multiplier}
+        \label{v1:eq:def_multiplier}
     \end{equation}
 \end{definition}
 
 Esta definición establece que las penalizaciones óptimas permiten hallar el valor óptimo del problema original mediante una minimización no restringida de la Lagrangiana sobre el conjunto base $\Omega$.
 
-\begin{proposition}[Identidad entre Multiplicadores y Soluciones Duales]\label{prop:multipliers_dual_solutions}
+\begin{proposition}[Identidad entre Multiplicadores y Soluciones Duales]\label{v1:prop:multipliers_dual_solutions}
     Supóngase que el valor óptimo primal $\bar{v}$ es finito y que el salto de dualidad es nulo. El conjunto de multiplicadores de Lagrange del problema primal coincide entonces con el conjunto de soluciones óptimas del problema dual.
 \end{proposition}
 
@@ -222,7 +222,7 @@ Esta definición establece que las penalizaciones óptimas permiten hallar el va
     Recíprocamente, si $(\bar{\lambda}, \bar{\mu}) \in \Delta$ es óptimo dual, entonces $\bar{\mu} \ge 0$ y $\varphi(\bar{\lambda}, \bar{\mu}) = \bar{w}$. Al cumplirse $\bar{w} = \bar{v}$, resulta inmediato que $\varphi(\bar{\lambda}, \bar{\mu}) = \bar{v}$, satisfaciendo la definición de multiplicador.
 \end{proof}
 
-\begin{example}[Identidad en un problema cuadrático bidimensional]\label{ex:identidad_multiplicadores}
+\begin{example}[Identidad en un problema cuadrático bidimensional]\label{v1:exa:identidad_multiplicadores}
     Consideremos la minimización de una función afín sobre un disco euclidiano compacto en $\Omega = \R^2$:
     \begin{mini*} {}{x_1 - x_2}{}{}
         \addConstraint{x_1 + x_2}{\le 0.}
@@ -238,14 +238,14 @@ Esta definición establece que las penalizaciones óptimas permiten hallar el va
     
     El problema dual exige maximizar esta función cóncava sobre el dominio $\mu > 0$. Derivando e igualando a cero: $\varphi'(\mu) = \frac{1}{2\mu^2} - 2 = 0 \implies \mu^2 = 1/4$. El único candidato admisible es $\bar{\mu} = 1/2$. Al evaluar, confirmamos que el \textbf{valor óptimo dual} es: $\bar{w} = \varphi(1/2) = -2$.
     
-    Observamos empíricamente que $\bar{v} = \bar{w} = -2$ (brecha nula). El óptimo dual $\bar{\mu} = 1/2$ debe satisfacer la definición topológica de un multiplicador global (\cref{def:lagrange_multiplier_global}). Comprobémoslo:
+    Observamos empíricamente que $\bar{v} = \bar{w} = -2$ (brecha nula). El óptimo dual $\bar{\mu} = 1/2$ debe satisfacer la definición topológica de un multiplicador global (\cref{v1:def:lagrange_multiplier_global}). Comprobémoslo:
     \[
         \inf_{x \in \R^2} L\left(x, \frac{1}{2}\right) = \inf_{x \in \R^2} \left[ \frac{1}{2}(x_1 + 1)^2 + \frac{1}{2}(x_2 + 1)^2 - 2 \right].
     \]
     Es evidente que el valor mínimo de esta suma de cuadrados es $-2$, alcanzado en $x = (-1,-1)^\top$. Hemos demostrado que el conjunto de multiplicadores de Lagrange y el de soluciones duales son idénticos.
 \end{example}
 
-\begin{theorem}[Garantía de Existencia de Solución Dual]\label{thm:dual_solvability_multiplier}
+\begin{theorem}[Garantía de Existencia de Solución Dual]\label{v1:thm:dual_solvability_multiplier}
     Supóngase que el conjunto factible del problema primal es no vacío ($D \neq \emptyset$) y que el problema primal posee al menos un multiplicador de Lagrange global.
     \begin{enuthm}
         \item Si el conjunto de factibilidad dual es no vacío ($\Delta \neq \emptyset$), entonces el problema dual posee una solución óptima.
@@ -254,50 +254,50 @@ Esta definición establece que las penalizaciones óptimas permiten hallar el va
 \end{theorem}
 
 \begin{proof}
-    Sea $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m_+$ un multiplicador de Lagrange. Por definición (\cref{def:lagrange_multiplier_global}), $\varphi(\bar{\lambda}, \bar{\mu}) = \bar{v}$.
+    Sea $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m_+$ un multiplicador de Lagrange. Por definición (\cref{v1:def:lagrange_multiplier_global}), $\varphi(\bar{\lambda}, \bar{\mu}) = \bar{v}$.
     
-    Si $\Delta \neq \emptyset$, por el Teorema de Dualidad Débil (\cref{thm:dualidad_debil_general}), $\bar{v}$ acota superiormente a cualquier valor factible dual. Puesto que el par $(\bar{\lambda}, \bar{\mu})$ alcanza este límite superior, pertenece a $\Delta$ y es un maximizador global de la función dual.
+    Si $\Delta \neq \emptyset$, por el Teorema de Dualidad Débil (\cref{v1:thm:dualidad_debil_general}), $\bar{v}$ acota superiormente a cualquier valor factible dual. Puesto que el par $(\bar{\lambda}, \bar{\mu})$ alcanza este límite superior, pertenece a $\Delta$ y es un maximizador global de la función dual.
     
     Si $\Delta = \emptyset$, implica que para todo par $(\lambda, \mu)$ se tiene $\varphi(\lambda, \mu) = -\infty$. Evaluando en el multiplicador garantizado por hipótesis, obtenemos $\varphi(\bar{\lambda}, \bar{\mu}) = -\infty$. Por ende, $\bar{v} = -\infty$.
 \end{proof}
 
-\begin{example}[Infactibilidad dual y divergencia primal]\label{ex:teorema_existencia_dual}
+\begin{example}[Infactibilidad dual y divergencia primal]\label{v1:exa:teorema_existencia_dual}
     Consideremos el siguiente problema lineal sobre $\Omega = \R^2$:
     \begin{mini*} {}{x_1 - x_2}{}{}
         \addConstraint{x_1 + x_2}{\le 0.}
     \end{mini*}
     El dominio factible $D$ contiene a $(0,0)$. Tomando $x(t) = (-t, t)^\top$ para $t > 0$, la función objetivo evaluada en esta trayectoria es $-2t$. Al hacer $t \to \infty$, el problema es ilimitado: $\bar{v} = -\infty$.
     
-    Construyamos la función Lagrangiana para $\mu \ge 0$: $L(x, \mu) = x_1(1 + \mu) + x_2(\mu - 1)$. Para que el ínfimo sea finito, se requeriría $1 + \mu = 0$ y $\mu - 1 = 0$, lo cual es una contradicción. Concluimos que para cualquier $\mu \ge 0$, $\varphi(\mu) = -\infty$. Por tanto, $\Delta = \emptyset$, lo que corrobora el Teorema \ref{thm:dual_solvability_multiplier}.
+    Construyamos la función Lagrangiana para $\mu \ge 0$: $L(x, \mu) = x_1(1 + \mu) + x_2(\mu - 1)$. Para que el ínfimo sea finito, se requeriría $1 + \mu = 0$ y $\mu - 1 = 0$, lo cual es una contradicción. Concluimos que para cualquier $\mu \ge 0$, $\varphi(\mu) = -\infty$. Por tanto, $\Delta = \emptyset$, lo que corrobora el Teorema \ref{v1:thm:dual_solvability_multiplier}.
 \end{example}
 
-\begin{theorem}[Condiciones de Kuhn-Tucker No Diferenciables]\label{thm:kuhn_tucker_non_diff}
+\begin{theorem}[Condiciones de Kuhn-Tucker No Diferenciables]\label{v1:thm:kuhn_tucker_non_diff}
     Un punto $\bar{x} \in D$ es solución óptima del problema primal y $(\bar{\lambda}, \bar{\mu})$ es un multiplicador de Lagrange si y solo si se cumplen las condiciones:
     \begin{align}
-        L(\bar{x}, \bar{\lambda}, \bar{\mu}) & = \min_{x \in \Omega} L(x, \bar{\lambda}, \bar{\mu}), \label{eq:kt_min_global} \\
-        \bar{\mu}_i g_i(\bar{x})             & = 0, \quad \forall i = 1, \dots, m. \label{eq:kt_complementarity_non_diff}
+        L(\bar{x}, \bar{\lambda}, \bar{\mu}) & = \min_{x \in \Omega} L(x, \bar{\lambda}, \bar{\mu}), \label{v1:eq:kt_min_global} \\
+        \bar{\mu}_i g_i(\bar{x})             & = 0, \quad \forall i = 1, \dots, m. \label{v1:eq:kt_complementarity_non_diff}
     \end{align}
 \end{theorem}
 
 \begin{proof}
-    \( (\implies) \) Como $\bar{x}$ es óptimo y $(\bar{\lambda}, \bar{\mu})$ es multiplicador, se tiene $f(\bar{x}) = \inf_{x \in \Omega} L(x, \bar{\lambda}, \bar{\mu})$. Como $\bar{x} \in D$, resulta $L(\bar{x}, \bar{\lambda}, \bar{\mu}) = f(\bar{x}) + \interno{\bar{\mu}}{g(\bar{x})}$. La condición $\bar{\mu} \ge 0, g(\bar{x}) \le 0$ exige que $\interno{\bar{\mu}}{g(\bar{x})} \le 0$. Al ser el ínfimo $f(\bar{x})$, se debe verificar de forma obligatoria que $L(\bar{x}, \bar{\lambda}, \bar{\mu}) = f(\bar{x})$, lo que prueba \eqref{eq:kt_min_global} y requiere $\bar{\mu}_i g_i(\bar{x}) = 0$.
+    \( (\implies) \) Como $\bar{x}$ es óptimo y $(\bar{\lambda}, \bar{\mu})$ es multiplicador, se tiene $f(\bar{x}) = \inf_{x \in \Omega} L(x, \bar{\lambda}, \bar{\mu})$. Como $\bar{x} \in D$, resulta $L(\bar{x}, \bar{\lambda}, \bar{\mu}) = f(\bar{x}) + \interno{\bar{\mu}}{g(\bar{x})}$. La condición $\bar{\mu} \ge 0, g(\bar{x}) \le 0$ exige que $\interno{\bar{\mu}}{g(\bar{x})} \le 0$. Al ser el ínfimo $f(\bar{x})$, se debe verificar de forma obligatoria que $L(\bar{x}, \bar{\lambda}, \bar{\mu}) = f(\bar{x})$, lo que prueba \eqref{v1:eq:kt_min_global} y requiere $\bar{\mu}_i g_i(\bar{x}) = 0$.
     
-    \( (\impliedby) \) Por holgura complementaria y factibilidad, se tiene $L(\bar{x}, \bar{\lambda}, \bar{\mu}) = f(\bar{x})$. Sustituyendo en la minimización global \eqref{eq:kt_min_global}, resulta $f(\bar{x}) = \inf_{x \in \Omega} L(x, \bar{\lambda}, \bar{\mu})$, lo cual demuestra que $(\bar{\lambda}, \bar{\mu})$ es un multiplicador y $\bar{x}$ es óptimo global.
+    \( (\impliedby) \) Por holgura complementaria y factibilidad, se tiene $L(\bar{x}, \bar{\lambda}, \bar{\mu}) = f(\bar{x})$. Sustituyendo en la minimización global \eqref{v1:eq:kt_min_global}, resulta $f(\bar{x}) = \inf_{x \in \Omega} L(x, \bar{\lambda}, \bar{\mu})$, lo cual demuestra que $(\bar{\lambda}, \bar{\mu})$ es un multiplicador y $\bar{x}$ es óptimo global.
 \end{proof}
 
 % ---------------------------------------------------------
 \subsection{Dualidad Fuerte y la Condición de Slater}
 % ---------------------------------------------------------
 
-\begin{definition}[Condición de Regularidad de Slater]\label{def:slater}
-    Se dice que el problema primal \eqref{eq:primal_general} satisface la \textbf{condición de Slater} si las restricciones de igualdad son afines ($h(x) = Ax - a$), las restricciones de desigualdad $g_i$ son funciones convexas en $\Omega$, y existe un punto de regularidad $\hat{x} \in \interior \Omega$ tal que:
+\begin{definition}[Condición de Regularidad de Slater]\label{v1:def:slater}
+    Se dice que el problema primal \eqref{v1:eq:primal_general} satisface la \textbf{condición de Slater} si las restricciones de igualdad son afines ($h(x) = Ax - a$), las restricciones de desigualdad $g_i$ son funciones convexas en $\Omega$, y existe un punto de regularidad $\hat{x} \in \interior \Omega$ tal que:
     \begin{equation}
         A\hat{x} - a = 0 \quad \text{y} \quad g_i(\hat{x}) < 0 \quad \forall i = 1, \dots, m.
     \end{equation}
 \end{definition}
 
-\begin{theorem}[Teorema de Dualidad Fuerte de Slater]\label{thm:dualidad_fuerte_slater}
-    Supóngase que en el problema primal \eqref{eq:primal_general} las funciones $f$ y $g_i$ son convexas, las restricciones de igualdad son afines dadas por $h(x) = Ax - a$ con $A \in \R^{l \times n}$, y el valor óptimo primal $\bar{v}$ es finito. Si se satisface la condición de regularidad de Slater (\cref{def:slater}), entonces el salto de dualidad es nulo ($\bar{v} = \bar{w}$), y el problema dual admite al menos una solución óptima $(\bar{\lambda}, \bar{\mu}) \in \Delta$.
+\begin{theorem}[Teorema de Dualidad Fuerte de Slater]\label{v1:thm:dualidad_fuerte_slater}
+    Supóngase que en el problema primal \eqref{v1:eq:primal_general} las funciones $f$ y $g_i$ son convexas, las restricciones de igualdad son afines dadas por $h(x) = Ax - a$ con $A \in \R^{l \times n}$, y el valor óptimo primal $\bar{v}$ es finito. Si se satisface la condición de regularidad de Slater (\cref{v1:def:slater}), entonces el salto de dualidad es nulo ($\bar{v} = \bar{w}$), y el problema dual admite al menos una solución óptima $(\bar{\lambda}, \bar{\mu}) \in \Delta$.
 \end{theorem}
 
 \begin{proof}
@@ -310,20 +310,20 @@ Esta definición establece que las penalizaciones óptimas permiten hallar el va
     Aplicamos el Teorema de Separación de Conjuntos Convexos (Lema de Minkowski). Existe un hiperplano de soporte en $(\bar{v}, 0, 0)$, caracterizado por un vector normal no nulo $(\beta, \bar{\mu}, \bar{\lambda}) \in \R \times \R^m \times \R^l$, tal que:
     \begin{equation}
         \beta \bar{v} \le \beta y + \interno{\bar{\mu}}{z} + \interno{\bar{\lambda}}{c} \quad \forall (y, z, c) \in C.
-        \label{eq:slater_separacion}
+        \label{v1:eq:slater_separacion}
     \end{equation}
     Para que la desigualdad se cumpla asintóticamente es necesario que $\beta \ge 0$ y $\bar{\mu} \ge 0$.
     
-    Asumamos que $\beta = 0$. Evaluando \eqref{eq:slater_separacion} en el punto factible de Slater $\hat{x}$, se obtiene $0 \le \interno{\bar{\mu}}{g(\hat{x})}$. Dado que $\bar{\mu} \ge 0$ y cada componente $g_i(\hat{x}) < 0$, la única posibilidad es que $\bar{\mu} = 0$. Sustituyendo $\beta = 0$ y $\bar{\mu} = 0$, nos queda $0 \le \interno{\bar{\lambda}}{c}$ para todo $c$ factible. Como $A$ tiene rango completo, esto es posible solo si $\bar{\lambda} = 0$. Esto implica que el vector normal es nulo, contradiciendo el Teorema de Separación. Por consiguiente, $\beta > 0$.
+    Asumamos que $\beta = 0$. Evaluando \eqref{v1:eq:slater_separacion} en el punto factible de Slater $\hat{x}$, se obtiene $0 \le \interno{\bar{\mu}}{g(\hat{x})}$. Dado que $\bar{\mu} \ge 0$ y cada componente $g_i(\hat{x}) < 0$, la única posibilidad es que $\bar{\mu} = 0$. Sustituyendo $\beta = 0$ y $\bar{\mu} = 0$, nos queda $0 \le \interno{\bar{\lambda}}{c}$ para todo $c$ factible. Como $A$ tiene rango completo, esto es posible solo si $\bar{\lambda} = 0$. Esto implica que el vector normal es nulo, contradiciendo el Teorema de Separación. Por consiguiente, $\beta > 0$.
     
-    Dividiendo \eqref{eq:slater_separacion} por $\beta$ y definiendo $\lambda^* = \bar{\lambda}/\beta \in \R^l$ y $\mu^* = \bar{\mu}/\beta \in \R^m_+$. Tomando $(y, z, c) = (f(x), g(x), Ax - a) \in C$, la inecuación se reduce a:
+    Dividiendo \eqref{v1:eq:slater_separacion} por $\beta$ y definiendo $\lambda^* = \bar{\lambda}/\beta \in \R^l$ y $\mu^* = \bar{\mu}/\beta \in \R^m_+$. Tomando $(y, z, c) = (f(x), g(x), Ax - a) \in C$, la inecuación se reduce a:
     \[
         \bar{v} \le f(x) + \interno{\mu^*}{g(x)} + \interno{\lambda^*}{Ax - a} = L(x, \lambda^*, \mu^*).
     \]
-    Tomando el ínfimo sobre todo $x \in \Omega$, concluimos que $\bar{v} \le \varphi(\lambda^*, \mu^*)$. A su vez, por Dualidad Débil (\cref{thm:dualidad_debil_general}), sabemos que $\varphi(\lambda^*, \mu^*) \le \bar{v}$. Así, $\varphi(\lambda^*, \mu^*) = \bar{v}$, probando que no hay salto de dualidad y el óptimo dual se alcanza.
+    Tomando el ínfimo sobre todo $x \in \Omega$, concluimos que $\bar{v} \le \varphi(\lambda^*, \mu^*)$. A su vez, por Dualidad Débil (\cref{v1:thm:dualidad_debil_general}), sabemos que $\varphi(\lambda^*, \mu^*) \le \bar{v}$. Así, $\varphi(\lambda^*, \mu^*) = \bar{v}$, probando que no hay salto de dualidad y el óptimo dual se alcanza.
 \end{proof}
 
-\begin{example}[Verificación de la dualidad fuerte]\label{ex:dualidad_fuerte_slater}
+\begin{example}[Verificación de la dualidad fuerte]\label{v1:exa:dualidad_fuerte_slater}
     Sea el problema de optimización en $\Omega = \R$:
     \begin{mini*} {}{(x - 3)^2}{}{}
         \addConstraint{x - 2}{\leq 0}
@@ -337,16 +337,16 @@ Esta definición establece que las penalizaciones óptimas permiten hallar el va
 \subsection{El Problema Dual de Wolfe}
 % ---------------------------------------------------------
 
-\begin{definition}[Problema Dual de Wolfe]\label{def:wolfe_dual}
-    Asociado al problema primal \eqref{eq:primal_general}, asumiendo que $\Omega$ es abierto en $\Rn$ y que $f, g, h$ son continuamente diferenciables, el \textbf{problema dual de Wolfe} se define como:
+\begin{definition}[Problema Dual de Wolfe]\label{v1:def:wolfe_dual}
+    Asociado al problema primal \eqref{v1:eq:primal_general}, asumiendo que $\Omega$ es abierto en $\Rn$ y que $f, g, h$ son continuamente diferenciables, el \textbf{problema dual de Wolfe} se define como:
     \begin{equation}
         \max_{\substack{x \in \Omega, \lambda \in \R^l \\ \mu \ge 0}} L(x, \lambda, \mu) \quad \text{sujeto a} \quad \nabla_x L(x, \lambda, \mu) = 0.
-        \label{eq:wolfe_dual}
+        \label{v1:eq:wolfe_dual}
     \end{equation}
     Denotaremos al conjunto de factibilidad de este problema como $W$.
 \end{definition}
 
-\begin{theorem}[Dualidad Débil de Wolfe]\label{thm:dualidad_debil_wolfe}
+\begin{theorem}[Dualidad Débil de Wolfe]\label{v1:thm:dualidad_debil_wolfe}
     Si el problema primal original es de minimización convexa (es decir, $f$ y $g_i$ son convexas, y $h$ es afín), entonces para cualquier punto factible primal $\tilde{x} \in D$ y cualquier punto factible del dual de Wolfe $(x, \lambda, \mu) \in W$, se verifica que:
     \begin{equation}
         L(x, \lambda, \mu) \le f(\tilde{x}).
@@ -354,37 +354,37 @@ Esta definición establece que las penalizaciones óptimas permiten hallar el va
 \end{theorem}
 
 \begin{proof}
-    Dado que $f$ y $g_i$ son convexas y $h$ es afín, la Lagrangiana $x \mapsto L(x, \lambda, \mu)$ preserva la convexidad. Por la definición de $W$, sabemos que $\nabla_x L(x, \lambda, \mu) = 0$. En funciones convexas, la anulación del gradiente garantiza que $x$ es un minimizador global: $L(x, \lambda, \mu) = \inf_{z \in \Omega} L(z, \lambda, \mu) = \varphi(\lambda, \mu)$. Aplicando el Teorema de Dualidad Débil General (\cref{thm:dualidad_debil_general}), sabemos que $\varphi(\lambda, \mu) \le f(\tilde{x})$. Sustituyendo la igualdad previa, se concluye: $L(x, \lambda, \mu) \le f(\tilde{x})$.
+    Dado que $f$ y $g_i$ son convexas y $h$ es afín, la Lagrangiana $x \mapsto L(x, \lambda, \mu)$ preserva la convexidad. Por la definición de $W$, sabemos que $\nabla_x L(x, \lambda, \mu) = 0$. En funciones convexas, la anulación del gradiente garantiza que $x$ es un minimizador global: $L(x, \lambda, \mu) = \inf_{z \in \Omega} L(z, \lambda, \mu) = \varphi(\lambda, \mu)$. Aplicando el Teorema de Dualidad Débil General (\cref{v1:thm:dualidad_debil_general}), sabemos que $\varphi(\lambda, \mu) \le f(\tilde{x})$. Sustituyendo la igualdad previa, se concluye: $L(x, \lambda, \mu) \le f(\tilde{x})$.
 \end{proof}
 
-\begin{example}[Coincidencia del Dual de Wolfe en Programación Lineal]\label{ex:wolfe_lp}
-    Sea el programa primal lineal: $\min \interno{c}{x}$ sujeto a $Bx \ge b$. Adaptando a $g(x) = b - Bx \le 0$, la Lagrangiana es $L(x, \mu) = \interno{c - B^\top \mu}{x} + \interno{b}{\mu}$. La restricción del dual de Wolfe es $\nabla_x L(x, \mu) = 0$, lo que equivale a $c - B^\top \mu = 0$. Evaluando la función objetivo $L(x, \mu)$ bajo esta condición, el término con $x$ se anula, resultando $L(x, \mu) = \interno{b}{\mu}$. El dual de Wolfe se simplifica a maximizar $\interno{b}{\mu}$ sujeto a $B^\top \mu = c$ y $\mu \ge 0$, que es la formulación dual estándar planteada en \eqref{eq:dual_lp}.
+\begin{example}[Coincidencia del Dual de Wolfe en Programación Lineal]\label{v1:exa:wolfe_lp}
+    Sea el programa primal lineal: $\min \interno{c}{x}$ sujeto a $Bx \ge b$. Adaptando a $g(x) = b - Bx \le 0$, la Lagrangiana es $L(x, \mu) = \interno{c - B^\top \mu}{x} + \interno{b}{\mu}$. La restricción del dual de Wolfe es $\nabla_x L(x, \mu) = 0$, lo que equivale a $c - B^\top \mu = 0$. Evaluando la función objetivo $L(x, \mu)$ bajo esta condición, el término con $x$ se anula, resultando $L(x, \mu) = \interno{b}{\mu}$. El dual de Wolfe se simplifica a maximizar $\interno{b}{\mu}$ sujeto a $B^\top \mu = c$ y $\mu \ge 0$, que es la formulación dual estándar planteada en \eqref{v1:eq:dual_lp}.
 \end{example}
 
 % ---------------------------------------------------------
 \subsection{Caracterización mediante Puntos de Silla}
 % ---------------------------------------------------------
 
-\begin{definition}[Punto de Silla]\label{def:punto_silla}
+\begin{definition}[Punto de Silla]\label{v1:def:punto_silla}
     Un punto $(\bar{x}, \bar{\lambda}, \bar{\mu}) \in \Omega \times \R^l \times \R^m_+$ es un \textbf{punto de silla} de la Lagrangiana si verifica la doble desigualdad topológica:
     \begin{equation}
         L(\bar{x}, \lambda, \mu) \le L(\bar{x}, \bar{\lambda}, \bar{\mu}) \le L(x, \bar{\lambda}, \bar{\mu})
-        \label{eq:punto_silla}
+        \label{v1:eq:punto_silla}
     \end{equation}
     para todo $x \in \Omega$, todo $\lambda \in \R^l$ y todo $\mu \ge 0$.
 \end{definition}
 
-\begin{theorem}[Teorema del Punto de Silla]\label{thm:teorema_punto_silla}
+\begin{theorem}[Teorema del Punto de Silla]\label{v1:thm:teorema_punto_silla}
     Un punto $\bar{x} \in \Omega$ es solución óptima del problema primal y $(\bar{\lambda}, \bar{\mu})$ es solución óptima del problema dual asociado con salto de dualidad nulo si y solo si $(\bar{x}, \bar{\lambda}, \bar{\mu})$ es un punto de silla de la Lagrangiana.
 \end{theorem}
 
 \begin{proof}
-    \( (\implies ): \) Por el \cref{lem:sup_lagrangiana} y la factibilidad de $\bar{x}$, se tiene $L(\bar{x}, \lambda, \mu) \le f(\bar{x}) = L(\bar{x}, \bar{\lambda}, \bar{\mu})$, probando la primera desigualdad. Para la segunda, la dualidad fuerte implica $L(\bar{x}, \bar{\lambda}, \bar{\mu}) = \varphi(\bar{\lambda}, \bar{\mu}) \le L(x, \bar{\lambda}, \bar{\mu})$.
+    \( (\implies ): \) Por el \cref{v1:lem:sup_lagrangiana} y la factibilidad de $\bar{x}$, se tiene $L(\bar{x}, \lambda, \mu) \le f(\bar{x}) = L(\bar{x}, \bar{\lambda}, \bar{\mu})$, probando la primera desigualdad. Para la segunda, la dualidad fuerte implica $L(\bar{x}, \bar{\lambda}, \bar{\mu}) = \varphi(\bar{\lambda}, \bar{\mu}) \le L(x, \bar{\lambda}, \bar{\mu})$.
     
-    \( (\impliedby ): \) Si es un punto de silla, al tomar el supremo en las variables duales de la primera desigualdad: $\sup L(\bar{x}, \lambda, \mu) \le L(\bar{x}, \bar{\lambda}, \bar{\mu}) < +\infty$. Por el \cref{lem:sup_lagrangiana}, esto fuerza a que $\bar{x} \in D$ y $L(\bar{x}, \bar{\lambda}, \bar{\mu}) = f(\bar{x})$. De la segunda desigualdad, $f(\bar{x}) \le L(x, \bar{\lambda}, \bar{\mu})$. Tomando el ínfimo sobre $x \in \Omega$, resulta $f(\bar{x}) \le \varphi(\bar{\lambda}, \bar{\mu})$. Por el Teorema de Dualidad Débil, esto obliga a que $f(\bar{x}) = \varphi(\bar{\lambda}, \bar{\mu})$, anulando el salto de dualidad.
+    \( (\impliedby ): \) Si es un punto de silla, al tomar el supremo en las variables duales de la primera desigualdad: $\sup L(\bar{x}, \lambda, \mu) \le L(\bar{x}, \bar{\lambda}, \bar{\mu}) < +\infty$. Por el \cref{v1:lem:sup_lagrangiana}, esto fuerza a que $\bar{x} \in D$ y $L(\bar{x}, \bar{\lambda}, \bar{\mu}) = f(\bar{x})$. De la segunda desigualdad, $f(\bar{x}) \le L(x, \bar{\lambda}, \bar{\mu})$. Tomando el ínfimo sobre $x \in \Omega$, resulta $f(\bar{x}) \le \varphi(\bar{\lambda}, \bar{\mu})$. Por el Teorema de Dualidad Débil, esto obliga a que $f(\bar{x}) = \varphi(\bar{\lambda}, \bar{\mu})$, anulando el salto de dualidad.
 \end{proof}
 
-\begin{example}[Punto de silla de la Lagrangiana]\label{ex:punto_silla_verificacion}
+\begin{example}[Punto de silla de la Lagrangiana]\label{v1:exa:punto_silla_verificacion}
     Tomemos el problema: $\min x^2 - 4x$ sujeto a $x - 1 \le 0$. El mínimo restringido en $D = (-\infty, 1]$ se alcanza en $\bar{x} = 1$, con $\bar{v} = -3$. La Lagrangiana es $L(x, \mu) = x^2 - 4x + \mu(x - 1)$. Igualando a cero la derivada en $\bar{x} = 1$, obtenemos $\bar{\mu} = 2$.
     
     Verificamos las condiciones de punto de silla para $(\bar{x}, \bar{\mu}) = (1, 2)$:
@@ -399,7 +399,7 @@ Esta definición establece que las penalizaciones óptimas permiten hallar el va
 \subsection{Subgradiente de la Función Dual}
 % ---------------------------------------------------------
 
-\begin{proposition}[Subgradiente de la Función Dual]\label{prop:dual_subgradient}
+\begin{proposition}[Subgradiente de la Función Dual]\label{v1:prop:dual_subgradient}
     Sean $( \lambda, \mu) \in \Delta$ y sea $x( \lambda, \mu) \in \Omega$ tal que se alcanza el ínfimo parcial, es decir, $\varphi( \lambda, \mu) = L(x( \lambda, \mu), \lambda, \mu)$. El vector de violaciones funcionales:
     \begin{equation}
         -\begin{pmatrix} h(x( \lambda, \mu)) \\ g(x( \lambda, \mu)) \end{pmatrix} \in \partial (-\varphi)( \lambda, \mu)
@@ -420,7 +420,7 @@ Esta definición establece que las penalizaciones óptimas permiten hallar el va
 \end{proof}
 
 \begin{controlbox}[Interpretación de puntos de silla]
-    Si se encuentra un punto de silla para la función Lagrangiana de un problema no convexo, ¿se puede asegurar que dicho punto define la solución global del problema primal? Justifique su respuesta basándose en las hipótesis del \cref{thm:teorema_punto_silla}.
+    Si se encuentra un punto de silla para la función Lagrangiana de un problema no convexo, ¿se puede asegurar que dicho punto define la solución global del problema primal? Justifique su respuesta basándose en las hipótesis del \cref{v1:thm:teorema_punto_silla}.
 \end{controlbox}
 
 \begin{notabox}[Relajación Lagrangiana]

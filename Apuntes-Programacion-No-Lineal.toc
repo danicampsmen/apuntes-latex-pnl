@@ -31,15 +31,15 @@
 \contentsline {subsection}{\numberline {3.4.2}Funciones convexas diferenciables}{34}{subsection.3.4.2}%
 \contentsline {subsection}{\numberline {3.4.3}Funciones convexas no diferenciables}{34}{subsection.3.4.3}%
 \contentsline {section}{\nonumberline Ejercicios del Capítulo}{35}{section*.10}%
-\contentsline {subsection}{Sección 3.1: Definiciones y hechos básicos de convexidad}{35}{section*.11}%
-\contentsline {subsection}{Sección 3.2: Conjuntos convexos y Teoremas de separación}{36}{section*.12}%
-\contentsline {subsection}{Sección 3.3: Teoremas de alternativa}{37}{section*.13}%
-\contentsline {subsection}{Sección 3.4: Funciones convexas}{38}{section*.14}%
+\contentsline {subsection}{Parte I: Definiciones y hechos básicos de convexidad}{35}{section*.11}%
+\contentsline {subsection}{Parte II: Conjuntos convexos y Teoremas de separación}{36}{section*.12}%
+\contentsline {subsection}{Parte III: Teoremas de alternativa}{37}{section*.13}%
+\contentsline {subsection}{Parte IV: Funciones convexas}{38}{section*.14}%
 \contentsline {chapter}{\numberline {4}Problemas con Restricciones Mixtas}{41}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Cono tangente en el caso de restricciones de igualdad y desigualdad}{41}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Condiciones de optimalidad de Karush-Kuhn-Tucker}{46}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Condiciones de optimalidad de segundo orden}{51}{section.4.3}%
-\contentsline {section}{\nonumberline Ejercicios del Capítulo 4}{57}{section*.15}%
+\contentsline {section}{\nonumberline Ejercicios del Capítulo}{57}{section*.15}%
 \contentsline {subsection}{Parte I: Mecánica Primal-Dual y Condición de Mangasarian-Fromovitz}{57}{section*.16}%
 \contentsline {subsection}{Parte II: Condiciones de Segundo Orden}{57}{section*.17}%
 \contentsline {subsection}{Parte III: Tópicos Avanzados - Dualidad, Conos Convexos y KKT Singular}{58}{section*.18}%
@@ -55,7 +55,7 @@
 \contentsline {subsection}{\numberline {5.2.7}El Problema Dual de Wolfe}{67}{subsection.5.2.7}%
 \contentsline {subsection}{\numberline {5.2.8}Caracterización mediante Puntos de Silla}{67}{subsection.5.2.8}%
 \contentsline {subsection}{\numberline {5.2.9}Subgradiente de la Función Dual}{68}{subsection.5.2.9}%
-\contentsline {section}{\nonumberline Ejercicios del Capítulo 5}{68}{section*.19}%
+\contentsline {section}{\nonumberline Ejercicios del Capítulo}{68}{section*.19}%
 \contentsline {subsection}{Parte I: Dualidad en Programación Lineal}{68}{section*.20}%
 \contentsline {subsection}{Parte II: Dualidad en Problemas Generales y Puntos de Silla}{69}{section*.21}%
 \contentsline {part}{\numberline {II}Métodos Computacionales}{72}{part.2}%

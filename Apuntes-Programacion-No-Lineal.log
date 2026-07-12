@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  12 JUL 2026 14:34
+This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  12 JUL 2026 18:55
  restricted system commands enabled.
  file:line:error style messages enabled.
 **Apuntes-Programacion-No-Lineal.tex
@@ -3387,10 +3387,10 @@ chapter 5.
 [59
 
 ]
-Package cleveref Info: loaded `spanish' language definitions on input line 125.
+Package cleveref Info: loaded `spanish' language definitions on input line 123.
 
  [60]
-Package cleveref Info: loaded `spanish' language definitions on input line 187.
+Package cleveref Info: loaded `spanish' language definitions on input line 186.
 
  [61])
 (./chapters/part1_optimalidad/chapter5_teoria_dualidad/02_dualidad_general_wolf
@@ -4378,7 +4378,7 @@ chapter without number
 
 
 ] (./Apuntes-Programacion-No-Lineal.ind)
-runsystem(latexminted cleantemp  --timestamp 20260712143437 619C487146398D9C4DAF
+runsystem(latexminted cleantemp  --timestamp 20260712185540 619C487146398D9C4DAF
 123F9D510570)...executed.
 
 (./Apuntes-Programacion-No-Lineal.aux
@@ -4407,15 +4407,15 @@ l'.
 )
 
 Here is how much of LuaTeX's memory you used:
- 88710 strings out of 475891
+ 88738 strings out of 475891
  476912,4101490 words of node,token memory allocated
  67795 words of node memory still in use:
    8 hlist, 2 vlist, 5 rule, 1 local_par, 19 glue, 4 kern, 1 penalty, 8 sub_mlis
 t, 1 margin_kern, 3 glyph, 25076 attribute, 102 glue_spec, 8356 attribute_list, 
 3 write nodes
-   avail lists: 1:18,2:73474,3:1543,4:73,5:1888,6:226,7:18418,8:85,9:3134,10:35,
+   avail lists: 1:18,2:73474,3:1543,4:74,5:1888,6:228,7:18418,8:85,9:3134,10:35,
 11:1739,12:1
- 107393 multiletter control sequences out of 65536+600000
+ 107421 multiletter control sequences out of 65536+600000
  153 fonts using 68302055 bytes
  125i,21n,128p,11236b,4829s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/fonts/opentype/stix/STIXTwoMath-Regular.otf></usr/share/fonts/openty
@@ -4427,7 +4427,7 @@ al/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreheros-regular.o
 tf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgyreher
 os-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msam10.pfb>
-Output written on Apuntes-Programacion-No-Lineal.pdf (245 pages, 1939869 bytes).
+Output written on Apuntes-Programacion-No-Lineal.pdf (245 pages, 1939878 bytes).
 
 
 PDF statistics: 5828 PDF objects out of 6186 (max. 8388607)
