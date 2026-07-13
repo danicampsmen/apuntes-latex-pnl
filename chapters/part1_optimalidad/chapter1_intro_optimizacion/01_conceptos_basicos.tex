@@ -1,158 +1,90 @@
-% --- Archivo: 01_conceptos_basicos.tex ---
+% --- Archivo: 01_existencia_soluciones.tex ---
 
-% =========================================================
-\chapter{Introducción a la optimización} % Asegúrate de tener el \chapter si este es el inicio
+\chapter{Introducción a la Optimización}
 \label{v1:chap:1}
 
+En este capítulo recordamos varios hechos de la teoría de Optimización, tales como la existencia de soluciones, las condiciones de regularidad de las restricciones y de optimalidad, convexidad de conjuntos y de funciones, y elementos de la teoría de dualidad. El objetivo de este capítulo es facilitar las referencias futuras a lo largo del libro.
+Las demostraciones no serán presentadas. Se espera que el lector ya posea conocimientos sólidos de estos asuntos teóricos y que, en particular, haya leído el primer volumen \cite{izmailov2020otimizacaovolume1} de este libro. Presentaremos también algunos hechos auxiliares del Análisis y del Álgebra Lineal, que serán utilizados a lo largo del libro.
 
-\begin{objetive}
- Este capítulo establece los fundamentos teóricos de los problemas de optimización. Se presentan los resultados de existencia de soluciones y las condiciones de optimalidad (necesarias y suficientes) para problemas irrestrictos y con restricciones. El análisis de restricciones se desarrollará en su forma primal mediante el uso riguroso de conos y direcciones tangentes, evitando la introducción prematura de hipótesis restrictivas.
-\end{objetive}
-
-\begin{notation}
- A lo largo de este texto, para una función escalar diferenciable $f \colon \Rn \to \R$, denotaremos su vector gradiente (entendido como vector columna) mediante el operador nabla $\nabla f(x)$. Análogamente, su matriz Hessiana de segundas derivadas se denotará por $\nabla^2 f(x)$.
-\end{notation}
-
-
-\section{Definiciones y algunos hechos básicos}
-\label{v1:sec:1.1}
+% =========================================================
+\section{Existencia de soluciones}
+\label{v2:sec:1.1}
 % =========================================================
 
-Sean dados conjuntos $D \subset \Rn$ y $\Omega \subset \Rn$ tales que $D \subset \Omega$, y una función $f : \Omega \to \R$. El problema principal a ser considerado en este libro es el de hallar un minimizador de $f$ en el conjunto $D$. Este problema se escribirá como:
+Sean dados un conjunto $D \subset \R^n$ y una función $f : \Omega \to \R$, donde $D \subset \Omega$. Este libro está dedicado a métodos computacionales para el problema de hallar un minimizador de $f$ en el conjunto $D$. Este problema será escrito como
 \begin{equation}
- \min f(x) \quad \text{sujeto a} \quad x \in D.
- \label{v1:eq:1.1}
+    \min f(x) \quad \text{sujeto a} \quad x \in D.
+    \label{v2:eq:1.1}
 \end{equation}
-El conjunto $D$ será llamado \textbf{conjunto factible} del problema, los puntos de $D$ serán llamados \textbf{puntos factibles}, y $f$ será llamada \textbf{función objetivo}.
+El conjunto $D$ será llamado \deftech{conjunto factible} del problema, los puntos de $D$ serán llamados \deftech{puntos factibles}, y $f$ será llamada \deftech{función objetivo}.
 
-\begin{definition}[Minimizadores]\label{v1:def:1.1.1}
- Dado el problema \eqref{v1:eq:1.1}, un punto $\bar{x} \in D$ se denomina:
- \begin{enuthm}
- \item \textbf{Minimizador global} de \eqref{v1:eq:1.1}, si
- \[
- f(\bar{x}) \le f(x) \quad \forall x \in D;
- \]
- \item \textbf{Minimizador local} de \eqref{v1:eq:1.1}, si existe una vecindad $U$ de $\bar{x}$ tal que
- \[
- f(\bar{x}) \le f(x) \quad \forall x \in D \cap U.
- \]
- \end{enuthm}
- De forma equivalente, $\bar{x} \in D$ es minimizador local si existe $\varepsilon > 0$ tal que $f(\bar{x}) \le f(x)$ para todo $x \in \{x \in D \mid \norm{x - \bar{x}} \le \varepsilon\}$.
+\begin{definition}\label{v2:def:1.1.1}
+    Decimos que un punto $\bar{x} \in D$ es
+    \begin{enumerate}[(a)]
+        \item \textbf{minimizador global} de \eqref{v2:eq:1.1}, si
+        \begin{equation}
+            f(\bar{x}) \le f(x) \quad \forall x \in D;
+            \label{v2:eq:1.2}
+        \end{equation}
+        \item \textbf{minimizador local} de \eqref{v2:eq:1.1}, si existe una vecindad $U$ de $\bar{x}$ tal que
+        \begin{equation}
+            f(\bar{x}) \le f(x) \quad \forall x \in D \cap U.
+            \label{v2:eq:1.3}
+        \end{equation}
+    \end{enumerate}
+    Si para todo $x \neq \bar{x}$ la desigualdad \eqref{v2:eq:1.2} o \eqref{v2:eq:1.3} es estricta, $\bar{x}$ será llamado minimizador estricto (global o local, respectivamente).
 \end{definition}
 
-\begin{center}
-\begin{tikzpicture}[>=Stealth, scale=0.9]
- \draw[->] (-1,0) -- (7,0) node[right] {$x$};
- \draw[->] (0,-0.5) -- (0,4.5);
- % Curva con varios mínimos
- \draw[thick, MidnightBlue, domain=0.5:6.5, samples=200] 
- plot (\x, {0.3*(\x-2)^2 + 1.2*sin(2*(\x-2) r) + 1.5}) 
- node[right] {$f(x)$};
- % Puntos
- \filldraw (2,1.5) circle (2pt) node[above left] {$\bar{x}^1$};
- \filldraw (4,0.8) circle (2pt) node[above right] {$\bar{x}^2$};
- \filldraw (6,1.2) circle (2pt) node[above] {$\bar{x}^3$};
- % Línea del valor óptimo
- \draw[dashed] (0,0.8) -- (4,0.8) node[left] {$\bar{v}$};
- % Etiquetas
- \node[red!80!black, below] at (4,0.8) {$\bar{x}^2$ (global)};
- \node[red!80!black, below] at (2,1.5) {$\bar{x}^1$ (local)};
- \node[red!80!black, below] at (6,1.2) {$\bar{x}^3$ (local)};
-\end{tikzpicture}
-\end{center}
-
-\begin{remark}
- Por la definición, es claro que todo minimizador global también es minimizador local, pero no recíprocamente. Si para todo $x \neq \bar{x}$ la desigualdad correspondiente es estricta, $\bar{x}$ será llamado \textbf{minimizador estricto} (global o local, respectivamente).
-\end{remark}
-
-\begin{definition}[Valor óptimo]\label{v1:def:1.1.2}
- El \textbf{valor óptimo} del problema \eqref{v1:eq:1.1} es el valor $\bar{v} \in [-\infty, +\infty)$ definido por
- \[
- \bar{v} = \inf_{x \in D} f(x).
- \]
+\begin{definition}\label{v2:def:1.1.2}
+    Decimos que $\bar{v} \in [-\infty, +\infty]$ definido por
+    \[
+        \bar{v} = \inf \{ f(x) \mid x \in D \}
+    \]
+    es el \textbf{valor óptimo} del problema \eqref{v2:eq:1.1}, donde entendemos que $\bar{v} = +\infty$ si $D = \emptyset$.
 \end{definition}
 
-\begin{remark}
- Una función puede admitir varios minimizadores globales, pero el valor óptimo (global) del problema, naturalmente, siempre es el mismo.
-\end{remark}
+Una función puede admitir varios minimizadores globales, pero el valor óptimo (global) del problema, naturalmente, siempre es el mismo. Por la definición, es claro que todo minimizador global también es minimizador local, pero no recíprocamente.
+Cuando en la \cref{v2:def:1.1.2} tenemos $\bar{v} = +\infty$ o $\bar{v} = -\infty$, el problema \eqref{v2:eq:1.1} no posee solución global. En el primer caso, el conjunto factible del problema es vacío. En el segundo caso, $f$ es ilimitada inferiormente en el conjunto $D \neq \emptyset$. Pero incluso cuando $\bar{v}$ es finito, el minimizador global puede no existir.
 
-Cuando existen una vecindad $U$ de $\bar{x} \in D$ y un número $\beta > 0$ tales que
-\[
- f(x) - f(\bar{x}) \ge \beta \norm{x - \bar{x}} \quad \forall x \in D \cap U,
-\]
-decimos que $f$ satisface la \textbf{condición de crecimiento lineal} en el conjunto $D$ en torno a $\bar{x}$. Decimos que $f$ satisface la \textbf{condición de crecimiento cuadrático} cuando
-\[
- f(x) - f(\bar{x}) \ge \beta \norm{x - \bar{x}}^2 \quad \forall x \in D \cap U.
-\]
-Observamos que cualquiera de estas dos condiciones implica que $\bar{x}$ es un minimizador local estricto.
+Algunas de las condiciones que garantizan la existencia de solución global son las siguientes.
 
-\begin{proposition}\label{v1:prop:1.1.1}
- Si la función $f$ satisface la condición de crecimiento lineal o cuadrático en $D$ en torno a $\bar{x}$, entonces $\bar{x}$ es un minimizador local estricto de $f$.
-\end{proposition}
+\begin{theorem}[Teorema de Weierstrass]\label{v2:thm:1.1.1}
+    Sean $D \subset \R^n$ un conjunto compacto no vacío y $f : D \to \R$ una función continua. Entonces, el problema de minimizar $f$ en $D$ tiene una solución global.
+\end{theorem}
 
 \begin{proof}
- Supongamos que se cumple la condición de crecimiento cuadrático (el análisis para el lineal es análogo). Existe una vecindad $U$ de $\bar{x}$ y $\beta > 0$ tal que $f(x) - f(\bar{x}) \ge \beta \norm{x - \bar{x}}^2$ para todo $x \in D \cap U$. Sea $x \in D \cap U$ tal que $x \neq \bar{x}$. Dado que la norma es definida positiva, $\norm{x - \bar{x}} > 0$, lo que implica que $\beta \norm{x - \bar{x}}^2 > 0$. Por lo tanto $f(x) - f(\bar{x}) > 0$, es decir, $f(\bar{x}) < f(x)$. Esto satisface la definición de minimizador local estricto.
+    Véase el \cref{v1:thm:1.2.1} en \cite{izmailov2020otimizacaovolume1}.
 \end{proof}
 
-También es fácil ver que cualquier problema de maximización
-\begin{equation}
- \max f(x) \quad \text{sujeto a} \quad x \in D \label{v1:eq:1.2}
-\end{equation}
-puede ser transformado en un problema de minimización equivalente:
-\[
- \min -f(x) \quad \text{sujeto a} \quad x \in D.
-\]
+Otro resultado importante se basa en la noción de conjunto de nivel de una función.
 
-\begin{center}
-\begin{tikzpicture}[>=Stealth, scale=0.8]
- \draw[->] (-3,0) -- (3,0) node[right] {$x$};
- \draw[->] (0,-3) -- (0,3);
- \draw[thick, MidnightBlue, domain=-2.5:2.5, samples=100] plot (\x, {-0.4*\x*\x + 2}) node[right] {$f(x)$};
- \draw[thick, red!80!black, domain=-2.5:2.5, samples=100] plot (\x, {0.4*\x*\x - 2}) node[right] {$-f(x)$};
- \draw[dashed] (0,2) -- (0,-2);
- \filldraw (0,2) circle (2pt) node[above right] {$\bar{x}$};
- \filldraw (0,-2) circle (2pt) node[below right] {$\bar{x}$};
- \node[left] at (0,2) {$\bar{v}$};
- \node[left] at (0,-2) {$-\bar{v}$};
-\end{tikzpicture}
-\end{center}
+\begin{definition}\label{v2:def:1.1.3}
+    El conjunto de nivel de la función $f : D \to \R$ asociado a $c \in \R$, es el conjunto dado por
+    \[
+        L_{f,D}(c) = \{ x \in D \mid f(x) \le c \}.
+    \]
+\end{definition}
 
-\begin{proposition}[Equivalencia entre maximización y minimización]\label{v1:prop:1.1.2}
- Sea el problema de maximización \eqref{v1:eq:1.2}. Un punto $\bar{x} \in D$ es maximizador de \eqref{v1:eq:1.2} si y solo si $\bar{x}$ es minimizador del problema equivalente $\min_{x \in D} -f(x)$. Además, se satisface que $\max_{x \in D} f(x) = -\min_{x \in D} (-f(x))$.
-\end{proposition}
+En particular, tenemos el siguiente resultado.
+
+\begin{corollary}\label{v2:cor:1.1.1}
+    Sean $D \subset \R^n$ y $f : D \to \R$ continua en el conjunto $D$. Supongamos que existe $c \in \R$ tal que el conjunto de nivel $L_{f,D}(c)$ sea no vacío y compacto.
+    Entonces, el problema de minimizar $f$ en $D$ posee una solución global.
+\end{corollary}
 
 \begin{proof}
- Sea $\bar{x}$ un maximizador de $f$ en $D$. Por definición, $f(\bar{x}) \ge f(x)$ para todo $x \in D$. Multiplicando por $-1$, se invierte el orden: $-f(\bar{x}) \le -f(x)$ para todo $x \in D$. Esto es exactamente la definición de $\bar{x}$ como minimizador de $-f$ en $D$. La igualdad de los valores óptimos es consecuencia de las propiedades del supremo y el ínfimo: $\sup_{x \in D} f(x) = -\inf_{x \in D} (-f(x))$.
+    Véase el \cref{v1:cor:1.2.1} en \cite{izmailov2020otimizacaovolume1}.
 \end{proof}
 
-En particular, las soluciones locales y globales de ambos problemas son las mismas, con signos opuestos para los valores óptimos. Por eso, desde el punto de vista matemático, no existe ninguna diferencia relevante entre los problemas de minimización y de maximización: todos los resultados obtenidos para una clase de problemas pueden ser extendidos a la otra clase sin dificultad. Por razones de tradición, en este libro consideramos sistemáticamente los problemas de minimización.
+Otro resultado de existencia utiliza la noción de función coercitiva.
 
-Típicamente, el conjunto factible de un problema está definido por un sistema de igualdades y/o desigualdades y/o una inclusión, como, por ejemplo,
-\begin{equation}
- D = \{x \in \Omega \mid h(x) = 0, \; g(x) \le 0\}, \label{v1:eq:1.3}
-\end{equation}
-donde $\Omega \subset \Rn$, $h : \Omega \to \R^l$ y $g : \Omega \to \R^m$ (suponemos que la función objetivo $f$ también está definida en el conjunto $\Omega$). El conjunto $\Omega$ representa lo que se llama \textbf{restricciones directas} y las restricciones de igualdad y desigualdad se llaman \textbf{restricciones funcionales}. Cabe resaltar que la separación de las restricciones en directas y funcionales en la mayoría de los casos es solo una cuestión de simple conveniencia. Por ejemplo, la restricción directa $x \in \Omega = \R_+^n$ puede escribirse en el formato funcional $x \in \{x \in \Rn \mid x_i \ge 0,\ i=1,\dots,n\}$. 
-
-En este libro, casi siempre supondremos que todas las restricciones de un problema dado son de un solo tipo: o directas o funcionales. En principio, las restricciones de igualdad siempre pueden escribirse en forma de desigualdades duplicando el número de restricciones:
-\[
- h_i(x) = 0 \iff h_i(x) \le 0 \quad \text{y} \quad -h_i(x) \le 0.
-\]
-Las restricciones de desigualdad también pueden transformarse en igualdades mediante la introducción de variables artificiales, llamadas ``de holgura'':
-\[
- g_i(x) \le 0 \iff g_i(x) + z_i^2 = 0, \quad z_i \in \R.
-\]
-Sin embargo, las transformaciones de este tipo son indeseables, tanto desde el punto de vista teórico como desde el punto de vista computacional. En primer lugar, en muchos casos estas transformaciones llevan a condiciones de optimalidad más débiles que las obtenidas en un análisis directo de las restricciones originales. En segundo lugar, el número de restricciones y/o variables aumenta, lo que hace el problema más difícil de resolver en la práctica. Por estas razones, en capítulos posteriores estudiaremos el formato general de restricciones mixtas \eqref{v1:eq:1.3} de forma directa.
-
-Cuando $D = \Rn$, decimos que el problema \eqref{v1:eq:1.1} es \textbf{irrestricto}, y cuando $D \neq \Rn$ hablamos de \textbf{optimización con restricciones}. 
-
-\begin{definition}[Tipos de problemas especiales]\label{v1:def:1.1.3}
- \begin{enuthm}
- \item Decimos que un conjunto es \textbf{poliedral} cuando puede ser representado como el conjunto de las soluciones de un sistema finito de ecuaciones e inecuaciones lineales: $D = \{x \in \Rn \mid Ax = a,\; Bx \le b\}$.
- \item Una función $f : \Rn \to \R$ definida por $f(x) = \frac{1}{2}\interno{Qx}{x} + \interno{q}{x} + c$, donde $Q$ es una matriz simétrica, se llama \textbf{función cuadrática}.
- \item Si $D$ es un conjunto poliedral y $f$ es cuadrática, el problema se llama de \textbf{programación cuadrática}. Si $f$ es lineal ($Q = 0$), es de \textbf{programación lineal}.
- \item Cuando $D$ es un conjunto convexo y $f$ es una función convexa, decimos que el problema es de \textbf{programación convexa}.
- \end{enuthm}
+\begin{definition}\label{v2:def:1.1.4}
+    Decimos que la función $f : D \to \R$ es coercitiva en el conjunto $D$, cuando para cada secuencia $\{x^k\} \subset D$ tal que $\|x^k\| \to \infty$ o $\{x^k\} \to x \in \cl D \setminus D$ ($k \to \infty$), se tiene que $\limsup_{k \to \infty} f(x^k) = +\infty$.
 \end{definition}
+
+\begin{corollary}\label{v2:cor:1.1.2}
+    Sean $D \subset \R^n$ y $f : D \to \R$ una función continua coercitiva en $D$. Entonces, el problema de minimizar $f$ en $D$ posee una solución global.
+\end{corollary}
 %%% Local Variables:
 %%% mode: LaTeX
 %%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"

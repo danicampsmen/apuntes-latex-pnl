@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  12 JUL 2026 20:23
+This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  12 JUL 2026 21:16
  restricted system commands enabled.
  file:line:error style messages enabled.
 **Apuntes-Programacion-No-Lineal.tex
@@ -2873,6 +2873,66 @@ Package babel Info: 'spanish' activates 'spanish' shorthands.
 (babel)             Reported on input line 18.
 
 
+LaTeX Warning: Label `v2:eq:1.1' multiply defined.
+
+
+LaTeX Warning: Label `v2:eq:1.1@cref' multiply defined.
+
+
+LaTeX Warning: Label `v2:def:1.1.1' multiply defined.
+
+
+LaTeX Warning: Label `v2:def:1.1.1@cref' multiply defined.
+
+
+LaTeX Warning: Label `v2:eq:1.2' multiply defined.
+
+
+LaTeX Warning: Label `v2:eq:1.2@cref' multiply defined.
+
+
+LaTeX Warning: Label `v2:eq:1.3' multiply defined.
+
+
+LaTeX Warning: Label `v2:eq:1.3@cref' multiply defined.
+
+
+LaTeX Warning: Label `v2:def:1.1.2' multiply defined.
+
+
+LaTeX Warning: Label `v2:def:1.1.2@cref' multiply defined.
+
+
+LaTeX Warning: Label `v2:thm:1.1.1' multiply defined.
+
+
+LaTeX Warning: Label `v2:thm:1.1.1@cref' multiply defined.
+
+
+LaTeX Warning: Label `v2:def:1.1.3' multiply defined.
+
+
+LaTeX Warning: Label `v2:def:1.1.3@cref' multiply defined.
+
+
+LaTeX Warning: Label `v2:cor:1.1.1' multiply defined.
+
+
+LaTeX Warning: Label `v2:cor:1.1.1@cref' multiply defined.
+
+
+LaTeX Warning: Label `v2:def:1.1.4' multiply defined.
+
+
+LaTeX Warning: Label `v2:def:1.1.4@cref' multiply defined.
+
+
+LaTeX Warning: Label `v2:cor:1.1.2' multiply defined.
+
+
+LaTeX Warning: Label `v2:cor:1.1.2@cref' multiply defined.
+
+
 LaTeX Warning: Label `eq:4.159' multiply defined.
 
 
@@ -3173,14 +3233,9 @@ ad on input line 45.
 
 ]
 Package babel Info: 'spanish' activates 'spanish' shorthands.
-(babel)             Reported on input line 95.
-Package cleveref Info: loaded `spanish' language definitions on input line 95.
- [2]
-Overfull \hbox (0.58997pt too wide) detected at line 124
- \TU/STIXTwoText-Regular.ttf(0)/b/n/10 206
- []
-
-)
+(babel)             Reported on input line 94.
+Package cleveref Info: loaded `spanish' language definitions on input line 94.
+ [2])
 \tf@toc=\write7
 
 \openout7 = Apuntes-Programacion-No-Lineal.toc
@@ -3201,313 +3256,285 @@ warning  (pdf backend): ignoring duplicate destination with the name 'page.1'
 (./chapters/part1_optimalidad/chapter1_intro_optimizacion/01_conceptos_basicos.
 tex
 chapter 1.
-
+Lua-only attribute luaul1 = 6
 warning  (pdf backend): ignoring duplicate destination with the name 'page.2'
 [2
 
-]
-Package cleveref Info: loaded `spanish' language definitions on input line 133.
-
- [3])
+])
 (./chapters/part1_optimalidad/chapter1_intro_optimizacion/02_existencia_solucio
 nes.tex
-Package cleveref Info: loaded `spanish' language definitions on input line 37.
- [4]
-Package cleveref Info: loaded `spanish' language definitions on input line 90.
- [5])
-(./chapters/part1_optimalidad/chapter1_intro_optimizacion/03_condiciones_irrest
-rictos.tex
-Package cleveref Info: loaded `spanish' language definitions on input line 13.
- [6]
-Package cleveref Info: loaded `spanish' language definitions on input line 104.
 
- [7])
-(./chapters/part1_optimalidad/chapter1_intro_optimizacion/04_cono_tangente_prim
-al.tex
-Package cleveref Info: loaded `spanish' language definitions on input line 32.
- [8]
-Package cleveref Info: loaded `spanish' language definitions on input line 100.
+LaTeX Warning: Reference `v1:def:1.1.2' on page 1 undefined on input line 8.
 
- [9])
-(./chapters/part1_optimalidad/chapter1_intro_optimizacion/exercises.tex
-Package cleveref Info: loaded `spanish' language definitions on input line 29.
 
-[10]
+LaTeX Warning: Reference `v1:eq:1.1' on page 3 undefined on input line 8.
+
+Package cleveref Info: loaded `spanish' language definitions on input line 54.
+[3]
+
+LaTeX Warning: Reference `v1:eq:1.1' on page 4 undefined on input line 81.
+
 Package cleveref Info: loaded `spanish' language definitions on input line 114.
 
- [11])
+[4])
+(./chapters/part1_optimalidad/chapter1_intro_optimizacion/03_condiciones_irrest
+rictos.tex
+Package cleveref Info: loaded `spanish' language definitions on input line 50.
+ [5]
+Package cleveref Info: loaded `spanish' language definitions on input line 115.
+
+ [6])
+(./chapters/part1_optimalidad/chapter1_intro_optimizacion/04_cono_tangente_prim
+al.tex
+Package cleveref Info: loaded `spanish' language definitions on input line 69.
+ [7]
+Package cleveref Info: loaded `spanish' language definitions on input line 151.
+
+ [8])
+(./chapters/part1_optimalidad/chapter1_intro_optimizacion/exercises.tex
+
+LaTeX Warning: Reference `v1:eq:1.1' on page 9 undefined on input line 8.
+
+
+LaTeX Warning: Reference `v1:eq:1.1' on page 9 undefined on input line 17.
+
+
+LaTeX Warning: Reference `v1:eq:1.1' on page 9 undefined on input line 41.
+
+
+LaTeX Warning: Reference `v1:eq:1.1' on page 9 undefined on input line 45.
+
+Package cleveref Info: loaded `spanish' language definitions on input line 66.
+[9])
 (./chapters/part1_optimalidad/chapter2_restricciones_igualdad/01_subespacio_tan
 gente.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 3.
- [12]
+ [10]
 chapter 2.
-[13
+[11
 
 ]
 Package cleveref Info: loaded `spanish' language definitions on input line 108.
 
- [14]
+ [12]
 Package cleveref Info: loaded `spanish' language definitions on input line 162.
 
- [15])
+ [13])
 (./chapters/part1_optimalidad/chapter2_restricciones_igualdad/02_primer_orden_l
 agrange.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 33.
- [16]
+ [14]
 Package cleveref Info: loaded `spanish' language definitions on input line 88.
- [17])
+ [15])
 (./chapters/part1_optimalidad/chapter2_restricciones_igualdad/03_segundo_orden.
 tex
 Package cleveref Info: loaded `spanish' language definitions on input line 28.
- [18]
+ [16]
 Package cleveref Info: loaded `spanish' language definitions on input line 61.
- [19])
+ [17])
 (./chapters/part1_optimalidad/chapter2_restricciones_igualdad/exercises.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 41.
 
-[20]
+[18]
 Package cleveref Info: loaded `spanish' language definitions on input line 93.
- [21]
+ [19]
 Package cleveref Info: loaded `spanish' language definitions on input line 134.
 
- [22])
+ [20])
 (./chapters/part1_optimalidad/chapter3_analisis_convexo/01_conjuntos_funciones_
 convexas.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 3.
- [23]
+ [21]
 chapter 3.
-Lua-only attribute luaul1 = 6 [24
+[22
 
 ]
 Package cleveref Info: loaded `spanish' language definitions on input line 141.
 
- [25]
+ [23]
 Package cleveref Info: loaded `spanish' language definitions on input line 224.
 
- [26])
+ [24])
 (./chapters/part1_optimalidad/chapter3_analisis_convexo/02_teoremas_separacion.
 tex
 Package cleveref Info: loaded `spanish' language definitions on input line 52.
- [27]
+ [25]
 Package cleveref Info: loaded `spanish' language definitions on input line 124.
 
- [28]
+ [26]
 Package cleveref Info: loaded `spanish' language definitions on input line 205.
 
- [29]
+ [27]
 Package cleveref Info: loaded `spanish' language definitions on input line 295.
 
- [30])
+ [28])
 (./chapters/part1_optimalidad/chapter3_analisis_convexo/03_teoremas_alternativa
 .tex
 Package cleveref Info: loaded `spanish' language definitions on input line 51.
- [31]
+ [29]
 Package cleveref Info: loaded `spanish' language definitions on input line 98.
- [32])
+ [30])
 (./chapters/part1_optimalidad/chapter3_analisis_convexo/04_funciones_convexas.t
 ex
 Package cleveref Info: loaded `spanish' language definitions on input line 76.
- [33]
+ [31]
 Package cleveref Info: loaded `spanish' language definitions on input line 151.
 
- [34])
+ [32])
 (./chapters/part1_optimalidad/chapter3_analisis_convexo/exercises.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 51.
- [35]
+ [33]
 Package cleveref Info: loaded `spanish' language definitions on input line 141.
 
 
-[36]
+[34]
 Package cleveref Info: loaded `spanish' language definitions on input line 227.
 
- [37]
+ [35]
 Package cleveref Info: loaded `spanish' language definitions on input line 310.
 
- [38]
+ [36]
 Package cleveref Info: loaded `spanish' language definitions on input line 397.
 
- [39])
+ [37])
 (./chapters/part1_optimalidad/chapter4_restricciones_mixtas/01_cono_tangente_mi
 xto.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 3.
- [40]
+ [38]
 chapter 4.
-[41
+[39
 
 ]
 Package cleveref Info: loaded `spanish' language definitions on input line 125.
 
- [42]
+ [40]
 Package cleveref Info: loaded `spanish' language definitions on input line 187.
 
- [43]
+ [41]
 Package cleveref Info: loaded `spanish' language definitions on input line 249.
 
- [44])
+ [42])
 (./chapters/part1_optimalidad/chapter4_restricciones_mixtas/02_kkt.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 9.
- [45]
+ [43]
 Package cleveref Info: loaded `spanish' language definitions on input line 65.
 
-[46]
+[44]
 Package cleveref Info: loaded `spanish' language definitions on input line 115.
 
- [47]
+ [45]
 Package cleveref Info: loaded `spanish' language definitions on input line 181.
 
- [48]
+ [46]
 Package cleveref Info: loaded `spanish' language definitions on input line 227.
 
- [49]
+ [47]
 Package cleveref Info: loaded `spanish' language definitions on input line 285.
 
- [50])
+ [48])
 (./chapters/part1_optimalidad/chapter4_restricciones_mixtas/03_segundo_orden_mi
 xto.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 38.
- [51]
+ [49]
 Package cleveref Info: loaded `spanish' language definitions on input line 97.
- [52]
+ [50]
 Package cleveref Info: loaded `spanish' language definitions on input line 153.
 
- [53]
+ [51]
 Package cleveref Info: loaded `spanish' language definitions on input line 210.
 
- [54]
+ [52]
 Package cleveref Info: loaded `spanish' language definitions on input line 264.
 
- [55])
+ [53])
 (./chapters/part1_optimalidad/chapter4_restricciones_mixtas/exercises.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 9.
 
-[56]
+[54]
 Package cleveref Info: loaded `spanish' language definitions on input line 73.
- [57])
+ [55])
 (./chapters/part1_optimalidad/chapter5_teoria_dualidad/01_programacion_lineal.t
 ex
 Package cleveref Info: loaded `spanish' language definitions on input line 3.
- [58]
+ [56]
 chapter 5.
-[59
+[57
 
 ]
 Package cleveref Info: loaded `spanish' language definitions on input line 123.
 
- [60]
+ [58]
 Package cleveref Info: loaded `spanish' language definitions on input line 186.
 
- [61])
+ [59])
 (./chapters/part1_optimalidad/chapter5_teoria_dualidad/02_dualidad_general_wolf
 e.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 64.
- [62]
+ [60]
 Package cleveref Info: loaded `spanish' language definitions on input line 134.
 
- [63]
+ [61]
 Package cleveref Info: loaded `spanish' language definitions on input line 194.
 
- [64]
+ [62]
 Package cleveref Info: loaded `spanish' language definitions on input line 262.
 
- [65]
+ [63]
 Package cleveref Info: loaded `spanish' language definitions on input line 324.
 
- [66]
+ [64]
 Package cleveref Info: loaded `spanish' language definitions on input line 390.
 
- [67])
+ [65])
 (./chapters/part1_optimalidad/chapter5_teoria_dualidad/exercises.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 27.
- [68]
+ [66]
 Package cleveref Info: loaded `spanish' language definitions on input line 91.
 
-[69]
+[67]
 Package cleveref Info: loaded `spanish' language definitions on input line 149.
 
- [70])
+ [68])
 Package cleveref Info: loaded `spanish' language definitions on input line 90.
- [71]
+ [69]
 part II.
 Package scrkbase Info: You've told me to use the font selection of the element
 (scrkbase)             `partprefix' that is an alias of element `partnumber'
 (scrkbase)              on input line 90.
-[72
+[70
 
 ]
 chapter 6.
 
 (./chapters/part2_metodos/chapter6_preliminares_vol2/01_existencia_soluciones.t
-ex [73
+ex [71
 
 ])
 (./chapters/part2_metodos/chapter6_preliminares_vol2/02_condiciones_optimalidad
 .tex
-Package cleveref Info: loaded `spanish' language definitions on input line 55.
- [74]
-Package cleveref Info: loaded `spanish' language definitions on input line 129.
+Package cleveref Info: loaded `spanish' language definitions on input line 60.
+ [72]
+Overfull \hbox (25.55548pt too wide) in paragraph at lines 118--120
+[]\TU/STIXTwoText-Regular.ttf(0)/m/it/10 Sean $\TU/STIXTwoMath(1)/m/n/10 𝑓 [
+] [] ℝ[] → ℝ$ \TU/STIXTwoText-Regular.ttf(0)/m/it/10 y $\TU/STIXTwoMath(1
+)/m/n/10 𝑔 [] [] ℝ[] →
+ []
 
- [75]
+Package cleveref Info: loaded `spanish' language definitions on input line 135.
 
-LaTeX Warning: Reference `v1:thm:4.3.2' on page 1 undefined on input line 192.
+[73]) (./chapters/part2_metodos/chapter6_preliminares_vol2/03_convexidad.tex
+Package cleveref Info: loaded `spanish' language definitions on input line 74.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 200.
+[74]) (./chapters/part2_metodos/chapter6_preliminares_vol2/04_dualidad.tex
+Package cleveref Info: loaded `spanish' language definitions on input line 40.
 
-[76]) (./chapters/part2_metodos/chapter6_preliminares_vol2/03_convexidad.tex
-Package cleveref Info: loaded `spanish' language definitions on input line 37.
-
-[77]
-
-LaTeX Warning: Reference `v1:cor:3.4.2' on page 1 undefined on input line 109.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 125.
-
-[78]
-Package cleveref Info: loaded `spanish' language definitions on input line 211.
-
- [79]
-
-LaTeX Warning: Reference `v1:thm:3.4.15' on page 1 undefined on input line 259.
-
-
-) (./chapters/part2_metodos/chapter6_preliminares_vol2/04_dualidad.tex
-Package cleveref Info: loaded `spanish' language definitions on input line 32.
- [80]
-
-LaTeX Warning: Reference `v1:thm:5.2.1' on page 1 undefined on input line 53.
-
-
-LaTeX Warning: Reference `v1:thm:5.2.2' on page 1 undefined on input line 70.
-
-
-LaTeX Warning: Reference `v1:thm:5.2.3' on page 1 undefined on input line 81.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 91.
-[81]
-
-LaTeX Warning: Reference `v1:thm:5.2.6' on page 1 undefined on input line 96.
-
-
-LaTeX Warning: Reference `v1:prop:5.2.2' on page 1 undefined on input line 113.
-
-
-)
+[75])
 (./chapters/part2_metodos/chapter6_preliminares_vol2/05_herramientas_analisis_a
-lgebra.tex
-
-LaTeX Warning: Reference `v2:sec:4.4.3' on page 1 undefined on input line 49.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 57.
-[82]
-Package cleveref Info: loaded `spanish' language definitions on input line 136.
-
- [83])
+lgebra.tex)
 (./chapters/part2_metodos/chapter6_preliminares_vol2/06_analisis_no_diferenciab
 le.tex
-
-LaTeX Warning: Reference `v2:sec:1.2' on page 1 undefined on input line 10.
-
 Package cleveref Info: loaded `spanish' language definitions on input line 39.
-[84]
+ [76]
 
 LaTeX Warning: Reference `v2:sec:4.5' on page 1 undefined on input line 48.
 
@@ -3515,38 +3542,38 @@ LaTeX Warning: Reference `v2:sec:4.5' on page 1 undefined on input line 48.
 LaTeX Warning: Reference `v2:sec:4.5' on page 1 undefined on input line 50.
 
 
-LaTeX Warning: Reference `v2:sec:1.3' on page 1 undefined on input line 66.
-
-
 LaTeX Warning: Reference `v2:sec:4.5' on page 1 undefined on input line 68.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 98.
-[85]
+Package cleveref Info: loaded `spanish' language definitions on input line 95.
+[77]
 
 LaTeX Warning: Reference `v2:sec:4.7' on page 1 undefined on input line 151.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 158.
 
-[86]) (./chapters/part2_metodos/chapter6_preliminares_vol2/exercises.tex)
+[78]) (./chapters/part2_metodos/chapter6_preliminares_vol2/exercises.tex
+
+LaTeX Warning: Reference `v2:lem:1.5.3' on page 1 undefined on input line 8.
+
+)
 Package cleveref Info: loaded `spanish' language definitions on input line 103.
 
-
-[87]
+ [79]
 chapter 7.
 
 (./chapters/part2_metodos/chapter7_intro_metodos/01_clasificacion_convergencia.
-tex [88
+tex [80
 
 ]) (./chapters/part2_metodos/chapter7_intro_metodos/02_tasas_parada.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 10.
 
-[89]
+[81]
 Package cleveref Info: loaded `spanish' language definitions on input line 46.
- [90])
+ [82])
 (./chapters/part2_metodos/chapter7_intro_metodos/03_opt_unidimensional.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 4.
 
-[91]
+[83]
 LaTeX Font Info:    Font shape `TU/inconsolata(0)/m/n' will be
 (Font)              scaled to size 10.35004pt on input line 12.
 Package microtype Info: Loading generic protrusion settings for font family
@@ -3554,269 +3581,269 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 Package cleveref Info: loaded `spanish' language definitions on input line 43.
- [92]
+ [84]
 Package cleveref Info: loaded `spanish' language definitions on input line 99.
- [93]
+ [85]
 Package cleveref Info: loaded `spanish' language definitions on input line 152.
 
- [94])
+ [86])
 (./chapters/part2_metodos/chapter7_intro_metodos/exercises.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 36.
- [95])
+ [87])
 Package cleveref Info: loaded `spanish' language definitions on input line 110.
 
- [96]
+ [88]
 chapter 8.
 
 (./chapters/part2_metodos/chapter8_opt_no_restringida/01_metodos_descenso_armij
-o.tex [97
+o.tex [89
 
 ]
 Package cleveref Info: loaded `spanish' language definitions on input line 102.
 
- [98]
+ [90]
 Package cleveref Info: loaded `spanish' language definitions on input line 158.
 
- [99])
+ [91])
 (./chapters/part2_metodos/chapter8_opt_no_restringida/02_metodo_gradiente.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 19.
 
-[100]
+[92]
 Package cleveref Info: loaded `spanish' language definitions on input line 77.
- [101]
+ [93]
 Package cleveref Info: loaded `spanish' language definitions on input line 121.
 
- [102])
+ [94])
 (./chapters/part2_metodos/chapter8_opt_no_restringida/03_metodo_newton.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 41.
 
-[103]
+[95]
 Package cleveref Info: loaded `spanish' language definitions on input line 105.
 
- [104])
+ [96])
 (./chapters/part2_metodos/chapter8_opt_no_restringida/04_cuasi_newton.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 23.
 
-[105]
+[97]
 Package cleveref Info: loaded `spanish' language definitions on input line 96.
- [106]
+ [98]
 Package cleveref Info: loaded `spanish' language definitions on input line 148.
 
- [107])
+ [99])
 (./chapters/part2_metodos/chapter8_opt_no_restringida/05_globalizacion_lineal.t
 ex
 Package cleveref Info: loaded `spanish' language definitions on input line 13.
- [108]
+ [100]
 Package cleveref Info: loaded `spanish' language definitions on input line 65.
- [109])
+ [101])
 (./chapters/part2_metodos/chapter8_opt_no_restringida/06_regiones_confianza.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 29.
-[110]
+[102]
 Package cleveref Info: loaded `spanish' language definitions on input line 120.
 
- [111]
+ [103]
 Package cleveref Info: loaded `spanish' language definitions on input line 212.
 
- [112]
+ [104]
 Package cleveref Info: loaded `spanish' language definitions on input line 212.
 
- [113]
+ [105]
 Package cleveref Info: loaded `spanish' language definitions on input line 253.
 
- [114]
+ [106]
 Package cleveref Info: loaded `spanish' language definitions on input line 308.
 
- [115]
+ [107]
 Package cleveref Info: loaded `spanish' language definitions on input line 359.
 
- [116]
+ [108]
 Package cleveref Info: loaded `spanish' language definitions on input line 430.
 
- [117])
+ [109])
 (./chapters/part2_metodos/chapter8_opt_no_restringida/07_direcciones_conjugadas
 .tex
 Package cleveref Info: loaded `spanish' language definitions on input line 28.
- [118]
+ [110]
 Package cleveref Info: loaded `spanish' language definitions on input line 119.
 
- [119]
+ [111]
 Package cleveref Info: loaded `spanish' language definitions on input line 158.
 
- [120]
+ [112]
 Package cleveref Info: loaded `spanish' language definitions on input line 231.
 
- [121])
+ [113])
 (./chapters/part2_metodos/chapter8_opt_no_restringida/08_metodos_sin_derivadas.
 tex
 Package cleveref Info: loaded `spanish' language definitions on input line 3.
- [122]
+ [114]
 Package cleveref Info: loaded `spanish' language definitions on input line 41.
- [123])
+ [115])
 (./chapters/part2_metodos/chapter8_opt_no_restringida/exercises.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 10.
- [124]
+ [116]
 Package cleveref Info: loaded `spanish' language definitions on input line 91.
 
-[125]
+[117]
 Package cleveref Info: loaded `spanish' language definitions on input line 155.
 
- [126]
+ [118]
 Package cleveref Info: loaded `spanish' language definitions on input line 224.
 
- [127]
+ [119]
 Package cleveref Info: loaded `spanish' language definitions on input line 297.
 
- [128])
+ [120])
 Package cleveref Info: loaded `spanish' language definitions on input line 122.
 
- [129]
+ [121]
 chapter 9.
 (./chapters/part2_metodos/chapter9_opt_restringida/01_gradiente_proyectado.tex
-[130
+[122
 
 ]
 Package cleveref Info: loaded `spanish' language definitions on input line 98.
- [131]
+ [123]
 Package cleveref Info: loaded `spanish' language definitions on input line 162.
 
- [132])
+ [124])
 (./chapters/part2_metodos/chapter9_opt_restringida/02_direcciones_factibles.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 12.
-[133]
+[125]
 Package cleveref Info: loaded `spanish' language definitions on input line 66.
- [134])
+ [126])
 (./chapters/part2_metodos/chapter9_opt_restringida/03_penalizacion_externa.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 10.
 
-[135]
+[127]
 Package cleveref Info: loaded `spanish' language definitions on input line 69.
- [136]
+ [128]
 Package cleveref Info: loaded `spanish' language definitions on input line 135.
 
- [137]
+ [129]
 Package cleveref Info: loaded `spanish' language definitions on input line 218.
 
- [138]
+ [130]
 Package cleveref Info: loaded `spanish' language definitions on input line 305.
 
- [139]
+ [131]
 Package cleveref Info: loaded `spanish' language definitions on input line 327.
 
- [140]
+ [132]
 Package cleveref Info: loaded `spanish' language definitions on input line 375.
 
- [141]
+ [133]
 Package cleveref Info: loaded `spanish' language definitions on input line 441.
 
- [142]
+ [134]
 Package cleveref Info: loaded `spanish' language definitions on input line 487.
 
- [143]
+ [135]
 
-LaTeX Warning: Reference `eq:4.70' on page 144 undefined on input line 533.
+LaTeX Warning: Reference `eq:4.70' on page 136 undefined on input line 533.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 579.
 
-[144]
+[136]
 Package cleveref Info: loaded `spanish' language definitions on input line 595.
 
- [145]
+ [137]
 
-LaTeX Warning: Reference `eq:1.40' on page 146 undefined on input line 612.
-
-
-LaTeX Warning: Reference `eq:4.70' on page 146 undefined on input line 674.
+LaTeX Warning: Reference `eq:1.40' on page 138 undefined on input line 612.
 
 
-LaTeX Warning: Reference `eq:1.19' on page 146 undefined on input line 697.
+LaTeX Warning: Reference `eq:4.70' on page 138 undefined on input line 674.
+
+
+LaTeX Warning: Reference `eq:1.19' on page 138 undefined on input line 697.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 723.
 
-[146]
+[138]
 Package cleveref Info: loaded `spanish' language definitions on input line 723.
 
- [147])
+ [139])
 (./chapters/part2_metodos/chapter9_opt_restringida/04_penalizacion_interna_barr
 eras.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 40.
- [148]
+ [140]
 Package cleveref Info: loaded `spanish' language definitions on input line 110.
 
- [149]
+ [141]
 Package cleveref Info: loaded `spanish' language definitions on input line 194.
 
- [150])
+ [142])
 (./chapters/part2_metodos/chapter9_opt_restringida/05_lagrangianas_aumentadas.t
 ex
 
-LaTeX Warning: Citation '12' on page 151 undefined on input line 7.
+LaTeX Warning: Citation '12' on page 143 undefined on input line 7.
 
 
-LaTeX Warning: Citation '12' on page 151 undefined on input line 7.
+LaTeX Warning: Citation '12' on page 143 undefined on input line 7.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 8.
-[151]
+[143]
 Package cleveref Info: loaded `spanish' language definitions on input line 54.
- [152]
+ [144]
 
-LaTeX Warning: Citation '5' on page 153 undefined on input line 103.
-
-
-LaTeX Warning: Citation '3' on page 153 undefined on input line 105.
+LaTeX Warning: Citation '5' on page 145 undefined on input line 103.
 
 
-LaTeX Warning: Citation '13' on page 153 undefined on input line 105.
+LaTeX Warning: Citation '3' on page 145 undefined on input line 105.
+
+
+LaTeX Warning: Citation '13' on page 145 undefined on input line 105.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 107.
 
-[153]
+[145]
 Package cleveref Info: loaded `spanish' language definitions on input line 180.
 
- [154]
+ [146]
 Package cleveref Info: loaded `spanish' language definitions on input line 205.
 
- [155]
+ [147]
 Package cleveref Info: loaded `spanish' language definitions on input line 258.
 
- [156]
+ [148]
 Package cleveref Info: loaded `spanish' language definitions on input line 299.
 
- [157]
+ [149]
 Package cleveref Info: loaded `spanish' language definitions on input line 356.
 
- [158]
+ [150]
 
-LaTeX Warning: Citation '3' on page 159 undefined on input line 358.
-
-
-LaTeX Warning: Citation '4' on page 159 undefined on input line 358.
+LaTeX Warning: Citation '3' on page 151 undefined on input line 358.
 
 
-LaTeX Warning: Citation '3' on page 159 undefined on input line 394.
+LaTeX Warning: Citation '4' on page 151 undefined on input line 358.
+
+
+LaTeX Warning: Citation '3' on page 151 undefined on input line 394.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 399.
 
-[159]
+[151]
 
 LaTeX Warning: Reference `thm:1.5.1' on page 1 undefined on input line 425.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 448.
 
-[160])
+[152])
 (./chapters/part2_metodos/chapter9_opt_restringida/06_restricciones_mixtas.tex
 
 LaTeX Warning: Reference `sec:1.6' on page 1 undefined on input line 4.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 5.
-[161]
+[153]
 
 LaTeX Warning: Reference `sec:1.6' on page 1 undefined on input line 18.
 
 
-LaTeX Warning: Reference `eq:1.48' on page 162 undefined on input line 35.
+LaTeX Warning: Reference `eq:1.48' on page 154 undefined on input line 35.
 
 
-LaTeX Warning: Reference `eq:1.49' on page 162 undefined on input line 37.
+LaTeX Warning: Reference `eq:1.49' on page 154 undefined on input line 37.
 
 
 LaTeX Warning: Reference `thm:3.2.1' on page 1 undefined on input line 41.
@@ -3825,7 +3852,7 @@ LaTeX Warning: Reference `thm:3.2.1' on page 1 undefined on input line 41.
 LaTeX Warning: Reference `ex:1.6.1' on page 1 undefined on input line 43.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 62.
-[162]
+[154]
 
 LaTeX Warning: Reference `sec:4.4.1' on page 1 undefined on input line 98.
 
@@ -3834,64 +3861,64 @@ LaTeX Warning: Reference `sec:1.6' on page 1 undefined on input line 112.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 127.
 
-[163]
+[155]
 
-LaTeX Warning: Reference `eq:1.17' on page 164 undefined on input line 145.
+LaTeX Warning: Reference `eq:1.17' on page 156 undefined on input line 145.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 198.
 
-[164]
+[156]
 
-LaTeX Warning: Reference `eq:1.17' on page 165 undefined on input line 247.
+LaTeX Warning: Reference `eq:1.17' on page 157 undefined on input line 247.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 248.
 
-[165]
+[157]
 
 LaTeX Warning: Reference `ex:2.2.1' on page 1 undefined on input line 272.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 288.
 
-[166]
+[158]
 
-LaTeX Warning: Reference `eq:1.17' on page 167 undefined on input line 408.
+LaTeX Warning: Reference `eq:1.17' on page 159 undefined on input line 408.
 
 
 LaTeX Warning: Reference `thm:1.3.1' on page 1 undefined on input line 441.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 463.
 
-[167]
+[159]
 Package cleveref Info: loaded `spanish' language definitions on input line 463.
 
- [168]
+ [160]
 Package cleveref Info: loaded `spanish' language definitions on input line 472.
 
- [169]
+ [161]
 Package cleveref Info: loaded `spanish' language definitions on input line 514.
 
- [170]
+ [162]
 
-LaTeX Warning: Reference `eq:1.17' on page 171 undefined on input line 569.
+LaTeX Warning: Reference `eq:1.17' on page 163 undefined on input line 569.
 
 
 LaTeX Warning: Reference `thm:1.2.2' on page 1 undefined on input line 574.
 
 
-LaTeX Warning: Reference `eq:1.25' on page 171 undefined on input line 574.
+LaTeX Warning: Reference `eq:1.25' on page 163 undefined on input line 574.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 575.
 
-[171]
+[163]
 
-LaTeX Warning: Reference `eq:1.25' on page 172 undefined on input line 594.
+LaTeX Warning: Reference `eq:1.25' on page 164 undefined on input line 594.
 
 
-LaTeX Warning: Reference `eq:1.25' on page 172 undefined on input line 596.
+LaTeX Warning: Reference `eq:1.25' on page 164 undefined on input line 596.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 626.
 
-[172]
+[164]
 
 LaTeX Warning: Reference `thm:1.2.1' on page 1 undefined on input line 677.
 
@@ -3900,34 +3927,34 @@ LaTeX Warning: Reference `thm:1.2.1' on page 1 undefined on input line 683.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 695.
 
-[173]
+[165]
 
 LaTeX Warning: Reference `sec:4.3.1' on page 1 undefined on input line 714.
 
 
-LaTeX Warning: Reference `eq:1.25' on page 174 undefined on input line 747.
+LaTeX Warning: Reference `eq:1.25' on page 166 undefined on input line 747.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 748.
 
-[174]
+[166]
 
-LaTeX Warning: Reference `eq:1.25' on page 175 undefined on input line 756.
+LaTeX Warning: Reference `eq:1.25' on page 167 undefined on input line 756.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 795.
 
-[175]
+[167]
 Package cleveref Info: loaded `spanish' language definitions on input line 876.
 
- [176]
+ [168]
 Package cleveref Info: loaded `spanish' language definitions on input line 918.
 
- [177])
+ [169])
 (./chapters/part2_metodos/chapter9_opt_restringida/07_sqp.tex
 
 LaTeX Warning: Reference `sec:6.2' on page 1 undefined on input line 3.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 4.
-[178]
+[170]
 
 LaTeX Warning: Reference `sec:4.1.3' on page 1 undefined on input line 25.
 
@@ -3935,12 +3962,12 @@ LaTeX Warning: Reference `sec:4.1.3' on page 1 undefined on input line 25.
 LaTeX Warning: Reference `sec:4.4.1' on page 1 undefined on input line 36.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 40.
-[179]
+[171]
 
 LaTeX Warning: Reference `sec:4.4.1' on page 1 undefined on input line 64.
 
 
-LaTeX Warning: Reference `eq:1.9' on page 180 undefined on input line 64.
+LaTeX Warning: Reference `eq:1.9' on page 172 undefined on input line 64.
 
 
 LaTeX Warning: Reference `thm:1.2.2' on page 1 undefined on input line 64.
@@ -3949,15 +3976,15 @@ LaTeX Warning: Reference `thm:1.2.2' on page 1 undefined on input line 64.
 LaTeX Warning: Reference `sec:3.2.2' on page 1 undefined on input line 66.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 95.
-[180]
+[172]
 
-LaTeX Warning: Reference `eq:1.17' on page 181 undefined on input line 109.
+LaTeX Warning: Reference `eq:1.17' on page 173 undefined on input line 109.
 
 
 LaTeX Warning: Reference `thm:1.2.3' on page 1 undefined on input line 109.
 
 
-LaTeX Warning: Reference `eq:1.17' on page 181 undefined on input line 185.
+LaTeX Warning: Reference `eq:1.17' on page 173 undefined on input line 185.
 
 
 LaTeX Warning: Reference `thm:1.5.3' on page 1 undefined on input line 187.
@@ -3973,13 +4000,13 @@ LaTeX Warning: Reference `cor:3.2.1' on page 1 undefined on input line 237.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 238.
 
-[181]
+[173]
 Package cleveref Info: loaded `spanish' language definitions on input line 238.
 
- [182]
+ [174]
 Package cleveref Info: loaded `spanish' language definitions on input line 238.
 
- [183]
+ [175]
 
 LaTeX Warning: Reference `ex:2.2.1' on page 1 undefined on input line 240.
 
@@ -3987,41 +4014,41 @@ LaTeX Warning: Reference `ex:2.2.1' on page 1 undefined on input line 240.
 LaTeX Warning: Reference `thm:3.2.2' on page 1 undefined on input line 240.
 
 
-LaTeX Warning: Citation '20' on page 184 undefined on input line 240.
+LaTeX Warning: Citation '20' on page 176 undefined on input line 240.
 
 
 LaTeX Warning: Reference `thm:1.3.1' on page 1 undefined on input line 293.
 
 
-LaTeX Warning: Reference `eq:1.17' on page 184 undefined on input line 332.
+LaTeX Warning: Reference `eq:1.17' on page 176 undefined on input line 332.
 
 
 LaTeX Warning: Reference `thm:1.3.1' on page 1 undefined on input line 361.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 379.
 
-[184]
+[176]
 Package cleveref Info: loaded `spanish' language definitions on input line 379.
 
- [185]
+ [177]
 Package cleveref Info: loaded `spanish' language definitions on input line 396.
 
- [186]
+ [178]
 
-LaTeX Warning: Citation '12' on page 187 undefined on input line 396.
+LaTeX Warning: Citation '12' on page 179 undefined on input line 396.
 
 
 LaTeX Warning: Reference `sec:4.5' on page 1 undefined on input line 398.
 
 
-LaTeX Warning: Citation '20' on page 187 undefined on input line 402.
+LaTeX Warning: Citation '20' on page 179 undefined on input line 402.
 
 
 LaTeX Warning: Reference `sec:4.3.2' on page 1 undefined on input line 417.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 457.
 
-[187]
+[179]
 
 LaTeX Warning: Reference `sec:1.5' on page 1 undefined on input line 460.
 
@@ -4036,10 +4063,10 @@ LaTeX Warning: Reference `sec:3.2.3' on page 1 undefined on input line 466.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 473.
 
-[188]
+[180]
 Package cleveref Info: loaded `spanish' language definitions on input line 546.
 
- [189]
+ [181]
 
 LaTeX Warning: Reference `lem:3.1.1' on page 1 undefined on input line 552.
 
@@ -4048,7 +4075,7 @@ LaTeX Warning: Reference `lem:3.1.2' on page 1 undefined on input line 552.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 561.
 
-[190]
+[182]
 
 LaTeX Warning: Reference `sec:4.3.2' on page 1 undefined on input line 562.
 
@@ -4063,46 +4090,46 @@ LaTeX Warning: Reference `lem:1.5.4' on page 1 undefined on input line 613.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 690.
 
-[191]
+[183]
 Package cleveref Info: loaded `spanish' language definitions on input line 690.
 
- [192]
+ [184]
 
-LaTeX Warning: Reference `eq:4.293' on page 193 undefined on input line 694.
-
-
-LaTeX Warning: Reference `eq:4.294' on page 193 undefined on input line 694.
+LaTeX Warning: Reference `eq:4.293' on page 185 undefined on input line 694.
 
 
-LaTeX Warning: Citation '3' on page 193 undefined on input line 694.
+LaTeX Warning: Reference `eq:4.294' on page 185 undefined on input line 694.
 
 
-LaTeX Warning: Citation '4' on page 193 undefined on input line 694.
+LaTeX Warning: Citation '3' on page 185 undefined on input line 694.
 
 
-LaTeX Warning: Reference `eq:4.293' on page 193 undefined on input line 694.
+LaTeX Warning: Citation '4' on page 185 undefined on input line 694.
 
 
-LaTeX Warning: Reference `eq:4.294' on page 193 undefined on input line 694.
+LaTeX Warning: Reference `eq:4.293' on page 185 undefined on input line 694.
+
+
+LaTeX Warning: Reference `eq:4.294' on page 185 undefined on input line 694.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 699.
 
-[193]
+[185]
 
-LaTeX Warning: Reference `eq:1.9' on page 194 undefined on input line 705.
-
-
-LaTeX Warning: Reference `eq:1.13' on page 194 undefined on input line 705.
+LaTeX Warning: Reference `eq:1.9' on page 186 undefined on input line 705.
 
 
-LaTeX Warning: Reference `eq:1.9' on page 194 undefined on input line 743.
+LaTeX Warning: Reference `eq:1.13' on page 186 undefined on input line 705.
 
 
-LaTeX Warning: Reference `eq:1.13' on page 194 undefined on input line 743.
+LaTeX Warning: Reference `eq:1.9' on page 186 undefined on input line 743.
+
+
+LaTeX Warning: Reference `eq:1.13' on page 186 undefined on input line 743.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 748.
 
-[194]
+[186]
 
 LaTeX Warning: Reference `thm:3.3.3' on page 1 undefined on input line 768.
 
@@ -4110,40 +4137,40 @@ LaTeX Warning: Reference `thm:3.3.3' on page 1 undefined on input line 768.
 LaTeX Warning: Reference `thm:3.2.2' on page 1 undefined on input line 768.
 
 
-LaTeX Warning: Citation '3' on page 195 undefined on input line 768.
+LaTeX Warning: Citation '3' on page 187 undefined on input line 768.
 
 
-LaTeX Warning: Citation '20' on page 195 undefined on input line 768.
+LaTeX Warning: Citation '20' on page 187 undefined on input line 768.
 
 
 LaTeX Warning: Reference `thm:1.2.2' on page 1 undefined on input line 785.
 
 
-LaTeX Warning: Reference `eq:1.40' on page 195 undefined on input line 815.
+LaTeX Warning: Reference `eq:1.40' on page 187 undefined on input line 815.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 816.
 
-[195]
+[187]
 
-LaTeX Warning: Reference `eq:1.9' on page 196 undefined on input line 847.
+LaTeX Warning: Reference `eq:1.9' on page 188 undefined on input line 847.
 
 
 LaTeX Warning: Reference `thm:1.2.2' on page 1 undefined on input line 847.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 859.
 
-[196]
+[188]
 Package cleveref Info: loaded `spanish' language definitions on input line 921.
 
- [197]) (./chapters/part2_metodos/chapter9_opt_restringida/exercises.tex
+ [189]) (./chapters/part2_metodos/chapter9_opt_restringida/exercises.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 2.
 
-[198]
+[190]
 
 LaTeX Warning: Reference `thm:3.1.2' on page 1 undefined on input line 52.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 55.
-[199]
+[191]
 
 LaTeX Warning: Reference `ex:3.1.5' on page 1 undefined on input line 56.
 
@@ -4152,18 +4179,18 @@ LaTeX Warning: Reference `sec:4.1.3' on page 1 undefined on input line 68.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 123.
 
-[200]
+[192]
 
 LaTeX Warning: Reference `thm:1.2.1' on page 1 undefined on input line 170.
 
 
-LaTeX Warning: Citation '12' on page 201 undefined on input line 170.
+LaTeX Warning: Citation '12' on page 193 undefined on input line 170.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 184.
 
-[201]
+[193]
 
-LaTeX Warning: Reference `eq:1.9' on page 202 undefined on input line 225.
+LaTeX Warning: Reference `eq:1.9' on page 194 undefined on input line 225.
 
 
 LaTeX Warning: Reference `thm:1.2.1' on page 1 undefined on input line 240.
@@ -4173,13 +4200,13 @@ LaTeX Warning: Reference `thm:1.2.1' on page 1 undefined on input line 271.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 272.
 
-[202]
+[194]
 
-LaTeX Warning: Reference `eq:4.143' on page 203 undefined on input line 334.
+LaTeX Warning: Reference `eq:4.143' on page 195 undefined on input line 334.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 338.
 
-[203]
+[195]
 
 LaTeX Warning: Reference `ex:1.6.5' on page 1 undefined on input line 338.
 
@@ -4187,157 +4214,151 @@ LaTeX Warning: Reference `ex:1.6.5' on page 1 undefined on input line 338.
 LaTeX Warning: Reference `ex:1.6.3' on page 1 undefined on input line 338.
 
 
-LaTeX Warning: Reference `eq:4.293' on page 204 undefined on input line 411.
+LaTeX Warning: Reference `eq:4.293' on page 196 undefined on input line 411.
 
 
-LaTeX Warning: Reference `eq:4.294' on page 204 undefined on input line 411.
+LaTeX Warning: Reference `eq:4.294' on page 196 undefined on input line 411.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 416.
 
-[204])
+[196])
 (./chapters/part2_metodos/chapter10_opt_no_diferenciable/01_introduccion.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 3.
 
-[205]
+[197]
 chapter 10.
 
-LaTeX Warning: Citation 'SolodovVol1' on page 206 undefined on input line 6.
+LaTeX Warning: Citation 'SolodovVol1' on page 198 undefined on input line 6.
 
 
 LaTeX Warning: Reference `v2:sec:1.4' on page 1 undefined on input line 6.
 
-[206
+[198
 
 ])
 (./chapters/part2_metodos/chapter10_opt_no_diferenciable/02_metodos_subgradient
-e.tex [207]
-
-LaTeX Warning: Reference `v2:sec:1.3' on page 1 undefined on input line 10.
-
+e.tex [199]
 Package cleveref Info: loaded `spanish' language definitions on input line 73.
-[208]
+ [200]
 Package cleveref Info: loaded `spanish' language definitions on input line 131.
 
- [209]
+ [201]
 Package cleveref Info: loaded `spanish' language definitions on input line 165.
 
- [210])
+ [202])
 (./chapters/part2_metodos/chapter10_opt_no_diferenciable/03_planos_cortantes.te
 x
 
 LaTeX Warning: Reference `v2:sec:2.1' on page 1 undefined on input line 15.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 47.
-[211]
+[203]
 Package cleveref Info: loaded `spanish' language definitions on input line 112.
 
- [212]
+ [204]
 Package cleveref Info: loaded `spanish' language definitions on input line 206.
 
- [213])
+ [205])
 (./chapters/part2_metodos/chapter10_opt_no_diferenciable/04_metodos_haces.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 31.
 
-[214]
-
-LaTeX Warning: Reference `v2:sec:1.3' on page 1 undefined on input line 41.
-
+[206]
 
 LaTeX Warning: Reference `v2:sec:1.4' on page 1 undefined on input line 78.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 86.
-[215]
+[207]
 Package cleveref Info: loaded `spanish' language definitions on input line 159.
 
- [216]
+ [208]
 Package cleveref Info: loaded `spanish' language definitions on input line 224.
 
- [217]
+ [209]
 
-LaTeX Warning: Reference `v2:eq:5.71' on page 218 undefined on input line 282.
+LaTeX Warning: Reference `v2:eq:5.71' on page 210 undefined on input line 282.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 305.
 
-[218]
+[210]
 
-LaTeX Warning: Reference `v2:eq:5.73' on page 219 undefined on input line 305.
+LaTeX Warning: Reference `v2:eq:5.73' on page 211 undefined on input line 305.
 
 )
 (./chapters/part2_metodos/chapter11_prog_lineal_cuadratica/01_intro_teoria_pl.t
 ex
 Package cleveref Info: loaded `spanish' language definitions on input line 3.
- [219]
+ [211]
 chapter 11.
 
-LaTeX Warning: Citation 'SolodovVol1' on page 220 undefined on input line 54.
+LaTeX Warning: Citation 'SolodovVol1' on page 212 undefined on input line 54.
 
-[220
+[212
 
 ]
 Package cleveref Info: loaded `spanish' language definitions on input line 167.
 
- [221])
+ [213])
 (./chapters/part2_metodos/chapter11_prog_lineal_cuadratica/02_teoremas_vertices
 _dualidad.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 72.
- [222]
+ [214]
 Package cleveref Info: loaded `spanish' language definitions on input line 165.
 
- [223]
+ [215]
 
 LaTeX Warning: Reference `v2:sec:1.4' on page 1 undefined on input line 173.
 
 
-LaTeX Warning: Citation 'SolodovVol1' on page 224 undefined on input line 173.
+LaTeX Warning: Citation 'SolodovVol1' on page 216 undefined on input line 173.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 217.
 
-[224]
+[216]
 
-LaTeX Warning: Citation 'SolodovVol1' on page 225 undefined on input line 258.
+LaTeX Warning: Citation 'SolodovVol1' on page 217 undefined on input line 258.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 281.
 
-[225])
+[217])
 (./chapters/part2_metodos/chapter11_prog_lineal_cuadratica/03_metodo_simplex.te
 x
 Package cleveref Info: loaded `spanish' language definitions on input line 23.
- [226]
+ [218]
 
 LaTeX Warning: Reference `v2:sec:4.7' on page 1 undefined on input line 59.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 65.
-[227]
+[219]
 Package cleveref Info: loaded `spanish' language definitions on input line 127.
 
- [228]
+ [220]
 Package cleveref Info: loaded `spanish' language definitions on input line 198.
 
- [229]
+ [221]
 Package cleveref Info: loaded `spanish' language definitions on input line 284.
 
- [230]
+ [222]
 Package cleveref Info: loaded `spanish' language definitions on input line 338.
 
- [231])
+ [223])
 (./chapters/part2_metodos/chapter11_prog_lineal_cuadratica/04_puntos_interiores
 .tex
 Package cleveref Info: loaded `spanish' language definitions on input line 11.
- [232]
+ [224]
 Package cleveref Info: loaded `spanish' language definitions on input line 38.
- [233]
+ [225]
 
 LaTeX Warning: Reference `v2:sec:4.3.3' on page 1 undefined on input line 38.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 116.
 
-[234]
+[226]
 
 LaTeX Warning: Reference `v2:sec:4.3.3' on page 1 undefined on input line 157.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 179.
 
-[235]
+[227]
 
 LaTeX Warning: Reference `v2:sec:4.3.3' on page 1 undefined on input line 180.
 
@@ -4352,32 +4373,32 @@ LaTeX Warning: Reference `v2:sec:4.3.3' on page 1 undefined on input line 205.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 244.
 
-[236]
+[228]
 Package cleveref Info: loaded `spanish' language definitions on input line 294.
 
- [237]
+ [229]
 Package cleveref Info: loaded `spanish' language definitions on input line 336.
 
- [238]
+ [230]
 Package cleveref Info: loaded `spanish' language definitions on input line 403.
 
- [239
+ [231
 warning  (pdf backend): ignoring duplicate destination with the name 'equation.1
 1.55'
 ]
 Package cleveref Info: loaded `spanish' language definitions on input line 457.
 
- [240]
+ [232]
 Package cleveref Info: loaded `spanish' language definitions on input line 526.
 
- [241])
+ [233])
 (./chapters/part2_metodos/chapter11_prog_lineal_cuadratica/05_programacion_cuad
 ratica.tex
 
 LaTeX Warning: Reference `v2:sec:4.6' on page 1 undefined on input line 8.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 53.
-[242]
+[234]
 
 LaTeX Warning: Reference `v2:sec:3.4' on page 1 undefined on input line 57.
 
@@ -4385,34 +4406,34 @@ LaTeX Warning: Reference `v2:sec:3.4' on page 1 undefined on input line 57.
 LaTeX Warning: Reference `v2:sec:4.2' on page 1 undefined on input line 94.
 
 
-LaTeX Warning: Reference `v2:eq:4.26' on page 243 undefined on input line 96.
+LaTeX Warning: Reference `v2:eq:4.26' on page 235 undefined on input line 96.
 
 
-LaTeX Warning: Reference `v2:eq:4.27' on page 243 undefined on input line 96.
+LaTeX Warning: Reference `v2:eq:4.27' on page 235 undefined on input line 96.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 104.
 
-[243]
+[235]
 
-LaTeX Warning: Reference `v2:lem:3.1.1' on page 244 undefined on input line 112
+LaTeX Warning: Reference `v2:lem:3.1.1' on page 236 undefined on input line 112
 .
 
 
-LaTeX Warning: Reference `v2:lem:4.1.3' on page 244 undefined on input line 112
+LaTeX Warning: Reference `v2:lem:4.1.3' on page 236 undefined on input line 112
 .
 
 Package cleveref Info: loaded `spanish' language definitions on input line 169.
 
-[244])
+[236])
 Package cleveref Info: loaded `spanish' language definitions on input line 150.
 
- [245]
+ [237]
 chapter without number
-[246
+[238
 
 
 ] (./Apuntes-Programacion-No-Lineal.ind)
-runsystem(latexminted cleantemp  --timestamp 20260712202358 619C487146398D9C4DAF
+runsystem(latexminted cleantemp  --timestamp 20260712211656 619C487146398D9C4DAF
 123F9D510570)...executed.
 
 (./Apuntes-Programacion-No-Lineal.aux
@@ -4441,32 +4462,32 @@ l'.
 )
 
 Here is how much of LuaTeX's memory you used:
- 88866 strings out of 475891
- 476915,4101490 words of node,token memory allocated
- 70195 words of node memory still in use:
+ 88389 strings out of 475891
+ 476890,4101490 words of node,token memory allocated
+ 72987 words of node memory still in use:
    8 hlist, 2 vlist, 5 rule, 1 local_par, 19 glue, 4 kern, 1 penalty, 8 sub_mlis
-t, 1 margin_kern, 3 glyph, 25976 attribute, 102 glue_spec, 8656 attribute_list, 
+t, 1 margin_kern, 3 glyph, 27023 attribute, 102 glue_spec, 9005 attribute_list, 
 3 write nodes
-   avail lists: 1:20,2:73469,3:1544,4:71,5:1884,6:224,7:18402,8:85,9:3142,10:35,
+   avail lists: 1:35,2:73479,3:1543,4:71,5:1888,6:208,7:18402,8:85,9:3142,10:35,
 11:1733,12:1
- 107545 multiletter control sequences out of 65536+600000
- 154 fonts using 68352879 bytes
+ 107122 multiletter control sequences out of 65536+600000
+ 154 fonts using 68353007 bytes
  125i,21n,128p,11236b,4829s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/opentype/public/inconsolata/Inconsolat
 azi4-Regular.otf></usr/share/fonts/opentype/stix/STIXTwoMath-Regular.otf></usr/s
-hare/fonts/opentype/stix/STIXTwoMath-Regular.otf></usr/share/fonts/opentype/stix
-/STIXTwoMath-Regular.otf></usr/share/fonts/truetype/stix/STIXTwoText-BoldItalic.
-ttf></usr/share/fonts/truetype/stix/STIXTwoText-Regular.ttf></usr/share/fonts/tr
+hare/fonts/truetype/stix/STIXTwoText-BoldItalic.ttf></usr/share/fonts/opentype/s
+tix/STIXTwoMath-Regular.otf></usr/share/fonts/opentype/stix/STIXTwoMath-Regular.
+otf></usr/share/fonts/truetype/stix/STIXTwoText-Regular.ttf></usr/share/fonts/tr
 uetype/stix/STIXTwoText-Italic.ttf></usr/share/fonts/truetype/stix/STIXTwoText-B
 old.ttf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgy
 reheros-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/te
 x-gyre/texgyreheros-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/type1/pub
 lic/amsfonts/symbols/msam10.pfb>
-Output written on Apuntes-Programacion-No-Lineal.pdf (252 pages, 1977540 bytes).
+Output written on Apuntes-Programacion-No-Lineal.pdf (244 pages, 1929609 bytes).
 
 
-PDF statistics: 5961 PDF objects out of 6186 (max. 8388607)
- 5618 compressed objects within 57 object streams
- 2090 named destinations out of 2487 (max. 1048576)
- 1096 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 5824 PDF objects out of 6186 (max. 8388607)
+ 5491 compressed objects within 55 object streams
+ 2036 named destinations out of 2073 (max. 1048576)
+ 1088 words of extra memory for PDF output out of 10000 (max. 100000000)
 

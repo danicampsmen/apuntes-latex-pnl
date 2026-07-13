@@ -1,178 +1,18 @@
-% --- Archivo: 05_herramientas_analisis_algebra.tex ---
-
-% =========================================================
-\section{Algunos resultados del Análisis y del Álgebra Lineal}
-% =========================================================
-
-En esta sección agrupamos algunos resultados bien conocidos que serán utilizados a lo largo del libro y que no encajan en las secciones anteriores.
-
-Recordamos que en el espacio $\R^n$, para una norma $\|\cdot\|_p$ cualquiera, la norma dual $\|\cdot\|_D$ viene dada por
-\[
-\|x\|_D = \sup \{ |\langle x, y \rangle| \mid \|y\|_p = 1 \}.
-\]
-
-\begin{lemma}[Desigualdad de Cauchy-Schwarz generalizada]\label{v2:lem:1.5.1}
- Se tiene que
- \begin{equation}
- |\langle x, y \rangle| \le \|x\|_p \|y\|_D \quad \forall x \in \R^n, \; \forall y \in \R^n.
- \label{v2:eq:1.40}
- \end{equation}
-\end{lemma}
-
-\begin{proof}
- Si $x = 0$ o $y = 0$, \eqref{v2:eq:1.40} vale trivialmente. Para todo $x \neq 0$ e $y \neq 0$ obtenemos
- \begin{align*}
- |\langle x, y \rangle| &= \|x\|_p \left| \left\langle \frac{x}{\|x\|_p}, y \right\rangle \right| \\
- &\le \|x\|_p \sup \{ |\langle z, y \rangle| \mid \|z\|_p = 1 \} \\
- &= \|x\|_p \|y\|_D.
- \end{align*}
-\end{proof}
-
-En particular, las normas $\|\cdot\|_1$ y $\|\cdot\|_\infty$ son duales y se tiene que
-\[
-\langle x, y \rangle \le \|x\|_1 \|y\|_\infty \quad \forall x \in \R^n, \; \forall y \in \R^n.
-\]
-
-El siguiente hecho, sobre perturbaciones pequeñas de una matriz no singular, también es bien conocido.
-
-\begin{theorem}[Teorema sobre perturbaciones pequeñas de una matriz no-singular]\label{v2:thm:1.5.1}
- Sea $\bar{A} \in \R(n,n)$ una matriz no singular. Entonces para toda matriz $A \in \R(n,n)$ que satisfaga
- \[
- \|A - \bar{A}\| < 1/\|\bar{A}^{-1}\|,
- \]
- se tiene que la matriz $A$ es no singular y además
- \[
- \|A^{-1} - \bar{A}^{-1}\| \le \frac{\|\bar{A}^{-1}\|^2 \|A - \bar{A}\|}{1 - \|\bar{A}^{-1}\|\|A - \bar{A}\|}.
- \]
-\end{theorem}
-
-El siguiente lema será utilizado para establecer propiedades de la Lagrangiana aumentada en \cref{v2:sec:4.4.3}.
-
-\begin{lemma}[Lema de Debreu]\label{v2:lem:1.5.2}
- Sean $A \in \R(l, n)$ y $B \in \R(n, n)$ cualesquiera matrices tales que
- \[
- \langle Bd, d \rangle > 0 \quad \forall d \in \ker A \setminus \{0\}.
- \]
- Entonces existe $\bar{c} > 0$ tal que la matriz $B + c A^\top A$ es definida positiva para todo $c \ge \bar{c}$.
-\end{lemma}
-
-\begin{proof}
- Supongamos que la afirmación no sea verdadera, i.e., que para todo $k \in \N$ exista $d^k \in \R^n \setminus \{0\}$ tal que
- \[
- \langle (B + k A^\top A)d^k, d^k \rangle \le 0.
- \]
- Por lo tanto,
- \begin{equation}
- \langle Bd^k, d^k \rangle \le \langle Bd^k, d^k \rangle + k\|Ad^k\|^2 \le 0.
- \label{v2:eq:1.41}
- \end{equation}
- Sea $d \in \R^n$ un punto de acumulación de la secuencia $\{d^k / \|d^k\|\}$ (que es limitada). Dividiendo ambos lados en \eqref{v2:eq:1.41} por $k\|d^k\|^2$ y pasando al límite a lo largo de la subsecuencia correspondiente, obtenemos que $\|Ad\|^2 \le 0$, i.e., $Ad = 0$, donde $d \neq 0$. Por otro lado, como $\langle Bd^k, d^k \rangle \le 0$ para todo $k$, tenemos que $\langle Bd, d \rangle \le 0$. Como esto contradice la hipótesis, concluimos que vale el resultado anunciado.
-\end{proof}
-
-\begin{lemma}[Lema de Gronwall]\label{v2:lem:1.5.3}
- Supongamos que los números $\theta_0, \theta_1, \dots, \theta_N$, $a$ y $b$ satisfacen
- \[
- 0 \le \theta_0 \le a, \quad 0 \le \theta_{i+1} \le a + b \sum_{j=0}^i \theta_j \quad \forall i = 0, 1, \dots, N-1.
- \]
- Entonces 
- \[
- \theta_i \le a(1 + b)^i \quad \forall i = 0, 1, \dots, N.
- \]
-\end{lemma}
-
-El resultado siguiente es bien conocido.
-
-\begin{theorem}[Fórmula de Newton-Leibnitz]\label{v2:thm:1.5.2}
- Sea $F : \R^n \to \R^l$ una función continuamente diferenciable. Entonces para todo $x \in \R^n$ e $y \in \R^n$ se tiene que 
- \[
- F(x + y) = F(x) + \int_0^1 F'(x + ty)y \diff t.
- \]
-\end{theorem}
-
-La siguiente propiedad de una función con derivada Lipschitz-continua será utilizada varias veces a lo largo del libro.
-
-\begin{lemma}\label{v2:lem:1.5.4}
- Sea $f : \R^n \to \R$ una función diferenciable en $\R^n$, con derivada Lipschitz-continua en $\R^n$ con módulo $L > 0$. Entonces
- \[
- |f(x + d) - f(x) - \langle f'(x), d \rangle| \le \frac{L}{2}\|d\|^2 \quad \forall x, d \in \R^n.
- \]
-\end{lemma}
-
-\begin{proof}
- Por la fórmula de Newton-Leibnitz,
- \begin{align*}
- |f(x + d) - f(x) - \langle f'(x), d \rangle| &= \left| \int_0^1 \langle f'(x + td) - f'(x), d \rangle \diff t \right| \\
- &\le \int_0^1 \|f'(x + td) - f'(x)\| \|d\| \diff t \\
- &\le \int_0^1 Lt\|d\|^2 \diff t = \frac{L}{2}\|d\|^2,
- \end{align*}
- donde también utilizamos la desigualdad de Cauchy-Schwarz.
-\end{proof}
-
-El siguiente es el famoso Teorema de la Función Implícita.
-
-\begin{theorem}[Teorema de la Función Implícita]\label{v2:thm:1.5.3}
- Supongamos que $F : \R^s \times \R^n \to \R^n$ sea diferenciable en una vecindad del punto $(\bar{u}, \bar{x}) \in \R^s \times \R^n$, y que la derivada de $F$ en relación a $x$ sea continua en el punto $(\bar{u}, \bar{x})$. Supongamos además que $F(\bar{u}, \bar{x}) = 0$ y que la matriz $F'_x(\bar{u}, \bar{x}) \in \R(n,n)$ sea no singular.
- Entonces existen una vecindad $U$ de $\bar{u}$ y una vecindad $V$ de $\bar{x}$, para las cuales existe una única función $\chi : U \to \R^n$ tal que $\chi(U) \subset V$ y
- \begin{equation}
- F(u, \chi(u)) = 0 \quad \forall u \in U.
- \label{v2:eq:1.42}
- \end{equation}
- Más aún, $\chi(\bar{u}) = \bar{x}$, y si la vecindad $U$ es suficientemente pequeña, entonces $\chi$ es diferenciable en $U$ y
- \[
- \chi'(u) = -(F'_x(u, \chi(u)))^{-1} F'_u(u, \chi(u)), \quad u \in U.
- \]
- En particular, la derivada de $\chi$ es continua en el punto $\bar{u}$.
-\end{theorem}
-
-\begin{proof}
- Véase algún texto equivalente de Análisis Matemático.
-\end{proof}
-
-Precisaremos también de la siguiente modificación del Teorema de la Función Implícita.
-
 \begin{theorem}[Existencia de la función implícita]\label{v2:thm:1.5.4}
- Supongamos que $F : \R^s \times \R^n \to \R^l$ sea diferenciable en una vecindad del punto $(\bar{u}, \bar{x}) \in \R^s \times \R^n$, y que la derivada de $F$ en relación a $x$ sea continua en el punto $(\bar{u}, \bar{x})$. Supongamos también que $F(\bar{u}, \bar{x}) = 0$ y $\rank F'_x(\bar{u}, \bar{x}) = l$.
- Entonces existen una vecindad $U$ de $\bar{u}$, una única función $\chi : U \to \R^n$ y un número $M > 0$ tales que vale \eqref{v2:eq:1.42} y
- \begin{equation}
- \|\chi(u) - \bar{x}\| \le M\|F(u, \bar{x})\| \quad \forall u \in U.
- \label{v2:eq:1.43}
- \end{equation}
+...
 \end{theorem}
-
 \begin{proof}
- Véase el Teorema 2.1.2 del primer volumen \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:2.1.2}).
+    Véase el Teorema en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:lem:2.1.1}).
 \end{proof}
-
-Como consecuencia del \cref{v2:thm:1.5.4}, tenemos la siguiente estimativa local para la distancia entre un punto dado y el conjunto definido por ecuaciones de igualdad.
 
 \begin{theorem}[Estimativa de la violación de viabilidad]\label{v2:thm:1.5.5}
- Supongamos que $h : \R^n \to \R^l$ sea diferenciable en una vecindad del punto $\bar{x} \in D = \{x \in \R^n \mid h(x) = 0\}$. Supongamos que la derivada de $h$ sea continua en $\bar{x}$ y que $\rank h'(\bar{x}) = l$.
- Entonces existen una vecindad $U$ de $\bar{x}$ y un número $M > 0$ tales que
- \begin{equation}
- \dist(x, D) \le M\|h(x)\| \quad \forall x \in U.
- \label{v2:eq:1.44}
- \end{equation}
+...
 \end{theorem}
-
 \begin{proof}
- Véase el Teorema 2.1.3 del primer volumen \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:2.1.3}).
+    Véase el Teorema de Lyusternik en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:2.1.1}).
 \end{proof}
 
-Una generalización del \cref{v2:thm:1.5.5}, que presentamos sin probar, es la siguiente.
-
 \begin{theorem}[Teorema de Robinson]\label{v2:thm:1.5.6}
- Sean $h : \R^n \to \R^l$ y $g : \R^n \to \R^m$ funciones diferenciables en una vecindad del punto $\bar{x} \in D$, donde
- \[
- D = \{x \in \R^n \mid h(x) = 0, g(x) \le 0\},
- \]
- con derivadas continuas en este punto. Supongamos que $\bar{x}$ satisface la condición de regularidad de Mangasarian-Fromovitz \eqref{v2:eq:1.16}.
- Entonces existen una vecindad $U$ del punto $\bar{x}$ y un número $M > 0$ tales que
- \begin{equation}
- \dist(x, D) \le M\|\Psi(x)\| \quad \forall x \in U,
- \label{v2:eq:1.45}
- \end{equation}
- donde $\Psi : \R^n \to \R^l \times \R^m$,
- \[
- \Psi(x) = (h(x), (\max\{0, g_1(x)\}, \dots, \max\{0, g_m(x)\})).
- \]
+... Supongamos que $\bar{x}$ satisface la condición de regularidad de Mangasarian-Fromovitz \eqref{v1:eq:4.8}.
+...
 \end{theorem}

@@ -2,42 +2,29 @@
 
 % =========================================================
 \section{Convexidad}
+\label{v2:sec:1.3}
 % =========================================================
-
-Un conjunto convexo se caracteriza por contener todos los segmentos cuyos extremos pertenecen al conjunto.
 
 \begin{definition}\label{v2:def:1.3.1}
     Un conjunto $D \subset \R^n$ es llamado \deftech{conjunto convexo} si para cualesquiera $x \in D$, $y \in D$ y $\alpha \in [0, 1]$, se tiene que $\alpha x + (1 - \alpha)y \in D$.
 \end{definition}
 
-El punto $\alpha x + (1 - \alpha)y$, donde $\alpha \in [0, 1]$, se llama \deftech{combinación convexa} de $x$ e $y$ (con parámetro $\alpha$). El conjunto vacío, el espacio $\R^n$ y un conjunto que contiene un solo punto son trivialmente convexos. Cualquier subespacio, semiespacio, hiperplano y bola en $\R^n$ son conjuntos convexos. La intersección y la suma de conjuntos convexos son conjuntos convexos, así como la imagen de un conjunto convexo por un operador lineal.
-
-Una \deftech{proyección} (ortogonal) del punto $x \in \R^n$ sobre un conjunto $D \subset \R^n$ es un punto de $D$ que está más próximo a $x$ (donde la distancia es medida por la norma euclidiana). En otras palabras, una proyección de $x$ sobre $D$ es una solución (global) del problema
+Una \deftech{proyección} (ortogonal) del punto $x \in \R^n$ sobre un conjunto $D \subset \R^n$ es un punto de $D$ que está más próximo a $x$. En otras palabras, una proyección de $x$ sobre $D$ es una solución (global) del problema
 \begin{equation}
     \min \|y - x\| \quad \text{sujeto a} \quad y \in D.
     \label{v2:eq:1.26}
 \end{equation}
 
 \begin{theorem}[Teorema de la proyección]\label{v2:thm:1.3.1}
-    \begin{enumerate}[(a)]
-        \item Sea $D \subset \R^n$ un conjunto cerrado. Entonces para todo punto $x \in \R^n$, una proyección de $x$ sobre $D$ existe.
-        \item Si, además de ser cerrado, el conjunto $D$ es convexo, entonces para todo $x \in \R^n$ la proyección de $x$ sobre $D$, denotada por $P_D(x)$, es única. Además de eso, $\bar{x} = P_D(x)$ si, y solamente si,
-        \begin{equation}
-            \bar{x} \in D, \quad \langle x - \bar{x}, y - \bar{x} \rangle \le 0 \quad \forall y \in D.
-            \label{v2:eq:1.27}
-        \end{equation}
-        También se tiene que
-        \begin{equation}
-            \|P_D(x) - P_D(y)\| \le \|x - y\| \quad \forall x \in \R^n, \; \forall y \in \R^n.
-            \label{v2:eq:1.28}
-        \end{equation}
-        Además de eso, para todo $x \in \R^n, y \in \R^n$, la función $\varphi_1 : \R_+ \to \R_+$, $\varphi_1(t) = \|x - P_D(x + ty)\|$, es no decreciente, y la función $\varphi_2 : \R_+ \setminus \{0\} \to \R_+$, $\varphi_2(t) = \varphi_1(t)/t$, es no creciente.
-        \item Si $K \subset \R^n$ es un cono cerrado y $\langle y, x \rangle \le 0$ $\forall x \in K$, entonces $P_K(y) = 0$. Si $K \subset \R^n$ es un cono convexo y cerrado, entonces $\langle x - P_K(x), y \rangle \le 0$ $\forall x \in \R^n, \forall y \in K$.
-    \end{enumerate}
+    Si el conjunto $D$ es cerrado y convexo, entonces para todo $x \in \R^n$ la proyección de $x$ sobre $D$, denotada por $P_D(x)$, existe y es única. Además de eso, $\bar{x} = P_D(x)$ si, y solamente si,
+    \begin{equation}
+        \bar{x} \in D, \quad \langle x - \bar{x}, y - \bar{x} \rangle \le 0 \quad \forall y \in D.
+        \label{v2:eq:1.27}
+    \end{equation}
 \end{theorem}
 
 \begin{proof}
-    Véanse los Corolarios 1.2.2 y 3.2.3, el Teorema 3.2.4 y el Ejercicio 3.2.16 en \cite{izmailov2020otimizacaovolume1} (o correspondientes en el Volumen 1).
+    Véase \cite{izmailov2020otimizacaovolume1} (o \cref{v1:cor:1.2.2} sobre proyección).
 \end{proof}
 
 \begin{definition}\label{v2:def:1.3.2}
@@ -45,60 +32,29 @@ Una \deftech{proyección} (ortogonal) del punto $x \in \R^n$ sobre un conjunto $
     \[
         f(\alpha x + (1 - \alpha)y) \le \alpha f(x) + (1 - \alpha)f(y).
     \]
-    La función $g : D \to \R^m$ se dice convexa cuando $g_i$, $i = 1, \dots, m$, son funciones convexas.
-    La función $f$ se dice \deftech{estrictamente convexa} cuando la desigualdad arriba es estricta para todo $x \neq y$ y todo $\alpha \in (0, 1)$.
-    La función $f$ se dice \deftech{fuertemente convexa con módulo $\gamma > 0$}, cuando para cualesquiera $x \in D$, $y \in D$ y $\alpha \in [0, 1]$, se tiene
-    \[
-        f(\alpha x + (1 - \alpha)y) \le \alpha f(x) + (1 - \alpha)f(y) - \gamma \alpha (1 - \alpha) \|x - y\|^2.
-    \]
 \end{definition}
-
-Es obvio que una función fuertemente convexa es estrictamente convexa, y una función estrictamente convexa es convexa. Una suma de múltiplos no negativos de un número finito de funciones convexas es una función convexa. El supremo de un número (finito o infinito) de funciones convexas también es una función convexa.
-
-Decimos que
-\begin{equation}
-    \min f(x) \quad \text{sujeto a} \quad x \in D
-    \label{v2:eq:1.29}
-\end{equation}
-es un \deftech{problema de minimización convexo} cuando $D \subset \R^n$ es un conjunto convexo y $f : D \to \R$ es una función convexa en el conjunto $D$. La importancia de la convexidad ya puede ser vista en el resultado siguiente.
 
 \begin{theorem}[Teorema de minimización convexa]\label{v2:thm:1.3.2}
     Sean $D \subset \R^n$ un conjunto convexo y $f : D \to \R$ una función convexa en $D$.
-    Entonces todo minimizador local del problema \eqref{v2:eq:1.29} es global. Además de eso, el conjunto de minimizadores es convexo.
-    Si $f$ es estrictamente convexa, no puede haber más de un minimizador.
+    Entonces todo minimizador local del problema es global. Además de eso, el conjunto de minimizadores es convexo.
 \end{theorem}
-
-\begin{proof}
-    Véase el Teorema 3.1.5 en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:3.1.5}).
-\end{proof}
-
-\begin{definition}\label{v2:def:1.3.3}
-    Si $D \subset \R^n$ es un conjunto convexo, decimos que $f : D \to \R$ es una \deftech{función cóncava en $D$}, cuando la función $(-f)$ es convexa en $D$.
-\end{definition}
-
-Es fácil ver que las afirmaciones del \cref{v2:thm:1.3.2} son verdaderas si sustituimos minimización de una función convexa en un conjunto convexo por maximización de una función cóncava en un conjunto convexo.
 
 Una función convexa es continua en cualquier subconjunto abierto de su dominio. Más aún, es localmente Lipschitz-continua en el interior de su dominio.
 
 \begin{theorem}[Continuidad de funciones convexas]\label{v2:thm:1.3.3}
-    Sean $\Omega \subset \R^n$ un conjunto convexo y abierto y $f : \Omega \to \R$ una función convexa en $\Omega$.
-    Entonces $f$ es localmente Lipschitz-continua en $\Omega$. En particular, $f$ es continua en $\Omega$.
+    Sean $\Omega \subset \R^n$ un conjunto convexo y abierto y $f : \Omega \to \R$ una función convexa en $\Omega$. Entonces $f$ es localmente Lipschitz-continua en $\Omega$.
 \end{theorem}
 
 \begin{proof}
-    Véase el Teorema 3.4.2 en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:3.4.2}).
+    Véase \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:3.4.2}).
 \end{proof}
 
-\begin{theorem}[Compacidad de conjuntos de nivel de una función fuertemente convexa]\label{v2:thm:1.3.4}
-    Supongamos que la función $f : \R^n \to \R$ sea fuertemente convexa en $\R^n$. Entonces el conjunto de nivel
-    \[
-        L_{f,\R^n}(c) = \{ x \in \R^n \mid f(x) \le c \}
-    \]
-    es compacto para todo $c \in \R$.
+\begin{theorem}[Compacidad de conjuntos de nivel]\label{v2:thm:1.3.4}
+    Supongamos que la función $f : \R^n \to \R$ sea fuertemente convexa en $\R^n$. Entonces el conjunto de nivel es compacto para todo $c \in \R$.
 \end{theorem}
 
 \begin{proof}
-    Véase el Teorema 3.4.3 en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:3.4.3}).
+    Véase \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:3.4.3}).
 \end{proof}
 
 \begin{corollary}\label{v2:cor:1.3.1}
@@ -106,94 +62,36 @@ Una función convexa es continua en cualquier subconjunto abierto de su dominio.
 \end{corollary}
 
 \begin{proof}
-    Véase el Corolario 3.4.2 en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:cor:3.4.2}).
+    Véase \cite{izmailov2020otimizacaovolume1} (o \cref{v1:cor:3.4.1}).
 \end{proof}
 
-Cuando una función es diferenciable, la convexidad admite varias caracterizaciones que son muy útiles para determinar si una función es convexa o no.
+Cuando una función es diferenciable, la convexidad admite varias caracterizaciones algebraicas.
 
 \begin{theorem}[Caracterizaciones de funciones convexas diferenciables]\label{v2:thm:1.3.5}
-    Sean $\Omega \subset \R^n$ un conjunto convexo y abierto y $f : \Omega \to \R$ una función diferenciable en $\Omega$. Entonces las propiedades siguientes son equivalentes:
-    \begin{enumerate}[(a)]
-        \item La función $f$ es convexa en $\Omega$.
-        \item Para todo $x \in \Omega$ y todo $y \in \Omega$,
-        \[
-            f(y) \ge f(x) + \langle f'(x), y - x \rangle.
-        \]
-        \item Para todo $x \in \Omega$ y todo $y \in \Omega$,
-        \[
-            \langle f'(y) - f'(x), y - x \rangle \ge 0.
-        \]
-    \end{enumerate}
-    Cuando $f$ es dos veces diferenciable en $\Omega$, las propiedades de arriba también son equivalentes a
-    \begin{enumerate}[(d)]
-        \item La matriz Hessiana de $f$ es semidefinida positiva en todo punto de $\Omega$:
-        \[
-            \langle f''(x)d, d \rangle \ge 0 \quad \forall x \in \Omega, \; \forall d \in \R^n.
-        \]
-    \end{enumerate}
+    Sean $\Omega \subset \R^n$ un conjunto convexo y abierto y $f : \Omega \to \R$ una función diferenciable en $\Omega$. Entre otras cosas, $f$ es convexa si y solo si
+    \[
+        f(y) \ge f(x) + \langle f'(x), y - x \rangle.
+    \]
 \end{theorem}
 
 \begin{proof}
-    Véase el Teorema 3.4.7 en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:3.4.7}).
+    Véase \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:3.4.5}).
 \end{proof}
 
-En particular, una función cuadrática es convexa si, y solamente si, su matriz asociada es semidefinida positiva.
-Para las funciones diferenciables fuertemente convexas, tenemos criterios que son análogos a los del \cref{v2:thm:1.3.5} para las funciones convexas.
-
-\begin{theorem}[Caracterizaciones de funciones fuertemente convexas diferenciables]\label{v2:thm:1.3.6}
-    Sean $\Omega \subset \R^n$ un conjunto convexo y abierto y $f : \Omega \to \R$ una función diferenciable en $\Omega$, con derivada continua en $\Omega$. Entonces las propiedades siguientes son equivalentes:
-    \begin{enumerate}[(a)]
-        \item La función $f$ es fuertemente convexa en $\Omega$ con módulo $\gamma > 0$.
-        \item Para todo $x \in \Omega$ y todo $y \in \Omega$,
-        \[
-            f(y) \ge f(x) + \langle f'(x), y - x \rangle + \gamma \|y - x\|^2.
-        \]
-        \item Para todo $x \in \Omega$ y todo $y \in \Omega$,
-        \[
-            \langle f'(y) - f'(x), y - x \rangle \ge 2\gamma \|y - x\|^2.
-        \]
-    \end{enumerate}
-    Cuando $f$ es dos veces diferenciable en $\Omega$, las propiedades de arriba también son equivalentes a
-    \begin{enumerate}[(d)]
-        \item La matriz Hessiana de $f$ es definida positiva uniformemente en $\Omega$, i.e.,
-        \[
-            \forall x \in \Omega, \; \langle f''(x)d, d \rangle \ge 2\gamma \|d\|^2 \quad \forall d \in \R^n.
-        \]
-    \end{enumerate}
-\end{theorem}
-
-En particular, una función cuadrática es fuertemente convexa si, y solamente si, su matriz asociada es definida positiva.
-
-\begin{theorem}[Condiciones de optimalidad de primera orden en el caso de conjunto factible convexo]\label{v2:thm:1.3.7}
-    Sean $D \subset \R^n$ un conjunto convexo y cerrado, y $f : \R^n \to \R$ una función diferenciable en el punto $\bar{x} \in D$. Si $\bar{x}$ es un minimizador local de $f$ en el conjunto $D$, entonces
-    \begin{equation}
-        \langle f'(\bar{x}), x - \bar{x} \rangle \ge 0 \quad \forall x \in D,
-        \label{v2:eq:1.30}
-    \end{equation}
-    o, equivalentemente,
-    \begin{equation}
-        \bar{x} = P_D(\bar{x} - \alpha f'(\bar{x})) \quad \forall \alpha \in \R_+.
-        \label{v2:eq:1.31}
-    \end{equation}
-    Si $f$ es una función convexa y vale \eqref{v2:eq:1.30} (o \eqref{v2:eq:1.31}), entonces $\bar{x}$ es un minimizador de $f$ en $D$. Además de eso, en este caso \eqref{v2:eq:1.30} e \eqref{v2:eq:1.31} son equivalentes a la siguiente condición:
-    \begin{equation}
-        \bar{x} = P_D(\bar{x} - \alpha f'(\bar{x})) \quad \text{para algún } \alpha > 0.
-        \label{v2:eq:1.32}
-    \end{equation}
+\begin{theorem}[Condiciones de optimalidad en caso convexo]\label{v2:thm:1.3.7}
+    Sean $D \subset \R^n$ un conjunto convexo y cerrado, y $f : \R^n \to \R$ una función diferenciable en el punto $\bar{x} \in D$. Si $f$ es una función convexa y $\bar{x} = P_D(\bar{x} - \alpha f'(\bar{x}))$ para $\alpha > 0$, entonces $\bar{x}$ es un minimizador de $f$ en $D$.
 \end{theorem}
 
 \begin{proof}
-    Teoremas 3.1.3, 3.2.5 y 3.4.8 en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:3.1.3,v1:thm:3.2.5,v1:thm:3.4.8}).
+    Véase \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:3.4.6}).
 \end{proof}
-
-En el caso de un problema de programación convexa, las condiciones necesarias de optimalidad de Karush-Kuhn-Tucker también se vuelven suficientes.
 
 \begin{theorem}\label{v2:thm:1.3.8}
-    Sea $\bar{x} \in D$ un punto estacionario del problema \eqref{v2:eq:1.14}, en el sentido de que valen las condiciones KKT \eqref{v2:eq:1.20}-\eqref{v2:eq:1.21} dadas en el Teorema \ref{v2:thm:1.2.3}. Sean $f$ y $g$ funciones convexas y sea $h$ una función afín. Entonces $\bar{x}$ es un minimizador del problema \eqref{v2:eq:1.14}.
+    Sea $\bar{x} \in D$ un punto estacionario del problema \eqref{v2:eq:1.14}, en el sentido de que valen las condiciones KKT. Sean $f$ y $g$ funciones convexas y sea $h$ una función afín. Entonces $\bar{x}$ es un minimizador del problema \eqref{v2:eq:1.14}.
 \end{theorem}
 
 \begin{proof}
-    Véase el Teorema 4.2.2 en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:4.2.2}).
+    Véase \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:4.2.2}).
 \end{proof}
 
 Recordamos ahora la noción de subdiferencial de una función convexa (no necesariamente diferenciable).
@@ -206,39 +104,13 @@ Recordamos ahora la noción de subdiferencial de una función convexa (no necesa
     El conjunto de todos los subgradientes de $f$ en $x$ se llama subdiferencial de $f$ en $x$; lo denotamos por $\partial f(x)$.
 \end{definition}
 
-Tenemos el siguiente resultado.
-
 \begin{theorem}[El subdiferencial de una función convexa]\label{v2:thm:1.3.9}
-    Sea $f : \R^n \to \R$ una función convexa. Entonces para todo $x \in \R^n$, el conjunto $\partial f(x)$ es convexo, compacto y no vacío. Además de eso,
-    \begin{enumerate}[(a)]
-        \item Para todo $d \in \R^n$, se tiene
-        \[
-            f'(x; d) = \max \{ \langle y, d \rangle \mid y \in \partial f(x) \}.
-        \]
-        \item $f$ es diferenciable en el punto $x \in \R^n$ si, y solamente si, el conjunto $\partial f(x)$ contiene un solo elemento. En este caso, se tiene que $\partial f(x) = \{f'(x)\}$.
-        \item El punto $\bar{x}$ es un minimizador de $f$ en $\R^n$ si, y solamente si,
-        \[
-            0 \in \partial f(\bar{x}).
-        \]
-        \item Si $D \subset \R^n$ es un conjunto limitado, entonces
-        \[
-            L = \sup \{ \|y\| \mid y \in \cup_{x \in D} \partial f(x) \} < +\infty,
-        \]
-        y $f$ es Lipschitz-continua en $D$ con módulo $L$.
-    \end{enumerate}
+    Sea $f : \R^n \to \R$ una función convexa. Entonces para todo $x \in \R^n$, el conjunto $\partial f(x)$ es convexo, compacto y no vacío. Además, $f'(x; d) = \max \{ \langle y, d \rangle \mid y \in \partial f(x) \}$. El punto $\bar{x}$ es un minimizador de $f$ en $\R^n$ si, y solamente si, $0 \in \partial f(\bar{x})$.
 \end{theorem}
 
 \begin{proof}
-    Véanse los Teoremas 3.4.12 y 3.4.13, y las Proposiciones 3.4.5 y 3.4.6 en \cite{izmailov2020otimizacaovolume1} (o equivalentes en el Vol. 1).
+    Véanse \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:3.4.8,v1:thm:3.4.9}).
 \end{proof}
-
-Notemos también que si $f_i : \R^n \to \R$, $i = 1, \dots, p$, son funciones convexas, entonces
-\begin{equation}
-    \partial \left( \sum_{i=1}^p f_i(x) \right) = \sum_{i=1}^p \partial f_i(x), \quad \forall x \in \R^n.
-    \label{v2:eq:1.33}
-\end{equation}
-
-Recordamos ahora la noción de $\varepsilon$-subdiferencial de una función convexa.
 
 \begin{definition}\label{v2:def:1.3.5}
     Sean $f : \R^n \to \R$ una función convexa y $\varepsilon \in \R_+$. Decimos que $y \in \R^n$ es un $\varepsilon$-subgradiente de $f$ en el punto $x \in \R^n$ cuando
@@ -248,13 +120,10 @@ Recordamos ahora la noción de $\varepsilon$-subdiferencial de una función conv
     El conjunto de todos los $\varepsilon$-subgradientes de $f$ en $x$, denotado por $\partial_\varepsilon f(x)$, se llama $\varepsilon$-subdiferencial de $f$ en $x$.
 \end{definition}
 
-Obviamente, $\partial f(x) \subset \partial_\varepsilon f(x)$ para todo $x \in \R^n$ y cualquier $\varepsilon \in \R_+$, y $\partial_0 f(x) = \partial f(x)$. Tenemos el siguiente teorema.
-
 \begin{theorem}[El $\varepsilon$-subdiferencial]\label{v2:thm:1.3.10}
     Sea $f : \R^n \to \R$ una función convexa. Entonces para todo $x \in \R^n$ y todo $\varepsilon \in \R_+$, el conjunto $\partial_\varepsilon f(x)$ es convexo, compacto y no vacío.
-    Si $\{x^k\} \to x$, $\varepsilon_k \to \varepsilon$ ($k \to \infty$), e $y^k \in \partial_{\varepsilon_k} f(x^k)$ para todo $k$, entonces la secuencia $\{y^k\}$ es limitada y todos sus puntos de acumulación pertenecen a $\partial_\varepsilon f(x)$.
 \end{theorem}
 
 \begin{proof}
-    Véase el Teorema 3.4.15 en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:3.4.15}).
+    Véase \cite{izmailov2020otimizacaovolume1} (o \cref{v1:def:3.4.2}).
 \end{proof}
