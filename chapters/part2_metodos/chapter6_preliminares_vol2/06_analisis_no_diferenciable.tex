@@ -1,62 +1,186 @@
 % --- Archivo: 06_analisis_no_diferenciable.tex ---
 
 % =========================================================
-\section{Elementos del Análisis no Diferenciable}
+\section{Elementos del Análisis no diferenciable}
+\label{v2:sec:1.6}
 % =========================================================
 
-En optimización, el interés en funciones no diferenciables proviene del hecho de que las condiciones KKT poseen naturaleza esencialmente no diferenciable. La condición de complementariedad $\bar{\mu}_i \ge 0$, $g_i(\bar{x}) \le 0$, y $\bar{\mu}_i g_i(\bar{x}) = 0$ se puede reescribir mediante \textbf{funciones de complementaridad} $\psi(a, b)$ tales que $\psi(a, b) = 0 \iff a \ge 0, \; b \ge 0, \; ab = 0$.
+En este libro, nuestro interés en funciones no convexas y no diferenciables se debe principalmente al hecho de que las condiciones de complementariedad que aparecen en las condiciones de optimalidad en forma primal-dual para problemas con restricciones mixtas poseen una naturaleza esencialmente no diferenciable, incluso cuando las funciones involucradas en el problema son diferenciables.
 
-Entre las elecciones más populares destacan el \textbf{residuo natural} $\psi(a, b) = \min\{a, b\}$ y la función de \textbf{Fischer-Burmeister} $\psi(a, b) = \sqrt{a^2 + b^2} - a - b$. Ambas son no diferenciables en el origen $(0,0)$, lo que ocurre si el problema carece de complementariedad estricta (restricciones activas con multiplicador nulo).
+Como ya fue mencionado en la \cref{v2:sec:1.2}, la condición de complementariedad nos dice que todos los multiplicadores de Lagrange asociados a las restricciones inactivas en un punto estacionario $\bar{x}$ del problema \eqref{v2:eq:1.14} tienen que ser nulos:
+\[
+    \bar{\mu}_i = 0 \quad \forall i \in \{1, \dots, m\} \setminus I(\bar{x}),
+\]
+donde $I(\bar{x}) = \{i = 1, \dots, m \mid g_i(\bar{x}) = 0\}$. Como los multiplicadores de Lagrange son también no negativos y el punto $\bar{x}$ es factible, equivalentemente esto puede ser escrito como
+\begin{equation}
+    g_i(\bar{x}) \le 0, \quad \bar{\mu}_i \ge 0, \quad \bar{\mu}_i g_i(\bar{x}) = 0, \quad i = 1, \dots, m.
+    \label{v2:eq:1.46}
+\end{equation}
+O también, como
+\[
+    \min\{-g_i(\bar{x}), \bar{\mu}_i\} = 0, \quad i = 1, \dots, m.
+\]
 
-\begin{theorem}[Teorema de Rademacher]\label{thm:v2_rademacher}
-    Toda función Lipschitz-continua $F : \R^n \to \R^l$ en un conjunto abierto $V$ es diferenciable en casi todo punto (la medida de Lebesgue del conjunto de puntos de no diferenciabilidad es nula).
+Como es obvio, el sistema de ecuaciones
+\begin{equation}
+    \min\{-g_i(\bar{x}), \bar{\mu}_i\} = 0, \quad i = 1, \dots, m,
+    \label{v2:eq:1.47}
+\end{equation}
+con respecto a $(x, \mu) \in \R^n \times \R^m$ no es diferenciable en puntos $(x, \mu)$ para los cuales
+\[
+    J^0(x, \mu) = \{i = 1, \dots, m \mid g_i(x) = \mu_i\} \neq \emptyset.
+\]
+En particular, este sistema no es diferenciable en la solución primal-dual $(\bar{x}, \bar{\mu})$ cuando la condición de complementariedad estricta no es satisfecha (i.e., $\bar{\mu}_i = 0$ para algún $i \in I(\bar{x})$).
+
+Existen también otras maneras de reformular la condición de complementariedad \eqref{v2:eq:1.46}, diferentes a \eqref{v2:eq:1.47}. Para este fin, la siguiente noción es útil.
+Decimos que $\psi \colon \R \times \R \to \R$ es una \deftech{función de complementariedad} si
+\[
+    \psi(a, b) = 0 \quad \iff \quad a \ge 0, \; b \ge 0, \; ab = 0.
+\]
+Una función con esta propiedad ya fue utilizada arriba:
+\[
+    \psi(a, b) = \min\{a, b\}, \quad a, b \in \R.
+\]
+Esta función se llama de \textit{residuo natural}. Otra elección popular es la función de Fischer-Burmeister, dada por
+\[
+    \psi(a, b) = \sqrt{a^2 + b^2} - a - b, \quad a, b \in \R.
+\]
+Algunas otras posibilidades serán mencionadas en la \cref{v2:sec:4.5}.
+
+Notemos que las funciones de complementariedad anteriores son no diferenciables. Es justamente por eso que estamos presentando algunos hechos (bien básicos) del Análisis no diferenciable. Como estos conocimientos serán necesarios solamente en la \cref{v2:sec:4.5}, la presentación será breve. Los detalles pueden ser consultados en la bibliografía [6].
+
+\begin{theorem}[Teorema de Rademacher]\label{v2:thm:1.6.1}
+    Sea $F \colon \R^n \to \R^l$ una función Lipschitz-continua en un conjunto abierto $V \subset \R^n$. Sea $D_F$ el conjunto de todos los puntos donde $F$ es diferenciable.
+    Entonces la medida de Lebesgue del conjunto $V \setminus D_F$ es nula.
 \end{theorem}
 
-Esto permite definir el \deftech{B-diferencial} (Bouligand-differential) como los límites de los jacobianos clásicos:
+La importancia del Teorema de Rademacher consiste en permitir generalizaciones bien útiles de la derivada clásica para funciones que no son diferenciables.
+Llamamos \deftech{B-diferencial} de la función $F \colon \R^n \to \R^l$ en el punto $x \in \R^n$ al conjunto
 \[
-    \partial_B F(x) = \left\{ H \in \R^{l \times n} \;\middle|\; \exists \{x^k\} \to x, \ \{F'(x^k)\} \to H \right\}.
+    \partial_B F(x) = \left\{ H \in \R(l, n) \mathrel{\bigg|} \begin{array}{l} \exists \{x^k\} \subset D_F : \{x^k\} \to x, \\ \{F'(x^k)\} \to H \; (k \to \infty) \end{array} \right\}.
 \]
-El \deftech{diferencial de Clarke} es la envoltura convexa del B-diferencial: $\partial F(x) = \conv \partial_B F(x)$.
-
-\begin{theorem}[Subdiferencial del Mínimo]\label{thm:v2_subdif_min}
-    Si $f(x) = \min_{i} f_i(x)$ para funciones suaves, el B-diferencial de $f$ está contenido en el conjunto de los gradientes de las funciones que empatan en el mínimo: $\partial_B f(x) \subset \{ f'_i(x) \mid f_i(x) = f(x) \}$.
-\end{theorem}
-
-Para la convergencia de métodos de Newton generalizados, necesitamos que la función no diferenciable aproxime bien a una función lineal. Decimos que $F$ satisface la \deftech{condición de Kummer} si $\sup_{H \in \partial F(x+d)} \|F(x + d) - F(x) - Hd\| = o(\|d\|)$, y la \deftech{condición de Kummer fuerte} si el residuo es de orden $O(\|d\|^2)$.
-
-La propiedad de \textbf{semi-diferenciabilidad} unifica la Lipschitz-continuidad, la existencia de derivadas direccionales y las condiciones de Kummer. Una función semi-diferenciable permite que el límite $\lim_{\xi \to d, t \to 0^+} H\xi$ (donde $H \in \partial F(x + t\xi)$) coincida con la derivada direccional clásica $F'(x; d)$.
-
-Para finalizar, presentamos una estimativa para la distancia a la solución de la ecuación $\Phi(x) = 0$, que será utilizada posteriormente para probar convergencia superlineal. Suponiendo que $\Phi : \Rn \to \Rn$ sea diferenciable en el punto $\bar{x} \in \Rn$ en cada dirección, decimos que $\Phi$ satisface la \deftech{$R_0$-condición} si
+El \deftech{diferencial de Clarke} de la función $F$ en el punto $x$ es el conjunto
 \[
-    \{ d \in \Rn \mid \Phi'(\bar{x}; d) = 0 \} = \{0\}.
+    \partial F(x) = \conv \partial_B F(x),
 \]
-Notemos que si $\Phi$ además de ser diferenciable en cada dirección también es Lipschitz-continua en una vecindad de $\bar{x}$, entonces la $BD$-regularidad de $\Phi$ en $\bar{x}$ (es decir, la no-singularidad de todo elemento de $\partial_B \Phi(\bar{x})$) implica la $R_0$-condición en este punto.
+i.e., la envoltura convexa del B-diferencial de $F$ en $x$. Cabe mencionar que para una función convexa $f \colon \R^n \to \R$, el subdiferencial $\partial f$ definido en la \cref{v2:sec:1.3} es el mismo conjunto que el diferencial de Clarke definido arriba para $F = f$.
 
-\begin{theorem}[Teorema de la $R_0$-condición]\label{thm:v2_r0_condicion}
-    Sea $\Phi : \Rn \to \Rn$ una función Lipschitz-continua con módulo $L > 0$ en una vecindad del punto $\bar{x} \in \Rn$ tal que $\Phi(\bar{x}) = 0$. Sea $\Phi$ diferenciable en este punto en cada dirección.
-    
-    Entonces $\Phi$ satisface en $\bar{x}$ la $R_0$-condición si, y solamente si, existe una vecindad $U$ del punto $\bar{x}$ en $\Rn$ y un número $M > 0$ tales que
+Es importante resaltar que, para ser de utilidad práctica, una generalización de derivada debe permitir el cálculo explícito, por lo menos en algunas aplicaciones de interés. Esto no siempre es el caso para varias otras nociones de derivadas generalizadas en la literatura. Felizmente, en el caso del B-diferencial y del diferencial de Clarke, estos conjuntos (o, por lo menos, elementos de estos conjuntos) pueden ser calculados en varias aplicaciones de la Optimización (e.g., véase la \cref{v2:sec:4.5}) y áreas afines.
+
+Primero, notemos algunas propiedades que son fáciles de verificar. Para la función
+\[
+    F \colon \R^n \to \R^{l_1} \times \R^{l_2}, \quad F(x) = (F_1(x), F_2(x)),
+\]
+vale la inclusión
+\[
+    \partial_B F(x) \subset \partial_B F_1(x) \times \partial_B F_2(x), \quad \forall x \in \R^n.
+\]
+Además de eso, si $F_1$ es diferenciable en una vecindad del punto $x$, se tiene que $\{F_1'(x)\} \times \partial_B F_2(x) \subset \partial_B F(x)$, y si la derivada de $F_1$ es continua en $x$, entonces la última inclusión vale como igualdad.
+Teniendo en vista la reformulación de complementariedad \eqref{v2:eq:1.47}, el resultado siguiente es importante para nuestros desarrollos futuros.
+
+\begin{theorem}\label{v2:thm:1.6.2}
+    Sean $f_i \colon \R^n \to \R$ funciones diferenciables en $\R^n$, $i = 1, \dots, s$, y para todo $x \in \R^n$,
     \[
-        \|x - \bar{x}\| \le M\|\Phi(x)\| \quad \forall x \in U.
+        f(x) = \min_{i=1,\dots,s} f_i(x).
+    \]
+    Sea
+    \[
+        I(x) = \{i = 1, \dots, s \mid f_i(x) = f(x)\}.
+    \]
+    Entonces para todo $x \in \R^n$ tal que la derivada de $f_i$ es continua en $x$ para cada $i \in I(x)$, se tiene que
+    \[
+        \partial_B f(x) \subset \{f_i'(x) \mid i \in I(x)\}.
+    \]
+    Más aún, esta inclusión vale como igualdad si para cada índice $i \in I(x)$ existe una secuencia $\{x^{i,k}\}$ que converge a $x$ y satisface $I(x^{i,k}) = \{i\}$ para todo $k$.
+\end{theorem}
+
+El diferencial de Clarke es utilizado para definir la propiedad siguiente, que es fundamental en el contexto del método de Newton generalizado, adecuado para resolver sistemas de ecuaciones no diferenciables. Dizemos que la función $F \colon \R^n \to \R^l$ satisface en el punto $x \in \R^n$ la \deftech{condición de Kummer}, si
+\begin{equation}
+    \sup_{H \in \partial F(x+d)} \|F(x+d) - F(x) - Hd\| = o(\|d\|),
+    \label{v2:eq:1.48}
+\end{equation}
+y la \deftech{condición de Kummer fuerte}, si
+\begin{equation}
+    \sup_{H \in \partial F(x+d)} \|F(x+d) - F(x) - Hd\| = O(\|d\|^2).
+    \label{v2:eq:1.49}
+\end{equation}
+
+Otras nociones importantes de diferenciabilidad generalizada están basadas en la diferenciabilidad direccional clásica. Recordamos que una función $F \colon \R^n \to \R^l$ es diferenciable en $x \in \R^n$ en la dirección $d \in \R^n$, si el límite $\lim_{t \to 0+} (F(x+td) - F(x))/t$ existe y es finito. En este caso, el límite arriba es denotado por $F'(x; d)$ y es llamado \deftech{derivada direccional de la función $F$ en el punto $x$ en la dirección $d$}. Naturalmente, si la función $F$ es diferenciable en el punto $x$, ella es diferenciable en este punto en cada dirección, y se tiene que $F'(x; d) = F'(x)d$ para todo $d \in \R^n$.
+
+\begin{theorem}\label{v2:thm:1.6.3}
+    Sea $F \colon \R^n \to \R^l$ una función Lipschitz-continua en una vecindad del punto $x \in \R^n$, diferenciable en este punto en cada dirección. Entonces
+    \begin{enumerate}[(a)]
+        \item La función positivamente homogénea
+        \[
+            d \mapsto F'(x; d) \colon \R^n \to \R^l
+        \]
+        es Lipschitz-continua en $\R^n$.
+        \item Para todo $d \in \R^n$ existe una matriz $H \in \partial_B F(x)$ tal que $F'(x; d) = Hd$.
+        \item $F$ es B-diferenciable en el punto $x$, i.e.,
+        \[
+            F(x+d) - F(x) - F'(x; d) = o(\|d\|).
+        \]
+    \end{enumerate}
+\end{theorem}
+
+La noción que unifica la Lipschitz-continuidad en una vecindad de un punto dado, la condición de Kummer (fuerte) y la diferenciabilidad en cada dirección es la propiedad de \deftech{semi-diferenciabilidad}. Decimos que una función $F \colon \R^n \to \R^l$, que posee en el punto $x \in \R^n$ las tres propiedades arriba mencionadas, es \deftech{(fuertemente) semi-diferenciable} en este punto. La utilidad de esta noción se debe al hecho de que, con frecuencia, las tres propiedades valen al mismo tiempo. A propósito, existen varias definiciones de semi-diferenciabilidad.
+
+\begin{theorem}\label{v2:thm:1.6.4}
+    Sea $F \colon \R^n \to \R^l$ una función Lipschitz-continua en una vecindad del punto $x \in \R^n$.
+    Entonces ella es semi-diferenciable en $x$ si, y solamente si, para todo $d \in \R^n$ existe el límite finito $\lim_{\xi \to d, t \to 0+} H\xi$ que no depende de la elección de $H \in \partial F(x+t\xi)$. En este caso, el límite arriba es la derivada direccional $F'(x; d)$.
+\end{theorem}
+
+\begin{theorem}\label{v2:thm:1.6.5}
+    Sea $F \colon \R^n \to \R^l$ una función Lipschitz-continua en una vecindad del punto $x \in \R^n$, diferenciable en este punto en cada dirección.
+    Entonces $F$ satisface en $x$ la condición de Kummer si, y solamente si,
+    \[
+        \sup_{H \in \partial F(x+d)} \|Hd - F'(x; d)\| = o(\|d\|),
+    \]
+    y $F$ satisface en $x$ la condición de Kummer fuerte si, y solamente si,
+    \[
+        \sup_{H \in \partial F(x+d)} \|Hd - F'(x; d)\| = O(\|d\|^2).
+    \]
+\end{theorem}
+
+A partir del Teorema del Valor Medio, es fácil probar que una función diferenciable con derivada continua en un punto dado es semi-diferenciable en este punto. Si, además de eso, la derivada de la función en cuestión es Lipschitz-continua en una vecindad del punto, entonces la función es fuertemente semi-diferenciable.
+
+Para finalizar, presentamos una estimativa para la distancia a la solución de la ecuación
+\[
+    \Phi(x) = 0,
+\]
+que será utilizada en la \cref{v2:sec:4.7}. Suponiendo que $\Phi \colon \R^n \to \R^n$ sea diferenciable en el punto $\bar{x} \in \R^n$ en cada dirección, decimos que $\Phi$ satisface la \deftech{$R_0$-condición} si
+\[
+    \{d \in \R^n \mid \Phi'(\bar{x}; d) = 0\} = \{0\}.
+\]
+
+Notemos que, por la afirmación (b) del \cref{v2:ejer:1.6.3}, si $\Phi$ además de ser diferenciable en cada dirección también es Lipschitz-continua en una vecindad de $\bar{x}$, entonces una $BD$-regularidad de $\Phi$ en $\bar{x}$ (i.e., la no singularidad de todo elemento de $\partial_B \Phi(\bar{x})$) implica la $R_0$-condición en este punto.
+
+\begin{theorem}\label{v2:thm:1.6.6}
+    Sea $\Phi \colon \R^n \to \R^n$ una función Lipschitz-continua con módulo $L > 0$ en una vecindad del punto $\bar{x} \in \R^n$ tal que $\Phi(\bar{x}) = 0$. Sea $\Phi$ diferenciable en este punto en cada dirección.
+    Entonces $\Phi$ satisface en $\bar{x}$ la $R_0$-condición si, y solamente si, existen una vecindad $U$ del punto $\bar{x}$ en $\R^n$ y un número $M > 0$ tales que
+    \[
+        \|x - \bar{x}\| \le M \|\Phi(x)\| \quad \forall x \in U.
     \]
 \end{theorem}
 
 \begin{proof}
-    Supongamos que $\Phi$ satisface en $\bar{x}$ la $R_0$-condición, mas exista una secuencia $\{x^k\} \subset \Rn$ tal que $\{x^k\} \to \bar{x}$ ($k \to \infty$), $x^k \neq \bar{x} \quad \forall k$, y
+    Suponhamos que $\Phi$ satisface en $\bar{x}$ la $R_0$-condición, pero que exista una secuencia $\{x^k\} \subset \R^n$ tal que $\{x^k\} \to \bar{x}$ ($k \to \infty$), $x^k \neq \bar{x} \; \forall k$, y
     \[
         \frac{\|\Phi(x^k)\|}{\|x^k - \bar{x}\|} \to 0 \quad (k \to \infty).
     \]
-    Para todo $k$, definimos $d^k = (x^k - \bar{x}) / \|x^k - \bar{x}\|$, y $t_k = \|x^k - \bar{x}\|$. Podemos admitir, sin pérdida de generalidad, que la secuencia $\{d^k\}$ converge a un cierto $d \in \Rn$, $\|d\| = 1$. Entonces, para todo $k$,
+    Para todo $k$, definimos $d^k = (x^k - \bar{x}) / \|x^k - \bar{x}\|$, $t_k = \|x^k - \bar{x}\|$. Podemos admitir, sin pérdida de generalidad, que la secuencia $\{d^k\}$ converge a un cierto $d \in \R^n$, $\|d\| = 1$. Entonces, para todo $k$,
     \begin{align*}
         \frac{\|\Phi(\bar{x} + t_k d)\|}{t_k} &\le \frac{\|\Phi(\bar{x} + t_k d) - \Phi(\bar{x} + t_k d^k)\|}{t_k} + \frac{\|\Phi(\bar{x} + t_k d^k)\|}{t_k} \\
         &\le L\|d^k - d\| + \frac{\|\Phi(x^k)\|}{\|x^k - \bar{x}\|} \to 0 \quad (k \to \infty),
     \end{align*}
-    de donde se sigue que $\Phi'(\bar{x}; d) = 0$, en contradicción con la $R_0$-condición.
+    de donde se sigue $\Phi'(\bar{x}; d) = 0$, en contradicción con la $R_0$-condición.
     
-    Para probar la afirmación recíproca, consideremos cualquier $d \in \Rn$ tal que $\Phi'(\bar{x}; d) = 0$. Si existen una vecindad $U$ del punto $\bar{x}$ y un número $M > 0$ con las propiedades de arriba, entonces para todo $t > 0$ suficientemente pequeño tenemos:
+    Para probar la afirmación recíproca, consideremos cualquier $d \in \R^n$ tal que $\Phi'(\bar{x}; d) = 0$. Si existen una vecindad $U$ del punto $\bar{x}$ y un número $M > 0$ con las propiedades de arriba, entonces para todo $t > 0$ suficientemente pequeño tenemos
     \begin{align*}
-        t\|d\| &= \|\bar{x} + td - \bar{x}\| \le M\|\Phi(\bar{x} + td)\| \\
-        &= M\|\Phi(\bar{x} + td) - \Phi(\bar{x})\| = M\|t\Phi'(\bar{x}; d)\| + o(t) = o(t),
+        t\|d\| &= \|\bar{x} + td - \bar{x}\| \\
+        &\le M\|\Phi(\bar{x} + td)\| \\
+        &= M\|\Phi(\bar{x} + td) - \Phi(\bar{x})\| \\
+        &= M\|t\Phi'(\bar{x}; d)\| + o(t) = o(t),
     \end{align*}
     lo que solo puede valer para $d = 0$.
 \end{proof}

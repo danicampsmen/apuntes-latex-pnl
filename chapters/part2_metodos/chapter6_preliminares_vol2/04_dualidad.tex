@@ -4,41 +4,111 @@
 \section{Dualidad}
 % =========================================================
 
-Consideramos un problema en formato general (Problema Primal):
+Recordamos ahora algunos hechos de la teoría de dualidad. Consideramos un problema en formato general
 \begin{equation}
-    \min f(x) \quad \text{sujeto a} \quad x \in D = \{ x \in \Omega \mid h(x) = 0, \; g(x) \le 0 \}. \label{eq:v2_dual_primal}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \left\{ x \in \Omega \mathrel{\bigg|} \begin{array}{l} h(x) = 0, \\ g(x) \le 0 \end{array} \right\},
+    \label{v2:eq:1.34}
 \end{equation}
-La Lagrangiana está dada por $L(x, \lambda, \mu) = f(x) + \langle \lambda, h(x) \rangle + \langle \mu, g(x) \rangle$. El problema primal puede ser escrito formalmente como una formulación minimax: $\min_{x \in \Omega} \sup_{(\lambda, \mu)} L(x, \lambda, \mu)$.
-
-El \textbf{problema dual} se obtiene cambiando el orden de la optimización:
+donde $\Omega \subset \R^n$, $f : \Omega \to \R$, $h : \Omega \to \R^l$ y $g : \Omega \to \R^m$. Llamamos a \eqref{v2:eq:1.34} el \textbf{problema primal} (problema original). La Lagrangiana de este problema (en relación a las restricciones funcionales) está dada por
+\[
+    L : \Omega \times \R^l \times \R^m \to \R,
+\]
+\[
+    L(x, \lambda, \mu) = f(x) + \langle \lambda, h(x) \rangle + \langle \mu, g(x) \rangle.
+\]
+El problema primal \eqref{v2:eq:1.34} puede ser formalmente escrito como
 \begin{equation}
-    \max \varphi(\lambda, \mu) \quad \text{sujeto a} \quad (\lambda, \mu) \in \Delta, \label{eq:v2_dual_problem}
+    \min \left\{ \sup_{(\lambda, \mu) \in \R^l \times \R^m_+} L(x, \lambda, \mu) \right\} \quad \text{sujeto a} \quad x \in D,
+    \label{v2:eq:1.35}
 \end{equation}
-donde la \textit{función dual} es $\varphi(\lambda, \mu) = \inf_{x \in \Omega} L(x, \lambda, \mu)$ y el dominio dual es $\Delta = \{ (\lambda, \mu) \in \R^l \times \R_+^m \mid \varphi(\lambda, \mu) > -\infty \}$.
+donde
+\[
+    D = \left\{ x \in \Omega \mathrel{\bigg|} \sup_{(\lambda, \mu) \in \R^l \times \R^m_+} L(x, \lambda, \mu) < +\infty \right\}.
+\]
+El problema dual es obtenido intercambiando el orden de la minimización y de la maximización en \eqref{v2:eq:1.35}, lo que resulta en el siguiente problema:
+\begin{equation}
+    \max \left\{ \inf_{x \in \Omega} L(x, \lambda, \mu) \right\} \quad \text{sujeto a} \quad (\lambda, \mu) \in \Delta,
+    \label{v2:eq:1.36}
+\end{equation}
+donde
+\[
+    \Delta = \left\{ (\lambda, \mu) \in \R^l \times \R^m_+ \mathrel{\bigg|} \inf_{x \in \Omega} L(x, \lambda, \mu) > -\infty \right\}.
+\]
+Definiendo la función dual
+\[
+    \varphi : \Delta \to \R, \quad \varphi(\lambda, \mu) = \inf_{x \in \Omega} L(x, \lambda, \mu),
+\]
+el \textbf{problema dual} \eqref{v2:eq:1.36} puede ser escrito como
+\begin{equation}
+    \max \varphi(\lambda, \mu) \quad \text{sujeto a} \quad (\lambda, \mu) \in \Delta.
+    \label{v2:eq:1.37}
+\end{equation}
+Cuando el problema primal tiene una estructura más concreta, podemos también especificar con más precisión la estructura del problema dual. En algunos casos, acontece que el problema dual es más fácil de resolver que el problema primal y una solución del problema dual proporciona información útil sobre el problema primal. De hecho, el problema dual tiene algunas propiedades muy deseables, independientemente de la estructura del problema primal. En particular, el problema dual siempre consiste en la maximización de una función cóncava en un conjunto convexo (lo que es equivalente a la minimización de una función convexa en este conjunto). Por lo tanto, toda solución local es global y el conjunto de soluciones es convexo.
 
-\begin{theorem}[Propiedades del problema Dual]\label{thm:v2_dual_propiedades}
-    El conjunto factible dual $\Delta$ es convexo y la función dual $\varphi$ es siempre cóncava. Además, vale el \textbf{Teorema de Dualidad Débil}:
+\begin{theorem}\label{v2:thm:1.4.1}
+    Para cualquier problema primal del tipo \eqref{v2:eq:1.34}, el conjunto factible $\Delta$ del problema dual \eqref{v2:eq:1.37} es convexo y la función dual $\varphi : \Delta \to \R$ es cóncava.
+\end{theorem}
+
+\begin{proof}
+    Véase el Teorema 5.2.1 en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:5.2.1}).
+\end{proof}
+
+Es claro que, en general, no hay equivalencia entre los problemas primal y dual. Sin embargo, siempre vale el siguiente hecho.
+
+\begin{theorem}[El Teorema de la dualidad débil]\label{v2:thm:1.4.2}
+    Para cualquier par de problemas primal y dual, se tiene que
+    \[
+        \varphi(\lambda, \mu) \le f(x) \quad \forall x \in D, \; \forall (\lambda, \mu) \in \Delta.
+    \]
+    En particular,
     \[
         \bar{w} = \sup_{(\lambda, \mu) \in \Delta} \varphi(\lambda, \mu) \le \inf_{x \in D} f(x) = \bar{v}.
     \]
-    Cualquier punto factible dual provee una cota inferior para el óptimo primal.
 \end{theorem}
 
-Cuando $\bar{v} > \bar{w}$ decimos que hay una \textit{brecha de dualidad} (duality gap). Para garantizar la igualdad de estos valores, necesitamos hipótesis de convexidad.
+\begin{proof}
+    Véase el Teorema 5.2.2 en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:5.2.2}).
+\end{proof}
 
-\begin{theorem}[Teorema de la Dualidad Fuerte]\label{thm:v2_dualidad_fuerte}
-    Sean $\Omega = \R^n$, $f$ y $g$ funciones convexas y $h$ una función afín. Supongamos que el problema primal satisface la condición de Slater. Si el valor óptimo primal es finito ($\bar{v} > -\infty$), entonces el problema dual posee una solución y no hay brecha de dualidad ($\bar{v} = \bar{w}$).
+Cuando $\bar{v} > \bar{w}$ (los valores óptimos de los problemas primal y dual son diferentes), decimos que hay una \deftech{brecha de dualidad} (duality gap en inglés). En general, para garantizar la igualdad de estos valores (y por lo tanto cierta equivalencia entre los problemas primal y dual), precisamos de algunas hipótesis adicionales, típicamente de convexidad. Pero, incluso cuando hay brecha de dualidad, la relación entre los dos problemas puede ser bien útil. Por ejemplo, si en el problema primal $\bar{v} = -\infty$ (la función objetivo $f$ es ilimitada inferiormente en el conjunto factible $D$ no vacío), podemos concluir que $\Delta = \emptyset$ (el conjunto factible del problema dual es vacío). Recíprocamente, si $\bar{w} = +\infty$ (la función objetivo $\varphi$ del problema dual es ilimitada superiormente en el conjunto factible $\Delta$ no vacío), entonces el problema primal tiene conjunto factible vacío ($D = \emptyset$). Y en cualquier caso, un punto factible del problema primal (dual) siempre proporciona una cota superior (inferior) para el valor óptimo del problema dual (primal).
+
+\begin{theorem}[Teorema de la dualidad fuerte]\label{v2:thm:1.4.3}
+    Sean $\Omega = \R^n$, $f : \R^n \to \R$ y $g : \R^n \to \R^m$ funciones convexas y $h : \R^n \to \R^l$ una función afín. Supongamos que el problema primal satisface la condición de Slater \eqref{v2:eq:1.18}.
+    Si el valor óptimo de \eqref{v2:eq:1.34} es finito, i.e., $\bar{v} > -\infty$ (por ejemplo, cuando el problema primal tiene una solución), entonces el problema dual \eqref{v2:eq:1.36} posee una solución y no hay brecha de dualidad.
 \end{theorem}
 
-\begin{theorem}[Teorema del Punto de Silla de Kuhn-Tucker]\label{thm:v2_kuhn_tucker}
-    Bajo las hipótesis de convexidad y Slater, $\bar{x} \in D$ es solución del problema primal si, y solamente si, existe $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R_+^m$ tal que $L(\bar{x}, \bar{\lambda}, \bar{\mu}) = \min_{x \in \Omega} L(x, \bar{\lambda}, \bar{\mu})$ y $\bar{\mu}_i g_i(\bar{x}) = 0$. El conjunto de pares $(\bar{\lambda}, \bar{\mu})$ coincide con las soluciones del problema dual.
+\begin{proof}
+    Véase el Teorema 5.2.3 en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:5.2.3}).
+\end{proof}
+
+El siguiente resultado muestra, entre otras cosas, la relación entre multiplicadores de Lagrange en condiciones de optimalidad de Karush-Kuhn-Tucker para problemas convexos diferenciables y las soluciones del problema dual. En el caso convexo (diferenciable), la condición \eqref{v2:eq:1.38} en el Teorema \ref{v2:thm:1.4.4} es equivalente a decir que $L'_x(\bar{x}, \bar{\lambda}, \bar{\mu}) = 0$ (ya que $\Omega = \R^n$); por tanto, obtenemos exactamente las condiciones de Karush-Kuhn-Tucker.
+
+\begin{theorem}[Teorema de Kuhn-Tucker]\label{v2:thm:1.4.4}
+    Bajo las hipótesis del Teorema \ref{v2:thm:1.4.3}, $\bar{x} \in D$ es una solución del problema primal \eqref{v2:eq:1.34} si, y solamente si, existe $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m_+$ tal que
+    \begin{align}
+        L(\bar{x}, \bar{\lambda}, \bar{\mu}) &= \min_{x \in \Omega} L(x, \bar{\lambda}, \bar{\mu}), \label{v2:eq:1.38} \\
+        \bar{\mu}_i g_i(\bar{x}) &= 0, \quad i = 1, \dots, m. \label{v2:eq:1.39}
+    \end{align}
+    El conjunto de los pares $(\bar{\lambda}, \bar{\mu})$ satisfaciendo estas condiciones coincide con las soluciones del problema dual \eqref{v2:eq:1.36} y con los multiplicadores de Lagrange del problema primal \eqref{v2:eq:1.34}.
 \end{theorem}
 
-El siguiente resultado es fundamental para el diseño de algoritmos de optimización dual, ya que permite calcular un subgradiente de la función dual "gratis" al resolver el subproblema Lagrangiano.
+\begin{proof}
+    Véase el Teorema 5.2.6 en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:thm:5.2.6}).
+\end{proof}
 
-\begin{proposition}[Subgradiente de la función dual]\label{prop:v2_subgradiente_dual}
-    Sean $(\lambda, \mu) \in \Delta$ y $x(\lambda, \mu) \in \Omega$ el punto donde se alcanza el ínfimo de la Lagrangiana. Entonces, el vector de violaciones de las restricciones es un subgradiente de la función dual (negativa):
+El resultado siguiente es muy importante para el desarrollo de métodos computacionales basados en el problema dual. Este resultado muestra que calculando el valor de la función dual $\varphi$ en un punto dado, obtenemos un subgradiente de la función convexa $(-\varphi)$ "de gracia" (i.e., sin costo numérico adicional).
+
+\begin{proposition}[Subgradiente de la función dual]\label{v2:prop:1.4.1}
+    Sean $(\lambda, \mu) \in \Delta$ y $x(\lambda, \mu) \in \Omega$ tales que
     \[
-        - (h(x(\lambda, \mu)), g(x(\lambda, \mu))) \in \partial(-\varphi)(\lambda, \mu).
+        L(x(\lambda, \mu), \lambda, \mu) = \varphi(\lambda, \mu) = \min_{x \in \Omega} L(x, \lambda, \mu).
+    \]
+    Entonces
+    \[
+        -(h(x(\lambda, \mu)), g(x(\lambda, \mu))) \in \partial(-\varphi)(\lambda, \mu).
     \]
 \end{proposition}
+
+\begin{proof}
+    Véase la Proposición 5.2.2 en \cite{izmailov2020otimizacaovolume1} (o \cref{v1:prop:5.2.2}).
+\end{proof}

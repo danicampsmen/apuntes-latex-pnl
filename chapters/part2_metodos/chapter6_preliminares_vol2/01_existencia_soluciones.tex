@@ -1,57 +1,86 @@
 % --- Archivo: 01_existencia_soluciones.tex ---
 
-En este capítulo recordamos varios hechos fundamentales de la teoría de Optimización, tales como la existencia de soluciones, las condiciones de regularidad de las restricciones y de optimalidad, la convexidad de conjuntos y de funciones, y elementos de la teoría de dualidad. El objetivo es facilitar las referencias futuras a lo largo de este volumen. 
-
-Las demostraciones de estos resultados no serán presentadas aquí, ya que se espera que el lector haya asimilado el primer volumen de esta obra \cite{izmailov2020otimizacaovolume1}. Presentaremos también algunos hechos auxiliares del Análisis y del Álgebra Lineal, que serán utilizados intensivamente en el diseño de los métodos computacionales.
+En este capítulo recordamos varios hechos de la teoría de Optimización, tales como la existencia de soluciones, las condiciones de regularidad de las restricciones y de optimalidad, convexidad de conjuntos y de funciones, y elementos de la teoría de dualidad. El objetivo de este capítulo es facilitar las referencias futuras a lo largo del libro.
+Las demostraciones no serán presentadas. Se espera que el lector ya posea conocimientos sólidos de estos asuntos teóricos y que, en particular, haya leído el primer volumen \cite{izmailov2020otimizacaovolume1} de este libro. Presentaremos también algunos hechos auxiliares del Análisis y del Álgebra Lineal, que serán utilizados a lo largo del libro.
 
 % =========================================================
 \section{Existencia de soluciones}
 % =========================================================
 
-Sean dados un conjunto $D \subset \R^n$ y una función $f : \Omega \to \R$, donde $D \subset \Omega$. Los métodos computacionales que estudiaremos están dedicados al problema de hallar un minimizador de $f$ en el conjunto $D$. Este problema se escribirá como:
+Sean dados un conjunto $D \subset \R^n$ y una función $f : \Omega \to \R$, donde $D \subset \Omega$. Este libro está dedicado a métodos computacionales para el problema de hallar un minimizador de $f$ en el conjunto $D$. Este problema será escrito como
 \begin{equation}
-    \min f(x) \quad \text{sujeto a} \quad x \in D. 
-    \label{eq:v2_opt_gen}
+    \min f(x) \quad \text{sujeto a} \quad x \in D.
+    \label{v2:eq:1.1}
 \end{equation}
 El conjunto $D$ será llamado \deftech{conjunto factible} del problema, los puntos de $D$ serán llamados \deftech{puntos factibles}, y $f$ será llamada \deftech{función objetivo}.
 
-\begin{definition}[Tipos de minimizadores]\label{def:v2_minimizador}
-    Decimos que un punto $\bar{x} \in D$ es:
-    \begin{enuthm}
-        \item \textbf{Minimizador global} de \eqref{eq:v2_opt_gen}, si $f(\bar{x}) \le f(x)$ para todo $x \in D$.
-        \item \textbf{Minimizador local} de \eqref{eq:v2_opt_gen}, si existe una vecindad $U$ de $\bar{x}$ tal que $f(\bar{x}) \le f(x)$ para todo $x \in D \cap U$.
-    \end{enuthm}
-    Si para todo $x \neq \bar{x}$ la desigualdad correspondiente es estricta, $\bar{x}$ será llamado \textbf{minimizador estricto}.
+\begin{definition}\label{v2:def:1.1.1}
+    Decimos que un punto $\bar{x} \in D$ es
+    \begin{enumerate}[(a)]
+        \item \textbf{minimizador global} de \eqref{v2:eq:1.1}, si
+        \begin{equation}
+            f(\bar{x}) \le f(x) \quad \forall x \in D;
+            \label{v2:eq:1.2}
+        \end{equation}
+        \item \textbf{minimizador local} de \eqref{v2:eq:1.1}, si existe una vecindad $U$ de $\bar{x}$ tal que
+        \begin{equation}
+            f(\bar{x}) \le f(x) \quad \forall x \in D \cap U.
+            \label{v2:eq:1.3}
+        \end{equation}
+    \end{enumerate}
+    Si para todo $x \neq \bar{x}$ la desigualdad \eqref{v2:eq:1.2} o \eqref{v2:eq:1.3} es estricta, $\bar{x}$ será llamado minimizador estricto (global o local, respectivamente).
 \end{definition}
 
-\begin{definition}[Valor óptimo]\label{def:v2_valor_optimo}
-    Decimos que $\bar{v} \in [-\infty, +\infty]$ definido por $\bar{v} = \inf \{ f(x) \mid x \in D \}$ es el \textbf{valor óptimo} del problema \eqref{eq:v2_opt_gen}, donde entendemos que $\bar{v} = +\infty$ si $D = \emptyset$.
+\begin{definition}\label{v2:def:1.1.2}
+    Decimos que $\bar{v} \in [-\infty, +\infty]$ definido por
+    \[
+        \bar{v} = \inf \{ f(x) \mid x \in D \}
+    \]
+    es el \textbf{valor óptimo} del problema \eqref{v2:eq:1.1}, donde entendemos que $\bar{v} = +\infty$ si $D = \emptyset$.
 \end{definition}
 
-Una función puede admitir varios minimizadores globales, pero el valor óptimo (global) del problema siempre es único. Cuando $\bar{v} = +\infty$ o $\bar{v} = -\infty$, el problema no posee solución global. Pero incluso cuando $\bar{v}$ es finito, el minimizador global puede no existir (por ejemplo, minimizar $f(x) = e^x$ en $\R$).
+Una función puede admitir varios minimizadores globales, pero el valor óptimo (global) del problema, naturalmente, siempre es el mismo. Por la definición, es claro que todo minimizador global también es minimizador local, pero no recíprocamente.
+Cuando en la \cref{v2:def:1.1.2} tenemos $\bar{v} = +\infty$ o $\bar{v} = -\infty$, el problema \eqref{v2:eq:1.1} no posee solución global. En el primer caso, el conjunto factible del problema es vacío (la existencia de soluciones es obvia). En el segundo caso, $f$ es ilimitada inferiormente en el conjunto $D \neq \emptyset$. Pero incluso cuando $\bar{v}$ es finito, el minimizador global puede no existir (un ejemplo es minimizar $f(x) = e^x$ en $\R$).
 
 Algunas de las condiciones que garantizan la existencia de solución global son las siguientes.
 
-\begin{theorem}[Teorema de Weierstrass]\label{thm:v2_weierstrass}
+\begin{theorem}[Teorema de Weierstrass]\label{v2:thm:1.1.1}
     Sean $D \subset \R^n$ un conjunto compacto no vacío y $f : D \to \R$ una función continua. Entonces, el problema de minimizar $f$ en $D$ tiene una solución global.
 \end{theorem}
 
+\begin{proof}
+    Véase el \cref{v1:thm:1.2.1} en \cite{izmailov2020otimizacaovolume1}.
+\end{proof}
+
 Otro resultado importante se basa en la noción de conjunto de nivel de una función.
 
-\begin{definition}[Conjunto de nivel]\label{def:v2_conjunto_nivel}
-    El \deftech{conjunto de nivel} de la función $f : D \to \R$ asociado a un escalar $c \in \R$, es el conjunto dado por $L_{f,D}(c) = \{ x \in D \mid f(x) \le c \}$.
+\begin{definition}\label{v2:def:1.1.3}
+    El conjunto de nivel de la función $f : D \to \R$ asociado a $c \in \R$, es el conjunto dado por
+    \[
+        L_{f,D}(c) = \{ x \in D \mid f(x) \le c \}.
+    \]
 \end{definition}
 
-\begin{corollary}[Compacidad del conjunto de nivel]\label{cor:v2_nivel_compacto}
-    Sean $D \subset \R^n$ y $f : D \to \R$ continua en $D$. Supongamos que existe $c \in \R$ tal que el conjunto de nivel $L_{f,D}(c)$ sea no vacío y compacto. Entonces, el problema de minimizar $f$ en $D$ posee una solución global.
+En particular, tenemos el siguiente resultado.
+
+\begin{corollary}\label{v2:cor:1.1.1}
+    Sean $D \subset \R^n$ y $f : D \to \R$ continua en el conjunto $D$. Supongamos que existe $c \in \R$ tal que el conjunto de nivel $L_{f,D}(c)$ sea no vacío y compacto.
+    Entonces, el problema de minimizar $f$ en $D$ posee una solución global.
 \end{corollary}
+
+\begin{proof}
+    Véase el \cref{v1:cor:1.2.1} en \cite{izmailov2020otimizacaovolume1}.
+\end{proof}
 
 Otro resultado de existencia utiliza la noción de función coercitiva.
 
-\begin{definition}[Coercitividad]\label{def:v2_coercitiva}
-    Decimos que la función $f : D \to \R$ es \deftech{coercitiva} en el conjunto $D$, cuando para cada secuencia $\{x^k\} \subset D$ tal que $\|x^k\| \to \infty$ o $\{x^k\} \to x \in \cl D \setminus D$ ($k \to \infty$), se tiene que $\limsup_{k \to \infty} f(x^k) = +\infty$.
+\begin{definition}\label{v2:def:1.1.4}
+    Decimos que la función $f : D \to \R$ es coercitiva en el conjunto $D$, cuando para cada secuencia $\{x^k\} \subset D$ tal que $\|x^k\| \to \infty$ o $\{x^k\} \to x \in \cl D \setminus D$ ($k \to \infty$), se tiene que $\limsup_{k \to \infty} f(x^k) = +\infty$.
 \end{definition}
 
-\begin{corollary}[Existencia por coercitividad]\label{cor:v2_existencia_coercitiva}
-    Sean $D \subset \R^n$ y $f : D \to \R$ una función continua y coercitiva en $D$. Entonces, el problema de minimizar $f$ en $D$ posee una solución global.
+Observamos que cuando $D$ es cerrado, la \cref{v2:def:1.1.4} puede ser simplificada, afirmando que $x^k \in D$ e $\|x^k\| \to \infty$ implican en $\limsup_{k \to \infty} f(x^k) = +\infty$. Cuando $D$ es limitado, la definición también puede ser simplificada, afirmando que cuando $x^k \in D$ e $\{x^k\} \to x \in \cl D \setminus D$, se tiene que $\limsup_{k \to \infty} f(x^k) = +\infty$.
+Finalmente, cuando $D$ es compacto, no hay secuencias con propiedades descritas arriba y, por tanto, cualquier función es coercitiva en $D$ trivialmente.
+
+\begin{corollary}\label{v2:cor:1.1.2}
+    Sean $D \subset \R^n$ y $f : D \to \R$ una función continua coercitiva en $D$. Entonces, el problema de minimizar $f$ en $D$ posee una solución global.
 \end{corollary}

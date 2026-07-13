@@ -2,270 +2,179 @@
 
 % =========================================================
 \section{Métodos de optimización unidimensional}
-\label{sec:v2_opt_unidimensional}
 % =========================================================
 
-La optimización unidimensional (conocida comúnmente como \textit{búsqueda de línea} o \textit{line search}) es un componente estructural crítico en la gran mayoría de los métodos multivariables. Tras calcular una dirección de descenso $d^k \in \Rn$ desde el punto actual $x^k$, la determinación del tamaño de paso $\alpha$ requiere resolver (exacta o aproximadamente) el siguiente subproblema:
+A continuación, presentamos algunos métodos básicos para resolver el problema
 \begin{equation}
     \min f(x) \quad \text{sujeto a} \quad x \in [a, b],
-    \label{eq:v2_unidimensional_problem}
+    \label{v2:eq:2.3}
 \end{equation}
-donde $a < b$ y $f : [a, b] \to \R$ es una función continua.
-
-Los algoritmos que presentaremos en esta sección son de \textbf{orden cero}, lo que significa que no exigen el cálculo de la derivada de $f$. Iniciaremos con el método de rejilla (un enfoque pasivo) y luego avanzaremos hacia los métodos secuenciales, que permiten aproximar la solución con un costo computacional mucho menor.
+donde $a, b \in \R$, $a < b$, $f \colon [a, b] \to \R$. Todos estos métodos son de orden cero (i.e., no utilizan derivadas de $f$). El primer método es pasivo y no es muy eficiente. Los otros tres métodos son secuenciales y relativamente eficientes. Ellos permiten aproximar una solución global del problema (y, como consecuencia, también el valor óptimo), pero se aplican a una clase de funciones de estructura más específica. Notemos que existen varios otros algoritmos de optimización unidimensional. La exposición a seguir sirve apenas para mencionar algunas posibilidades. El desarrollo de métodos para este tipo de problema no es nuestro objetivo. Cabe resaltar que buenos algoritmos unidimensionales están implementados en todos los sistemas computacionales de uso general, tales como \texttt{Matlab}, \texttt{Maple}, \texttt{Scilab}. Naturalmente, lo mismo se aplica a sistemas computacionales de optimización. Esta es una de las razones para no presentar muchos detalles sobre algoritmos unidimensionales. Esencialmente, cuando un algoritmo hace uso de optimización unidimensional, trataremos la implementación de esta parte como exterior al método en cuestión.
 
 % ---------------------------------------------------------
-\subsection{Búsqueda en rejilla (Grid Search)}
+\subsection{Método de comparación de puntos de red}
 % ---------------------------------------------------------
 
-El enfoque pasivo más intuitivo consiste en evaluar la función objetivo sobre una discretización uniforme del intervalo de búsqueda.
+Sea la tarea de encontrar el valor óptimo
+\[
+    \bar{v} = \min \{ f(x) \mid x \in [a, b] \}
+\]
+del problema \eqref{v2:eq:2.3}, donde $f$ es una función continua en $[a, b]$.
+Supongamos que para una resolución aproximada de este problema, sea permitido calcular valores de $f$ en $N$ puntos del intervalo $[a, b]$, donde $N$ es fijo. Sin informaciones adicionales, la estrategia razonable consiste en cortar $[a, b]$ en $N$ intervalos iguales, y elegir el punto medio de cada intervalo.
 
-\begin{algorithm}[Búsqueda en rejilla]\label{alg:v2_grid_search}
-    Fijamos un número entero $N \ge 1$ de puntos de evaluación permitidos.
-    \begin{enuthm}
-        \item Definimos el tamaño del incremento (resolución) de la rejilla como $\delta_N = (b-a)/N$.
-        \item Calculamos los puntos de muestreo distribuidos simétricamente en el intervalo:
-        \begin{equation}
-            x^N_i = a + i \delta_N - \frac{\delta_N}{2}, \quad i = 1, \dots, N.
-        \end{equation}
-        \item Determinamos la aproximación devolviendo el valor mínimo obtenido tras evaluar los $N$ puntos:
-        \begin{equation}
-            v_N = \min_{i = 1, \dots, N} f(x^N_i).
-        \end{equation}
-    \end{enuthm}
-\end{algorithm}
+\noindent \textbf{Algoritmo 2.3.1. (Método de comparación de puntos de red)} \\
+Definimos $\delta_N = (b - a)/N$ y computamos $x_i^N = (a + i\delta_N) - \delta_N/2$, $i = 1, \dots, N$, $v_N = \min_{i=1,\dots,N} f(x_i^N)$.
 
-Si la función $f$ es Lipschitz continua en el intervalo con constante de Lipschitz $L > 0$ (es decir, $\absolute{f(y) - f(z)} \le L \absolute{y - z}$ para todo $y, z \in [a,b]$), el error analítico de la aproximación está rigurosamente acotado. 
+Aceptamos $v_N$ como una aproximación al valor óptimo $\bar{v}$. Es natural pensar que el número $v_N - \bar{v} \ge 0$ es el error de la aproximación obtenida. Obviamente, sin hipótesis adicionales sobre $f$, para un $N$ fijo cualquiera este error puede ser arbitrariamente grande. Conseguir una estimativa del error solo puede ser posible para algunas clases de funciones. Sea $f$ Lipschitz-continua en $[a, b]$ con módulo $L > 0$, i.e.,
+\[
+    |f(x^1) - f(x^2)| \le L|x^1 - x^2| \quad \forall x^1, x^2 \in [a, b].
+\]
+Sea $\bar{x} \in [a, b]$ una solución global del problema \eqref{v2:eq:2.3}. Observamos que la distancia máxima entre los puntos elegidos de la red y $\bar{x}$ no puede ser mayor que $\delta_N/2$. Por lo tanto,
+\[
+    v_N - \bar{v} = \min_{i=1,\dots,N} f(x_i^N) - f(\bar{x}) \le L \delta_N/2 = \frac{L(b - a)}{2N}.
+\]
+La dificultad práctica para la definición del número $N$ que garantiza una aproximación deseada consiste en estimar bien el valor de la constante de Lipschitz $L$. En la gran mayoría de casos, esta tarea no es trivial; es posiblemente tan difícil como resolver el problema de optimización en cuestión. Por lo tanto, el método tiene utilidad computacional apenas cuando el valor de $L$ es conocido con alguna precisión, o puede ser estimado sin gran costo computacional (i.e., para algunos problemas bien específicos).
 
-Dado que cualquier minimizador global exacto $\bar{x} \in [a, b]$ dista a lo sumo la mitad de la resolución de la rejilla ($\delta_N/2$) del nodo de evaluación más cercano $x^N_j$, el error funcional del método satisface:
-\begin{equation}
-    v_N - \bar{v} \le f(x^N_j) - f(\bar{x}) \le L \absolute{x^N_j - \bar{x}} \le \frac{L(b - a)}{2N}.
-    \label{eq:v2_grid_search_error}
-\end{equation}
+No es difícil verificar que, dentro de la clase de métodos pasivos para funciones Lipschitz-continuas, el método presentado arriba es el mejor posible, en el sentido siguiente: para cualquier otra elección de $N$ puntos en $[a, b]$ existe una función, que es Lipschitz-continua, tal que el error de aproximación sería mayor del que se obtiene con el Algoritmo 2.3.1.
 
-\begin{notabox}[Características de la Búsqueda en Rejilla]
-    \
-    \begin{enumerate}[label=\normalfont\arabic*., leftmargin=5mm]
-        \item \textbf{Precisión óptima del error:} La cota de error obtenida en \eqref{eq:v2_grid_search_error} es ajustada (\textit{sharp}). Para todo número entero $N$ existe una función $f$, Lipschitz continua con constante $L$, tal que el error real de aproximación es exactamente igual a la cota teórica. Esto demuestra que, dentro de la clase de métodos \textbf{pasivos} de orden cero, el algoritmo de rejilla es óptimo en el sentido minimax.
-
-        \item \textbf{Dificultad de estimación práctica:} La principal limitación práctica para definir a priori el número $N$ que garantiza una precisión funcional $\epsilon$ consiste en estimar adecuadamente el valor de la constante de Lipschitz $L$. En la gran mayoría de los casos reales, esta tarea no es trivial y puede resultar analíticamente tan compleja como resolver el propio problema de optimización original. Por lo tanto, el \cref{alg:v2_grid_search} suele tener utilidad computacional principalmente cuando $L$ es conocido por la física del problema o puede estimarse con un costo muy bajo.
-    \end{enumerate}
-\end{notabox}
-
+Observamos que el Algoritmo 2.3.1 no proporciona una aproximación a la solución $\bar{x}$ con alguna precisión dada, incluso cuando la constante $L$ es conocida. Por cierto, para todo número entero $N$ existe una función $f$, Lipschitz-continua en $[a, b]$ con módulo $L$, tal que si aceptamos como aproximación de $\bar{x}$ al punto $\bar{x}^N$ de la red donde fue alcanzado el valor $v_N$ de la función $f$, se tiene que $|\bar{x}^N - \bar{x}| = (b - a) - \delta_N/2$.
 
 % ---------------------------------------------------------
-\subsection{Métodos de exclusión de intervalos}
+\subsection{Método de bisección. Método de la sección áurea}
 % ---------------------------------------------------------
 
-Los métodos secuenciales operan bajo un principio diferente: reducen la longitud del intervalo de incertidumbre de forma iterativa y adaptativa. Su análisis y garantía de convergencia requiere habitualmente que la función sea \textbf{unimodal}; es decir, que posea un único valle.
-
-\begin{definition}[Función unimodal]\label{def:v2_unimodal}
-    Se dice que una función continua $f : [a, b] \to \R$ es \deftech{unimodal} en $[a, b]$ si posee un único minimizador global $\bar{x} \in [a, b]$ y satisface dos condiciones de monotonía:
-    \begin{itemize}
-        \item Es estrictamente decreciente en el intervalo izquierdo $[a, \bar{x}]$.
-        \item Es estrictamente creciente en el intervalo derecho $[\bar{x}, b]$.
-    \end{itemize}
+\begin{definition}\label{v2:def:2.3.1}
+    Decimos que una función $f \colon [a, b] \to \R$ es \deftech{unimodal} (en $[a, b]$), cuando ella tiene un único minimizador global $\bar{x}$ en $[a, b]$, y es estrictamente decreciente en $[a, \bar{x}]$ y estrictamente creciente en $[\bar{x}, b]$, i.e.,
+    \begin{align*}
+        f(y) > f(z) \quad &\forall y, z \in [a, \bar{x}], \; y < z, \\
+        f(y) < f(z) \quad &\forall y, z \in [\bar{x}, b], \; y < z.
+    \end{align*}
 \end{definition}
 
-\begin{remark}
-    De la \cref{def:v2_unimodal} se deducen propiedades fundamentales:
-    \begin{enuthm}
-        \item Una función continua en $[a, b]$ es unimodal si, y solamente si, posee un \textbf{único minimizador local} en todo el dominio (el cual forzosamente coincide con el mínimo global).
-        \item Toda función continua que sea \textbf{fuertemente convexa} en el intervalo $[a, b]$ es automáticamente unimodal.
-        \item La unimodalidad es un concepto topológico \textbf{más débil que la convexidad}. Existen múltiples funciones unimodales que son estrictamente no convexas. Por ello, los métodos de exclusión de intervalos que presentaremos tienen un campo de aplicación mucho más amplio que las técnicas basadas únicamente en Análisis Convexo.
-    \end{enuthm}
-\end{remark}
+Una función continua en $[a, b]$ es unimodal si, y solamente si, ella tiene un único minimizador local en $[a, b]$ (que en este caso también es global). Se puede verificar que cualquier función continua fuertemente convexa en $[a, b]$ es unimodal. Naturalmente, existen también funciones unimodales no convexas.
 
-El fundamento analítico subyacente de los métodos de exclusión (como Bisección o la Sección Áurea) radica en que la simple comparación ordinal de la función evaluada en dos puntos interiores permite acotar y garantizar la ubicación del mínimo global en un subintervalo estrictamente menor:
+La propiedad siguiente de las funciones unimodales es importante para el desarrollo de los métodos a ser presentados.
 
-\begin{lemma}[Exclusión de intervalos]\label{lem:v2_interval_exclusion}
-    Sea $f : [a, b] \to \R$ una función unimodal con minimizador global en $\bar{x} \in [a, b]$. Para cualesquiera dos puntos de prueba interiores $y, z \in [a, b]$ tales que $y < z$, se verifica inexorablemente la siguiente alternativa lógica:
-    \begin{enuthm}
-        \item Si $f(y) \le f(z)$, entonces el mínimo global se encuentra contenido en $\bar{x} \in [a, z]$.
-        \item Si $f(y) \ge f(z)$, entonces el mínimo global se encuentra contenido en $\bar{x} \in [y, b]$.
-    \end{enuthm}
+\begin{lemma}\label{v2:lem:2.3.1}
+    Sea $f \colon [a, b] \to \R$ una función unimodal y $\bar{x}$ el minimizador global de $f$ en $[a, b]$.
+    Sigue que para cualesquiera puntos $y, z \in [a, b]$ tales que $y < z$, vale lo siguiente:
+    \begin{enumerate}[(a)]
+        \item Si $f(y) \le f(z)$, entonces $\bar{x} \in [a, z]$.
+        \item Si $f(y) \ge f(z)$, entonces $\bar{x} \in [y, b]$.
+    \end{enumerate}
 \end{lemma}
 
 \begin{proof}
-    Demostraremos el caso (1) procediendo por reducción al absurdo. 
-    
-    Supongamos que se cumple $f(y) \le f(z)$, pero asumamos falsamente que el mínimo global $\bar{x}$ se encuentra estrictamente a la derecha del punto de corte $z$ (es decir, $\bar{x} > z$). En este escenario geométrico, los puntos mantienen el orden estricto $y < z < \bar{x}$.
-    
-    Invocando la definición de unimodalidad (\cref{def:v2_unimodal}), sabemos que la función $f$ debe ser \textbf{estrictamente decreciente} en todo el segmento anterior al mínimo $[a, \bar{x}]$. Como los puntos $y$ y $z$ pertenecen a este segmento de descenso, la relación espacial $y < z$ implica forzosamente que el valor funcional desciende: $f(y) > f(z)$. 
-    
-    Esto contradice frontalmente nuestra premisa inicial ($f(y) \le f(z)$). Por consiguiente, la asunción inicial era falsa y el mínimo global $\bar{x}$ no puede estar a la derecha de $z$. Debe pertenecer al intervalo cerrado $[a, z]$.
-    
-    La demostración del caso (2) es completamente análoga, apelando a la condición de crecimiento estricto en el segmento posterior al mínimo.
+    Probaremos el ítem (a). Supongamos que $f(y) \le f(z)$, pero $\bar{x} > z$. En este caso $y < z < \bar{x}$ y, por lo tanto, $f(y) > f(z)$ por el hecho de que $f$ es unimodal. Obtenemos una contradicción con la hipótesis. 
+    La demostración del ítem (b) es análoga.
 \end{proof}
 
-\subsubsection{Método de Bisección}
+Como consecuencia, comparando los valores de una función unimodal $f$ en dos puntos de $[a, b]$, podemos "localizar" la solución global del problema \eqref{v2:eq:2.3} en un intervalo menor. Repitiendo este procedimiento, podemos disminuir cada vez más el intervalo que contiene la solución. Los métodos basados en esta estrategia pueden ser diferentes en la manera de elegir puntos para la comparación. Resaltamos que estamos aproximando al mismo tiempo el valor óptimo del problema \eqref{v2:eq:2.3} y la solución correspondiente.
 
-El método de bisección divide sistemáticamente el dominio de búsqueda a la mitad, requiriendo evaluar la función en nuevos puntos centrales.
+Suponiendo que $f$ sea unimodal, presentamos a continuación el \textit{método de bisección}.
 
-\begin{algorithm}[Método de bisección]\label{alg:v2_bisection}
-    Fijamos los bordes $a_1 = a$, $b_1 = b$. Calculamos el centro inicial $c_1 = (a + b)/2$ y evaluamos funcionalmente $f(c_1)$. Para cada iteración $k \ge 1$:
-    \begin{enuthm}
-        \item Definimos el punto de prueba en el subintervalo izquierdo $y_k = (a_k + c_k)/2$ y evaluamos $f(y_k)$.
-        \item Si se cumple $f(y_k) \le f(c_k)$, el \cref{lem:v2_interval_exclusion} garantiza que el mínimo está a la izquierda de $c_k$. El nuevo intervalo de incertidumbre es $[a_k, c_k]$. Actualizamos las variables:
-        \[
-            a_{k+1} = a_k, \quad b_{k+1} = c_k, \quad c_{k+1} = y_k.
-        \]
-        Saltamos directamente al paso de incremento (Paso 5).
-        \item Si $f(y_k) > f(c_k)$, el mínimo debe estar a la derecha de $y_k$. Para decidir entre el bloque central y el derecho, definimos un punto de prueba en el subintervalo derecho $z_k = (c_k + b_k)/2$ y evaluamos $f(z_k)$.
-        \item Si $f(c_k) \le f(z_k)$, actualizamos con el bloque central:
-        \[
-            a_{k+1} = y_k, \quad b_{k+1} = z_k, \quad c_{k+1} = c_k.
-        \]
-        Si $f(c_k) > f(z_k)$, actualizamos con el bloque derecho:
-        \[
-            a_{k+1} = c_k, \quad b_{k+1} = b_k, \quad c_{k+1} = z_k.
-        \]
-        \item Incrementamos el contador de iteraciones $k \leftarrow k+1$ y volvemos al Paso 1 hasta satisfacer una tolerancia $\epsilon$.
-    \end{enuthm}
-\end{algorithm}
+\noindent \textbf{Algoritmo 2.3.2. (Método de la bisección)} \\
+Elegir $a_1 = a$, $b_1 = b$ y $c_1 = (a + b)/2$. Calcular $f(c_1)$. Tomar $k := 1$.
+\begin{enumerate}
+    \item[1.] Definir $y_k = (a_k + c_k)/2$ y calcular $f(y_k)$. \\
+    Si $f(y_k) \le f(c_k)$, definir $a_{k+1} = a_k$, $b_{k+1} = c_k$, $c_{k+1} = y_k$ y pasar al Paso 3. \\
+    Si $f(y_k) > f(c_k)$, definir $z_k = (c_k + b_k)/2$ y calcular $f(z_k)$.
+    \item[2.] Si $f(c_k) \le f(z_k)$, definir $a_{k+1} = y_k$, $b_{k+1} = z_k$, $c_{k+1} = c_k$. \\
+    Si $f(c_k) > f(z_k)$, definir $a_{k+1} = c_k$, $b_{k+1} = b_k$, $c_{k+1} = z_k$.
+    \item[3.] Tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
 
-La longitud del intervalo de incertidumbre se reduce a la mitad en cada paso ($b_{k+1} - a_{k+1} = (b_k - a_k)/2$). Sin embargo, la cantidad de evaluaciones de función requeridas es variable (a veces 1, a veces 2 por iteración). 
+El \cref{v2:lem:2.3.1} garantiza que, después de la iteración con índice $k$, se tiene que $\bar{x} \in [a_{k+1}, b_{k+1}]$. Además de eso, $c_{k+1} = (a_{k+1} + b_{k+1})/2$ y
+\[
+    b_{k+1} - a_{k+1} = (b_k - a_k)/2 = \dots = \frac{1}{2^k}(b - a).
+\]
+Como aproximación siguiente a la solución $\bar{x}$, podemos tomar cualquier punto $x_{k+1} \in [a_{k+1}, b_{k+1}]$. La realización de una iteración del método requiere, como máximo, el cálculo de valores de $f$ en dos puntos. Supongamos que el número permitido de evaluaciones sea $N$. Por razones de conveniencia, sea $N$ un número impar. En este caso, podemos hacer por lo menos $k = (N - 1)/2$ iteraciones del método, lo que resulta en la siguiente estimativa del error de aproximación:
+\[
+    |x_{k+1} - \bar{x}| \le b_{k+1} - a_{k+1} \le \frac{1}{2^{(N-1)/2}}(b - a) \approx 0.707^{N-1}(b - a).
+\]
+En particular, aumentando $N$, el error disminuye con tasa geométrica (asociada a $q \approx 0.707$).
 
-Si suponemos, por conveniencia algorítmica, que el presupuesto total de evaluaciones permitidas $N$ es un número impar, podemos realizar exactamente $k = (N-1)/2$ iteraciones completas. La cota de reducción del intervalo final sigue una progresión geométrica dictada por el factor $(1/2)^{1/2} \approx 0.707$:
-\begin{equation}
-    \text{Longitud Final} \le \frac{1}{2^{(N-1)/2}} (b - a) \approx (0.707)^{N-1}(b - a).
-\end{equation}
+A continuación, presentamos un método más eficiente, con una estimativa similar pero asociada a $q \approx 0.618$ (para $N$ grande, la diferencia se vuelve bastante significativa).
+\textit{Sección áurea} se refiere a la partición del intervalo en dos partes tales que la relación de la longitud del intervalo original con la longitud de la parte mayor es igual a la relación de la longitud de la parte mayor con la longitud de la parte menor. En particular, si $y$ es un punto de tal partición de $[a, b]$, y si él está más próximo de $a$ que de $b$, entonces
+\[
+    (b - a)/(b - y) = (b - y)/(y - a).
+\]
+De donde obtenemos que
+\[
+    y = y(a, b) = a + \frac{3 - \sqrt{5}}{2}(b - a) \approx a + 0.382(b - a).
+\]
+El segundo punto que realiza la sección áurea de $[a, b]$ viene dado por
+\[
+    z = z(a, b) = a + \frac{\sqrt{5} - 1}{2}(b - a) \approx a + 0.618(b - a).
+\]
+Llamamos a $y$ y $z$ el menor y el mayor punto de la sección áurea, respectivamente. La partición descrita arriba tiene una cierta relación con la secuencia de Fibonacci.
 
-\subsubsection{Método de la Sección Áurea}
+El resultado siguiente puede ser verificado haciendo un cálculo directo.
 
-Para maximizar la eficiencia computacional y garantizar que se requiera \textbf{exactamente una única evaluación de función} por cada iteración, se deben seleccionar los puntos de prueba interiores $y$ y $z$ manteniendo una proporción de invarianza geométrica constante $\tau$. 
-
-Esta partición inteligente exige que la relación entre la longitud del intervalo original y el subintervalo mayor sea topológicamente idéntica a la relación entre el subintervalo mayor y el menor:
-\begin{equation}
-    \frac{b - a}{b - y} = \frac{b - y}{y - a}.
-\end{equation}
-Al resolver esta ecuación cuadrática de proporcionalidad, se obtiene que la constante de partición es el inverso de la proporción áurea (el límite de los cocientes de la sucesión de Fibonacci):
-\begin{equation}
-    \tau = \frac{\sqrt{5} - 1}{2} \approx 0.618.
-\end{equation}
-
-Para garantizar la validez del reciclaje de puntos internos sin necesidad de recalcularlos en cada paso, el \cref{alg:v2_golden_section} se apoya en el siguiente lema geométrico.
-
-\begin{lemma}[Simetría e Invarianza de la Sección Áurea]\label{lem:v2_golden_properties}
-    Sean $y$ y $z$ el menor y el mayor punto interior de la partición áurea del intervalo $[a, b]$, respectivamente. Entonces se verifica:
-    \begin{enuthm}
-        \item La distancia a los bordes es simétrica: $z - a = b - y = \tau(b - a)$.
-        \item La propiedad de anidamiento fractal: el punto $y$ es exactamente el mayor punto interno de la partición de la sección áurea del subintervalo izquierdo $[a, z]$. Del mismo modo, $z$ es exactamente el menor punto interno de la partición áurea del subintervalo derecho $[y, b]$.
-    \end{enuthm}
+\begin{lemma}\label{v2:lem:2.3.2}
+    Sean $y$ y $z$ el menor y el mayor punto de la partición de $[a, b]$, respectivamente. Entonces
+    \begin{enumerate}[(a)]
+        \item $z - a = b - y = \frac{\sqrt{5} - 1}{2}(b - a)$;
+        \item $y$ es el mayor punto de la partición de $[a, z]$, y $z$ es el menor punto de la partición de $[y, b]$.
+    \end{enumerate}
 \end{lemma}
 
-\begin{proof}
-    La demostración exige una manipulación algebraica directa basada en las definiciones de $y$ y $z$, y se propone como el Ejercicio \ref{ex:v2_lema-seccion-aurea} al final del capítulo.
-\end{proof}
+Presentamos el \textit{método de la sección áurea}, suponiendo que $f$ sea unimodal.
 
-Los puntos de prueba áureos para cualquier intervalo $[a, b]$ se calculan de forma exacta como:
-\begin{align}
-    y(a, b) &= a + \frac{3 - \sqrt{5}}{2}(b - a) \approx a + 0.382(b - a), \label{eq:v2_golden_y} \\
-    z(a, b) &= a + \frac{\sqrt{5} - 1}{2}(b - a) \approx a + 0.618(b - a). \label{eq:v2_golden_z}
-\end{align}
+\noindent \textbf{Algoritmo 2.3.3. (Método de la sección áurea)} \\
+Definir $a_1 = a$, $b_1 = b$, $y_1 = y(a, b)$, $z_1 = z(a, b)$. Calcular $f(y_1)$. Tomar $k := 1$.
+\begin{enumerate}
+    \item[1.] Calcular aquel valor entre $f(y_k)$ y $f(z_k)$, que aún no fue calculado. \\
+    Si $f(y_k) \le f(z_k)$, definir $a_{k+1} = a_k$, $b_{k+1} = z_k$, $y_{k+1} = y(a_{k+1}, b_{k+1})$, $z_{k+1} = y_k$. \\
+    Si $f(y_k) > f(z_k)$, definir $a_{k+1} = y_k$, $b_{k+1} = b_k$, $y_{k+1} = z_k$, $z_{k+1} = z(a_{k+1}, b_{k+1})$.
+    \item[2.] Tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
 
-\begin{algorithm}[Método de la sección áurea]\label{alg:v2_golden_section}
-    Fijamos los bordes $a_1 = a$, $b_1 = b$. Calculamos los dos puntos internos iniciales $y_1 = y(a_1, b_1)$ y $z_1 = z(a_1, b_1)$ mediante \eqref{eq:v2_golden_y}-\eqref{eq:v2_golden_z} y realizamos la primera evaluación dual $f(y_1)$ y $f(z_1)$. Tomamos el contador $k := 1$.
-    \begin{enuthm}
-        \item Para las iteraciones subsecuentes, \textbf{evaluamos únicamente} aquel punto interno (entre $y_k$ y $z_k$) cuyo valor de la función aún no haya sido calculado previamente.
-        \item Invocamos el \cref{lem:v2_interval_exclusion}. Si $f(y_k) \le f(z_k)$, el mínimo está en $[a_k, z_k]$. Actualizamos los límites y reciclamos el punto interno evaluado (invocando el \cref{lem:v2_golden_properties}):
-        \[
-            a_{k+1} = a_k, \quad b_{k+1} = z_k, \quad z_{k+1} = y_k.
-        \]
-        Calculamos únicamente la coordenada del nuevo punto menor $y_{k+1} = y(a_{k+1}, b_{k+1})$.
-        \item Si $f(y_k) > f(z_k)$, el mínimo está en $[y_k, b_k]$. Actualizamos y reciclamos en sentido inverso:
-        \[
-            a_{k+1} = y_k, \quad b_{k+1} = b_k, \quad y_{k+1} = z_k.
-        \]
-        Calculamos únicamente la coordenada del nuevo punto mayor $z_{k+1} = z(a_{k+1}, b_{k+1})$.
-        \item Incrementamos $k \leftarrow k+1$ y volvemos al Paso 1.
-    \end{enuthm}
-\end{algorithm}
+Observamos que, por el \cref{v2:lem:2.3.2} (ítem (b)), tenemos que $y_{k+1} = y(a_{k+1}, b_{k+1})$, $z_{k+1} = z(a_{k+1}, b_{k+1})$. Además de eso, por el \cref{v2:lem:2.3.1}, se tiene que $\bar{x} \in [a_{k+1}, b_{k+1}]$ y, por el \cref{v2:lem:2.3.2} (ítem (a)),
+\[
+    b_{k+1} - a_{k+1} = \frac{\sqrt{5} - 1}{2}(b_k - a_k) = \dots = \left( \frac{\sqrt{5} - 1}{2} \right)^k (b - a).
+\]
+Como aproximación siguiente a la solución $\bar{x}$, podemos tomar cualquier punto $x_{k+1} \in [a_{k+1}, b_{k+1}]$.
 
-Al reciclar inteligentemente las evaluaciones funcionales, el factor de reducción del intervalo de incertidumbre por cada nueva función calculada es exactamente $\tau \approx 0.618$. El error final absoluto tras ejecutar un presupuesto de $N$ evaluaciones decae de manera geométrica:
-\begin{equation}
-    |x^N - \bar{x}| \le b_{k+1} - a_{k+1} = \left(\frac{\sqrt{5}-1}{2}\right)^{N-1}(b - a) \approx 0.618^{N-1}(b - a).
-\end{equation}
+Cabe notar que la realización de cada iteración del método requiere la evaluación de $f$ en un solo punto (esto está asegurado por la propiedad descrita en el \cref{v2:lem:2.3.2} (ítem (b))). Por lo tanto, $N$ evaluaciones de la función $f$ permiten hacer $k = N - 1$ iteraciones del método, lo que resulta en la siguiente estimativa de error:
+\[
+    |x_{k+1} - \bar{x}| \le b_{k+1} - a_{k+1} = \left( \frac{\sqrt{5} - 1}{2} \right)^{N-1} (b - a) \approx 0.618^{N-1}(b - a).
+\]
+Con el aumento de $N$, el error disminuye con tasa, por lo menos, geométrica (asociada a $q \approx 0.618$).
+
+En la práctica, en vez de definir el número $N$ de iteraciones o evaluaciones de $f$ a priori, lo más típico es continuar el método hasta que la longitud del intervalo que contiene la solución no se vuelva menor que una tolerancia/precisión dada.
+
+Con frecuencia, los algoritmos de optimización para problemas generales necesitan minimizar una función unidimensional en una semirrecta $[a, +\infty)$, en vez de en un intervalo limitado. La definición de una función unimodal y el resultado del \cref{v2:lem:2.3.1} pueden ser extendidos para este caso sin dificultad. Más aún, bajo la hipótesis de que $f$ sea unimodal, el problema de minimización en $[a, +\infty)$ puede ser reducido al problema de minimización en un intervalo limitado. En efecto, fijemos $\delta > 0$ arbitrario y elijamos el menor $k = 0, 1, \dots$, tal que $f(a + k\delta) \le f(a + (k+1)\delta)$. Por el \cref{v2:lem:2.3.1}, el minimizador global de $f$ en $[a, +\infty)$ pertenece a $[a, a + (k+1)\delta]$. Si $f(a + k\delta) > f(a + (k+1)\delta)$ para todo $k = 0, 1, \dots$, obtenemos una contradicción con el hecho de que $f$ es unimodal.
+
+En el caso de que $f$ sea continua pero no unimodal, es posible probar la convergencia del método de la bisección y del método de la sección áurea a una solución local del problema \eqref{v2:eq:2.3}. En muchas situaciones prácticas, la función a ser minimizada o no es unimodal, o no hay cómo saber si lo es o no. Pero aun así, los métodos de la bisección y de la sección áurea son utilizados con mucha frecuencia.
 
 % ---------------------------------------------------------
-\subsection{Búsquedas en Dominios Semi-infinitos e Intervalos No Unimodales}
+\subsection{Interpolación polinomial}
 % ---------------------------------------------------------
 
-\subsubsection{Fase de acotamiento en intervalos semi-infinitos}
+En la práctica, los métodos presentados arriba son utilizados, con frecuencia, en combinación con técnicas de aproximación polinomial. Estas últimas son más eficientes en términos de número de iteraciones, pero también son más caras y necesitan de salvaguardias basadas en los métodos anteriores.
 
-En las implementaciones reales de métodos de gradiente, rara vez se conoce a priori un límite superior para la búsqueda de línea a lo largo de una dirección de descenso. Se requiere minimizar la función $f$ sobre una semirrecta unidimensional semi-infinita $[a, +\infty)$. Para poder instanciar el método de bisección o la sección áurea, la primera fase obliga a aislar topológicamente el mínimo en un intervalo acotado estricto $[a, a + T]$.
+La idea consiste en aproximar la función $f$ por un polinomio, utilizando los valores de $f$ (y, tal vez, de sus derivadas) en un cierto número de puntos. El minimizador de este polinomio sirve como siguiente aproximación al minimizador de $f$. Esta idea puede ser implementada de varias maneras. A continuación, presentaremos lo que se llama \textit{interpolación cuadrática}.
 
-Esta \textbf{fase de acotamiento (bracketing)} funciona así: fijamos un tamaño de paso inicial exploratorio $\delta > 0$ y evaluamos la función en la secuencia de puntos equidistantes $z_k = a + k\delta$ para $k = 0, 1, 2, \dots$. 
-
-Determinamos el menor índice entero $k \ge 0$ en el cual se viole la condición de descenso funcional, es decir:
-\begin{equation}
-    f(a + k\delta) \le f(a + (k+1)\delta).
-\end{equation}
-Bajo la hipótesis analítica de que $f$ mantiene su propiedad de unimodalidad a lo largo de toda la semirrecta, el mínimo global $\bar{x}$ pertenecerá invariablemente a la ventana acotada detectada:
-\begin{equation}
-    \bar{x} \in \begin{cases}
-      [a, \, a + \delta] & \text{si } k = 0, \\
-      [a + (k-1)\delta, \, a + (k+1)\delta] & \text{si } k \ge 1.
-    \end{cases}
-\end{equation}
-Si el algoritmo fuera incapaz de encontrar dicho índice $k$ tras sucesivas evaluaciones (es decir, $f$ decrece asintóticamente al infinito), se concluiría matemáticamente que el problema unidimensional original es ilimitado y carece de minimizador finito.
-
-\subsubsection{Robustez ante funciones no unimodales}
-
-Un teorema pragmático de gran relevancia computacional dicta que si la función objetivo $f$ es continua en el intervalo cerrado $[a, b]$ pero \textbf{no es unimodal} (tiene múltiples valles locales y crestas), los algoritmos de Bisección (\cref{alg:v2_bisection}) y Sección Áurea (\cref{alg:v2_golden_section}) no colapsan ni arrojan errores de división por cero. 
-
-En este escenario general caótico, los algoritmos operarán de forma ciega pero robusta, garantizando asintóticamente la convergencia hacia \textbf{al menos un minimizador local} (el cual depende estrictamente de los parámetros iniciales de partición) en el subespacio unidimensional.
-
-% ---------------------------------------------------------
-\subsection{Interpolación polinómica cuadrática y salvaguardas}
-% ---------------------------------------------------------
-
-Si la función objetivo $f$ es suficientemente suave (dos veces continuamente diferenciable), se puede abandonar la reducción geométrica pasiva y aproximar la topología del valle localmente mediante un polinomio cuadrático $P(x)$, tomando el vértice exacto de dicha parábola como la siguiente aproximación del mínimo. 
-
-Este método requiere evaluar y mantener en memoria una terna de puntos $a_k < b_k < c_k$ que certifiquen el valle. A esta propiedad se le denomina \textbf{condición de sándwich}:
+De nuevo, consideremos el problema \eqref{v2:eq:2.3}. En cada iteración, el método trabaja con tres puntos $a_k, b_k$ y $c_k$ en $[a, b]$, tales que
 \begin{equation}
     a_k < b_k < c_k, \quad f(a_k) > f(b_k), \quad f(b_k) < f(c_k).
-    \label{eq:v2_sandwich_cond}
+    \label{v2:eq:2.4}
 \end{equation}
+Como es fácil ver, el minimizador de $f$ pertenece al intervalo $[a_k, c_k]$. El método aproxima la función $f$ por un polinomio cuadrático (haciendo interpolación a partir de los valores de $f$ en los tres puntos), y sustituye uno de estos puntos por el minimizador del polinomio.
 
-\begin{algorithm}[Interpolación cuadrática sucesiva]\label{alg:v2_quadratic_interpolation}
-    Partiendo de una terna de puntos iniciales $a_1 < b_1 < c_1$ que garantice el cumplimiento de la condición de sándwich \eqref{eq:v2_sandwich_cond}, definimos el iterador $k := 1$:
-    \begin{enuthm}
-        \item Calculamos algebraicamente la abscisa del vértice $x_k$ de la parábola única que interpola los tres puntos:
-        \begin{equation}
-            x_k = \frac{1}{2} \frac{f(a_k)(c_k^2 - b_k^2) + f(b_k)(a_k^2 - c_k^2) + f(c_k)(b_k^2 - a_k^2)}{f(a_k)(c_k - b_k) + f(b_k)(a_k - c_k) + f(c_k)(b_k - a_k)}.
-            \label{eq:v2_quadratic_vertex}
-        \end{equation}
-        \item Evaluamos computacionalmente la función objetivo en la nueva abscisa del vértice, es decir, obtenemos $f(x_k)$.
-        \item Determinamos la topología del nuevo valle y actualizamos la terna analizando el árbol de decisiones lógicas:
-        \begin{itemize}
-            \item \textbf{Rama Derecha Inferior:} Si $x_k > b_k$ y $f(x_k) < f(b_k)$:
-            \[
-                a_{k+1} = b_k, \quad b_{k+1} = x_k, \quad c_{k+1} = c_k.
-            \]
-            \item \textbf{Rama Derecha Superior:} Si $x_k > b_k$ y $f(x_k) \ge f(b_k)$:
-            \[
-                a_{k+1} = a_k, \quad b_{k+1} = b_k, \quad c_{k+1} = x_k.
-            \]
-            \item \textbf{Rama Izquierda Inferior:} Si $x_k < b_k$ y $f(x_k) < f(b_k)$:
-            \[
-                a_{k+1} = a_k, \quad b_{k+1} = x_k, \quad c_{k+1} = b_k.
-            \]
-            \item \textbf{Rama Izquierda Superior:} Si $x_k < b_k$ y $f(x_k) \ge f(b_k)$:
-            \[
-                a_{k+1} = x_k, \quad b_{k+1} = b_k, \quad c_{k+1} = c_k.
-            \]
-        \end{itemize}
-        \item Incrementamos $k \leftarrow k+1$ y volvemos al Paso 1.
-    \end{enuthm}
-\end{algorithm}
+\noindent \textbf{Algoritmo 2.3.4. (Método de la interpolación cuadrática)} \\
+Elegir $a_1, b_1$ y $c_1$ satisfaciendo las condiciones \eqref{v2:eq:2.4} escritas con $k=1$. Tomar $k := 1$.
+\begin{enumerate}
+    \item[1.] Calcular
+    \[
+        x_k = \frac{1}{2} \frac{f(a_k)(c_k^2 - b_k^2) + f(b_k)(a_k^2 - c_k^2) + f(c_k)(b_k^2 - a_k^2)}{f(a_k)(c_k - b_k) + f(b_k)(a_k - c_k) + f(c_k)(b_k - a_k)}.
+    \]
+    \item[2.] Si $x_k > b_k$ y $f(x_k) < f(b_k)$, definir $a_{k+1} = b_k$, $b_{k+1} = x_k$, $c_{k+1} = c_k$. \\
+    Si $x_k > b_k$ y $f(x_k) > f(b_k)$, definir $a_{k+1} = a_k$, $b_{k+1} = b_k$, $c_{k+1} = x_k$. \\
+    Si $x_k < b_k$ y $f(x_k) < f(b_k)$, definir $a_{k+1} = a_k$, $b_{k+1} = x_k$, $c_{k+1} = b_k$. \\
+    Si $x_k < b_k$ y $f(x_k) > f(b_k)$, definir $a_{k+1} = x_k$, $b_{k+1} = b_k$, $c_{k+1} = c_k$.
+    \item[3.] Tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
 
-Bajo condiciones de regularidad local severas, el \cref{alg:v2_quadratic_interpolation} alcanza asintóticamente una tasa de convergencia \textbf{superlineal} de orden $\approx 1.32$ (mucho más rápida que la constante de la Sección Áurea). 
-
-\begin{warningbox}[El colapso de la interpolación cuadrática]
-    A diferencia de los métodos pasivos de exclusión de intervalos (que están ciegamente garantizados), la evaluación iterativa del denominador en la ecuación \eqref{eq:v2_quadratic_vertex} introduce una falla catastrófica potencial.
-    
-    Si los puntos de evaluación se alinean casi colinealmente, la curvatura de la parábola tiende a cero y el denominador experimenta un desbordamiento numérico. El vértice $x_k$ predicho puede ser arrojado violentamente fuera del intervalo de interés original. 
-    
-    Para evitar el colapso numérico, el conocido \textbf{Método de Brent} combina lo mejor de ambos mundos: intenta realizar un paso de interpolación cuadrática rápida, pero mantiene un estricto monitoreo. Si el paso cuadrático no resulta en una contracción suficiente o el vértice explota fuera de los límites, el algoritmo ejecuta una \textit{salvaguarda} recurriendo a un paso ciego y seguro del método de la Sección Áurea.
-\end{warningbox}
+El método descrito arriba es apenas una de las posibilidades. En la práctica, son comunes también las interpolaciones cúbicas, así como las interpolaciones que utilizan los valores de la derivada de $f$.

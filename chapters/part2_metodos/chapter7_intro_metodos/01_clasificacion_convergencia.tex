@@ -1,101 +1,57 @@
 % --- Archivo: 01_clasificacion_convergencia.tex ---
 
-La optimización matemática continua estudia el problema de minimizar una función sobre un dominio delimitado por restricciones. Representamos este modelo mediante la estructura general:
-\begin{equation}
-    \min f(x) \quad \text{sujeto a} \quad x \in D = \{x \in \Rn \mid h(x) = 0, \, g(x) \le 0\},
-    \label{eq:v2_general_opt_problem}
-\end{equation}
-donde $\Rn$ es el espacio base, la función objetivo es $f : \Rn \to \R$, y las restricciones de igualdad y desigualdad vienen dadas por los operadores $h : \Rn \to \R^l$ y $g : \Rn \to \R^m$, respectivamente.
-
-La resolución numérica de \eqref{eq:v2_general_opt_problem} requiere evaluar de forma sistemática los valores de la función objetivo, de las restricciones y, de forma habitual, de sus respectivas derivadas. Para estructurar el estudio teórico de estos algoritmos, presentaremos primero una clasificación sistemática de los métodos numéricos de optimización.
+El objetivo de este capítulo es presentar algunas nociones básicas sobre métodos (algoritmos) de Optimización en general. Serán mencionadas las diferentes clases de métodos y los principales problemas relacionados con la utilización y el análisis teórico de los mismos. También hablaremos sobre métodos para la resolución de problemas unidimensionales. Con frecuencia, los métodos de esta clase sirven como base para el desarrollo de algoritmos para problemas más complejos.
 
 % =========================================================
-\section{Clasificación de los métodos y nociones de convergencia}
-\label{sec:v2_clasificacion_metodos}
+\section{Clasificación de los métodos. Nociones de convergencia}
 % =========================================================
 
-Los métodos de optimización se clasifican atendiendo a tres criterios fundamentales: la dependencia de la información obtenida en iteraciones previas (métodos pasivos o secuenciales), la cantidad de información histórica acumulada (esquemas con o sin memoria) y el orden máximo de las derivadas utilizadas.
-
-\subsection{Estrategia de muestreo: Métodos pasivos vs. secuenciales}
-
-Atendiendo al papel que desempeña la información obtenida durante el proceso de cálculo, distinguimos dos clases de métodos:
-\begin{itemize}
-    \item \textbf{Método pasivo:} La secuencia de puntos de evaluación se elige y predetermina completamente a priori, de forma que la elección de cada candidato no se beneficia de la información obtenida en las iteraciones previas (por ejemplo, la búsqueda en rejilla o \textit{grid search}).
-    \item \textbf{Método secuencial:} Cada nuevo punto de la secuencia se determina utilizando los valores de la función objetivo, las restricciones o sus derivadas calculados en pasos anteriores. Esta clase resulta considerablemente más eficiente y abarca a la gran mayoría de los algoritmos computacionales prácticos.
-\end{itemize}
-
-\subsection{Estructura del esquema iterativo: Métodos sin memoria vs. con memoria}
-
-Un método secuencial genera una secuencia de puntos en $\Rn$, denotada por $\{x^1, x^2, \dots, x^k, \dots\}$, a los que se denomina \deftech{aproximaciones} o \deftech{iterados} del método. Esta secuencia (llamada también \textbf{trayectoria}) se describe mediante un esquema iterativo.
-
-Si denotamos por $\Psi_k$ al operador de transición definido sobre conjuntos $U_k \subset \Rn$, la generación de un nuevo iterado se expresa como:
+Sea el problema dado en formato general
 \begin{equation}
-    x^{k+1} = \Psi_k(x^k), \quad k = 0, 1, \dots
-    \label{eq:v2_iterative_scheme_base}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \left\{ x \in \Omega \mathrel{\bigg|} \begin{array}{l} h(x) = 0, \\ g(x) \le 0 \end{array} \right\},
+    \label{v2:eq:2.1}
 \end{equation}
-Para que el esquema esté bien definido a partir de un punto inicial $x^0 \in U_0$, los sucesivos iterados deben permanecer dentro de los dominios de definición de los operadores correspondientes. Esta condición de compatibilidad se expresa como:
+donde $\Omega \subset \R^n$, $f \colon \R^n \to \R$, $h \colon \R^n \to \R^l$ y $g \colon \R^n \to \R^m$.
+
+Todo método para la resolución numérica del problema \eqref{v2:eq:2.1} hace uso del cálculo de valores de la función objetivo y de las restricciones, así como (típicamente) de las derivadas de estas funciones. Hablamos de un \deftech{método pasivo}, cuando los puntos de evaluación de estos valores son elegidos de acuerdo con una estrategia definida a priori, sin tener en cuenta la información obtenida a lo largo del proceso iterativo. Hablamos de un \deftech{método secuencial}, cuando cada punto se define de acuerdo con la información obtenida en los puntos anteriores. Naturalmente, los métodos de esta segunda clase, generalmente, son mucho más eficientes. La gran mayoría de los métodos computacionales son de este tipo.
+
+Un método secuencial genera una secuencia de puntos en $\R^n$, $x^1, \dots, x^k, \dots$, que serán llamados \deftech{aproximaciones} a la solución del problema o, también, \deftech{iterados} del método. Esta secuencia $\{x^k\}$ (también llamada \textit{trayectoria}) puede no contener todos los puntos en los que se calculan valores de funciones y derivadas, i.e., puede contener solo puntos especialmente seleccionados. La generación de una nueva aproximación $x^{k+1}$ a partir de $x^k$ se llama \deftech{iteración} del método. Los detalles concretos de este proceso constituyen la esencia (naturaleza) del método. Con frecuencia, los algoritmos son descritos en formato de un esquema iterativo, como
+\begin{equation}
+    x^{k+1} = \Psi_k(x^k), \quad k = 0, 1, \dots,
+    \label{v2:eq:2.2}
+\end{equation}
+donde $\Psi_k$ es un operador con valores en $\R^n$, definido en un conjunto $U_k \subset \R^n$. Naturalmente, suponemos que en la iteración $k+1$ este operador es conocido. Si el esquema iterativo está fijado, la elección del punto inicial $x^0 \in U_0$ define sin ambigüedad una única trayectoria del método si, y solamente si,
 \[
     \Psi_{k-1}(\Psi_{k-2}(\dots \Psi_0(x^0)\dots)) \in U_k \quad \forall k = 1, 2, \dots
 \]
-Dependiendo de la cantidad de información histórica que requiera el operador $\Psi_k$, clasificamos los esquemas iterativos en:
-\begin{itemize}
-    \item \textbf{Esquema sin memoria:} El operador $\Psi_k$ depende únicamente de la aproximación actual $x^k$.
-    \item \textbf{Esquema con memoria:} El operador utiliza información del iterado actual $x^k$ y de puntos anteriores de la trayectoria ($x^{k-1}, x^{k-2}, \dots$).
-\end{itemize}
 
-\subsection{Orden del método}
+El esquema \eqref{v2:eq:2.2} considerado arriba es del tipo \textit{sin memoria}. Existen también esquemas \textit{con memoria}, donde $\Psi_k$ depende no solamente de $x^k$, sino también de otros puntos anteriores (no necesariamente todos).
 
-El tercer criterio clasifica los algoritmos según la información diferencial que emplean.
+El \deftech{orden del método} es el máximo orden de derivadas de la función objetivo y de las restricciones que están siendo utilizadas en la realización de una iteración. Por ejemplo, cuando un método está basado apenas en los valores de las funciones (sin hacer uso de derivadas), hablamos de método de \textit{orden cero}. Si están siendo utilizadas las derivadas primeras (segundas, etc.), el método es de \textit{primer} (\textit{segundo}, etc.) \textit{orden}.
 
-\begin{definition}[Orden de un método]\label{def:v2_method_order}
-    El \deftech{orden de un método} es el orden máximo de las derivadas de la función objetivo y de las restricciones utilizadas en cada iteración del algoritmo.
-    \begin{enuthm}
-        \item \textbf{Métodos de orden cero (o directos):} Aquellos que solo evalúan funcionalmente $f$, $g$ o $h$, sin utilizar derivadas.
-        \item \textbf{Métodos de primer orden:} Aquellos que basan sus decisiones en la evaluación de las primeras derivadas (vectores gradientes, $\nabla f$).
-        \item \textbf{Métodos de segundo orden:} Aquellos que requieren el cálculo de segundas derivadas (matrices Hessianas, $\nabla^2 f$).
-    \end{enuthm}
-\end{definition}
+Cuando cualquier punto inicial $x^0 \in U_0$ define una trayectoria tal que $x^k$ es una solución del problema para algún $k$ finito, hablamos de un método con \deftech{convergencia finita}. Algoritmos con esta propiedad existen para problemas relativamente simples, tales como la programación lineal y programación cuadrática (Capítulo 6). Para problemas de optimización con estructura más general, tenemos que apelar a métodos con \deftech{convergencia asintótica}.
+En estos casos, no hay cómo garantizar que un elemento $x^k$ de la trayectoria sea una solución exacta del problema. La tarea, por lo tanto, es probar que para $k$ suficientemente grande, $x^k$ es una buena aproximación de la solución (en algún sentido). Dependiendo de la naturaleza de esta aproximación, hablamos de diferentes tipos de convergencia.
+Por ejemplo, si
+\[
+    \{x^k\} \to \bar{x} \quad (k \to \infty),
+\]
+donde $\bar{x}$ es una solución del problema, hablamos de convergencia en relación a las variables del problema (o, simplemente, de \deftech{convergencia}) del método a partir del punto inicial $x^0$. Con frecuencia, no es posible probar convergencia a una solución específica, sino apenas a una propiedad más débil:
+\[
+    \dist(x^k, S) \to 0 \quad (k \to \infty),
+\]
+donde $S$ es el conjunto de soluciones del problema. En estos casos, hablamos de convergencia al conjunto de soluciones. Cuando el conjunto $S$ es compacto, esta propiedad es equivalente a la existencia de puntos de acumulación de $\{x^k\}$, siendo que todo punto de acumulación de esta secuencia es solución del problema (cuando $S$ es ilimitado, en principio es posible que $\{x^k\}$ con la propiedad de arriba no posea puntos de acumulación).
+Cuando
+\[
+    \dist(x^k, D) \to 0, \quad f(x^k) \to \bar{v} \quad (k \to \infty),
+\]
+donde $\bar{v}$ es el valor óptimo del problema, hablamos de \deftech{convergencia en relación a la función objetivo}. Es claro que esto no significa que la trayectoria $\{x^k\}$ del método converja.
 
-% ---------------------------------------------------------
-\subsection{Tipos de convergencia}
-% ---------------------------------------------------------
+Con gran frecuencia, probar convergencia al conjunto de soluciones del problema no es posible y lo mejor que puede hacerse es probar convergencia al conjunto de puntos estacionarios (o también, convergencia a cero de alguna medida de violación de condiciones necesarias de optimalidad). Por ejemplo, para el problema irrestricto, cuando vale
+\[
+    \{f'(x^k)\} \to 0 \quad (k \to \infty),
+\]
+hablamos de \deftech{convergencia en relación al gradiente}. Un resultado típico para métodos de optimización irrestricta afirma que todo punto de acumulación de $\{x^k\}$ es estacionario.
 
-El comportamiento asintótico de la trayectoria $\{x^k\}$ define las propiedades de convergencia del algoritmo. Distinguimos entre \deftech{convergencia finita} (cuando la trayectoria alcanza una solución exacta en un número finito de pasos, es decir, $x^k \in S$ para algún $k < \infty$) y \deftech{convergencia asintótica}.
+Finalmente, cuando $U_0 = \R^n$ y tenemos convergencia a partir de cualquier $x^0 \in \R^n$, hablamos de \deftech{convergencia global}. Cuando algún tipo de convergencia puede ser garantizado solamente a partir de puntos suficientemente próximos a una solución (o un punto estacionario), hablamos de \deftech{convergencia local} del método. En principio, todo método con convergencia local debe ser pensado en combinación con algún otro método capaz de proveer un punto inicial $x^0$ que sea adecuado para una aplicación exitosa del método local (\textit{globalización de la convergencia}).
 
-En problemas no lineales generales, el análisis se centra rigurosamente en la convergencia asintótica. Dependiendo de la métrica y del espacio considerados, distinguimos cuatro tipos de convergencia:
-
-\begin{enuthm}
-    \item \textbf{Convergencia en relación a las variables (o puntual):} La sucesión de iterados converge a una solución del problema:
-    \[
-        x^k \to \bar{x} \quad (k \to \infty), \quad \text{con } \bar{x} \in S.
-    \]
-    Esta propiedad suele requerir hipótesis restrictivas (como convexidad estricta o unicidad de solución) para poder ser demostrada de forma directa.
-
-    \item \textbf{Convergencia al conjunto de soluciones $S$:} La distancia de la trayectoria al conjunto de soluciones tiende a cero:
-    \[
-        \dist(x^k, S) \to 0 \quad (k \to \infty).
-    \]
-    Si el conjunto $S$ es compacto, esto asegura que el conjunto de puntos de acumulación de $\{x^k\}$ es no vacío y está contenido en $S$. Si $S$ es ilimitado, es posible que la distancia tienda a cero sin que existan puntos de acumulación.
-
-    \item \textbf{Convergencia en relación a la función objetivo (o al valor óptimo):} La sucesión de valores de la función converge al valor mínimo $\bar{v}$, garantizando simultáneamente la aproximación al conjunto factible $D$:
-    \[
-        \dist(x^k, D) \to 0 \quad \text{y} \quad f(x^k) \to \bar{v} \quad (k \to \infty).
-    \]
-    Este tipo de convergencia no implica necesariamente que la trayectoria de las variables $\{x^k\}$ sea convergente en el espacio $\Rn$.
-    
-    \item \textbf{Convergencia en relación al gradiente:} En optimización irrestricta con funciones no convexas, es muy difícil garantizar la convergencia hacia un mínimo global. Por ello, el análisis se suele centrar en demostrar que la norma del gradiente converge a cero:
-    \[
-        \norm{\nabla f(x^k)} \to 0 \quad (k \to \infty).
-    \]
-    Bajo esta condición, cualquier punto de acumulación $\bar{x}$ de la trayectoria es, por lo menos, un punto estacionario del problema ($\nabla f(\bar{x}) = 0$).
-\end{enuthm}
-
-Distinguimos también entre \textbf{convergencia global} y \textbf{convergencia local}. Un método tiene \textit{convergencia global} si la trayectoria converge a una solución para cualquier punto inicial $x^0$. Por el contrario, un método \textit{local} requiere que $x^0$ se sitúe suficientemente cerca de la solución para garantizar su convergencia.
-
-Frecuentemente, la resolución de un problema complejo se basa en reducirlo a una secuencia de problemas más simples. Por ejemplo, el método de Newton aproxima un sistema no lineal mediante sistemas lineales. De igual modo, muchos algoritmos multidimensionales se apoyan internamente en la resolución iterativa de problemas unidimensionales a lo largo de direcciones específicas (búsqueda lineal).
-
-\begin{notabox}[El problema de la Optimización Global]
-    Para problemas fuertemente no convexos, hallar el mínimo global es, en general, analíticamente imposible. El enfoque ingenuo de evaluar una red muy fina sobre el conjunto factible sufre la llamada \textit{maldición de la dimensionalidad}.
-    
-    Un enfoque heurístico más eficiente es la estrategia de \textbf{múltiple partida (multi-start)}. Esta estrategia superpone una red discreta gruesa sobre el conjunto factible y ejecuta un método de optimización local rápido desde cada nodo. La aproximación a la solución global se obtiene comparando los valores de los óptimos locales alcanzados por cada trayectoria.
-\end{notabox}
+Con frecuencia, una estrategia de resolución de un problema relativamente difícil está basada en la reducción de este problema a una secuencia (finita o infinita) de problemas más simples. Es claro que esto solo tiene sentido cuando existen métodos eficientes para la resolución de cada problema simple (es decir, la medida de simplicidad debe ser computacional). Por ejemplo, el método clásico de Newton reduce la solución de un sistema de ecuaciones no lineales a la resolución de una secuencia de ecuaciones lineales (que se resuelven con herramientas bien desarrolladas del Álgebra Lineal Computacional). De manera análoga, muchos métodos de Optimización utilizan resolución (aproximada) de problemas unidimensionales, de problemas irrestrictos, de problemas lineales o cuadráticos. Más aún, métodos para problemas irrestrictos utilizan, con frecuencia, métodos para problemas unidimensionales, así como métodos para programación cuadrática utilizan aquellos para programación lineal. Por lo tanto, el desarrollo de métodos para problemas más complejos requiere un estudio previo de métodos para problemas más básicos. Por otro lado, dada la existencia de herramientas para estos problemas básicos, es natural no especificar cómo los subproblemas serán resueltos dentro de un algoritmo general y tratar esto como la parte exterior al algoritmo.

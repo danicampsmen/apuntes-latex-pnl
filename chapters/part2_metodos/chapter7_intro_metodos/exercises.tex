@@ -1,93 +1,48 @@
-% --- Archivo: exercises.tex ---
+% --- Archivo: exercises.tex (Ejercicios del Cap. 2 del Vol. 2) ---
 
-\addsec{Ejercicios del Capítulo}
+% =========================================================
+\section*{Ejercicios del Capítulo 7 (Introducción a los Métodos)}
+% =========================================================
 
-\vspace{0.5em}
-\noindent\textbf{Parte I: Propiedades de Lipschitz e Intervalos}
-\vspace{0.5em}
+\begin{exercise}\label{v2:ejer:2.3.1}
+    Sea $c \in [a, b]$. Sea $f \colon [a, b] \to \R$ una función Lipschitz-continua en $[a, c]$ y en $[c, b]$, con módulo $L_1 > 0$ y módulo $L_2 > 0$, respectivamente. Probar que $f$ es Lipschitz-continua en $[a, b]$ con módulo $\max\{L_1, L_2\}$.
+\end{exercise}
 
-\begin{exercise}[Constante de Lipschitz en funciones seccionadas]
-    Sean $a, b, c \in \R$ tales que $a < c < b$. Supóngase que la función $f : [a, b] \to \R$ es Lipschitz continua en el intervalo $[a, c]$ con constante $L_1 > 0$, y es Lipschitz continua en $[c, b]$ con constante $L_2 > 0$. Demuestre rigurosamente que $f$ es Lipschitz continua en todo el intervalo $[a, b]$ con constante global de Lipschitz:
+\begin{exercise}\label{v2:ejer:2.3.2}
+    Sea $f \colon [a, b] \to \R$ una función continua en $[a, b]$, diferenciable en $[a, b]$ excepto, posiblemente, en un número finito de puntos $c_i \in [a, b]$, $i = 1, \dots, s$. Sea
     \[
-        L = \max\{L_1, L_2\}.
+        L = \sup \{ |f'(x)| \mid x \in [a, b] \setminus \{c_1, \dots, c_s\} \} < \infty.
+    \]
+    Probar que $f$ es Lipschitz-continua en $[a, b]$ con módulo $L$.
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:2.3.3}
+    Sean $f_1, f_2 \colon [a, b] \to \R$ Lipschitz-continuas en $[a, b]$ con módulo $L_1 > 0$ y con módulo $L_2 > 0$, respectivamente. Probar que las funciones $f_1(\cdot) + f_2(\cdot)$ y $\max\{f_1(\cdot), f_2(\cdot)\}$ son Lipschitz-continuas en $[a, b]$, con módulo $L_1 + L_2$ y con módulo $\max\{L_1, L_2\}$, respectivamente.
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:2.3.4}
+    Encontrar una función continua en $[a, b]$ que no sea Lipschitz-continua en $[a, b]$.
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:2.3.5}
+    Sea $X \subset \R^n$ un conjunto convexo. Una función $f \colon X \to \R$ se llama \textit{estrictamente cuasi-convexa} (en $X$), cuando $\forall x^1, x^2 \in X$, $x^1 \neq x^2$, $\forall t \in (0, 1)$ se tiene que
+    \[
+        f(tx^1 + (1 - t)x^2) < \max\{f(x^1), f(x^2)\}.
+    \]
+    Probar que, cuando $X = [a, b]$, una función continua en $X$ es unimodal si, y solamente si, ella es estrictamente cuasi-convexa.
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:2.3.6}
+    Sean $f_1, f_2 \colon [a, b] \to \R$ funciones continuas unimodales en $[a, b]$. Determinar si esto implica o no que las funciones $f_1(\cdot) + f_2(\cdot)$ y $\max\{f_1(\cdot), f_2(\cdot)\}$ son unimodales en $[a, b]$.
+\end{exercise}
+
+\begin{exercise}\label{v2:ejer:2.3.7}
+    Realizar dos iteraciones del método de la bisección para el problema
+    \[
+        \min f(x) = 2x^2 - 7x + 1 \quad \text{sujeto a} \quad x \in [1, 5].
     \]
 \end{exercise}
 
-\begin{exercise}[Acotación del gradiente y propiedad de Lipschitz]
-    Sea $f : [a, b] \to \R$ una función continua en el intervalo compacto $[a, b]$ y diferenciable en el conjunto interior $[a, b] \setminus \{c_1, \dots, c_s\}$, donde $\{c_1, \dots, c_s\}$ es un conjunto finito de puntos de no diferenciabilidad (por ejemplo, puntos de cúspide). Si se cumple la acotación de la norma:
-    \[
-        L = \sup \left\{ \absolute{f'(x)} \mathrel{\bigg|} x \in [a, b] \setminus \{c_1, \dots, c_s\} \right\} < \infty,
-    \]
-    demuestre mediante el uso del Teorema del Valor Medio que $f$ es Lipschitz continua en $[a, b]$ con constante $L$.
-\end{exercise}
-
-\begin{exercise}[Álgebra de funciones de Lipschitz]
-    Sean $f_1, f_2 : [a, b] \to \R$ dos funciones Lipschitz continuas en el intervalo $[a, b]$ con constantes garantizadas $L_1 > 0$ y $L_2 > 0$, respectivamente. Demuestre las siguientes propiedades algebraicas de la clase de funciones de Lipschitz:
-    \begin{enuthm}
-        \item La función suma $f_1 + f_2$ es Lipschitz continua en $[a, b]$ con constante acotada por $L_1 + L_2$.
-        \item La función envolvente máximo puntual $g(x) = \max\{f_1(x), f_2(x)\}$ es Lipschitz continua en $[a, b]$ con constante de Lipschitz acotada por $\max\{L_1, L_2\}$.
-    \end{enuthm}
-\end{exercise}
-
-\begin{exercise}[Existencia de funciones continuas no Lipschitz]
-    El Teorema de Weierstrass garantiza mínimos para funciones continuas, pero no la tasa de variación. Proporcione un ejemplo analítico explícito de una función $f : [0, 1] \to \R$ que cumpla con ser continuamente diferenciable en el intervalo abierto $(0, 1)$ y absolutamente continua en los bordes cerrados $[0, 1]$, pero que \textbf{no} sea Lipschitz continua en $[0, 1]$. Justifique su demostración estudiando el límite del gradiente.
-\end{exercise}
-
-\vspace{1em}
-\noindent\textbf{Parte II: Unimodalidad y Exclusión de Intervalos}
-\vspace{0.5em}
-
-\begin{exercise}[Unimodalidad y Cuasiconvexidad Estricta]
-    Sea el dominio $X \subset \Rn$ un conjunto topológico convexo. Se dice en Análisis Convexo que una función $f : X \to \R$ es \textbf{estrictamente cuasiconvexa} en $X$ si, para cualquier par de puntos base $x^1, x^2 \in X$ con $x^1 \neq x^2$ y para cualquier interpolador $t \in (0, 1)$, se verifica la cota estricta:
-    \begin{equation}
-        f(t x^1 + (1 - t)x^2) < \max\{f(x^1), f(x^2)\}.
-    \end{equation}
-    
-    Restrinja el estudio al caso donde el dominio es el intervalo unidimensional cerrado $X = [a, b]$. Demuestre analíticamente que una función continua $f : [a, b] \to \R$ cumple con ser topológicamente unimodal (\cref{def:v2_unimodal}) si y solo si es estrictamente cuasiconvexa en dicho intervalo.
-\end{exercise}
-
-\begin{exercise}[Preservación de la unimodalidad]
-    Sean $f_1, f_2 : [a, b] \to \R$ dos funciones que garantizan la propiedad de unimodalidad en el intervalo $[a, b]$. Analice bajo qué escenarios analíticos restrictivos la función suma lineal $f_1 + f_2$ y la función máximo puntual $g(x) = \max\{f_1(x), f_2(x)\}$ preservan también la propiedad de unimodalidad. 
-    
-    Proporcione contraejemplos visuales o algebraicos detallados para demostrar por qué la suma y el máximo de funciones unimodales \textbf{no generan siempre} funciones unimodales en el caso general.
-\end{exercise}
-
-\begin{exercise}[Simulación numérica del método de Bisección]
-    Considere el siguiente problema de optimización polinómica unidimensional:
-    \begin{mini*}{x \in [1,5]}{f(x) = 2 x^2 - 7x + 1}{}{}
-    \end{mini*}
-    Procediendo sin el uso de derivadas de primer orden:
-    \begin{enuthm}
-        \item Inicialice el \cref{alg:v2_bisection}. Realice de forma manual y documentada \textbf{dos iteraciones completas} para reducir y localizar el nuevo intervalo de incertidumbre del mínimo global.
-        \item Demuestre mediante la condición de primer orden del Capítulo 1 cuál es la solución analítica exacta $\bar{x}$, y compare el error residual de sus límites calculados.
-    \end{enuthm}
-\end{exercise}
-
-\vspace{1em}
-\noindent\textbf{Parte III: Demostraciones algebraicas de los Métodos}
-\vspace{0.5em}
-
-\begin{exercise}[Verificación del Lema de la Sección Áurea]\label{ex:v2_lema-seccion-aurea}
-    El \cref{alg:v2_golden_section} asume una propiedad de invarianza. Utilizando las definiciones exactas algebraicas de los puntos áureos fraccionarios $y(a, b)$ y $z(a, b)$ dados por las ecuaciones \eqref{eq:v2_golden_y}-\eqref{eq:v2_golden_z}, demuestre por cálculo de reducción directa las propiedades declaradas en el \cref{lem:v2_golden_properties}:
-    \begin{enuthm}
-        \item Pruebe rigurosamente que la longitud escalar de los subintervalos laterales es idéntica y satisface la simetría:
-        \[
-            z - a = b - y = \tau(b - a),
-        \]
-        donde $\tau = (\sqrt{5} - 1)/2$.
-        \item Pruebe que la proporción se anida. Es decir, al recortar el intervalo de incertidumbre original por la derecha, asignando el nuevo límite superior como $b_{new} = z$, el antiguo punto menor $y$ original se convierte, sin error de truncamiento, exactamente en el punto de prueba mayor del nuevo intervalo acotado:
-        \[
-            y = a + \tau(z - a).
-        \]
-    \end{enuthm}
-\end{exercise}
-
-\begin{exercise}[Vértice del polinomio interpolador cuadrático]
-    Demuestre de forma algebraica que el cálculo de la abscisa del vértice $x_k$ provisto en la ecuación \eqref{eq:v2_quadratic_vertex} del \cref{alg:v2_quadratic_interpolation} no es heurístico. 
-    
-    Pruebe mediante la manipulación del determinante de Vandermonde o mediante sistemas lineales, que $x_k$ es, en efecto, el único minimizador (si el denominador es positivo) del polinomio cuadrático exacto:
-    \[
-        P(x) = \alpha x^2 + \beta x + \gamma
-    \]
-    que interpola fielmente a la función objetivo $f$ en los tres puntos de evaluación preexistentes $a_k < b_k < c_k$.
+\begin{exercise}\label{v2:ejer:2.3.8}
+    Mostrar que el punto $x_k$ definido en el \textbf{Algoritmo 2.3.4} es el minimizador del polinomio cuadrático que interpola la función $f$ en los puntos $a_k, b_k$ y $c_k$.
 \end{exercise}

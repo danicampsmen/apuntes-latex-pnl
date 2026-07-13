@@ -1,50 +1,35 @@
-% --- Archivo: exercises.tex ---
+% --- Archivo: exercises.tex (Capítulo 6 del repositorio / Cap. 1 del Vol. 2) ---
 
-\addsec{Ejercicios de Preliminares Teóricos}
+% =========================================================
+\section*{Ejercicios del Capítulo 6}
+% =========================================================
 
-\vspace{0.5em}
-\noindent\textbf{Parte I: Álgebra Lineal y Teoría Analítica}
-\vspace{0.5em}
-
-\begin{exercise}[Lema de Gronwall]
-    Supongamos que los números $\theta_0, \theta_1, \dots, \theta_N$, $a$ y $b$ satisfacen las siguientes cotas recursivas:
-    \[
-        0 \le \theta_0 \le a, \quad 0 \le \theta_{i+1} \le a + b \sum_{j=0}^i \theta_j \quad \forall i = 0, 1, \dots, N-1.
-    \]
-    Probar utilizando la técnica de inducción matemática que la sucesión está acotada geométricamente por $\theta_i \le a(1 + b)^i$ para todo $i = 0, 1, \dots, N$.
+\begin{exercise}\label{v2:ejer:1.5.1}
+ Probar el Lema 1.5.3 (Lema de Gronwall, \cref{v2:lem:1.5.3}) utilizando la técnica de inducción.
 \end{exercise}
 
-\vspace{0.5em}
-\noindent\textbf{Parte II: Elementos de Análisis No Diferenciable}
-\vspace{0.5em}
-
-\begin{exercise}[Compacidad del Diferencial de Clarke]
-    Probar que si el operador no lineal $F : \R^n \to \R^l$ es Lipschitz-continuo con módulo $L > 0$ en una vecindad del punto $x \in \R^n$, entonces su diferencial de Clarke $\partial F(x)$ es un conjunto compacto, no vacío y uniformemente acotado tal que $\|H\| \le L$ para todo $H \in \partial F(x)$.
+\begin{exercise}\label{v2:ejer:1.6.1}
+ Probar que si $F \colon \R^n \to \R^l$ es Lipschitz-continua con módulo $L > 0$ en una vecindad del punto $x \in \R^n$, entonces $\partial F(x)$ es un conjunto compacto no vacío y $\|H\| \le L \quad \forall H \in \partial F(x)$.
 \end{exercise}
 
-\begin{exercise}[Semi-diferenciabilidad de funciones convexas]
-    Probar que si la función escalar $F : \R^n \to \R$ es convexa en una vecindad (convexa) del punto $x \in \R^n$, entonces $F$ es automáticamente semi-diferenciable en el punto $x$.
+\begin{exercise}\label{v2:ejer:1.6.2}
+ Probar que si la función $F \colon \R^n \to \R$ es convexa en una vecindad (convexa) del punto $x \in \R^n$, entonces $F$ es semi-diferenciable en el punto $x$.
 \end{exercise}
 
-\begin{exercise}[Álgebra de funciones semi-diferenciables]
-    Probar que si las funciones vectoriales $F_1, F_2 : \R^n \to \R^l$ son semi-diferenciables en el punto $x \in \R^n$, entonces las operaciones algebraicas elementales preservan esta propiedad. Demostrar que las siguientes funciones son semi-diferenciables en $x$:
-    \begin{enuthm}
-        \item Producto interno: $F : \R^n \to \R$, $F(x) = \langle F_1(x), F_2(x) \rangle$.
-        \item Suma vectorial: $F : \R^n \to \R^l$, $F(x) = F_1(x) + F_2(x)$.
-        \item Máximo componente a componente: $F : \R^n \to \R^l$, $F_i(x) = \max\{ (F_1(x))_i, (F_2(x))_i \}$.
-        \item Mínimo componente a componente: $F : \R^n \to \R^l$, $F_i(x) = \min\{ (F_1(x))_i, (F_2(x))_i \}$.
-    \end{enuthm}
+\begin{exercise}\label{v2:ejer:1.6.3}
+ Probar que si las funciones $F_1, F_2 \colon \R^n \to \R^l$ son semi-diferenciables en el punto $x \in \R^n$, entonces las funciones definidas a continuación también son semi-diferenciables en $x$:
+ \begin{enumerate}[(a)]
+  \item $F \colon \R^n \to \R$, $F(x) = \langle F_1(x), F_2(x) \rangle$.
+  \item $F \colon \R^n \to \R^l$, $F(x) = F_1(x) + F_2(x)$.
+  \item $F \colon \R^n \to \R^l$, $F_i(x) = \max\{(F_1(x))_i, (F_2(x))_i\}$, $i = 1, \dots, l$.
+  \item $F \colon \R^n \to \R^l$, $F_i(x) = \min\{(F_1(x))_i, (F_2(x))_i\}$, $i = 1, \dots, l$.
+ \end{enumerate}
 \end{exercise}
 
-\begin{exercise}[Semi-diferenciabilidad en el producto cartesiano]
-    Probar que si las funciones de bloques $F_1 : \R^n \to \R^{l_1}$ y $F_2 : \R^n \to \R^{l_2}$ son semi-diferenciables en el punto $x \in \R^n$, entonces la función combinada $F : \R^n \to \R^{l_1} \times \R^{l_2}$, definida como $F(x) = (F_1(x), F_2(x))$, es semi-diferenciable en $x$.
+\begin{exercise}\label{v2:ejer:1.6.4}
+ Probar que si las funciones $F_1 \colon \R^n \to \R^{l_1}$ y $F_2 \colon \R^n \to \R^{l_2}$ son semi-diferenciables en el punto $x$, la función $F \colon \R^n \to \R^{l_1} \times \R^{l_2}$, definida por $F(x) = (F_1(x), F_2(x))$, es semi-diferenciable en $x$.
 \end{exercise}
 
-\begin{exercise}[Regla de la cadena para semi-diferenciabilidad]
-    Probar la extensión del Teorema de Composición: si la función base $F_1 : \R^n \to \R^{l_1}$ es semi-diferenciable en el punto $x \in \R^n$, y el operador envolvente $F_2 : \R^{l_1} \to \R^{l_2}$ es semi-diferenciable en la imagen $F_1(x)$, entonces la composición iterada $F : \R^n \to \R^{l_2}$ dada por $F(x) = F_2(F_1(x))$ es semi-diferenciable en $x$.
+\begin{exercise}\label{v2:ejer:1.6.5}
+ Probar que si la función $F_1 \colon \R^n \to \R^{l_1}$ es semi-diferenciable en el punto $x \in \R^n$, y la función $F_2 \colon \R^{l_1} \to \R^{l_2}$ es semi-diferenciable en el punto $F_1(x)$, entonces la función $F \colon \R^n \to \R^{l_2}$, dada por $F(x) = F_2(F_1(x))$, es semi-diferenciable en $x$.
 \end{exercise}
-
-%%% Local Variables:
-%%% mode: LaTeX
-%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
-%%% End:

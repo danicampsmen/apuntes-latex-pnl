@@ -1,101 +1,65 @@
 % --- Archivo: 02_tasas_parada.tex ---
 
 % =========================================================
-\section{Tasas de convergencia y reglas de parada}
-\label{sec:v2_tasas_parada}
+\section{Tasas de convergencia. Reglas de parada}
 % =========================================================
 
-Para evaluar cuantitativamente la eficiencia de un método de optimización con convergencia asintótica, caracterizamos la velocidad con la que el error (la distancia al óptimo), definido por $e_k = \norm{x^k - \bar{x}}$, se reduce iteración tras iteración.
+Para el análisis y evaluación de métodos con convergencia asintótica, la cuestión de la \deftech{tasa de convergencia} es una de las más importantes. La tasa de convergencia es uno de los principales indicadores de eficiencia de un método iterativo. En esta sección, hablaremos sobre la convergencia en relación a las variables del problema. Para cualquier otro tipo de convergencia, la definición de tasa es completamente análoga.
 
-Asumiendo que $x^k \neq \bar{x}$ para todo $k \ge 0$, la velocidad de convergencia se clasifica principalmente según el límite del cociente de errores sucesivos.
+Supongamos que un método dado sea convergente (tal vez localmente) a una solución $\bar{x}$, i.e., $\{x^k\} \to \bar{x}$ ($k \to \infty$). Resultados sobre la tasa de convergencia proporcionan una garantía de velocidad en la reducción de la distancia $\|x^{k+1} - \bar{x}\|$ en relación a $\|x^k - \bar{x}\|$, cuando $k$ es suficientemente grande. En esta exposición suponemos que $x^0 \in \R^n$ es suficientemente próximo a $\bar{x}$, que $x^k \neq \bar{x}$ para todo $k$, y que todos los números constantes a continuación no dependen de $x^0$. Si existe $q \in (0, 1)$ tal que
+\[
+    \limsup_{k \to \infty} \frac{\|x^{k+1} - \bar{x}\|}{\|x^k - \bar{x}\|} = q,
+\]
+decimos que el método posee \deftech{convergencia lineal}. Cuando en la relación anterior $q = 0$, hablamos de \deftech{convergencia superlineal}. La convergencia más lenta que la lineal es llamada \deftech{sublineal}. Un caso especial de convergencia superlineal es la \deftech{convergencia cuadrática}:
+\[
+    \limsup_{k \to \infty} \frac{\|x^{k+1} - \bar{x}\|}{\|x^k - \bar{x}\|^2} \le C,
+\]
+donde $C > 0$ es una constante fija.
 
-\begin{definition}[Tasa de convergencia]\label{def:v2_rates_of_convergence}
-    Se dice que la sucesión $\{x^k\}$ converge a $\bar{x}$ con una tasa:
+Cabe mencionar que la convergencia cuadrática de la secuencia $\{x^k\} \subset \R^n$ a un punto $\bar{x}$, en principio no implica la convergencia cuadrática (ni superlineal) de las secuencias $\{x_i^k\}$ a $\bar{x}_i$, $i = 1, \dots, n$.
+
+\begin{example}\label{v2:exa:2.2.1}
+    Consideremos la secuencia $\{x^k\} \subset \R^2$ generada de la siguiente manera. Sea $x_1^1 \in (0, 1)$. Para todo $k$, tomamos $x_2^{k+1} = (x_2^k)^2$. Para $k$ impar tomamos $x_1^{k+1} = x_1^k$, y para $k$ par tomamos $x_1^{k+1} = (x_1^{k+1})^2$.
     
-    \begin{enuthm}
-        \item \textbf{Lineal:} Si existe una constante $q \in (0, 1)$ tal que el cociente asintótico está acotado por $q$:
-        \begin{equation}
-            \limsup_{k \to \infty} \frac{\norm{x^{k+1} - \bar{x}}}{\norm{x^k - \bar{x}}} = q.
-        \end{equation}
-        Una tasa lineal implica que el error decae exponencialmente (existe $C > 0$ tal que $\norm{x^k - \bar{x}} \le C q^k$), pero la implicación recíproca no siempre es cierta (la sucesión podría estar acotada por una envolvente exponencial sin que el límite del cociente exista o sea regular).
-       
-        \item \textbf{Superlineal:} Si el límite del cociente de errores es estrictamente nulo:
-        \begin{equation}
-            \lim_{k \to \infty} \frac{\norm{x^{k+1} - \bar{x}}}{\norm{x^k - \bar{x}}} = 0.
-        \end{equation}
-        Esto significa que la convergencia es eventualmente más rápida que cualquier progresión geométrica. 
-        
-        Un caso particular sumamente importante es la \textbf{convergencia cuadrática} (orden 2), que verifica la relación:
-        \begin{equation}
-            \limsup_{k \to \infty} \frac{\norm{x^{k+1} - \bar{x}}}{\norm{x^k - \bar{x}}^2} \le C, \quad \text{con } C > 0.
-        \end{equation}
-        En este escenario, el número de decimales correctos de la aproximación se duplica (aproximadamente) en cada iteración.
+    Como puede ser verificado, la secuencia $\{x^k\}$ converge a $(0, 0)$ con tasa cuadrática, pero la convergencia de $\{x_1^k\}$ a $0$ no posee ni tasa lineal.
+\end{example}
 
-        \item \textbf{Sublineal:} Si el límite de la relación de errores es igual a $1$ (es decir, $q=1$). Un ejemplo clásico es la \textbf{convergencia aritmética}, donde existe una constante $C > 0$ tal que:
-        \begin{equation}
-                \limsup_{k \to \infty} k \norm{x^k - \bar{x}} \le C.
-        \end{equation}
-    \end{enuthm}
-\end{definition}
-    
-\begin{definition}[Convergencia geométrica]\label{def:v2_geometric_convergence}
-    Se dice que $\{x^k\}$ \deftech{converge geométricamente} a $\bar{x}$ si existen constantes $q \in (0, 1)$ y $C > 0$ tales que:
-    \begin{equation}
-        \limsup_{k \to \infty} \frac{\norm{x^k - \bar{x}}}{q^k} \le C.
-    \end{equation}
-\end{definition}
+Un ejemplo de propiedad que garantiza apenas tasa sublineal es la siguiente desigualdad:
+\[
+    \limsup_{k \to \infty} k\|x^k - \bar{x}\| \le C.
+\]
+En este caso, hablamos de \deftech{convergencia aritmética}. Cuando
+\[
+    \limsup_{k \to \infty} \frac{\|x^k - \bar{x}\|}{q^k} \le C,
+\]
+donde $q \in (0, 1)$, hablamos de \deftech{convergencia geométrica}. Es obvio que la tasa lineal implica convergencia geométrica, pero no recíprocamente.
+Más informaciones sobre diferentes estimativas y tasas de convergencia pueden ser encontradas en la literatura.
 
-\begin{remark}
-    Como se señaló en la \cref{def:v2_rates_of_convergence}, la convergencia lineal implica convergencia geométrica, pero el recíproco en general no es cierto.
-\end{remark}
+Las estimativas de tasa de convergencia proporcionan información útil para la comparación cualitativa de métodos diferentes. Sin embargo, es importante resaltar que la tasa de convergencia no es la única característica relevante en este sentido. Por ejemplo, es indispensable tener en cuenta el costo computacional de una iteración. Un método con tasa más rápida puede ser más lento en la práctica (i.e., llevar más tiempo computacional para resolver un problema dado), si el costo de iteración del mismo es más alto. Otra propiedad importante de un método es la \textit{estabilidad}, i.e., la capacidad de lidiar con una situación cuando los datos de un problema son proporcionados con errores (son inexactos, perturbados). 
+A veces, también puede ser importante que la secuencia generada sea factible (i.e., que $x^k \in D$ para todo $k$). Por ejemplo, en varias aplicaciones prácticas la función $f$ y/o las restricciones $h$ y $g$ pueden estar bien definidas solamente para puntos factibles. Naturalmente, en estos casos la elección para resolver el problema debe ser algún método que, en cada iteración, produzca puntos factibles.
 
-Es importante notar que el análisis de la tasa de convergencia de una sucesión vectorial se rige por su comportamiento global (su norma). El comportamiento aislado de las componentes individuales puede ser engañoso.
+Aunque un método sea de convergencia asintótica, en la práctica ningún proceso computacional puede ser infinito. Por eso, cualquier método razonable precisa de una \deftech{regla de parada}. Las reglas de parada más confiables están basadas justamente en estimativas de tasa de convergencia y en otras propiedades relacionadas (por ejemplo, estimativas de la distancia al conjunto de soluciones). Cuando la tasa de convergencia es conocida, esta puede ser usada para estimar el número de iteraciones necesarias para aproximar una solución con la precisión dada. Sin embargo, la cuestión no es simple. Primero, en la mayoría de los casos, las tasas de convergencia tienen una naturaleza local, y la cuantificación del número de iteraciones para conseguir un punto a partir del cual comienza a valer esta tasa no es posible. Segundo, las estimativas de tasa de convergencia casi siempre contienen algunas constantes con valores no conocidos (tales como $q$ y $C$ arriba). En este sentido, la aplicación práctica de tasas de convergencia para la definición de reglas de parada en términos del número de iteraciones es bastante limitada.
 
-\begin{counterexample}[Independencia de la tasa cuadrática en las componentes]\label{ex:v2_component_rate}
-    La convergencia cuadrática de una sucesión vectorial hacia $\bar{x}$ no exige que cada componente individual converja con tasa superlineal o cuadrática.
-    
-    Consideremos la trayectoria $\{x^k\} \subset \R^2$ que converge al origen $\bar{x} = (0, 0)^\top$. Fijamos el valor inicial de la segunda componente $x^1_2 \in (0, 1)$. Para todo $k \ge 1$, definimos recursivamente la segunda componente como $x^{k+1}_2 = (x^k_2)^2$. Para la primera componente, el comportamiento se acopla según la paridad de la iteración:
-    \[
-        x^{k+1}_1 =
-        \begin{cases}
-          x^k_1 & \text{si } k \text{ es impar}, \\
-          (x^{k+1}_2)^2 & \text{si } k \text{ es par}.
-        \end{cases}
-    \]
-    Para un punto inicial $x^1 = (b^4, b)^\top$ con $b \in (0, 1)$, los primeros términos generados son:
-    \begin{align*}
-      x^2 &= (b^4, b^2)^\top \quad (\text{paso impar, por lo que } x^2_1 = x^1_1) \\
-      x^3 &= (b^8, b^4)^\top \quad (\text{paso par, por lo que } x^3_1 = (x^3_2)^2) \\
-      x^4 &= (b^8, b^8)^\top \quad (\text{paso impar, por lo que } x^4_1 = x^3_1).
-    \end{align*}
-    La norma del error en cada iteración, $\norm{x^k} = \sqrt{(x^k_1)^2 + (x^k_2)^2}$, decae asintóticamente a tasa cuadrática. Sin embargo, al aislar la primera componente en los pasos de paridad impar (por ejemplo, de $k=3$ a $k=4$), se observa que $x^4_1 = x^3_1$, por lo que la relación del error marginal es exactamente $1$. 
-    
-    Esto demuestra que una componente unidimensional puede estancarse temporalmente (tasa de convergencia 1, ni siquiera lineal), a pesar de que el vector global converge rigurosamente con tasa cuadrática.
-\end{counterexample}
+En la práctica computacional, típicamente se utilizan reglas de parada menos confiables desde el punto de vista teórico, pero que pueden ser fácilmente implementadas. Estas reglas están basadas en la información obtenida en el punto $x^k$ y, tal vez, algunos puntos anteriores. Se examina el comportamiento de la parte más reciente de la secuencia $\{x^k\}$ y/o de la secuencia $\{f(x^k)\}$ y/o de alguna medida de violación de condiciones de optimalidad. Por ejemplo, fijando un número pequeño $\varepsilon > 0$, el método es parado después de la iteración indexada por $(k + 1)$ si
+\[
+    \|x^{k+1} - x^k\| \le \varepsilon.
+\]
+O sea, cuando el paso del método se vuelve corto y creemos que ya no es posible mejorar la calidad de aproximación a una solución de manera significativa. Otra regla de parada, que es de cierto modo análoga, es
+\[
+    |f(x^{k+1}) - f(x^k)| \le \varepsilon.
+\]
+En el caso de un problema irrestricto con una función objetivo $f$ diferenciable, una regla de parada utilizada con frecuencia está dada por
+\[
+    \|f'(x^{k+1})\| \le \varepsilon.
+\]
+No obstante, es muy claro que reglas de parada de este tipo no pueden ser completamente confiables — en general, ellas no garantizan la proximidad del iterado $x^{k+1}$ a una solución del problema en ningún sentido. Por ejemplo, el hecho de que la secuencia generada satisfaga $\lim_{k \to \infty} \|x^{k+1} - x^k\| = 0$ no implica la convergencia de $\{x^k\}$ (basta considerar $\{x^k\} \subset \R$, $x^k = \sqrt{k}$, o $x^k = \sin \sqrt{k}$, $k = 0, 1, \dots$). Aun así, las reglas de parada mencionadas arriba son típicas en métodos computacionales, simplemente porque alternativas mejores no existen.
 
-La tasa de convergencia asintótica no es el único criterio de eficiencia para seleccionar un algoritmo. Un método con convergencia cuadrática (como el método de Newton) puede requerir mucho más tiempo de cómputo total que un método de gradiente (lineal) si el costo computacional de evaluar y resolver el sistema de ecuaciones con la matriz Hessiana en cada iteración es exorbitantemente elevado. La estabilidad numérica y la viabilidad de los iterados dentro del conjunto factible también influyen dramáticamente en el éxito del algoritmo.
+Además de lo que fue mencionado, el número de iteraciones puede (y debe) depender de las posibilidades computacionales disponibles. En la práctica, para problemas difíciles de gran porte, incluso cuando ninguna regla de parada deseada está satisfecha, el método tiene que ser parado de todas formas, por agotamiento del tiempo disponible. O sea, una de las reglas de parada implícita es el número máximo de iteraciones que pueden ser realizadas, o el número máximo de evaluaciones de las funciones, etc. Naturalmente, en esos casos la aproximación obtenida puede no tener nada que ver con la solución del problema, pero es lo mejor que se podría hacer con las herramientas disponibles.
 
-Para equilibrar las propiedades de convergencia global y local, se suelen utilizar \textbf{estrategias de globalización}. Se inicia el proceso con un método de convergencia global y robusto; una vez que el residuo del gradiente indica que el iterado está suficientemente cerca de la solución, el algoritmo cambia a un método de orden superior para aprovechar su aceleración local.
+En general, se debe utilizar alguna combinación de varias reglas de parada, ordenadas en una jerarquía. La definición de esta jerarquía y de varios parámetros involucrados es una cuestión de arte y de la experiencia computacional, más que de la ciencia exacta. Es por eso que nos limitamos a los comentarios genéricos.
 
-Dado que las implementaciones reales no pueden ejecutarse hasta el infinito, el proceso debe detenerse tras un tiempo finito. Para ello se utilizan \deftech{criterios de parada}, generalmente basados en el estancamiento de la trayectoria o en tolerancias estrictas de la función y del gradiente:
-\begin{align}
-    \norm{x^{k+1} - x^k} &\le \epsilon, \label{eq:v2_stopping_var_x} \\
-    \absolute{f(x^{k+1}) - f(x^k)} &\le \epsilon, \label{eq:v2_stopping_var_f} \\
-    \norm{\nabla f(x^k)} &\le \epsilon. \label{eq:v2_stopping_grad}
-\end{align}
+Haremos el siguiente comentario sobre convergencia global y convergencia local de métodos. Típicamente, los métodos con convergencia global son más lentos que los métodos locales. Esto es natural, porque los métodos locales hacen un mejor uso de la estructura (local) del problema en torno a la solución. Por eso, una estrategia razonable sería la de utilizar un método local en combinación con un método que posea convergencia global. El papel de este último es justamente el de proporcionar un punto inicial adecuado para el primero que, a partir de este punto, debe converger a la solución con una tasa rápida. En este método "combinado" es muy deseable que el paso del método global al local sea automático. Así se construye un método completo para la resolución de problemas. Un típico resultado de convergencia para un método "combinado" es el siguiente: el método tiene convergencia global en algún sentido (digamos, convergencia en relación a las variables del problema al conjunto de puntos estacionarios), y si la trayectoria del método entra en una vecindad de un punto estacionario con ciertas propiedades deseadas, la secuencia converge a este punto con tasa rápida (digamos, superlineal). Algunas estrategias de globalización de métodos locales serán presentadas en secciones posteriores (\S 3.3, 4.6.3).
 
-No obstante, estas condiciones de parada pueden resultar gravemente engañosas si se evalúan de forma aislada.
+En relación al problema de hallar una solución global (en el caso no convexo), cabe subrayar que este problema es mucho más complejo que el de hallar un punto estacionario o una solución local. Los métodos para optimización global están mucho menos desarrollados, principalmente en su parte teórica (i.e., en general ellos no admiten un análisis matemático riguroso). No hay duda de que la optimización global es un asunto importante para varias aplicaciones, pero ella no forma parte de este libro. El método más obvio de optimización global consiste en definir una red suficientemente fina en el conjunto factible $D$, y comparar los valores de $f$ en todos los puntos de la red. Así puede ser obtenida una aproximación a la solución global, cuya calidad depende de la densidad de la red. Es claro que un procedimiento así solo puede ser práctico cuando $D$ tiene una estructura bien simple y cuando la dimensión del espacio $n$ es bastante pequeña (a continuación presentamos este método para problemas unidimensionales). Métodos de optimización global más eficientes utilizan optimización local, lo que permite reducir el costo de verificación pasiva de todos los puntos de la red. Un ejemplo de esto es el método de "multi-arranque" (\textit{multi-start}), donde un método local es iniciado a partir de cada punto de una red gruesa. El resultado es obtenido comparando los valores de $f$ en todas las soluciones locales y todos los puntos estacionarios encontrados. Por tanto, los métodos locales desarrollados en este libro son componentes importantes también para métodos de optimización global. Más informaciones sobre optimización global deben ser buscadas en la literatura especializada.
 
-\begin{counterexample}[Falsas convergencias en algoritmos de optimización]\label{ex:v2_stopping_criteria_failure}
-    La condición de estancamiento del paso, $\lim_{k \to \infty} \norm{x^{k+1} - x^k} = 0$, no garantiza en absoluto la convergencia hacia un punto límite estacionario. Consideremos dos trayectorias patológicas en $\R$:
-    \begin{enuthm}
-        \item \textbf{Divergencia monótona lenta:} Si $x^k = \sqrt{k}$, la distancia entre pasos decrece asintóticamente a cero, ya que $\sqrt{k+1} - \sqrt{k} \to 0$. Esto eventualmente satisfará cualquier tolerancia $\epsilon > 0$ en la condición \eqref{eq:v2_stopping_var_x}, engañando al algoritmo para que se detenga. Sin embargo, la trayectoria diverge hacia $+\infty$.
-        \item \textbf{Oscilación acotada no convergente:} Si la secuencia es $x^k = \sin(\sqrt{k})$, la distancia entre pasos también decrece a cero. Activa el criterio de parada \eqref{eq:v2_stopping_var_x}, pero la trayectoria no converge en absoluto; en su lugar, se mantiene orbitando densamente en el intervalo $[-1, 1]$.
-    \end{enuthm}
-\end{counterexample}
-
-Por estas razones, los programas y bibliotecas de optimización robustos siempre combinan varios criterios de parada de forma simultánea, junto con un límite estricto en el número máximo de iteraciones y de evaluaciones de la función objetivo.
-
-\begin{commentary}
-    Como señala la literatura especializada \cite{izmailov2020otimizacaovolume1}, la definición de la jerarquía de las reglas de parada y la calibración fina de sus parámetros numéricos ($\epsilon$) es, en última instancia, \emph{``una cuestión de experiencia computacional y heurística más que de ciencia exacta''}.
-\end{commentary}
+Para finalizar, resaltamos que en este libro, hablando de un método global, nosotros pensamos en un método con convergencia global, i.e., capaz de encontrar un punto estacionario o una solución local a partir de un punto inicial cualquiera, y no en un método capaz de encontrar una solución global (que, en general, es una tarea imposible).
