@@ -13,9 +13,9 @@ Sea el problema dado en formato general
 \end{equation}
 donde $\Omega \subset \R^n$, $f \colon \R^n \to \R$, $h \colon \R^n \to \R^l$ y $g \colon \R^n \to \R^m$.
 
-Todo método para la resolución numérica del problema \eqref{v2:eq:2.1} hace uso del cálculo de valores de la función objetivo y de las restricciones, así como (típicamente) de las derivadas de estas funciones. Hablamos de un \deftech{método pasivo}, cuando los puntos de evaluación de estos valores son elegidos de acuerdo con una estrategia definida a priori, sin tener en cuenta la información obtenida a lo largo del proceso iterativo. Hablamos de un \deftech{método secuencial}, cuando cada punto se define de acuerdo con la información obtenida en los puntos anteriores. Naturalmente, los métodos de esta segunda clase, generalmente, son mucho más eficientes. La gran mayoría de los métodos computacionales son de este tipo.
+Todo método para la resolución numérica del problema \eqref{v2:eq:2.1} hace uso del cálculo de valores de la función objetivo y de las restricciones, así como (típicamente) de las derivadas de estas funciones. Hablamos de un \textbf{método pasivo}, cuando los puntos de evaluación de estos valores son elegidos de acuerdo con una estrategia definida a priori, sin tener en cuenta la información obtenida a lo largo del proceso iterativo. Hablamos de un \textbf{método secuencial}, cuando cada punto se define de acuerdo con la información obtenida en los puntos anteriores. Naturalmente, los métodos de esta segunda clase, generalmente, son mucho más eficientes. La gran mayoría de los métodos computacionales son de este tipo.
 
-Un método secuencial genera una secuencia de puntos en $\R^n$, $x^1, \dots, x^k, \dots$, que serán llamados \deftech{aproximaciones} a la solución del problema o, también, \deftech{iterados} del método. Esta secuencia $\{x^k\}$ (también llamada \textit{trayectoria}) puede no contener todos los puntos en los que se calculan valores de funciones y derivadas, i.e., puede contener solo puntos especialmente seleccionados. La generación de una nueva aproximación $x^{k+1}$ a partir de $x^k$ se llama \deftech{iteración} del método. Los detalles concretos de este proceso constituyen la esencia (naturaleza) del método. Con frecuencia, los algoritmos son descritos en formato de un esquema iterativo, como
+Un método secuencial genera una secuencia de puntos en $\R^n$, $x^1, \dots, x^k, \dots$, que serán llamados \textbf{aproximaciones} a la solución del problema o, también, \textbf{iterados} del método. Esta secuencia $\{x^k\}$ (también llamada \textit{trayectoria}) puede no contener todos los puntos en los que se calculan valores de funciones y derivadas, i.e., puede contener solo puntos especialmente seleccionados. La generación de una nueva aproximación $x^{k+1}$ a partir de $x^k$ se llama \textbf{iteración} del método. Los detalles concretos de este proceso constituyen la esencia (naturaleza) del método. Con frecuencia, los algoritmos son descritos en formato de un esquema iterativo, como
 \begin{equation}
     x^{k+1} = \Psi_k(x^k), \quad k = 0, 1, \dots,
     \label{v2:eq:2.2}
@@ -27,15 +27,15 @@ donde $\Psi_k$ es un operador con valores en $\R^n$, definido en un conjunto $U_
 
 El esquema \eqref{v2:eq:2.2} considerado arriba es del tipo \textit{sin memoria}. Existen también esquemas \textit{con memoria}, donde $\Psi_k$ depende no solamente de $x^k$, sino también de otros puntos anteriores (no necesariamente todos).
 
-El \deftech{orden del método} es el máximo orden de derivadas de la función objetivo y de las restricciones que están siendo utilizadas en la realización de una iteración. Por ejemplo, cuando un método está basado apenas en los valores de las funciones (sin hacer uso de derivadas), hablamos de método de \textit{orden cero}. Si están siendo utilizadas las derivadas primeras (segundas, etc.), el método es de \textit{primer} (\textit{segundo}, etc.) \textit{orden}.
+El \textbf{orden del método} es el máximo orden de derivadas de la función objetivo y de las restricciones que están siendo utilizadas en la realización de una iteración. Por ejemplo, cuando un método está basado apenas en los valores de las funciones (sin hacer uso de derivadas), hablamos de método de \textit{orden cero}. Si están siendo utilizadas las derivadas primeras (segundas, etc.), el método es de \textit{primer} (\textit{segundo}, etc.) \textit{orden}.
 
-Cuando cualquier punto inicial $x^0 \in U_0$ define una trayectoria tal que $x^k$ es una solución del problema para algún $k$ finito, hablamos de un método con \deftech{convergencia finita}. Algoritmos con esta propiedad existen para problemas relativamente simples, tales como la programación lineal y programación cuadrática (Capítulo 6). Para problemas de optimización con estructura más general, tenemos que apelar a métodos con \deftech{convergencia asintótica}.
+Cuando cualquier punto inicial $x^0 \in U_0$ define una trayectoria tal que $x^k$ es una solución del problema para algún $k$ finito, hablamos de un método con \textbf{convergencia finita}. Algoritmos con esta propiedad existen para problemas relativamente simples, tales como la programación lineal y programación cuadrática (Capítulo 6). Para problemas de optimización con estructura más general, tenemos que apelar a métodos con \textbf{convergencia asintótica}.
 En estos casos, no hay cómo garantizar que un elemento $x^k$ de la trayectoria sea una solución exacta del problema. La tarea, por lo tanto, es probar que para $k$ suficientemente grande, $x^k$ es una buena aproximación de la solución (en algún sentido). Dependiendo de la naturaleza de esta aproximación, hablamos de diferentes tipos de convergencia.
 Por ejemplo, si
 \[
     \{x^k\} \to \bar{x} \quad (k \to \infty),
 \]
-donde $\bar{x}$ es una solución del problema, hablamos de convergencia en relación a las variables del problema (o, simplemente, de \deftech{convergencia}) del método a partir del punto inicial $x^0$. Con frecuencia, no es posible probar convergencia a una solución específica, sino apenas a una propiedad más débil:
+donde $\bar{x}$ es una solución del problema, hablamos de convergencia en relación a las variables del problema (o, simplemente, de \textbf{convergencia}) del método a partir del punto inicial $x^0$. Con frecuencia, no es posible probar convergencia a una solución específica, sino apenas a una propiedad más débil:
 \[
     \dist(x^k, S) \to 0 \quad (k \to \infty),
 \]
@@ -44,14 +44,18 @@ Cuando
 \[
     \dist(x^k, D) \to 0, \quad f(x^k) \to \bar{v} \quad (k \to \infty),
 \]
-donde $\bar{v}$ es el valor óptimo del problema, hablamos de \deftech{convergencia en relación a la función objetivo}. Es claro que esto no significa que la trayectoria $\{x^k\}$ del método converja.
+donde $\bar{v}$ es el valor óptimo del problema, hablamos de \textbf{convergencia en relación a la función objetivo}. Es claro que esto no significa que la trayectoria $\{x^k\}$ del método converja.
 
 Con gran frecuencia, probar convergencia al conjunto de soluciones del problema no es posible y lo mejor que puede hacerse es probar convergencia al conjunto de puntos estacionarios (o también, convergencia a cero de alguna medida de violación de condiciones necesarias de optimalidad). Por ejemplo, para el problema irrestricto, cuando vale
 \[
     \{f'(x^k)\} \to 0 \quad (k \to \infty),
 \]
-hablamos de \deftech{convergencia en relación al gradiente}. Un resultado típico para métodos de optimización irrestricta afirma que todo punto de acumulación de $\{x^k\}$ es estacionario.
+hablamos de \textbf{convergencia en relación al gradiente}. Un resultado típico para métodos de optimización irrestricta afirma que todo punto de acumulación de $\{x^k\}$ es estacionario.
 
-Finalmente, cuando $U_0 = \R^n$ y tenemos convergencia a partir de cualquier $x^0 \in \R^n$, hablamos de \deftech{convergencia global}. Cuando algún tipo de convergencia puede ser garantizado solamente a partir de puntos suficientemente próximos a una solución (o un punto estacionario), hablamos de \deftech{convergencia local} del método. En principio, todo método con convergencia local debe ser pensado en combinación con algún otro método capaz de proveer un punto inicial $x^0$ que sea adecuado para una aplicación exitosa del método local (\textit{globalización de la convergencia}).
+Finalmente, cuando $U_0 = \R^n$ y tenemos convergencia a partir de cualquier $x^0 \in \R^n$, hablamos de \textbf{convergencia global}. Cuando algún tipo de convergencia puede ser garantizado solamente a partir de puntos suficientemente próximos a una solución (o un punto estacionario), hablamos de \textbf{convergencia local} del método. En principio, todo método con convergencia local debe ser pensado en combinación con algún otro método capaz de proveer un punto inicial $x^0$ que sea adecuado para una aplicación exitosa del método local (\textit{globalización de la convergencia}).
 
 Con frecuencia, una estrategia de resolución de un problema relativamente difícil está basada en la reducción de este problema a una secuencia (finita o infinita) de problemas más simples. Es claro que esto solo tiene sentido cuando existen métodos eficientes para la resolución de cada problema simple (es decir, la medida de simplicidad debe ser computacional). Por ejemplo, el método clásico de Newton reduce la solución de un sistema de ecuaciones no lineales a la resolución de una secuencia de ecuaciones lineales (que se resuelven con herramientas bien desarrolladas del Álgebra Lineal Computacional). De manera análoga, muchos métodos de Optimización utilizan resolución (aproximada) de problemas unidimensionales, de problemas irrestrictos, de problemas lineales o cuadráticos. Más aún, métodos para problemas irrestrictos utilizan, con frecuencia, métodos para problemas unidimensionales, así como métodos para programación cuadrática utilizan aquellos para programación lineal. Por lo tanto, el desarrollo de métodos para problemas más complejos requiere un estudio previo de métodos para problemas más básicos. Por otro lado, dada la existencia de herramientas para estos problemas básicos, es natural no especificar cómo los subproblemas serán resueltos dentro de un algoritmo general y tratar esto como la parte exterior al algoritmo.
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:
