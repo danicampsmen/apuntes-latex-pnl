@@ -1,130 +1,438 @@
 % --- Archivo: 03_metodo_newton.tex ---
 
-\section{El método de Newton. Métodos cuasi-Newton.}
+% =========================================================
+\section{El método de Newton. Métodos cuasi-Newton}\label{v2:sec:3.2}
+% =========================================================
 
-La idea principal del método de Newton, presentado a continuación, es fundamental en varias áreas de la matemática computacional. En su forma básica, el método de Newton es una herramienta para resolver sistemas de ecuaciones no lineales. En principio, él no es un método de minimización. Por ejemplo, a diferencia de los métodos de descenso considerados arriba, cuando se aplica a un problema de optimización (i.e., a la ecuación $f'(x) = 0$), el método de Newton tiene la misma ``preferencia'' tanto para minimizadores de $f$ cuanto para maximizadores (o, de hecho, cualesquier otros puntos estacionarios). Por otro lado, el método admite también una interpretación ligada a la optimización, lo que puede ser usado para una adaptación mejor a problemas de optimización y, en particular, para el desarrollo de estrategias de globalización.
+La idea principal del método de Newton, presentado a continuación, es fundamental en varias áreas de la matemática computacional. En su forma básica, el método de Newton es una herramienta para resolver sistemas de ecuaciones no lineales. En principio, él no es un método de minimización. Por ejemplo, a diferencia de los métodos de descenso considerados arriba, cuando es aplicado a un problema de optimización (i.e., a la ecuación $f'(x) = 0$), el método de Newton tiene la misma ``preferencia'' tanto por los minimizadores de $f$ como por los maximizadores (o, de hecho, cualquier otro punto estacionario). Por otro lado, el método admite también una interpretación ligada a la optimización, lo que puede ser usado para una mejor adaptación a problemas de optimización y, en particular, para el desarrollo de estrategias de globalización.
 
-La convergencia rápida del método de Newton se debe al uso de información de segundo orden. Como consecuencia, una iteración del método es significativamente más cara en comparación con el método del gradiente. Felizmente, el método de Newton sirve también como base de desarrollo de métodos cuasi-Newton. Estos últimos son ligeramente más lentos que el método de Newton, pero tienen iteraciones bien más baratas (en particular, no tanto más caras que las del método del gradiente). Esto los hace bastante atractivos para uso práctico. Puede ser dicho que los métodos cuasi-Newton son, en general, los más eficientes y más usados entre los algoritmos de la optimización irrestricta (en el caso de funciones dos veces diferenciables).
+La convergencia rápida del método de Newton se debe al uso de información de segunda orden. Como consecuencia, una iteración del método es significativamente más cara en comparación con el método del gradiente. Felizmente, el método de Newton sirve también como base de desarrollo de los métodos cuasi-Newton. Estos últimos son ligeramente más lentos que el método de Newton, pero tienen iteraciones mucho más baratas (en particular, ni tan más caras de lo que las del método del gradiente). Esto los hace bastante atractivos para uso práctico. Se puede decir que los métodos cuasi-Newton son, en general, los más eficientes y más usados entre todos los algoritmos de la optimización irrestricta (en el caso de funciones dos veces diferenciables).
 
-\subsection{El método de Newton para ecuaciones}
+% ---------------------------------------------------------
+\subsection{El método de Newton para ecuaciones}\label{v2:sec:3.2.1}
+% ---------------------------------------------------------
 
-El método de Newton clásico es introducido para el problema de hallar un $x \in \Rn$ tal que
+El método de Newton clásico es introducido para el problema de encontrar un $x \in \Rn$ tal que
 \begin{equation}
     \Phi(x) = 0,
-    \label{eq:newton_ecuacion}
+    \label{v2:eq:3.49}
 \end{equation}
-donde $\Phi \colon \Rn \to \Rn$ es diferenciable. Sea $x^k \in \Rn$ una aproximación a alguna solución $\bar{x}$ de la ecuación \eqref{eq:newton_ecuacion}. En torno de $x^k$, podemos aproximar \eqref{eq:newton_ecuacion} por su linealización
+donde $\Phi : \Rn \to \Rn$ es diferenciable. Sea $x^k \in \Rn$ una aproximación a alguna solución $\bar{x}$ de la ecuación \eqref{v2:eq:3.49}. En torno a $x^k$, podemos aproximar \eqref{v2:eq:3.49} por su linealización
 \begin{equation}
     \Phi(x^k) + \Phi'(x^k)(x - x^k) = 0.
-    \label{eq:newton_linealizacion}
+    \label{v2:eq:3.50}
 \end{equation}
-La relación \eqref{eq:newton_linealizacion} se llama la ecuación de iteración del método de Newton.
+La relación \eqref{v2:eq:3.50} se llama la ecuación de iteración del método de Newton.
 
-\begin{algorithm}[El método de Newton]
-    Elegir $x^0 \in \Rn$ y tomar $k := 0$.
-    \begin{enumerate}
-        \item Calcular $x^{k+1} \in \Rn$ como una solución de la ecuación lineal \eqref{eq:newton_linealizacion}.
-        \item Tomar $k := k + 1$ y retornar al ítem 1.
-    \end{enumerate}
-\end{algorithm}
+\vspace{0.3cm}
+\noindent\textbf{Algoritmo 3.2.1. (El método de Newton)}\\
+Elegir $x^0 \in \Rn$ y tomar $k:=0$.
+\begin{enumerate}
+    \item Calcular $x^{k+1} \in \Rn$ como una solución de la ecuación lineal \eqref{v2:eq:3.50}.
+    \item Tomar $k := k + 1$ y retornar al ítem 1.
+\end{enumerate}
+\vspace{0.3cm}
 
-Suponiendo que $\Phi'(x^k)$ sea no-singular (en este caso, naturalmente, la solución de la ecuación de Newton es única), el método de Newton puede ser escrito en forma del esquema iterativo
+Las iteraciones del método de Newton son ilustradas en la Figura \ref{v2:fig:3.2.1}.
+
+\begin{figure}[htpb]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{figures/fig_3_2_1.png}
+    \caption{Iteraciones del método de Newton en el caso unidimensional.}
+    \label{v2:fig:3.2.1}
+\end{figure}
+
+Suponiendo que $\Phi'(x^k)$ sea no singular (en este caso, naturalmente, la solución de la ecuación de Newton es única), el método de Newton puede ser escrito en forma del esquema iterativo
 \begin{equation}
     x^{k+1} = x^k - (\Phi'(x^k))^{-1}\Phi(x^k), \quad k = 0, 1, \dots
-    \label{eq:newton_esquema}
+    \label{v2:eq:3.51}
 \end{equation}
-Observamos que aunque $\Phi'(x^k)$ sea no-singular, el cálculo de $x^{k+1}$ no requiere necesariamente el cálculo de la inversa de esta matriz. Existen varios métodos de resolución de sistemas de ecuaciones lineales que no invierten la matriz asociada (lo que es caro desde el punto de vista computacional).
+Observamos que aunque $\Phi'(x^k)$ sea no singular, el cálculo de $x^{k+1}$ no requiere necesariamente el cálculo de la inversa de esta matriz. Existen varios métodos de resolución de sistemas de ecuaciones lineales que no invierten la matriz asociada (lo que es caro desde el punto de vista computacional).
 
-\begin{theorem}[Convergencia local del método de Newton]\label{thm:newton_local}
-    Sea $\Phi \colon \Rn \to \Rn$ diferenciable en una vecindad del punto $\bar{x} \in \Rn$, con derivada continua en este punto. Sea $\bar{x}$ una solución de la ecuación \eqref{eq:newton_ecuacion}, tal que $\det \Phi'(\bar{x}) \neq 0$ (i.e., la matriz $\Phi'(\bar{x})$ es no singular).
+Las consideraciones siguientes, aunque un poco informales, muestran que cuando el método de Newton converge, podemos esperar convergencia rápida. Supongamos que una secuencia $\{x^k\}$ generada de acuerdo con el esquema \eqref{v2:eq:3.51} sea convergente a un punto $\bar{x} \in \Rn$, donde $\Phi(\bar{x}) = 0$ con $\Phi'(\bar{x})$ no singular. Por la Fórmula de Taylor de primer orden, se tiene que
+\[
+    0 = \Phi(\bar{x}) = \Phi(x^k) + \Phi'(x^k)(\bar{x} - x^k) + o(\|x^k - \bar{x}\|),
+\]
+de donde
+\begin{align*}
+    0 &= (\Phi'(x^k))^{-1}(\Phi(x^k) + \Phi'(x^k)(\bar{x} - x^k) + o(\|x^k - \bar{x}\|)) \\
+      &= \bar{x} - (x^k - (\Phi'(x^k))^{-1}\Phi(x^k)) + o(\|x^k - \bar{x}\|) \\
+      &= \bar{x} - x^{k+1} + o(\|x^k - \bar{x}\|),
+\end{align*}
+lo que muestra convergencia superlineal:
+\[
+    x^{k+1} - \bar{x} = o(\|x^k - \bar{x}\|).
+\]
+
+El razonamiento anterior, aunque válido, es incompleto. Para obtener un resultado verdaderamente satisfactorio, tenemos que probar la propia convergencia de la secuencia $\{x^k\}$ (arriba, la convergencia fue asumida). Esto es hecho en el teorema siguiente.
+
+\begin{theorem}[Convergencia local del método de Newton]\label{v2:thm:3.2.1}
+    Sea $\Phi : \Rn \to \Rn$ diferenciable en una vecindad del punto $\bar{x} \in \Rn$, con derivada continua en este punto. Sea $\bar{x}$ una solución de la ecuación \eqref{v2:eq:3.49}, tal que $\det \Phi'(\bar{x}) \neq 0$ (i.e., la matriz $\Phi'(\bar{x})$ es no singular).
     
-    Entonces, para cualquier punto inicial $x^0 \in \Rn$ suficientemente próximo a $\bar{x}$, el Algoritmo genera una secuencia $\{x^k\}$ bien definida que converge a $\bar{x}$. La tasa de convergencia es superlineal, y si la derivada de $\Phi$ es Lipschitz-continua en una vecindad de $\bar{x}$, entonces la tasa de convergencia es cuadrática.
+    Entonces para cualquier punto inicial $x^0 \in \Rn$ suficientemente próximo a $\bar{x}$, el Algoritmo 3.2.1 genera una secuencia $\{x^k\}$ bien definida que converge a $\bar{x}$. La tasa de convergencia es superlineal, y si la derivada de $\Phi$ es Lipschitz-continua en una vecindad de $\bar{x}$, entonces la tasa de convergencia es cuadrática.
 \end{theorem}
 
 \begin{proof}
-    Por el teorema sobre perturbaciones pequeñas de una matriz no singular, existen una vecindad $U$ del punto $\bar{x}$ y un número $M > 0$ tales que
+    Por el teorema sobre pequeñas perturbaciones de una matriz no singular (véase el \cref{v2:thm:1.5.1}), existen una vecindad $U$ del punto $\bar{x}$ y un número $M > 0$ tales que
     \begin{equation}
         \det \Phi'(x) \neq 0, \quad \|(\Phi'(x))^{-1}\| \le M \quad \forall x \in U.
+        \label{v2:eq:3.52}
     \end{equation}
-    En particular, para $x^k \in U$ la ecuación de iteración tiene una única solución $x^{k+1}$, i.e., la iteración del Algoritmo, a partir de tal $x^k$, está bien definida.
-    Además de eso, por el Teorema del Valor Medio, podemos tomar la vecindad $U$ tal que, si $x^k \in U$, entonces
+    En particular, para $x^k \in U$ la ecuación \eqref{v2:eq:3.50} tiene una única solución $x^{k+1}$, i.e., la iteración del Algoritmo 3.2.1, a partir de tal $x^k$, está bien definida.
+    
+    Además de eso, por \eqref{v2:eq:3.51}, \eqref{v2:eq:3.52} y por el Teorema del Valor Medio, podemos tomar la vecindad $U$ tal que, si $x^k \in U$, entonces
     \begin{align}
         \|x^{k+1} - \bar{x}\| &= \|x^k - \bar{x} - (\Phi'(x^k))^{-1}\Phi(x^k)\| \nonumber \\
         &\le \|(\Phi'(x^k))^{-1}\| \|\Phi(x^k) - \Phi(\bar{x}) - \Phi'(x^k)(x^k - \bar{x})\| \nonumber \\
-        &\le M \sup_{t \in [0, 1]} \|\Phi'(t x^k + (1 - t)\bar{x}) - \Phi'(x^k)\| \|x^k - \bar{x}\|.
+        &\le M \sup_{t \in [0, 1]} \|\Phi'(tx^k + (1-t)\bar{x}) - \Phi'(x^k)\| \|x^k - \bar{x}\|. \label{v2:eq:3.53}
     \end{align}
-    Notamos que $\sup \|\Phi'(t x^k + (1 - t)\bar{x}) - \Phi'(x^k)\| \to 0$ ($x^k \to \bar{x}$). Por lo tanto, para todo $q \in (0, 1)$ existe $\delta > 0$ tal que $B(\bar{x}, \delta) \subset U$ y, si $x^k \in B(\bar{x}, \delta)$,
+    Notamos que
     \[
-        \|x^{k+1} - \bar{x}\| \le q\|x^k - \bar{x}\|.
+        \sup_{t \in [0, 1]} \|\Phi'(tx^k + (1-t)\bar{x}) - \Phi'(x^k)\| \to 0 \quad (x^k \to \bar{x}).
     \]
-    En particular, $x^{k+1} \in B(\bar{x}, \delta)$. Concluimos que para todo $x^0$ suficientemente próximo a $\bar{x}$, se genera una secuencia $\{x^k\}$ bien definida, y que esta secuencia converge a $\bar{x}$. Además de eso, la tasa de convergencia es superlineal, ya que $q \to 0$ a medida que $x^k \to \bar{x}$.
-    Cuando la derivada de $\Phi$ es Lipschitz-continua en $U$ con módulo $L > 0$, obtenemos que
+    Por lo tanto, de \eqref{v2:eq:3.53}, tenemos que para todo $q \in (0, 1)$ existe $\delta > 0$ tal que $B(\bar{x}, \delta) \subset U$ y, si $x^k \in B(\bar{x}, \delta)$,
     \[
+        \|x^{k+1} - \bar{x}\| \le q \|x^k - \bar{x}\|.
+    \]
+    En particular, $x^{k+1} \in B(\bar{x}, \delta)$. Concluimos que para todo $x^0$ suficientemente próximo a $\bar{x}$, el Algoritmo 3.2.1 genera una secuencia $\{x^k\}$ bien definida, y que esta secuencia converge a $\bar{x}$. Además de eso, la tasa de convergencia es superlineal (podemos tomar $q$ arbitrariamente pequeño, i.e., $q \to 0$, a medida que $x^k \to \bar{x}$).
+    
+    Cuando la derivada de $\Phi$ es Lipschitz-continua en $U$ con módulo $L > 0$, de \eqref{v2:eq:3.53} obtenemos: si $x^k \in U$, entonces
+    \begin{equation}
         \|x^{k+1} - \bar{x}\| \le M L \|x^k - \bar{x}\|^2,
-    \]
+        \label{v2:eq:3.54}
+    \end{equation}
     i.e., la convergencia es cuadrática.
 \end{proof}
 
-\begin{corollary}[Método de Newton Inexacto]\label{cor:newton_inexacto}
-    Supongamos que valen las hipótesis del Teorema de Newton local. Se tiene que para toda $\Psi \colon \Rn \to \R^{n \times n}$ tal que $\|\Psi(x) - \Phi'(x)\| \to 0$ ($x \to \bar{x}$), para cualquier punto inicial $x^0$ suficientemente próximo a $\bar{x}$, el método dado por $x^{k+1} = x^k - (\Psi(x^k))^{-1}\Phi(x^k)$ genera una secuencia bien definida que converge a $\bar{x}$ con tasa superlineal. 
+Bajo las hipótesis del \cref{v2:thm:3.2.1}, la convergencia local del método de Newton es bien rápida. Sin embargo, es fácil ver que, en general, la convergencia es local mismo. O sea, para un punto inicial que no está suficientemente próximo a la solución, el método puede no funcionar, incluso cuando la solución satisface todas las hipótesis necesarias. La Figura \ref{v2:fig:3.2.2} ilustra este hecho. Otros ejemplos serán dados en \S~3.2.2.
+
+\begin{figure}[htpb]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{figures/fig_3_2_2.png}
+    \caption{El método de Newton no posee convergencia global: en el dibujo, el método siempre genera los dos mismos puntos que no son soluciones de la ecuación $\Phi(x) = 0$.}
+    \label{v2:fig:3.2.2}
+\end{figure}
+
+Observamos que en el \cref{v2:thm:3.2.1}, así como en otros resultados sobre convergencia cuadrática de métodos Newtonianos, en lugar de la hipótesis de que la derivada de $\Phi$ sea Lipschitz-continua, podemos utilizar una condición un poco más débil:
+\[
+    \|\Phi'(x) - \Phi'(\bar{x})\| \le L \|x - \bar{x}\| \quad \forall x \in V,
+\]
+donde $V$ es una vecindad de la solución $\bar{x}$ y $L > 0$ es una constante. Sin embargo, diferencias de este tipo no son muy significativas. Siguiendo la tradición, casi siempre formularemos resultados de esta naturaleza usando la continuidad de Lipschitz en una vecindad de la solución.
+
+A veces, en la representación de $\Phi'(\cdot)$ es posible identificar algún término que se anula en el punto $\bar{x}$. En casos así, para simplificar los cálculos, es razonable descartar este término desde el inicio, i.e., sustituir $\Phi'(\cdot)$ por su aproximación $\Psi : \Rn \to \R^{n \times n}$ correspondiente (el término que se anula en $\bar{x}$ viene dado por la diferencia $\Phi'(\cdot) - \Psi(\cdot)$). Esta estrategia es un ejemplo de métodos de Newton inexactos, que pueden ser representados por el siguiente esquema iterativo:
+\begin{equation}
+    x^{k+1} = x^k - (\Psi(x^k))^{-1}\Phi(x^k), \quad k = 0, 1, \dots
+    \label{v2:eq:3.55}
+\end{equation}
+
+\begin{corollary}\label{v2:cor:3.2.1}
+    Supongamos que valen las hipótesis del \cref{v2:thm:3.2.1}. Se tiene que para todo $\Psi : \Rn \to \R^{n \times n}$ tal que
+    \[
+        \|\Psi(x) - \Phi'(x)\| \to 0 \quad (x \to \bar{x}),
+    \]
+    para cualquier punto inicial $x^0 \in \Rn$ suficientemente próximo a $\bar{x}$, el método dado por \eqref{v2:eq:3.55} genera una secuencia $\{x^k\}$ bien definida, que converge a $\bar{x}$. La tasa de convergencia es superlineal, y si la derivada de $\Phi$ es Lipschitz-continua en una vecindad $V$ del punto $\bar{x}$ y existe un número $N > 0$ tal que
+    \[
+        \|\Psi(x) - \Phi'(x)\| \le N \|x - \bar{x}\| \quad \forall x \in V,
+    \]
+    entonces la convergencia es cuadrática.
 \end{corollary}
 
-\subsection{Método de Newton para optimización irrestricta}
+En implementaciones computacionales, principalmente cuando el problema es de gran tamaño, los sistemas de ecuaciones lineales asociados a las iteraciones del método de Newton se resuelven por algún método iterativo hasta que una cierta tolerancia sea alcanzada. Estrategias de este tipo se llaman de \textit{métodos de Newton truncados}. Uno de los criterios típicos para la aceptación de una aproximación a la solución de la ecuación de Newton \eqref{v2:eq:3.50} como el iterando siguiente $x^{k+1}$ viene dado por
+\begin{equation}
+    \|\Phi(x^k) + \Phi'(x^k)(x^{k+1} - x^k)\| \le \sigma_k \|\Phi(x^k)\|,
+    \label{v2:eq:3.56}
+\end{equation}
+donde $\sigma_k \in [0, 1)$ es un parámetro.
+
+Otra modificación del método de Newton que puede ser útil es la siguiente:
+\begin{equation}
+    x^{k+1} = x^k - (\Phi'(x^0))^{-1}\Phi(x^k), \quad k = 0, 1, \dots
+    \label{v2:eq:3.57}
+\end{equation}
+La ventaja de este método es que tenemos que calcular la derivada de $\Phi$ en un único punto, en vez de hacerlo en cada iteración. Además de eso, todos los sistemas lineales a ser resueltos tienen la misma matriz, lo que facilita el trabajo computacional drásticamente. Por otro lado, como es de esperar, la convergencia es más lenta en comparación con la del método de Newton.
+
+Otra modificación, más práctica, consiste en un cierto compromiso entre el método de Newton puro y \eqref{v2:eq:3.57}. Más precisamente, podemos calcular $\Phi'(x^k)$ no apenas para $k = 0$, y también no para cada iteración $k$, sino para alguna secuencia creciente de índices de iteraciones (por ejemplo, en las iteraciones con índices $0, s, 2s, \dots$, donde $s \ge 2$ es un número entero). Así obtenemos una reducción del costo del método puro \eqref{v2:eq:3.51}, al mismo tiempo elevando la tasa de convergencia de \eqref{v2:eq:3.57}.
+
+% ---------------------------------------------------------
+\subsection{El método de Newton para optimización irrestricta}\label{v2:sec:3.2.2}
+% ---------------------------------------------------------
 
 Ahora consideremos el problema de optimización irrestricta
 \begin{equation}
     \min f(x), \quad x \in \Rn,
-    \label{eq:newton_opt_irrestricta}
+    \label{v2:eq:3.58}
 \end{equation}
-donde $f \colon \Rn \to \R$ es una función dos veces diferenciable en $\Rn$. Los puntos estacionarios de este problema se caracterizan por la ecuación
-\begin{equation}
-    \Phi \colon \Rn \to \Rn, \quad \Phi(x) = f'(x).
-\end{equation}
-Por lo tanto, podemos intentar computar puntos estacionarios aplicando el método de Newton a la ecuación $f'(x) = 0$. Sea $x^k \in \Rn$ una aproximación a un punto estacionario $\bar{x}$. La aproximación siguiente $x^{k+1}$ es computada como solución del sistema de ecuaciones lineales
+donde $f : \Rn \to \R$ es una función dos veces diferenciable en $\Rn$. Los puntos estacionarios de este problema se caracterizan por la ecuación \eqref{v2:eq:3.49}, donde
+\[
+    \Phi : \Rn \to \Rn, \quad \Phi(x) = f'(x).
+\]
+Por lo tanto, podemos intentar calcular puntos estacionarios de \eqref{v2:eq:3.58} aplicando el método de Newton a la ecuación $f'(x) = 0$.
+
+Sea $x^k \in \Rn$ una aproximación a un punto estacionario $\bar{x}$ del problema \eqref{v2:eq:3.58}. La aproximación siguiente $x^{k+1}$ es calculada como solución del sistema de ecuaciones lineales
 \begin{equation}
     f'(x^k) + f''(x^k)(x - x^k) = 0,
-    \label{eq:newton_sistema_opt}
+    \label{v2:eq:3.59}
 \end{equation}
-en relación a $x \in \Rn$. Suponiendo que $f''(x^k)$ sea no-singular para todo $k$, obtenemos el esquema iterativo siguiente:
+en relación a $x \in \Rn$. Suponiendo que $f''(x^k)$ sea no singular para todo $k$, obtenemos el esquema iterativo siguiente:
 \begin{equation}
     x^{k+1} = x^k - (f''(x^k))^{-1}f'(x^k), \quad k = 0, 1, \dots
-    \label{eq:newton_esquema_opt}
+    \label{v2:eq:3.60}
 \end{equation}
-Observamos que esta iteración admite una interpretación en términos de problemas de optimización. En particular, en torno del punto $x^k$, el problema puede ser aproximado por el siguiente problema de optimización irrestricta de una función cuadrática:
+
+Observamos que esta iteración admite una interpretación en términos de problemas de optimización. En particular, en torno del punto $x^k$, el problema de optimización irrestricta \eqref{v2:eq:3.58} puede ser aproximado por el siguiente problema de una función cuadrática:
 \begin{equation}
     \min f(x^k) + \interno{f'(x^k)}{x - x^k} + \frac{1}{2}\interno{f''(x^k)(x - x^k)}{x - x^k}, \quad x \in \Rn.
+    \label{v2:eq:3.61}
 \end{equation}
-Como es fácil ver, la ecuación de Newton \eqref{eq:newton_sistema_opt} caracteriza los puntos estacionarios del problema cuadrático. Por lo tanto, el método de Newton para un problema de optimización irrestricto es lo siguiente.
+Como es fácil ver, la ecuación de Newton \eqref{v2:eq:3.59} caracteriza los puntos estacionarios del problema cuadrático \eqref{v2:eq:3.61}. Por lo tanto, el método de Newton para un problema de optimización irrestricto es lo siguiente.
 
-\begin{algorithm}[Método de Newton para optimización irrestricta]
-    Elegir $x^0 \in \Rn$ y tomar $k := 0$.
-    \begin{enumerate}
-        \item Calcular $x^{k+1} \in \Rn$ como punto estacionario del problema cuadrático asociado.
-        \item Tomar $k := k + 1$ y retornar al Paso 1.
-    \end{enumerate}
-\end{algorithm}
+\vspace{0.3cm}
+\noindent\textbf{Algoritmo 3.2.2. (El método de Newton para optimización irrestricta)}\\
+Elegir $x^0 \in \Rn$ y tomar $k:=0$.
+\begin{enumerate}
+    \item Calcular $x^{k+1} \in \Rn$ como punto estacionario del problema \eqref{v2:eq:3.61}.
+    \item Tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
+\vspace{0.3cm}
 
-\begin{corollary}\label{cor:newton_opt_local}
-    Sea $f \colon \Rn \to \R$ una función dos veces diferenciable en una vecindad del punto $\bar{x} \in \Rn$, con segunda derivada continua en este punto. Sea $\bar{x}$ un punto estacionario del problema que satisface la condición suficiente de segundo orden. Entonces para cualquier punto inicial $x^0 \in \Rn$ suficientemente próximo a $\bar{x}$, el Algoritmo genera una secuencia $\{x^k\}$ bien definida que converge a $\bar{x}$. La tasa de convergencia es superlineal, y si la derivada segunda es Lipschitz-continua en la vecindad de $\bar{x}$, la convergencia es cuadrática.
+Del \cref{v2:thm:3.2.1}, inmediatamente obtenemos las siguientes propiedades del Algoritmo 3.2.2.
+
+\begin{corollary}\label{v2:cor:3.2.2}
+    Sea $f : \Rn \to \R$ una función dos veces diferenciable en una vecindad del punto $\bar{x} \in \Rn$, con segunda derivada continua en este punto. Sea $\bar{x}$ un punto estacionario del problema \eqref{v2:eq:3.58}, que satisface la condición suficiente de segunda orden (dada en el \cref{v2:thm:1.2.1}).
+    
+    Entonces para cualquier punto inicial $x^0 \in \Rn$ suficientemente próximo a $\bar{x}$, el Algoritmo 3.2.2 genera una secuencia $\{x^k\}$ bien definida, que converge a $\bar{x}$. La tasa de convergencia es superlineal, y si la derivada segunda de $f$ es Lipschitz-continua en una vecindad de $\bar{x}$, la convergencia es cuadrática.
 \end{corollary}
 
-Bajo las condiciones del Corolario, uno de los métodos más eficientes para resolver la ecuación lineal del esquema es el método de Cholesky. Este método permite obtener la factorización $LL^\top$ de una matriz simétrica definida positiva en un orden de $n^3/6$ multiplicaciones más el mismo número de sumas ($L$ es una matriz triangular con elementos positivos en la diagonal). Este esquema puede ser modificado para sustituir la matriz $f''(x^k)$, cuando ella no es definida positiva, por una matriz definida positiva (por ejemplo, de la forma $f''(x^k) + \gamma E^n$ con $\gamma > 0$ suficientemente grande). Esto es importante para el desarrollo de estrategias de globalización de métodos Newtonianos. 
+Bajo las condiciones del \cref{v2:cor:3.2.2}, uno de los métodos más eficientes para resolver la ecuación lineal \eqref{v2:eq:3.59} es el método de Cholesky. Este método permite obtener la descomposición $LL^\top$ de una matriz simétrica definida positiva en el orden de $n^3/6$ multiplicaciones y el mismo número de sumas (donde $L$ es una matriz triangular con elementos positivos en la diagonal). Este esquema puede ser modificado para sustituir a la matriz $f''(x^k)$, cuando ella no es definida positiva, por una matriz definida positiva (por ejemplo, de la forma $f''(x^k) + \gamma E^n$ con $\gamma > 0$ suficientemente grande). Esto es importante para el desarrollo de estrategias de globalización de los métodos Newtonianos (véase \S~3.3). Observamos que, sin la modificación mencionada arriba, el \cref{v2:cor:3.2.2} continúa siendo válido si sustituimos la condición suficiente de segunda orden en el punto estacionario $\bar{x}$ por la condición más débil de que $f''(\bar{x})$ sea no singular. En este sentido, el método de Newton no tiene preferencia por minimizadores en relación a otros puntos estacionarios del problema \eqref{v2:eq:3.58}.
 
-Observamos que, sin la modificación mencionada arriba, el Corolario continúa siendo válido si sustituimos la condición suficiente de segundo orden en el punto estacionario $\bar{x}$ por la condición más débil de que $f''(\bar{x})$ sea no singular. En este sentido, el método de Newton no tiene preferencia para minimizadores en relación a otros puntos estacionarios del problema.
+La principal ventaja del método de Newton es la convergencia superlineal. Recordamos que en el caso de los métodos del gradiente considerados en \S~3.1, la tasa de convergencia es, en la mejor de las hipótesis, lineal. Sin embargo, el método de Newton posee también algunas desventajas que mencionamos a continuación.
 
-La principal ventaja del método de Newton es la convergencia superlineal. No obstante, el método de Newton posee también algunas desventajas. Primero, como ya fue visto, el método tiene apenas convergencia local. De nuevo, esto tiene que ser comparado, por ejemplo, con los métodos del gradiente. Segundo, para algunos puntos iniciales, el método puede ni estar bien definido. Y mismo cuando el método genera correctamente una secuencia de iteraciones, la secuencia puede no poseer puntos de acumulación o los puntos de acumulación de ella pueden no ser puntos estacionarios del problema, como veremos a seguir.
+Primero, como ya fue visto en \S~3.2.1, el método tiene apenas convergencia local. De nuevo, esto tiene que ser comparado, por ejemplo, con los mismos métodos del gradiente. Estos últimos tienen convergencia global en el sentido de que, dado un punto inicial cualquiera, los puntos de acumulación de la secuencia generada son puntos estacionarios del problema \eqref{v2:eq:3.58}, suponiendo, es claro, que ciertas hipótesis razonables sean satisfechas. Cuando $f$ es una función cuadrática, i.e.,
+\begin{equation}
+    f(x) = \frac{1}{2}\interno{Qx}{x} + \interno{q}{x}, \quad x \in \Rn,
+    \label{v2:eq:3.62}
+\end{equation}
+donde $Q \in \R^{n \times n}$ es una matriz simétrica no singular y $b \in \Rn$, el método de Newton encontrará el único punto estacionario de $f$ en una iteración. Mas en el caso no cuadrático, la situación es bien más complicada. Primero, para algunos puntos iniciales, el método puede ni estar bien definido. Incluso cuando el método genera correctamente una secuencia de iteraciones, la secuencia puede no poseer puntos de acumulación o los puntos de acumulación de ella pueden no ser puntos estacionarios del problema, como veremos a continuación.
 
-\begin{example}
-Consideremos la función
-\[
-f \colon \R \to \R, \quad f(x) =
-\begin{cases} -x^4/(4\tau^3) + (1 + 3/\tau)x^2/2, & \text{si } |x| \le \tau, \\
-x^2/2 + 2|x| - 3\tau/4, & \text{si } |x| > \tau,
-\end{cases}
-\]
-donde $\tau > 0$ es un parámetro. Como es fácil de verificar, para cualquier $\tau > 0$ la función $f$ es dos veces diferenciable en $\R$, con segunda derivada continua. Más aún, el problema definido por esta $f$ tiene un único punto estacionario $\bar{x} = 0$, y se tiene que $f''(\bar{x}) = 1 + 3/\tau > 0$. En particular, todas las hipótesis del Corolario son satisfechas.
-
-Tomaremos $x^0 = \tau$. La secuencia $\{x^k\}$ generada por el Algoritmo tiene la siguiente forma: $x^k = 2(-1)^k$, $k = 1, 2, \dots$. En particular, $\bar{x}$ no es punto de acumulación de $\{x^k\}$, independientemente de cuánto $\tau$ sea pequeño (i.e., cuánto $x^0$ sea próximo a $\bar{x}$).
-
-Lejos de una solución del problema, el paso unitario $\alpha_k = 1$, que caracteriza al método de Newton puro, puede no resultar en un decrecimiento de la función objetivo. En este caso, el método de Newton puro no es un método de descenso, en cuanto que un paso más corto en la misma dirección puede garantizar esta propiedad.
+\begin{example}\label{v2:exa:3.2.1}
+    Consideremos la función
+    \[
+        f : \R \to \R, \quad f(x) = \begin{cases}
+            -x^4 / (4\tau^3) + (1 + 3/\tau)x^2 / 2, & \text{si } |x| \le \tau, \\
+            x^2/2 + 2|x| - 3\tau/4, & \text{si } |x| > \tau,
+        \end{cases}
+    \]
+    donde $\tau > 0$ es un parámetro. Como es fácil de verificar, para cualquier $\tau > 0$ la función $f$ es dos veces diferenciable en $\R$, con segunda derivada continua. Además, el problema \eqref{v2:eq:3.58} definido por esta $f$ tiene un único punto estacionario $\bar{x} = 0$, y se tiene que $f''(\bar{x}) = 1 + 3/\tau > 0$. En particular, todas las hipótesis del \cref{v2:cor:3.2.2} son satisfechas.
+    
+    Tomaremos $x^0 = \tau$. La secuencia $\{x^k\}$ generada por el Algoritmo 3.2.2 tiene la siguiente forma: $x^k = 2(-1)^k$, $k=1, 2, \dots$ En particular, $\bar{x}$ no es punto de acumulación de $\{x^k\}$, independientemente de cuán pequeño sea $\tau$ (i.e., cuán próximo $x^0$ sea a $\bar{x}$).
 \end{example}
+
+La globalización de métodos newtonianos será considerada en \S~3.3. Por ahora, mencionaremos que para este fin puede ser útil la interpretación \eqref{v2:eq:3.61} de la iteración del método en términos de problemas de optimización, así como la introducción de la longitud de paso, i.e., sustitución del esquema \eqref{v2:eq:3.60} por
+\[
+    x^{k+1} = x^k - \alpha_k (f''(x^k))^{-1}f'(x^k), \quad k = 0, 1, \dots
+\]
+donde $\alpha_k > 0$ puede ser diferente de 1. Lejos de una solución del problema, el paso unitario $\alpha_k = 1$, que caracteriza el método de Newton puro, puede no resultar en decrecimiento de la función objetivo. En este caso, el método de Newton puro no es un método de descenso, en cuanto que un paso más corto en la misma dirección puede garantizar esta propiedad.
+
+Como ya notamos, en cada iteración del método de Newton es necesario calcular la derivada segunda de la función objetivo y resolver el sistema de ecuaciones lineales correspondiente. Las modificaciones de los métodos que permiten reducir el costo computacional de cada iteración manteniendo convergencia rápida serán consideradas en \S~3.2.3.
+
+% ---------------------------------------------------------
+\subsection{Métodos cuasi-Newton}\label{v2:sec:3.2.3}
+% ---------------------------------------------------------
+
+Una clase importante de métodos de optimización irrestricta viene dada por el esquema iterativo
+\begin{equation}
+    x^{k+1} = x^k + \alpha_k d^k, \quad d^k = -Q_k f'(x^k), \quad k = 0, 1, \dots,
+    \label{v2:eq:3.63}
+\end{equation}
+donde, para todo $k$, $Q_k \in \R^{n \times n}$ es una matriz simétrica definida positiva, y $\alpha_k > 0$ es la longitud de paso calculada utilizando una de las reglas de búsqueda lineal presentadas en \S~3.1.1. Notemos que el método \eqref{v2:eq:3.63} es un método de descenso. En efecto, si $x^k$ no es un punto estacionario del problema \eqref{v2:eq:3.58}, como $Q_k$ es definida positiva, se tiene que
+\begin{equation}
+    \interno{f'(x^k)}{d^k} = -\interno{Q_k f'(x^k)}{f'(x^k)} < 0,
+    \label{v2:eq:3.64}
+\end{equation}
+y por lo tanto, por el \cref{v2:lem:3.1.1}, $d^k$ es una dirección de descenso de $f$ en $x^k$, i.e., $d^k \in \mathcal{D}_f(x^k)$. En el caso de $Q_k = E^n$, \eqref{v2:eq:3.63} se reduce a un de los métodos de gradiente, y en el caso de $Q_k = (f''(x^k))^{-1}$ con $\alpha_k = 1$, obtenemos el método de Newton puro. Existen, sin embargo, otras posibilidades que son más atractivas computacionalmente que las dos obvias mencionadas arriba.
+
+\vspace{0.3cm}
+\noindent\textbf{Algoritmo 3.2.3. (Método de descenso con métrica variable)}\\
+Elegir $x^0 \in \Rn$ y tomar $k:=0$. Elegir una de las reglas de búsqueda lineal presentadas en \S~3.1.1 y los parámetros asociados: $\hat{\alpha} > 0$ (o $\hat{\alpha} = +\infty$) en el caso de la minimización unidimensional; $\hat{\alpha} > 0, \sigma, \theta \in (0, 1)$ en el caso de la regla de Armijo; y $\bar{\alpha} > 0$ en el caso de longitud de paso fijo.
+\begin{enumerate}
+    \item Elegir una matriz $n \times n$ simétrica definida positiva $Q_k$ y tomar $d^k = -Q_k f'(x^k)$. Calcular la longitud de paso $\alpha_k$ en la dirección $d^k$, por la regla de búsqueda lineal elegida (si $f'(x^k) = 0$, formalmente definimos $\alpha_k = 1$).
+    \item Tomar $x^{k+1} = x^k + \alpha_k d^k$.
+    \item Tomar $k:=k+1$ y retornar al Paso 1.
+\end{enumerate}
+\vspace{0.3cm}
+
+Los métodos cuasi-Newton son métodos de la forma \eqref{v2:eq:3.63}, donde las matrices $Q_k$ son elegidas para aproximar, en un cierto sentido, a la matriz $(f''(\bar{x}))^{-1}$ para alguna solución $\bar{x}$. Más precisamente, la secuencia $\{Q_k\}$ tiene que satisfacer la condición de Dennis-Moré \eqref{v2:eq:3.66}, dada en el teorema siguiente.
+
+\begin{theorem}[Teorema de Dennis-Moré]\label{v2:thm:3.2.2}
+    Supongamos que se satisfacen las hipótesis del \cref{v2:cor:3.2.2}. Además de eso, supongamos que la secuencia $\{x^k\}$, generada por el Algoritmo 3.2.3 utilizando la regla de búsqueda lineal de Armijo con $\hat{\alpha} = 1$ y $\sigma \in (0, 1/2)$, converge a $\bar{x}$.
+    
+    Entonces, las siguientes afirmaciones son equivalentes:
+    \begin{enumerate}[(a)]
+        \item La tasa de convergencia de $\{x^k\}$ a $\bar{x}$ es superlineal, $\alpha_k = 1$ para todo $k$ suficientemente grande, y
+        \begin{equation}
+            \|Q_k f'(x^k)\| \le M \|f'(x^k)\| \quad \forall k=0, 1, \dots,
+            \label{v2:eq:3.65}
+        \end{equation}
+        donde $M > 0$ es una constante que no depende de $k$.
+        
+        \item Se tiene que
+        \begin{equation}
+            (Q_k - (f''(\bar{x}))^{-1})f'(x^k) = o(\|f'(x^k)\|).
+            \label{v2:eq:3.66}
+        \end{equation}
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    Primero, supongamos que la afirmación (a) se satisface. De \eqref{v2:eq:3.63}, teniendo en cuenta que $\alpha_k = 1$ para todo $k$ suficientemente grande, tenemos que
+    \begin{align}
+        &((f''(\bar{x}))^{-1} - Q_k)f'(x^k) \nonumber \\
+        &= (f''(\bar{x}))^{-1} f'(x^k) + x^{k+1} - x^k \nonumber \\
+        &= (f''(\bar{x}))^{-1} (f'(x^k) - f'(\bar{x}) - f''(\bar{x})(x^k - \bar{x})) \nonumber \\
+        &\quad + x^{k+1} - \bar{x} \nonumber \\
+        &= o(\|x^k - \bar{x}\|), \label{v2:eq:3.67}
+    \end{align}
+    donde la última igualdad sigue de la Fórmula de Taylor y de la convergencia superlineal de $\{x^k\}$ a $\bar{x}$.
+    
+    De \eqref{v2:eq:3.65}, obtenemos que
+    \begin{align*}
+        M \|f'(x^k)\| &\ge \|Q_k f'(x^k)\| \\
+        &\ge \|x^k - \bar{x}\| - \|x^{k+1} - \bar{x}\| \\
+        &= \|x^k - \bar{x}\| + o(\|x^k - \bar{x}\|).
+    \end{align*}
+    Por lo tanto,
+    \begin{align*}
+        \frac{o(\|x^k - \bar{x}\|)}{\|f'(x^k)\|} &\le \frac{o(\|x^k - \bar{x}\|)}{\|x^k - \bar{x}\| / M + o(\|x^k - \bar{x}\|)} \\
+        &= \frac{o(\|x^k - \bar{x}\|)/\|x^k - \bar{x}\|}{1/M + o(\|x^k - \bar{x}\|)/\|x^k - \bar{x}\|} \to 0 \quad (k \to \infty).
+    \end{align*}
+    Combinando esta última relación con \eqref{v2:eq:3.67}, obtenemos \eqref{v2:eq:3.66}.
+    
+    Ahora supongamos que la afirmación (b) se satisface. La condición \eqref{v2:eq:3.65} sigue trivialmente (si no, obtenemos una contradicción obvia con \eqref{v2:eq:3.66}).
+    Probaremos que $\alpha_k = 1$ para todo $k$ suficientemente grande. Por el Teorema del Valor Medio, existe $\tilde{t}_k \in [0, 1]$ tal que
+    \begin{align*}
+        f(x^k - Q_k f'(x^k)) &= f(x^k) - \interno{f'(x^k)}{Q_k f'(x^k)} \\
+        &\quad + \frac{1}{2}\interno{f''(\tilde{x}^k) Q_k f'(x^k)}{Q_k f'(x^k)},
+    \end{align*}
+    donde $\tilde{x}^k = x^k - \tilde{t}_k Q_k f'(x^k)$. Para verificar que $\alpha_k = 1$ satisface la regla de Armijo, basta mostrar que
+    \begin{equation}
+        \interno{f'(x^k)}{Q_k f'(x^k)} - \frac{1}{2}\interno{f''(\tilde{x}^k) Q_k f'(x^k)}{Q_k f'(x^k)} \ge \sigma \interno{f'(x^k)}{Q_k f'(x^k)}. \label{v2:eq:3.68}
+    \end{equation}
+    Observamos que $\{\tilde{x}^k\} \to \bar{x} \ (k \to \infty)$, porque $\{x^k\} \to \bar{x}$ y $\{Q_k f'(x^k)\} \to 0$ (la última propiedad se sigue de \eqref{v2:eq:3.65}). Por lo tanto, por \eqref{v2:eq:3.66}, la desigualdad \eqref{v2:eq:3.68} puede ser escrita como
+    \[
+        (1 - \sigma)\interno{f'(x^k)}{(f''(\bar{x}))^{-1} f'(x^k)} \ge \frac{1}{2}\interno{f'(x^k)}{(f''(\bar{x}))^{-1} f'(x^k)} + o(\|f'(x^k)\|^2),
+    \]
+    o
+    \[
+        (1/2 - \sigma)\interno{(f''(\bar{x}))^{-1} f'(x^k)}{f'(x^k)} \ge o(\|f'(x^k)\|^2).
+    \]
+    Esta última desigualdad se satisface para todo $k$ suficientemente grande, porque $\sigma \in (0, 1/2)$, y el hecho de que $f''(\bar{x})$ es definida positiva implica que $(f''(\bar{x}))^{-1}$ es definida positiva, y por lo tanto, existe $\gamma > 0$ tal que
+    \[
+        (1/2 - \sigma)\interno{(f''(\bar{x}))^{-1} f'(x^k)}{f'(x^k)} \ge \gamma (1/2 - \sigma) \|f'(x^k)\|^2.
+    \]
+    Finalmente, probaremos que la tasa de convergencia de $\{x^k\}$ es superlineal. Para $k$ suficientemente grande, de \eqref{v2:eq:3.63}, \eqref{v2:eq:3.66} y $\alpha_k = 1$, obtenemos
+    \begin{align*}
+        \|x^{k+1} - \bar{x}\| &= \|x^k - \bar{x} - Q_k f'(x^k)\| \\
+        &= \|x^k - \bar{x} - (f''(\bar{x}))^{-1} f'(x^k)\| + o(\|f'(x^k)\|) \\
+        &\le \|(f''(\bar{x}))^{-1}\| \|f'(x^k) - f'(\bar{x}) - f''(\bar{x})(x^k - \bar{x})\| \\
+        &\quad + o(\|f'(x^k)\| - f'(\bar{x})) \\
+        &= o(\|x^k - \bar{x}\|),
+    \end{align*}
+    lo que concluye la demostración.
+\end{proof}
+
+Una de las conclusiones importantes del Teorema de Dennis-Moré es la siguiente: en la optimización de funciones dos veces diferenciables, para ser eficiente, un método debe hacer uso de aproximación de segunda orden de la función objetivo, de alguna manera. En particular, métodos que utilizan apenas aproximación de primer orden no pueden poseer convergencia superlineal en general. Cabe observar que para el método de Newton, así como para métodos de Newton inexactos, en el caso en que la convergencia de la secuencia $\{x^k\}$ a $\bar{x}$, la condición \eqref{v2:eq:3.66} de Dennis-Moré se satisface automáticamente. Sin embargo, la información de segunda orden también puede ser construida implícitamente, sin cálculo directo de la derivada segunda de $f$. Esta es la idea principal de los métodos cuasi-Newton: la sustitución del cálculo de $f''(x^k)$ y de la resolución del sistema de ecuaciones lineales correspondiente, por aproximación directa del paso ideal $(f''(\bar{x}))^{-1} f'(x^k)$. Resaltamos que esta aproximación, en principio, no es en el sentido de la relación $Q_k \to (f''(\bar{x}))^{-1} \ (k \to \infty)$, sino en el sentido mucho más relajado de \eqref{v2:eq:3.66}. Estas aproximaciones deben ser calculadas en cada iteración sin hacer uso de la derivada segunda de $f$. Esto puede ser hecho de varias maneras diferentes. Algunas serán presentadas a continuación.
+
+Para todo $k$, definimos
+\begin{equation}
+    r^k = x^{k+1} - x^k, \quad s^k = f'(x^{k+1}) - f'(x^k).
+    \label{v2:eq:3.70}
+\end{equation}
+Notamos que esta información ya está disponible en el momento de la elección de $Q_{k+1}$. Como queremos que esta matriz aproxime, en cierto sentido, a la inversa de la Hessiana de $f$, es natural imponer la condición
+\begin{equation}
+    Q_{k+1} s^k = r^k,
+    \label{v2:eq:3.71}
+\end{equation}
+que es llamada de ecuación cuasi-Newton. Esta ecuación puede ser explicada por las consideraciones a seguir. Si $\alpha_k = 1$, por \eqref{v2:eq:3.63} y \eqref{v2:eq:3.70}, tenemos que
+\[
+    r^k = -Q_k f'(x^k).
+\]
+Teniendo en cuenta la fórmula \eqref{v2:eq:3.69} (N. del T.: en referencia a los ejercicios), $Q_{k+1}$ tiene que ser elegida para que el vector $Q_{k+1} r^k$ aproxime a $f''(\bar{x}) r^k$. Observamos que
+\[
+    s^k = \int_0^1 f''(t x^{k+1} + (1-t)x^k)r^k dt.
+\]
+Implícitamente admitiendo que la matriz $f''(t x^{k+1} + (1-t)x^k)$ aproxima a $f''(\bar{x})$ (lo que es automático si $\{x^k\} \to \bar{x}$), es natural pedir la condición
+\[
+    s^k = Q_{k+1}^{-1} r^k,
+\]
+que resulta en \eqref{v2:eq:3.71}.
+
+Resumiendo, dados una matriz simétrica definida positiva $Q_k$ y vectores $r^k$ y $s^k$, la propuesta es elegir una matriz simétrica definida positiva $Q_{k+1}$ que satisfaga \eqref{v2:eq:3.71}. No es difícil ver que el número de elecciones admisibles es, de hecho, infinito. Sin embargo, es natural (por ejemplo, por razones de estabilidad numérica) pedir que la mudanza entre $Q_k$ y $Q_{k+1}$, i.e., la diferencia $Q_{k+1} - Q_k$, sea ``mínima'' en algún sentido. Dependiendo de la noción de ``minimalidad'' adoptada, obtenemos métodos cuasi-Newton diferentes.
+
+Históricamente, el primer método cuasi-Newton es el método de Davidon-Fletcher-Powell (DFP), que toma $Q_0$ como una matriz simétrica definida positiva arbitraria (digamos, $Q_0 = E^n$), y para todo $k$ define
+\begin{equation}
+    Q_{k+1} = Q_k + \frac{r^k (r^k)^\top}{\interno{r^k}{s^k}} - \frac{(Q_k s^k)(Q_k s^k)^\top}{\interno{Q_k s^k}{s^k}}.
+    \label{v2:eq:3.72}
+\end{equation}
+
+Notemos que todas las matrices así generadas serán simétricas. Además de eso, la ecuación cuasi-Newton \eqref{v2:eq:3.71} también será satisfecha:
+\begin{align*}
+    Q_{k+1} s^k &= Q_k s^k + r^k \frac{\interno{r^k}{s^k}}{\interno{r^k}{s^k}} - Q_k s^k \frac{\interno{Q_k s^k}{s^k}}{\interno{Q_k s^k}{s^k}} \\
+    &= Q_k s^k + r^k - Q_k s^k \\
+    &= r^k.
+\end{align*}
+Finalmente, la diferencia $Q_{k+1} - Q_k$ es una matriz de rango 2, en lo máximo (porque el $\ker(Q_{k+1} - Q_k)$ contiene todos los vectores ortogonales a $r^k$ y a $Q_k s^k$). En este sentido, la diferencia entre $Q_{k+1}$ y $Q_k$ es pequeña.
+
+Recordamos que necesitamos aún que $Q_{k+1}$ sea definida positiva. Esta propiedad depende no solamente de la fórmula que define $Q_{k+1}$, mas también de la regla de longitud de paso en \eqref{v2:eq:3.63}. En particular, tenemos el siguiente resultado.
+
+\begin{proposition}\label{v2:prop:3.2.1}
+    Sea $Q_k \in \R^{n \times n}$ una matriz simétrica definida positiva. Sea $f : \Rn \to \R$ una función diferenciable en los puntos $x^k, x^{k+1} \in \Rn$, que satisfacen la relación \eqref{v2:eq:3.63} con algún valor de longitud de paso $\alpha_k > 0$.
+    
+    Entonces las fórmulas \eqref{v2:eq:3.72} y \eqref{v2:eq:3.70} definen sin ambigüedad una matriz $Q_{k+1}$ definida positiva si, y solamente si, la desigualdad
+    \begin{equation}
+        \interno{f'(x^{k+1})}{d^k} > \interno{f'(x^k)}{d^k}
+        \label{v2:eq:3.73}
+    \end{equation}
+    es satisfecha.
+\end{proposition}
+
+\begin{proof}
+    Supongamos que $Q_{k+1}$ sea definida positiva. Usando \eqref{v2:eq:3.63}, \eqref{v2:eq:3.70} y \eqref{v2:eq:3.71}, obtenemos
+    \begin{align*}
+        \interno{d^k}{f'(x^{k+1}) - f'(x^k)} &= \frac{1}{\alpha_k} \interno{r^k}{s^k} \\
+        &= \frac{1}{\alpha_k} \interno{Q_{k+1} s^k}{s^k} > 0,
+    \end{align*}
+    donde la desigualdad vale suponiendo que $s^k \neq 0$ (caso contrario, $Q_{k+1}$ en \eqref{v2:eq:3.72} no estaría bien definida). Obtenemos entonces \eqref{v2:eq:3.73}.
+    
+    Supongamos ahora que \eqref{v2:eq:3.73} se satisfaga. Utilizando también \eqref{v2:eq:3.63} y \eqref{v2:eq:3.70}, obtenemos
+    \begin{equation}
+        \interno{r^k}{s^k} = \alpha_k \interno{d^k}{f'(x^{k+1}) - f'(x^k)} > 0.
+        \label{v2:eq:3.74}
+    \end{equation}
+    En particular, $s^k \neq 0$ y, por el hecho de que $Q_k$ es definida positiva, $\interno{Q_k s^k}{s^k} > 0$. Esto muestra que $Q_{k+1}$ en \eqref{v2:eq:3.72} está bien definida.
+    
+    Para todo $\xi \in \Rn$, utilizando \eqref{v2:eq:3.72}, obtenemos
+    \begin{align*}
+        \interno{Q_{k+1}\xi}{\xi} &= \interno{Q_k \xi}{\xi} + \frac{\interno{r^k}{\xi}^2}{\interno{r^k}{s^k}} - \frac{\interno{Q_k s^k}{\xi}^2}{\interno{Q_k s^k}{s^k}} \\
+        &= \frac{\|(Q_k)^{1/2}\xi\|^2 \|(Q_k)^{1/2}s^k\|^2 - \interno{(Q_k)^{1/2}\xi}{(Q_k)^{1/2}s^k}^2}{\|(Q_k)^{1/2}s^k\|^2} \\
+        &\quad + \frac{\interno{r^k}{\xi}^2}{\interno{r^k}{s^k}} \ge 0,
+    \end{align*}
+    donde la desigualdad se sigue del hecho de que ambos términos son no negativos (por \eqref{v2:eq:3.74} y por la desigualdad de Cauchy-Schwarz). Además de eso, la igualdad $\interno{Q_{k+1}\xi}{\xi} = 0$ solamente puede valer cuando ambos estos términos se anulan, i.e., cuando
+    \begin{equation}
+        \interno{r^k}{\xi} = 0
+        \label{v2:eq:3.75}
+    \end{equation}
+    e $\|(Q_k)^{1/2}\xi\| \|(Q_k)^{1/2}s^k\| = |\interno{(Q_k)^{1/2}\xi}{(Q_k)^{1/2}s^k}|$. La última igualdad significa que $(Q_k)^{1/2}\xi = t(Q_k)^{1/2}s^k$ para algún número $t$. Como la matriz $(Q_k)^{1/2}$ es no singular, concluimos que $\xi = t s^k$. Pero en este caso, por \eqref{v2:eq:3.75}, obtenemos que $0 = \interno{r^k}{\xi} = t \interno{r^k}{s^k}$. Teniendo en cuenta \eqref{v2:eq:3.74}, esto solo es posible cuando $t = 0$, i.e., $\xi = 0$. Por lo tanto, $Q_{k+1}$ es definida positiva.
+\end{proof}
+
+Las consecuencias del resultado arriba son las siguientes. Si la longitud de paso en \eqref{v2:eq:3.63} se calcula por la regla de minimización unidimensional, tenemos que $\interno{f'(x^{k+1})}{d^k} = 0$ (véase \eqref{v2:eq:3.5}). Por lo tanto, teniendo también en cuenta \eqref{v2:eq:3.64}, tenemos que \eqref{v2:eq:3.73} vale automáticamente. En relación a las reglas de cumplimiento de paso más prácticas, observamos que \eqref{v2:eq:3.73} siempre se satisface en el caso de la regla de Wolfe (véase \eqref{v2:eq:3.12}). Las reglas de Armijo y de Goldstein, sin embargo, no poseen esta propiedad. Esta es la razón por la cual la regla de Wolfe es aquella utilizada con mayor frecuencia en las implementaciones de los métodos cuasi-Newton.
+
+Entre todos los métodos cuasi-Newton, el método de Broyden-Fletcher-Goldfarb-Shanno (BFGS) es considerado actualmente el más eficiente. En este método, para todo $k$, definimos
+\begin{equation}
+    Q_{k+1} = Q_k + \frac{(r^k - Q_k s^k)(r^k)^\top + r^k(r^k - Q_k s^k)^\top}{\interno{r^k}{s^k}} - \frac{\interno{r^k - Q_k s^k}{s^k} r^k (r^k)^\top}{\interno{r^k}{s^k}^2}.
+    \label{v2:eq:3.76}
+\end{equation}
+Es fácil ver que, como en el método DFP, las matrices generadas por \eqref{v2:eq:3.76} son simétricas, satisfacen la ecuación cuasi-Newton \eqref{v2:eq:3.71}, y la diferencia $Q_{k+1} - Q_k$ tiene rango 2, en lo máximo.
+
+Cuando $f$ es una función cuadrática dada por \eqref{v2:eq:3.62}, donde $Q$ es definida positiva, y la longitud de paso $\alpha_k$ se calcula por la regla de minimización unidimensional, los métodos DFP y BFGS poseen convergencia finita al único punto estacionario de $f$ (que en este caso es la única solución global del problema). En particular, el número de iteraciones $j$ necesario para encontrar la solución es menor o igual a la dimensión del espacio ($j \le n$) y se tiene que $Q_j = (f''(x^j))^{-1} = Q^{-1}$. Vale recordar que en el caso cuadrático, el cálculo de longitud de paso por la minimización unidimensional se reduce a una fórmula explícita (véase \S~3.1.1). Para funciones cuadráticas, los métodos cuasi-Newton poseen una cierta equivalencia con métodos de direcciones conjugadas que serán presentados en \S~3.4.
+
+Resultados de convergencia y de tasa de convergencia para métodos cuasi-Newton en el caso no cuadrático pueden ser consultados en [9, 20]. Naturalmente, en este caso, la convergencia finita no puede ser esperada en general. Mas, con frecuencia, la tasa de convergencia es superlineal. La clase de métodos cuasi-Newton es considerada la más importante y más eficiente en el área de optimización irrestricta de funciones diferenciables. Como ya colocamos, esto se debe al hecho de que los métodos cuasi-Newton combinan convergencia rápida con un costo relativamente bajo de cada iteración. Desde el punto de vista teórico, cualquier método cuasi-Newton es apenas una realización aproximada del método de Newton, en el sentido de la condición de Dennis-Moré \eqref{v2:eq:3.66}. Sin embargo, este es el caso cuando los detalles de implementación (que no presentamos en este libro) son tan importantes como la idea principal. Estos detalles pueden ser consultados en [9, 20].

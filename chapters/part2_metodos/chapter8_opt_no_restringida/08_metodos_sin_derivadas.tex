@@ -1,58 +1,70 @@
 % --- Archivo: 08_metodos_sin_derivadas.tex ---
 
-\section{Métodos que no utilizan derivadas}
+% =========================================================
+\section{Métodos que no utilizan derivadas}\label{v2:sec:3.5}
+% =========================================================
 
-Esta sesión bien corta no contiene resultados de convergencia, porque los métodos que serán mencionados están fuera de los asuntos principales abordados en este libro y el análisis teórico de ellos es muy complicado. Por otro lado, la importancia práctica de métodos de orden cero no permite omitirles completamente. Fue escogido entonces presentar un resumen breve, sin estudio teórico.
+Esta sección bien corta no contiene resultados de convergencia, porque los métodos que serán mencionados están fuera de los asuntos principales abordados en este libro y el análisis teórico de ellos es muy complicado. Por otro lado, la importancia práctica de métodos de orden cero no permite omitirlos completamente. Fue elegido entonces presentar un resumen breve, sin estudio teórico. Más informaciones pueden ser obtenidas en [14].
 
-Sea $f \colon \Rn \to \R$ una función dada. La implementación de métodos para el problema
+Sea $f : \Rn \to \R$ una función dada. La implementación de métodos para el problema
 \begin{equation}
     \min f(x), \quad x \in \Rn,
+    \label{v2:eq:3.139}
 \end{equation}
-que fueron presentados hasta ahora, requiere el cálculo de (primeras o, aún, segundas) derivadas de $f$. En la práctica, a veces, este cálculo tiene costo computacional muy grande. En algunas aplicaciones, el cálculo puede ser hasta imposible en principio (por ejemplo, cuando no hay fórmulas explícitas para las derivadas de $f$). A veces, lo mejor que puede ser hecho es calcular apenas valores de $f$. Este es el caso, por ejemplo, cuando para un punto dado $x$, el valor $f(x)$ es obtenido por resolución de un otro problema que tiene a $x$ como parámetro. En situaciones de este tipo, precisamos o hacer una aproximación de derivadas utilizando valores de la función, o desarrollar métodos completamente diferentes, que no utilizan derivadas (tales métodos son llamados de métodos de búsqueda directa).
+que fueron presentados hasta ahora, requiere el cálculo de (primeras o, incluso, segundas) derivadas de $f$. En la práctica, a veces, este cálculo tiene costo computacional muy grande. En algunas aplicaciones, este cálculo puede hasta ser imposible en principio (por ejemplo, cuando no hay fórmulas explícitas para las derivadas de $f$). A veces, lo mejor que puede ser hecho es calcular apenas valores de $f$. Este es el caso, por ejemplo, cuando para un punto dado $x$, el valor $f(x)$ es obtenido por resolución de otro problema que tiene a $x$ como parámetro. En las situaciones de este tipo, precisamos o bien hacer una aproximación de derivadas utilizando valores de la función, o bien desarrollar métodos completamente diferentes, que no utilizan derivadas (tales métodos son llamados de métodos de búsqueda directa).
 
-Dificultades de otra naturaleza (mismo que con consecuencias parecidas) surgen en los casos en que la función objetivo sequer es diferenciable. En estos casos, los métodos presentados hasta ahora no pueden ser utilizados o, cuando pueden, a convergencia de ellos no puede ser garantizada. Algunos métodos para minimización de funciones no-diferenciables serán presentados más adelante. Cabe resaltar que la resolución de problemas no-diferenciables presenta desafíos serios y necesita herramientas diferentes a aquellas del caso diferenciable. La situación se complica aún más cuando el problema en consideración no posee alguna estructura especial y/o cuando él no es un problema de programación convexa. En estos casos, que serán desarrollados en capítulos posteriores, los métodos son bien menos eficaces.
+Dificultades de otra naturaleza (incluso con consecuencias parecidas) surgen en los casos en que la función objetivo ni siquiera es diferenciable. En estos casos, los métodos presentados hasta ahora no pueden ser utilizados o, cuando pueden, la convergencia de ellos no puede ser garantizada. Algunos métodos para minimización de funciones no diferenciables serán presentados más adelante. Cabe resaltar que la resolución de problemas no diferenciables presenta desafíos serios y necesita herramientas diferentes de aquellas del caso diferenciable. La situación se complica todavía más cuando el problema en consideración no posee alguna estructura especial y/o cuando él no es un problema de programación convexa. En el caso convexo, existen, sí, algunos métodos bien eficaces, que serán desarrollados en el Capítulo 5.
 
 En principio, todos los métodos de primera y segunda orden considerados arriba pueden ser implementados (de manera inexacta) sin utilización de derivadas, aproximándolas por esquemas de diferencias finitas. Por ejemplo, el gradiente de la función $f$ en el punto $x^k \in \Rn$ puede ser aproximado por el esquema de diferencias hacia adelante separadas:
-\begin{equation}
-    f_{x_j}'(x^k) \approx g_j^k = \frac{f(x^k + t_k e^j) - f(x^k)}{t_k}, \quad j = 1, \dots, n,
-\end{equation}
-o aún, por el esquema de diferencias centradas:
-\begin{equation}
-    f_{x_j}'(x^k) \approx g_j^k = \frac{f(x^k + t_k e^j) - f(x^k - t_k e^j)}{2t_k}, \quad j = 1, \dots, n,
-\end{equation}
+\[
+    f'_{x_j}(x^k) \approx g^k_j = \frac{f(x^k + t_k e^j) - f(x^k)}{t_k}, \quad j = 1, \dots, n,
+\]
+o además, por el esquema de diferencias centradas:
+\[
+    f'_{x_j}(x^k) \approx g^k_j = \frac{f(x^k + t_k e^j) - f(x^k - t_k e^j)}{2t_k}, \quad j = 1, \dots, n,
+\]
 donde $t_k > 0$ es un número pequeño y $\{e^1, \dots, e^n\}$ es la base canónica de $\Rn$. La aproximación por diferencias centradas es más precisa, mas ella requiere casi el doble de computaciones de valores de la función $f$.
 
-El análogo del método del gradiente, con diferencias finitas, es dado por
+El análogo del método del gradiente, con diferencias finitas, viene dado por
 \begin{equation}
     x^{k+1} = x^k - \alpha_k g^k, \quad k = 0, 1, \dots,
+    \label{v2:eq:3.140}
 \end{equation}
-donde vectores $g^k \in \Rn$ son calculados utilizando uno de los esquemas arriba, y los valores de la longitud del paso $\alpha_k$ son calculados por una de las reglas de búsqueda lineal en la dirección $-g^k$. No obstante, es importante mencionar que la prueba de convergencia de un método de este tipo difícilmente puede ser hecha sin la hipótesis de diferenciabilidad de la función $f$, mismo que el método no utilice las derivadas.
+donde los vectores $g^k \in \Rn$ son calculados utilizando uno de los esquemas de arriba, y los valores de la longitud de paso $\alpha_k$ son calculados por una de las reglas de búsqueda lineal en la dirección $-g^k$ (véase \S~3.1.1). Sin embargo, es importante mencionar que la prueba de convergencia de un método de este tipo difícilmente puede ser hecha sin la hipótesis de diferenciabilidad de la función $f$, aunque el método no utilice las derivadas.
 
-\begin{example}
+\begin{example}\label{v2:exa:3.5.1}
     Para la función
     \[
-        f \colon \R^2 \to \R, \quad f(x) = \max\{|x_1|, |x_2|\},
+        f : \R^2 \to \R, \quad f(x) = \max\{|x_1|, |x_2|\},
     \]
-    el vector $g^k$, calculado por el esquema de diferencias hacia adelante separadas en el punto $x^k = (-1, -1)$, sería cero. Luego, el análogo del método del gradiente correspondiente no conseguiría salir del punto $x^k$, en cuanto el único minimizador local irrestricto de $f$ es el cero (que también es el minimizador global).
+    el vector $g^k$, calculado por el esquema de diferencias hacia adelante separadas en el punto $x^k = (-1, -1)$, sería el cero. Luego, el análogo del método del gradiente correspondiente no conseguiría salir del punto $x^k$, en cuanto que el único minimizador local irrestricto de $f$ es el cero (que también es el minimizador global).
 \end{example}
 
-Eso, por su parte, no es ninguna sorpresa: el método es basado en aproximación del método del gradiente; por lo tanto, la convergencia de él sólo puede ser esperada cuando el método ``exacto'' converge.
+Esto, sin embargo, no es ninguna sorpresa: el método está basado en la aproximación del método del gradiente; por lo tanto, la convergencia de él solo puede ser esperada cuando el método ``exacto'' converge.
 
-El método más natural que no utiliza el cálculo (exacto o aproximado) de derivadas es el método de descenso por coordenadas, dado por el esquema cíclico siguiente:
+El método más natural que no utiliza el cálculo (exacto o aproximado) de derivadas es el método de descenso por coordenadas, dado por el esquema siguiente:
 \begin{equation}
-    x^{k+1} = x^k + \alpha_k d^k, \quad k = 0, 1, \dots,
+    x^{k+1} = x^k + \alpha_k d^k, \quad k=0, 1, \dots,
+    \label{v2:eq:3.141}
 \end{equation}
 donde
 \[
-    d^0 = e^1, \dots, d^{n-1} = e^n, \quad d^n = e^1, \dots, \quad d^{2n-1} = e^n, \dots
+    d^0 = e^1, \dots, d^{n-1} = e^n, \; d^n = e^1, \dots, d^{2n-1} = e^n, \dots
 \]
 Los valores de la longitud del paso $\alpha_k$ pueden ser calculados por la minimización unidimensional, i.e.,
-\begin{equation}
+\[
     f(x^k + \alpha_k d^k) = \min_{\alpha \in \R} f(x^k + \alpha d^k),
-\end{equation}
-donde a minimización es sobre todos los $\alpha \in \R$, ya que $d^k$ puede no ser una dirección de descenso de la función $f$ en el punto $x^k$. Una iteración del método consiste entonces en la minimización unidimensional de la función $f$ en relación a una coordenada, con otras coordenadas fijadas. Las variables de minimización son mudadas de manera cíclica.
+\]
+donde la minimización es sobre todos los $\alpha \in \R$, ya que $d^k$ puede no ser una dirección de descenso de la función $f$ en el punto $x^k$. Una iteración del método consiste entonces en la minimización unidimensional de la función $f$ en relación a una coordenada, con otras coordenadas fijas. Las variables de minimización son cambiadas de manera cíclica. El método es ilustrado en la Figura \ref{v2:fig:3.5.1}.
 
-En el método de descenso por coordenadas, pueden ser utilizadas también otras ideas para el cálculo de longitudes de paso. Por ejemplo, la siguiente. Fijemos parámetros $\hat{\alpha} > 0$ e $\theta \in (0, 1)$. Dados $x^k$ y $d^k$, tomamos $\alpha = \hat{\alpha}$. Si
+\begin{figure}[htpb]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{figures/fig_3_5_1.png}
+    \caption{Iteraciones del método de descenso por coordenadas.}
+    \label{v2:fig:3.5.1}
+\end{figure}
+
+En el método de descenso por coordenadas, pueden ser utilizadas también otras ideas para el cálculo de longitudes de paso. Por ejemplo, la siguiente. Fijamos parámetros $\hat{\alpha} > 0$ y $\theta \in (0, 1)$. Dados $x^k$ y $d^k$, tomamos primero $\alpha = \hat{\alpha}$. Si
 \[
     f(x^k + \alpha d^k) < f(x^k),
 \]
@@ -60,15 +72,16 @@ aceptamos $\alpha_k = \alpha$. Caso contrario, si
 \[
     f(x^k - \alpha d^k) < f(x^k),
 \]
-aceptamos $\alpha_k = -\alpha$. Si ninguna de las dos desigualdades se satisface, o definimos $\alpha_k = 0$ (es claro que esto solo se puede hacer en algún sentido de número de iteraciones seguidas menor que $n$), o trocamos $\alpha$ por $\theta\alpha$ y tentamos de nuevo.
-Es interesante notar que, de nuevo, mismo que el método no tenga ninguna relación aparente con derivadas, garantizar su comportamiento razonable solo es posible para funciones diferenciables. Además de eso, sin convexidad, no es posible probar convergencia global del método de descenso por coordenadas: puntos de acumulación de la secuencia generada pueden no ser puntos estacionarios del problema.
+aceptamos $\alpha_k = -\alpha$. Si ninguna de las dos desigualdades se satisface, o bien definimos $\alpha_k = 0$ (es claro que esto solo puede tener algún sentido en un número de iteraciones seguidas menor que $n$), o bien cambiamos $\alpha$ por $\theta\alpha$ e intentamos de nuevo.
+
+Es interesante notar que, de nuevo, aunque el método no tenga ninguna relación aparente con derivadas, garantizar su comportamiento razonable solo es posible para funciones diferenciables (véase el \cref{v2:exa:3.5.1} arriba). Además de eso, sin convexidad, no es posible probar convergencia global del método de descenso por coordenadas: puntos de acumulación de la secuencia generada pueden no ser puntos estacionarios del problema \eqref{v2:eq:3.139}, véase [20].
+
 El método de descenso por coordenadas puede ser extendido fácilmente al problema de optimización con restricciones de caja.
 
-En el método de descenso por coordenadas aleatorio, la dirección $d^k$ es definida por un vector de la base canónica $e^j$, donde el índice $j$ viene dado por la realización de algún proceso estocástico, con probabilidades iguales para los valores $1, \dots, n$. En el método de búsqueda aleatoria, la dirección $d^k$ viene dada por la realización de algún proceso estocástico, con probabilidades iguales para los vectores en la esfera unitaria del espacio $\Rn$. Los valores de la longitud del paso son calculados utilizando una regla de búsqueda lineal para garantizar, por lo menos, que la secuencia $\{f(x^k)\}$ sea no-creciente (en particular, cuando $d^k$ no es una dirección de descenso, el longitud de paso es cero). Resultados teóricos para métodos de este tipo afirman, típicamente, la convergencia de la secuencia $\{f'(x^k)\}$ a cero con probabilidad 1.
+En el método de descenso por coordenadas aleatorio, la dirección $d^k$ en \eqref{v2:eq:3.141} es definida por un vector de la base canónica $e^j$, donde el índice $j$ viene dado por la realización de algún proceso estocástico, con probabilidades iguales para los valores $1, \dots, n$. En el método de búsqueda aleatoria, la dirección $d^k$ viene dada por la realización de algún proceso estocástico, con probabilidades iguales para los vectores en la esfera unitaria del espacio $\Rn$. Los valores de la longitud del paso son calculados utilizando alguna regla de búsqueda lineal para garantizar, por lo menos, que la secuencia $\{f(x^k)\}$ sea no creciente (en particular, cuando $d^k$ no es una dirección de descenso, la longitud de paso es cero). Resultados teóricos para métodos de este tipo afirman, típicamente, la convergencia de la secuencia $\{f'(x^k)\}$ a cero con probabilidad 1.
 
-Finalmente, comentaremos sobre el caso en que la función $f$ es no-diferenciable. En esta situación, el hecho siguiente es crucial: si una función es Lipschitz-continua en una vecindad de cada punto de $\Rn$, entonces ella es diferenciable en casi todo punto de $\Rn$ (en el sentido de que el conjunto de puntos de no-diferenciabilidad tiene medida nula). Por eso, podemos esperar que $f$ sea diferenciable en un punto $\tilde{x}^k$ escogido de manera aleatoria (por ejemplo, en una caja de tamaño $\delta_k > 0$ en torno de un punto dado $x^k$). Este raciocinio sugiere el método de diferencias finitas estocásticas, dado por el esquema de diferencias, donde $t_k > 0$. Haciendo una coordinación inteligente de los parámetros $\alpha_k, \delta_k$ y $t_k$, es posible probar la convergencia de este método al conjunto de puntos estacionarios del problema con probabilidad 1 (mas es claro que la propia noción de un punto estacionario tiene que ser repensada, debido a la no-diferenciabilidad de la función objetivo).
-
-%%% Local Variables:
-%%% mode: LaTeX
-%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
-%%% End:
+Finalmente, comentaremos sobre el caso en que la función $f$ es no diferenciable. En esta situación el hecho siguiente es crucial: si una función es Lipschitz-continua en una vecindad de cada punto de $\Rn$, entonces ella es diferenciable en casi todo punto de $\Rn$ (en el sentido de que el conjunto de puntos de no diferenciabilidad tiene medida nula, véase \S~1.6). Por eso, podemos esperar que $f$ sea diferenciable en un punto $\tilde{x}^k$ elegido de manera aleatoria (por ejemplo, en una caja de tamaño $\delta_k > 0$ en torno a un punto dado $x^k$). Este razonamiento sugiere el método de diferencias finitas estocásticas, dado por el esquema \eqref{v2:eq:3.140} con
+\[
+    g_j^k = \frac{f(\tilde{x}^k + t_k e^j) - f(\tilde{x}^k)}{t_k}, \quad j = 1, \dots, n,
+\]
+donde $t_k > 0$. Haciendo una coordinación inteligente de los parámetros $\alpha_k$, $\delta_k$ y $t_k$, es posible probar la convergencia de este método al conjunto de puntos estacionarios del problema \eqref{v2:eq:3.139} con probabilidad 1 (mas es claro que la propia noción de un punto estacionario tiene que ser repensada, debido a la no diferenciabilidad de la función objetivo).
