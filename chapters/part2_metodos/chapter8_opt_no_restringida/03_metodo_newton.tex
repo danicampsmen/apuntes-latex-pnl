@@ -24,14 +24,13 @@ donde $\Phi : \Rn \to \Rn$ es diferenciable. Sea $x^k \in \Rn$ una aproximación
 \end{equation}
 La relación \eqref{v2:eq:3.50} se llama la ecuación de iteración del método de Newton.
 
-\vspace{0.3cm}
-\noindent\textbf{Algoritmo 3.2.1. (El método de Newton)}\\
+\begin{algorithm}[El método de Newton]
 Elegir $x^0 \in \Rn$ y tomar $k:=0$.
 \begin{enumerate}
     \item Calcular $x^{k+1} \in \Rn$ como una solución de la ecuación lineal \eqref{v2:eq:3.50}.
     \item Tomar $k := k + 1$ y retornar al ítem 1.
 \end{enumerate}
-\vspace{0.3cm}
+\end{algorithm}
 
 Las iteraciones del método de Newton son ilustradas en la Figura \ref{v2:fig:3.2.1}.
 
@@ -186,14 +185,13 @@ Observamos que esta iteración admite una interpretación en términos de proble
 \end{equation}
 Como es fácil ver, la ecuación de Newton \eqref{v2:eq:3.59} caracteriza los puntos estacionarios del problema cuadrático \eqref{v2:eq:3.61}. Por lo tanto, el método de Newton para un problema de optimización irrestricto es lo siguiente.
 
-\vspace{0.3cm}
-\noindent\textbf{Algoritmo 3.2.2. (El método de Newton para optimización irrestricta)}\\
+\begin{algorithm}[El método de Newton para optimización irrestricta]
 Elegir $x^0 \in \Rn$ y tomar $k:=0$.
 \begin{enumerate}
     \item Calcular $x^{k+1} \in \Rn$ como punto estacionario del problema \eqref{v2:eq:3.61}.
     \item Tomar $k := k + 1$ y retornar al Paso 1.
 \end{enumerate}
-\vspace{0.3cm}
+\end{algorithm}
 
 Del \cref{v2:thm:3.2.1}, inmediatamente obtenemos las siguientes propiedades del Algoritmo 3.2.2.
 
@@ -251,15 +249,14 @@ donde, para todo $k$, $Q_k \in \R^{n \times n}$ es una matriz simétrica definid
 \end{equation}
 y por lo tanto, por el \cref{v2:lem:3.1.1}, $d^k$ es una dirección de descenso de $f$ en $x^k$, i.e., $d^k \in \mathcal{D}_f(x^k)$. En el caso de $Q_k = E^n$, \eqref{v2:eq:3.63} se reduce a un de los métodos de gradiente, y en el caso de $Q_k = (f''(x^k))^{-1}$ con $\alpha_k = 1$, obtenemos el método de Newton puro. Existen, sin embargo, otras posibilidades que son más atractivas computacionalmente que las dos obvias mencionadas arriba.
 
-\vspace{0.3cm}
-\noindent\textbf{Algoritmo 3.2.3. (Método de descenso con métrica variable)}\\
+\begin{algorithm}[Método de descenso con métrica variable]
 Elegir $x^0 \in \Rn$ y tomar $k:=0$. Elegir una de las reglas de búsqueda lineal presentadas en \S~3.1.1 y los parámetros asociados: $\hat{\alpha} > 0$ (o $\hat{\alpha} = +\infty$) en el caso de la minimización unidimensional; $\hat{\alpha} > 0, \sigma, \theta \in (0, 1)$ en el caso de la regla de Armijo; y $\bar{\alpha} > 0$ en el caso de longitud de paso fijo.
 \begin{enumerate}
     \item Elegir una matriz $n \times n$ simétrica definida positiva $Q_k$ y tomar $d^k = -Q_k f'(x^k)$. Calcular la longitud de paso $\alpha_k$ en la dirección $d^k$, por la regla de búsqueda lineal elegida (si $f'(x^k) = 0$, formalmente definimos $\alpha_k = 1$).
     \item Tomar $x^{k+1} = x^k + \alpha_k d^k$.
     \item Tomar $k:=k+1$ y retornar al Paso 1.
 \end{enumerate}
-\vspace{0.3cm}
+\end{algorithm}
 
 Los métodos cuasi-Newton son métodos de la forma \eqref{v2:eq:3.63}, donde las matrices $Q_k$ son elegidas para aproximar, en un cierto sentido, a la matriz $(f''(\bar{x}))^{-1}$ para alguna solución $\bar{x}$. Más precisamente, la secuencia $\{Q_k\}$ tiene que satisfacer la condición de Dennis-Moré \eqref{v2:eq:3.66}, dada en el teorema siguiente.
 
@@ -436,3 +433,7 @@ Es fácil ver que, como en el método DFP, las matrices generadas por \eqref{v2:
 Cuando $f$ es una función cuadrática dada por \eqref{v2:eq:3.62}, donde $Q$ es definida positiva, y la longitud de paso $\alpha_k$ se calcula por la regla de minimización unidimensional, los métodos DFP y BFGS poseen convergencia finita al único punto estacionario de $f$ (que en este caso es la única solución global del problema). En particular, el número de iteraciones $j$ necesario para encontrar la solución es menor o igual a la dimensión del espacio ($j \le n$) y se tiene que $Q_j = (f''(x^j))^{-1} = Q^{-1}$. Vale recordar que en el caso cuadrático, el cálculo de longitud de paso por la minimización unidimensional se reduce a una fórmula explícita (véase \S~3.1.1). Para funciones cuadráticas, los métodos cuasi-Newton poseen una cierta equivalencia con métodos de direcciones conjugadas que serán presentados en \S~3.4.
 
 Resultados de convergencia y de tasa de convergencia para métodos cuasi-Newton en el caso no cuadrático pueden ser consultados en [9, 20]. Naturalmente, en este caso, la convergencia finita no puede ser esperada en general. Mas, con frecuencia, la tasa de convergencia es superlineal. La clase de métodos cuasi-Newton es considerada la más importante y más eficiente en el área de optimización irrestricta de funciones diferenciables. Como ya colocamos, esto se debe al hecho de que los métodos cuasi-Newton combinan convergencia rápida con un costo relativamente bajo de cada iteración. Desde el punto de vista teórico, cualquier método cuasi-Newton es apenas una realización aproximada del método de Newton, en el sentido de la condición de Dennis-Moré \eqref{v2:eq:3.66}. Sin embargo, este es el caso cuando los detalles de implementación (que no presentamos en este libro) son tan importantes como la idea principal. Estos detalles pueden ser consultados en [9, 20].
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:

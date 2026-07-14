@@ -6,10 +6,10 @@
 % =========================================================
 
 \begin{definition}\label{v2:def:1.3.1}
-    Un conjunto $D \subset \R^n$ es llamado \deftech{conjunto convexo} si para cualesquiera $x \in D$, $y \in D$ y $\alpha \in [0, 1]$, se tiene que $\alpha x + (1 - \alpha)y \in D$.
+    Un conjunto $D \subset \R^n$ es llamado \textbf{conjunto convexo} si para cualesquiera $x \in D$, $y \in D$ y $\alpha \in [0, 1]$, se tiene que $\alpha x + (1 - \alpha)y \in D$.
 \end{definition}
 
-Una \deftech{proyección} (ortogonal) del punto $x \in \R^n$ sobre un conjunto $D \subset \R^n$ es un punto de $D$ que está más próximo a $x$. En otras palabras, una proyección de $x$ sobre $D$ es una solución (global) del problema
+Una \textbf{proyección} (ortogonal) del punto $x \in \R^n$ sobre un conjunto $D \subset \R^n$ es un punto de $D$ que está más próximo a $x$. En otras palabras, una proyección de $x$ sobre $D$ es una solución (global) del problema
 \begin{equation}
     \min \|y - x\| \quad \text{sujeto a} \quad y \in D.
     \label{v2:eq:1.26}
@@ -28,7 +28,7 @@ Una \deftech{proyección} (ortogonal) del punto $x \in \R^n$ sobre un conjunto $
 \end{proof}
 
 \begin{definition}\label{v2:def:1.3.2}
-    Sea $D \subset \R^n$ un conjunto convexo, se dice que la función $f : D \to \R$ es \deftech{convexa en $D$} cuando para cualesquiera $x \in D$, $y \in D$ y $\alpha \in [0, 1]$, se tiene
+    Sea $D \subset \R^n$ un conjunto convexo, se dice que la función $f : D \to \R$ es \textbf{convexa en $D$} cuando para cualesquiera $x \in D$, $y \in D$ y $\alpha \in [0, 1]$, se tiene
     \[
         f(\alpha x + (1 - \alpha)y) \le \alpha f(x) + (1 - \alpha)f(y).
     \]
@@ -127,3 +127,7 @@ Recordamos ahora la noción de subdiferencial de una función convexa (no necesa
 \begin{proof}
     Véase \cite{izmailov2020otimizacaovolume1} (o \cref{v1:def:3.4.2}).
 \end{proof}
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:

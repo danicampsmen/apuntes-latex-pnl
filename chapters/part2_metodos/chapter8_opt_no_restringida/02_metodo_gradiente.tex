@@ -12,15 +12,17 @@ Supongamos que la función $f$ sea diferenciable en $\Rn$. En el caso de los mé
 
 El método del gradiente es de primer orden y, en general, es poco eficiente para resolver problemas prácticos. Aun así, el estudio de este método es un paso importante para entender los fundamentos de la optimización computacional.
 
-\vspace{0.3cm}
-\noindent\textbf{Algoritmo 3.1.1. (Método del gradiente)}\\
-Elegir $x^0 \in \Rn$ y tomar $k:=0$. Elegir una entre las tres primeras reglas de búsqueda lineal en \S~3.1.1 y los parámetros asociados: $\hat{\alpha} > 0$ (o $\hat{\alpha} = +\infty$) en el caso de la minimización unidimensional, $\hat{\alpha} > 0, \sigma, \theta \in (0, 1)$ en el caso de la regla de Armijo, y $\bar{\alpha} > 0$ en el caso de longitud de paso fijo.
+\begin{algorithm}[Método del gradiente]
+    Tomar $x^0 \in \Rn$ y $k:=0$.
 \begin{enumerate}
-    \item Calcular la longitud de paso $\alpha_k$ en la dirección del anti-gradiente $d^k = -f'(x^k)$ de acuerdo con la regla elegida (si $f'(x^k) = 0$, en la práctica el método se detiene; para fines teóricos, podemos tomar $\alpha_k$ arbitrario).
-    \item Calcular $x^{k+1}$ por la fórmula \eqref{v2:eq:3.18}.
-    \item Tomar $k := k + 1$ y retornar al Paso 1.
+    \item Si $f'(x^k) = 0$, parar.
+    \item Si $k \ge 1$, calcular $\beta_{k-1}$ por la fórmula \eqref{v2:eq:3.135}.
+    \item Calcular $d^k$ por la fórmula \eqref{v2:eq:3.134}, y $\alpha_k$ por la fórmula \eqref{v2:eq:3.130}.
+    \item Calcular $x^{k+1}$ por la fórmula \eqref{v2:eq:3.128}.
+    \item Si $k < n-1$, tomar $k := k + 1$ y retornar al Paso 1.
 \end{enumerate}
-\vspace{0.3cm}
+\end{algorithm}
+
 
 El método del gradiente con minimización unidimensional se llama \textit{método de máximo descenso} (cabe destacar que este nombre no debe ser entendido como caracterización de las cualidades de este método en la práctica). Una propiedad importante del método de máximo descenso (por lo menos en el caso $\hat{\alpha} = +\infty$) es la igualdad
 \[
@@ -480,3 +482,7 @@ Es fácil verificar que, si el conjunto $S_0$ es suavemente conexo (i.e., cuales
     \]
     lo que significa que la tasa de convergencia de la secuencia $\{x^k\}$ es geométrica. Finalmente, de \eqref{v2:eq:3.45} obtenemos $\dist(x^k, S_0) \to 0 \ (k \to \infty)$. Por lo tanto, $\bar{x} \in S_0$.
 \end{proof}
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:

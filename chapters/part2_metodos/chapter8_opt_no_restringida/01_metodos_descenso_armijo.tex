@@ -322,7 +322,9 @@ donde $0 < \sigma_1 < \sigma_2 < 1$. La primera condición arriba es, de nuevo, 
 Cuando el cálculo de la derivada de $f$ no es muy caro, la regla de Wolfe es considerada la regla de búsqueda lineal más eficiente. Además de eso, el paso dado por la regla de Wolfe posee una propiedad que es importante para los métodos cuasi-Newton en \S~3.2.
 
 A continuación presentamos un procedimiento de implementación de la regla de Wolfe (cabe notar que la regla de Goldstein puede ser implementada de manera análoga).
-Fijamos los parámetros $0 < \sigma_1 < \sigma_2 < 1$. Tomar $\hat{\alpha} := 0$. Tomar un valor inicial $\alpha > 0$.
+
+\begin{algorithm}[Regla de Wolfe]
+    Fijamos los parámetros $0 < \sigma_1 < \sigma_2 < 1$. Tomar $\hat{\alpha} := 0$. Tomar un valor inicial $\alpha > 0$.
 \begin{enumerate}
     \item Si \eqref{v2:eq:3.11} y \eqref{v2:eq:3.12} se satisfacen, pasar al Ítem 6.
     \item Si \eqref{v2:eq:3.11} es violada, tomar $\check{\alpha} := \alpha$ y pasar al Ítem 4.
@@ -331,6 +333,8 @@ Fijamos los parámetros $0 < \sigma_1 < \sigma_2 < 1$. Tomar $\hat{\alpha} := 0$
     \item Escoger un nuevo valor $\alpha \in (\check{\alpha}, \hat{\alpha})$ (\textit{interpolación}) y pasar al Ítem 1.
     \item Tomar $\alpha_k := \alpha$.
 \end{enumerate}
+\end{algorithm}
+
 
 La violación de la condición \eqref{v2:eq:3.11} significa que el valor de $\alpha$ es grande de más, en cuanto a la violación de la condición \eqref{v2:eq:3.12} significa que este valor es pequeño de más. El procedimiento arriba funciona de la siguiente manera. Primero, se hacen pasos de extrapolación hasta que $\hat{\alpha}$ se vuelva positivo. Después de eso, se hacen pasos de interpolación. Mientras eso, $\hat{\alpha}$ solo puede disminuir, mas quedando positivo, y $\check{\alpha}$ solo puede aumentar, mas siempre quedando menor del que $\hat{\alpha}$.
 En este esquema, extrapolación e interpolación pueden ser implementadas de varias maneras diferentes. Por ejemplo, podemos fijar números $\theta_1 > 1, \theta_2 \in (0, 1)$ y, durante la extrapolación, tomar cada vez
@@ -396,3 +400,7 @@ Lo que es importante es que un número infinito de extrapolaciones llevaría el 
 Como es fácil observar, en el resultado arriba, en vez de las hipótesis sobre la función $f$ en $\Rn$, podemos colocar hipótesis análogas sobre la función $f(x^k + \alpha d^k)$ en la semirrecta $\R_+ \setminus \{0\}$.
 
 Finalmente, comentaremos que existen también reglas de búsqueda lineal no monótonas. Las estrategias no monótonas permiten pasos más largos y pueden ser bien eficientes en la práctica. La idea es permitir un posible aumento de la función objetivo en comparación con el valor obtenido en la iteración anterior, desde que obtengamos una reducción en comparación con el valor medio de $f$, o el valor máximo de $f$, en las $p$ iteraciones anteriores. O sea, para decidir si un valor de longitud de paso $\alpha > 0$ debe ser aceptado o no, $f(x^k + \alpha d^k)$ es comparado con $p^{-1} \sum_{i=k-p+1}^k f(x^i)$, o con $\max \{ f(x^i) \mid i = k-p+1, \dots, k \}$, en vez de $f(x^k)$.
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:

@@ -83,8 +83,7 @@ Otra aproximación para la resolución del subproblema \eqref{v2:eq:3.86} es la 
 
 A continuación, presentamos un método de regiones de confianza básico. Para simplificar, consideremos el caso de $H_k = f''(x^k)$ para todo $k$.
 
-\vspace{0.3cm}
-\noindent\textbf{Algoritmo 3.3.1. (Método de regiones de confianza)}\\
+\begin{algorithm}[Método de regiones de confianza]
 Elegir $x^0 \in \Rn$ y tomar $k:=0$. Elegir los parámetros $\bar{\delta} > 0$, $\sigma, \theta_1, \theta_2 \in (0, 1)$, $\theta_1 < \theta_2$.
 \begin{enumerate}
     \item Elegir $\delta \ge \bar{\delta}$.
@@ -97,8 +96,7 @@ Elegir $x^0 \in \Rn$ y tomar $k:=0$. Elegir los parámetros $\bar{\delta} > 0$, 
     Si ella se satisface, pasar al ítem 4. Caso contrario, escoger $\delta \in [\theta_1 \|\tilde{x}^k - x^k\|, \theta_2 \delta_k]$ y pasar al ítem 2.
     \item Tomar $x^{k+1} := \tilde{x}^k$, $k := k + 1$, y retornar al Paso 1.
 \end{enumerate}
-\vspace{0.3cm}
-
+\end{algorithm}
 Como es fácil ver, si para algún $k$ en el Paso 3 del algoritmo tenemos la igualdad $\tilde{x}^k = x^k$, entonces el punto $x^k$ es estacionario para el problema \eqref{v2:eq:3.83} y satisface la condición necesaria de segunda orden para este problema. Más precisamente, como se tiene que $\tilde{x}^k = x^k \in \interior B(x^k, \delta_k)$, por las condiciones necesarias de primera y de segunda orden para el problema \eqref{v2:eq:3.86}, vea el Teorema 1.2.1, obtenemos que
 \[
     0 = \psi_k'(x^k) = f'(x^k) + f''(x^k)(\tilde{x}^k - x^k) = f'(x^k),
@@ -369,14 +367,14 @@ La sugerencia es utilizar el punto final $\tilde{x}^N = x^{N-1, k_{N-1}}$ obteni
 
 En el análisis a seguir, consideraremos el caso cuando $k_i = 1$ para todo $i = 0, 1, \dots, N-1$, i.e., para toda ecuación \eqref{v2:eq:3.108} el parámetro es actualizado después de cada paso del método de Newton.
 
-\vspace{0.3cm}
-\noindent\textbf{Algoritmo 3.3.2. (Método de continuación finito)}\\
-En el intervalo $[0, 1]$, escoger una red $\{t_0^N, t_1^N, \dots, t_N^N\}$ (donde $0 = t_0^N < t_1^N < \dots < t_N^N = 1$). Escoger $x^{0,0} \in \Rn$. Tomar $\tilde{x}^0 = x^{0,0}$ y calcular el punto $\tilde{x}^N \in \Rn$ de acuerdo con
+\begin{algorithm}[Método de continuación finito]
+    En el intervalo $[0, 1]$, escoger una red $\{t_0^N, t_1^N, \dots, t_N^N\}$ (donde $0 = t_0^N < t_1^N < \dots < t_N^N = 1$). Escoger $x^{0,0} \in \Rn$. Tomar $\tilde{x}^0 = x^{0,0}$ y calcular el punto $\tilde{x}^N \in \Rn$ de acuerdo con
 \begin{equation}
     \tilde{x}^{i+1} = \tilde{x}^i - (\Phi'_x(t_i^N, \tilde{x}^i))^{-1}\Phi(t_{i+1}^N, \tilde{x}^i), \quad i = 0, 1, \dots, N-1.
     \label{v2:eq:3.111}
 \end{equation}
-\vspace{0.3cm}
+\end{algorithm}
+
 
 Como veremos, bajo hipótesis naturales, es posible garantizar que el punto $\tilde{x}^N$ así generado quede tan próximo a $\bar{x}$ como deseemos, siempre que la red escogida sea suficientemente fina y el punto $x^{0,0}$ sea suficientemente próximo a $x^0$.
 
@@ -470,9 +468,8 @@ Si $\Phi$ es suficientemente diferenciable y para todo $t \in [0, 1]$ la matriz 
 
 Una idea natural consiste en aproximar $\bar{x} = \chi(1)$ resolviendo el problema \eqref{v2:eq:3.119} utilizando, por ejemplo, el método de Euler, o el método de Runge-Kutta, etc. En el caso del método de Euler, obtenemos lo siguiente (comparar con el Algoritmo 3.3.2).
 
-\vspace{0.3cm}
-\noindent\textbf{Algoritmo 3.3.3. (Método de continuación basado en la resolución de un problema diferencial)}\\
-En el intervalo $[0, 1]$ escoger una red $\{t_0^N, t_1^N, \dots, t_N^N\}$ (donde $0 = t_0^N < t_1^N < \dots < t_N^N = 1$). Escoger $x^{0,0} \in \Rn$. Tomar $\tilde{x}^0 = x^{0,0}$ y calcular el punto $\tilde{x}^N \in \Rn$ de acuerdo con
+\begin{algorithm}[Método de continuación basado en la resolución de un problema diferencial]
+    En el intervalo $[0, 1]$ escoger una red $\{t_0^N, t_1^N, \dots, t_N^N\}$ (donde $0 = t_0^N < t_1^N < \dots < t_N^N = 1$). Escoger $x^{0,0} \in \Rn$. Tomar $\tilde{x}^0 = x^{0,0}$ y calcular el punto $\tilde{x}^N \in \Rn$ de acuerdo con
 \begin{equation}
     \tilde{x}^{i+1} = \tilde{x}^i - (t_{i+1}^N - t_i^N)(\Phi'_x(t_i^N, \tilde{x}^i))^{-1}\Phi'_t(t_i^N, \tilde{x}^i),
     \label{v2:eq:3.120}
@@ -480,7 +477,8 @@ En el intervalo $[0, 1]$ escoger una red $\{t_0^N, t_1^N, \dots, t_N^N\}$ (donde
 \[
     i = 0, 1, \dots, N-1.
 \]
-\vspace{0.3cm}
+\end{algorithm}
+
 
 \begin{theorem}[Propiedades del método de continuación basado en la resolución de un problema diferencial]\label{v2:thm:3.3.4}
     Sean la función $\Phi : [0, 1] \times \Rn \to \Rn$ y el punto $x^0 \in \Rn$ tales que existe una función $\chi : [0, 1] \to \Rn$ continua en $[0, 1]$ que satisface \eqref{v2:eq:3.106}. Sea $\Phi$ diferenciable en una vecindad $V$ del conjunto $G(\chi)$, con derivada continua en $G(\chi)$. Supongamos que exista un número $L > 0$ tal que
@@ -559,3 +557,7 @@ En el intervalo $[0, 1]$ escoger una red $\{t_0^N, t_1^N, \dots, t_N^N\}$ (donde
 Por lo observado en los Teoremas 3.3.3 y 3.3.4, el Algoritmo 3.3.2 posee claras ventajas en comparación con el Algoritmo 3.3.3, tanto en relación a las propiedades establecidas cuanto en relación a las hipótesis utilizadas para probar estas propiedades. Por otro lado, el Algoritmo 3.3.3 en general es bien menos sensible en relación a la elección de la red. Por eso, ambos métodos poseen cierta utilidad práctica. De hecho, con frecuencia estos métodos se utilizan en combinación: por ejemplo, la aproximación obtenida a partir de un punto dado de la red por el esquema de Euler es posteriormente mejorada por uno o más pasos del método de Newton. Típicamente, la red no es fijada a priori y se va adaptando a lo largo del proceso computacional.
 
 Varios otros métodos de continuación, así como detalles de implementación, pueden ser consultados en [1].
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:

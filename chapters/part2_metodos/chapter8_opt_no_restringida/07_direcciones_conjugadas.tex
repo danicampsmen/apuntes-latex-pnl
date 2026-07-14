@@ -201,17 +201,18 @@ de donde
     \label{v2:eq:3.135}
 \end{equation}
 
-\vspace{0.3cm}
-\noindent\textbf{Algoritmo 3.4.1. (El método de los gradientes conjugados)}\\
-Tomar $x^0 \in \Rn$ y $k:=0$.
-\begin{enumerate}
-    \item Si $f'(x^k) = 0$, parar.
-    \item Si $k \ge 1$, calcular $\beta_{k-1}$ por la fórmula \eqref{v2:eq:3.135}.
-    \item Calcular $d^k$ por la fórmula \eqref{v2:eq:3.134}, y $\alpha_k$ por la fórmula \eqref{v2:eq:3.130}.
-    \item Calcular $x^{k+1}$ por la fórmula \eqref{v2:eq:3.128}.
-    \item Si $k < n-1$, tomar $k := k + 1$ y retornar al Paso 1.
-\end{enumerate}
-\vspace{0.3cm}
+\begin{algorithm}[El método de los gradientes conjugados]
+    En el intervalo $[0, 1]$ escoger una red $\{t_0^N, t_1^N, \dots, t_N^N\}$ (donde $0 = t_0^N < t_1^N < \dots < t_N^N = 1$). Escoger $x^{0,0} \in \Rn$. Tomar $\tilde{x}^0 = x^{0,0}$ y calcular el punto $\tilde{x}^N \in \Rn$ de acuerdo con
+\begin{equation}
+    \tilde{x}^{i+1} = \tilde{x}^i - (t_{i+1}^N - t_i^N)(\Phi'_x(t_i^N, \tilde{x}^i))^{-1}\Phi'_t(t_i^N, \tilde{x}^i),
+    \label{v2:eq:3.120}
+\end{equation}
+\[
+    i = 0, 1, \dots, N-1.
+\]
+\end{algorithm}
+
+
 
 En la fórmula \eqref{v2:eq:3.130}, que define $\alpha_k$, entendemos que $d^k \neq 0$ (en la fórmula \eqref{v2:eq:3.135}, que define $\beta_{k-1}$, entendemos que $d^{k-1} \neq 0$). Si $d^0 = -f'(x^0) = 0$, el método pararía antes del cálculo de $d^0$ y $\alpha_0$ (y, obviamente, de $\beta_0$). Supongamos que para algún $k \ge 1$, por primera vez aconteció que $d^k = 0$ (en particular, $d^{k-1} \neq 0$). En este caso, por \eqref{v2:eq:3.134}, obtenemos que
 \begin{align*}
