@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  13 JUL 2026 20:20
+This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  14 JUL 2026 12:30
  restricted system commands enabled.
  file:line:error style messages enabled.
 **Apuntes-Programacion-No-Lineal.tex
@@ -2879,70 +2879,10 @@ LaTeX Warning: Label `v2:eq:3.120' multiply defined.
 LaTeX Warning: Label `v2:eq:3.120@cref' multiply defined.
 
 
-LaTeX Warning: Label `eq:4.159' multiply defined.
+LaTeX Warning: Label `v2:eq:4.96' multiply defined.
 
 
-LaTeX Warning: Label `eq:4.159@cref' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.3.1' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.3.1@cref' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.3.2' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.3.2@cref' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.3.3' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.3.3@cref' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.3.4' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.3.4@cref' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.3.5' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.3.5@cref' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.3.6' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.3.6@cref' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.4.1' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.4.1@cref' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.5.1' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.5.1@cref' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.5.2' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.5.2@cref' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.5.3' multiply defined.
-
-
-LaTeX Warning: Label `ex:4.5.3@cref' multiply defined.
+LaTeX Warning: Label `v2:eq:4.96@cref' multiply defined.
 
 
 LaTeX Warning: Label `ex:4.6.1' multiply defined.
@@ -3181,7 +3121,12 @@ ad on input line 45.
 Package babel Info: 'spanish' activates 'spanish' shorthands.
 (babel)             Reported on input line 93.
 Package cleveref Info: loaded `spanish' language definitions on input line 93.
- [2])
+ [2]
+Overfull \hbox (0.44997pt too wide) detected at line 119
+ \TU/STIXTwoText-Regular.ttf(0)/b/n/10 208
+ []
+
+)
 \tf@toc=\write7
 
 \openout7 = Apuntes-Programacion-No-Lineal.toc
@@ -3469,17 +3414,8 @@ LaTeX Warning: Reference `v2:eq:1.16' on page 78 undefined on input line 159.
 le.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 39.
  [78]
-
-LaTeX Warning: Reference `v2:sec:4.5' on page 1 undefined on input line 48.
-
-
-LaTeX Warning: Reference `v2:sec:4.5' on page 1 undefined on input line 50.
-
-
-LaTeX Warning: Reference `v2:sec:4.5' on page 1 undefined on input line 68.
-
 Package cleveref Info: loaded `spanish' language definitions on input line 95.
-[79]
+ [79]
 
 LaTeX Warning: Reference `v2:sec:4.7' on page 1 undefined on input line 151.
 
@@ -3718,395 +3654,26 @@ Package cleveref Info: loaded `spanish' language definitions on input line 176.
 Package cleveref Info: loaded `spanish' language definitions on input line 13.
 
 [152]
-
-LaTeX Warning: Reference `v2:eq:4.35' on page 153 undefined on input line 46.
-
-
-LaTeX Warning: Reference `v2:eq:4.36' on page 153 undefined on input line 56.
-
-
-LaTeX Warning: Reference `v2:eq:4.37' on page 153 undefined on input line 56.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 153 undefined on input line 70.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 153 undefined on input line 70.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 153 undefined on input line 76.
-
-
-LaTeX Warning: Reference `v2:eq:4.39' on page 153 undefined on input line 76.
-
 Package cleveref Info: loaded `spanish' language definitions on input line 78.
-[153]
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 154 undefined on input line 83.
-
-
-LaTeX Warning: Reference `v2:eq:4.36' on page 154 undefined on input line 93.
-
-
-LaTeX Warning: Reference `v2:fig:4.3.4' on page 154 undefined on input line 114
-.
-
-
-LaTeX Warning: Reference `v2:eq:4.36' on page 154 undefined on input line 134.
-
-
-LaTeX Warning: Reference `v2:exa:4.3.1' on page 154 undefined on input line 146
-.
-
-
-LaTeX Warning: Reference `v2:exa:4.3.2' on page 154 undefined on input line 146
-.
-
+ [153]
 Package cleveref Info: loaded `spanish' language definitions on input line 148.
 
-[154]
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 155 undefined on input line 149.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 155 undefined on input line 158.
-
-
-LaTeX Warning: Reference `v2:eq:4.40' on page 155 undefined on input line 166.
-
-
-LaTeX Warning: Reference `v2:eq:4.43' on page 155 undefined on input line 168.
-
-
-LaTeX Warning: Reference `v2:eq:4.41' on page 155 undefined on input line 177.
-
-
-LaTeX Warning: Reference `v2:eq:4.41' on page 155 undefined on input line 179.
-
-
-LaTeX Warning: Reference `v2:eq:4.43' on page 155 undefined on input line 179.
-
-
-LaTeX Warning: Reference `v2:eq:4.42' on page 155 undefined on input line 184.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 155 undefined on input line 190.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 155 undefined on input line 191.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 155 undefined on input line 192.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 155 undefined on input line 192.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 155 undefined on input line 203.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 155 undefined on input line 208.
-
-
-LaTeX Warning: Reference `v2:prop:4.3.1' on page 155 undefined on input line 21
-0.
-
-
-LaTeX Warning: Reference `v2:eq:4.44' on page 155 undefined on input line 210.
-
-
-LaTeX Warning: Reference `v2:eq:4.45' on page 155 undefined on input line 215.
-
-
-LaTeX Warning: Reference `v2:eq:4.44' on page 155 undefined on input line 224.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 155 undefined on input line 228.
-
+ [154]
 Package cleveref Info: loaded `spanish' language definitions on input line 229.
 
-[155]
-
-LaTeX Warning: Reference `v2:thm:4.3.1' on page 156 undefined on input line 231
-.
-
-
-LaTeX Warning: Reference `v2:eq:4.39' on page 156 undefined on input line 241.
-
-
-LaTeX Warning: Reference `v2:eq:4.32' on page 156 undefined on input line 241.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 156 undefined on input line 243.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 156 undefined on input line 243.
-
-
-LaTeX Warning: Reference `v2:eq:4.32' on page 156 undefined on input line 246.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 156 undefined on input line 246.
-
-
-LaTeX Warning: Reference `v2:eq:4.39' on page 156 undefined on input line 252.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 156 undefined on input line 257.
-
-
-LaTeX Warning: Reference `v2:eq:4.47' on page 156 undefined on input line 257.
-
-
-LaTeX Warning: Reference `v2:eq:4.48' on page 156 undefined on input line 268.
-
-
-LaTeX Warning: Reference `v2:eq:4.48' on page 156 undefined on input line 279.
-
-
-LaTeX Warning: Reference `v2:eq:4.49' on page 156 undefined on input line 280.
-
-
-LaTeX Warning: Reference `v2:eq:4.50' on page 156 undefined on input line 294.
-
-
-LaTeX Warning: Reference `v2:eq:4.49' on page 156 undefined on input line 302.
-
-
-LaTeX Warning: Reference `v2:eq:4.51' on page 156 undefined on input line 306.
-
-
-LaTeX Warning: Reference `v2:eq:4.48' on page 156 undefined on input line 310.
-
-
-LaTeX Warning: Reference `v2:eq:4.48' on page 156 undefined on input line 311.
-
-
-LaTeX Warning: Reference `v2:eq:4.47' on page 156 undefined on input line 311.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 156 undefined on input line 311.
-
+ [155]
 Package cleveref Info: loaded `spanish' language definitions on input line 312.
 
-[156]
-
-LaTeX Warning: Reference `v2:eq:4.52' on page 157 undefined on input line 323.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 157 undefined on input line 325.
-
-
-LaTeX Warning: Reference `v2:eq:4.45' on page 157 undefined on input line 327.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 157 undefined on input line 331.
-
+ [156]
 Package cleveref Info: loaded `spanish' language definitions on input line 337.
 
-[157]
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 158 undefined on input line 338.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 158 undefined on input line 340.
-
-
-LaTeX Warning: Reference `v2:eq:4.45' on page 158 undefined on input line 346.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 158 undefined on input line 346.
-
-
-LaTeX Warning: Reference `v2:prop:4.3.1' on page 158 undefined on input line 35
-6.
-
-
-LaTeX Warning: Reference `v2:eq:4.53' on page 158 undefined on input line 356.
-
-
-LaTeX Warning: Reference `v2:eq:4.52' on page 158 undefined on input line 356.
-
-
-LaTeX Warning: Reference `v2:eq:4.53' on page 158 undefined on input line 358.
-
-
-LaTeX Warning: Reference `v2:eq:4.52' on page 158 undefined on input line 358.
-
-
-LaTeX Warning: Reference `v2:eq:4.32' on page 158 undefined on input line 360.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 158 undefined on input line 360.
-
-
-LaTeX Warning: Reference `v2:eq:4.36' on page 158 undefined on input line 365.
-
-
-LaTeX Warning: Reference `v2:eq:4.54' on page 158 undefined on input line 365.
-
-
-LaTeX Warning: Reference `v2:thm:4.3.1' on page 158 undefined on input line 367
-.
-
-
-LaTeX Warning: Reference `v2:eq:4.45' on page 158 undefined on input line 367.
-
-
-LaTeX Warning: Reference `v2:eq:4.55' on page 158 undefined on input line 367.
-
-
-LaTeX Warning: Reference `v2:eq:4.55' on page 158 undefined on input line 367.
-
-
-LaTeX Warning: Reference `v2:eq:4.55' on page 158 undefined on input line 367.
-
-
-LaTeX Warning: Reference `v2:eq:4.56' on page 158 undefined on input line 367.
-
-
-LaTeX Warning: Reference `v2:eq:4.55' on page 158 undefined on input line 367.
-
-
-LaTeX Warning: Reference `v2:eq:4.56' on page 158 undefined on input line 367.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 158 undefined on input line 367.
-
-
-LaTeX Warning: Reference `v2:thm:4.3.2' on page 158 undefined on input line 367
-.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 158 undefined on input line 370.
-
-
-LaTeX Warning: Reference `v2:eq:4.32' on page 158 undefined on input line 370.
-
-
-LaTeX Warning: Reference `v2:eq:4.54' on page 158 undefined on input line 370.
-
-
-LaTeX Warning: Reference `v2:eq:4.39' on page 158 undefined on input line 377.
-
+ [157]
 Package cleveref Info: loaded `spanish' language definitions on input line 388.
 
-[158]
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 159 undefined on input line 398.
-
-
-LaTeX Warning: Reference `v2:eq:4.32' on page 159 undefined on input line 402.
-
-
-LaTeX Warning: Reference `v2:eq:4.54' on page 159 undefined on input line 402.
-
-
-LaTeX Warning: Reference `v2:eq:4.55' on page 159 undefined on input line 402.
-
-
-LaTeX Warning: Reference `v2:eq:4.56' on page 159 undefined on input line 402.
-
-
-LaTeX Warning: Reference `v2:eq:4.56' on page 159 undefined on input line 410.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 159 undefined on input line 414.
-
-
-LaTeX Warning: Reference `v2:eq:4.60' on page 159 undefined on input line 419.
-
-
-LaTeX Warning: Reference `v2:eq:4.61' on page 159 undefined on input line 428.
-
-
-LaTeX Warning: Reference `v2:eq:4.62' on page 159 undefined on input line 434.
-
-
-LaTeX Warning: Reference `v2:eq:4.57' on page 159 undefined on input line 434.
-
-
-LaTeX Warning: Reference `v2:eq:4.56' on page 159 undefined on input line 436.
-
-
-LaTeX Warning: Reference `v2:eq:4.62' on page 159 undefined on input line 436.
-
-
-LaTeX Warning: Reference `v2:eq:4.62' on page 159 undefined on input line 436.
-
-
-LaTeX Warning: Reference `v2:thm:4.3.3' on page 159 undefined on input line 440
-.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 159 undefined on input line 440.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 159 undefined on input line 441.
-
-
-LaTeX Warning: Reference `v2:eq:4.39' on page 159 undefined on input line 441.
-
-
-LaTeX Warning: Reference `v2:eq:4.63' on page 159 undefined on input line 450.
-
-
-LaTeX Warning: Reference `v2:eq:4.64' on page 159 undefined on input line 450.
-
-
-LaTeX Warning: Reference `v2:thm:4.3.3' on page 159 undefined on input line 450
-.
-
-
-LaTeX Warning: Reference `v2:eq:4.33' on page 159 undefined on input line 453.
-
-
-LaTeX Warning: Reference `v2:eq:4.36' on page 159 undefined on input line 453.
-
-
-LaTeX Warning: Reference `v2:eq:4.57' on page 159 undefined on input line 453.
-
-
-LaTeX Warning: Reference `v2:eq:4.58' on page 159 undefined on input line 453.
-
+ [158]
 Package cleveref Info: loaded `spanish' language definitions on input line 456.
 
-[159]
-
-LaTeX Warning: Reference `v2:thm:4.3.3' on page 160 undefined on input line 460
-.
-
-
-LaTeX Warning: Reference `v2:cor:4.3.1' on page 160 undefined on input line 460
-.
-
-
-LaTeX Warning: Reference `v2:eq:4.31' on page 160 undefined on input line 460.
-
-
-LaTeX Warning: Reference `v2:eq:4.33' on page 160 undefined on input line 460.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 160 undefined on input line 460.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 160 undefined on input line 460.
-
-
-LaTeX Warning: Reference `v2:eq:4.35' on page 160 undefined on input line 462.
-
-
-LaTeX Warning: Reference `v2:eq:4.38' on page 160 undefined on input line 462.
-
-
-LaTeX Warning: Reference `v2:eq:4.66' on page 160 undefined on input line 497.
-
-
-LaTeX Warning: Reference `v2:eq:4.67' on page 160 undefined on input line 500.
-
-
-LaTeX Warning: Reference `v2:eq:4.65' on page 160 undefined on input line 501.
-
+ [159]
 
 LaTeX Warning: Reference `v2:eq:1.17' on page 160 undefined on input line 503.
 
@@ -4114,101 +3681,22 @@ Package cleveref Info: loaded `spanish' language definitions on input line 504.
 
 [160]
 
-LaTeX Warning: Reference `v2:eq:4.67' on page 161 undefined on input line 507.
-
-
-LaTeX Warning: Reference `v2:eq:4.65' on page 161 undefined on input line 515.
-
-
-LaTeX Warning: Reference `v2:eq:4.67' on page 161 undefined on input line 515.
-
-
-LaTeX Warning: Reference `v2:eq:4.65' on page 161 undefined on input line 515.
-
-
 LaTeX Warning: Reference `v2:eq:4.71' on page 161 undefined on input line 526.
-
-
-LaTeX Warning: Reference `v2:eq:4.80' on page 161 undefined on input line 539.
-
-
-LaTeX Warning: Reference `v2:eq:4.74' on page 161 undefined on input line 566.
-
-
-LaTeX Warning: Reference `v2:eq:4.65' on page 161 undefined on input line 566.
 
 
 LaTeX Warning: Reference `v2:eq:1.17' on page 161 undefined on input line 568.
 
 
-LaTeX Warning: Reference `v2:eq:4.72' on page 161 undefined on input line 568.
-
-
-LaTeX Warning: Reference `v2:eq:4.74' on page 161 undefined on input line 568.
-
-
 LaTeX Warning: Reference `v2:eq:1.17' on page 161 undefined on input line 573.
-
-
-LaTeX Warning: Reference `v2:eq:4.75' on page 161 undefined on input line 581.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 597.
 
 [161]
-
-LaTeX Warning: Reference `v2:eq:4.67' on page 162 undefined on input line 599.
-
-
-LaTeX Warning: Reference `v2:eq:4.65' on page 162 undefined on input line 599.
-
-
-LaTeX Warning: Reference `v2:eq:4.65' on page 162 undefined on input line 599.
-
-
-LaTeX Warning: Reference `v2:eq:4.65' on page 162 undefined on input line 609.
-
-
-LaTeX Warning: Reference `v2:eq:4.67' on page 162 undefined on input line 610.
-
 Package cleveref Info: loaded `spanish' language definitions on input line 611.
 
-[162]
-
-LaTeX Warning: Reference `v2:eq:4.78' on page 163 undefined on input line 634.
-
-
-LaTeX Warning: Reference `v2:eq:4.65' on page 163 undefined on input line 644.
-
-
-LaTeX Warning: Reference `v2:eq:4.67' on page 163 undefined on input line 645.
-
-
-LaTeX Warning: Reference `v2:eq:4.67' on page 163 undefined on input line 649.
-
-
-LaTeX Warning: Reference `v2:eq:4.79' on page 163 undefined on input line 667.
-
-
-LaTeX Warning: Reference `v2:eq:4.72' on page 163 undefined on input line 667.
-
-
-LaTeX Warning: Reference `v2:eq:4.80' on page 163 undefined on input line 680.
-
-
-LaTeX Warning: Reference `v2:eq:4.81_extra' on page 163 undefined on input line
- 691.
-
-
-LaTeX Warning: Reference `v2:eq:4.65' on page 163 undefined on input line 691.
-
+ [162]
 
 LaTeX Warning: Reference `v1:eq:1.19' on page 163 undefined on input line 691.
-
-
-LaTeX Warning: Reference `v2:eq:4.79' on page 163 undefined on input line 706.
-
-
-LaTeX Warning: Reference `v2:eq:4.82' on page 163 undefined on input line 706.
 
 
 LaTeX Warning: Reference `v2:eq:4.76' on page 163 undefined on input line 714.
@@ -4221,319 +3709,168 @@ Package cleveref Info: loaded `spanish' language definitions on input line 715.
  [164])
 (./chapters/part2_metodos/chapter9_opt_restringida/04_penalizacion_interna_barr
 eras.tex
-
-LaTeX Warning: Reference `v2:eq:4.83' on page 165 undefined on input line 22.
-
-
-LaTeX Warning: Reference `v2:fig:4.3.5' on page 165 undefined on input line 22.
-
-
-
-LaTeX Warning: Reference `v2:eq:4.83' on page 165 undefined on input line 34.
-
-
-LaTeX Warning: Reference `v2:eq:4.89' on page 165 undefined on input line 58.
-
-
-LaTeX Warning: Reference `v2:eq:4.89' on page 165 undefined on input line 58.
-
 Package cleveref Info: loaded `spanish' language definitions on input line 65.
-[165]
-
-LaTeX Warning: Reference `v2:eq:4.83' on page 166 undefined on input line 66.
-
-
-LaTeX Warning: Reference `v2:eq:4.89' on page 166 undefined on input line 68.
-
-
-LaTeX Warning: Reference `v2:eq:4.88' on page 166 undefined on input line 68.
-
-
-LaTeX Warning: Reference `v2:eq:4.87' on page 166 undefined on input line 81.
-
-
-LaTeX Warning: Reference `v2:eq:4.86' on page 166 undefined on input line 113.
-
-
-LaTeX Warning: Reference `v2:fig:4.3.6' on page 166 undefined on input line 130
-.
-
+ [165]
 Package cleveref Info: loaded `spanish' language definitions on input line 135.
 
-[166]
-
-LaTeX Warning: Reference `v2:eq:4.83' on page 167 undefined on input line 136.
-
-
-LaTeX Warning: Reference `v2:eq:4.84' on page 167 undefined on input line 136.
-
-
-LaTeX Warning: Reference `v2:eq:4.85' on page 167 undefined on input line 136.
-
-
-LaTeX Warning: Reference `v2:eq:4.89' on page 167 undefined on input line 136.
-
-
-LaTeX Warning: Reference `v2:eq:4.89' on page 167 undefined on input line 146.
-
+ [166]
 
 LaTeX Warning: Reference `v2:eq:4.93' on page 167 undefined on input line 152.
-
-
-LaTeX Warning: Reference `v2:eq:4.91' on page 167 undefined on input line 156.
-
-
-LaTeX Warning: Reference `v2:eq:4.91' on page 167 undefined on input line 161.
-
-
-LaTeX Warning: Reference `v2:eq:4.83' on page 167 undefined on input line 166.
-
-
-LaTeX Warning: Reference `v2:eq:4.84' on page 167 undefined on input line 166.
-
-
-LaTeX Warning: Reference `v2:eq:4.85' on page 167 undefined on input line 166.
-
-
-LaTeX Warning: Reference `v2:eq:4.89' on page 167 undefined on input line 167.
-
-
-LaTeX Warning: Reference `v2:eq:4.83' on page 167 undefined on input line 167.
-
-
-LaTeX Warning: Reference `v2:eq:4.85' on page 167 undefined on input line 177.
-
-
-LaTeX Warning: Reference `v2:eq:4.92' on page 167 undefined on input line 182.
-
-
-LaTeX Warning: Reference `v2:eq:4.94' on page 167 undefined on input line 186.
-
-
-LaTeX Warning: Reference `v2:eq:4.95' on page 167 undefined on input line 187.
-
-
-LaTeX Warning: Reference `v2:eq:4.89' on page 167 undefined on input line 200.
-
-
-LaTeX Warning: Reference `v2:eq:4.96' on page 167 undefined on input line 200.
-
-
-LaTeX Warning: Reference `v2:eq:4.91' on page 167 undefined on input line 200.
 
 )
 (./chapters/part2_metodos/chapter9_opt_restringida/05_lagrangianas_aumentadas.t
 ex
-Package cleveref Info: loaded `spanish' language definitions on input line 6.
+Package cleveref Info: loaded `spanish' language definitions on input line 11.
  [167]
+Package cleveref Info: loaded `spanish' language definitions on input line 62.
+ [168]
+Package cleveref Info: loaded `spanish' language definitions on input line 115.
 
-LaTeX Warning: Citation '12' on page 168 undefined on input line 7.
+ [169]
+Package cleveref Info: loaded `spanish' language definitions on input line 198.
 
-
-LaTeX Warning: Citation '12' on page 168 undefined on input line 7.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 52.
-[168]
-
-LaTeX Warning: Citation '5' on page 169 undefined on input line 103.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 105.
-
-[169]
-
-LaTeX Warning: Citation '3' on page 170 undefined on input line 105.
-
-
-LaTeX Warning: Citation '13' on page 170 undefined on input line 105.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 180.
-
-[170]
-Package cleveref Info: loaded `spanish' language definitions on input line 203.
+ [170]
+Package cleveref Info: loaded `spanish' language definitions on input line 224.
 
  [171]
-Package cleveref Info: loaded `spanish' language definitions on input line 258.
+Package cleveref Info: loaded `spanish' language definitions on input line 281.
 
  [172]
-Package cleveref Info: loaded `spanish' language definitions on input line 299.
+Package cleveref Info: loaded `spanish' language definitions on input line 318.
 
  [173]
-Package cleveref Info: loaded `spanish' language definitions on input line 356.
+Package cleveref Info: loaded `spanish' language definitions on input line 376.
 
  [174]
+Package cleveref Info: loaded `spanish' language definitions on input line 432.
 
-LaTeX Warning: Citation '3' on page 175 undefined on input line 358.
-
-
-LaTeX Warning: Citation '4' on page 175 undefined on input line 358.
-
-
-LaTeX Warning: Citation '3' on page 175 undefined on input line 394.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 399.
-
-[175]
-
-LaTeX Warning: Reference `thm:1.5.1' on page 1 undefined on input line 425.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 448.
-
-[176])
+ [175])
 (./chapters/part2_metodos/chapter9_opt_restringida/06_restricciones_mixtas.tex
+Package cleveref Info: loaded `spanish' language definitions on input line 69.
 
-LaTeX Warning: Reference `sec:1.6' on page 1 undefined on input line 4.
+[176]
+Package cleveref Info: loaded `spanish' language definitions on input line 106.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 5.
-[177]
+ [177]
 
-LaTeX Warning: Reference `sec:1.6' on page 1 undefined on input line 18.
-
-
-LaTeX Warning: Reference `eq:1.48' on page 178 undefined on input line 35.
+LaTeX Warning: Reference `v2:eq:4.145' on page 178 undefined on input line 130.
 
 
-LaTeX Warning: Reference `eq:1.49' on page 178 undefined on input line 37.
+
+LaTeX Warning: Reference `v2:eq:1.17' on page 178 undefined on input line 138.
 
 
-LaTeX Warning: Reference `thm:3.2.1' on page 1 undefined on input line 41.
+LaTeX Warning: Reference `v2:eq:4.145' on page 178 undefined on input line 150.
 
 
-LaTeX Warning: Reference `ex:1.6.1' on page 1 undefined on input line 43.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 62.
+LaTeX Warning: Reference `v2:eq:4.140' on page 178 undefined on input line 162.
+
+
+
+LaTeX Warning: Reference `v2:eq:4.141' on page 178 undefined on input line 162.
+
+
+
+LaTeX Warning: Reference `v2:eq:1.17' on page 178 undefined on input line 215.
+
+Package cleveref Info: loaded `spanish' language definitions on input line 217.
+
 [178]
 
-LaTeX Warning: Reference `sec:4.4.1' on page 1 undefined on input line 98.
+LaTeX Warning: Reference `v2:eq:4.145' on page 179 undefined on input line 222.
 
 
-LaTeX Warning: Reference `sec:1.6' on page 1 undefined on input line 112.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 121.
+LaTeX Warning: Reference `v2:eq:4.140' on page 179 undefined on input line 232.
+
+
+
+LaTeX Warning: Reference `v2:eq:4.141' on page 179 undefined on input line 232.
+
+
+
+LaTeX Warning: Reference `v2:eq:4.140' on page 179 undefined on input line 240.
+
+
+
+LaTeX Warning: Reference `v2:eq:4.141' on page 179 undefined on input line 240.
+
+
+
+LaTeX Warning: Reference `v2:eq:4.140' on page 179 undefined on input line 248.
+
+
+
+LaTeX Warning: Reference `v2:eq:4.141' on page 179 undefined on input line 248.
+
+
+
+LaTeX Warning: Reference `v2:eq:1.17' on page 179 undefined on input line 266.
+
+Package cleveref Info: loaded `spanish' language definitions on input line 268.
 
 [179]
 
-LaTeX Warning: Reference `eq:1.17' on page 180 undefined on input line 145.
+LaTeX Warning: Reference `v2:eq:4.145' on page 180 undefined on input line 281.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 198.
-
-[180]
-
-LaTeX Warning: Reference `eq:1.17' on page 181 undefined on input line 247.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 248.
-
-[181]
-
-LaTeX Warning: Reference `ex:2.2.1' on page 1 undefined on input line 272.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 288.
 
-[182]
+[180]
 
-LaTeX Warning: Reference `eq:1.17' on page 183 undefined on input line 408.
-
-
-LaTeX Warning: Reference `thm:1.3.1' on page 1 undefined on input line 441.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 463.
-
-[183]
-Package cleveref Info: loaded `spanish' language definitions on input line 463.
-
- [184]
-Package cleveref Info: loaded `spanish' language definitions on input line 472.
-
- [185]
-Package cleveref Info: loaded `spanish' language definitions on input line 513.
-
- [186]
-
-LaTeX Warning: Reference `eq:1.17' on page 187 undefined on input line 569.
+LaTeX Warning: Reference `v2:eq:4.145' on page 181 undefined on input line 293.
 
 
-LaTeX Warning: Reference `thm:1.2.2' on page 1 undefined on input line 574.
+
+LaTeX Warning: Reference `v2:eq:1.17' on page 181 undefined on input line 300.
 
 
-LaTeX Warning: Reference `eq:1.25' on page 187 undefined on input line 574.
+LaTeX Warning: Reference `v2:eq:1.17' on page 181 undefined on input line 300.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 575.
-
-[187]
-
-LaTeX Warning: Reference `eq:1.25' on page 188 undefined on input line 594.
-
-
-LaTeX Warning: Reference `eq:1.25' on page 188 undefined on input line 596.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 626.
-
-[188]
-
-LaTeX Warning: Reference `thm:1.2.1' on page 1 undefined on input line 677.
-
-
-LaTeX Warning: Reference `thm:1.2.1' on page 1 undefined on input line 683.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 695.
-
-[189]
-
-LaTeX Warning: Reference `sec:4.3.1' on page 1 undefined on input line 714.
-
-
-LaTeX Warning: Reference `eq:1.25' on page 190 undefined on input line 747.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 748.
-
-[190]
-
-LaTeX Warning: Reference `eq:1.25' on page 191 undefined on input line 756.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 795.
-
-[191]
-Package cleveref Info: loaded `spanish' language definitions on input line 876.
-
- [192]
-Package cleveref Info: loaded `spanish' language definitions on input line 918.
-
- [193])
-(./chapters/part2_metodos/chapter9_opt_restringida/07_sqp.tex
+) (./chapters/part2_metodos/chapter9_opt_restringida/07_sqp.tex
 
 LaTeX Warning: Reference `sec:6.2' on page 1 undefined on input line 3.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 4.
-[194]
+Package cleveref Info: loaded `spanish' language definitions on input line 25.
+[181]
 
 LaTeX Warning: Reference `sec:4.1.3' on page 1 undefined on input line 25.
 
 
 LaTeX Warning: Reference `sec:4.4.1' on page 1 undefined on input line 36.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 40.
-[195]
 
 LaTeX Warning: Reference `sec:4.4.1' on page 1 undefined on input line 64.
 
 
-LaTeX Warning: Reference `eq:1.9' on page 196 undefined on input line 64.
+LaTeX Warning: Reference `eq:1.9' on page 182 undefined on input line 64.
 
 
 LaTeX Warning: Reference `thm:1.2.2' on page 1 undefined on input line 64.
 
 
+LaTeX Warning: Reference `thm:4.4.1' on page 1 undefined on input line 64.
+
+Package cleveref Info: loaded `spanish' language definitions on input line 65.
+[182]
+
 LaTeX Warning: Reference `sec:3.2.2' on page 1 undefined on input line 66.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 95.
-[196]
 
-LaTeX Warning: Reference `eq:1.17' on page 197 undefined on input line 109.
+LaTeX Warning: Reference `sec:4.4.3' on page 1 undefined on input line 106.
+
+
+LaTeX Warning: Reference `eq:1.17' on page 183 undefined on input line 109.
 
 
 LaTeX Warning: Reference `thm:1.2.3' on page 1 undefined on input line 109.
 
+Package cleveref Info: loaded `spanish' language definitions on input line 110.
 
-LaTeX Warning: Reference `eq:1.17' on page 197 undefined on input line 185.
+[183]
+
+LaTeX Warning: Reference `eq:1.17' on page 184 undefined on input line 185.
 
 
 LaTeX Warning: Reference `thm:1.5.3' on page 1 undefined on input line 187.
@@ -4549,13 +3886,10 @@ LaTeX Warning: Reference `cor:3.2.1' on page 1 undefined on input line 237.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 238.
 
-[197]
+[184]
 Package cleveref Info: loaded `spanish' language definitions on input line 238.
 
- [198]
-Package cleveref Info: loaded `spanish' language definitions on input line 238.
-
- [199]
+ [185]
 
 LaTeX Warning: Reference `ex:2.2.1' on page 1 undefined on input line 240.
 
@@ -4563,46 +3897,61 @@ LaTeX Warning: Reference `ex:2.2.1' on page 1 undefined on input line 240.
 LaTeX Warning: Reference `thm:3.2.2' on page 1 undefined on input line 240.
 
 
-LaTeX Warning: Citation '20' on page 200 undefined on input line 240.
+LaTeX Warning: Citation '20' on page 186 undefined on input line 240.
 
 
 LaTeX Warning: Reference `thm:1.3.1' on page 1 undefined on input line 293.
 
 
-LaTeX Warning: Reference `eq:1.17' on page 200 undefined on input line 332.
+LaTeX Warning: Reference `eq:1.17' on page 186 undefined on input line 332.
 
 
 LaTeX Warning: Reference `thm:1.3.1' on page 1 undefined on input line 361.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 379.
 
-[200]
+[186]
 Package cleveref Info: loaded `spanish' language definitions on input line 379.
 
- [201]
-Package cleveref Info: loaded `spanish' language definitions on input line 396.
+ [187]
+Package cleveref Info: loaded `spanish' language definitions on input line 379.
 
- [202]
+ [188]
 
-LaTeX Warning: Citation '12' on page 203 undefined on input line 396.
+LaTeX Warning: Citation '12' on page 189 undefined on input line 396.
 
 
 LaTeX Warning: Reference `sec:4.5' on page 1 undefined on input line 398.
 
 
-LaTeX Warning: Citation '20' on page 203 undefined on input line 402.
+LaTeX Warning: Reference `thm:4.5.2' on page 1 undefined on input line 398.
 
+
+LaTeX Warning: Reference `eq:4.161' on page 189 undefined on input line 398.
+
+
+LaTeX Warning: Reference `thm:4.5.3' on page 1 undefined on input line 398.
+
+
+LaTeX Warning: Citation '20' on page 189 undefined on input line 402.
+
+Package cleveref Info: loaded `spanish' language definitions on input line 407.
+
+[189]
 
 LaTeX Warning: Reference `sec:4.3.2' on page 1 undefined on input line 417.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 457.
-
-[203]
 
 LaTeX Warning: Reference `sec:1.5' on page 1 undefined on input line 460.
 
+Package cleveref Info: loaded `spanish' language definitions on input line 464.
+
+[190]
 
 LaTeX Warning: Reference `sec:4.6.2' on page 1 undefined on input line 466.
+
+
+LaTeX Warning: Reference `thm:4.4.5' on page 1 undefined on input line 466.
 
 
 LaTeX Warning: Reference `sec:3.2.2' on page 1 undefined on input line 466.
@@ -4610,24 +3959,24 @@ LaTeX Warning: Reference `sec:3.2.2' on page 1 undefined on input line 466.
 
 LaTeX Warning: Reference `sec:3.2.3' on page 1 undefined on input line 466.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 473.
-
-[204]
 Package cleveref Info: loaded `spanish' language definitions on input line 546.
 
- [205]
+[191]
+Package cleveref Info: loaded `spanish' language definitions on input line 546.
+
+ [192]
 
 LaTeX Warning: Reference `lem:3.1.1' on page 1 undefined on input line 552.
 
 
 LaTeX Warning: Reference `lem:3.1.2' on page 1 undefined on input line 552.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 561.
-
-[206]
 
 LaTeX Warning: Reference `sec:4.3.2' on page 1 undefined on input line 562.
 
+Package cleveref Info: loaded `spanish' language definitions on input line 583.
+
+[193]
 
 LaTeX Warning: Reference `lem:1.5.4' on page 1 undefined on input line 590.
 
@@ -4639,54 +3988,43 @@ LaTeX Warning: Reference `lem:1.5.4' on page 1 undefined on input line 613.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 690.
 
-[207]
+[194]
 Package cleveref Info: loaded `spanish' language definitions on input line 690.
 
- [208]
+ [195]
 
-LaTeX Warning: Reference `eq:4.293' on page 209 undefined on input line 694.
-
-
-LaTeX Warning: Reference `eq:4.294' on page 209 undefined on input line 694.
+LaTeX Warning: Reference `eq:4.293' on page 196 undefined on input line 694.
 
 
-LaTeX Warning: Citation '3' on page 209 undefined on input line 694.
+LaTeX Warning: Reference `eq:4.294' on page 196 undefined on input line 694.
 
 
-LaTeX Warning: Citation '4' on page 209 undefined on input line 694.
+LaTeX Warning: Citation '3' on page 196 undefined on input line 694.
 
 
-LaTeX Warning: Reference `eq:4.293' on page 209 undefined on input line 694.
+LaTeX Warning: Citation '4' on page 196 undefined on input line 694.
 
 
-LaTeX Warning: Reference `eq:4.294' on page 209 undefined on input line 694.
-
-Package cleveref Info: loaded `spanish' language definitions on input line 699.
-
-[209]
-
-LaTeX Warning: Reference `eq:1.9' on page 210 undefined on input line 705.
+LaTeX Warning: Reference `eq:4.293' on page 196 undefined on input line 694.
 
 
-LaTeX Warning: Reference `eq:1.13' on page 210 undefined on input line 705.
+LaTeX Warning: Reference `eq:4.294' on page 196 undefined on input line 694.
 
 
-Overfull \hbox (0.4206pt too wide) in paragraph at lines 707--708
-[]\TU/STIXTwoText-Regular.ttf(0)/m/n/10 Pa-ra $\TU/STIXTwoMath(1)/m/n/10 𝑥[]
- ∈ ℝ[]$ \TU/STIXTwoText-Regular.ttf(0)/m/n/10 cual-quie-ra, sea $\TU/STIXTw
-oMath(1)/m/n/10 (𝑑[], 𝑦[]) ∈ ℝ[] × ℝ$ \TU/STIXTwoText-Regular.ttf(
-0)/m/n/10 la so-lu-ción del sis-te-ma de La-gran-ge del sub-pro-ble-ma []-[],
- []
+LaTeX Warning: Reference `eq:1.9' on page 196 undefined on input line 705.
 
 
-LaTeX Warning: Reference `eq:1.9' on page 210 undefined on input line 743.
+LaTeX Warning: Reference `eq:1.13' on page 196 undefined on input line 705.
+
+Package cleveref Info: loaded `spanish' language definitions on input line 714.
+
+[196]
+
+LaTeX Warning: Reference `eq:1.9' on page 197 undefined on input line 743.
 
 
-LaTeX Warning: Reference `eq:1.13' on page 210 undefined on input line 743.
+LaTeX Warning: Reference `eq:1.13' on page 197 undefined on input line 743.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 746.
-
-[210]
 
 LaTeX Warning: Reference `thm:3.3.3' on page 1 undefined on input line 768.
 
@@ -4694,49 +4032,58 @@ LaTeX Warning: Reference `thm:3.3.3' on page 1 undefined on input line 768.
 LaTeX Warning: Reference `thm:3.2.2' on page 1 undefined on input line 768.
 
 
-LaTeX Warning: Citation '3' on page 211 undefined on input line 768.
+LaTeX Warning: Citation '3' on page 197 undefined on input line 768.
 
 
-LaTeX Warning: Citation '20' on page 211 undefined on input line 768.
+LaTeX Warning: Citation '20' on page 197 undefined on input line 768.
+
+Package cleveref Info: loaded `spanish' language definitions on input line 769.
+
+[197]
+
+LaTeX Warning: Reference `cor:4.3.1' on page 1 undefined on input line 782.
 
 
 LaTeX Warning: Reference `thm:1.2.2' on page 1 undefined on input line 785.
 
 
-LaTeX Warning: Reference `eq:1.40' on page 211 undefined on input line 815.
+LaTeX Warning: Reference `thm:4.4.5' on page 1 undefined on input line 799.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 816.
 
-[211]
+LaTeX Warning: Reference `eq:1.40' on page 198 undefined on input line 815.
 
-LaTeX Warning: Reference `eq:1.9' on page 212 undefined on input line 847.
+Package cleveref Info: loaded `spanish' language definitions on input line 825.
+
+[198]
+
+LaTeX Warning: Reference `thm:4.4.5' on page 1 undefined on input line 844.
+
+
+LaTeX Warning: Reference `eq:1.9' on page 199 undefined on input line 847.
 
 
 LaTeX Warning: Reference `thm:1.2.2' on page 1 undefined on input line 847.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 851.
-
-[212]
 Package cleveref Info: loaded `spanish' language definitions on input line 921.
 
- [213]) (./chapters/part2_metodos/chapter9_opt_restringida/exercises.tex
-Package cleveref Info: loaded `spanish' language definitions on input line 2.
+[199]
+Package cleveref Info: loaded `spanish' language definitions on input line 928.
 
-[214]
+ [200]) (./chapters/part2_metodos/chapter9_opt_restringida/exercises.tex
 
 LaTeX Warning: Reference `thm:4.1.2' on page 1 undefined on input line 7.
 
+Package cleveref Info: loaded `spanish' language definitions on input line 20.
+[201]
 
-LaTeX Warning: Reference `eq:4.16' on page 215 undefined on input line 41.
+LaTeX Warning: Reference `eq:4.16' on page 202 undefined on input line 41.
 
 
-LaTeX Warning: Reference `eq:4.1' on page 215 undefined on input line 52.
+LaTeX Warning: Reference `eq:4.1' on page 202 undefined on input line 52.
 
 
 LaTeX Warning: Reference `thm:3.1.2' on page 1 undefined on input line 52.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 55.
-[215]
 
 LaTeX Warning: Reference `ex:3.1.5' on page 1 undefined on input line 56.
 
@@ -4744,7 +4091,7 @@ LaTeX Warning: Reference `ex:3.1.5' on page 1 undefined on input line 56.
 LaTeX Warning: Reference `sec:4.1.3' on page 1 undefined on input line 68.
 
 
-LaTeX Warning: Reference `eq:4.1' on page 216 undefined on input line 78.
+LaTeX Warning: Reference `eq:4.1' on page 202 undefined on input line 78.
 
 
 LaTeX Warning: Reference `lem:4.1.3' on page 1 undefined on input line 82.
@@ -4752,45 +4099,152 @@ LaTeX Warning: Reference `lem:4.1.3' on page 1 undefined on input line 82.
 
 LaTeX Warning: Reference `lem:4.1.3' on page 1 undefined on input line 82.
 
+Package cleveref Info: loaded `spanish' language definitions on input line 89.
+[202]
 
-LaTeX Warning: Reference `eq:4.20' on page 216 undefined on input line 90.
+LaTeX Warning: Reference `eq:4.20' on page 203 undefined on input line 90.
 
 
-LaTeX Warning: Reference `eq:4.21' on page 216 undefined on input line 112.
+LaTeX Warning: Reference `eq:4.21' on page 203 undefined on input line 112.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 123.
 
-[216]
+LaTeX Warning: Reference `eq:4.21' on page 203 undefined on input line 127.
 
-LaTeX Warning: Reference `eq:4.21' on page 217 undefined on input line 127.
+
+LaTeX Warning: Reference `thm:4.3.1' on page 1 undefined on input line 154.
+
+
+LaTeX Warning: Reference `eq:4.32' on page 203 undefined on input line 154.
+
+Package cleveref Info: loaded `spanish' language definitions on input line 155.
+
+[203]
+
+LaTeX Warning: Reference `prop:4.3.1' on page 1 undefined on input line 158.
+
+
+LaTeX Warning: Reference `thm:4.3.1' on page 1 undefined on input line 158.
+
+
+LaTeX Warning: Reference `eq:4.31' on page 204 undefined on input line 162.
+
+
+LaTeX Warning: Reference `thm:4.3.2' on page 1 undefined on input line 162.
+
+
+LaTeX Warning: Reference `eq:4.31' on page 204 undefined on input line 166.
+
+
+LaTeX Warning: Reference `eq:4.33' on page 204 undefined on input line 166.
+
+
+LaTeX Warning: Reference `thm:4.3.2' on page 1 undefined on input line 170.
 
 
 LaTeX Warning: Reference `thm:1.2.1' on page 1 undefined on input line 170.
 
 
-LaTeX Warning: Citation '12' on page 217 undefined on input line 170.
+LaTeX Warning: Citation '12' on page 204 undefined on input line 170.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 184.
 
-[217]
+LaTeX Warning: Reference `eq:4.65' on page 204 undefined on input line 174.
 
-LaTeX Warning: Reference `eq:1.9' on page 218 undefined on input line 225.
+
+LaTeX Warning: Reference `thm:4.3.6' on page 1 undefined on input line 184.
+
+
+LaTeX Warning: Reference `thm:4.3.5' on page 1 undefined on input line 184.
+
+
+LaTeX Warning: Reference `thm:4.3.4' on page 1 undefined on input line 184.
+
+
+LaTeX Warning: Reference `eq:4.68' on page 204 undefined on input line 184.
+
+
+LaTeX Warning: Reference `thm:4.3.7' on page 1 undefined on input line 188.
+
+
+LaTeX Warning: Reference `eq:4.88' on page 204 undefined on input line 192.
+
+
+LaTeX Warning: Reference `eq:4.85' on page 204 undefined on input line 193.
+
+
+LaTeX Warning: Reference `eq:4.86' on page 204 undefined on input line 197.
+
+
+LaTeX Warning: Reference `prop:4.3.3' on page 1 undefined on input line 204.
+
+
+LaTeX Warning: Reference `thm:4.3.7' on page 1 undefined on input line 204.
+
+
+LaTeX Warning: Reference `eq:4.96' on page 204 undefined on input line 225.
+
+
+LaTeX Warning: Reference `eq:1.9' on page 204 undefined on input line 225.
+
+Package cleveref Info: loaded `spanish' language definitions on input line 227.
+
+[204]
+
+LaTeX Warning: Reference `thm:4.4.4' on page 1 undefined on input line 234.
+
+
+LaTeX Warning: Reference `eq:4.105' on page 205 undefined on input line 240.
 
 
 LaTeX Warning: Reference `thm:1.2.1' on page 1 undefined on input line 240.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 271.
 
-[218]
+LaTeX Warning: Reference `eq:4.120' on page 205 undefined on input line 263.
+
+
+LaTeX Warning: Reference `thm:4.4.6' on page 1 undefined on input line 271.
+
+
+LaTeX Warning: Reference `eq:4.120' on page 205 undefined on input line 271.
+
 
 LaTeX Warning: Reference `thm:1.2.1' on page 1 undefined on input line 271.
 
 
-LaTeX Warning: Reference `eq:4.143' on page 219 undefined on input line 334.
+LaTeX Warning: Reference `thm:4.4.5' on page 1 undefined on input line 271.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 338.
 
-[219]
+LaTeX Warning: Reference `thm:4.4.7' on page 1 undefined on input line 275.
+
+
+LaTeX Warning: Reference `eq:4.125' on page 205 undefined on input line 283.
+
+
+LaTeX Warning: Reference `eq:4.124' on page 205 undefined on input line 290.
+
+
+LaTeX Warning: Reference `eq:4.126' on page 205 undefined on input line 290.
+
+
+LaTeX Warning: Reference `eq:4.123' on page 205 undefined on input line 290.
+
+
+LaTeX Warning: Reference `eq:4.125' on page 205 undefined on input line 290.
+
+
+LaTeX Warning: Reference `eq:4.137' on page 205 undefined on input line 300.
+
+
+LaTeX Warning: Reference `eq:4.138' on page 205 undefined on input line 300.
+
+Package cleveref Info: loaded `spanish' language definitions on input line 309.
+
+[205]
+
+LaTeX Warning: Reference `eq:4.137' on page 206 undefined on input line 316.
+
+
+LaTeX Warning: Reference `eq:4.143' on page 206 undefined on input line 334.
+
 
 LaTeX Warning: Reference `ex:1.6.5' on page 1 undefined on input line 338.
 
@@ -4798,203 +4252,296 @@ LaTeX Warning: Reference `ex:1.6.5' on page 1 undefined on input line 338.
 LaTeX Warning: Reference `ex:1.6.3' on page 1 undefined on input line 338.
 
 
-LaTeX Warning: Reference `eq:4.293' on page 220 undefined on input line 411.
+LaTeX Warning: Reference `prop:4.5.1' on page 1 undefined on input line 338.
 
 
-LaTeX Warning: Reference `eq:4.294' on page 220 undefined on input line 411.
+LaTeX Warning: Reference `eq:4.181' on page 206 undefined on input line 342.
 
-Package cleveref Info: loaded `spanish' language definitions on input line 416.
 
-[220])
-(./chapters/part2_metodos/chapter10_opt_no_diferenciable/01_introduccion.tex
+LaTeX Warning: Reference `eq:4.184' on page 206 undefined on input line 342.
+
+
+LaTeX Warning: Reference `eq:4.182' on page 206 undefined on input line 342.
+
+
+LaTeX Warning: Reference `eq:4.183' on page 206 undefined on input line 342.
+
+
+LaTeX Warning: Reference `eq:4.191' on page 206 undefined on input line 346.
+
+
+LaTeX Warning: Reference `eq:4.182' on page 206 undefined on input line 346.
+
+
+LaTeX Warning: Reference `eq:4.183' on page 206 undefined on input line 346.
+
+
+LaTeX Warning: Reference `eq:4.187' on page 206 undefined on input line 350.
+
+
+LaTeX Warning: Reference `eq:4.186' on page 206 undefined on input line 350.
+
+
+LaTeX Warning: Reference `eq:4.185' on page 206 undefined on input line 350.
+
+
+LaTeX Warning: Reference `eq:4.198' on page 206 undefined on input line 350.
+
+
+LaTeX Warning: Reference `eq:4.197' on page 206 undefined on input line 350.
+
+
+LaTeX Warning: Reference `eq:4.195' on page 206 undefined on input line 350.
+
+
+LaTeX Warning: Reference `eq:4.196' on page 206 undefined on input line 350.
+
+
+LaTeX Warning: Reference `lem:4.5.4' on page 1 undefined on input line 354.
+
+
+LaTeX Warning: Reference `lem:4.5.3' on page 1 undefined on input line 354.
+
+
+LaTeX Warning: Reference `lem:4.5.2' on page 1 undefined on input line 354.
+
+
+LaTeX Warning: Reference `thm:4.4.4' on page 1 undefined on input line 354.
+
+
+LaTeX Warning: Reference `thm:4.5.5' on page 1 undefined on input line 354.
+
+
+LaTeX Warning: Reference `lem:4.5.6' on page 1 undefined on input line 365.
+
+
+LaTeX Warning: Reference `lem:4.5.7' on page 1 undefined on input line 369.
+
+
+LaTeX Warning: Reference `lem:4.5.7' on page 1 undefined on input line 373.
+
+
+LaTeX Warning: Reference `lem:4.5.6' on page 1 undefined on input line 373.
+
+
+LaTeX Warning: Reference `lem:4.5.2' on page 1 undefined on input line 373.
+
+
+LaTeX Warning: Reference `thm:4.4.6' on page 1 undefined on input line 373.
+
+
+LaTeX Warning: Reference `thm:4.5.7' on page 1 undefined on input line 373.
+
+
+LaTeX Warning: Reference `eq:4.181' on page 206 undefined on input line 377.
+
+
+LaTeX Warning: Reference `eq:4.220' on page 206 undefined on input line 377.
+
+
+LaTeX Warning: Reference `eq:4.219' on page 206 undefined on input line 377.
+
+Package cleveref Info: loaded `spanish' language definitions on input line 378.
+
+[206]
+
+LaTeX Warning: Reference `lem:4.5.8' on page 1 undefined on input line 381.
+
+
+LaTeX Warning: Reference `lem:4.5.8' on page 1 undefined on input line 385.
+
+
+LaTeX Warning: Reference `lem:4.5.2' on page 1 undefined on input line 385.
+
+
+LaTeX Warning: Reference `thm:4.4.7' on page 1 undefined on input line 385.
+
+
+LaTeX Warning: Reference `thm:4.5.8' on page 1 undefined on input line 385.
+
+
+LaTeX Warning: Reference `eq:4.293' on page 207 undefined on input line 411.
+
+
+LaTeX Warning: Reference `eq:4.294' on page 207 undefined on input line 411.
+
+) (./chapters/part2_metodos/chapter10_opt_no_diferenciable/01_introduccion.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 3.
 
-[221]
+[207]
 chapter 11.
 
-LaTeX Warning: Citation 'SolodovVol1' on page 222 undefined on input line 6.
+LaTeX Warning: Citation 'SolodovVol1' on page 208 undefined on input line 6.
 
 
 LaTeX Warning: Reference `v2:sec:1.4' on page 1 undefined on input line 6.
 
-[222
+[208
 
 ])
 (./chapters/part2_metodos/chapter10_opt_no_diferenciable/02_metodos_subgradient
-e.tex [223]
+e.tex [209]
 Package cleveref Info: loaded `spanish' language definitions on input line 73.
- [224]
+ [210]
 Package cleveref Info: loaded `spanish' language definitions on input line 131.
 
- [225]
+ [211]
 Package cleveref Info: loaded `spanish' language definitions on input line 165.
 
- [226])
+ [212])
 (./chapters/part2_metodos/chapter10_opt_no_diferenciable/03_planos_cortantes.te
 x
 
 LaTeX Warning: Reference `v2:sec:2.1' on page 1 undefined on input line 15.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 47.
-[227]
+[213]
 Package cleveref Info: loaded `spanish' language definitions on input line 112.
 
- [228]
+ [214]
 Package cleveref Info: loaded `spanish' language definitions on input line 206.
 
- [229])
+ [215])
 (./chapters/part2_metodos/chapter10_opt_no_diferenciable/04_metodos_haces.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 31.
 
-[230]
+[216]
 
 LaTeX Warning: Reference `v2:sec:1.4' on page 1 undefined on input line 78.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 86.
-[231]
+[217]
 Package cleveref Info: loaded `spanish' language definitions on input line 159.
 
- [232]
+ [218]
 Package cleveref Info: loaded `spanish' language definitions on input line 224.
 
- [233]
+ [219]
 
-LaTeX Warning: Reference `v2:eq:5.71' on page 234 undefined on input line 282.
+LaTeX Warning: Reference `v2:eq:5.71' on page 220 undefined on input line 282.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 305.
 
-[234]
+[220]
 
-LaTeX Warning: Reference `v2:eq:5.73' on page 235 undefined on input line 305.
+LaTeX Warning: Reference `v2:eq:5.73' on page 221 undefined on input line 305.
 
 )
 (./chapters/part2_metodos/chapter11_prog_lineal_cuadratica/01_intro_teoria_pl.t
 ex
 Package cleveref Info: loaded `spanish' language definitions on input line 3.
- [235]
+ [221]
 chapter 12.
 
-LaTeX Warning: Citation 'SolodovVol1' on page 236 undefined on input line 54.
+LaTeX Warning: Citation 'SolodovVol1' on page 222 undefined on input line 54.
 
-[236
+[222
 
 ]
 Package cleveref Info: loaded `spanish' language definitions on input line 167.
 
- [237])
+ [223])
 (./chapters/part2_metodos/chapter11_prog_lineal_cuadratica/02_teoremas_vertices
 _dualidad.tex
 Package cleveref Info: loaded `spanish' language definitions on input line 72.
- [238]
+ [224]
 Package cleveref Info: loaded `spanish' language definitions on input line 111.
 
- [239]
+ [225]
 
 LaTeX Warning: Reference `v2:sec:1.4' on page 1 undefined on input line 173.
 
 
-LaTeX Warning: Citation 'SolodovVol1' on page 240 undefined on input line 173.
+LaTeX Warning: Citation 'SolodovVol1' on page 226 undefined on input line 173.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 212.
 
-[240]
+[226]
 
-LaTeX Warning: Citation 'SolodovVol1' on page 241 undefined on input line 258.
+LaTeX Warning: Citation 'SolodovVol1' on page 227 undefined on input line 258.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 275.
 
-[241])
+[227])
 (./chapters/part2_metodos/chapter11_prog_lineal_cuadratica/03_metodo_simplex.te
 x
 Package cleveref Info: loaded `spanish' language definitions on input line 20.
- [242]
+ [228]
 
 LaTeX Warning: Reference `v2:sec:4.7' on page 1 undefined on input line 59.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 62.
-[243]
+[229]
 Package cleveref Info: loaded `spanish' language definitions on input line 127.
 
- [244]
+ [230]
 Package cleveref Info: loaded `spanish' language definitions on input line 188.
 
- [245]
+ [231]
 Package cleveref Info: loaded `spanish' language definitions on input line 282.
 
- [246]
+ [232]
 Package cleveref Info: loaded `spanish' language definitions on input line 331.
 
- [247])
+ [233])
 (./chapters/part2_metodos/chapter11_prog_lineal_cuadratica/04_puntos_interiores
 .tex
 Package cleveref Info: loaded `spanish' language definitions on input line 11.
- [248]
+ [234]
 Package cleveref Info: loaded `spanish' language definitions on input line 38.
- [249]
-
-LaTeX Warning: Reference `v2:sec:4.3.3' on page 1 undefined on input line 38.
-
+ [235]
 Package cleveref Info: loaded `spanish' language definitions on input line 116.
 
-[250]
-
-LaTeX Warning: Reference `v2:sec:4.3.3' on page 1 undefined on input line 157.
-
+ [236]
 Package cleveref Info: loaded `spanish' language definitions on input line 179.
 
-[251]
-
-LaTeX Warning: Reference `v2:sec:4.3.3' on page 1 undefined on input line 180.
-
+ [237]
 
 LaTeX Warning: Reference `v2:sec:4.6' on page 1 undefined on input line 180.
 
-
-LaTeX Warning: Reference `v2:sec:4.3.3' on page 1 undefined on input line 205.
-
 Package cleveref Info: loaded `spanish' language definitions on input line 244.
 
-[252]
+[238]
 Package cleveref Info: loaded `spanish' language definitions on input line 294.
 
- [253]
+ [239]
 Package cleveref Info: loaded `spanish' language definitions on input line 336.
 
- [254]
+ [240]
 Package cleveref Info: loaded `spanish' language definitions on input line 403.
 
- [255
+ [241
 warning  (pdf backend): ignoring duplicate destination with the name 'equation.1
 2.55'
 ]
 Package cleveref Info: loaded `spanish' language definitions on input line 457.
 
- [256]
+ [242]
 Package cleveref Info: loaded `spanish' language definitions on input line 526.
 
- [257])
+ [243])
 (./chapters/part2_metodos/chapter11_prog_lineal_cuadratica/05_programacion_cuad
 ratica.tex
 
 LaTeX Warning: Reference `v2:sec:4.6' on page 1 undefined on input line 8.
 
 Package cleveref Info: loaded `spanish' language definitions on input line 53.
-[258]
+[244]
 Package cleveref Info: loaded `spanish' language definitions on input line 104.
 
- [259]
+ [245]
 Package cleveref Info: loaded `spanish' language definitions on input line 169.
 
- [260])
+ [246])
 Package cleveref Info: loaded `spanish' language definitions on input line 153.
 
- [261]
+ [247]
 chapter without number
-[262
+[248
 
 
 ] (./Apuntes-Programacion-No-Lineal.ind)
-runsystem(latexminted cleantemp  --timestamp 20260713202058 619C487146398D9C4DAF
+runsystem(latexminted cleantemp  --timestamp 20260714123018 619C487146398D9C4DAF
 123F9D510570)...executed.
 
 (./Apuntes-Programacion-No-Lineal.aux
@@ -5023,35 +4570,17 @@ l'.
 )
 
 Here is how much of LuaTeX's memory you used:
- 89017 strings out of 475891
- 476890,4101490 words of node,token memory allocated
- 79801 words of node memory still in use:
-   8 hlist, 2 vlist, 5 rule, 1 local_par, 21 glue, 4 kern, 1 penalty, 8 sub_mlis
-t, 1 margin_kern, 3 glyph, 29573 attribute, 102 glue_spec, 9855 attribute_list, 
+ 88580 strings out of 475891
+ 381507,4101490 words of node,token memory allocated
+ 75292 words of node memory still in use:
+   8 hlist, 2 vlist, 5 rule, 1 local_par, 18 glue, 4 kern, 1 penalty, 8 sub_mlis
+t, 1 margin_kern, 3 glyph, 27890 attribute, 102 glue_spec, 9294 attribute_list, 
 3 write nodes
-   avail lists: 1:31,2:74139,3:1543,4:82,5:1929,6:208,7:18521,8:85,9:3140,10:36,
+   avail lists: 1:32,2:60177,3:1543,4:71,5:1903,6:208,7:15211,8:80,9:2833,10:35,
 11:1707,12:1
- 107654 multiletter control sequences out of 65536+600000
+ 107347 multiletter control sequences out of 65536+600000
  154 fonts using 68352367 bytes
  125i,21n,128p,11236b,4829s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-warning  (pdf backend): unreferenced destination with name 'equation.10.308'
-
-warning  (pdf backend): unreferenced destination with name 'equation.10.307'
-
-warning  (pdf backend): unreferenced destination with name 'algorithm.10.12'
-
-warning  (pdf backend): unreferenced destination with name 'algorithm.10.11'
-
-warning  (pdf backend): unreferenced destination with name 'equation.10.207'
-
-warning  (pdf backend): unreferenced destination with name 'equation.10.181'
-
-warning  (pdf backend): unreferenced destination with name 'equation.10.182'
-
-warning  (pdf backend): unreferenced destination with name 'equation.10.118'
-
-warning  (pdf backend): unreferenced destination with name 'equation.10.117'
 </usr/local/texlive/2026/texmf-dist/fonts/opentype/public/inconsolata/Inconsolat
 azi4-Regular.otf></usr/share/fonts/opentype/stix/STIXTwoMath-Regular.otf></usr/s
 hare/fonts/truetype/stix/STIXTwoText-BoldItalic.ttf></usr/share/fonts/opentype/s
@@ -5062,11 +4591,11 @@ old.ttf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgy
 reheros-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/te
 x-gyre/texgyreheros-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/type1/pub
 lic/amsfonts/symbols/msam10.pfb>
-Output written on Apuntes-Programacion-No-Lineal.pdf (268 pages, 2063910 bytes).
+Output written on Apuntes-Programacion-No-Lineal.pdf (254 pages, 1954800 bytes).
 
 
-PDF statistics: 6237 PDF objects out of 7423 (max. 8388607)
- 5873 compressed objects within 59 object streams
- 2132 named destinations out of 2487 (max. 1048576)
- 1080 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 5877 PDF objects out of 6186 (max. 8388607)
+ 5530 compressed objects within 56 object streams
+ 2002 named destinations out of 2073 (max. 1048576)
+ 1056 words of extra memory for PDF output out of 10000 (max. 100000000)
 

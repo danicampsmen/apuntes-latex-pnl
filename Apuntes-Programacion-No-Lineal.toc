@@ -107,29 +107,26 @@
 \contentsline {subsection}{\numberline {10.4.1}Métodos de Newton para el sistema de Lagrange}{168}{subsection.10.4.1}%
 \contentsline {subsection}{\numberline {10.4.2}El método de penalización cuadrática}{170}{subsection.10.4.2}%
 \contentsline {subsection}{\numberline {10.4.3}Lagrangianas aumentadas y funciones de penalización exacta diferenciables}{173}{subsection.10.4.3}%
-\contentsline {section}{\numberline {10.5}Métodos para problemas con restricciones mixtas}{177}{section.10.5}%
-\contentsline {subsection}{\numberline {10.5.1}Métodos de Newton generalizados}{178}{subsection.10.5.1}%
-\contentsline {subsection}{\numberline {10.5.2}Métodos de Newton generalizados para el sistema de Karush-Kuhn-Tucker}{179}{subsection.10.5.2}%
-\contentsline {subsection}{\numberline {10.5.3}Métodos de penalización cuadrática}{186}{subsection.10.5.3}%
-\contentsline {subsection}{\numberline {10.5.4}Lagrangianas aumentadas}{191}{subsection.10.5.4}%
-\contentsline {subsection}{\numberline {10.5.5}Penalización exacta diferenciable}{194}{subsection.10.5.5}%
-\contentsline {section}{\numberline {10.6}Programación cuadrática secuencial}{195}{section.10.6}%
-\contentsline {subsection}{\numberline {10.6.1}Restricciones de igualdad}{195}{subsection.10.6.1}%
-\contentsline {subsection}{\numberline {10.6.2}Restricciones mixtas}{196}{subsection.10.6.2}%
-\contentsline {subsection}{\numberline {10.6.3}Globalización de convergencia de SQP}{203}{subsection.10.6.3}%
-\contentsline {subsection}{\numberline {10.6.4}Restauración de la convergencia local superlineal}{209}{subsection.10.6.4}%
-\contentsline {subsection}{\numberline {10.6.5}Otras técnicas de globalización}{214}{subsection.10.6.5}%
-\contentsline {chapter}{\numberline {11}Métodos para optimización no diferenciable}{222}{chapter.11}%
-\contentsline {section}{\numberline {11.1}Métodos de subgradiente}{224}{section.11.1}%
-\contentsline {section}{\numberline {11.2}El método de planos cortantes}{227}{section.11.2}%
-\contentsline {section}{\numberline {11.3}Métodos de haces}{230}{section.11.3}%
-\contentsline {chapter}{\numberline {12}Programación lineal y cuadrática}{236}{chapter.12}%
-\contentsline {section}{\numberline {12.1}Programación lineal}{236}{section.12.1}%
-\contentsline {subsection}{\numberline {12.1.1}Elementos de teoría de la programación lineal}{236}{subsection.12.1.1}%
-\contentsline {subsection}{\numberline {12.1.2}El método del simplex}{242}{subsection.12.1.2}%
-\contentsline {subsection}{\numberline {12.1.3}Métodos de puntos interiores}{248}{subsection.12.1.3}%
-\contentsline {section}{\numberline {12.2}Programación cuadrática}{258}{section.12.2}%
-\contentsline {subsection}{\numberline {12.2.1}Puntos especiales}{258}{subsection.12.2.1}%
-\contentsline {subsection}{\numberline {12.2.2}El método de puntos especiales}{259}{subsection.12.2.2}%
-\contentsline {chapter}{\nonumberline Bibliografía}{262}{chapter*.24}%
+\contentsline {section}{\numberline {10.5}Métodos para problemas con restricciones mixtas}{176}{section.10.5}%
+\contentsline {subsection}{\numberline {10.5.1}Métodos de Newton generalizados}{176}{subsection.10.5.1}%
+\contentsline {subsection}{\numberline {10.5.2}Métodos de Newton generalizados para el sistema de Karush-Kuhn-Tucker}{177}{subsection.10.5.2}%
+\contentsline {section}{\numberline {10.6}Programación cuadrática secuencial}{181}{section.10.6}%
+\contentsline {subsection}{\numberline {10.6.1}Restricciones de igualdad}{181}{subsection.10.6.1}%
+\contentsline {subsection}{\numberline {10.6.2}Restricciones mixtas}{183}{subsection.10.6.2}%
+\contentsline {subsection}{\numberline {10.6.3}Globalización de convergencia de SQP}{189}{subsection.10.6.3}%
+\contentsline {subsection}{\numberline {10.6.4}Restauración de la convergencia local superlineal}{196}{subsection.10.6.4}%
+\contentsline {subsection}{\numberline {10.6.5}Otras técnicas de globalización}{201}{subsection.10.6.5}%
+\contentsline {chapter}{\numberline {11}Métodos para optimización no diferenciable}{208}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Métodos de subgradiente}{210}{section.11.1}%
+\contentsline {section}{\numberline {11.2}El método de planos cortantes}{213}{section.11.2}%
+\contentsline {section}{\numberline {11.3}Métodos de haces}{216}{section.11.3}%
+\contentsline {chapter}{\numberline {12}Programación lineal y cuadrática}{222}{chapter.12}%
+\contentsline {section}{\numberline {12.1}Programación lineal}{222}{section.12.1}%
+\contentsline {subsection}{\numberline {12.1.1}Elementos de teoría de la programación lineal}{222}{subsection.12.1.1}%
+\contentsline {subsection}{\numberline {12.1.2}El método del simplex}{228}{subsection.12.1.2}%
+\contentsline {subsection}{\numberline {12.1.3}Métodos de puntos interiores}{234}{subsection.12.1.3}%
+\contentsline {section}{\numberline {12.2}Programación cuadrática}{244}{section.12.2}%
+\contentsline {subsection}{\numberline {12.2.1}Puntos especiales}{244}{subsection.12.2.1}%
+\contentsline {subsection}{\numberline {12.2.2}El método de puntos especiales}{245}{subsection.12.2.2}%
+\contentsline {chapter}{\nonumberline Bibliografía}{248}{chapter*.24}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
