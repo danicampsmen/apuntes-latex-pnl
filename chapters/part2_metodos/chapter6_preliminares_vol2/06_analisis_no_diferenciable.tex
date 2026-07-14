@@ -33,7 +33,7 @@ con respecto a $(x, \mu) \in \R^n \times \R^m$ no es diferenciable en puntos $(x
 En particular, este sistema no es diferenciable en la solución primal-dual $(\bar{x}, \bar{\mu})$ cuando la condición de complementariedad estricta no es satisfecha (i.e., $\bar{\mu}_i = 0$ para algún $i \in I(\bar{x})$).
 
 Existen también otras maneras de reformular la condición de complementariedad \eqref{v2:eq:1.46}, diferentes a \eqref{v2:eq:1.47}. Para este fin, la siguiente noción es útil.
-Decimos que $\psi \colon \R \times \R \to \R$ es una \deftech{función de complementariedad} si
+Decimos que $\psi \colon \R \times \R \to \R$ es una \textbf{función de complementariedad} si
 \[
     \psi(a, b) = 0 \quad \iff \quad a \ge 0, \; b \ge 0, \; ab = 0.
 \]
@@ -55,11 +55,11 @@ Notemos que las funciones de complementariedad anteriores son no diferenciables.
 \end{theorem}
 
 La importancia del Teorema de Rademacher consiste en permitir generalizaciones bien útiles de la derivada clásica para funciones que no son diferenciables.
-Llamamos \deftech{B-diferencial} de la función $F \colon \R^n \to \R^l$ en el punto $x \in \R^n$ al conjunto
+Llamamos \textbf{B-diferencial} de la función $F \colon \R^n \to \R^l$ en el punto $x \in \R^n$ al conjunto
 \[
     \partial_B F(x) = \left\{ H \in \R(l, n) \mathrel{\bigg|} \begin{array}{l} \exists \{x^k\} \subset D_F : \{x^k\} \to x, \\ \{F'(x^k)\} \to H \; (k \to \infty) \end{array} \right\}.
 \]
-El \deftech{diferencial de Clarke} de la función $F$ en el punto $x$ es el conjunto
+El \textbf{diferencial de Clarke} de la función $F$ en el punto $x$ es el conjunto
 \[
     \partial F(x) = \conv \partial_B F(x),
 \]
@@ -94,18 +94,18 @@ Teniendo en vista la reformulación de complementariedad \eqref{v2:eq:1.47}, el 
     Más aún, esta inclusión vale como igualdad si para cada índice $i \in I(x)$ existe una secuencia $\{x^{i,k}\}$ que converge a $x$ y satisface $I(x^{i,k}) = \{i\}$ para todo $k$.
 \end{theorem}
 
-El diferencial de Clarke es utilizado para definir la propiedad siguiente, que es fundamental en el contexto del método de Newton generalizado, adecuado para resolver sistemas de ecuaciones no diferenciables. Decimos que la función $F \colon \R^n \to \R^l$ satisface en el punto $x \in \R^n$ la \deftech{condición de Kummer}, si
+El diferencial de Clarke es utilizado para definir la propiedad siguiente, que es fundamental en el contexto del método de Newton generalizado, adecuado para resolver sistemas de ecuaciones no diferenciables. Decimos que la función $F \colon \R^n \to \R^l$ satisface en el punto $x \in \R^n$ la \textbf{condición de Kummer}, si
 \begin{equation}
     \sup_{H \in \partial F(x+d)} \|F(x+d) - F(x) - Hd\| = o(\|d\|),
     \label{v2:eq:1.48}
 \end{equation}
-y la \deftech{condición de Kummer fuerte}, si
+y la \textbf{condición de Kummer fuerte}, si
 \begin{equation}
     \sup_{H \in \partial F(x+d)} \|F(x+d) - F(x) - Hd\| = O(\|d\|^2).
     \label{v2:eq:1.49}
 \end{equation}
 
-Otras nociones importantes de diferenciabilidad generalizada están basadas en la diferenciabilidad direccional clásica. Recordamos que una función $F \colon \R^n \to \R^l$ es diferenciable en $x \in \R^n$ en la dirección $d \in \R^n$, si el límite $\lim_{t \to 0+} (F(x+td) - F(x))/t$ existe y es finito. En este caso, el límite arriba es denotado por $F'(x; d)$ y es llamado \deftech{derivada direccional de la función $F$ en el punto $x$ en la dirección $d$}. Naturalmente, si la función $F$ es diferenciable en el punto $x$, ella es diferenciable en este punto en cada dirección, y se tiene que $F'(x; d) = F'(x)d$ para todo $d \in \R^n$.
+Otras nociones importantes de diferenciabilidad generalizada están basadas en la diferenciabilidad direccional clásica. Recordamos que una función $F \colon \R^n \to \R^l$ es diferenciable en $x \in \R^n$ en la dirección $d \in \R^n$, si el límite $\lim_{t \to 0+} (F(x+td) - F(x))/t$ existe y es finito. En este caso, el límite arriba es denotado por $F'(x; d)$ y es llamado \textbf{derivada direccional de la función $F$ en el punto $x$ en la dirección $d$}. Naturalmente, si la función $F$ es diferenciable en el punto $x$, ella es diferenciable en este punto en cada dirección, y se tiene que $F'(x; d) = F'(x)d$ para todo $d \in \R^n$.
 
 \begin{theorem}\label{v2:thm:1.6.3}
     Sea $F \colon \R^n \to \R^l$ una función Lipschitz-continua en una vecindad del punto $x \in \R^n$, diferenciable en este punto en cada dirección. Entonces
@@ -123,7 +123,7 @@ Otras nociones importantes de diferenciabilidad generalizada están basadas en l
     \end{enumerate}
 \end{theorem}
 
-La noción que unifica la Lipschitz-continuidad en una vecindad de un punto dado, la condición de Kummer (fuerte) y la diferenciabilidad en cada dirección es la propiedad de \deftech{semi-diferenciabilidad}. Decimos que una función $F \colon \R^n \to \R^l$, que posee en el punto $x \in \R^n$ las tres propiedades arriba mencionadas, es \deftech{(fuertemente) semi-diferenciable} en este punto. La utilidad de esta noción se debe al hecho de que, con frecuencia, las tres propiedades valen al mismo tiempo. A propósito, existen varias definiciones de semi-diferenciabilidad.
+La noción que unifica la Lipschitz-continuidad en una vecindad de un punto dado, la condición de Kummer (fuerte) y la diferenciabilidad en cada dirección es la propiedad de \textbf{semi-diferenciabilidad}. Decimos que una función $F \colon \R^n \to \R^l$, que posee en el punto $x \in \R^n$ las tres propiedades arriba mencionadas, es \textbf{(fuertemente) semi-diferenciable} en este punto. La utilidad de esta noción se debe al hecho de que, con frecuencia, las tres propiedades valen al mismo tiempo. A propósito, existen varias definiciones de semi-diferenciabilidad.
 
 \begin{theorem}\label{v2:thm:1.6.4}
     Sea $F \colon \R^n \to \R^l$ una función Lipschitz-continua en una vecindad del punto $x \in \R^n$.
@@ -148,7 +148,7 @@ Para finalizar, presentamos una estimativa para la distancia a la solución de l
 \[
     \Phi(x) = 0,
 \]
-que será utilizada en la \cref{v2:sec:4.7}. Suponiendo que $\Phi \colon \R^n \to \R^n$ sea diferenciable en el punto $\bar{x} \in \R^n$ en cada dirección, decimos que $\Phi$ satisface la \deftech{$R_0$-condición} si
+que será utilizada en la \cref{v2:sec:4.7}. Suponiendo que $\Phi \colon \R^n \to \R^n$ sea diferenciable en el punto $\bar{x} \in \R^n$ en cada dirección, decimos que $\Phi$ satisface la \textbf{$R_0$-condición} si
 \[
     \{d \in \R^n \mid \Phi'(\bar{x}; d) = 0\} = \{0\}.
 \]
@@ -184,3 +184,7 @@ Notemos que, por la afirmación (b) del \cref{v2:ejer:1.6.3}, si $\Phi$ además 
     \end{align*}
     lo que solo puede valer para $d = 0$.
 \end{proof}
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:

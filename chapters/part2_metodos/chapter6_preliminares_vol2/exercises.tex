@@ -1,35 +1,38 @@
-% --- Archivo: exercises.tex (Capítulo 6 del repositorio / Cap. 1 del Vol. 2) ---
+% --- Archivo: exercises.tex ---
 
-% =========================================================
-\section*{Ejercicios del Capítulo 6}
-% =========================================================
+\section*{Ejercicios del Capítulo}
+\addcontentsline{toc}{section}{Ejercicios del Capítulo}
 
 \begin{exercise}\label{v2:ejer:1.5.1}
- Probar el Lema 1.5.3 (Lema de Gronwall, \cref{v2:lem:1.5.3}) utilizando la técnica de inducción.
+    Probar el Lema \ref{v2:lem:1.5.3} utilizando la técnica de inducción.
 \end{exercise}
 
 \begin{exercise}\label{v2:ejer:1.6.1}
- Probar que si $F \colon \R^n \to \R^l$ es Lipschitz-continua con módulo $L > 0$ en una vecindad del punto $x \in \R^n$, entonces $\partial F(x)$ es un conjunto compacto no vacío y $\|H\| \le L \quad \forall H \in \partial F(x)$.
+    Probar que si $F : \Rn \to \R^l$ es Lipschitz-continua con módulo $L > 0$ en una vecindad del punto $x \in \Rn$, entonces $\partial F(x)$ es un conjunto compacto no vacío y $\|H\| \le L \ \forall H \in \partial F(x)$.
 \end{exercise}
 
 \begin{exercise}\label{v2:ejer:1.6.2}
- Probar que si la función $F \colon \R^n \to \R$ es convexa en una vecindad (convexa) del punto $x \in \R^n$, entonces $F$ es semi-diferenciable en el punto $x$.
+    Probar que si la función $F : \Rn \to \R$ es convexa en una vecindad (convexa) del punto $x \in \Rn$, entonces $F$ es semi-diferenciable en el punto $x$.
 \end{exercise}
 
 \begin{exercise}\label{v2:ejer:1.6.3}
- Probar que si las funciones $F_1, F_2 \colon \R^n \to \R^l$ son semi-diferenciables en el punto $x \in \R^n$, entonces las funciones definidas a continuación también son semi-diferenciables en $x$:
- \begin{enumerate}[(a)]
-  \item $F \colon \R^n \to \R$, $F(x) = \langle F_1(x), F_2(x) \rangle$.
-  \item $F \colon \R^n \to \R^l$, $F(x) = F_1(x) + F_2(x)$.
-  \item $F \colon \R^n \to \R^l$, $F_i(x) = \max\{(F_1(x))_i, (F_2(x))_i\}$, $i = 1, \dots, l$.
-  \item $F \colon \R^n \to \R^l$, $F_i(x) = \min\{(F_1(x))_i, (F_2(x))_i\}$, $i = 1, \dots, l$.
- \end{enumerate}
+    Probar que si las funciones $F_1, F_2 : \Rn \to \R^l$ son semi-diferenciables en el punto $x \in \Rn$, entonces las funciones definidas a continuación también son semi-diferenciables en $x$:
+    \begin{enumerate}[(a)]
+        \item $F : \Rn \to \R$, $F(x) = \interno{F_1(x)}{F_2(x)}$.
+        \item $F : \Rn \to \R^l$, $F(x) = F_1(x) + F_2(x)$.
+        \item $F : \Rn \to \R^l$, $F_i(x) = \max\{(F_1(x))_i, (F_2(x))_i\}$, $i = 1, \dots, l$.
+        \item $F : \Rn \to \R^l$, $F_i(x) = \min\{(F_1(x))_i, (F_2(x))_i\}$, $i = 1, \dots, l$.
+    \end{enumerate}
 \end{exercise}
 
 \begin{exercise}\label{v2:ejer:1.6.4}
- Probar que si las funciones $F_1 \colon \R^n \to \R^{l_1}$ y $F_2 \colon \R^n \to \R^{l_2}$ son semi-diferenciables en el punto $x$, la función $F \colon \R^n \to \R^{l_1} \times \R^{l_2}$, definida por $F(x) = (F_1(x), F_2(x))$, es semi-diferenciable en $x$.
+    Probar que si las funciones $F_1 : \Rn \to \R^{l_1}$ y $F_2 : \Rn \to \R^{l_2}$ son semi-diferenciables en el punto $x \in \Rn$, entonces la función $F : \Rn \to \R^{l_1} \times \R^{l_2}$, $F(x) = (F_1(x), F_2(x))$, es semi-diferenciable en $x$.
 \end{exercise}
 
 \begin{exercise}\label{v2:ejer:1.6.5}
- Probar que si la función $F_1 \colon \R^n \to \R^{l_1}$ es semi-diferenciable en el punto $x \in \R^n$, y la función $F_2 \colon \R^{l_1} \to \R^{l_2}$ es semi-diferenciable en el punto $F_1(x)$, entonces la función $F \colon \R^n \to \R^{l_2}$, dada por $F(x) = F_2(F_1(x))$, es semi-diferenciable en $x$.
+    Probar que si la función $F_1 : \Rn \to \R^{l_1}$ es semi-diferenciable en el punto $x \in \Rn$, y la función $F_2 : \R^{l_1} \to \R^{l_2}$ es semi-diferenciable en el punto $F_1(x)$, entonces la función $F : \Rn \to \R^{l_2}$, $F(x) = F_2(F_1(x))$ es semi-diferenciable en $x$.
 \end{exercise}
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:
