@@ -1,0 +1,574 @@
+% --- Archivo: 14_sqp_globalizacion.tex ---
+
+\subsection{Globalización de convergencia de SQP}\label{v2:sec:4.6.3}
+
+Para la globalización del método SQP pueden ser utilizadas tanto la estrategia de búsqueda lineal para una función de mérito adecuada, como la estrategia de regiones de confianza. Nos vamos a considerar la primera opción, cuya implementación en el contexto de SQP es un poco más simple. La segunda opción puede ser consultada, por ejemplo, en [20].
+
+De nuevo, consideremos el problema
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \left\{ x \in \R^n \;\middle|\; \begin{array}{l} h(x) = 0, \\ g(x) \le 0. \end{array} \right\},
+    \label{v2:eq:4.266}
+\end{equation}
+donde $f \colon \R^n \to \R$, $h \colon \R^n \to \R^l$ y $g \colon \R^n \to \R^m$ son funciones suficientemente suaves. Sea
+\[
+    L \colon \R^n \times \R^l \times \R^m \to \R,
+\]
+\[
+    L(x, \lambda, \mu) = f(x) + \langle \lambda, h(x) \rangle + \langle \mu, g(x) \rangle,
+\]
+la Lagrangiana del problema \eqref{v2:eq:4.266}.
+
+Como función de mérito en la búsqueda lineal en los métodos SQP, típicamente es utilizada alguna función de penalización exacta (vea \S 4.3.2) para el problema \eqref{v2:eq:4.266}. Por ejemplo, una elección común viene dada por
+\begin{equation}
+    \varphi(\cdot; c) \colon \R^n \to \R, \quad \varphi(x; c) = f(x) + c\psi(x),
+    \label{v2:eq:4.267}
+\end{equation}
+donde
+\begin{equation}
+    \psi(x) = \|h(x)\|_1 + \sum_{i=1}^m \max\{0, g_i(x)\}, \quad x \in \R^n,
+    \label{v2:eq:4.268}
+\end{equation}
+y $c > 0$ es el parámetro de penalización.
+Cabe resaltar que en esta sección, la cuestión de la tasa de convergencia de métodos SQP globalizados no será abordada. El objetivo consiste en garantizar convergencia global, en algún sentido, a puntos estacionarios del problema. El asunto de la interferencia de métodos globalizados con la tasa de convergencia local, así como posibles modificaciones propuestas para evitar eso, serán considerados en el \S 4.6.4.
+
+\noindent \textbf{Algoritmo 4.6.3. (El método SQP globalizado)} \\
+Elegir los parámetros $\bar{c} > 0, \theta \in (0, 1)$ y $\sigma \in (0, 1)$.
+Elegir $(x^0, \lambda^0, \mu^0) \in \R^n \times \R^l \times \R^m_+$ y una matriz simétrica $H_0 \in \R(n, n)$. Tomar $k := 0$.
+\begin{enumerate}
+    \item Calcular $d^k \in \R^n$, un punto estacionario del subproblema de programación cuadrática
+    \begin{equation}
+        \min \langle f'(x^k), d \rangle + \frac{1}{2}\langle H_k d, d \rangle \quad \text{sujeto a} \quad d \in D_k,
+        \label{v2:eq:4.269}
+    \end{equation}
+    \begin{equation}
+        D_k = \left\{ d \in \R^n \;\middle|\; \begin{array}{l} h(x^k) + h'(x^k)d = 0, \\ g(x^k) + g'(x^k)d \le 0. \end{array} \right\},
+        \label{v2:eq:4.270}
+    \end{equation}
+    y multiplicadores de Lagrange $y^k \in \R^l$ y $z^k \in \R^m_+$ asociados a $d^k$.
+    \item Si $d^k = 0$, parar. Caso contrario, escoger
+    \begin{equation}
+        c_k \ge \bar{c} + \|(y^k, z^k)\|_\infty
+        \label{v2:eq:4.271}
+    \end{equation}
+    y calcular
+    \begin{equation}
+        \Delta_k = \langle f'(x^k), d^k \rangle - c_k\psi(x^k).
+        \label{v2:eq:4.272}
+    \end{equation}
+    Tomar $\alpha = 1$.
+    \item Si la desigualdad
+    \begin{equation}
+        \varphi(x^k + \alpha d^k; c_k) \le \varphi(x^k; c_k) + \sigma\alpha\Delta_k,
+        \label{v2:eq:4.273}
+    \end{equation}
+    se satisface, tomar $\alpha_k = \alpha$. Caso contrario, tomar $\alpha := \theta\alpha$, verificar la validez de \eqref{v2:eq:4.273} de nuevo, etc., hasta que \eqref{v2:eq:4.273} se satisfaga.
+    \item Tomar $x^{k+1} = x^k + \alpha_k d^k$, $\lambda^{k+1} = y^k$, $\mu^{k+1} = z^k$.
+    \item Tomar $k := k + 1$, escoger una nueva matriz $H_k \in \R(n, n)$ simétrica, y retornar al Paso 1.
+\end{enumerate}
+
+Observemos que la existencia de multiplicadores de Lagrange asociados a un punto estacionario en subproblemas de SQP es automática, ya que las restricciones de los subproblemas son lineales.
+Es importante que las normas que aparecen en las definiciones del término penalizador \eqref{v2:eq:4.268} y del valor del parámetro de penalización \eqref{v2:eq:4.271}, estén en relación de dualidad, vea \S 1.5. Si utilizáramos alguna otra norma en \eqref{v2:eq:4.268}, la elección en \eqref{v2:eq:4.271} tendría que ser modificada para mantener la dualidad.
+
+El Algoritmo 4.6.3 presupone que los subproblemas \eqref{v2:eq:4.269}-\eqref{v2:eq:4.270} poseen puntos estacionarios para todo $k$. En principio, esto no está garantizado. Primero, en general, hasta el conjunto factible del subproblema \eqref{v2:eq:4.269}-\eqref{v2:eq:4.270} puede ser vacío. Sin embargo, es fácil verificar lo siguiente.
+
+% [Ejercicio 4.6.3 movido a exercises.tex]
+
+Otra condición que evidentemente garantiza que $D_k \neq \emptyset$ es la independencia lineal de los gradientes $h'_i(x^k)$, $i = 1, \dots, l$, $g'_i(x^k)$, $i = 1, \dots, m$. Mas la validez de esta condición en cada punto de la sucesión $\{x^k\}$ generada por el método es una hipótesis bastante fuerte. Notemos, en tanto, que la viabilidad de los subproblemas puede ser asegurada introduciendo en las restricciones variables de holgura; vea el Ejercicio 4.6.4 más adelante.
+
+Otra posible dificultad es que la función objetivo del subproblema \eqref{v2:eq:4.269}-\eqref{v2:eq:4.270} puede ser ilimitada inferiormente en el conjunto $D_k$ (que no es vacío). En este caso, la existencia de puntos estacionarios también puede no estar garantizada. Es claro que esta situación no es posible si $H_k$ es una matriz definida positiva. Por eso, realmente es deseable escoger $H_k$ definida positiva, por lo menos mientras estemos lejos de la solución. De acuerdo con el Teorema 4.6.3 más adelante, para garantizar convergencia global del Algoritmo 4.6.3, la sucesión $\{H_k\}$ debe ser esencialmente cualquier, desde que las matrices sean uniformemente definidas positivas y uniformemente limitadas. En particular, podemos utilizar hasta una matriz fija para todo $k$, digamos $H_k = E^n$. Por otro lado, del punto de vista de convergencia local rápida, la elección deseable es $H_k = L''_{xx}(x^k, \lambda^k, \mu^k)$, vea el \cref{v2:sec:4.6.2}. Infelizmente, bajo hipótesis naturales sobre la solución del problema, no podemos garantizar que esta matriz sea definida positiva. En este sentido, puede ser útil sustituir la Lagrangiana por la Lagrangiana aumentada, con el valor del parámetro penalizador suficientemente grande (vea el Teorema 4.4.5 y el Ejercicio 4.6.1). Otra opción consiste en la modificación directa de las matrices $L''_{xx}(x^k, \lambda^k, \mu^k)$, como en el \S 3.2.2. Además de esto, existen estrategias de actualización de $H_k$ cuasi-Newtonianas. En este caso, la regla de cálculo del paso también tiene que ser modificada (vea los comentarios sobre la regla de Wolfe en el \S 3.2.3), para garantizar que $H_k$ sea definida positiva para todo $k$. Las estrategias cuasi-Newtonianas tienen la ventaja de que ellas evitan el cálculo de las derivadas segundas de $f, h$ e $g$.
+
+Recordamos que $\psi'(x; d)$, la derivada direccional de la función $\psi$ (dada por \eqref{v2:eq:4.268}) en el punto $x \in \R^n$ en la dirección $d \in \R^n$, tiene la siguiente forma (vea el Ejercicio 4.3.5):
+\begin{align*}
+    \psi'(x; d) &= \sum_{j \in J^+(x)} \langle h'_j(x), d \rangle + \sum_{j \in J^0(x)} |\langle h'_j(x), d \rangle| \\
+    &\quad - \sum_{j \in J^-(x)} \langle h'_j(x), d \rangle + \sum_{i \in I^+(x)} \langle g'_i(x), d \rangle \\
+    &\quad + \sum_{i \in I^0(x)} \max\{0, \langle g'_i(x), d \rangle\},
+\end{align*}
+donde
+\begin{align*}
+    J^+(x) &= \{j = 1, \dots, l \mid h_j(x) > 0\}, \\
+    J^0(x) &= \{j = 1, \dots, l \mid h_j(x) = 0\}, \\
+    J^-(x) &= \{j = 1, \dots, l \mid h_j(x) < 0\}, \\
+    I^+(x) &= \{i = 1, \dots, m \mid g_i(x) > 0\}, \\
+    I^0(x) &= \{i = 1, \dots, m \mid g_i(x) = 0\}.
+\end{align*}
+A seguir, mostramos que cuando $H_k$ es definida positiva, la solución del subproblema del método SQP proporciona una dirección de descenso para la función de mérito elegida.
+
+\begin{lemma}[Derivada de la función de mérito en la dirección de SQP]\label{v2:lem:4.6.1}
+    Sean $f \colon \R^n \to \R$, $h \colon \R^n \to \R^l$ y $g \colon \R^n \to \R^m$ funciones diferenciables en el punto $x^k \in \R^n$. Sean $H_k \in \R(n, n)$ una matriz simétrica, $d^k \in \R^n$ un punto estacionario del problema \eqref{v2:eq:4.269}-\eqref{v2:eq:4.270}, $y^k \in \R^l$ y $z^k \in \R^m_+$ multiplicadores de Lagrange asociados, y $c_k$ un número que satisfaga \eqref{v2:eq:4.271}. Sean $\varphi$ y $\psi$ las funciones definidas por \eqref{v2:eq:4.267} y \eqref{v2:eq:4.268}, respectivamente.
+    Entonces la función $\varphi(\cdot; c_k)$ es diferenciable en el punto $x^k$ en cada dirección, y se tiene que
+    \begin{equation}
+        \varphi'((x^k; d^k); c_k) \le \Delta_k \le -\langle H_k d^k, d^k \rangle - \bar{c}\psi(x^k),
+        \label{v2:eq:4.274}
+    \end{equation}
+    donde el número $\Delta_k$ es definido en \eqref{v2:eq:4.272}.
+\end{lemma}
+\begin{proof}
+    Por las condiciones KKT para el problema \eqref{v2:eq:4.269}-\eqref{v2:eq:4.270}, el punto $(d^k, y^k, z^k)$ satisface el sistema
+    \begin{align}
+        f'(x^k) + H_k d^k + (h'(x^k))^\top y^k + (g'(x^k))^\top z^k &= 0, \label{v2:eq:4.275} \\
+        h(x^k) + h'(x^k)d^k &= 0, \label{v2:eq:4.276} \\
+        g(x^k) + g'(x^k)d^k &\le 0, \quad z^k \ge 0, \label{v2:eq:4.277} \\
+        z_i^k(g_i(x^k) + \langle g'_i(x^k), d^k \rangle) &= 0, \quad i = 1, \dots, m \label{v2:eq:4.278}
+    \end{align}
+    (la relación \eqref{v2:eq:4.278} no será utilizada en esta demostración, mas será necesaria más adelante). De \eqref{v2:eq:4.276} sigue que
+    \[
+        \langle h'_j(x^k), d^k \rangle = -h_j(x^k) \quad \forall j = 1, \dots, l,
+    \]
+    y, por tanto,
+    \[
+        -|h_j(x^k)| = \begin{cases}
+            \langle h'_j(x^k), d^k \rangle, & \text{si } j \in J^+(x^k), \\
+            |\langle h'_j(x^k), d^k \rangle|, & \text{si } j \in J^0(x^k), \\
+            -\langle h'_j(x^k), d^k \rangle, & \text{si } j \in J^-(x^k).
+        \end{cases}
+    \]
+    Además de esto, por la primera desigualdad en \eqref{v2:eq:4.277}, tenemos que
+    \[
+        -\max\{0, g_i(x^k)\} = \begin{cases}
+            -g_i(x^k) \ge \langle g'_i(x^k), d^k \rangle, & \text{si } i \in I^+(x^k), \\
+            0 = \max\{0, \langle g'_i(x^k), d^k \rangle\}, & \text{si } i \in I^0(x^k).
+        \end{cases}
+    \]
+    Utilizando la fórmula de la derivada direccional de la función $\psi(\cdot)$, dada arriba, obtenemos entonces
+    \begin{align*}
+        \varphi'((x^k; d^k); c_k) &= \langle f'(x^k), d^k \rangle + c_k\psi'(x^k; d^k) \\
+        &\le \langle f'(x^k), d^k \rangle - c_k\sum_{j=1}^l |h_j(x^k)| \\
+        &\quad - c_k\sum_{i \in I^+(x^k) \cup I^0(x^k)} \max\{0, g_i(x^k)\} \\
+        &= \langle f'(x^k), d^k \rangle - c_k\sum_{j=1}^l |h_j(x^k)| \\
+        &\quad - c_k\sum_{i=1}^m \max\{0, g_i(x^k)\} \\
+        &= \langle f'(x^k), d^k \rangle - c_k\psi(x^k) \\
+        &= \Delta_k,
+    \end{align*}
+    donde la segunda igualdad sigue del hecho de que para todo índice $i \in \{1, \dots, m\} \setminus (I^+(x^k) \cup I^0(x^k))$, se tiene que $\max\{0, g_i(x^k)\} = 0$. Acabamos de probar la primera desigualdad en \eqref{v2:eq:4.274}.
+    Multiplicando los dos lados en \eqref{v2:eq:4.275} por $d^k$ y haciendo uso de \eqref{v2:eq:4.276} y \eqref{v2:eq:4.278}, obtenemos que
+    \begin{align*}
+        \langle f'(x^k), d^k \rangle &= -\langle H_k d^k, d^k \rangle - \langle y^k, h'(x^k)d^k \rangle - \langle z^k, g'(x^k)d^k \rangle \\
+        &= -\langle H_k d^k, d^k \rangle + \langle y^k, h(x^k) \rangle + \langle z^k, g(x^k) \rangle \\
+        &\le -\langle H_k d^k, d^k \rangle + \sum_{j=1}^l |y^k_j||h_j(x^k)| \\
+        &\quad + \sum_{i=1}^m z_i^k \max\{0, g_i(x^k)\} \\
+        &\le -\langle H_k d^k, d^k \rangle + \|y^k\|_\infty \|h(x^k)\|_1 \\
+        &\quad + \|z^k\|_\infty \sum_{i=1}^m \max\{0, g_i(x^k)\}.
+    \end{align*}
+    De aquí, utilizando \eqref{v2:eq:4.268}, \eqref{v2:eq:4.271} y \eqref{v2:eq:4.272}, obtenemos
+    \begin{align*}
+        \Delta_k &= \langle f'(x^k), d^k \rangle - c_k\psi(x^k) \\
+        &\le \langle f'(x^k), d^k \rangle - (\bar{c} + \|(y^k, z^k)\|_\infty)\|h(x^k)\|_1 \\
+        &\quad - (\bar{c} + \|(y^k, z^k)\|_\infty)\sum_{i=1}^m \max\{0, g_i(x^k)\} \\
+        &\le -\langle H_k d^k, d^k \rangle - \bar{c}\|h(x^k)\|_1 \\
+        &\quad - \bar{c}\sum_{i=1}^m \max\{0, g_i(x^k)\} \\
+        &= -\langle H_k d^k, d^k \rangle - \bar{c}\psi(x^k),
+    \end{align*}
+    lo que es la segunda desigualdad en \eqref{v2:eq:4.274}.
+\end{proof}
+
+De la segunda desigualdad en \eqref{v2:eq:4.274}, concluimos que para todo $k$, se la matriz $H_k$ es definida positiva y el Algoritmo 4.6.3 genera $d^k \neq 0$, se tiene que
+\begin{equation}
+    \Delta_k < 0.
+    \label{v2:eq:4.279}
+\end{equation}
+De aquí y de la primera desigualdad en \eqref{v2:eq:4.274}, es fácil ver que $d^k$ es una dirección de descenso para la función $\varphi(\cdot; c_k)$ en el punto $x^k$ (comparar con el Lema 3.1.1). Por tanto, la regla de búsqueda lineal en el Paso 2 del método está bien definida, en el sentido de que ella acepta un valor de longitud de paso $\alpha_k > 0$, después de un número finito de disminuciones del valor inicial (comparar con el Lema 3.1.2). A propósito, en la \cref{v2:eq:4.273} la derivada direccional $\varphi'((x^k; d^k); c_k)$. Así, \eqref{v2:eq:4.273} sería una extensión obvia de la desigualdad de Armijo para el caso de una función no-diferenciable (que posee, sin embargo, derivadas direccionales). Sin embargo, la fórmula \eqref{v2:eq:4.272} para el cálculo de $\Delta_k$ es más simple de lo que la fórmula para $\varphi'((x^k; d^k); c_k)$. En particular, \eqref{v2:eq:4.272} no contiene derivadas de las funciones $h$ e $g$.
+En principio, las iteraciones del Algoritmo 4.6.3 utilizan valores diferentes del parámetro penalizador $c_k$. En el análisis de convergencia es conveniente admitir que este valor es fijo, por lo menos para todo $k$ suficientemente grande:
+\begin{equation}
+    c_k = c,
+    \label{v2:eq:4.280}
+\end{equation}
+donde $c$ es una constante. Notemos que en este caso, a partir de un cierto paso $k$, el Algoritmo 4.6.3 puede ser pensado como un método de descenso para el problema irrestricto
+\[
+    \min \varphi(x; c), \quad x \in \R^n.
+\]
+Recordamos que, bajo ciertas hipótesis, la penalización es exacta (vea \S 4.3.2), ya que la validez de \eqref{v2:eq:4.271}, para un $c_k = c$ fijo y $k$ suficientemente grande, indica que el valor de este parámetro es adecuado.
+Como es fácil observar de \eqref{v2:eq:4.271}, la posibilidad de utilizar $c_k$ fijo para todo $k$ suficientemente grande presupone que la sucesión de multiplicadores $\{(y^k, z^k)\}$ generada por el método es limitada. Desde el punto de vista práctico, esto es completamente natural (por lo menos, cuando el conjunto de multiplicadores asociados al punto estacionario del problema original es limitado). De hecho, bajo ciertas hipótesis razonables, podemos garantizar que la sucesión $\{(y^k, z^k)\}$ sea limitada. Sin embargo, para simplificar el análisis, nosotros vamos simplemente colocar esto como una hipótesis. Así, la validez de \eqref{v2:eq:4.280} para algún $c$ y todo $k$ suficientemente grande puede ser garantizada, por ejemplo, por la regla siguiente de elección de valores de $c_k$. En la primera iteración, tomamos $c_0 = \bar{c} + 1 + \|(y^0, z^0)\|_\infty$. Para cada iteración $k = 1, 2, \dots$, subsecuente, verificamos la validez de \eqref{v2:eq:4.271} para $c_k = c_{k-1}$. Se \eqref{v2:eq:4.271} se satisface, aceptamos este $c_k$; caso contrario tomamos $c_k = \bar{c} + 1 + \|(y^k, z^k)\|_\infty$. Puede ser ver que si la sucesión $\{(y^k, z^k)\}$ es limitada, los parámetros $c_k$ así escogidos satisfacen \eqref{v2:eq:4.280} para algún $c$ y todo $k$ suficientemente grande.
+
+\begin{theorem}[Convergencia global del método SQP]\label{v2:thm:4.6.3}
+    Sean $f \colon \R^n \to \R$, $h \colon \R^n \to \R^l$ y $g \colon \R^n \to \R^m$ funciones diferenciables en $\R^n$, con derivadas Lipschitz-continuas en $\R^n$.
+    Supongamos que en el Algoritmo 4.6.3 las matrices $H_k$ sean escogidas de tal manera que la sucesión $\{H_k\}$ sea limitada y las matrices sean uniformemente definidas positivas, i.e.,
+    \begin{equation}
+        \langle H_k v, v \rangle \ge \gamma \|v\|^2 \quad \forall v \in \R^n, \; \forall k,
+        \label{v2:eq:4.281}
+    \end{equation}
+    donde $\gamma > 0$. Sea $\{(x^k, \lambda^k, \mu^k)\}$ una sucesión generada por este algoritmo y supongamos que, para todo $k$ suficientemente grande, se satisface la condición \eqref{v2:eq:4.280}, donde $c$ es una constante.
+    Cuando $k \to \infty$, se tiene entonces que o
+    \begin{equation}
+        \varphi(x^k; c_k) \to -\infty,
+        \label{v2:eq:4.282}
+    \end{equation}
+    o
+    \[
+        \{d^k\} \to 0,
+    \]
+    \[
+        L'_x(x^k, \lambda^{k+1}, \mu^{k+1}) \to 0,
+    \]
+    \[
+        h(x^k) \to 0, \quad \max\{0, g_i(x^k)\} \to 0, \quad i = 1, \dots, m,
+    \]
+    \[
+        \langle \mu^{k+1}, g(x^k) \rangle \to 0.
+    \]
+    En particular, si $(\bar{x}, \bar{\lambda}, \bar{\mu}) \in \R^n \times \R^l \times \R^m$ es un punto de acumulación de la sucesión $\{(x^k, \lambda^k, \mu^k)\}$, entonces $\bar{x}$ es un punto estacionario del problema \eqref{v2:eq:4.266}, en cuanto $\bar{\lambda}$ y $\bar{\mu}$ son multiplicadores de Lagrange asociados.
+\end{theorem}
+\begin{proof}
+    Recordamos que $(d^k, y^k, z^k)$ satisface las condiciones de otimalidad \eqref{v2:eq:4.275}-\eqref{v2:eq:4.278}, para todo $k$. Se $d^k = 0$ para algún $k$, estas condiciones significan que el punto $(x^k, y^k, z^k)$ resuelve el sistema KKT del problema \eqref{v2:eq:4.266}, lo que da el resultado deseado. De aquí para el frente, supongamos que $d^k \neq 0 \; \forall k$. Notamos que, por \eqref{v2:eq:4.280} y \eqref{v2:eq:4.271}, las sucesiones $\{\lambda^k\}$ y $\{\mu^k\}$ son limitadas.
+    Primero probaremos que la sucesión de valores de las longitudes de pasos $\{\alpha_k\}$ está limitada inferiormente por un número fijo estrictamente positivo. Sea $\alpha \in (0, 1]$ arbitrario. Sea $M > 0$ un máximo entre los módulos de Lipschitz-continuidad de las derivadas de $f, h$ y $g$ en $\R^n$. Pelo Lema 1.5.4, para todo $k$ y todo $i = 1, \dots, m$, obtenemos que
+    \begin{align}
+        &\max\{0, g_i(x^k + \alpha d^k)\} - \max\{0, g_i(x^k) + \alpha \langle g'_i(x^k), d^k \rangle\} \nonumber \\
+        &\le \max\{0, g_i(x^k + \alpha d^k) - g_i(x^k) - \alpha \langle g'_i(x^k), d^k \rangle\} \nonumber \\
+        &\le |g_i(x^k + \alpha d^k) - g_i(x^k) - \alpha \langle g'_i(x^k), d^k \rangle| \nonumber \\
+        &\le \frac{M\alpha^2}{2} \|d^k\|^2,
+        \label{v2:eq:4.283}
+    \end{align}
+    donde utilizamos los hechos de que, para todo $a, b \in \R$, tem-se que $\max\{0, a\} - \max\{0, b\} \le \max\{0, a - b\}$ y $\max\{0, a\} \le |a|$.
+    Además de esto,
+    \begin{align*}
+        &\max\{0, g_i(x^k) + \alpha \langle g'_i(x^k), d^k \rangle\} \\
+        &= \max\{0, \alpha(g_i(x^k) + \langle g'_i(x^k), d^k \rangle) + (1 - \alpha)g_i(x^k)\} \\
+        &\le \alpha \max\{0, g_i(x^k) + \langle g'_i(x^k), d^k \rangle\} + (1 - \alpha) \max\{0, g_i(x^k)\} \\
+        &= (1 - \alpha) \max\{0, g_i(x^k)\},
+    \end{align*}
+    donde la desigualdad sigue de la convexidad de la función $\max\{0, \cdot\}$, y la última igualdad sigue de \eqref{v2:eq:4.277}. De \eqref{v2:eq:4.283} obtenemos entonces que
+    \begin{align}
+        &\max\{0, g_i(x^k + \alpha d^k)\} \nonumber \\
+        &\le \max\{0, g_i(x^k) + \alpha \langle g'_i(x^k), d^k \rangle\} + \frac{M\alpha^2}{2}\|d^k\|^2 \nonumber \\
+        &\le (1 - \alpha) \max\{0, g_i(x^k)\} + \frac{M\alpha^2}{2}\|d^k\|^2.
+        \label{v2:eq:4.284}
+    \end{align}
+    Pelo Lema 1.5.4,
+    \begin{equation}
+        f(x^k + \alpha d^k) \le f(x^k) + \alpha \langle f'(x^k), d^k \rangle + \frac{M\alpha^2}{2}\|d^k\|^2.
+        \label{v2:eq:4.285}
+    \end{equation}
+    De modo similar, de \eqref{v2:eq:4.276} y del Lema 1.5.4, tenemos que para todo $j = 1, \dots, l$,
+    \begin{align}
+        |h_j(x^k + \alpha d^k)| &= |h_j(x^k + \alpha d^k) - \alpha h_j(x^k) - \alpha \langle h'_j(x^k), d^k \rangle| \nonumber \\
+        &\le (1 - \alpha)|h_j(x^k)| + \frac{M\alpha^2}{2}\|d^k\|^2.
+        \label{v2:eq:4.286}
+    \end{align}
+    Utilizando \eqref{v2:eq:4.267}, \eqref{v2:eq:4.268}, y combinando las relaciones \eqref{v2:eq:4.284}-\eqref{v2:eq:4.286}, obtenemos
+    \begin{align}
+        &\varphi(x^k + \alpha d^k; c_k) = f(x^k + \alpha d^k) + c_k \|h(x^k + \alpha d^k)\|_1 \nonumber \\
+        &\quad + c_k \sum_{i=1}^m \max\{g_i(0, x^k + \alpha d^k)\} \nonumber \\
+        &\le f(x^k) + \alpha \langle f'(x^k), d^k \rangle + c_k(1 - \alpha)\|h(x^k)\|_1 \nonumber \\
+        &\quad + c_k(1 - \alpha)\sum_{i=1}^m \max\{0, g_i(x^k)\} + C_k\alpha^2\|d^k\|^2 \nonumber \\
+        &= \varphi(x^k; c_k) + \alpha(f'(x^k), d^k) - c_k\alpha\|h(x^k)\|_1 \nonumber \\
+        &\quad - c_k\alpha\sum_{i=1}^m \max\{0, g_i(x^k)\} + C_k\alpha^2\|d^k\|^2 \nonumber \\
+        &= \varphi(x^k; c_k) + \alpha\Delta_k + C_k\alpha^2\|d^k\|^2,
+    \end{align}
+    donde
+    \begin{equation}
+        C_k = M(1 + (l + m)c_k)/2 > 0.
+        \label{v2:eq:4.287}
+    \end{equation}
+    Comparando la relación arriba con \eqref{v2:eq:4.273}, vemos que la desigualdad \eqref{v2:eq:4.273} será satisfecha se
+    \[
+        \Delta_k + C_k\alpha\|d^k\|^2 \le \sigma\Delta_k,
+    \]
+    o sea, para todo $\alpha \in (0, \bar{\alpha}_k]$, donde
+    \[
+        \bar{\alpha}_k = \frac{(1 - \sigma)\Delta_k}{C_k\|d^k\|^2}.
+    \]
+    Pela segunda desigualdad en \eqref{v2:eq:4.274} y por \eqref{v2:eq:4.281}, tem-se que
+    \[
+        \bar{\alpha}_k \ge (1 - \sigma)\gamma/C_k,
+    \]
+    donde la sucesión $\{C_k\}$ está limitada, por \eqref{v2:eq:4.287} y por la igualdad \eqref{v2:eq:4.280}, que vale para todo $k$ suficientemente grande. Concluimos que existe un número $\tilde{\alpha} > 0$, que no depende de $k$, tal que
+    \begin{equation}
+        \alpha_k \ge \tilde{\alpha} > 0.
+        \label{v2:eq:4.288}
+    \end{equation}
+    De las relaciones \eqref{v2:eq:4.273}, \eqref{v2:eq:4.280} y \eqref{v2:eq:4.288}, obtenemos ahora que, para todo $k$ suficientemente grande,
+    \begin{equation}
+        \varphi(x^{k+1}; c_{k+1}) \le \varphi(x^k; c_k) + \sigma\tilde{\alpha}\Delta_k.
+        \label{v2:eq:4.289}
+    \end{equation}
+    Lembramos que vale \eqref{v2:eq:4.279}. Por lo tanto, la sucesión $\{\varphi(x^k; c_k)\}$ es decreciente. Entonces o ella es ilimitada inferiormente (vale \eqref{v2:eq:4.282}) o ella converge. En este segundo caso, de \eqref{v2:eq:4.289} obtenemos que
+    \begin{equation}
+        \Delta_k \to 0 \quad (k \to \infty).
+        \label{v2:eq:4.290}
+    \end{equation}
+    Donde, utilizando la segunda desigualdad en \eqref{v2:eq:4.274} y \eqref{v2:eq:4.281}, así como el hecho de que $\{H_k\}$ es limitada, obtenemos
+    \begin{equation}
+        \psi(x^k) \to 0, \quad \{d^k\} \to 0, \quad \{H_k d^k\} \to 0 \quad (k \to \infty),
+        \label{v2:eq:4.291}
+    \end{equation}
+    En particular, por la definición de $\psi(\cdot)$,
+    \begin{equation}
+        \{h(x^k)\} \to 0, \quad \max\{0, g_i(x^k)\} \to 0, \quad i = 1, \dots, m, \quad (k \to \infty).
+        \label{v2:eq:4.292}
+    \end{equation}
+    Pasando al límite en la relación \eqref{v2:eq:4.275} cuando $k \to \infty$, y utilizando \eqref{v2:eq:4.291}, obtenemos también que
+    \[
+        L'_x(x^k, \lambda^{k+1}, \mu^{k+1}) \to 0 \quad (k \to \infty).
+    \]
+    Para concluir la prueba, falta verificar que se satisface, asintóticamente, la condición de complementaridad. De \eqref{v2:eq:4.272}, \eqref{v2:eq:4.290} y \eqref{v2:eq:4.291}, obtenemos que
+    \[
+        \langle f'(x^k), d^k \rangle = \Delta_k + c_k\psi(x^k) \to 0 \quad (k \to \infty).
+    \]
+    Multiplicando \eqref{v2:eq:4.275} por $d^k$ y utilizando la última relación y \eqref{v2:eq:4.291}, obtenemos
+    \begin{align*}
+        &\langle \lambda^{k+1}, h'(x^k)d^k \rangle + \langle \mu^{k+1}, g'(x^k)d^k \rangle \\
+        &= -\langle f'(x^k), d^k \rangle - \langle H_k d^k, d^k \rangle \to 0 \quad (k \to \infty).
+    \end{align*}
+    Como de \eqref{v2:eq:4.276} e \eqref{v2:eq:4.292} sigue que
+    \[
+        h'(x^k)d^k = -h(x^k) \to 0 \quad (k \to \infty),
+    \]
+    recordando que $\{\lambda^k\}$ es limitada, concluimos que
+    \[
+        \langle \mu^{k+1}, g'(x^k)d^k \rangle \to 0 \quad (k \to \infty).
+    \]
+    Finalmente, de \eqref{v2:eq:4.278}, obtenemos que
+    \[
+        \langle \mu^{k+1}, g(x^k) \rangle = -\langle \mu^{k+1}, g'(x^k)d^k \rangle \to 0 \quad (k \to \infty).
+    \]
+\end{proof}
+
+La construcción siguiente es importante en la práctica, para lidiar con situaciones en las que subproblemas de SQP pueden ser inviables (i.e., pueden poseer conjunto factible vacío en algunas iteraciones).
+
+% [Ejercicio 4.6.4 movido a exercises.tex]
+
+\subsection{Restauración de la convergencia local superlinear}\label{v2:sec:4.6.4}
+
+De acuerdo con el Teorema 4.6.3, la convergencia global de métodos SQP puede ser garantizada bajo hipótesis bien razonables. Resta, no obstante, investigar la siguiente cuestión natural: ¿estos métodos globalizados preservan (o no) la convergencia local rápida del método SQP original? Cuando hay convergencia en principio, por el Teorema 4.6.2 podemos esperar convergencia superlineal a una solución $(\bar{x}, \bar{\lambda}, \bar{\mu}) \in \R^n \times \R^l \times \R^m$ del sistema KKT del problema \eqref{v2:eq:4.266}, se las matrices $H_k$ aproximan la matriz $L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})$ en el sentido de la relación \eqref{v2:eq:4.247}. Resaltamos que esta aproximación no significa que necesariamente vale $\{H_k\} \to L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})$ $(k \to \infty)$. Más aún, la validez de esta última condición puede ser hasta indeseable, ya que la matriz $L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})$ puede no ser definida positiva. En cualquier caso, una aproximación adecuada de esta matriz no es suficiente para afirmar la convergencia superlineal del método globalizado: aún tenemos que garantizar que el valor de longitud de paso $\alpha_k = 1$ (que corresponde a la iteración del método SQP puro) sea aceptado por la regla de búsqueda lineal, para todo $k$ suficientemente grande. Será que esto es válido si el punto $(x^k, \lambda^k, \mu^k) \in \R^n \times \R^l \times \R^m$ está próximo a $(\bar{x}, \bar{\lambda}, \bar{\mu})$, y el punto $(x, \lambda, \mu)$ satisface todas las hipótesis para la convergencia superlineal del Teorema 4.6.2? Infelizmente, la respuesta es negativa, como puede ser visto en el ejemplo siguiente. Este fenómeno se llama de \textit{efecto de Maratos}. Resaltamos que este ejemplo no es patológico o raro.
+
+\begin{example}[Efecto de Maratos]\label{v2:exa:4.6.1}
+    Sean $n = 2$, $l = 1$, $m = 0$,
+    \[
+        f(x) = x_1, \quad h(x) = x_1^2 + x_2^2 - 1, \quad x \in \R^2.
+    \]
+    La solución global del problema \eqref{v2:eq:4.266} es el punto $\bar{x} = (-1, 0)$. Este punto satisface la condición de regularidad de las restricciones (1.9), y el único multiplicador de Lagrange asociado es $\bar{\lambda} = 1/2$. Más aún, se satisface la condición suficiente de segunda orden (1.13).
+    Para $x^k \in \R^2$ cualquier, sea $(d^k, y^k) \in \R^2 \times \R$ la solución del sistema de Lagrange del subproblema \eqref{v2:eq:4.269}-\eqref{v2:eq:4.270}, donde utilizamos la elección ``ideal'' (desde el punto de vista de la tasa de convergencia) $H_k = L''_{xx}(\bar{x}, \bar{\lambda}) = E^2$, i.e.,
+    \begin{align}
+        1 + d_1^k + 2y^k x_1^k &= 0, \quad d_2^k + 2y^k x_2^k = 0, \label{v2:eq:4.296} \\
+        (x_1^k)^2 + (x_2^k)^2 - 1 + 2x_1^k d_1^k + 2x_2^k d_2^k &= 0 \label{v2:eq:4.297}
+    \end{align}
+    (vea \eqref{v2:eq:4.275}, \eqref{v2:eq:4.276}). Notemos que la matriz $H_k$ es definida positiva y para $x^k \neq 0$, las relaciones \eqref{v2:eq:4.296}, \eqref{v2:eq:4.297}, definen $(d^k, y^k)$ unívocamente. Podríamos encontrar los valores de $d^k$ e $y^k$ explícitamente, mas no vamos a hacer eso porque aquí precisaremos solamente de las propiedades siguientes.
+    Multiplicando los dos lados de la primera igualdad en \eqref{v2:eq:4.296} por $d_1^k$, y la segunda igualdad por $d_2^k$, y sumando las relaciones obtenidas, utilizando \eqref{v2:eq:4.297} obtenemos que
+    \[
+        d_1^k = y^k((x_1^k)^2 + (x_2^k)^2 - 1) - (d_1^k)^2 - (d_2^k)^2.
+    \]
+    Por tanto,
+    \[
+        f(x^k + d^k) - f(x^k) = d_1^k = y^k h(x^k) - \|d^k\|^2.
+    \]
+    De \eqref{v2:eq:4.297}, obtenemos que
+    \[
+        h(x^k + d^k) = (x_1^k + d_1^k)^2 + (x_2^k + d_2^k)^2 - 1 = \|d^k\|^2.
+    \]
+    Por tanto,
+    \begin{align}
+        \varphi(x^k + d^k; c) - \varphi(x^k; c) &= y^k h(x^k) - c|h(x^k)| + (c - 1)\|d^k\|^2 > 0,
+    \end{align}
+    para todo $c > 1$, se, por ejemplo, $h(x^k) = 0$ y el punto $x^k$ no es estacionario para el problema \eqref{v2:eq:4.266} (lo que garantiza que $d^k \neq 0$; vea la demostración del Teorema 4.6.3). Esto muestra que $\alpha = 1$ no puede satisfacer la desigualdad de Armijo \eqref{v2:eq:4.273}, ya que vale \eqref{v2:eq:4.279}.
+    Notemos que toda vecindad del punto $\bar{x}$ contiene un número infinito de puntos factibles que no son estacionarios para el problema \eqref{v2:eq:4.266}. De acuerdo con lo expuesto arriba, en todos estos puntos el valor de la longitud del paso $\alpha_k = 1$ no sería aceptado por la regla de búsqueda lineal \eqref{v2:eq:4.273}.
+\end{example}
+
+Notemos que en el ejemplo anterior, para $c \in (1/2, 1)$ el valor de $\alpha_k = 1$ proporciona, sí, un decrecimiento de la función $\varphi(\cdot; c)$ en relación a su valor en el punto $x^k$. Para estos valores del parámetro penalizador, tal vez no haya contradicción entre los requerimientos para convergencia global y para convergencia local superlineal. Mas no es difícil modificar este ejemplo un poco, de tal manera que realmente no haya un intervalo de valores del parámetro penalizador que puedan servir tanto para convergencia global como para convergencia local superlineal.
+
+\begin{example}\label{v2:exa:4.6.2}
+    En el Ejemplo 4.6.1, redefinimos
+    \[
+        f(x) = x_1 + x_1^2 + x_2^2, \quad x \in \R^2.
+    \]
+    La solución global del problema \eqref{v2:eq:4.266} es $\bar{x} = (-1, 0)$, con multiplicador de Lagrange $\bar{\lambda} = -1/2$. Como antes, el punto $\bar{x}$ satisface la condición de regularidad de las restricciones (1.9) y la condición suficiente de segunda orden (1.13).
+    Sea $x^k \in \R^2$ un punto cualquiera que no es un punto estacionario del problema \eqref{v2:eq:4.266} y que satisface $h(x^k) = 0$. Sea $(d^k, y^k) \in \R^2 \times \R$ la solución del sistema de Lagrange del subproblema \eqref{v2:eq:4.269}-\eqref{v2:eq:4.270}, con $H_k = L''_{xx}(\bar{x}, \bar{\lambda}) = E^2$, i.e.,
+    \begin{equation}
+        1 + 2x_1^k + d_1^k + 2y^k x_1^k = 0, \quad 2x_2^k + d_2^k + 2y^k x_2^k = 0, \label{v2:eq:4.298}
+    \end{equation}
+    \begin{equation}
+        x_1^k d_1^k + x_2^k d_2^k = 0 \label{v2:eq:4.299}
+    \end{equation}
+    (vea \eqref{v2:eq:4.275}, \eqref{v2:eq:4.276}).
+    Multiplicando la primera igualdad en \eqref{v2:eq:4.298} por $d_1^k$, y la segunda por $d_2^k$, y sumando las relaciones así obtenidas, utilizando también \eqref{v2:eq:4.299}, obtenemos que
+    \[
+        d_1^k + (d_1^k)^2 + (d_2^k)^2 = 0.
+    \]
+    Por tanto,
+    \begin{align*}
+        f(x^k + d^k) - f(x^k) &= d_1^k + (x_1^k + d_1^k)^2 + (x_2^k + d_2^k)^2 - (x_1^k)^2 - (x_2^k)^2 \\
+        &= h(x^k + d^k) = (x_1^k + d_1^k)^2 + (x_2^k + d_2^k)^2 - 1 = \|d^k\|^2,
+    \end{align*}
+    donde de nuevo llevamos en cuenta \eqref{v2:eq:4.299}. De estas relaciones, obtenemos que
+    \[
+        \varphi(x^k + d^k; c) - \varphi(x^k; c) = c\|d^k\|^2 > 0 \quad \forall c > 0.
+    \]
+\end{example}
+
+El efecto de Maratos puede ser explicado de la manera siguiente. Se un punto $x^k$ está próximo al conjunto factible $D$, el paso de $x^k$ a $x^k + d^k$ puede hacer aumentar el término penalizador por un valor de la misma orden que la disminución de la función objetivo $f$. Como consecuencia, para $c$ suficientemente grande, el valor de la función penalizada $\varphi(\cdot; c)$ puede aumentar, el que hace con que el valor del longitud de paso $\alpha = 1$ no sea acepto. Por eso, la cuestión de convergencia local rápida de un método SQP globalizado es bien más compleja que la, por ejemplo, la misma cuestión para el método de Newton globalizado para la optimización irrestricta (vea los Teoremas 3.2.2 e 3.3). Para evitar el posible efecto de Maratos, el Algoritmo 4.6.3 tiene que ser modificado. Hay varias maneras de hacer esto. Una estrategia consiste en el cálculo de longitud de paso para una búsqueda no-lineal, más precisamente, a busca se hace a lo largo de la frontera del conjunto factible (vea [3, 20]). Vamos a presentar otra estrategia, que consiste en la modificación de la función de mérito. Más precisamente, utilizaremos la Lagrangiana aumentada no-diferenciable.
+
+De aquí para el frente, consideremos el problema con restricciones de igualdad: en vez de \eqref{v2:eq:4.266}, sea el problema dado por
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \{x \in \R^n \mid h(x) = 0\}.
+    \label{v2:eq:4.300}
+\end{equation}
+Introducimos a la familia de funciones
+\[
+    \varphi(\cdot; c, \eta) \colon \R^n \to \R,
+\]
+\begin{equation}
+    \varphi(x; c, \eta) = f(x) + \langle \eta, h(x) \rangle + c\|h(x)\|_1,
+    \label{v2:eq:4.301}
+\end{equation}
+donde $c \ge 0$ y $\eta \in \R^l$ son parámetros. La función anterior puede ser pensada como la Lagrangiana clásica del problema \eqref{v2:eq:4.300}, aumentada por un término penalizador no-diferenciable.
+Tenemos la propiedad siguiente (comparar con el Corolario 4.3.1).
+
+\begin{proposition}\label{v2:prop:4.6.1}
+    Sean $f \colon \R^n \to \R$ e $h \colon \R^n \to \R^l$ funciones dos veces diferenciables en el punto $\bar{x} \in \R^n$. Supongamos que $\bar{x}$ sea un punto estacionario del problema \eqref{v2:eq:4.300}, que satisfaga la condición suficiente de segundo orden del Teorema 1.2.2(b), con multiplicador de Lagrange $\bar{\lambda} \in \R^l$.
+    Entonces existe un número $\bar{c} \ge 0$ tal que, para todo $c > \bar{c}$ y todo $\eta \in \R^l$ satisfaciendo a la desigualdad
+    \begin{equation}
+        c > \|\eta - \bar{\lambda}\|_\infty,
+        \label{v2:eq:4.302}
+    \end{equation}
+    el punto $\bar{x}$ es una solución local estricta del problema
+    \[
+        \min \varphi(x; c, \eta), \quad x \in \R^n,
+    \]
+    donde la función objetivo es definida por la fórmula \eqref{v2:eq:4.301}.
+\end{proposition}
+\begin{proof}
+    Lembrando la Lagrangiana aumentada (clásica) para el problema \eqref{v2:eq:4.300}, y utilizando el Teorema 4.4.5, para todo $c > 0$ suficientemente grande tenemos que
+    \begin{align}
+        \varphi(\bar{x}; c, \eta) &= f(\bar{x}) \nonumber \\
+        &= L(\bar{x}, \bar{\lambda}) + \frac{c}{2}\|h(\bar{x})\|^2 \nonumber \\
+        &< L(x, \bar{\lambda}) + \frac{c}{2}\|h(x)\|^2, \label{v2:eq:4.303}
+    \end{align}
+    para todo $x \in \R^n \setminus \{\bar{x}\}$ suficientemente próximo a $\bar{x}$. Por otro lado, para todo $x$ suficientemente próximo a $\bar{x}$ (tal que $\|h(x)\|$ está suficientemente próximo a cero), tem-se que
+    \[
+        \|h(x)\|^2 = o(\|h(x)\|_1).
+    \]
+    Portanto,
+    \begin{align}
+        \varphi(x; c, \eta) &= L(x, \bar{\lambda}) + \langle \eta - \bar{\lambda}, h(x) \rangle + c\|h(x)\|_1 \nonumber \\
+        &\ge L(x, \bar{\lambda}) + (c - \|\eta - \bar{\lambda}\|_\infty)\|h(x)\|_1 \nonumber \\
+        &\ge L(x, \bar{\lambda}) + \frac{c}{2}\|h(x)\|^2,
+        \label{v2:eq:4.304}
+    \end{align}
+    donde utilizamos la desigualdad de Cauchy-Schwarz generalizada \eqref{v1:eq:1.40} y \eqref{v2:eq:4.302}. Finalmente, combinando \eqref{v2:eq:4.303} y \eqref{v2:eq:4.304}, obtenemos el resultado anunciado.
+\end{proof}
+
+Para un iterando $x^k \in \R^n$, definimos
+\begin{equation}
+    D_k = \{d \in \R^n \mid h(x^k) + h'(x^k)d = 0\}.
+    \label{v2:eq:4.305}
+\end{equation}
+Sean $d^k \in \R^n$ un punto estacionario del subproblema de programación cuadrática \eqref{v2:eq:4.269}, \eqref{v2:eq:4.305}, e $y^k \in \R^l$ un multiplicador de Lagrange asociado. En particular,
+\begin{equation}
+    f'(x^k) + H_k d^k + (h'(x^k))^\top y^k = 0, \quad h(x^k) + h'(x^k)d^k = 0.
+    \label{v2:eq:4.306}
+\end{equation}
+Utilizando el Ejercicio 4.3.5 y la relación \eqref{v2:eq:4.306}, y siguiendo el raciocinio de la demostración del Lema 4.6.1, es fácil verificar que para todo $c$ y $\eta$ la derivada de la función $\varphi(\cdot; c, \eta)$ en la dirección $d^k$ tiene la siguiente forma:
+\begin{equation}
+    \varphi'((x^k; d^k); c, \eta) = -\langle H_k d^k, d^k \rangle + \langle y^k - \eta, h(x^k) \rangle - c\|h(x^k)\|_1.
+    \label{v2:eq:4.307}
+\end{equation}
+Donde, se $c \ge \|y^k - \eta\|_\infty$, tem-se que
+\begin{equation}
+    \varphi'((x^k; d^k); c, \eta) \le -\langle H_k d^k, d^k \rangle.
+    \label{v2:eq:4.308}
+\end{equation}
+Portanto, se la matriz $H_k$ es definida positiva y $d^k \neq 0$, entonces $d^k$ es una dirección de descenso de la función $\varphi(\cdot; c, \eta)$ en el punto $x^k$.
+Podemos entonces construir un método análogo del Algoritmo 4.6.3, utilizando la función de mérito $\varphi(\cdot; c, \eta)$. La condición \eqref{v2:eq:4.271} tem que ser substituida por
+\begin{equation}
+    c_k \ge \bar{c} + \|y^k - \eta^k\|_\infty,
+    \label{v2:eq:4.309}
+\end{equation}
+y la desigualdad \eqref{v2:eq:4.273} por
+\begin{equation}
+    \varphi(x^k + \alpha d^k; c_k, \eta_k) \le \varphi(x^k; c_k, \eta_k) + \sigma\alpha\varphi'((x^k; d^k); c_k, \eta_k).
+    \label{v2:eq:4.310}
+\end{equation}
+El teorema siguiente, en combinación con el Teorema 4.6.2, muestra que para elecciones adecuadas de las matrices $H_k$, el método modificado posee tanto convergencia global cuanto convergencia local superlineal. En relación a la condición \eqref{v2:eq:4.311}, lembramos que bajo la condición suficiente de segunda orden en $\bar{x}$, la matriz $L''_{xx}(\bar{x}, \bar{\lambda}) + c(h'(\bar{x}))^\top h'(\bar{x})$ es definida positiva para todo $c$ suficientemente grande (vea el Teorema 4.4.5). La condición \eqref{v2:eq:4.311} para la elección de $H_k$ significa que $H_k$ tem que ser una aproximación ``superior'' da matriz introducida en el Ejercicio 4.6.1 para $c_k$ suficientemente grande.
+
+\begin{theorem}[Convergencia local superlineal del método de SQP globalizado]\label{v2:thm:4.6.4}
+    Sean $f \colon \R^n \to \R$ e $h \colon \R^n \to \R^l$ funciones dos veces diferenciables numa vizinhança do ponto $\bar{x} \in \R^n$, con derivadas segundas continuas neste ponto. Suponhamos que $\bar{x}$ satisfaça a condição de regularidade das restrições (1.9), e que $\bar{x}$ seja um ponto estacionário do problema \eqref{v2:eq:4.300}, com (único) multiplicador de Lagrange $\bar{\lambda} \in \R^l$ asociado. Suponhamos que vale a condição suficiente de segunda ordem do Teorema 1.2.2(b).
+    Suponhamos também que $\{x^k\} \subset \R^n$ seja convergente a $\bar{x}$, que $\{d^k, y^k\} \in \R^n \times \R^l$, $\{d^k\} \to 0$ $(k \to \infty)$, e que o número $c_k$ e o vetor $\eta^k \in \R^l$ satisfaçam \eqref{v2:eq:4.306}, \eqref{v2:eq:4.309}.
+    Para todo $k$ suficientemente grande, suponhamos que a matriz simétrica $H_k \in \R(n, n)$ satisfaça a condição
+    \begin{equation}
+        \langle (H_k - L''_{xx}(\bar{x}, \bar{\lambda}) - c(h'(\bar{x}))^\top h'(\bar{x}))d^k, d^k \rangle \ge o(\|d^k\|^2),
+        \label{v2:eq:4.311}
+    \end{equation}
+    donde el número $c \ge 0$ es tal que la matriz $L''_{xx}(\bar{x}, \bar{\lambda}) + c(h'(\bar{x}))^\top h'(\bar{x})$ es definida positiva.
+    Entonces para todo $\sigma \in (0, 1/2)$ existe $\delta > 0$ tal que para todo $k$ suficientemente grande, la validez de las desigualdades
+    \begin{equation}
+        c_k \le \delta, \quad \|\eta^k - \bar{\lambda}\| \le \delta
+        \label{v2:eq:4.312}
+    \end{equation}
+    implica en la validez de la desigualdad \eqref{v2:eq:4.310} para $\alpha = 1$, donde a función $\varphi(\cdot; c_k, \eta^k)$ es dada por \eqref{v2:eq:4.301}.
+\end{theorem}
+\begin{proof}
+    Da relación \eqref{v2:eq:4.311} e da escolha do número $c$, segue-se que existe um número $\gamma > 0$ tal que, para todo $k$ suficientemente grande,
+    \begin{equation}
+        \langle H_k d^k, d^k \rangle \ge \gamma \|d^k\|^2.
+        \label{v2:eq:4.313}
+    \end{equation}
+    Além disso, para todo $k$, de \eqref{v2:eq:4.311} e do fato de que a matriz $(h'(\bar{x}))^\top h'(\bar{x})$ é semidefinida positiva, temos que
+    \begin{equation}
+        \langle L''_{xx}(\bar{x}, \bar{\lambda}) d^k, d^k \rangle \le \langle H_k d^k, d^k \rangle + o(\|d^k\|^2).
+        \label{v2:eq:4.314}
+    \end{equation}
+    De \eqref{v2:eq:4.306}, obtemos que
+    \begin{align}
+        \langle f'(x^k), d^k \rangle &= -\langle H_k d^k, d^k \rangle - \langle y^k, h'(x^k)d^k \rangle \nonumber \\
+        &= -\langle H_k d^k, d^k \rangle + \langle y^k, h(x^k) \rangle.
+        \label{v2:eq:4.314b}
+    \end{align}
+    Utilizando o Teorema do Valor Médio e a última igualdade, obtemos
+    \begin{align}
+        f(x^k + d^k) &= f(x^k) + \langle f'(x^k), d^k \rangle + \frac{1}{2}\langle f''(x^k + \tilde{t}_k d^k)d^k, d^k \rangle \nonumber \\
+        &= f(x^k) - \langle H_k d^k, d^k \rangle + \langle y^k, h(x^k) \rangle \nonumber \\
+        &\quad + \frac{1}{2}\langle f''(d^k, d^k \rangle + o(\|d^k\|^2),
+        \label{v2:eq:4.315}
+    \end{align}
+    onde $\tilde{t}_k \in [0, 1]$, e usamos a convergência de $\{x^k\}$ a $\bar{x}$, e de $\{d^k\}$ a zero.
+    De maneira análoga, utilizando a segunda igualdade em \eqref{v2:eq:4.306} e o Teorema do Valor Médio, temos que
+    \begin{align}
+        h_i(x^k + d^k) &= h_i(x^k) + \langle h'_i(x^k), d^k \rangle + \frac{1}{2}\langle h''_i(x^k + \tilde{t}_k d^k)d^k, d^k \rangle \nonumber \\
+        &= \frac{1}{2}\langle h''_i(x^k + \tilde{t}_k d^k)d^k, d^k \rangle \nonumber \\
+        &= \frac{1}{2}\langle h''_i(\bar{x})d^k, d^k \rangle + o(\|d^k\|^2).
+        \label{v2:eq:4.316}
+    \end{align}
+    Agora, combinando a relação \eqref{v2:eq:4.315} com a relação \eqref{v2:eq:4.316}, obtemos que
+    \begin{align*}
+        &\varphi(x^k + d^k; c_k, \eta^k) \\
+        &= f(x^k) - \langle H_k d^k, d^k \rangle + \langle y^k, h(x^k) \rangle \\
+        &\quad + \frac{1}{2}\langle f''(\bar{x})d^k, d^k \rangle + \frac{1}{2}\sum_{i=1}^l \eta_i^k \langle h''_i(\bar{x})d^k, d^k \rangle \\
+        &\quad + \frac{c_k}{2} \sum_{i=1}^l |\langle h''_i(\bar{x})d^k, d^k \rangle| + o(\|d^k\|^2) \\
+        &= f(x^k) - \langle H_k d^k, d^k \rangle + \langle y^k, h(x^k) \rangle \\
+        &\quad + \frac{1}{2} \langle L''_{xx}(\bar{x}, \eta^k)d^k, d^k \rangle + O(c_k \|d^k\|^2) + o(\|d^k\|^2) \\
+        &= f(x^k) - \langle H_k d^k, d^k \rangle + \langle y^k, h(x^k) \rangle \\
+        &\quad + \frac{1}{2} \langle L''_{xx}(\bar{x}, \bar{\lambda})d^k, d^k \rangle \\
+        &\quad + O(c_k \|d^k\|^2) + O(\|\eta^k - \bar{\lambda}\|\|d^k\|^2) + o(\|d^k\|^2).
+    \end{align*}
+    Portanto, fazendo uso também das relações \eqref{v2:eq:4.301}, \eqref{v2:eq:4.307} e \eqref{v2:eq:4.314}, concluímos que
+    \begin{align*}
+        &\varphi(x^k + d^k; c_k, \eta^k) - \varphi(x^k; c_k, \eta^k) \\
+        &= -\langle H_k d^k, d^k \rangle + \frac{1}{2}\langle L''_{xx}(\bar{x}, \bar{\lambda})d^k, d^k \rangle + \langle y^k - \eta^k, h(x^k) \rangle \\
+        &\quad - c_k\|h(x^k)\|_1 + O((c_k + \|\eta^k - \bar{\lambda}\|)\|d^k\|^2) + o(\|d^k\|^2) \\
+        &= \varphi'((x^k; d^k); c_k, \eta^k) + \frac{1}{2}\langle L''_{xx}(\bar{x}, \bar{\lambda})d^k, d^k \rangle \\
+        &\quad + O((c_k + \|\eta^k - \bar{\lambda}\|)\|d^k\|^2) + o(\|d^k\|^2) \\
+        &\le \varphi'((x^k; d^k); c_k, \eta^k) + \frac{1}{2}\langle H_k d^k, d^k \rangle \\
+        &\quad + O((c_k + \|\eta^k - \bar{\lambda}\|)\|d^k\|^2) + o(\|d^k\|^2).
+    \end{align*}
+    Agora, sob a condição \eqref{v2:eq:4.312}, podemos escrever
+    \begin{align*}
+        &\varphi(x^k + d^k; c_k, \eta^k) - \varphi(x^k; c_k, \eta^k) \\
+        &\le \varphi'((x^k; d^k); c_k, \eta^k) + \frac{1}{2}\langle H_k d^k, d^k \rangle + O(\delta \|d^k\|^2) \\
+        &\le \sigma \varphi'((x^k; d^k); c_k, \eta^k) - \frac{1 - 2\sigma}{2} \langle H_k d^k, d^k \rangle + O(\delta \|d^k\|^2) \\
+        &\le \sigma \varphi'((x^k; d^k); c_k, \eta^k) - \frac{\gamma(1 - 2\sigma)}{2} \|d^k\|^2 + O(\delta \|d^k\|^2) \\
+        &\le \sigma \varphi'((x^k; d^k); c_k, \eta^k),
+    \end{align*}
+    onde a segunda desigualdade segue de \eqref{v2:eq:4.308}, a terceira de \eqref{v2:eq:4.313}, e a última vale para todo $k$ suficientemente grande, se o número $\delta > 0$ é suficientemente pequeno.
+\end{proof}
+
+Procedimientos concretos de elección de los parámetros $c_k$ e $\eta^k$, que garantizan tanto convergencia global del método SQP cuanto convergencia local superlineal, existen y pueden ser consultadas en la literatura especial. Como estos procedimientos son bastante complejos, ellos no serán presentados en este libro.
+
+\subsection{Otras técnicas de globalización}\label{v2:sec:4.6.5}
+
+Para finalizar, mencionaremos algunas otras técnicas de globalización de métodos SQP. Sea $x^k \in \R^n$ una aproximación actual a un punto estacionario del problema. Como en el caso irrestricto, podemos considerar una aproximación del problema original en una vecindad específica (``región de confianza'') de $x^k$. Así obtenemos el subproblema \eqref{v2:eq:4.269}, donde el conjunto factible $D_k$ es dado por
+\begin{equation}
+    D_k = \left\{ d \in \R^n \;\middle|\; \begin{array}{l} h(x^k) + h'(x^k)d = 0, \; g(x^k) + g'(x^k)d \le 0, \\ \|d\|_\infty \le \delta_k. \end{array} \right\}
+    \label{v2:eq:4.317}
+\end{equation}
+(comparar con \eqref{v2:eq:4.270}), y $\delta_k > 0$ define la región de confianza. Sea $d^k$ una solución global de este subproblema. El punto dado por $\tilde{x}^k = x^k + d^k$ será aceptado como aproximación siguiente $x^{k+1}$ se el paso de $x^k$ a $\tilde{x}^k$ suministra un decrecimiento suficiente de la función de mérito elegida (típicamente, una función de penalización exacta). Si el decrecimiento suficiente no fuera alcanzado, el subproblema \eqref{v2:eq:4.269}, \eqref{v2:eq:4.317}, es resuelto con un valor del parámetro $\delta_k$ menor. Globalización por las técnicas de regiones de confianza presenta esencialmente las mismas dificultades potenciales que la globalización con búsqueda lineal presentada arriba (posible inviabilidad de subproblemas, elección inadecuada del parámetro penalizador, el efecto de Maratos). Hay aún la cuestión adicional de control del parámetro $\delta_k$. Es claro que para un valor de $\delta_k$ pequeño, el conjunto $D_k$ en \eqref{v2:eq:4.317} puede ser vacío mismo cuando el sistema dado por la linealización de las restricciones (sin la restricción de la región de confianza $\|d\|_\infty \le \delta_k$) posea soluciones (que se encuentran fuera de esta región de confianza).
+
+Recientemente, fue propuesta una nueva estrategia de globalización, llamada de \textit{estrategia de filtros}. Pensamos en el residuo de las restricciones (por ejemplo, dado por el término penalizador $\psi$ en \eqref{v2:eq:4.268}) como otro criterio a ser minimizado, adicional a aquel dado por la función objetivo $f$. De cierto modo, la minimización de este criterio adicional puede ser considerada hasta más importante del que la de $f$ (en muchas aplicaciones, una aproximación a la solución del problema, antes de más nada, tiene que ser factible para tener sentido práctico). Notemos que una función penalizada representa el criterio agregado, donde la parte $\psi$ se hace un papel importante cuando el valor del parámetro penalizador es grande.
+Por otro lado, podemos pensar en el problema original \eqref{v2:eq:4.266} como un problema de optimización \textit{multicriterial} en $\R^n$ (más precisamente, bi-criterial, los criterios siendo $f$ e $\psi$). En vez de utilizar el valor de una función de mérito escalar (función penalizada) para decidir sobre aceptación o no de un punto $\tilde{x}^k$ como aproximación siguiente $x^{k+1}$ a la solución del problema, podemos mirar separadamente los valores de funciones $f$ e $\psi$, y aceptar el punto $\tilde{x}^k$ se él mejora por lo menos uno de los dos criterios, en relación a cada punto obtenido anteriormente. El método de filtro, por tanto, es un método con memoria. Después de la iteración $k$, tenemos en memoria \textit{filtro} $\mathcal{F}_k$, i.e., un subconjunto de $\R \times \R$ finito, formado por pares $(f(x^j), \psi(x^j))$ calculados en las (algunas de las) iteraciones anteriores $j \le k$. Son guardadas en la memoria iteraciones tales que ningún par de números $(a_1, b_1) \in \mathcal{F}_k$ está dominado por algún otro par $(a_2, b_2) \in \mathcal{F}_k$, en el sentido de que las desigualdades $a_1 \ge a_2$ e $b_1 \ge b_2$ no pueden ser satisfechas simultáneamente. En particular, un punto $\tilde{x}^k$ será aceptado como iterando siguiente $x^{k+1}$ se el par $(f(\tilde{x}^k), \psi(\tilde{x}^k))$ no es dominado por ningún par en $\mathcal{F}_k$. Después de la aceptación de $x^{k+1}$, el nuevo filtro $\mathcal{F}_{k+1}$ es generado de la manera siguiente: el par $(f(x^k), \psi(x^k))$ entra en el filtro, en cuanto todos los pares dominados por él son excluidos. Se $\tilde{x}^k$ no fuera acepto por la regla arriba, disminuimos el valor del longitud de paso $\alpha_k$, o el valor del parámetro de la región de confianza $\delta_k$, y probamos una nueva aproximación a la solución así obtenida. La presente descripción bien breve transmite apenas una idea general de la estrategia de filtros. Varios detalles tienen que ser cuidadosamente considerados e implementados para construir un método convergente.

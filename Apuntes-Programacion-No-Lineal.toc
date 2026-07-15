@@ -78,7 +78,7 @@
 \contentsline {section}{\numberline {8.1}Métodos de descenso}{92}{section.8.1}%
 \contentsline {subsection}{\numberline {8.1.1}Esquema general de los métodos de descenso. Búsqueda lineal}{92}{subsection.8.1.1}%
 \contentsline {subsection}{\numberline {8.1.2}El método del gradiente}{99}{subsection.8.1.2}%
-\contentsline {section}{\numberline {8.2}El método de Newton. Métodos cuasi-Newton}{107}{section.8.2}%
+\contentsline {section}{\numberline {8.2}El método de Newton. Métodos cuasi-Newton}{108}{section.8.2}%
 \contentsline {subsection}{\numberline {8.2.1}El método de Newton para ecuaciones}{108}{subsection.8.2.1}%
 \contentsline {subsection}{\numberline {8.2.2}El método de Newton para optimización irrestricta}{110}{subsection.8.2.2}%
 \contentsline {subsection}{\numberline {8.2.3}Métodos cuasi-Newton}{112}{subsection.8.2.3}%
@@ -91,42 +91,47 @@
 \contentsline {subsection}{\numberline {8.4.1}Métodos de direcciones conjugadas para funciones cuadráticas}{131}{subsection.8.4.1}%
 \contentsline {subsection}{\numberline {8.4.2}El método de los gradientes conjugados}{134}{subsection.8.4.2}%
 \contentsline {section}{\numberline {8.5}Métodos que no utilizan derivadas}{136}{section.8.5}%
-\contentsline {section}{Ejercicios del Capítulo 3}{138}{figure.8.11}%
-\contentsline {chapter}{\numberline {9}Métodos para Optimización con Restricción}{144}{chapter.9}%
-\contentsline {chapter}{\numberline {10}Métodos para Optimización con Restricciones}{145}{chapter.10}%
-\contentsline {section}{\numberline {10.1}Métodos para conjuntos factibles de estructura simple}{145}{section.10.1}%
-\contentsline {subsection}{\numberline {10.1.1}Métodos del gradiente proyectado}{145}{subsection.10.1.1}%
-\contentsline {subsection}{\numberline {10.1.2}Direcciones factibles y métodos de descenso}{148}{subsection.10.1.2}%
-\contentsline {subsection}{\numberline {10.1.3}Método del gradiente restringido. Método de Newton restringido}{149}{subsection.10.1.3}%
-\contentsline {section}{\numberline {10.2}Métodos de direcciones factibles}{150}{section.10.2}%
-\contentsline {section}{\numberline {10.3}Métodos de penalización}{152}{section.10.3}%
-\contentsline {subsection}{\numberline {10.3.1}Penalización externa}{153}{subsection.10.3.1}%
-\contentsline {subsection}{\numberline {10.3.2}Penalización externa exacta}{160}{subsection.10.3.2}%
-\contentsline {subsection}{\numberline {10.3.3}Penalización interna. Métodos de barreras}{165}{subsection.10.3.3}%
-\contentsline {section}{\numberline {10.4}Métodos para problemas con restricciones de igualdad}{168}{section.10.4}%
-\contentsline {subsection}{\numberline {10.4.1}Métodos de Newton para el sistema de Lagrange}{168}{subsection.10.4.1}%
-\contentsline {subsection}{\numberline {10.4.2}El método de penalización cuadrática}{170}{subsection.10.4.2}%
-\contentsline {subsection}{\numberline {10.4.3}Lagrangianas aumentadas y funciones de penalización exacta diferenciables}{173}{subsection.10.4.3}%
-\contentsline {section}{\numberline {10.5}Métodos para problemas con restricciones mixtas}{176}{section.10.5}%
-\contentsline {subsection}{\numberline {10.5.1}Métodos de Newton generalizados}{176}{subsection.10.5.1}%
-\contentsline {subsection}{\numberline {10.5.2}Métodos de Newton generalizados para el sistema de Karush-Kuhn-Tucker}{177}{subsection.10.5.2}%
-\contentsline {section}{\numberline {10.6}Programación cuadrática secuencial}{181}{section.10.6}%
-\contentsline {subsection}{\numberline {10.6.1}Restricciones de igualdad}{181}{subsection.10.6.1}%
-\contentsline {subsection}{\numberline {10.6.2}Restricciones mixtas}{183}{subsection.10.6.2}%
-\contentsline {subsection}{\numberline {10.6.3}Globalización de convergencia de SQP}{189}{subsection.10.6.3}%
-\contentsline {subsection}{\numberline {10.6.4}Restauración de la convergencia local superlineal}{196}{subsection.10.6.4}%
-\contentsline {subsection}{\numberline {10.6.5}Otras técnicas de globalización}{201}{subsection.10.6.5}%
-\contentsline {chapter}{\numberline {11}Métodos para optimización no diferenciable}{208}{chapter.11}%
-\contentsline {section}{\numberline {11.1}Métodos de subgradiente}{210}{section.11.1}%
-\contentsline {section}{\numberline {11.2}El método de planos cortantes}{213}{section.11.2}%
-\contentsline {section}{\numberline {11.3}Métodos de haces}{216}{section.11.3}%
-\contentsline {chapter}{\numberline {12}Programación lineal y cuadrática}{222}{chapter.12}%
-\contentsline {section}{\numberline {12.1}Programación lineal}{222}{section.12.1}%
-\contentsline {subsection}{\numberline {12.1.1}Elementos de teoría de la programación lineal}{222}{subsection.12.1.1}%
-\contentsline {subsection}{\numberline {12.1.2}El método del simplex}{228}{subsection.12.1.2}%
-\contentsline {subsection}{\numberline {12.1.3}Métodos de puntos interiores}{234}{subsection.12.1.3}%
-\contentsline {section}{\numberline {12.2}Programación cuadrática}{244}{section.12.2}%
-\contentsline {subsection}{\numberline {12.2.1}Puntos especiales}{244}{subsection.12.2.1}%
-\contentsline {subsection}{\numberline {12.2.2}El método de puntos especiales}{245}{subsection.12.2.2}%
-\contentsline {chapter}{\nonumberline Bibliografía}{248}{chapter*.24}%
+\contentsline {section}{Ejercicios del Capítulo}{138}{figure.8.11}%
+\contentsline {chapter}{\numberline {9}Métodos para Optimización con Restricciones}{144}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Métodos para conjuntos factibles de estructura simple}{144}{section.9.1}%
+\contentsline {subsection}{\numberline {9.1.1}Métodos del gradiente proyectado}{144}{subsection.9.1.1}%
+\contentsline {subsection}{\numberline {9.1.2}Direcciones factibles y métodos de descenso}{147}{subsection.9.1.2}%
+\contentsline {subsection}{\numberline {9.1.3}Método del gradiente restringido. Método de Newton restringido}{148}{subsection.9.1.3}%
+\contentsline {section}{\numberline {9.2}Métodos de direcciones factibles}{149}{section.9.2}%
+\contentsline {section}{\numberline {9.3}Métodos de penalización}{151}{section.9.3}%
+\contentsline {subsection}{\numberline {9.3.1}Penalización externa}{152}{subsection.9.3.1}%
+\contentsline {subsection}{\numberline {9.3.2}Penalización externa exacta}{159}{subsection.9.3.2}%
+\contentsline {subsection}{\numberline {9.3.3}Penalización interna. Métodos de barreras.}{164}{subsection.9.3.3}%
+\contentsline {section}{\numberline {9.4}Métodos para problemas con restricciones de igualdad}{167}{section.9.4}%
+\contentsline {subsection}{\numberline {9.4.1}Métodos de Newton para el sistema de Lagrange}{167}{subsection.9.4.1}%
+\contentsline {subsection}{\numberline {9.4.2}El método de penalización cuadrática}{169}{subsection.9.4.2}%
+\contentsline {subsection}{\numberline {9.4.3}Lagrangianas aumentadas y funciones de penalización exacta diferenciables}{172}{subsection.9.4.3}%
+\contentsline {section}{\numberline {9.5}Métodos para problemas con restricciones mixtas}{177}{section.9.5}%
+\contentsline {subsection}{\numberline {9.5.1}Métodos de Newton generalizados}{177}{subsection.9.5.1}%
+\contentsline {subsection}{\numberline {9.5.2}Métodos de Newton generalizados para el sistema de Karush-Kuhn-Tucker}{178}{subsection.9.5.2}%
+\contentsline {subsection}{\numberline {9.5.3}Métodos de penalización cuadrática}{186}{subsection.9.5.3}%
+\contentsline {subsection}{\numberline {9.5.4}Lagrangianas aumentadas}{191}{subsection.9.5.4}%
+\contentsline {subsection}{\numberline {9.5.5}Penalización exacta diferenciable}{194}{subsection.9.5.5}%
+\contentsline {section}{\numberline {9.6}Programación cuadrática secuencial}{195}{section.9.6}%
+\contentsline {subsection}{\numberline {9.6.1}Restricciones de igualdad}{195}{subsection.9.6.1}%
+\contentsline {subsection}{\numberline {9.6.2}Restricciones mixtas}{197}{subsection.9.6.2}%
+\contentsline {subsection}{\numberline {9.6.3}Globalización de convergencia de SQP}{203}{subsection.9.6.3}%
+\contentsline {subsection}{\numberline {9.6.4}Restauración de la convergencia local superlinear}{209}{subsection.9.6.4}%
+\contentsline {subsection}{\numberline {9.6.5}Otras técnicas de globalización}{214}{subsection.9.6.5}%
+\contentsline {section}{\numberline {9.7}Identificación de las restricciones activas}{215}{section.9.7}%
+\contentsline {subsection}{\numberline {9.7.1}Identificación basada en estimativas de distancia a la solución}{215}{subsection.9.7.1}%
+\contentsline {subsection}{\numberline {9.7.2}Estimativas de distancia a la solución}{218}{subsection.9.7.2}%
+\contentsline {chapter}{\numberline {10}Métodos para optimización no diferenciable}{226}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Métodos de subgradiente}{228}{section.10.1}%
+\contentsline {section}{\numberline {10.2}El método de planos cortantes}{231}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Métodos de haces}{234}{section.10.3}%
+\contentsline {chapter}{\numberline {11}Programación lineal y cuadrática}{240}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Programación lineal}{240}{section.11.1}%
+\contentsline {subsection}{\numberline {11.1.1}Elementos de teoría de la programación lineal}{240}{subsection.11.1.1}%
+\contentsline {subsection}{\numberline {11.1.2}El método del simplex}{246}{subsection.11.1.2}%
+\contentsline {subsection}{\numberline {11.1.3}Métodos de puntos interiores}{252}{subsection.11.1.3}%
+\contentsline {section}{\numberline {11.2}Programación cuadrática}{262}{section.11.2}%
+\contentsline {subsection}{\numberline {11.2.1}Puntos especiales}{262}{subsection.11.2.1}%
+\contentsline {subsection}{\numberline {11.2.2}El método de puntos especiales}{263}{subsection.11.2.2}%
+\contentsline {chapter}{\nonumberline Bibliografía}{266}{chapter*.24}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

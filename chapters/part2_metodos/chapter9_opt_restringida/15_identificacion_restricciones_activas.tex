@@ -1,0 +1,219 @@
+% --- Archivo: 15_identificacion_restricciones_activas.tex ---
+
+\section{Identificación de las restricciones activas}\label{v2:sec:4.7}
+
+En esta sección consideraremos un problema de optimización con restricciones de desigualdad
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \{x \in \R^n \mid g(x) \le 0\},
+    \label{v2:eq:4.318}
+\end{equation}
+donde $f \colon \R^n \to \R$ y $g \colon \R^n \to \R^m$ son funciones diferenciables. Todas las construcciones a seguir pueden ser fácilmente adaptadas para el caso en que el problema posea también restricciones de igualdad. Como todas estas restricciones son siempre activas en la solución (de hecho, en cualquier punto factible), la ``identificación'' de este hecho no es necesaria. Es por eso que no hay necesidad de considerar restricciones de igualdad en este contexto.
+
+Sea $\bar{x} \in \R^n$ un punto estacionario del problema \eqref{v2:eq:4.318}. Como sugiere el nombre, la identificación de las restricciones activas en el punto $\bar{x}$ se refiere a la identificación del conjunto
+\[
+    I(\bar{x}) = \{i = 1, \dots, m \mid g_i(\bar{x}) = 0\}.
+\]
+
+La utilidad de esta identificación es obvia: ella permite reducir un problema con restricciones de desigualdad (o con restricciones mixtas) a un problema con restricciones de igualdad solamente, en el sentido siguiente. Como es fácil ver, un punto estacionario $\bar{x}$ del problema \eqref{v2:eq:4.318} también es estacionario para el problema
+\[
+    \min f(x) \quad \text{sujeto a} \quad x \in \bar{D} = \{x \in \R^n \mid g_i(x) = 0, \; i \in I(\bar{x})\}.
+\]
+Este problema con restricciones de igualdad, en principio, es de estructura más simple que el problema original. Por ejemplo, el sistema de otimalidad (de Lagrange) para el problema modificado es un sistema de ecuaciones diferenciables, que puede ser resuelto usando las técnicas del \cref{v2:sec:4.4}. El sistema de otimalidad (de Karush-Kuhn-Tucker) del problema original posee condiciones de complementaridad, de naturaleza bien más compleja, que ecuaciones diferenciables (incluso si se transformadas en ecuaciones, las condiciones de complementaridad no serían diferenciables; vea \S 4.5).
+
+Naturalmente, estamos interesados en identificar $I(\bar{x})$ sin saber $\bar{x}$, utilizando información disponible a lo largo de un proceso iterativo empleado para resolver el problema. Más precisamente, consideramos que podemos hacer uso de la información disponible en un punto $(x, \mu) \in \R^n \times \R^m$, donde $x$ es una aproximación a $\bar{x}$ y $\mu$ es una aproximación a un multiplicador de Lagrange $\bar{\mu}$ asociado a $\bar{x}$. De nuevo, resaltamos que los valores exactos de $\bar{x}$ y de $\bar{\mu}$ no son conocidos.
+
+Antes de seguir adelante, mencionamos que el método símplex para programación lineal y el método de puntos interiores para programación cuadrática (considerados en el Capítulo 6) también hacen uso de la identificación de restricciones activas. Más aún, una vez que el conjunto $I(\bar{x})$ es identificado, estos métodos tienen convergencia finita (de hecho, con frecuencia, apenas una iteración es necesaria para obtener una solución exacta del problema). Por la manera de identificar las restricciones activas en el Capítulo 6 depende fuertemente del hecho de que las restricciones del problema son lineales, y por eso es bien diferente de la que será presentada a seguir.
+
+\subsection{Identificación basada en estimativas de distancia a la solución}\label{v2:sec:4.7.1}
+
+Recordamos que puntos estacionarios del problema \eqref{v2:eq:4.318} son caracterizados por el sistema de Karush-Kuhn-Tucker
+\begin{equation}
+    L'_x(x, \mu) = 0,
+    \label{v2:eq:4.319}
+\end{equation}
+\begin{equation}
+    \mu \ge 0, \quad g(x) \le 0, \quad \langle \mu, g(x) \rangle = 0,
+    \label{v2:eq:4.320}
+\end{equation}
+donde
+\[
+    L \colon \R^n \times \R^m \to \R, \quad L(x, \mu) = f(x) + \langle \mu, g(x) \rangle,
+\]
+es la Lagrangiana del problema.
+Sea $M(\bar{x})$ el conjunto de multiplicadores de Lagrange asociados a un punto estacionario aislado $\bar{x}$ del problema \eqref{v2:eq:4.318}, i.e., el conjunto de todos los $\bar{\mu} \in \R^m$ tales que $(\bar{x}, \bar{\mu})$ resuelve el sistema \eqref{v2:eq:4.319}, \eqref{v2:eq:4.320}. Resaltamos que $M(\bar{x})$ puede poseer más de un elemento. Sea
+\[
+    \Omega(\bar{x}) = \{\bar{x}\} \times M(\bar{x}).
+\]
+La tarea de identificar restricciones activas es bastante fácil si suponemos que algún $\bar{\mu} \in M(\bar{x})$ satisface la condición de complementaridad estricta
+\[
+    \bar{\mu}_i > 0 \quad \forall i \in I(\bar{x}),
+\]
+y si estamos en un punto próximo a $(\bar{x}, \bar{\mu})$, donde $\bar{\mu}$ satisface esta propiedad. Con efecto, definiendo el conjunto de índices
+\[
+    I(x, \mu) = \{i = 1, \dots, m \mid \mu_i \ge -g_i(x)\}, \quad x \in \R^n, \; \mu \in \R^m,
+\]
+y utilizando la continuidad de las funciones involucradas, en el caso de la complementaridad estricta es obvio que existe una vecindad $U$ del punto $(\bar{x}, \bar{\mu})$ tal que
+\[
+    I(\bar{x}) = I(x, \mu) \quad \forall (x, \mu) \in U.
+\]
+En general, sin embargo, vale apenas la relación más débil:
+\[
+    I(x, \mu) \subset I(\bar{x}) \quad \forall (x, \mu) \in U.
+\]
+Mas, en cualquier caso, el conjunto $I(x, \mu)$ es, sí, un candidato natural para aproximar $I(\bar{x})$.
+
+Notemos también que si $M(\bar{x}) = \{\bar{\mu}\}$ para algún $\bar{\mu} \in \R^m$ (i.e., el multiplicador es único), entonces la vecindad $U$ puede ser elegida de tal manera que sea válida la relación siguiente:
+\[
+    I_+(\bar{x}) \subset I(x, \mu) \subset I(\bar{x}) \quad \forall (x, \mu) \in U,
+\]
+donde
+\[
+    I_+(\bar{x}) = \{i \in I(\bar{x}) \mid \bar{\mu}_i > 0\}.
+\]
+A seguir, mostraremos como restricciones activas pueden ser identificadas en toda su certeza, bajo condiciones bien razonables que no incluyen ni la condición de complementaridad estricta ni la unicidad del multiplicador de Lagrange asociado al punto estacionario en cuestión. La idea consiste en comparar los valores de $-g_i(x)$ no con $\mu_i$, $i = 1, \dots, m$, mas con valores de una función de identificación cuyo comportamiento en torno del conjunto $\Omega(\bar{x})$ es conocido. Funciones de este tipo son típicamente obtenidas del estudio de estimativas para la distancia al conjunto $\Omega(\bar{x})$. Esta técnica es relativamente simple, mas permite obtener resultados más fuertes (por lo menos en el sentido teórico) de que varias otras maneras de identificación bien más complejas.
+Otra ventaja es que esta técnica no está ligada a ningún algoritmo específico para el problema \eqref{v2:eq:4.318}, y por lo tanto, puede ser incorporada a cualquier algoritmo.
+
+Decimos que la función $r \colon \R^n \times \R^m \to \R_+$ proporciona una estimativa a la distancia al conjunto $\Omega(\bar{x})$, si
+\[
+    r(\bar{x}, \bar{\mu}) = 0 \quad \forall \bar{\mu} \in M(\bar{x}),
+\]
+$r$ es continua en $\Omega(\bar{x})$, y existen números $\delta > 0$, $M > 0$ y $\nu > 0$ tales que
+\begin{equation}
+    \dist((x, \mu), \Omega(\bar{x})) \le M(r(x, \mu))^\nu \quad \forall (x, \mu) \in U(\Omega(\bar{x}), \delta),
+    \label{v2:eq:4.321}
+\end{equation}
+donde
+\[
+    U(\Omega(\bar{x}), \delta) = \{(x, \mu) \in \R^n \times \R^m \mid \dist((x, \mu), \Omega(\bar{x})) \le \delta\}.
+\]
+Funciones con estas propiedades pueden ser encontradas en varias situaciones (vea el \cref{v2:sec:4.7.2} más adelante). Notemos que en relación a estimativas como \eqref{v2:eq:4.321}, el hecho de que $\bar{x}$ sea un punto estacionario aislado no es importante. En situaciones en que $\bar{x}$ no es aislado, estimativas análogas pueden ser construidas para la distancia al conjunto de soluciones del sistema \eqref{v2:eq:4.319}, \eqref{v2:eq:4.320}. Las constantes $M$ y $\nu$, que aparecen en \eqref{v2:eq:4.321}, típicamente no son conocidas. Felizmente, en la implementación de la técnica de identificación que presentaremos, no precisamos ni de valores exactos de las constantes, ni aproximaciones.
+
+En muchos casos es posible utilizar variantes locales de estimativas a la distancia, sustituyendo $U(\Omega(\bar{x}), \delta)$ en \eqref{v2:eq:4.321} por una vecindad del punto $(\bar{x}, \bar{\mu}) \in \Omega(\bar{x})$ con $\bar{\mu} \in M(\bar{x})$ fijo (vea las demostraciones de las Proposiciones 4.7.1 y 4.7.2).
+
+Estimativas para la distancia (a conjuntos de diferentes naturalezas) fueron utilizadas en este libro varias veces; vea el Teorema 1.5.5 sobre la distancia al conjunto de soluciones de un sistema de ecuaciones diferenciables (y la generalización de este resultado para el caso de restricciones mixtas en el Teorema 1.5.6); el Teorema 4.3.3, donde una estimativa de este tipo fue utilizada para obtener la tasa de convergencia de los métodos de penalización; el Teorema 1.6.6 sobre la distancia a una solución aislada de una ecuación no-diferenciable; y las condiciones de crecimiento cuadrático y similares en el \S 3.1.2.
+
+Definimos
+\begin{equation}
+    I(x, \mu) = \{i = 1, \dots, m \mid \rho(r(x, \mu)) \ge -g_i(x)\},
+    \label{v2:eq:4.322}
+\end{equation}
+\[
+    x \in \R^n, \; \mu \in \R^m,
+\]
+donde utilizamos la función
+\begin{equation}
+    \rho \colon \R_+ \to \R, \quad \rho(t) = \begin{cases}
+        -1/\log \hat{t}, & \text{si } t \ge \hat{t}, \\
+        -1/\log t, & \text{si } t \in (0, \hat{t}), \\
+        0, & \text{si } t = 0,
+    \end{cases}
+    \label{v2:eq:4.323}
+\end{equation}
+siendo $\hat{t} \in (0, 1)$ un parámetro. Notemos que la función $\rho$ es continua en $\R_+$. Afirmamos que si $\bar{x}$ es un punto estacionario aislado del problema \eqref{v2:eq:4.318}, entonces el conjunto de índices $I(x, \mu)$ identifica correctamente todas las restricciones activas en el punto $\bar{x}$, desde que $(x, \mu)$ sea suficientemente próximo a $\Omega(\bar{x})$.
+
+\begin{proposition}[Identificación de las restricciones activas]\label{v2:prop:4.7.1}
+    Sean $f \colon \R^n \to \R$ y $g \colon \R^n \to \R^m$ funciones diferenciables en el punto $\bar{x} \in \R^n$. Supongamos que existan una vecindad $V$ de $\bar{x}$ y un número $L > 0$ tales que
+    \begin{equation}
+        \|g(x) - g(\bar{x})\| \le L\|x - \bar{x}\| \quad \forall x \in V.
+        \label{v2:eq:4.324}
+    \end{equation}
+    Sean $\bar{x}$ un punto estacionario aislado del problema \eqref{v2:eq:4.318} y $r \colon \R^n \times \R^m \to \R_+$ una función que provee una estimativa de la distancia al conjunto $\Omega(\bar{x})$, en el sentido de \eqref{v2:eq:4.321}.
+    Entonces, para todo $\bar{\mu} \in M(\bar{x})$, existe una vecindad $U$ del punto $(\bar{x}, \bar{\mu})$ tal que el conjunto de índices $I(x, \mu)$ definido por las fórmulas \eqref{v2:eq:4.322} y \eqref{v2:eq:4.323} satisface
+    \begin{equation}
+        I(x, \mu) = I(\bar{x}) \quad \forall (x, \mu) \in U.
+        \label{v2:eq:4.325}
+    \end{equation}
+\end{proposition}
+\begin{proof}
+    Sea $i \in I(\bar{x})$. Si $(x, \mu) \in \R^n \times \R^m$ está suficientemente próximo a $(\bar{x}, \bar{\mu})$, utilizando \eqref{v2:eq:4.321} y \eqref{v2:eq:4.324} obtenemos que
+    \begin{align*}
+        -g_i(x) &= g_i(\bar{x}) - g_i(x) \\
+        &\le L\|x - \bar{x}\| \\
+        &\le LM(r(x, \mu))^\nu \\
+        &\le \rho(r(x, \mu)),
+    \end{align*}
+    donde tomamos en cuenta que $r$ es continua y tiene valores nulos en $\Omega(\bar{x})$, así como el hecho de que para cualquier $\nu > 0$, la siguiente relación es válida:
+    \[
+        \lim_{t \to 0+} t^\nu \log t = 0.
+    \]
+    Concluimos que $i \in I(x, \mu)$, i.e., $I(\bar{x}) \subset I(x, \mu)$.
+    Sea ahora $i \in \{1, \dots, m\} \setminus I(\bar{x})$. En este caso, existen una vecindad $U$ de $(\bar{x}, \bar{\mu})$ y un número $\gamma > 0$ tales que $\forall (x, \mu) \in U$ se tiene que
+    \[
+        \rho(r(x, \mu)) < \gamma, \quad -g_i(x) \ge \gamma,
+    \]
+    i.e., $i \notin I(x, \mu)$. Por tanto, $I(x, \mu) \subset I(\bar{x})$.
+\end{proof}
+
+Como es fácil ver, en lugar de la función $\rho$ dada por \eqref{v2:eq:4.323}, en la definición del conjunto $I(x, \mu)$ podríamos utilizar, por ejemplo, la función
+\begin{equation}
+    \rho \colon \R_+ \to \R, \quad \rho(t) = t^\theta,
+    \label{v2:eq:4.326}
+\end{equation}
+donde $\theta \in (0, \nu)$. Esta elección puede poseer ciertas ventajas, pero ella presupone que el valor de $\nu$ en \eqref{v2:eq:4.321} sea conocido.
+
+% [Ejercicio 4.7.1 movido a exercises.tex]
+
+Si $M(\bar{x}) = \{\bar{\mu}\}$ para algún $\bar{\mu} \in \R^m$, i.e., el punto estacionario $\bar{x}$ tiene un único multiplicador de Lagrange asociado, podemos identificar también el conjunto $I_+(\bar{x})$ de las restricciones fuertemente activas (luego, el conjunto $I_0(\bar{x}) = I(\bar{x}) \setminus I_+(\bar{x})$). Esta información también puede ser útil. Por ejemplo, en el sistema \eqref{v2:eq:4.319}, \eqref{v2:eq:4.320}, podemos imponer la condición $\mu_i = 0$, $i \in I_0(\bar{x})$, así eliminando las variables duales correspondientes.
+Definimos
+\begin{equation}
+    I_+(x, \mu) = \{i = 1, \dots, m \mid \mu_i \ge \rho(r(x, \mu))\},
+    \label{v2:eq:4.327}
+\end{equation}
+\[
+    x \in \R^n, \quad \mu \in \R^m.
+\]
+
+\begin{proposition}\label{v2:prop:4.7.2}
+    Bajo las hipótesis de la Proposición 4.7.1, si el punto estacionario $\bar{x}$ del problema \eqref{v2:eq:4.318} tiene un único multiplicador de Lagrange asociado $\bar{\mu}$, entonces existe una vecindad $U$ de $(\bar{x}, \bar{\mu})$ tal que para el conjunto de índices $I_+(x, \mu)$ definido por las fórmulas \eqref{v2:eq:4.323} y \eqref{v2:eq:4.327}, se tiene que
+    \[
+        I_+(x, \mu) = I_+(\bar{x}) \quad \forall (x, \mu) \in U.
+    \]
+\end{proposition}
+\begin{proof}
+    La inclusión $I_+(\bar{x}) \subset I_+(x, \mu)$, para todos los puntos $(x, \mu) \in \R^n \times \R^m$ suficientemente próximos a $(\bar{x}, \bar{\mu})$, es obvia.
+    Por otro lado, para tales $(x, \mu)$, si $i \in \{1, \dots, m\} \setminus I_+(\bar{x})$, entonces
+    \begin{align*}
+        \mu_i &= |\mu_i - \bar{\mu}_i| \\
+        &\le M(r(x, \mu))^\nu \\
+        &< \rho(r(x, \mu)),
+    \end{align*}
+    i.e., $i \notin I_+(x, \mu)$. Por tanto, $I_+(x, \mu) \subset I_+(\bar{x})$.
+\end{proof}
+
+Los resultados de la Proposición 4.7.2 continúan siendo válidos si en vez de \eqref{v2:eq:4.323} utilizamos la fórmula \eqref{v2:eq:4.326} con $\theta \in (0, \nu)$.
+
+\subsection{Estimativas de distancia a la solución}\label{v2:sec:4.7.2}
+
+Para una elección de la función $r$ adecuada, estimativas del tipo \eqref{v2:eq:4.321} son conocidas para varios casos importantes. A seguir, presentamos algunos ejemplos, sin entrar en todos los detalles.
+Típicamente, la función $r$ viene dada por algún residuo del sistema \eqref{v2:eq:4.319}, \eqref{v2:eq:4.320}, i.e.,
+\begin{equation}
+    r(x, \mu) = \|\Phi(x, \mu)\|, \quad x \in \R^n, \; \mu \in \R^m,
+    \label{v2:eq:4.328}
+\end{equation}
+donde la función $\Phi \colon \R^n \times \R^m \to \R^s$ (para algún $s$) es tal que las soluciones del sistema de ecuaciones
+\[
+    \Phi(x, \mu) = 0
+\]
+coinciden con las soluciones del sistema \eqref{v2:eq:4.319}, \eqref{v2:eq:4.320}.
+Por ejemplo, la estimativa \eqref{v2:eq:4.321} vale con $\nu = 1$, si $r$ es dada por \eqref{v2:eq:4.328}, donde
+\begin{equation}
+    \Phi(x, \mu) = \begin{pmatrix} L'_x(x, \mu) \\ \min\{\mu_1, -g_1(x)\} \\ \vdots \\ \min\{\mu_m, -g_m(x)\} \end{pmatrix},
+    \label{v2:eq:4.329}
+\end{equation}
+y el punto $\bar{x}$ satisface la condición de regularidad de independencia lineal de los gradientes de las restricciones activas (1.17) (lo que garantiza la unicidad del multiplicador $\bar{\mu}$) y la condición suficiente de segunda orden (1.23) del Teorema 1.2.3(b). Con efecto, por la Proposición 4.5.1, $\Phi$ es semi-diferenciable en el punto $(\bar{x}, \bar{\mu})$ y la matriz $\Phi'$ es BD-regular en este punto, por la Proposición 4.5.2. La propiedad deseada ahora sigue del Teorema 1.6.6, de la definición de semi-diferenciabilidad y de la afirmación (b) del Ejercicio 1.6.3. Notemos que la condición de independencia lineal de los gradientes de las restricciones activas puede ser eliminada, si sustituimos la condición suficiente de segunda orden por la condición suficiente de segunda orden fuerte (así permitiendo que los multiplicadores de Lagrange no sean únicos y que $\Phi$ no sea BD-regular), mas la justificación de este resultado más general está fuera del alcance de este libro.
+
+La estimativa presentada hace uso del residuo natural. Claramente, podemos emplear también otras funciones de complementaridad $\psi \colon \R \times \R \to \R$ (vea \S 4.5.2), tomando
+\[
+    \Phi(x, \mu) = \begin{pmatrix} L'_x(x, \mu) \\ \psi(\mu_1, -g_1(x)) \\ \vdots \\ \psi(\mu_m, -g_m(x)) \end{pmatrix}, \quad x \in \R^n, \; \mu \in \R^m.
+\]
+La estimativa \eqref{v2:eq:4.321} continua siendo válida con $\nu = 1$ para esta $\Phi$, se $r$ es dada por \eqref{v2:eq:4.328}, $\psi$ es semi-diferenciable en $(0, 0)$, y $\Phi$ es BD-regular en $(\bar{x}, \bar{\mu})$.
+Estimativas de naturaleza diferente pueden ser obtenidas cuando $f$ y $g$ son funciones analíticas en una vecindad del punto $\bar{x}$, i.e., cuando ellas pueden ser representadas en esta vecindad por sumas (infinitas) de polinomios que convergen absolutamente y uniformemente. En este caso, la estimativa \eqref{v2:eq:4.321} vale si $r$ es dada por \eqref{v2:eq:4.328},
+\[
+    \Phi \colon \R^n \times \R^m \to \R^n \times \R^m \times \R^m \times \R,
+\]
+\[
+    \Phi(x, \mu) = \begin{pmatrix} L'_x(x, \mu) \\ \min\{\mu_1, 0\} \\ \vdots \\ \min\{\mu_m, 0\} \\ \max\{g_1(x), 0\} \\ \vdots \\ \max\{g_m(x), 0\} \\ \langle \mu, g(x) \rangle \end{pmatrix}.
+\]
+Sin embargo, el número $\nu$ en \eqref{v2:eq:4.321} no es conocido, en general.
+
+% Fin de la Sección 4.7

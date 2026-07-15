@@ -1,0 +1,484 @@
+% --- Archivo: 05_penalizacion_externa.tex ---
+
+\section{Métodos de penalización}\label{v2:sec:4.3}
+
+La penalización tiene por objetivo aproximar un problema con restricciones por una sucesión de problemas irrestrictos, teniendo en vista la aplicación de técnicas computacionales ya desarrolladas. La idea de convertir un problema de optimización con restricciones en un problema (o una sucesión de problemas) sin restricciones es natural y es usada en la construcción de varios algoritmos.
+
+En la \textit{penalización externa}, a la función objetivo se le suma un término cuyo valor es nulo en todos los puntos factibles y es positivo para los no-factibles. En general, la solución de un problema así penalizado está fuera del conjunto factible, lo que explica el nombre de penalización ``externa''. Para obtener convergencia a la solución del problema original (que, obviamente, tiene que ser factible), el parámetro escalar que multiplica el término penalizador tiene que crecer a más infinito. Una excepción importante a esta regla es la \textit{penalización exacta}, donde un valor del parámetro penalizador suficientemente grande (pero fijo) permite la recuperación exacta de una solución del problema original. Típicamente, esto solo es posible a costa de la utilización de términos penalizadores no-diferenciables. La penalización exacta será presentada un poco más adelante, en la \cref{v2:sec:4.3.2}.
+
+En la \textit{penalización interna}, a la función objetivo se le suma un término cuyo valor tiende a más infinito cuando puntos factibles se aproximan a la frontera del conjunto factible del problema. Tenemos entonces una ``barrera'' que no permite que las soluciones de problemas así penalizados dejen el interior del conjunto factible. Esto explica el nombre de penalización ``interna'' o, también, de métodos de ``barreras''. Para obtener convergencia a la solución del problema original (que, típicamente, está justamente en la frontera del conjunto factible), el parámetro escalar que multiplica el término penalizador tiene que decrecer a cero.
+
+Las técnicas de penalización son bien simples y universales. Sin embargo, ellas no son muy usadas en forma pura, debido a la necesidad de la utilización de valores del parámetro penalizador muy grandes (en el caso de la penalización externa) o muy pequeños (en el caso de la penalización interna), lo que tiende a provocar inestabilidad numérica. Incluso así, la penalización tiene una cierta importancia histórica, y es útil para el entendimiento de estrategias más sofisticadas. Además de esto, la penalización exacta provee una de las técnicas más eficientes para la globalización de métodos de programación cuadrática secuencial, que será desarrollada en \cref{v2:sec:4.6}.
+
+\subsection{Penalización externa}\label{v2:sec:4.3.1}
+
+Consideremos un problema en formato general
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D,
+    \label{v2:eq:4.31}
+\end{equation}
+donde $f \colon \R^n \to \R$ y $D \subset \R^n$ es un conjunto cualquiera. Como ya fue anunciado, introduciremos un término que tiene por objetivo penalizar la violación de las restricciones, i.e., una función $\psi \colon \R^n \to \R_+$ continua en $\R^n$, tal que
+\begin{equation}
+    \psi(x) \begin{cases}
+        = 0 & \forall x \in D, \\
+        > 0 & \forall x \in \R^n \setminus D.
+    \end{cases}
+    \label{v2:eq:4.32}
+\end{equation}
+Por ejemplo, si
+\begin{equation}
+    D = \{x \in \R^n \mid h(x) = 0, g(x) \le 0\},
+    \label{v2:eq:4.33}
+\end{equation}
+es conveniente definir
+\[
+    \Psi \colon \R^n \to \R^l \times \R^m,
+\]
+\begin{equation}
+    \Psi(x) = (h(x), (\max\{0, g_1(x)\}, \dots, \max\{0, g_m(x)\})),
+    \label{v2:eq:4.34}
+\end{equation}
+\begin{equation}
+    \psi(x) = \|\Psi(x)\|^p, \quad x \in \R^n,
+    \label{v2:eq:4.35}
+\end{equation}
+donde $p > 0$. En \eqref{v2:eq:4.35}, además de la norma Euclidiana $\|\cdot\| = \|\cdot\|_2$, pueden ser utilizadas también $\|\cdot\|_p$ o $\|\cdot\|_\infty$ (para $p \in (0, 1)$, $\|\cdot\|_p$ no define una norma, pero en este contexto es conveniente utilizar la misma notación). Estas elecciones resultan en
+\begin{equation}
+    \psi(x) = \|\Psi(x)\|_p^p = \|h(x)\|_p^p + \sum_{i=1}^m (\max\{g_i(x), 0\})^p,
+    \label{v2:eq:4.36}
+\end{equation}
+o
+\begin{equation}
+    \psi(x) = \|\Psi(x)\|_\infty^p = (\max\{\|h(x)\|_\infty, 0, g_1(x), \dots, g_m(x)\})^p.
+    \label{v2:eq:4.37}
+\end{equation}
+Notamos que para $h$ y $g$ diferenciables, la función $\psi$ definida por \eqref{v2:eq:4.36} es diferenciable cuando $p > 1$, y no es diferenciable en caso contrario. La función $\psi$ dada por \eqref{v2:eq:4.37} no es diferenciable, mismo cuando $h$ y $g$ son diferenciables. Como veremos más adelante, existen algunas diferencias importantes entre propiedades de penalizadores diferenciables y no-diferenciables.
+
+Consideremos una familia de problemas irrestrictos
+\begin{equation}
+    \min \varphi(x; c), \quad x \in \R^n,
+    \label{v2:eq:4.38}
+\end{equation}
+donde
+\begin{equation}
+    \varphi(\cdot; c) \colon \R^n \to \R, \quad \varphi(x; c) = f(x) + c\psi(x),
+    \label{v2:eq:4.39}
+\end{equation}
+y $c > 0$ es el parámetro penalizador.
+
+La idea es que a medida en que el valor de $c$ aumenta, la violación de las restricciones se torna cada vez más cara. Podemos esperar, entonces, que soluciones de los problemas irrestrictos \eqref{v2:eq:4.38} se aproximen al conjunto factible cuando $c \to +\infty$ y sus puntos de acumulación resuelvan el problema original \eqref{v2:eq:4.31}.
+
+\noindent \textbf{Algoritmo 4.3.1. (Método de penalización externa)} \\
+Elegir una función $\psi \colon \R^n \to \R_+$, penalizador externo para el conjunto $D$. Elegir $c_0 > 0$. Tomar $k := 0$.
+\begin{enumerate}
+    \item Calcular $x^k = x(c_k)$, una solución del problema \eqref{v2:eq:4.38}, donde la función objetivo es dada por la fórmula \eqref{v2:eq:4.39} con $c = c_k$.
+    \item Elegir $c_{k+1} > c_k$, tomar $k := k + 1$. Retornar al Paso 1.
+\end{enumerate}
+
+Mencionamos que, por razones obvias, es natural utilizar el punto $x^{k-1}$ como punto inicial del método aplicado para minimizar la función $\varphi(\cdot; c_k)$ en la iteración $k$.
+
+Notemos que la mayoría de los resultados de convergencia de métodos de este tipo se refiere a la sucesión de soluciones globales de los problemas \eqref{v2:eq:4.38}, suponiendo que ellas existan. Por lo tanto, fuera del caso convexo, la aplicación de métodos de penalización puros no tiene convergencia garantizada, ya que en el caso no-convexo no hay como calcular soluciones globales. El asunto de utilización de soluciones locales será considerado también, más adelante.
+
+A continuación, veremos algunos ejemplos de aplicación del Algoritmo 4.3.1.
+
+\begin{example}\label{v2:exa:4.3.1}
+    Consideremos el problema
+    \[
+        \min x_1^2 - x_2 \quad \text{sujeto a} \quad x_1 + x_2 - 1 = 0, \; x_1 \ge 0.
+    \]
+    Este es un problema de programación convexa, y la única solución es $\bar{x} = (0, 1)$.
+
+    Eligiendo el término penalizador \eqref{v2:eq:4.36} con $p = 2$, obtenemos
+    \[
+        \varphi(x; c) = x_1^2 - x_2 + c(x_1 + x_2 - 1)^2 + c(\max\{-x_1, 0\})^2.
+    \]
+    Como es fácil ver, esta función es convexa, diferenciable, y su (único) minimizador (global) irrestricto es caracterizado por el sistema de ecuaciones
+    \[
+        0 = \varphi'(x; c) = \begin{pmatrix} 2x_1 + 2c(x_1 + x_2 - 1) - 2c\max\{-x_1, 0\} \\ -1 + 2c(x_1 + x_2 - 1) \end{pmatrix},
+    \]
+    donde $\varphi'(x; c)$ es el gradiente de $\varphi(\cdot; c)$ en $x$ (acreditamos que no debe haber confusión con la notación de la derivada direccional). Donde obtenemos que
+    \[
+        2x_1 + 1 - 2c\max\{-x_1, 0\} = 0.
+    \]
+    La última ecuación no posee solución si $x_1 \ge 0$. Resolviendo el sistema para $x_1 < 0$, obtenemos
+    \[
+        x_1(c) = -1/(2(1+c)), \quad x_2(c) = 1 + 1/(2c) + 1/(2(1+c)).
+    \]
+    En particular, tenemos que
+    \[
+        x(c) = (x_1(c), x_2(c)) \to (0, 1) = \bar{x} \quad (c \to +\infty).
+    \]
+    Observemos que para todo $c > 0$, el punto $x(c)$ no es factible. La Figura 4.3.4 ilustra la trayectoria $x(c)$ de las soluciones de los problemas penalizados.
+
+    % [Aquí va la Figura 4.3.4]
+
+    El ejemplo de arriba muestra que, en general, las soluciones de problemas penalizados no son puntos factibles del problema original y, por tanto, para métodos de este tipo solo podemos esperar convergencia asintótica. El ejemplo siguiente muestra que, en principio, es posible que alguna solución del problema penalizado sea factible y que, en este caso, ella es solución del problema original. Resaltamos, no obstante, que tal situación es bastante atípica en el caso de utilización de penalizadores diferenciables.
+\end{example}
+
+\begin{example}\label{v2:exa:4.3.2}
+    Consideremos el problema
+    \[
+        \min x^2 \quad \text{sujeto a} \quad x \ge -1.
+    \]
+    La solución de este problema es $\bar{x} = 0$.
+
+    Eligiendo el término penalizador \eqref{v2:eq:4.36} con $p = 2$, obtenemos
+    \[
+        \varphi(x; c) = x^2 + c(\max\{-x - 1, 0\})^2.
+    \]
+    Como es fácil ver, esta función es convexa, diferenciable, y su (único) minimizador (global) irrestricto es caracterizado por
+    \[
+        0 = \varphi'(x; c) = 2x - 2c\max\{-x - 1, 0\}.
+    \]
+    La única solución de esta ecuación es $x(c) = 0$.
+    Observemos que $x(c)$ es un punto factible y que $x(c) = \bar{x}$.
+\end{example}
+
+A continuación, probaremos las propiedades de convergencia del Algoritmo 4.3.1, ya observadas en los Ejemplos 4.3.1 y 4.3.2.
+
+\begin{proposition}\label{v2:prop:4.3.1}
+    Sea $\{x^k\}$ una sucesión generada por el Algoritmo 4.3.1, donde $x^k$ es una solución global de \eqref{v2:eq:4.38} con $c = c_k$. Entonces, para todo $k$, se tiene que
+    \begin{equation}
+        \varphi(x^{k+1}; c_{k+1}) \ge \varphi(x^k; c_k),
+        \label{v2:eq:4.40}
+    \end{equation}
+    \begin{equation}
+        \psi(x^{k+1}) \le \psi(x^k),
+        \label{v2:eq:4.41}
+    \end{equation}
+    \begin{equation}
+        f(x^{k+1}) \ge f(x^k).
+        \label{v2:eq:4.42}
+    \end{equation}
+\end{proposition}
+\begin{proof}
+    Por la optimalidad de $x^k$ en \eqref{v2:eq:4.38} con $c = c_k$, tenemos que
+    \begin{align}
+        \varphi(x^k; c_k) &\le \varphi(x^{k+1}; c_k) \nonumber \\
+        &= f(x^{k+1}) + c_k\psi(x^{k+1}) \nonumber \\
+        &\le f(x^{k+1}) + c_{k+1}\psi(x^{k+1}) \nonumber \\
+        &= \varphi(x^{k+1}; c_{k+1}) \nonumber \\
+        &\le \varphi(x^k; c_{k+1}),
+        \label{v2:eq:4.43}
+    \end{align}
+    donde también utilizamos que $c_{k+1} > c_k$ y $\psi(x^{k+1}) \ge 0$. Acabamos de mostrar \eqref{v2:eq:4.40}.
+
+    De \eqref{v2:eq:4.43}, tenemos
+    \begin{align*}
+        f(x^k) + c_k\psi(x^k) &\le f(x^{k+1}) + c_k\psi(x^{k+1}), \\
+        f(x^{k+1}) + c_{k+1}\psi(x^{k+1}) &\le f(x^k) + c_{k+1}\psi(x^k),
+    \end{align*}
+    Sumando las dos últimas desigualdades, obtenemos
+    \[
+        (c_k - c_{k+1})\psi(x^k) \le (c_k - c_{k+1})\psi(x^{k+1}),
+    \]
+    donde, llevando en cuenta que $c_{k+1} > c_k$, sigue \eqref{v2:eq:4.41}.
+
+    Ahora, utilizando \eqref{v2:eq:4.41} y \eqref{v2:eq:4.43}, de
+    \begin{align*}
+        f(x^k) + c_k\psi(x^k) &\le f(x^{k+1}) + c_k\psi(x^{k+1}) \\
+        &\le f(x^{k+1}) + c_k\psi(x^k),
+    \end{align*}
+    obtenemos \eqref{v2:eq:4.42}.
+\end{proof}
+
+El resultado siguiente prueba la convergencia asintótica del Algoritmo 4.3.1, además de mostrar que, en general, los puntos $x^k$ generados no son factibles. En efecto, si el método genera un punto factible, él ya es una solución del problema original. Sin embargo, es claro que tal situación no puede ser esperada en general.
+
+\begin{theorem}[Convergencia global del método de penalización externa]\label{v2:thm:4.3.1}
+    Sea $\{x^k\}$ una sucesión generada por el Algoritmo 4.3.1, donde $x^k$ es una solución global de \eqref{v2:eq:4.38} con $c = c_k$. Entonces $x^k \in D$ si, y solamente si, $x^k$ es una solución global del problema \eqref{v2:eq:4.31}.
+
+    Sean $f \colon \R^n \to \R$ y $\psi \colon \R^n \to \R_+$ funciones continuas en $\R^n$ y sea $\bar{v} > -\infty$ el valor óptimo del problema \eqref{v2:eq:4.31}. Si $c_k \to +\infty$ $(k \to \infty)$, entonces todo punto de acumulación de la sucesión $\{x^k\}$ es una solución global del problema \eqref{v2:eq:4.31}.
+\end{theorem}
+\begin{proof}
+    Primero, es fácil ver que para todo punto $x \in D$,
+    \begin{align*}
+        f(x^k) &\le f(x^k) + c_k\psi(x^k) \\
+        &= \varphi(x^k; c_k) \\
+        &\le \varphi(x; c_k) \\
+        &= f(x),
+    \end{align*}
+    donde utilizamos que $c_k > 0, \psi(x^k) \ge 0$, que $x^k$ es una solución global de \eqref{v2:eq:4.38} con $c = c_k$, y que $\psi(x) = 0$ para todo $x \in D$. Concluimos que, para todo $k$,
+    \begin{equation}
+        f(x^k) \le \varphi(x^k; c_k) \le \bar{v} = \inf_{x \in D} f(x).
+        \label{v2:eq:4.44}
+    \end{equation}
+    Si $x^k \in D$, obtenemos entonces que $x^k$ es una solución del problema \eqref{v2:eq:4.31}.
+
+    Por la Proposición 4.3.1, la sucesión $\{\varphi(x^k; c_k)\}$ es no-decreciente. Por \eqref{v2:eq:4.44}, ella está limitada superiormente por $\bar{v}$. Luego, ella converge y se tiene que
+    \begin{equation}
+        \lim_{k \to \infty} \varphi(x^k; c_k) = \lim_{k \to \infty} (f(x^k) + c_k\psi(x^k)) \le \bar{v}.
+        \label{v2:eq:4.45}
+    \end{equation}
+    Sea $\bar{x}$ un punto de acumulación de la sucesión $\{x^k\}$, $\{x^{k_j}\} \to \bar{x}$ $(j \to \infty)$. Por la continuidad de $f$, tenemos que $f(x^{k_j}) \to f(\bar{x})$ $(j \to \infty)$. De \eqref{v2:eq:4.45}, obtenemos entonces que
+    \[
+        \lim_{j \to \infty} c_{k_j}\psi(x^{k_j}) \le \bar{v} - f(\bar{x}).
+    \]
+    Donde, como $c_k \to +\infty$ y $\psi(x^{k_j}) \ge 0$, sigue que
+    \[
+        \lim_{j \to \infty} \psi(x^{k_j}) = 0.
+    \]
+    Por la continuidad de $\psi$, concluimos que $\psi(\bar{x}) = 0$, i.e., $\bar{x} \in D$.
+    Ahora, pasando al límite en \eqref{v2:eq:4.44}, obtenemos
+    \[
+        \lim_{j \to \infty} f(x^{k_j}) \le \bar{v},
+    \]
+    lo que (llevando en cuenta que $\bar{x} \in D$), muestra que $\bar{x}$ es una solución de \eqref{v2:eq:4.31}.
+\end{proof}
+
+El Teorema 4.3.1 puede ser ligeramente generalizado en relación a las hipótesis de continuidad de las funciones $f$ y $\psi$.
+
+% [Ejercicio 4.3.1 movido a exercises.tex]
+
+Observemos que podemos considerar un método más general que el Algoritmo 4.3.1, donde (tal vez) no todas las restricciones son penalizadas. Sea el problema
+\[
+    \min f(x) \quad \text{sujeto a} \quad x \in \Omega \cap D,
+\]
+donde $\Omega$ y $D$ son conjuntos en $\R^n$ arbitrarios. Un método con penalización parcial de restricciones es dado por resolución de problemas
+\[
+    \min \varphi(x; c) \quad \text{sujeto a} \quad x \in \Omega,
+\]
+donde $\varphi(\cdot; c)$ es dada por \eqref{v2:eq:4.39} y $\psi$ es dada por \eqref{v2:eq:4.32}. O sea, $\psi$ penaliza la violación de la restricción $x \in D$ (e no penaliza la restricción $x \in \Omega$). Cuando un subconjunto de restricciones tiene estructura simple (el subconjunto $\Omega$), la no penalización de esas restricciones puede ser ventajosa. O sea, puede tener sentido computacional tratar esas restricciones explícitamente (como restricciones del problema) en vez de implícitamente (vía penalización). Evidentemente, el Algoritmo 4.3.1 es un caso especial de la construcción de arriba, correspondiente a la elección $\Omega = \R^n$.
+
+% [Ejercicio 4.3.2 movido a exercises.tex]
+
+En general, el problema \eqref{v2:eq:4.38} puede no poseer soluciones o poseer varias. El resultado siguiente contiene, entre otras cosas, condiciones suficientes para garantizar la existencia de soluciones (locales) de \eqref{v2:eq:4.38} y la convergencia de estas soluciones a una solución local del problema original. Así obtenemos una versión más práctica del Algoritmo 4.3.1, que trabaja con soluciones locales de problemas penalizados.
+
+\begin{theorem}[Convergencia de soluciones locales de problemas penalizados]\label{v2:thm:4.3.2}
+    Sean $f \colon \R^n \to \R$ y $\psi \colon \R^n \to \R$ funciones continuas en $\R^n$, donde $\psi$ satisface \eqref{v2:eq:4.32}. Sea $\bar{x} \in \R^n$ un minimizador local estricto del problema \eqref{v2:eq:4.31}.
+    Entonces existe un número $\delta > 0$ tal que para cualquier solución (global) $x(c)$ del problema
+    \[
+        \min \varphi(x; c) \quad \text{sujeto a} \quad x \in B(\bar{x}, \delta),
+    \]
+    donde la función objetivo es dada por \eqref{v2:eq:4.39} con $c \ge 0$, se tiene que
+    \begin{equation}
+        x(c) \to \bar{x} \quad (c \to +\infty).
+        \label{v2:eq:4.46}
+    \end{equation}
+    En particular, para todo número $c > 0$ suficientemente grande, el problema \eqref{v2:eq:4.38} posee una solución local $x(c)$ tal que vale \eqref{v2:eq:4.46}.
+\end{theorem}
+\begin{proof}
+    Primero notamos que, por el Teorema de Weierstrass (Teorema 1.1.1), para todo $c \ge 0$ el punto $x(c)$ en cuestión existe.
+    Fijamos $\delta > 0$ tal que el punto $\bar{x}$ sea la única solución global del problema
+    \begin{equation}
+        \min f(x) \quad \text{sujeto a} \quad x \in D \cap B(\bar{x}, \delta).
+        \label{v2:eq:4.47}
+    \end{equation}
+    (La existencia de tal $\delta > 0$ sigue del hecho de que $\bar{x}$ es minimizador local estricto).
+
+    Los valores de la función $x(\cdot) \colon \R \to \R^n$ pertenecen al conjunto $B(\bar{x}, \delta)$, que es compacto. Por lo tanto, estos valores tienen un punto de acumulación $\tilde{x} \in B(\bar{x}, \delta)$ cuando $c \to +\infty$. Probaremos que $\tilde{x}$ es una solución global del problema \eqref{v2:eq:4.47}.
+
+    Por la definición de $x(c)$, para todo $c$ se tiene que
+    \[
+        \varphi(x(c); c) \le \varphi(x; c) \quad \forall x \in B(\bar{x}, \delta).
+    \]
+    Por tanto, utilizando el hecho de que $f(x) = \varphi(x; c)$ para todo $x \in D$, tenemos que
+    \begin{align}
+        f(x(c)) + c\psi(x(c)) &= \varphi(x(c); c) \nonumber \\
+        &\le \inf_{x \in D \cap B(\bar{x}, \delta)} \varphi(x; c) \nonumber \\
+        &= \inf_{x \in D \cap B(\bar{x}, \delta)} f(x) = v,
+        \label{v2:eq:4.48}
+    \end{align}
+    donde $v = v(\bar{x}, \delta)$ es el valor óptimo del problema \eqref{v2:eq:4.47}.
+
+    Fijamos ahora una sucesión $\{c_k\} \subset \R$ tal que $c_k \to +\infty$, $\{x(c_k)\} \to \tilde{x}$ $(k \to \infty)$. De \eqref{v2:eq:4.48}, obtenemos que
+    \begin{equation}
+        \limsup_{k \to \infty} c_k\psi(x(c_k)) \le v - f(\tilde{x}).
+        \label{v2:eq:4.49}
+    \end{equation}
+    Donde, como $c_k \to +\infty$ $(k \to \infty)$, obtenemos
+    \[
+        \psi(\tilde{x}) = \lim_{k \to \infty} \psi(x(c_k)) = 0,
+    \]
+    i.e., $\tilde{x} \in D \cap B(\bar{x}, \delta)$. Por tanto,
+    \begin{equation}
+        v \le f(\tilde{x}).
+        \label{v2:eq:4.50}
+    \end{equation}
+    Ahora, de \eqref{v2:eq:4.49}, obtenemos que
+    \[
+        \limsup_{k \to \infty} c_k\psi(x(c_k)) \le 0,
+    \]
+    lo que solo puede valer si
+    \[
+        \lim_{k \to \infty} c_k\psi(x(c_k)) = 0.
+    \]
+    De \eqref{v2:eq:4.49}, tenemos entonces que
+    \[
+        f(\tilde{x}) \le v,
+    \]
+    lo que resulta, en combinación con \eqref{v2:eq:4.50}, en
+    \[
+        f(\tilde{x}) = v.
+    \]
+    Como $\tilde{x}$ es un punto factible para el problema \eqref{v2:eq:4.47}, esto significa que $\tilde{x}$ es una solución global de este problema.
+
+    Como, por la elección de $\delta$, el punto $\bar{x}$ es la única solución global de \eqref{v2:eq:4.47}, concluimos que $\tilde{x} = \bar{x}$. Acabamos de mostrar, entonces, que $\bar{x}$ es el único punto de acumulación de los valores de $x(\cdot)$. O sea, vale \eqref{v2:eq:4.46}. En particular, $x(c) \in \interior B(\bar{x}, \delta)$ para todo $c$ suficientemente grande. Obviamente, el punto $x(c)$ que garantiza tales valores de $c$, $x(c)$ es una solución local del problema \eqref{v2:eq:4.38}.
+\end{proof}
+
+% [Ejercicio 4.3.3 y 4.3.4 movidos a exercises.tex]
+
+\begin{example}\label{v2:exa:4.3.3}
+    Consideremos el problema
+    \[
+        \min \frac{1}{2}(x_1^2 + x_2^2) \quad \text{sujeto a} \quad x_1 = 1,
+    \]
+    y la siguiente función penalizada:
+    \[
+        \varphi(x; c) = \frac{1}{2}(x_1^2 + x_2^2) + c(x_1 - 1)^2.
+    \]
+    Como es fácil ver, la matriz Hessiana de esta función viene dada por
+    \[
+        \varphi''(x; c) = \begin{pmatrix} 1 + c & 0 \\ 0 & 1 \end{pmatrix}.
+    \]
+    Evidentemente, esta matriz está mal condicionada (para valores de $c > 0$ grandes). En particular, el método de Newton aplicado para minimizar $\varphi(\cdot; c)$ va a requerir resolver sistemas de ecuaciones lineales cada vez peor condicionados, a medida que $c$ crece.
+\end{example}
+
+De cierto modo, la necesidad de resolver muchos problemas penalizados puede ser evitada. A seguir, mostraremos cómo, para una precisión dada cualquiera, una solución aproximada del problema original puede ser obtenida a través de la resolución de dos problemas penalizados apenas.
+
+Sea $\varepsilon > 0$ la tolerancia deseada. Nos gustaría calcular un punto $y \in \R^n$ tal que
+\begin{equation}
+    f(y) \le \inf_{x \in D} f(x), \quad \psi(y) \le \varepsilon.
+    \label{v2:eq:4.51}
+\end{equation}
+Para $\varepsilon$ suficientemente pequeño, es natural considerar tal punto $y$ como buena aproximación a la solución del problema (la segunda relación en \eqref{v2:eq:4.51} significa que $y$ es un punto ``cuasi-factible'').
+
+Supongamos que $\inf_{x \in D} f(x) > -\infty$ y que un punto factible $\hat{x} \in D$ sea dado (en caso contrario, calculamos un punto factible primero). Elegimos un $c_1 > 0$ arbitrario, y calculamos $x(c_1)$, una solución global del problema \eqref{v2:eq:4.38} con $c = c_1$.
+Si $f(\hat{x}) \le f(x(c_1))$, de \eqref{v2:eq:4.44} obtenemos que
+\[
+    f(x(c_1)) \le \inf_{x \in D} f(x) \le f(\hat{x}) \le f(x(c_1)).
+\]
+Esto muestra que $\hat{x}$ es una solución (exacta) del problema original \eqref{v2:eq:4.31}.
+
+Consideremos el caso de $f(\hat{x}) > f(x(c_1))$. Elegimos
+\begin{equation}
+    c_2 > \max\left\{ c_1, \frac{f(\hat{x}) - f(x(c_1))}{\varepsilon} \right\},
+    \label{v2:eq:4.52}
+\end{equation}
+y calculamos $x(c_2)$, una solución global del problema \eqref{v2:eq:4.38} con $c = c_2$.
+Caso $f(\hat{x}) \le f(x(c_2))$, tenemos que $\hat{x}$ es una solución exacta del problema original \eqref{v2:eq:4.31}, por el raciocinio presentado arriba.
+
+Caso contrario, el punto $x(c_2)$ satisface
+\[
+    f(x(c_2)) \le \inf_{x \in D} f(x),
+\]
+por \eqref{v2:eq:4.44}. Por la optimalidad de $x(c_2)$ en \eqref{v2:eq:4.38}, tenemos que
+\[
+    f(x(c_2)) + c_2\psi(x(c_2)) \le f(\hat{x}) + c_2\psi(\hat{x}) = f(\hat{x}),
+\]
+donde la igualdad sigue del hecho de que $\hat{x} \in D$. Luego,
+\begin{align*}
+    \psi(x(c_2)) &\le (f(\hat{x}) - f(x(c_2)))/c_2 \\
+    &\le (f(\hat{x}) - f(x(c_1)))/c_2 \\
+    &< \varepsilon,
+\end{align*}
+donde la segunda desigualdad sigue de la Proposición 4.3.1 y del hecho de que $c_2 > c_1$, y la tercera desigualdad sigue de \eqref{v2:eq:4.52}. Acabamos de mostrar que el punto $x(c_2)$ satisface las condiciones \eqref{v2:eq:4.51}.
+
+Sin embargo, la construcción de arriba resuelve la dificultad asociada al mal condicionamiento de los subproblemas solo parcialmente. En particular, es posible que el valor de $c_2$ dado por \eqref{v2:eq:4.52} sea muy grande, e incluso que para satisfacer \eqref{v2:eq:4.51} tengamos que resolver solo un subproblema más, esto puede ser difícil del punto de vista computacional.
+
+Consideraremos a cuestión de la tasa de convergencia de los métodos de penalización externa en relación a valores de la función objetivo, suponiendo la convergencia en relación a las variables. Para este fin, suponemos que el término penalizador $\psi \colon \R^n \to \R_+$, definido en \eqref{v2:eq:4.32}, provee una estimativa local de la violación de factibilidad, en el sentido siguiente: existe una vecindad $U$ de la solución dada $\bar{x}$ del problema \eqref{v2:eq:4.31} y números $M > 0$ y $\nu > 0$, tales que
+\begin{equation}
+    \dist(x, D) \le M(\psi(x))^\nu \quad \forall x \in U.
+    \label{v2:eq:4.53}
+\end{equation}
+Ya vimos algunas situaciones de validez de estimativas de este tipo: por ejemplo, en los Teoremas 1.5.5, 1.6.6, 1.5.6. En particular, bajo las hipótesis del Teorema 1.5.6, la función $\psi$ dada por \eqref{v2:eq:4.35} con algún $p > 0$, satisface \eqref{v2:eq:4.53} con $\nu = 1/p$.
+
+Observemos que el resultado a seguir, además de las estimativas de tasa de convergencia, establece algunas situaciones en que métodos de penalización externa poseen convergencia finita. I.e., situaciones en las que $x^k$ sea una solución exacta del problema para algún $k$ suficientemente grande. Notemos que, como fue probado en el \cref{v2:thm:4.3.1} (vea \eqref{v2:eq:4.44}), la condición \eqref{v2:eq:4.54} a seguir siempre se satisface si $x^k$ es una solución global del problema penalizado. Puede ser visto que \eqref{v2:eq:4.54} también vale si $x^k$ es una solución global del problema penalizado en un conjunto que contenga $\bar{x}$ (en vez de todo el espacio). De cualquier manera, la condición \eqref{v2:eq:4.54} es natural en el contexto de métodos de penalización. La segunda condición en \eqref{v2:eq:4.55} significa la convergencia del método en consideración en relación a las variables del problema. Las dos condiciones \eqref{v2:eq:4.54} y \eqref{v2:eq:4.55} serán satisfechas, por ejemplo, si $\bar{x}$ es una solución local estricta del problema original \eqref{v2:eq:4.31}, y $x^k = x(c_k)$ es escogido como fue hecho en la demostración del \cref{v2:thm:4.3.2}.
+
+\begin{theorem}[Tasa de convergencia de métodos de penalización externa]\label{v2:thm:4.3.3}
+    Sean $f \colon \R^n \to \R$ una función Lipschitz-continua con módulo $N > 0$ en una vecindad $U$ del punto $\bar{x} \in \R^n$, y $D \subset \R^n$ un conjunto cerrado. Sea $\bar{x}$ una solución local del problema \eqref{v2:eq:4.31}. Suponemos, finalmente, que la función $\psi \colon \R^n \to \R_+$, definida por \eqref{v2:eq:4.32}, satisfaga la condición \eqref{v2:eq:4.53} para algunos $M > 0$ y $\nu > 0$.
+    Si las sucesiones $\{c_k\} \subset \R_+$ y $\{x^k\} \subset \R^n$ son tales que
+    \begin{equation}
+        \varphi(x^k; c_k) \le \varphi(\bar{x}; c_k) = f(\bar{x}) \quad \forall k,
+        \label{v2:eq:4.54}
+    \end{equation}
+    donde la función $\varphi(\cdot; c_k)$ es definida por \eqref{v2:eq:4.39}, e
+    \begin{equation}
+        \{c_k\} \to \infty, \quad \{x^k\} \to \bar{x} \quad (k \to \infty),
+        \label{v2:eq:4.55}
+    \end{equation}
+    entonces para todo $k$ suficientemente grande, se tiene que
+    \begin{enumerate}[(a)]
+        \item si $\nu < 1$, entonces
+        \begin{equation}
+            0 \le f(\bar{x}) - f(x^k) \le \left( \frac{(MN)^{1/\nu}}{c_k} \right)^{\nu/(1-\nu)};
+            \label{v2:eq:4.56}
+        \end{equation}
+        \begin{equation}
+            \dist(x^k, D) \le M \left( \frac{MN}{c_k} \right)^{\nu/(1-\nu)};
+            \label{v2:eq:4.57}
+        \end{equation}
+        \item si $\nu \ge 1$, entonces
+        \[
+            f(x^k) = f(\bar{x}), \quad x^k \in D;
+        \]
+        en particular, si $\bar{x}$ es una solución local estricta del problema \eqref{v2:eq:4.31}, se tiene que $x^k = \bar{x}$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Utilizando \eqref{v2:eq:4.32}, \eqref{v2:eq:4.53}, \eqref{v2:eq:4.54}, y la segunda relación en \eqref{v2:eq:4.55}, para todo $k$ suficientemente grande, tenemos que
+    \begin{align}
+        f(\bar{x}) &= f(\bar{x}) + c_k\psi(\bar{x}) \nonumber \\
+        &= \varphi(\bar{x}; c_k) \nonumber \\
+        &\ge \varphi(x^k; c_k) \nonumber \\
+        &= f(x^k) + c_k\psi(x^k) \nonumber \\
+        &\ge f(x^k) + c_k \left( \frac{\dist(x^k, D)}{M} \right)^{1/\nu}.
+        \label{v2:eq:4.58}
+    \end{align}
+    Para todo $k$ suficientemente grande, sea $\tilde{x}^k$ una proyección del punto $x^k$ sobre el conjunto $D$ (cuya existencia sigue del hecho de que $D$ es cerrado; vea el Teorema 1.3.1). Por la segunda relación en \eqref{v2:eq:4.55}, como $\bar{x} \in D$, obtenemos que
+    \[
+        \{\tilde{x}^k\} \to \bar{x} \quad (k \to \infty).
+    \]
+    Siendo que $\bar{x}$ es una solución local del problema \eqref{v2:eq:4.31}, para todo $k$ suficientemente grande, tenemos que
+    \begin{equation}
+        f(\bar{x}) - f(x^k) \le f(\tilde{x}^k) - f(x^k) \le N\dist(x^k, D).
+        \label{v2:eq:4.59}
+    \end{equation}
+    Combinando \eqref{v2:eq:4.58} y \eqref{v2:eq:4.59}, obtenemos que
+    \begin{equation}
+        f(\bar{x}) - f(x^k) \ge c_k \left( \frac{f(\bar{x}) - f(x^k)}{MN} \right)^{1/\nu}.
+        \label{v2:eq:4.60}
+    \end{equation}
+    Definimos el conjunto
+    \[
+        J = \{k = 0, 1, \dots \mid f(x^k) \neq f(\bar{x})\}.
+    \]
+    Las relaciones \eqref{v2:eq:4.58} y \eqref{v2:eq:4.60} implican que
+    \begin{equation}
+        0 \le (f(\bar{x}) - f(x^k))^{(1-\nu)/\nu} \le \frac{(MN)^{1/\nu}}{c_k},
+        \label{v2:eq:4.61}
+    \end{equation}
+    para todo $k \in J$ suficientemente grande.
+    La afirmación (a) vale trivialmente para $k \notin J$, y sigue de \eqref{v2:eq:4.61} para $k \in J$ (\eqref{v2:eq:4.57} sigue de \eqref{v2:eq:4.56} y \eqref{v2:eq:4.58}).
+    Si $\nu \ge 1$, por la relación \eqref{v2:eq:4.55}, el lado izquierdo de \eqref{v2:eq:4.61} no tiende a cero cuando $k \to \infty$, en cuanto el lado derecho tiende a cero. Esto implica que el conjunto $J$ no puede ser infinito (pues, en caso contrario, \eqref{v2:eq:4.61} resulta en contradicción). Que el conjunto $J$ sea finito significa exactamente que $f(\bar{x}) = f(x^k)$ para todo $k$ suficientemente grande. Además de esto, para tales $k$, $x^k \in D$ vale por \eqref{v2:eq:4.58}. Esto concluye la prueba del ítem (b).
+\end{proof}
+
+\begin{corollary}\label{v2:cor:4.3.1}
+    Bajo las hipótesis del \cref{v2:thm:4.3.3}, sea $\bar{x}$ una solución local estricta del problema \eqref{v2:eq:4.31}, y sea $\nu \ge 1$.
+    Entonces existe un número $\bar{c} \ge 0$, tal que para todo $c > \bar{c}$ el punto $\bar{x}$ es una solución local estricta del problema \eqref{v2:eq:4.38}, donde la función objetivo es dada por \eqref{v2:eq:4.39}.
+\end{corollary}
+\begin{proof}
+    Supongamos lo contrario, i.e., que existan sucesiones $\{c_i\} \subset \R_+$ y $\{x^i\} \subset \R^n$ tales que
+    \begin{equation}
+        \varphi(x^i; c_i) \le \varphi(\bar{x}; c_i), \quad x^i \neq \bar{x} \quad \forall i,
+        \label{v2:eq:4.62}
+    \end{equation}
+    \begin{equation}
+        \{c_i\} \to \infty, \quad \{x^i\} \to \bar{x} \quad (i \to \infty).
+        \label{v2:eq:4.63}
+    \end{equation}
+    Pero la validez simultánea de \eqref{v2:eq:4.62} y \eqref{v2:eq:4.63} contradice el ítem (b) del \cref{v2:thm:4.3.3}. Luego, vale el resultado anunciado.
+\end{proof}
+
+Notamos que en el caso de la penalización cuadrática para el conjunto factible \eqref{v2:eq:4.33} ($p = 2$ en la definición de $\psi$ en \eqref{v2:eq:4.36}), las estimativas \eqref{v2:eq:4.56} y \eqref{v2:eq:4.57} se transforman en
+\[
+    0 \le f(\bar{x}) - f(x^k) \le \frac{(NM)^2}{c_k},
+\]
+\[
+    \dist(x^k, D) \le \frac{M^2 N}{c_k}.
+\]
+
+Por el \cref{v2:thm:4.3.3}, la disminución de valores de grado $p$ lleva a la convergencia más rápida de métodos de penalización asociados (recordamos que, bajo las hipótesis del Teorema 1.5.6, tenemos $\nu = 1/p$). Más aún, por el \cref{v2:cor:4.3.1}, para $p$ suficientemente pequeño (más precisamente, para $p \le 1$), la convergencia es finita en el sentido de que la solución local (estricta) $\bar{x}$ del problema \eqref{v2:eq:4.31}, \eqref{v2:eq:4.33}, también es una solución local del problema penalizado \eqref{v2:eq:4.38} para todo $c$ suficientemente grande. En otras palabras, si en la aplicación de un método de penalización externa conseguimos el cálculo de soluciones locales adecuadas del problema penalizado \eqref{v2:eq:4.38}, no habrá necesidad de crecimiento ilimitado del parámetro penalizador. Una penalización con esta propiedad se llama \textit{penalización exacta}. Ella será considerada con más detalles en la \cref{v2:sec:4.3.2} a seguir.
+
+Sin embargo, notemos que la disminución del valor de grado $p$ empeora la diferenciabilidad de la función $\varphi(\cdot; c)$, lo que torna el problema penalizado más difícil en el sentido computacional. En particular, para $p \le 1$ el término penalizador \eqref{v2:eq:4.35} ya no es diferenciable, incluso para las funciones $h$ y $g$ infinitamente diferenciables. Entre otras cosas, la propia noción de punto estacionario del problema \eqref{v2:eq:4.38} tiene que ser repensada. Otra dificultad obvia es que no podemos saber a priori cuál es el valor del parámetro penalizador que torna a la penalización exacta. Algunas técnicas para la elección de parámetros de penalización pueden ser consultadas en [3].
+
+Finalmente, comentaremos que métodos de minimización de funciones convexas no-diferenciables serán presentados en el Capítulo 5. Además de eso, cabe resaltar que en la práctica computacional moderna, funciones de penalización exacta típicamente son utilizadas como funciones de mérito para la globalización de métodos locales, y no para la resolución directa de problemas penalizados. Exactamente así desarrollaremos la globalización de métodos de programación cuadrática secuencial en \cref{v2:sec:4.6}.

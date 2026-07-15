@@ -1,0 +1,289 @@
+% --- Archivo: 06_penalizacion_externa_exacta.tex ---
+
+\subsection{Penalización externa exacta}\label{v2:sec:4.3.2}
+
+Consideramos ahora el problema con restricciones mixtas
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \left\{ x \in \R^n \;\middle|\; \begin{array}{l} h(x) = 0, \\ g(x) \le 0. \end{array} \right\},
+    \label{v2:eq:4.64}
+\end{equation}
+donde $f \colon \R^n \to \R$, $h \colon \R^n \to \R^l$ y $g \colon \R^n \to \R^m$ son funciones dadas. Elegimos el término penalizador
+\begin{equation}
+    \psi(x) = \sum_{i=1}^l |h_i(x)| + \sum_{i=1}^m (\max\{g_i(x), 0\}).
+    \label{v2:eq:4.65}
+\end{equation}
+Observamos que la función $\psi$ así definida no es diferenciable, mismo cuando $h$ y $g$ sean diferenciables. Consideremos la familia de problemas penalizados
+\begin{equation}
+    \min \varphi(x; c), \quad x \in \R^n,
+    \label{v2:eq:4.66}
+\end{equation}
+donde
+\begin{equation}
+    \varphi(\cdot; c) \colon \R^n \to \R, \quad \varphi(x; c) = f(x) + c\psi(x),
+    \label{v2:eq:4.67}
+\end{equation}
+y $c > 0$ es el parámetro penalizador.
+
+Mencionamos que los resultados a ser presentados también son válidos para varias otras formas de penalización no-diferenciable. Por ejemplo (vea el Ejercicio 4.3.6),
+\begin{equation}
+    \psi(x) = \max\{|h_1(x)|, \dots, |h_l(x)|, 0, g_1(x), \dots, g_m(x)\}.
+    \label{v2:eq:4.68}
+\end{equation}
+Precisaremos de la siguiente caracterización de la derivada direccional de la función $\psi$ definida por \eqref{v2:eq:4.65}.
+
+% [Ejercicio 4.3.5 movido a exercises.tex]
+
+Mostrar que la función $\psi$ definida por \eqref{v2:eq:4.65} es diferenciable en $x$, en cada dirección $d \in \R^n$, y se tiene que
+\begin{align}
+    \psi'(x; d) &= \sum_{i \in J^+(x)} \langle h_i'(x), d \rangle + \sum_{i \in J^0(x)} |\langle h_i'(x), d \rangle| \nonumber \\
+    &\quad - \sum_{i \in J^-(x)} \langle h_i'(x), d \rangle + \sum_{i \in I^+(x)} \langle g_i'(x), d \rangle \nonumber \\
+    &\quad + \sum_{i \in I^0(x)} \max\{0, \langle g_i'(x), d \rangle\},
+    \label{v2:eq:4.69}
+\end{align}
+donde
+\begin{align*}
+    J^+(x) &= \{i = 1, \dots, l \mid h_i(x) > 0\}, \\
+    J^0(x) &= \{i = 1, \dots, l \mid h_i(x) = 0\}, \\
+    J^-(x) &= \{i = 1, \dots, l \mid h_i(x) < 0\}, \\
+    I^+(x) &= \{i = 1, \dots, m \mid g_i(x) > 0\}, \\
+    I^0(x) &= \{i = 1, \dots, m \mid g_i(x) = 0\}.
+\end{align*}
+En particular, si $x \in D$, se tiene que
+\begin{equation}
+    \psi'(x; d) = \sum_{i=1}^l |\langle h_i'(x), d \rangle| + \sum_{i \in I(x)} \max\{0, \langle g_i'(x), d \rangle\},
+    \label{v2:eq:4.70}
+\end{equation}
+donde $I(x) = I^0(x)$ es el conjunto de las restricciones activas en $x \in D$.
+
+Comenzamos con condiciones que son necesarias para que la penalización sea exacta.
+
+\begin{theorem}[Condiciones necesarias para penalización exacta]\label{v2:thm:4.3.4}
+    Sea $\bar{x} \in \R^n$ una solución local (estricta) del problema penalizado \eqref{v2:eq:4.66}.
+    Si $\bar{x} \in D$, entonces $\bar{x}$ es una solución local (estricta) del problema original \eqref{v2:eq:4.64}.
+    Si, además de la hipótesis de que $\bar{x} \in D$, las funciones $f, h$ y $g$ son diferenciables en $\bar{x}$, entonces existe un par de multiplicadores de Lagrange $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m$ tal que las condiciones de otimalidad de Karush-Kuhn-Tucker (del Teorema 1.2.3(a)) son satisfechas en el punto $\bar{x}$.
+    Si, además de las hipótesis de arriba, $\bar{x}$ satisface la condición de regularidad de independencia lineal de los gradientes de las restricciones activas (1.17), entonces $c \ge \|(\bar{\lambda}, \bar{\mu})\|_\infty$.
+\end{theorem}
+\begin{proof}
+    Como $\bar{x}$ es un minimizador local del problema \eqref{v2:eq:4.66}, existe una vecindad $U$ de $\bar{x}$ tal que
+    \[
+        \varphi(\bar{x}; c) \le \varphi(x; c) \quad \forall x \in U.
+    \]
+    Como $\bar{x} \in D$ y se tiene que $\varphi(x; c) = f(x)$ para todo $x \in D$, obtenemos entonces
+    \[
+        f(\bar{x}) \le f(x) \quad \forall x \in U \cap D,
+    \]
+    i.e., $\bar{x}$ es una solución local del problema \eqref{v2:eq:4.64}. Si $\bar{x}$ es una solución local estricta de \eqref{v2:eq:4.66}, todas las desigualdades de arriba son estrictas. Por tanto, en este caso $\bar{x}$ es una solución local estricta de \eqref{v2:eq:4.64}.
+
+    Supongamos ahora que $f, h$ y $g$ sean diferenciables en $\bar{x}$. Por el Ejercicio 4.3.5, la función $\varphi(\cdot; c)$ es diferenciable en $\bar{x}$ en cada dirección $d \in \R^n$. Tenemos que para todo $t > 0$ suficientemente pequeño,
+    \begin{align*}
+        0 &\le \varphi(\bar{x} + td; c) - \varphi(\bar{x}; c) \\
+        &= t\varphi'((\bar{x}; d); c) + o(t),
+    \end{align*}
+    donde $\varphi'((\bar{x}; d); c)$ es la derivada de la función $\varphi(\cdot; c)$ en $\bar{x}$ en la dirección $d$. Dividiendo los dos lados de la relación de arriba por $t > 0$ y pasando al límite cuando $t \to 0+$, obtenemos que
+    \[
+        \varphi'((\bar{x}; d); c) \ge 0 \quad \forall d \in \R^n.
+    \]
+    Como $\bar{x} \in D$ por la hipótesis, de \eqref{v2:eq:4.70} obtenemos que
+    \begin{equation}
+        0 \le \langle f'(\bar{x}), d \rangle + c \sum_{i=1}^l |\langle h_i'(\bar{x}), d \rangle| + c \sum_{i \in I(\bar{x})} \max\{0, \langle g_i'(\bar{x}), d \rangle\},
+        \label{v2:eq:4.71}
+    \end{equation}
+    para todo $d \in \R^n$. En particular, para todo $d \in \R^n$ tal que $\langle h_i'(\bar{x}), d \rangle = 0$, $i = 1, \dots, l$, $\langle g_i'(\bar{x}), d \rangle \le 0$, $i \in I(\bar{x})$, se tiene que
+    \[
+        \langle f'(\bar{x}), d \rangle \ge 0.
+    \]
+    Por lo tanto, $d = 0$ es una solución del problema de programación lineal
+    \begin{equation}
+        \begin{array}{rl}
+            \min & \langle f'(\bar{x}), d \rangle \\
+            \text{sujeto a} & \langle h_i'(\bar{x}), d \rangle = 0, \; i = 1, \dots, l, \\
+            & \langle g_i'(\bar{x}), d \rangle \le 0, \; i \in I(x).
+        \end{array}
+        \label{v2:eq:4.72}
+    \end{equation}
+    Como este problema satisface la condición de regularidad de las restricciones (ya que ellas son lineales), por las condiciones de otimalidad KKT (del Teorema 1.2.3(a)) existen $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R^{|I(\bar{x})|}_+$ tales que, entre otras cosas, vale
+    \begin{equation}
+        f'(\bar{x}) + \sum_{i=1}^l \bar{\lambda}_i h_i'(\bar{x}) + \sum_{i \in I(\bar{x})} \bar{\mu}_i g_i'(\bar{x}) = 0.
+        \label{v2:eq:4.73}
+    \end{equation}
+    Llevando en cuenta que $\bar{x} \in D$, y definiendo $\bar{\mu}_i = 0$ para todo índice $i \in \{1, \dots, m\} \setminus I(\bar{x})$, de \eqref{v2:eq:4.73} obtenemos que $\bar{x}$ satisface las condiciones KKT para el problema \eqref{v2:eq:4.64}, con multiplicadores $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m$.
+
+    Supongamos finalmente, que $\bar{x}$ satisface la condición de independencia lineal de los gradientes de las restricciones activas (1.17). De \eqref{v2:eq:4.71} y \eqref{v2:eq:4.73}, obtenemos que para todo $d \in \R^n$ vale
+    \begin{align}
+        &\sum_{i=1}^l \bar{\lambda}_i \langle h_i'(\bar{x}), d \rangle + \sum_{i \in I(\bar{x})} \bar{\mu}_i \langle g_i'(\bar{x}), d \rangle \nonumber \\
+        &\le c \sum_{i=1}^l |\langle h_i'(\bar{x}), d \rangle| + c \sum_{i \in I(\bar{x})} \max\{0, \langle g_i'(\bar{x}), d \rangle\}.
+        \label{v2:eq:4.74}
+    \end{align}
+    Por la condición de regularidad (1.17), $\forall (u, v_I) \in \R^l \times \R^{|I|}$ existe $d \in \R^n$ tal que
+    \[
+        \begin{pmatrix} h'(\bar{x}) \\ g_I'(\bar{x}) \end{pmatrix} d = \begin{pmatrix} u \\ v_I \end{pmatrix},
+    \]
+    donde denotamos $I = I(\bar{x})$. O sea,
+    \[
+        \langle h_i'(\bar{x}), d \rangle = u_i, \; i = 1, \dots, m, \quad \langle g_i'(\bar{x}), d \rangle = v_i, \; i \in I.
+    \]
+    Ahora, tomando $(u, v_I) \in \R^l \times \R^{|I|}$ arbitrario, de \eqref{v2:eq:4.74} obtenemos que
+    \begin{align*}
+        \langle (\bar{\lambda}, \bar{\mu}_I), (u, v_I) \rangle &= \sum_{i=1}^l \bar{\lambda}_i u_i + \sum_{i \in I} \bar{\mu}_i v_i \\
+        &= \sum_{i=1}^l \bar{\lambda}_i \langle h_i'(\bar{x}), d \rangle + \sum_{i \in I} \bar{\mu}_i \langle g_i'(\bar{x}), d \rangle \\
+        &\le c \sum_{i=1}^l |\langle h_i'(\bar{x}), d \rangle| + c \sum_{i \in I} \max\{0, \langle g_i'(\bar{x}), d \rangle\} \\
+        &= c \sum_{i=1}^l |u_i| + c \sum_{i \in I} \max\{0, v_i\} \\
+        &\le c \|u\|_1 + c \sum_{i \in I} |v_i| \\
+        &= c \|(u, v_I)\|_1,
+    \end{align*}
+    donde utilizamos el hecho de que $\max\{0, t\} \le |t|$ para todo $t \in \R$. Por la definición de la norma dual, tenemos que
+    \begin{align*}
+        \|(\bar{\lambda}, \bar{\mu}_I)\|_\infty &= \sup \{ \langle (\bar{\lambda}, \bar{\mu}_I), (u, v_I) \rangle \mid \|(u, v_I)\|_1 = 1 \} \\
+        &= \sup \left\{ \left\langle (\bar{\lambda}, \bar{\mu}_I), \frac{(u, v_I)}{\|(u, v_I)\|_1} \right\rangle \mid (u, v_I) \in \R^l \times \R^{|I|} \right\} \\
+        &\le c.
+    \end{align*}
+    Llevando en cuenta que $\|(\bar{\lambda}, \bar{\mu})\|_\infty = \|(\bar{\lambda}, \bar{\mu}_I)\|_\infty$, ya que $\bar{\mu}_i = 0 \; \forall i \in \{1, \dots, m\} \setminus I$, obtenemos la última afirmación del teorema.
+\end{proof}
+
+Ahora estudiaremos condiciones que son suficientes para que una penalización sea exacta, i.e., condiciones que garanticen que una solución del problema penalizado \eqref{v2:eq:4.66} también sea una solución del problema original \eqref{v2:eq:4.64}. Es conveniente separar el caso de programación convexa (que es más fácil) del caso no-convexo. Notamos que en el caso convexo, la función $\varphi(\cdot; c)$ es convexa.
+
+Recordamos que la Lagrangiana del problema \eqref{v2:eq:4.64} está dada por
+\[
+    L \colon \R^n \times \R^l \times \R^m \to \R,
+\]
+\[
+    L(x, \lambda, \mu) = f(x) + \langle \lambda, h(x) \rangle + \langle \mu, g(x) \rangle.
+\]
+Primero mostraremos que, bajo ciertas condiciones, el valor de la Lagrangiana provee una cota inferior para el valor de la función penalizada.
+
+\begin{proposition}\label{v2:prop:4.3.2}
+    Para todo $x \in \R^n$ y todo $(\lambda, \mu) \in \R^l \times \R^m_+$, se tiene que
+    \begin{equation}
+        L(x, \lambda, \mu) \le f(x) + \|(\lambda, \mu)\|_\infty \psi(x),
+        \label{v2:eq:4.75}
+    \end{equation}
+    donde $\psi$ es dada por \eqref{v2:eq:4.65}. En particular, si $c \ge \|(\lambda, \mu)\|_\infty$, se tiene que
+    \begin{equation}
+        L(x, \lambda, \mu) \le \varphi(x; c),
+        \label{v2:eq:4.76}
+    \end{equation}
+    donde $\varphi$ es dada por \eqref{v2:eq:4.67}.
+\end{proposition}
+\begin{proof}
+    Para todo $x \in \R^n$, tenemos que
+    \begin{align*}
+        &\langle \lambda, h(x) \rangle + \langle \mu, g(x) \rangle \\
+        &\le \|\lambda\|_\infty \|h(x)\|_1 + \sum_{i=1}^m \mu_i \max\{0, g_i(x)\} \\
+        &\le \|\lambda\|_\infty \|h(x)\|_1 + \|\mu\|_\infty \sum_{i=1}^m \max\{0, g_i(x)\} \\
+        &\le \|(\lambda, \mu)\|_\infty \psi(x),
+    \end{align*}
+    donde utilizamos la desigualdad de Cauchy-Schwarz generalizada (1.40), y el hecho de que $\mu \ge 0$. De aquí, inmediatamente sigue \eqref{v2:eq:4.75}. La relación \eqref{v2:eq:4.76} es una consecuencia de \eqref{v2:eq:4.75}, si tenemos que $c \ge \|(\lambda, \mu)\|_\infty$.
+\end{proof}
+
+Consideremos ahora el caso convexo.
+
+\begin{theorem}[Penalización exacta en el caso convexo]\label{v2:thm:4.3.5}
+    Sean $f$ y $g$ funciones convexas, diferenciables en el punto $\bar{x} \in \R^n$, y sea $h$ una función afín. Supongamos que existan multiplicadores de Lagrange $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m_+$ tales que las condiciones de otimalidad de Karush-Kuhn-Tucker (del Teorema 1.2.3(a)) son satisfechas (luego, $\bar{x}$ es una solución global del problema \eqref{v2:eq:4.64}).
+    Entonces para todo $c \ge \|(\bar{\lambda}, \bar{\mu})\|_\infty$, el punto $\bar{x}$ es una solución (global) del problema \eqref{v2:eq:4.66}.
+\end{theorem}
+\begin{proof}
+    Como $L(\cdot, \bar{\lambda}, \bar{\mu})$ es una función convexa y $L'_x(\bar{x}, \bar{\lambda}, \bar{\mu}) = 0$, el punto $\bar{x}$ es un minimizador global de $L(\cdot, \bar{\lambda}, \bar{\mu})$ en $\R^n$, i.e.,
+    \[
+        L(\bar{x}, \bar{\lambda}, \bar{\mu}) \le L(x, \bar{\lambda}, \bar{\mu}) \quad \forall x \in \R^n.
+    \]
+    Llevando también en cuenta que $\psi(\bar{x}) = 0, h(\bar{x}) = 0$ y que $\langle \bar{\mu}, g(\bar{x}) \rangle = 0$, obtenemos que para $c \ge 0$ cualquiera
+    \begin{align}
+        \varphi(\bar{x}; c) &= f(\bar{x}) + c\psi(\bar{x}) \nonumber \\
+        &= f(\bar{x}) \nonumber \\
+        &= f(\bar{x}) + \langle \bar{\lambda}, h(\bar{x}) \rangle + \langle \bar{\mu}, g(\bar{x}) \rangle \nonumber \\
+        &= L(\bar{x}, \bar{\lambda}, \bar{\mu}) \nonumber \\
+        &\le L(x, \bar{\lambda}, \bar{\mu}) \quad \forall x \in \R^n.
+        \label{v2:eq:4.77}
+    \end{align}
+    Por otro lado, como $\bar{\mu} \ge 0$ y $c \ge \|(\bar{\lambda}, \bar{\mu})\|_\infty$, de \eqref{v2:eq:4.76} tenemos que
+    \[
+        L(x, \bar{\lambda}, \bar{\mu}) \le \varphi(x; c) \quad \forall x \in \R^n.
+    \]
+    Combinando esta desigualdad con \eqref{v2:eq:4.77}, tenemos
+    \[
+        \varphi(\bar{x}; c) \le \varphi(x; c) \quad \forall x \in \R^n,
+    \]
+    lo que nos dice que $\bar{x}$ es minimizador global de $\varphi(\cdot; c)$ en $\R^n$.
+\end{proof}
+
+Consideremos, finalmente, el caso no-convexo, mas en que una solución satisface la condición suficiente de segunda orden (por lo tanto, ella es estricta).
+
+\begin{theorem}[Penalización exacta en el caso de la condición suficiente de segunda orden]\label{v2:thm:4.3.6}
+    Sean $f$, $h$ y $g$ funciones dos veces diferenciables en $\bar{x} \in \R^n$. Supongamos también que existan multiplicadores de Lagrange $(\bar{\lambda}, \bar{\mu}) \in \R^l \times \R^m_+$ tales que la condición suficiente de segunda orden (del Teorema 1.2.3(b)) sea satisfecha (luego, $\bar{x}$ es una solución local estricta del problema \eqref{v2:eq:4.64}).
+    Entonces para todo $c > \|(\bar{\lambda}, \bar{\mu})\|_\infty$, el punto $\bar{x}$ es una solución local estricta del problema \eqref{v2:eq:4.66}.
+\end{theorem}
+\begin{proof}
+    Supongamos que $\bar{x}$ no sea un minimizador local estricto del problema \eqref{v2:eq:4.66}, i.e., que exista una sucesión $\{x^k\} \subset \R^n \setminus \{\bar{x}\}$ tal que $\{x^k\} \to \bar{x}$ $(k \to \infty)$ y, para todo $k$,
+    \begin{equation}
+        \varphi(x^k; c) \le \varphi(\bar{x}; c).
+        \label{v2:eq:4.78}
+    \end{equation}
+    Podemos admitir, sin pérdida de generalidad, que la sucesión limitada $\{(x^k - \bar{x})/\|x^k - \bar{x}\|\}$ converja a $d \in \R^n$, $\|d\| = 1$. Definiendo, para todo $k$, $d^k = (x^k - \bar{x})/\|x^k - \bar{x}\|$ y $t_k = \|x^k - \bar{x}\|$, tenemos que
+    \[
+        x^k = \bar{x} + t_k d^k = \bar{x} + t_k d + t_k(d^k - d) = \bar{x} + t_k d + o(t_k).
+    \]
+    Como es fácil ver, la función $\varphi(\cdot; c)$ es Lipschitz-continua (digamos, con módulo $L > 0$) en una vecindad de $\bar{x}$. Por lo tanto,
+    \[
+        |\varphi(x^k; c) - \varphi(\bar{x} + t_k d; c)| \le L\|x^k - \bar{x} - t_k d\| = o(t_k).
+    \]
+    Obtenemos que
+    \begin{align*}
+        \varphi'((\bar{x}; d); c) &= \lim_{k \to \infty} \frac{\varphi(\bar{x} + t_k d; c) - \varphi(\bar{x}; c)}{t_k} \\
+        &= \lim_{k \to \infty} \frac{\varphi(x^k; c) - \varphi(\bar{x}; c) + o(t_k)}{t_k} \\
+        &\le 0,
+    \end{align*}
+    donde la desigualdad sigue de \eqref{v2:eq:4.78}. Como $\bar{x} \in D$, de \eqref{v2:eq:4.70} obtenemos que
+    \begin{align}
+        0 &\ge \langle f'(\bar{x}), d \rangle + c \sum_{i=1}^l |\langle h_i'(\bar{x}), d \rangle| \nonumber \\
+        &\quad + c \sum_{i \in I(\bar{x})} \max\{0, \langle g_i'(\bar{x}), d \rangle\}.
+        \label{v2:eq:4.79}
+    \end{align}
+    En particular, como los dos últimos términos son no-negativos, esto implica que
+    \begin{equation}
+        0 \ge \langle f'(\bar{x}), d \rangle.
+        \label{v2:eq:4.80}
+    \end{equation}
+    Por otro lado, por la condición suficiente de segunda orden (que incluye las condiciones de otimalidad KKT),
+    \[
+        f'(\bar{x}) + \sum_{i=1}^l \bar{\lambda}_i h_i'(\bar{x}) + \sum_{i \in I(\bar{x})} \bar{\mu}_i g_i'(\bar{x}) = 0.
+    \]
+    Multiplicando esta relación por $d$, de \eqref{v2:eq:4.79} obtenemos que
+    \begin{align*}
+        0 &\ge -\sum_{i=1}^l \bar{\lambda}_i \langle h_i'(\bar{x}), d \rangle - \sum_{i \in I(\bar{x})} \bar{\mu}_i \langle g_i'(\bar{x}), d \rangle \\
+        &\quad + c \sum_{i=1}^l |\langle h_i'(\bar{x}), d \rangle| + c \sum_{i \in I(\bar{x})} \max\{0, \langle g_i'(\bar{x}), d \rangle\} \\
+        &\ge (c - \|(\bar{\lambda}, \bar{\mu})\|_\infty) \left( \sum_{i \in I(\bar{x})} \max\{0, \langle g_i'(\bar{x}), d \rangle\} \right. \\
+        &\quad \left. + \sum_{i=1}^l |\langle h_i'(\bar{x}), d \rangle| \right),
+    \end{align*}
+    donde $\bar{\mu} \ge 0$ fue tenido en cuenta. Como $c > \|(\bar{\lambda}, \bar{\mu})\|_\infty$ y todos los términos en el lado derecho de la relación de arriba son no-negativos, concluimos que todos ellos tienen que ser nulos. Por tanto,
+    \[
+        \langle h_i'(\bar{x}), d \rangle = 0, \; i = 1, \dots, l, \quad \langle g_i'(\bar{x}), d \rangle \le 0, \; i \in I(\bar{x}).
+    \]
+    Combinando esto con \eqref{v2:eq:4.80}, obtenemos que $d \in K(\bar{x})$, i.e., $d$ pertenece al cono crítico del problema \eqref{v2:eq:4.64} en el punto $\bar{x}$ (vea \eqref{v1:eq:4.25}).
+    Ahora, recordando que $\|d\| = 1$, por la condición suficiente de segunda orden tenemos que
+    \[
+        \langle L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})d, d \rangle \ge \gamma \|d\|^2 = \gamma,
+    \]
+    donde $\gamma > 0$.
+    Teniendo en cuenta que $L'_x(\bar{x}, \bar{\lambda}, \bar{\mu}) = 0$, obtenemos
+    \begin{align}
+        L(x^k, \bar{\lambda}, \bar{\mu}) &= L(\bar{x}, \bar{\lambda}, \bar{\mu}) + \langle L'_x(\bar{x}, \bar{\lambda}, \bar{\mu}), x^k - \bar{x} \rangle \nonumber \\
+        &\quad + \frac{1}{2} \langle L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})(x^k - \bar{x}), x^k - \bar{x} \rangle + o(\|x^k - \bar{x}\|^2) \nonumber \\
+        &= L(\bar{x}, \bar{\lambda}, \bar{\mu}) + \frac{t_k^2}{2} \langle L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})d, d \rangle + o(t_k^2) \nonumber \\
+        &\ge L(\bar{x}, \bar{\lambda}, \bar{\mu}) + \frac{t_k^2}{2} \gamma + o(t_k^2) \nonumber \\
+        &\ge L(\bar{x}, \bar{\lambda}, \bar{\mu}) + \frac{t_k^2}{4} \gamma \nonumber \\
+        &> L(\bar{x}, \bar{\lambda}, \bar{\mu}),
+        \label{v2:eq:4.81}
+    \end{align}
+    donde la primera desigualdad vale para todo $k$ suficientemente grande (tal que $o(t_k^2) \ge -\gamma t_k^2 / 4$).
+    De \eqref{v2:eq:4.78} y \eqref{v2:eq:4.81}, para todo $k$ suficientemente grande obtenemos
+    \begin{align*}
+        \varphi(x^k; c) &\le \varphi(\bar{x}; c) \\
+        &= f(\bar{x}) \\
+        &= L(\bar{x}, \bar{\lambda}, \bar{\mu}) \\
+        &< L(x^k, \bar{\lambda}, \bar{\mu}) \\
+        &\le \varphi(x^k; c),
+    \end{align*}
+    donde la última desigualdad sigue de \eqref{v2:eq:4.76}. Esta contradicción concluye la demostración.
+\end{proof}
+
+% [Ejercicio 4.3.6 movido a exercises.tex]

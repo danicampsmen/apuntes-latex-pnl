@@ -1,0 +1,247 @@
+% --- Archivo: 10_lagrangianas_aumentadas_igualdad.tex ---
+
+\subsection{Lagrangianas aumentadas y funciones de penalización exacta diferenciables}\label{v2:sec:4.4.3}
+
+Una manera de evitar el crecimiento ilimitado del parámetro de penalización es acrecentar un término de penalización diferenciable (por ejemplo, cuadrática) a la Lagrangiana del problema \eqref{v2:eq:4.96}, en vez de a la función objetivo apenas. Así introducimos una familia de \textit{Lagrangianas aumentadas} del problema \eqref{v2:eq:4.96}:
+\[
+    L(\cdot; c) \colon \R^n \times \R^l \to \R,
+\]
+\begin{align}
+    L(x, \lambda; c) &= L(x, \lambda) + \frac{c}{2}\|h(x)\|^2 \label{v2:eq:4.116} \\
+    &= f(x) + \langle \lambda, h(x) \rangle + \frac{c}{2}\|h(x)\|^2, \nonumber
+\end{align}
+donde $c \ge 0$ es un parámetro. En particular, entendemos que la Lagrangiana clásica viene dada por $L(x, \lambda) := L(x, \lambda; 0)$.
+
+Observamos que el problema original \eqref{v2:eq:4.96} es equivalente al problema
+\begin{equation}
+    \min f(x) + \frac{c}{2}\|h(x)\|^2 \quad \text{sujeto a} \quad x \in D,
+    \label{v2:eq:4.117}
+\end{equation}
+para $c > 0$ cualquier (basta notar que las funciones objetivo de este problema y del problema original coinciden en el conjunto factible $D$). Ahora, la Lagrangiana aumentada, dada por \eqref{v2:eq:4.116}, puede ser considerada como la Lagrangiana clásica del problema modificado \eqref{v2:eq:4.117} (que es equivalente al problema original \eqref{v2:eq:4.96}). En desarrollo y análisis de algoritmos, la Lagrangiana aumentada puede ser utilizada del lado de la clásica, porque, como puede ser visto con facilidad, para todo $c$ se tiene que
+\[
+    L'_x(x, \lambda; c) = L'_x(x, \lambda) \quad \forall x \in D, \; \forall \lambda \in \R^l,
+\]
+\[
+    L'_\lambda(x, \lambda; c) = L'_\lambda(x, \lambda) = h(x) \quad \forall x \in \R^n, \; \forall \lambda \in \R^l.
+\]
+En particular, el conjunto de soluciones de la ecuación
+\[
+    L'(x, \lambda; c) = 0,
+\]
+donde la derivada es con relación a $(x, \lambda)$, coincide con el conjunto de soluciones del sistema de Lagrange del problema \eqref{v2:eq:4.96}. Del punto de vista algorítmico, la Lagrangiana aumentada posee ciertas ventajas. Una de ellas puede ser vista en el hecho siguiente.
+
+\begin{theorem}\label{v2:thm:4.4.5}
+    Sean $f \colon \R^n \to \R$ e $h \colon \R^n \to \R^l$ funciones dos veces diferenciables en el punto $\bar{x} \in \R^n$. Sea $\bar{x}$ un punto estacionario del problema \eqref{v2:eq:4.96}, que satisface la condición suficiente de segunda orden del Teorema 1.2.2(b), con algún multiplicador de Lagrange $\bar{\lambda} \in \R^l$.
+    Entonces, para todo número $c$ suficientemente grande, la matriz
+    \[
+        L''_{xx}(\bar{x}, \bar{\lambda}; c) = L''_{xx}(\bar{x}, \bar{\lambda}) + c(h'(\bar{x}))^\top h'(\bar{x})
+    \]
+    es definida positiva. En particular, el punto estacionario $\bar{x}$ del problema
+    \begin{equation}
+        \min L(x, \bar{\lambda}; c), \quad x \in \R^n,
+        \label{v2:eq:4.119}
+    \end{equation}
+    satisface la condición suficiente de segunda orden dada en el Teorema 1.2.1(b) (e, por lo tanto, es una solución local estricta de \eqref{v2:eq:4.119}).
+\end{theorem}
+\begin{proof}
+    El hecho de que un punto estacionario $\bar{x}$ del problema \eqref{v2:eq:4.96} también es un punto estacionario del problema \eqref{v2:eq:4.119} ya fue verificado arriba. Bajo la condición suficiente de segunda orden del Teorema 1.2.2(b), la aplicación directa del Lema 1.5.2 implica que la matriz $L''_{xx}(\bar{x}, \bar{\lambda}; c)$ es definida positiva.
+\end{proof}
+
+Otra interpretación es la siguiente. Un punto estacionario $\bar{x}$ del problema \eqref{v2:eq:4.96} también es punto estacionario del problema irrestricto
+\begin{equation}
+    \min L(x, \bar{\lambda}), \quad x \in \R^n,
+    \label{v2:eq:4.118}
+\end{equation}
+donde $\bar{\lambda}$ es un multiplicador de Lagrange asociado a $\bar{x}$. En principio, en vez de la resolución del sistema de Lagrange del problema \eqref{v2:eq:4.96}, podemos intentar encontrar un punto estacionario de \eqref{v2:eq:4.118}. Es claro que el multiplicador $\bar{\lambda}$ no es conocido a priori. Él puede ser aproximado utilizando información disponible en la aproximación $x^k$ de $\bar{x}$ (vea, por ejemplo, el Ejercicio 4.4.2). Sin embargo, esta estrategia tiene un defecto bastante serio. En particular, la satisfacción de las hipótesis (naturales) del \cref{v2:thm:4.4.1} no garantiza que la matriz $L''_{xx}(\bar{x}, \bar{\lambda})$ (que es la matriz Hessiana de la función objetivo en \eqref{v2:eq:4.118} en la solución) sea definida positiva. De hecho, incluso bajo las hipótesis de regularidad de las restricciones y de la condición suficiente de segunda orden para el problema original, $\bar{x}$ puede no ser una solución del problema \eqref{v2:eq:4.118}.
+
+\begin{example}\label{v2:exa:4.4.1}
+    Consideremos el problema
+    \[
+        \min x^3 \quad \text{sujeto a} \quad x + 1 = 0.
+    \]
+    La solución de este problema es $\bar{x} = -1$, que satisface la condición de regularidad de las restricciones (1.9). La Lagrangiana viene dada por $L(x, \lambda) = x^3 + \lambda(x + 1)$. Como es fácil ver, el (único) multiplicador de Lagrange es $\bar{\lambda} = -3$. Sin embargo, el punto $\bar{x}$ no es una solución del problema \eqref{v2:eq:4.118}, porque $L''_{xx}(\bar{x}, \bar{\lambda}) = -6 < 0$ (en particular, la condición necesaria de segunda orden del Teorema 1.2.1(a) está violada).
+    Observamos que la condición suficiente de segunda orden del Teorema 1.2.2(b) para el problema original está satisfecha (trivialmente), porque $\ker h'(\bar{x}) = \{0\}$.
+    Por eso, la aplicación (con éxito garantizado) de métodos de optimización irrestricta al problema \eqref{v2:eq:4.118} solo puede ser justificada bajo hipótesis muy fuertes (e que no son nada naturales en relación al problema original \eqref{v2:eq:4.96}).
+
+    Volviendo al \cref{v2:exa:4.4.1}, observemos que
+    \[
+        L(x, \bar{\lambda}; c) = x^3 - 3(x + 1) + \frac{c}{2}(x + 1)^2,
+    \]
+    $\bar{x} = -1$ es un punto estacionario del problema \eqref{v2:eq:4.119}, ya que
+    \[
+        L'_x(\bar{x}, \bar{\lambda}; c) = 3\bar{x}^2 - 3 = 0,
+    \]
+    y este punto realmente es una solución de este problema, ya que $L''_{xx}(\bar{x}, \bar{\lambda}; c) = 6\bar{x} + c > 0$ para todo $c > 6$.
+\end{example}
+
+Esto motiva el siguiente esquema iterativo, llamado \textit{método de la Lagrangiana aumentada}. Cada iteración de este método consiste en la resolución, para un parámetro $c > 0$ y una aproximación $\lambda$ al multiplicador de Lagrange, del problema de optimización irrestricta
+\begin{equation}
+    \min L(x, \lambda; c), \quad x \in \R^n,
+    \label{v2:eq:4.120}
+\end{equation}
+con la subsiguiente actualización de $\lambda$ y de $c$. El origen de la regla de actualización de $\lambda$ puede ser explicada, por lo menos parcialmente, por la fórmula \eqref{v2:eq:4.106} (recordando, en tanto, que esta fórmula fue obtenida para el método de penalización cuadrática pura y no para la Lagrangiana aumentada), y por el Ejercicio 4.4.6 más adelante. El valor del parámetro $c$, en principio, puede ser fijo para todas las iteraciones. Es obvio que esta difícilmente puede ser la mejor estrategia. Existen varias reglas de actualización de $c$ bien eficientes en la práctica. Notamos que, en cualquier caso, para garantizar la convergencia, este parámetro no precisa ser ilimitado (diferentemente del caso de la penalización cuadrática).
+
+\noindent \textbf{Algoritmo 4.4.3. (Método de la Lagrangiana aumentada)} \\
+Elegir $\lambda^0 \in \R^l$ y $c_0 > 0$. Tomar $k := 0$.
+\begin{enumerate}
+    \item Calcular $x^k \in \R^n$, un punto estacionario del problema \eqref{v2:eq:4.120}, donde la función objetivo es dada por la fórmula \eqref{v2:eq:4.116} con $c = c_k$ y $\lambda = \lambda^k$.
+    \item Tomar $\lambda^{k+1} = \lambda^k + c_k h(x^k)$ y elegir $c_{k+1} \ge c_k$.
+    \item Tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
+
+Varias reglas específicas para la elección de los parámetros $c_k$ pueden ser consultadas, por ejemplo, en [3, 4].
+
+% [Ejercicio 4.4.6 movido a exercises.tex]
+
+A seguir, comentaremos las propiedades de convergencia del Algoritmo 4.4.3.
+
+\begin{theorem}[Convergencia del método de la Lagrangiana aumentada]\label{v2:thm:4.4.6}
+    Supongamos que valen las hipótesis del \cref{v2:thm:4.4.1}.
+    Entonces existen una vecindad $U$ de $\bar{x}$ y números $\bar{c} \ge 0$, $\delta > 0$ y $M > 0$, tales que:
+    \begin{enumerate}[(a)]
+        \item Para todo par $(\lambda, c) \in \Delta(\bar{c}, \delta)$, donde
+        \[
+            \Delta(\bar{c}, \delta) = \{(\lambda, c) \in \R^l \times \R \mid \|\lambda - \bar{\lambda}\| < \delta c, \; c > \bar{c}\},
+        \]
+        el problema \eqref{v2:eq:4.120} con la función objetivo dada por la fórmula \eqref{v2:eq:4.116}, tiene en $U$ un único punto estacionario $x(\lambda, c)$ y este punto satisface
+        \begin{align}
+            \|x(\lambda, c) - \bar{x}\| &\le M\|\lambda - \bar{\lambda}\|/c, \label{v2:eq:4.121} \\
+            \|\lambda + c h(x(\lambda, c)) - \bar{\lambda}\| &\le M\|\lambda - \bar{\lambda}\|/c. \nonumber
+        \end{align}
+        \item Existe un número $\bar{\delta} \in (0, \delta]$ tal que para cualquier sucesión $\{c_k\} \subset \R_+$ no-decreciente y cualquier punto $\lambda^0 \in \R^l$ satisfaciendo
+        \begin{equation}
+            (\lambda^0, c_0) \in \Delta(\bar{c}, \bar{\delta}),
+            \label{v2:eq:4.122}
+        \end{equation}
+        la fórmula
+        \[
+            \lambda^{k+1} = \lambda^k + c_k h(x(\lambda^k, c_k)), \quad k = 0, 1, \dots,
+        \]
+        define unívocamente una sucesión $\{\lambda^k\}$ (en el sentido de que $\{(\lambda^k, c_k)\} \subset \Delta(\bar{c}, \delta)$, i.e., para todo $k$ el punto $x(\lambda^k, c_k)$ es bien definido).
+        Además de eso, $\{\lambda^k\} \to \bar{\lambda}$, $\{x(\lambda^k, c_k)\} \to \bar{x}$ $(k \to \infty)$. La tasa de convergencia de la sucesión $\{\lambda^k\}$ es lineal, y si $c_k \to \infty$ $(k \to \infty)$, ella es superlinear.
+    \end{enumerate}
+\end{theorem}
+
+La demostración de este resultado necesita de algunas herramientas que se salen del alcance de este libro. Nos vamos a limitar a comentarios generales. Primero, notamos que para $\lambda = 0$, la afirmación (a) coincide con aquella del \cref{v2:thm:4.4.4}. La demostración del ítem (a) puede seguir la misma línea que el \cref{v2:thm:4.4.4}, pero introduciendo algunas consideraciones más sofisticadas que la aplicación directa del Teorema de la Función Implícita. Para probar el ítem (b), la dificultad principal es establecer la existencia de un número $\bar{\delta} \in (0, \delta]$ tal que para todo par $(\lambda^0, c_0)$ satisfaciendo \eqref{v2:eq:4.122}, la sucesión $\{(\lambda^k, c_k)\}$ permanece dentro del conjunto $\Delta(\bar{c}, \delta)$. Cuando esto está probado, por \eqref{v2:eq:4.121}, tenemos que para todo $k$,
+\begin{align*}
+    \|x(\lambda^k, c_k) - \bar{x}\| &\le (M/c_k)\|\lambda^k - \bar{\lambda}\| \le (M/\bar{c})\|\lambda^k - \bar{\lambda}\|, \\
+    \|\lambda^{k+1} - \bar{\lambda}\| &\le (M/c_k)\|\lambda^k - \bar{\lambda}\| \le (M/\bar{c})\|\lambda^k - \bar{\lambda}\|.
+\end{align*}
+Y si $\bar{c}$ es suficientemente grande, la sucesión $\{\lambda^k\}$ converge a $\bar{\lambda}$ con tasa lineal. Cuando $\{c_k\} \to \infty$ $(k \to \infty)$, la tasa se vuelve superlinear. Además de eso, la sucesión $\{x(\lambda^k, c_k)\}$ converge a $\bar{x}$, con tasa por lo menos tan rápida como la tasa de convergencia de $\{\lambda^k\}$, i.e., por lo menos con tasa geométrica. La demostración completa puede ser consultada en [3].
+
+Por el \cref{v2:thm:4.4.6}, si en el Algoritmo 4.4.3 los valores iniciales $c_0$ y $\lambda^0$ satisfacen la inclusión \eqref{v2:eq:4.122}, y si $x^k$ es escogido como punto estacionario del problema \eqref{v2:eq:4.120} que está más próximo a la solución $\bar{x}$ del problema \eqref{v2:eq:4.96}, entonces la sucesión $\{(x^k, \lambda^k)\}$ generada por el Algoritmo 4.4.3 es bien definida y converge a $(\bar{x}, \bar{\lambda})$ (la tasa de convergencia ya fue comentada arriba). En relación al cálculo de un punto estacionario adecuado (i.e., próximo a $\bar{x}$), notamos que en la práctica esto está siendo utilizado (como ya mencionamos en el caso del método de penalización cuadrática: para todo $k = 1, 2, \dots$, como punto inicial en el método de optimización irrestricta utilizado para resolver los subproblemas, tomamos el punto $x^{k-1}$. Con frecuencia, la sucesión $\{x^k\}$ así generada se queda dentro de la vecindad de alguna solución del problema \eqref{v2:eq:4.96} y, por lo tanto, el método converge a esta solución.
+
+Es importante comentar que, independientemente de cuán lejos $\lambda^0 \in \R^l$ esté de $\bar{\lambda}$, la condición \eqref{v2:eq:4.122} será satisfecha si el número $c_0$ es suficientemente grande. En otras palabras, una aproximación buena de multiplicador no es importante, si tomamos un valor grande del parámetro de penalización. No obstante, grandes parámetros de penalización pueden llevar a problemas numéricos.
+
+% [Ejercicio 4.4.7 movido a exercises.tex]
+
+Las Lagrangianas aumentadas pueden servir para construir funciones de penalización exacta diferenciables. Estas últimas son obtenidas agregando a la Lagrangiana aumentada términos adicionales, que son diferenciables y que penalizan la violación de condiciones necesarias de otimalidad de primera orden. La función así obtenida es minimizada en el espacio primal-dual. Por ejemplo, consideremos una familia de funciones
+\[
+    \varphi(\cdot; c_1, c_2) \colon \R^n \times \R^l \to \R,
+\]
+\begin{align}
+    \varphi(x, \lambda; c_1, c_2) &= L(x, \lambda; c_1) + \frac{c_2}{2}\|L'_x(x, \lambda)\|^2 \label{v2:eq:4.123} \\
+    &= L(x, \lambda) + \frac{c_1}{2}\|h(x)\|^2 + \frac{c_2}{2}\|L'_x(x, \lambda)\|^2. \nonumber
+\end{align}
+Para $c_1, c_2 > 0$ consideremos el problema
+\begin{equation}
+    \min \varphi(x, \lambda; c_1, c_2), \quad (x, \lambda) \in \R^n \times \R^l
+    \label{v2:eq:4.124}
+\end{equation}
+(comparar con el Ejercicio \eqref{v2:eq:4.103}). Es fácil ver que toda solución del sistema de Lagrange del problema \eqref{v2:eq:4.96} es punto estacionario del problema \eqref{v2:eq:4.124}. Más aún, con una combinación adecuada de los parámetros $c_1$ y $c_2$, tenemos también la afirmación recíproca.
+
+\begin{lemma}\label{v2:lem:4.4.1}
+    Sean $f \colon \R^n \to \R$ y $h \colon \R^n \to \R^l$ funciones dos veces diferenciables en una vecindad del punto $\hat{x} \in \R^n$, con derivadas continuas en este punto. Sea $\rank h'(\hat{x}) = l$.
+    Entonces para todo $\hat{\lambda} \in \R^l$ existe un número $\bar{c}_2 > 0$ tal que si $c_2 \in (0, \bar{c}_2]$, entonces podemos escoger una vecindad $U$ del punto $(\hat{x}, \hat{\lambda})$ y un número $\bar{c}_1(c_2) \ge 0$ de tal manera que para todo $c_1 > \bar{c}_1(c_2)$ el par $(\bar{x}, \bar{\lambda}) \in U$ será un punto estacionario del problema \eqref{v2:eq:4.124}, donde la función objetivo es dada por la fórmula \eqref{v2:eq:4.123}, si, y solamente si, $\bar{x}$ es un punto estacionario del problema \eqref{v2:eq:4.96} y $\bar{\lambda}$ es el multiplicador de Lagrange asociado.
+\end{lemma}
+\begin{proof}
+    Elijamos $\bar{c}_2 > 0$ suficientemente pequeño para garantizar que la matriz $E^n + c_2 L''_{xx}(\hat{x}, \hat{\lambda})$ sea definida positiva $\forall c_2 \in (0, \bar{c}_2]$. Fijamos $c_2 \in (0, \bar{c}_2]$ y elegimos $c_1(c_2) \ge 0$ suficientemente grande para garantizar que la matriz
+    \[
+        c_1 c_2 h'(\hat{x})(E^n + c_2 L''_{xx}(\hat{x}, \hat{\lambda}))^{-1}(h'(\hat{x}))^\top - E^l
+    \]
+    sea definida positiva $\forall c_1 > \bar{c}_1(c_2)$. Si $c_1$ y $c_2$ satisfacen estas condiciones, como es fácil verificar, para todo par $(x, \lambda) \in \R^n \times \R^l$ suficientemente próximo a $(\hat{x}, \hat{\lambda})$, la matriz
+    \[
+        \Lambda_{c_1, c_2}(x, \lambda) = \begin{pmatrix} E^n + c_2 L''_{xx}(x, \lambda) & c_1 (h'(x))^\top \\ c_2 h'(x) & E^l \end{pmatrix} \in \R(l, n)
+    \]
+    es no-singular (basta mostrar que la matriz $\Lambda_{c_1, c_2}(\hat{x}, \hat{\lambda})$ es no-singular y utilizar el teorema de perturbaciones pequeñas de una matriz no-singular (el Teorema 1.5.1)). Por el cálculo directo, obtenemos
+    \[
+        \varphi'(x, \lambda; c_1, c_2) = \Lambda_{c_1, c_2}(x, \lambda) \begin{pmatrix} L'_x(x, \lambda) \\ h(x) \end{pmatrix}.
+    \]
+    Por tanto, el punto $(\bar{x}, \bar{\lambda})$ suficientemente próximo a $(\hat{x}, \hat{\lambda})$ puede ser estacionario para el problema \eqref{v2:eq:4.124} solamente si $(\bar{x}, \bar{\lambda})$ es una solución del sistema de Lagrange del problema \eqref{v2:eq:4.96}.
+\end{proof}
+
+\begin{theorem}\label{v2:thm:4.4.7}
+    Supongamos que valen las hipótesis del \cref{v2:thm:4.4.1}.
+    \begin{enumerate}[(a)]
+        \item Se $f$ e $h$ son tres veces diferenciables en el punto $\bar{x}$, entonces para todo $c_2 > 0$ existe un número $\bar{c}_1(c_2) \ge 0$, tal que para todo $c_1 > \bar{c}_1(c_2)$ la matriz $\varphi''(\bar{x}, \bar{\lambda}; c_1, c_2)$ es definida positiva, donde la función $\varphi(\cdot; c_1, c_2)$ es dada por la fórmula \eqref{v2:eq:4.123}. Por tanto, el punto estacionario $(\bar{x}, \bar{\lambda})$ del problema \eqref{v2:eq:4.124} satisface la condición suficiente de segunda orden del Teorema 1.2.1(b).
+        \item Existe un número $\bar{c}_2 > 0$ tal que, si $c_2 \in (0, \bar{c}_2]$, entonces podemos escoger una vecindad $U$ del punto $(\bar{x}, \bar{\lambda})$ y un número $\bar{c}_1(c_2) \ge 0$ de tal manera que $\forall c_1 > \bar{c}_1(c_2)$ el problema \eqref{v2:eq:4.124} tenga en $U$ un único punto estacionario que es $(\bar{x}, \bar{\lambda})$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Para probar el ítem (a), es necesario calcular la derivada segunda de la función $\varphi(\cdot; c_1, c_2)$ en el punto $(\bar{x}, \bar{\lambda})$ y verificar (haciendo el cálculo directo) que ella es definida positiva para $c_2 > 0$ cualquiera y $c_1$ suficientemente grande.
+    El ítem (b) sigue del \cref{v2:lem:4.4.1} y del hecho de que la solución $(\bar{x}, \bar{\lambda})$ del sistema de Lagrange del problema \eqref{v2:eq:4.96} es aislada. Este último hecho es una consecuencia obvia del Teorema de la Función Implícita (Teorema 1.5.3), utilizando que la matriz $L''(\bar{x}, \bar{\lambda})$ es no-singular (lo que ya fue mostrado, bajo las hipótesis actuales, en la demostración del \cref{v2:thm:4.4.1}).
+\end{proof}
+
+% [Ejercicio 4.4.8 movido a exercises.tex]
+
+Una desventaja de la función de penalización exacta diferenciable introducida arriba consiste en la necesidad de coordinación entre los parámetros $c_1$ y $c_2$. Esta desventaja puede ser eliminada a costa de la utilización de funciones más complejas. Por ejemplo, fijamos una función $C \colon \R^n \to \R(l, n)$ diferenciable y consideremos la familia de funciones
+\[
+    \varphi(\cdot; c) \colon \R^n \times \R^l \to \R,
+\]
+\begin{align}
+    \varphi(x, \lambda; c) &= L(x, \lambda; c) + \frac{1}{2}\|C(x)L'_x(x, \lambda)\|^2 \label{v2:eq:4.125} \\
+    &= L(x, \lambda) + \frac{c}{2}\|h(x)\|^2 + \frac{1}{2}\|C(x)L'_x(x, \lambda)\|^2. \nonumber
+\end{align}
+Para $c > 0$, consideremos el problema
+\begin{equation}
+    \min \varphi(x, \lambda; c), \quad (x, \lambda) \in \R^n \times \R^l.
+    \label{v2:eq:4.126}
+\end{equation}
+Como fue el caso de la función $\varphi(\cdot; c_1, c_2)$ arriba, toda solución del sistema de Lagrange del problema \eqref{v2:eq:4.96} es un punto estacionario del problema \eqref{v2:eq:4.126}.
+
+\begin{lemma}\label{v2:lem:4.4.2}
+    Además de las hipótesis del \cref{v2:lem:4.4.1}, supongamos que $C \colon \R^n \to \R(l, n)$ sea diferenciable en una vecindad del punto $\hat{x} \in \R^n$, y que en este punto la matriz $C(\hat{x})(h'(\hat{x}))^\top$ sea no-singular.
+    Entonces para todo $\hat{\lambda} \in \R^l$ existen una vecindad $U$ del punto $(\hat{x}, \hat{\lambda})$ y un número $\bar{c} \ge 0$ tales que $\forall c > \bar{c}$ el par $(\bar{x}, \bar{\lambda}) \in U$ es un punto estacionario del problema \eqref{v2:eq:4.126}, donde la función objetivo es dada por la fórmula \eqref{v2:eq:4.125}, si, y solamente si, $\bar{x}$ es un punto estacionario del problema \eqref{v2:eq:4.96} y $\bar{\lambda}$ es el multiplicador de Lagrange asociado.
+\end{lemma}
+\begin{proof}
+    La demostración es similar a aquella del \cref{v2:lem:4.4.1}. Basta mostrar que para todo $c$ suficientemente grande la matriz
+    \[
+        \Lambda_c(\hat{x}, \hat{\lambda}) = \begin{pmatrix} E^n + A(\hat{x}, \hat{\lambda})C(x) & c(h'(\hat{x}))^\top \\ h'(\hat{x})(C(\hat{x}))^\top C(\hat{x}) & E^l \end{pmatrix} \in \R(l, n)
+    \]
+    es no-singular, donde
+    \[
+        A(\hat{x}, \hat{\lambda}) = \left( \left. (C(x)L'_x(x, \hat{\lambda}))' \right|_{x=\hat{x}} \right)^\top \in \R(n, l).
+    \]
+    Consideremos $\tilde{u} = (\tilde{x}, \tilde{\lambda}) \in \ker \Lambda_c(\hat{x}, \hat{\lambda})$ arbitrario. Tenemos que
+    \begin{equation}
+        (E^n + A(\hat{x}, \hat{\lambda})C(x))\tilde{x} + c(h'(\hat{x}))^\top \tilde{\lambda} = 0,
+        \label{v2:eq:4.127}
+    \end{equation}
+    \begin{equation}
+        h'(\hat{x})(C(\hat{x}))^\top C(\hat{x})\tilde{x} + \tilde{\lambda} = 0.
+        \label{v2:eq:4.128}
+    \end{equation}
+    De la última ecuación,
+    \[
+        C(\hat{x})\tilde{x} = -(h'(\hat{x})(C(\hat{x}))^\top)^{-1}\tilde{\lambda}.
+    \]
+    De \eqref{v2:eq:4.127}, ahora obtenemos
+    \begin{align*}
+        &-(E^l + C(\hat{x})A(\hat{x}, \hat{\lambda})C(\hat{x}))(h'(\hat{x})(C(\hat{x}))^\top)^{-1} \\
+        &\quad + c C(\hat{x})(h'(\hat{x}))^\top \tilde{\lambda} \\
+        &= C(\hat{x})(\tilde{x} + A(\hat{x}, \hat{\lambda})C(x)\tilde{x} + c(h'(\hat{x}))^\top \tilde{\lambda}) = 0.
+    \end{align*}
+    Elegimos $\bar{c} \ge 0$ suficientemente grande para garantizar que la matriz en el lado izquierdo de la última ecuación sea no-singular $\forall c > \bar{c}$. Para tales $c$ tenemos que $\tilde{\lambda} = 0$. Entonces, por \eqref{v2:eq:4.128}, tenemos que $C(\hat{x})\tilde{x} = 0$. De \eqref{v2:eq:4.127} ahora obtenemos que $\tilde{x} = 0$. Concluimos que $\tilde{u} = 0$, finalizando así la demostración.
+\end{proof}
+
+\begin{theorem}\label{v2:thm:4.4.8}
+    Además de las hipótesis del \cref{v2:thm:4.4.1}, supongamos que $C \colon \R^n \to \R(l, n)$ sea diferenciable en una vecindad del punto $\bar{x}$, con derivada continua en este punto. Supongamos que la matriz $C(\bar{x})(h'(\bar{x}))^\top$ sea no-singular.
+    Entonces existen una vecindad $U$ del punto $(\bar{x}, \bar{\lambda})$ y un número $\bar{c} \ge 0$ tales que para todo $c > \bar{c}$, el problema \eqref{v2:eq:4.126}, donde la función objetivo es dada por la fórmula \eqref{v2:eq:4.125}, tiene en $U$ un único punto estacionario que es $(\bar{x}, \bar{\lambda})$. Además de eso, se $f$ e $h$ son tres veces diferenciables en el punto $\bar{x}$, entonces la matriz $\varphi''(\bar{x}, \bar{\lambda}; c)$ es definida positiva. Por tanto, el punto estacionario $(\bar{x}, \bar{\lambda})$ satisface la condición suficiente de segunda orden del Teorema 1.2.1(b).
+\end{theorem}
+\begin{proof}
+    La demostración de este resultado es análoga a aquella del \cref{v2:thm:4.4.7} (vea también el Ejercicio 4.4.8), con la diferencia de que, en vez del \cref{v2:lem:4.4.1}, tiene que ser utilizado el \cref{v2:lem:4.4.2}. Resaltamos que la hipótesis de que la matriz $C(\bar{x})(h'(\bar{x}))^\top$ sea no-singular presupone la condición de regularidad de las restricciones (1.9) en el punto $\bar{x}$.
+\end{proof}
+
+La dependencia de la variable dual de funciones de penalización exactas diferenciables, introducidas hasta ahora, es una cierta desventaja. Sin embargo, esta desventaja también puede ser eliminada. Más, de nuevo, al costo de complicaciones adicionales. Notemos que las funciones introducidas en \eqref{v2:eq:4.123} y \eqref{v2:eq:4.125} son cuadráticas en relación a $\lambda$ para $x$ fijo. Por tanto, podemos intentar hacer la minimización explícita en relación a $\lambda$ para cada $x$, así eliminando variables adicionales.
+
+% [Ejercicios 4.4.9 y 4.4.10 movidos a exercises.tex]

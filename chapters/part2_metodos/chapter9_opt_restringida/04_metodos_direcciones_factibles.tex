@@ -1,0 +1,98 @@
+% --- Archivo: 04_metodos_direcciones_factibles.tex ---
+
+\section{Métodos de direcciones factibles}\label{v2:sec:4.2}
+
+En cada iteración de los métodos considerados en la \cref{v2:sec:4.1}, el conjunto factible del problema no es aproximado/simplificado de manera alguna. En los métodos del gradiente proyectado, el conjunto aparece en la operación de proyección. En los métodos del gradiente y de Newton restringidos, el conjunto factible original es pasado directamente para los subproblemas. Es claro que esto solo puede tener sentido computacional cuando el conjunto en cuestión es bien simple.
+
+Para problemas más complejos, es razonable intentar utilizar aproximaciones locales de todos los datos del problema. Esta es la idea básica de los \textit{métodos de direcciones factibles}, que son métodos de descenso para problemas con restricciones de desigualdad. Consideremos entonces el problema
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \{x \in \R^n \mid g(x) \le 0\},
+    \label{v2:eq:4.23}
+\end{equation}
+donde las funciones $f \colon \R^n \to \R$ y $g \colon \R^n \to \R^m$ son diferenciables. De la \cref{v2:sec:4.1.2}, recordamos el esquema general de los métodos de descenso para problemas con restricciones:
+\begin{equation}
+    x^{k+1} = x^k + \alpha_k d^k, \quad d^k \in \mathcal{D}_f(x^k) \cap V_D(x^k), \quad k = 0, 1, \dots,
+    \label{v2:eq:4.24}
+\end{equation}
+donde $x^0 \in D$, y los parámetros de longitud de paso $\alpha_k > 0$ son calculados para satisfacer, por lo menos, la condición
+\begin{equation}
+    f(x^{k+1}) < f(x^k), \quad x^{k+1} \in D.
+    \label{v2:eq:4.25}
+\end{equation}
+
+Resaltamos que, en el caso de restricciones de desigualdad no-lineales, en situaciones típicas el cono de direcciones factibles en relación al conjunto en cuestión es vacío ([12, \S 1.4]). Es por eso que el desarrollo a seguir es hecho para restricciones de desigualdad. El método puede ser extendido fácilmente al caso en que hay restricciones de igualdad, siempre que ellas sean lineales.
+
+La realización básica de los métodos de direcciones factibles consiste en la elección siguiente de la dirección en \eqref{v2:eq:4.24}. Para un $x^k \in D$ dado, resolvemos el problema
+\[
+    \min \max \left\{ \langle f'(x^k), d \rangle; \max_{i \in I_k} \langle g_i'(x^k), d \rangle \right\} \quad \text{sujeto a} \quad \|d\|_\infty \le 1,
+\]
+donde $I_k = I(x^k) = \{i = 1, \dots, m \mid g_i(x^k) = 0\}$ es el conjunto de los índices de las restricciones del problema \eqref{v2:eq:4.23} que son activas en el punto $x^k$. Este problema puede ser resuelto como el problema de programación lineal
+\begin{equation}
+    \min t \quad \text{sujeto a} \quad (t, d) \in U_k,
+    \label{v2:eq:4.26}
+\end{equation}
+\begin{equation}
+    U_k = \left\{ u = (t, d) \in \R \times \R^n \;\middle|\;
+    \begin{array}{l}
+        \langle f'(x^k), d \rangle \le t, \\
+        \langle g_i'(x^k), d \rangle \le t, \; i \in I_k, \\
+        -1 \le d_j \le 1, \; j = 1, \dots, n.
+    \end{array}
+    \right\}.
+    \label{v2:eq:4.27}
+\end{equation}
+
+En la definición del conjunto $U_k$, las restricciones $-1 \le d_j \le 1$ sirven para garantizar que el subproblema \eqref{v2:eq:4.26}, \eqref{v2:eq:4.27}, tenga una solución. En efecto, $(0, 0) \in U_k$, i.e., $U_k \neq \emptyset$, y el hecho de que \eqref{v2:eq:4.26}, \eqref{v2:eq:4.27}, posee una solución sigue del Corolario 1.1.1.
+
+Sea $u^k = (t_k, d^k)$ una solución de \eqref{v2:eq:4.26}, \eqref{v2:eq:4.27}. Claramente, $t_k \le 0$, porque en el punto factible $(0, 0)$ la función objetivo del problema \eqref{v2:eq:4.26}, \eqref{v2:eq:4.27}, tiene valor nulo. Si $t_k = 0$, el método para.
+
+\begin{proposition}\label{v2:prop:4.2.1}
+    Sean $f \colon \R^n \to \R$ y $g \colon \R^n \to \R^m$ funciones diferenciables en el punto $x^k \in D$, donde el conjunto $D$ es definido en \eqref{v2:eq:4.23}. Supongamos que el punto $x^k$ satisface la condición de regularidad de Mangasarian-Fromovitz (1.16).
+    Si $(0, d^k)$ es una solución del problema \eqref{v2:eq:4.26}, \eqref{v2:eq:4.27}, con $I_k = I(x^k)$, entonces $x^k$ es un punto estacionario del problema \eqref{v2:eq:4.23}.
+\end{proposition}
+\begin{proof}
+    Recordamos que la condición de Mangasarian-Fromovitz, en el caso en consideración, consiste en la existencia de $\bar{d} \in \R^n$ tal que
+    \begin{equation}
+        \langle g_i'(x^k), \bar{d} \rangle < 0 \quad \forall i \in I(x^k) = I_k.
+        \label{v2:eq:4.28}
+    \end{equation}
+    Si el punto $(0, d^k)$ es una solución del problema \eqref{v2:eq:4.26}, \eqref{v2:eq:4.27}, el punto $(0, 0)$ también es solución de este problema (porque él es factible y provee el mismo valor de la función objetivo). Como las restricciones de este problema son lineales, podemos aplicar el Teorema 1.2.3 en el punto $(0, 0)$. Así obtenemos que existen $\mu_0 \ge 0$ y $\mu_i \ge 0$, $i \in I_k$, tales que
+    \begin{equation}
+        1 - \mu_0 - \sum_{i \in I_k} \mu_i = 0,
+        \label{v2:eq:4.29}
+    \end{equation}
+    \begin{equation}
+        \mu_0 f'(x^k) + \sum_{i \in I_k} \mu_i g_i'(x^k) = 0.
+        \label{v2:eq:4.30}
+    \end{equation}
+    Supongamos que $\mu_0 = 0$. En este caso, \eqref{v2:eq:4.29} implica en que entre los números $\mu_i \ge 0$, $i \in I_k$, hay algunos estrictamente positivos. Multiplicando los dos lados de la ecuación \eqref{v2:eq:4.30} por $\bar{d}$ y utilizando \eqref{v2:eq:4.28}, obtenemos la contradicción
+    \[
+        0 = \sum_{i \in I_k} \mu_i \langle g_i'(x^k), \bar{d} \rangle < 0.
+    \]
+    Concluimos que $\mu_0 > 0$.
+    Dividiendo ahora los dos lados de \eqref{v2:eq:4.30} por $\mu_0$, obtenemos
+    \[
+        f'(x^k) + \sum_{i \in I_k} \bar{\mu}_i g_i'(x^k) = 0,
+    \]
+    donde $\bar{\mu}_i = \mu_i / \mu_0 \ge 0$, $i \in I_k$. Por lo tanto, $x^k$ es un punto estacionario del problema \eqref{v2:eq:4.23}.
+\end{proof}
+
+Ahora, si $t_k < 0$, utilizando los Lemas 3.1.1 y 4.1.3 concluimos que $d^k \in \mathcal{D}_f(x^k) \cap V_D(x^k)$. De hecho, la naturaleza del subproblema \eqref{v2:eq:4.26}, \eqref{v2:eq:4.27}, es la siguiente: a medida que $t$ disminuye, la componente $d$ del punto factible $(t, d)$ de este subproblema obtiene cada vez características más claras de una dirección factible de descenso. En particular, cuando $I(x^k) = \emptyset$, $d^k$ queda en la dirección del anti-gradiente de la función $f$ en el punto $x^k$.
+
+El cálculo de los parámetros de longitud de paso $\alpha_k$ puede ser hecho por las técnicas de la \cref{v2:sec:3.1.1}, llevando también en cuenta la restricción adicional $\alpha_k \le \hat{\alpha}_k$, donde $\hat{\alpha}_k > 0$ es el mayor número satisfaciendo $x^k + \alpha d^k \in D \; \forall \alpha \in [0, \hat{\alpha}_k]$. Esta restricción garantiza la validez de la segunda condición en \eqref{v2:eq:4.25}. Si el conjunto $D$ es convexo (por ejemplo, si las funciones $g_i$, $i = 1, \dots, m$, son convexas), el número $\hat{\alpha}_k$ es dado por la fórmula
+\[
+    \hat{\alpha}_k = \sup \{\alpha \in \R_+ \mid x + \alpha d \in D \}.
+\]
+Mas incluso en el caso convexo, $\hat{\alpha}_k$ puede ser calculado o estimado solamente en casos bien especiales; vea la \cref{v2:sec:4.1.2}. Cuando el conjunto $D$ no es convexo, difícilmente puede existir una estrategia razonable de cálculo de longitud de paso para esquemas de este tipo.
+
+Más aún, incluso suponiendo que $\hat{\alpha}_k$ sea conocido para todo $k$, e incluso bajo hipótesis muy fuertes, los métodos de direcciones factibles presentados arriba pueden no poseer convergencia garantizada. La dificultad principal, tanto en sentido práctico como teórico, es la siguiente. Para $I_k = I(x^k)$, el subproblema \eqref{v2:eq:4.26}, \eqref{v2:eq:4.27}, no lleva en cuenta las restricciones del problema original \eqref{v2:eq:4.23} que no son activas en $x^k$, mas son ``casi-activas'' en este punto. Esto puede hacer con que, para la dirección $d^k$ elegida, el valor de $\hat{\alpha}_k$ sea muy pequeño, mismo que existan otras direcciones factibles y de descenso que permitan pasos bien más largos. La disminución indebida de los valores de $\hat{\alpha}_k$ puede resultar en la convergencia del método a puntos no-estacionarios del problema (vea [2]).
+
+La idea de llevar en cuenta restricciones casi-activas puede ser implementada de la manera siguiente. Fijamos $\delta_0 > 0$ y $\theta \in (0, 1)$. Para todo $k$, definimos
+\[
+    I_k = \{i = 1, \dots, m \mid g_i(x^k) \ge -\delta_k\}.
+\]
+Si para la solución $u^k = (t_k, d^k)$ del subproblema correspondiente \eqref{v2:eq:4.26}, \eqref{v2:eq:4.27}, tenemos que $t_k \le -\delta_k$, aceptamos $d^k$ como la dirección factible de descenso. Caso contrario, cambiamos $\delta_k$ por $\theta\delta_k$ y repetimos el cálculo de $d^k$, con el nuevo $I_k$. Esta modificación, sumada a los parámetros adecuados involucrados, ya permite probar convergencia al conjunto de puntos estacionarios del problema.
+
+Notemos que, como los métodos del gradiente proyectado, los métodos de descenso con direcciones factibles necesitan un punto inicial factible. En el caso de un conjunto factible de estructura simple, como en la \cref{v2:sec:4.1}, el cálculo de un punto $x^0 \in D$ no presenta dificultades. En casos más generales, pueden ser utilizados algunos métodos especiales, desarrollados para este fin [4]. Sin embargo, en general, la tarea de computar un punto factible puede ser casi tan difícil como la resolución del problema original \eqref{v2:eq:4.23}.
+
+No vamos a presentar más detalles sobre algoritmos de direcciones factibles, porque incluso siendo naturales y de cierto interés teórico, estos métodos no pueden ser considerados como una abordaje correcta al caso de restricciones no-lineales. Además de eso, ellos no pueden ser aplicados cuando hay restricciones no-lineales de igualdad. A seguir, vamos a concentrarnos en la descripción de algunos métodos que son más eficientes y más utilizados en la práctica computacional.

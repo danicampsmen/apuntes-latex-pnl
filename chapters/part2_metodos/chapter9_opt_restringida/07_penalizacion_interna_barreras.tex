@@ -1,0 +1,208 @@
+% --- Archivo: 07_penalizacion_interna_barreras.tex ---
+
+\subsection{Penalización interna. Métodos de barreras.}\label{v2:sec:4.3.3}
+
+Los métodos de penalización interna lidian con problemas de la forma
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \{x \in \R^n \mid g(x) \le 0\},
+    \label{v2:eq:4.82}
+\end{equation}
+donde $f \colon \R^n \to \R$, $g \colon \R^n \to \R^m$, y el ``interior'' del conjunto factible no es vacío:
+\begin{equation}
+    D^0 = \{x \in \R^n \mid g(x) < 0\} \neq \emptyset.
+    \label{v2:eq:4.83}
+\end{equation}
+Supongamos, además, que
+\begin{equation}
+    \inf_{x \in D^0} f(x) = \inf_{x \in D} f(x) = \bar{v} > -\infty,
+    \label{v2:eq:4.84}
+\end{equation}
+i.e., el ínfimo de $f$ en el conjunto $D^0$ es igual al valor óptimo del problema \eqref{v2:eq:4.82}. Esta hipótesis tiene por objetivo eliminar ciertos casos patológicos, como aquél en la Figura 4.3.5, donde, evidentemente, la solución $\bar{x}$ no puede ser aproximada por puntos del interior del conjunto factible.
+
+% [Aquí va la Figura 4.3.5: La solución \bar{x} no puede ser aproximada por puntos del interior del conjunto factible D.]
+
+La idea de los métodos de penalización interna es la misma que la de la penalización externa, en el sentido de que el problema original es aproximado por una sucesión de problemas que pueden ser considerados irrestrictos. Solo que este objetivo es llevado a cabo de otra manera. En particular, a la función objetivo es agregado un término penalizador que tiende a más infinito para cualquier sucesión que se aproxima a la frontera $D \setminus D^0$ del conjunto factible.
+
+\begin{definition}\label{v2:def:4.3.1}
+    Una función $\psi \colon D^0 \to \R_+$ se llama \textbf{barrera} para el conjunto $D$ definido en \eqref{v2:eq:4.82}, si ella es continua en $D^0$, y para toda sucesión $\{x^k\} \in D^0$ tal que $g_i(x^k) \to 0$ para algún $i \in \{1, \dots, m\}$, se tiene que $\psi(x^k) \to +\infty$ $(k \to \infty)$.
+\end{definition}
+
+Las elecciones más comunes son la \textit{barrera logarítmica}
+\begin{equation}
+    \psi(x) = -\sum_{i=1}^m \log(-g_i(x)), \quad x \in D^0,
+    \label{v2:eq:4.85}
+\end{equation}
+y la \textit{barrera inversa}
+\begin{equation}
+    \psi(x) = -\sum_{i=1}^m 1/g_i(x), \quad x \in D^0.
+    \label{v2:eq:4.86}
+\end{equation}
+Consideremos una familia de funciones
+\begin{equation}
+    \varphi(\cdot; t) \colon D^0 \to \R, \quad \varphi(x; t) = f(x) + t\psi(x),
+    \label{v2:eq:4.87}
+\end{equation}
+donde $t > 0$ es el parámetro penalizador, y los problemas
+\begin{equation}
+    \min \varphi(x; t) \quad \text{sujeto a} \quad x \in D^0.
+    \label{v2:eq:4.88}
+\end{equation}
+Podemos pensar en el problema \eqref{v2:eq:4.88} como de optimización irrestricta en el sentido siguiente. Es bien claro que si simplemente ignoramos por completo las restricciones del problema \eqref{v2:eq:4.88} (que son desigualdades estrictas) y resolvemos el problema
+\[
+    \min \varphi(x; t), \quad x \in \R^n,
+\]
+aplicando cualquier método iterativo razonable a partir de un punto inicial en $D^0$, toda la sucesión generada por este método (así como sus puntos de acumulación) va a quedar dentro de $D^0$, ya que los puntos cerca de la frontera $D \setminus D^0$ tienen valores de $\varphi(\cdot; t)$ explosivos y, por tanto, no son nada atractivos para algoritmos de minimización.
+
+\noindent \textbf{Algoritmo 4.3.2. (Método de barreras)} \\
+Elegir una función barrera $\psi \colon D^0 \to \R$ para el conjunto $D$ definido en \eqref{v2:eq:4.82}. Elegir $t_0 > 0$ y tomar $k := 0$.
+\begin{enumerate}
+    \item Calcular $x^k \in D^0$ como una solución del problema \eqref{v2:eq:4.88}, donde la función objetivo es dada por la fórmula \eqref{v2:eq:4.87} con $t = t_k$.
+    \item Elegir $t_{k+1} < t_k$ y tomar $k := k + 1$. Retornar al Paso 1.
+\end{enumerate}
+
+Observemos que como las soluciones del problema original típicamente están en la frontera $D \setminus D^0$, queda claro que para la convergencia de métodos de este tipo es necesario que los valores del parámetro $t$ tiendan a cero (para amenizar la influencia explosiva de la barrera $\psi$ y permitir la aproximación a soluciones en la frontera del conjunto factible).
+
+\begin{example}\label{v2:exa:4.3.4}
+    Consideremos el problema
+    \[
+        \min x \quad \text{sujeto a} \quad x \ge 0.
+    \]
+    Este es un problema de programación convexa y su única solución es $\bar{x} = 0$.
+    Eligiendo la barrera inversa \eqref{v2:eq:4.86}, tenemos
+    \[
+        \varphi(x; t) = x + t/x, \quad t > 0.
+    \]
+    Puntos estacionarios de esta función en el conjunto abierto
+    \[
+        D^0 = \{x \in \R \mid x > 0\} \neq \emptyset
+    \]
+    son caracterizados por la ecuación
+    \[
+        0 = \varphi'(x; c) = 1 - t/x^2,
+    \]
+    donde obtenemos
+    \[
+        x(t) = \sqrt{t} \in D^0.
+    \]
+    En particular, $x(t) \to 0 = \bar{x}$ cuando $t \to 0$.
+
+    % [Aquí va la Figura 4.3.6: Para las soluciones de los problemas penalizados, se tiene que x(t) \in D^0 para todo t > 0 y x(t) \to \bar{x} cuando t \to 0+]
+\end{example}
+
+\begin{example}\label{v2:exa:4.3.5}
+    Consideremos el problema
+    \[
+        \min x_1 + x_2 \quad \text{sujeto a} \quad -x_1^2 + x_2 \ge 0, \; x_1 \ge 0.
+    \]
+    Este es un problema de programación convexa y su única solución es $\bar{x} = 0$.
+    Eligiendo la barrera logarítmica \eqref{v2:eq:4.85}, tenemos
+    \[
+        \varphi(x; t) = x_1 + x_2 - t\log(-x_1^2 + x_2) - t\log(x_1).
+    \]
+    Puntos estacionarios del problema de minimizar esta función en el conjunto abierto
+    \[
+        D^0 = \{x \in \R^2 \mid -x_1^2 + x_2 > 0, \; x_1 > 0\} \neq \emptyset
+    \]
+    son caracterizados por el sistema de ecuaciones
+    \[
+        0 = \varphi'(x; t) = \begin{pmatrix} 1 + 2tx_1/(-x_1^2 + x_2) - t/x_1 \\ 1 - t/(-x_1^2 + x_2) \end{pmatrix}.
+    \]
+    Donde obtenemos
+    \[
+        x_1(t) = (-1 + \sqrt{1 + 8t})/4, \quad x_2(t) = t + ((-1 + \sqrt{1 + 8t})/4)^2.
+    \]
+    En particular, $x(t) \to 0 = \bar{x}$ cuando $t \to 0$.
+    La trayectoria de soluciones de los problemas penalizados es ilustrada en la Figura 4.3.6.
+\end{example}
+
+Ahora estudiaremos propiedades de convergencia del Algoritmo 4.3.2. Como en el caso de la penalización externa, resultados de convergencia para métodos de barreras se refieren a la sucesión generada por minimizadores globales de problemas penalizados.
+
+\begin{proposition}\label{v2:prop:4.3.3}
+    Supongamos que el conjunto $D$ definido en \eqref{v2:eq:4.82} satisfaga \eqref{v2:eq:4.83} y \eqref{v2:eq:4.84}. Sea $\{x^k\}$ una sucesión generada por el Algoritmo 4.3.2, donde $x^k$ es una solución global del problema \eqref{v2:eq:4.88} con $t = t_k$.
+    Entonces, para todo $k$, se tiene que
+    \begin{equation}
+        \varphi(x^{k+1}; t_{k+1}) \le \varphi(x^k; t_k),
+        \label{v2:eq:4.89}
+    \end{equation}
+    \begin{equation}
+        \psi(x^{k+1}) \ge \psi(x^k),
+        \label{v2:eq:4.90}
+    \end{equation}
+    \begin{equation}
+        f(x^{k+1}) \le f(x^k).
+        \label{v2:eq:4.91}
+    \end{equation}
+\end{proposition}
+\begin{proof}
+    Por la optimalidad de $x^{k+1}$ en \eqref{v2:eq:4.88}, $t = t_{k+1}$, tenemos que
+    \begin{align}
+        f(x^{k+1}) + t_{k+1}\psi(x^{k+1}) &= \varphi(x^{k+1}; t_{k+1}) \nonumber \\
+        &\le \varphi(x^k; t_{k+1}) \nonumber \\
+        &= f(x^k) + t_{k+1}\psi(x^k) \nonumber \\
+        &\le f(x^k) + t_k\psi(x^k) \nonumber \\
+        &= \varphi(x^k; t_k),
+        \label{v2:eq:4.92}
+    \end{align}
+    donde la segunda desigualdad sigue de $t_{k+1} < t_k$ y $\psi(x^k) \ge 0$. Esto muestra, entre otras cosas, la relación \eqref{v2:eq:4.89}.
+    Por otro lado, de la optimalidad de $x^k$ en \eqref{v2:eq:4.88} con $t = t_k$, obtenemos
+    \begin{align*}
+        f(x^k) + t_k\psi(x^k) &= \varphi(x^k; t_k) \\
+        &\le \varphi(x^{k+1}; t_k) \\
+        &= f(x^{k+1}) + t_k\psi(x^{k+1}).
+    \end{align*}
+    Sumando esta última desigualdad a la desigualdad \eqref{v2:eq:4.92}, obtenemos que
+    \[
+        (t_k - t_{k+1})\psi(x^k) \le (t_k - t_{k+1})\psi(x^{k+1}).
+    \]
+    Donde, como $t_{k+1} < t_k$, sigue \eqref{v2:eq:4.90}.
+    Ahora, utilizando de nuevo \eqref{v2:eq:4.92}, obtenemos
+    \[
+        f(x^{k+1}) - f(x^k) \le t_{k+1}(\psi(x^k) - \psi(x^{k+1})) \le 0,
+    \]
+    donde la segunda desigualdad sigue de $t_{k+1} > 0$ y de \eqref{v2:eq:4.90}.
+    Finalmente, obtenemos el siguiente resultado.
+\end{proof}
+
+\begin{theorem}[Convergencia de los métodos de penalización interna]\label{v2:thm:4.3.7}
+    Sean $f \colon \R^n \to \R$ y $g \colon \R^n \to \R^m$ funciones continuas en $\R^n$. Supongamos que el conjunto $D$ definido en \eqref{v2:eq:4.82} satisfaga \eqref{v2:eq:4.83} y \eqref{v2:eq:4.84}.
+    Entonces todo punto de acumulación de la sucesión $\{x^k\}$ generada por el Algoritmo 4.3.2, donde $x^k$ es una solución global del problema \eqref{v2:eq:4.88} con $t = t_k$ e $t_k \to 0$ $(k \to \infty)$, es una solución global del problema \eqref{v2:eq:4.82}.
+\end{theorem}
+\begin{proof}
+    Sea $\bar{x}$ un punto de acumulación de la sucesión $\{x^k\}$. Sea $\{x^{k_j}\} \to \bar{x}$ $(j \to \infty)$. Como $\{x^k\} \subset D^0$, i.e., tenemos que $g(x^k) < 0$ para todo $k$, y $g$ es continua, concluimos que $g(\bar{x}) \le 0$. O sea, $\bar{x} \in D$.
+    Si $f(\bar{x}) = \bar{v}$, no hay nada más para probar. Sea $f(\bar{x}) > \bar{v}$. Definimos
+    \begin{equation}
+        \delta = (f(\bar{x}) - \bar{v})/2 > 0.
+        \label{v2:eq:4.93}
+    \end{equation}
+    Por la relación \eqref{v2:eq:4.84},
+    \begin{equation}
+        \exists \tilde{x} \in D^0 \text{ tal que } f(\tilde{x}) < \bar{v} + \delta.
+        \label{v2:eq:4.94}
+    \end{equation}
+    La sucesión $\{f(x^k)\}$ es no-decreciente (vea \eqref{v2:eq:4.91}). Por lo tanto, $\{f(x^{k_j})\}$ también es no-decreciente y tenemos que
+    \[
+        f(x^{k_j}) \ge \lim_{j \to \infty} f(x^{k_j}) = f(\bar{x}) = \bar{v} + 2\delta,
+    \]
+    donde llevamos en cuenta la continuidad de $f$ y \eqref{v2:eq:4.93}.
+    Ahora, utilizando \eqref{v2:eq:4.94}, obtenemos que
+    \begin{equation}
+        f(x^{k_j}) - f(\tilde{x}) \ge \bar{v} + 2\delta - f(\tilde{x}) > \delta.
+        \label{v2:eq:4.95}
+    \end{equation}
+    Tenemos entonces que, para $j$ suficientemente grande,
+    \begin{align*}
+        0 &\ge \varphi(x^{k_j}; t_{k_j}) - \varphi(\tilde{x}; t_{k_j}) \\
+        &= f(x^{k_j}) + t_{k_j}\psi(x^{k_j}) - f(\tilde{x}) - t_{k_j}\psi(\tilde{x}) \\
+        &> \delta + t_{k_j}(\psi(x^{k_j}) - \psi(\tilde{x})) \\
+        &\ge \delta + t_{k_j}(\psi(x^0) - \psi(\tilde{x})) \\
+        &\ge \delta/2 > 0,
+    \end{align*}
+    donde la primera desigualdad sigue del hecho de que $x^{k_j}$ es una solución global del problema \eqref{v2:eq:4.88} con $t = t_{k_j}$, la segunda desigualdad sigue de \eqref{v2:eq:4.95}, la tercera del hecho de que $t_k \to 0$ $(k \to \infty)$.
+    La contradicción anterior implica que $f(\bar{x}) = \bar{v}$, lo que concluye la demostración.
+\end{proof}
+
+% [Ejercicios 4.3.7, 4.3.8 y 4.3.9 movidos a exercises.tex]
+
+Así como fue en el caso de la penalización externa (diferenciable), los métodos de barreras también sufren del mal condicionamiento de sus subproblemas, en este caso para valores del parámetro penalizador pequeños. Vemos cómo esto acontece en el ejemplo siguiente.
+
+% [Se omiten más ejemplos para mantener el archivo conciso. Fin de sección 4.3.3.]

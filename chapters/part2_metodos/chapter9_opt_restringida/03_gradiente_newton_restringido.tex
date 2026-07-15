@@ -1,0 +1,35 @@
+% --- Archivo: 03_gradiente_newton_restringido.tex ---
+
+\subsection{Método del gradiente restringido. Método de Newton restringido}
+
+Supongamos que el conjunto factible $D$ del problema \eqref{v2:eq:4.1}, además de cerrado y convexo, sea también acotado (esta última hipótesis sirve para garantizar la existencia de soluciones en el subproblema \eqref{v2:eq:4.21} del método descrito a continuación). Métodos del gradiente restringido son dados por la siguiente manera de elegir una dirección de descenso factible en el esquema \eqref{v2:eq:4.18}: para $x^k \in D$, resolvemos el problema
+\begin{equation}
+    \min \langle f'(x^k), x - x^k \rangle \quad \text{sujeto a} \quad x \in D,
+    \label{v2:eq:4.21}
+\end{equation}
+obtenido por la linealización de la función objetivo del problema \eqref{v2:eq:4.1} en el punto $x^k$ (la constante $f(x^k)$ es desconsiderada en \eqref{v2:eq:4.21}). Sea $\tilde{x}^k \in D$ una solución del problema \eqref{v2:eq:4.21} y $v_k = \langle f'(x^k), \tilde{x}^k - x^k \rangle$ el valor óptimo (una solución existe, por el Teorema de Weierstrass 1.1.1). Observamos que $v_k \le \langle f'(x^k), x^k - x^k \rangle = 0$, porque $x^k \in D$. Si $v_k = 0$, tenemos que
+\[
+    \langle f'(x^k), x - x^k \rangle \ge v_k = 0 \quad \forall x \in D,
+\]
+i.e., $x^k$ es un punto estacionario del problema \eqref{v2:eq:4.1} (vea \eqref{v2:eq:4.2}). En este caso, el método para. Si $v_k < 0$, por los Lemas 3.1.1 y 4.1.2, para la dirección $d^k = \tilde{x}^k - x^k$ tenemos que $d^k \in \mathcal{D}_f(x^k) \cap V_D(x^k)$. Tal dirección $d^k$ es llamada \textit{anti-gradiente restringido} de la función $f$ en el punto $x^k$ en relación al conjunto $D$, vea la Figura 4.1.3.
+
+% [Aquí va la Figura 4.1.3: La solución \tilde{x}^k del problema del gradiente restringido es el punto factible que está más lejos de x^k en la dirección -f'(x^k)]
+
+Es fácil ver que para esta elección de $d^k$, el valor de $\hat{\alpha}_k$ definido en \eqref{v2:eq:4.20} es igual a 1. Así el cálculo de la longitud del paso $\alpha_k$ queda facilitado.
+
+Para métodos del gradiente restringido pueden ser obtenidos resultados análogos a aquellos del \cref{v2:thm:4.1.1} (vea [4]). Además de eso, bajo la hipótesis adicional de que $f$ sea convexa en $D$, puede ser probada la convergencia aritmética (vea [22]), que garantiza una tasa apenas sublineal. Siendo una extensión obvia del método del gradiente para el caso irrestricto, este algoritmo no es rápido.
+
+% [Ejercicios 4.1.9, 4.1.10 y 4.1.11 movidos a exercises.tex]
+
+A pesar de la relativamente pequeña área de aplicación y de la lenta convergencia, los métodos del gradiente restringido tienen un cierto interés teórico por consistir en una implementación (por lo menos, bastante simple) de la importante idea de linealización de las funciones que definen un problema de optimización. Una implementación más adecuada de esta idea será presentada en la \cref{v2:sec:4.2} para problemas con restricciones de desigualdad, donde tanto la función objetivo como las restricciones serán linealizadas en cada iteración.
+
+Otra idea natural es utilizar, en vez de la aproximación lineal, la aproximación cuadrática de la función objetivo. Esquemas de este tipo se llaman \textit{métodos de Newton restringido}, donde en \eqref{v2:eq:4.18} tenemos $d^k = \tilde{x}^k - x^k$ y $\tilde{x}^k$ es una solución del problema
+\begin{equation}
+    \min \langle f'(x^k), x - x^k \rangle + \frac{1}{2} \langle f''(x^k)(x - x^k), x - x^k \rangle \quad \text{sujeto a} \quad x \in D.
+    \label{v2:eq:4.22}
+\end{equation}
+Cuando $D$ es un conjunto poliedral, \eqref{v2:eq:4.22} es un problema de programación cuadrática (vea \S 6.2). En otros casos (i.e., de restricciones no-lineales), la resolución de \eqref{v2:eq:4.22} puede ser mucho más fácil de lo que la resolución del problema original \eqref{v2:eq:4.1}, lo que torna el método poco atractivo. Para simplificar el subproblema, parece natural combinar la aproximación de segundo orden de la función objetivo con la linealización de las restricciones. Sin embargo, como veremos más adelante, en este caso es recomendable utilizar otro término cuadrático en la función objetivo del subproblema.
+
+Para garantizar la convergencia global, en principio podemos utilizar (en vez de $f''(x^k)$) hasta una matriz definida positiva cualquiera. Mas para conseguir convergencia local rápida, la matriz en cuestión tiene que incorporar la información de segundo orden tanto sobre la función objetivo como sobre las restricciones del problema. Métodos de este tipo son bien eficientes. Ellos se llaman de programación cuadrática secuencial y serán presentados en \cref{v2:sec:4.6}.
+
+% [Ejercicio 4.1.12 movido a exercises.tex]

@@ -111,7 +111,7 @@ lo que corresponde al método de Newton en \S~3.2. Observemos que, en este caso,
 \[
     f'(x^k) + f''(x^k)d = 0
 \]
-con respecto a $d \in \Rn$, y por la condición de otimalidad de primera orden, $d^k$ es la solución del problema
+con respecto a $d \in \Rn$, y por la condición de optimalidad de primer orden, $d^k$ es la solución del problema
 \[
     \min f(x^k) + \interno{f'(x^k)}{d} + \frac{1}{2} \interno{f''(x^k)d}{d}, \quad d \in \Rn,
 \]
@@ -168,7 +168,8 @@ donde $\hat{\alpha} > 0$ es un parámetro (que puede variar con $k$). De aquí e
 
 \textbf{La regla de Armijo.} Otra estrategia natural es computar una longitud de paso que resulte en un decrecimiento suficiente de la función $f$ en relación al valor $f(x^k)$. La idea es que esto puede ser bien más económico desde el punto de vista computacional que la minimización unidimensional, garantizando de la misma forma la convergencia.
 
-Supongamos que $f$ sea diferenciable en el punto $x^k$. Fijamos los parámetros $\hat{\alpha} > 0$, $\sigma, \theta \in (0, 1)$. Tomamos $\alpha := \hat{\alpha}$.
+\begin{algorithm}[Regla de Armijo]
+    Supongamos que $f$ sea diferenciable en el punto $x^k$. Fijamos los parámetros $\hat{\alpha} > 0$, $\sigma, \theta \in (0, 1)$. Tomamos $\alpha := \hat{\alpha}$.
 \begin{enumerate}
     \item Verificamos si la desigualdad
     \begin{equation}
@@ -179,6 +180,7 @@ Supongamos que $f$ sea diferenciable en el punto $x^k$. Fijamos los parámetros 
     \item Si \eqref{v2:eq:3.6} no se satisface, tomamos $\alpha := \theta \alpha$ y retornamos al Paso 1.
     \item Caso contrario, aceptamos $\alpha_k = \alpha$ como el valor de la longitud de paso.
 \end{enumerate}
+\end{algorithm}
 
 En otras palabras, $\alpha_k$ es el mayor número entre todos los números de la forma $\alpha = \hat{\alpha}\theta^i$, $i = 0, 1, 2, \dots$, que satisface la desigualdad \eqref{v2:eq:3.6}. La regla de Armijo es ilustrada en la Figura 3.1.3.
 

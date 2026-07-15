@@ -1,0 +1,161 @@
+% --- Archivo: 09_penalizacion_cuadratica_igualdad.tex ---
+
+\subsection{El método de penalización cuadrática}\label{v2:sec:4.4.2}
+
+Los métodos de penalización en el contexto general ya fueron considerados en la \cref{v2:sec:4.3}. Presentaremos ahora un método específico para el problema con restricciones de igualdad \eqref{v2:eq:4.96}.
+
+Consideremos una familia de funciones penalizadas, obtenidas sumando $f$ a la función de penalización cuadrática $\|h(\cdot)\|^2/2$, multiplicada por el parámetro de penalización $c \ge 0$:
+\begin{equation}
+    \varphi(\cdot; c) \colon \R^n \to \R, \quad \varphi(x; c) = f(x) + \frac{c}{2}\|h(x)\|^2.
+    \label{v2:eq:4.104}
+\end{equation}
+Notemos que $\varphi(\cdot; c) \equiv f(\cdot)$ en el conjunto factible $D$; y que en cualquier punto fuera de $D$, el valor del término penalizador crece (sin límite) con el crecimiento de $c$. Por tanto, podemos pensar que, en algún sentido, el problema de optimización irrestricta
+\begin{equation}
+    \min \varphi(x; c), \quad x \in \R^n,
+    \label{v2:eq:4.105}
+\end{equation}
+aproxima el problema original \eqref{v2:eq:4.96}, cuando $c \to +\infty$. El método de penalización cuadrática para el problema \eqref{v2:eq:4.96} consiste en el siguiente procedimiento.
+
+\noindent \textbf{Algoritmo 4.4.2. (O método de penalización cuadrática)} \\
+Elegir $c_0 > 0$ y tomar $k := 0$.
+\begin{enumerate}
+    \item Calcular $x^k \in \R^n$, un punto estacionario del problema \eqref{v2:eq:4.105}, donde la función objetivo es definida en \eqref{v2:eq:4.104} con $c = c_k$.
+    \item Elegir $c_{k+1} \ge c_k$, tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
+
+Para encontrar puntos estacionarios del problema \eqref{v2:eq:4.105}, pueden ser utilizados métodos de optimización irrestricta considerados en el Capítulo 3. Notemos que la función objetivo de \eqref{v2:eq:4.105} es tantas veces diferenciable como $f$ e $h$. En el Algoritmo 4.4.2, en la iteración $k$ es natural tomar $x^{k-1}$ (punto estacionario de $\varphi(\cdot; c_{k-1})$) como punto inicial en el método utilizado para minimizar $\varphi(\cdot; c_k)$. Sin embargo, para tal punto $x^{k-1}$ ser una aproximación buena del punto estacionario de $\varphi(\cdot; c_k)$, el valor de $c_k$ no puede ser muy diferente de $c_{k-1}$. En otras palabras, el cambio del parámetro de penalización debe ser relativamente lento.
+
+Tenemos el siguiente resultado sobre convergencia del método de penalización cuadrática.
+
+\begin{theorem}[Convergencia del método de penalización cuadrática]\label{v2:thm:4.4.2}
+    Sean $f \colon \R^n \to \R$ e $h \colon \R^n \to \R^l$ funciones diferenciables en $\R^n$, con derivadas continuas. Sea $\bar{x} \in \R^n$ un punto de acumulación de una sucesión $\{x^k\}$ generada por el Algoritmo 4.4.2, donde $\{c_k\} \to +\infty$ $(k \to \infty)$, que satisface la condición de regularidad de las restricciones (1.9).
+    Entonces $\bar{x}$ es un punto estacionario del problema \eqref{v2:eq:4.96}. Además de eso, para cualquier subsucesión $\{x^{k_j}\}$ que converge a $\bar{x}$, se tiene que
+    \begin{equation}
+        \{c_{k_j} h(x^{k_j})\} \to \bar{\lambda} \quad (i \to \infty),
+        \label{v2:eq:4.106}
+    \end{equation}
+    donde $\bar{\lambda} \in \R^l$ es el (único) multiplicador de Lagrange asociado al punto estacionario $\bar{x}$.
+\end{theorem}
+\begin{proof}
+    Como $x^k$ es un punto estacionario de \eqref{v2:eq:4.105},
+    \begin{align}
+        0 &= \varphi'(x; c_k) = f'(x^k) + c_k(h'(x^k))^\top h(x^k) \nonumber \\
+        &= f'(x^k) + (h'(x^k))^\top \lambda^k,
+        \label{v2:eq:4.107}
+    \end{align}
+    donde definimos $\lambda^k = c_k h(x^k)$, para todo $k$. Luego,
+    \[
+        h'(x^k)f'(x^k) + h'(x^k)(h'(x^k))^\top \lambda^k = 0.
+    \]
+    Por la condición (1.9) de regularidad de las restricciones en $\bar{x}$, y por el teorema de perturbaciones pequeñas de una matriz no-singular (Teorema 1.5.1), tenemos que la matriz $h'(x^{k_j})(h'(x^{k_j}))^\top$ es no-singular para todo $j$ suficientemente grande. Por lo tanto, podemos escribir que
+    \[
+        \lambda^{k_j} = -(h'(x^{k_j})(h'(x^{k_j}))^\top)^{-1} h'(x^{k_j}) f'(x^{k_j}).
+    \]
+    Donde, llevando en cuenta que $f$ y $h$ son diferenciables con derivadas continuas, obtenemos que
+    \begin{equation}
+        \{\lambda^{k_j}\} \to \bar{\lambda} \quad (j \to \infty),
+        \label{v2:eq:4.108}
+    \end{equation}
+    donde
+    \[
+        \bar{\lambda} = -(h'(\bar{x})(h'(\bar{x}))^\top)^{-1} h'(\bar{x}) f'(\bar{x}).
+    \]
+    Pasando al límite cuando $j \to \infty$ en \eqref{v2:eq:4.107}, obtenemos que
+    \[
+        0 = f'(\bar{x}) + (h'(\bar{x}))^\top \bar{\lambda} = L'_x(\bar{x}, \bar{\lambda}).
+    \]
+    Además de eso, a la vista de que $c_k \to \infty$ y de que $\{\lambda^{k_j}\}$ es limitada (vea \eqref{v2:eq:4.108}), tenemos que
+    \[
+        h(\bar{x}) = \lim_{j \to \infty} h(x^{k_j}) = \lim_{j \to \infty} \lambda^{k_j}/c_{k_j} = 0.
+    \]
+    Acabamos de mostrar que $\bar{x}$ es un punto estacionario del problema \eqref{v2:eq:4.96}, e $\bar{\lambda} = \bar{\lambda}$ el multiplicador de Lagrange asociado (que debe ser único en el caso de (1.9)). Finalmente, la relación \eqref{v2:eq:4.106} sigue de \eqref{v2:eq:4.108}.
+\end{proof}
+
+En general, el problema \eqref{v2:eq:4.105} puede no poseer ningún punto estacionario, o poseer varios. El resultado siguiente (que es una consecuencia directa del \cref{v2:thm:4.3.2}) contiene, entre otras cosas, condiciones suficientes para garantizar la existencia de puntos estacionarios en \eqref{v2:eq:4.105}.
+
+\begin{theorem}\label{v2:thm:4.4.3}
+    Sean $f \colon \R^n \to \R$ y $h \colon \R^n \to \R^l$ funciones continuas en $\R^n$. Sea $\bar{x} \in \R^n$ un minimizador local estricto del problema \eqref{v2:eq:4.96}.
+    Entonces existe un número $\delta > 0$ tal que para cualquier solución (global) $x(c)$ del problema
+    \[
+        \min \varphi(x; c) \quad \text{sujeto a} \quad x \in B(\bar{x}, \delta),
+    \]
+    donde la función objetivo es dada por \eqref{v2:eq:4.104} con $c \ge 0$, se tiene que
+    \begin{equation}
+        \|x(c) - \bar{x}\| \to 0 \quad (c \to +\infty),
+        \label{v2:eq:4.109}
+    \end{equation}
+    y en particular, para todo número $c > 0$ suficientemente grande, el punto $x(c)$ es una solución local del problema \eqref{v2:eq:4.105}.
+\end{theorem}
+
+De acuerdo con el \cref{v2:thm:4.4.3}, cualquier solución local estricta $\bar{x}$ del problema \eqref{v2:eq:4.96} puede ser encontrada como el límite de la sucesión generada por el Algoritmo 4.4.2, si en este algoritmo los puntos estacionarios del problema \eqref{v2:eq:4.105} son escogidos de manera adecuada (cuando haya más de un punto estacionario). Bajo ciertas hipótesis adicionales, puede ser probado que para $k$ suficientemente grande, el problema \eqref{v2:eq:4.105}, donde la función objetivo es dada por \eqref{v2:eq:4.104} con $c = c_k$, posee en una vecindad de $\bar{x}$ un único punto estacionario $x(c_k)$. Más aún, puede ser obtenida una estimativa de la tasa de convergencia de la sucesión $\{x(c_k)\}$ a $\bar{x}$. Se para todo $k$ elegimos como $x^{k+1}$ el punto estacionario inicial en el método de optimización irrestricta un punto suficientemente próximo a $\bar{x}$, podemos esperar que como aproximación siguiente será obtenida justamente $x^k = x(c_k)$. Esto sugiere que en el paso de $x^{k-1}$ a $x^k$, en la iteración siguiente, es bien razonable: cuando lleguemos cerca del punto $\bar{x}$ (lo que puede ser esperado, por el \cref{v2:thm:4.4.2}), esta elección probablemente va a garantizar que los iterandos $x^j$, $j \ge k$, van a permanecer cerca de $\bar{x}$; o sea, van a coincidir con los $x(c_j)$ (que convergen a $\bar{x}$).
+
+\begin{theorem}[Estimativa de la tasa de convergencia del método de penalización cuadrática]\label{v2:thm:4.4.4}
+    Supongamos que valen las hipótesis del \cref{v2:thm:4.4.1}.
+    Entonces existen una vecindad $U$ del punto $\bar{x}$ y números $\bar{c} \ge 0$ y $M > 0$ tales que, para todo $c > \bar{c}$, el problema \eqref{v2:eq:4.105} con la función objetivo dada por \eqref{v2:eq:4.104} tiene en $U$ un único punto estacionario $x(c)$. Además de eso, se tiene que
+    \begin{equation}
+        \|x(c) - \bar{x}\| \le M\|\bar{\lambda}\|/c, \quad \|c h(x(c)) - \bar{\lambda}\| \le M\|\bar{\lambda}\|/c.
+        \label{v2:eq:4.110}
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    Definimos la función
+    \[
+        \Phi \colon \R \times (\R^n \times \R^l) \to \R^n \times \R^l,
+    \]
+    \begin{equation}
+        \Phi(t, \chi) = \begin{pmatrix} L'_x(\xi, \eta) \\ h(\xi) - t\eta \end{pmatrix}, \quad \chi = (\xi, \eta).
+        \label{v2:eq:4.111}
+    \end{equation}
+    Sea $\bar{\lambda} \in \R^l$ el (único) multiplicador de Lagrange asociado al punto estacionario $\bar{x}$. Definimos $\bar{\chi} = (\bar{x}, \bar{\lambda})$. Entonces $\Phi(0, \bar{\chi}) = 0$ y $\Phi'_x(0, \bar{\chi}) = L''(\bar{x}, \bar{\lambda})$, donde la última matriz es no-singular (lo que fue verificado, bajo hipótesis actuales, en la demostración del \cref{v2:thm:4.4.1}). Aplicando a la función $\Phi$ en el punto $(0, \bar{\chi})$ el Teorema de la Función Implícita (Teorema 1.5.3), concluimos que existe un número $\bar{t} > 0$ y una vecindad $U$ del punto $\bar{\chi}$ en $\R^n \times \R^l$ tales que para todo $t \in (-\bar{t}, \bar{t})$, la ecuación
+    \begin{equation}
+        \Phi(t, \chi) = 0
+        \label{v2:eq:4.112}
+    \end{equation}
+    en relación a $\chi \in \R^n \times \R^l$ posee en $\mathcal{U}$ una única solución $\chi(t) = (\xi(t), \eta(t))$, siendo la función $\chi(\cdot)$ diferenciable en $(-\bar{t}, \bar{t})$ con derivada continua en $0$. Además de eso, por el Teorema 1.5.4, tenemos que para alguna constante $M > 0$,
+    \begin{equation}
+        \|\chi(t) - \bar{\chi}\| \le M\|\Phi(t, \bar{\chi})\| = M\|\bar{\lambda}\|t \quad \forall t \in (-\bar{t}, \bar{t}),
+        \label{v2:eq:4.113}
+    \end{equation}
+    se $\bar{t}$ es suficientemente pequeño.
+    Definimos $\bar{c} = 1/\bar{t}$ y $x(c) = \xi(1/c)$, $c > \bar{c}$. Para tal $c$, de \eqref{v2:eq:4.111} obtenemos
+    \begin{align*}
+        \varphi'(x(c); c) &= f'(x(c)) + c(h'(x(c)))^\top h(x(c)) \\
+        &= L'_x(\xi(1/c), \eta(1/c)) = 0,
+    \end{align*}
+    i.e., $x(c)$ es un punto estacionario del problema \eqref{v2:eq:4.105}. Además de esto, de \eqref{v2:eq:4.113} siguen las estimativas \eqref{v2:eq:4.110}, ya que por la construcción, $h(\xi(t)) = t\eta(t) \; \forall t \in (-\bar{t}, \bar{t})$.
+
+    Finalmente, consideremos sucesiones $\{c_i\} \subset \R^n$ y $\{x^i\} \subset \R^n$ tales que $\{c_i\} \to \infty$, $\{x^i\} \to \bar{x}$ $(i \to \infty)$, donde para todo $i$, el punto $x^i$ es estacionario para el problema \eqref{v2:eq:4.105}. De \eqref{v2:eq:4.111}, es fácil ver que, para todo $i$, $\chi^i = (x^i, c_i h(x^i))$ es una solución de la ecuación \eqref{v2:eq:4.112} con $t = 1/c_i$. Además de eso, por el \cref{v2:thm:4.4.2},
+    \[
+        \{c_i h(x^i)\} \to \bar{\lambda} \quad (i \to \infty).
+    \]
+    Por lo tanto, $\chi^i \in \mathcal{U}$ para todo $i$ suficientemente grande. Luego, $\chi^i = \chi(1/c_i)$ y, en particular, $x^i = x(c_i)$. Esto prueba que $x(c)$ es el único punto estacionario del problema \eqref{v2:eq:4.105} en una vecindad $U$ de $\bar{x}$, para $c$ suficientemente grande.
+\end{proof}
+
+Como fue mostrado en la demostración anterior, las funciones $\xi(\cdot)$ y $\eta(\cdot)$, nela definidas, son diferenciables en $(-\bar{t}, \bar{t})$. En particular, la función $x(\cdot)$ es diferenciable en $(\bar{c}, +\infty)$. Además de eso, derivando \eqref{v2:eq:4.111}, para todo $t \in (-\bar{t}, \bar{t})$ el punto $\xi(t)$ satisface la ecuación
+\begin{equation}
+    t f'(\xi) + (h'(\xi))^\top h(\xi) = 0
+    \label{v2:eq:4.114}
+\end{equation}
+en relación a $\xi \in \R^n$. Derivando ambos lados de esta ecuación a lo largo de la curva $\xi(\cdot)$, obtenemos que esta trayectoria satisface, en $(-t, t)$, el siguiente sistema de ecuaciones diferenciales:
+\begin{equation}
+    ((t - 1)f''(\xi) + L''_{xx}(\xi, h(\xi)) + (h'(\xi))^\top h'(\xi))\dot{\xi} + f'(\xi) = 0,
+    \label{v2:eq:4.115}
+\end{equation}
+donde $\dot{\xi}$ denota la derivada de $\xi$ en relación a $t$. El mismo resultado puede ser obtenido apelando a la fórmula de la derivada de la función implícita del Teorema 1.5.3.
+
+Lo expuesto arriba motiva una interpretación continua del método de penalización cuadrática. Fijamos un número $t_0 \neq 0$ y encontramos un punto $\xi^0 \in \R^n$ como una solución de la ecuación \eqref{v2:eq:4.114} con $t = t_0$. Después, esta solución puede ser continuada (extrapolada) por una técnica, u otra, en relación a $t$ hasta el valor $t = 0$. Por ejemplo, aquí pueden ser utilizados esquemas inexactos para la resolución de ecuaciones diferenciales, agregando a \eqref{v2:eq:4.115} la condición inicial
+\[
+    \xi(t_0) = \xi^0.
+\]
+Naturalmente, si el par inicial $(t_0, \xi^0)$ está lejos del par $(0, \bar{x})$, donde $\bar{x}$ satisface las hipótesis del \cref{v2:thm:4.4.4}, una continuación de este tipo no siempre será posible o, cuando sea posible, puede no ser única. Algunos asuntos de técnicas de continuación ya fueron tratados en \cref{v2:sec:3.3.3}.
+
+Como puede ser visto de la estimativa \eqref{v2:eq:4.110}, para $\bar{\lambda} = 0$ (o que en el contexto del \cref{v2:thm:4.4.4} es equivalente a $f'(\bar{x}) = 0$), se tiene que $x(c) = \xi(1/c) = \bar{x}$ para todo $c$ suficientemente grande. O sea, la penalización cuadrática se vuelve \textit{exacta} en el sentido siguiente: para un valor $c$ suficientemente grande, un punto estacionario $x(c)$ del problema de optimización irrestricta \eqref{v2:eq:4.105} es suficientemente próximo a la solución $\bar{x}$ del problema original \eqref{v2:eq:4.96}, entonces $x(c)$ es exactamente la solución $\bar{x}$. En estas situaciones, hablamos de penalización exacta. Sin embargo, resaltamos que en el caso de penalización cuadrática, esta propiedad no es común.
+Se $\bar{\lambda} \neq 0$, por \eqref{v2:eq:4.115}, por la condición de regularidad de las restricciones (1.9), y por la definición de multiplicador de Lagrange, tenemos que
+\[
+    \|h'(\bar{x})\dot{\xi}(0)\| = \|\bar{\lambda}\| > 0,
+\]
+i.e., cuando $t \to 0$ la trayectoria $\xi(\cdot)$ se aproxima a la solución $\bar{x}$ de manera ``transversal'' al conjunto factible $D$ (en el sentido de que el vector $\dot{\xi}(0)$, que es tangente a la trayectoria, no pertenece al subespacio $\ker h'(\bar{x})$ que es tangente a $D$ en el punto $\bar{x}$). En este caso, la estimativa \eqref{v2:eq:4.110} no puede ser mejorada.
+
+% [Ejercicios 4.4.3, 4.4.4 y 4.4.5 movidos a exercises.tex]
+
+En el sentido teórico, el Algoritmo 4.4.2 posee propiedades satisfactorias. Observamos que la convergencia se vuelve más rápida en la medida en que la sucesión $\{c_k\}$ crece más rápidamente (esto puede ser visto a partir de la estimativa \eqref{v2:eq:4.110}). Sin embargo, es bien claro que todas las dificultades fueron repasadas a la fase de resolución de los subproblemas irrestrictos. Como ya mencionamos, una razón por la cual los parámetros de penalización no deben ser mudados bruscamente, el que significa que más subproblemas tienen que ser resueltos, haciendo al método más lento. Mas no es esa la deficiencia principal de métodos de este tipo. El grande problema es el siguiente. Generalmente, para llegar a un punto $x(c)$ que sea aceptable como una aproximación buena de la solución $\bar{x}$, el parámetro de penalización $c$ tiene que ser bastante grande. Como ya comentamos arriba, en la medida en que $c$ crece, los subproblemas \eqref{v2:eq:4.105} se vuelven cada vez peores (la función objetivo en \eqref{v2:eq:4.105} pasa a tener curvas de nivel cada vez más alargadas, vea \cref{v2:sec:3.1.2}). Un análisis detallado de este fenómeno puede ser consultada en [3]. Esto hace que la resolución de cada subproblema se vuelva cada vez más difícil desde el punto de vista computacional. Por eso, métodos de penalización en su forma básica tienen poca utilidad práctica. Algoritmos más sofisticados, que utilizan ideas de penalización mas trabajan con parámetros de penalización limitados, serán considerados en la \cref{v2:sec:4.4.3}.

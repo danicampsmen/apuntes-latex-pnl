@@ -1,0 +1,107 @@
+% --- Archivo: 08_newton_lagrange.tex ---
+
+\section{Métodos para problemas con restricciones de igualdad}\label{v2:sec:4.4}
+
+A seguir, consideraremos problemas con restricciones de igualdad
+\begin{equation}
+    \min f(x) \quad \text{sujeto a} \quad x \in D = \{x \in \R^n \mid h(x) = 0\},
+    \label{v2:eq:4.96}
+\end{equation}
+donde $f \colon \R^n \to \R$ y $h \colon \R^n \to \R^l$ son funciones diferenciables. Lembramos que, en principio, un problema que posee también restricciones de desigualdad puede ser convertido en un problema de la forma \eqref{v2:eq:4.96}, vía la introducción de variables auxiliares (``de holgura''); vea [12]. Por tanto, todos los métodos presentados a seguir pueden ser empleados también para resolver problemas con restricciones mixtas de igualdad y de desigualdad. Como ya fue visto en [12], esta abordaje no siempre es recomendable. Mas, a veces, ella puede ser útil. Principalmente en casos en que, utilizando la estructura del método, es posible explícitamente determinar las variables auxiliares vía las originales (en particular, así evitando el aumento artificial de la dimensión del problema). Esta técnica será usada, por ejemplo, en la \cref{v2:sec:4.5.4} para extender el material de las \cref{v2:sec:4.4.2} y \cref{v2:sec:4.4.3} a problemas con restricciones mixtas. Métodos desarrollados específicamente para el caso de restricciones mixtas serán presentados en las \cref{v2:sec:4.5}-\cref{v2:sec:4.7}.
+
+\subsection{Métodos de Newton para el sistema de Lagrange}\label{v2:sec:4.4.1}
+
+Puntos estacionarios del problema \eqref{v2:eq:4.96} son caracterizados por el sistema de Lagrange
+\begin{equation}
+    L'(x, \lambda) = 0,
+    \label{v2:eq:4.97}
+\end{equation}
+donde
+\[
+    L \colon \R^n \times \R^l \to \R, \quad L(x, \lambda) = f(x) + \langle \lambda, h(x) \rangle,
+\]
+es la función de Lagrange del problema en consideración. El sistema \eqref{v2:eq:4.97} consiste de $n + l$ ecuaciones en relación a $n + l$ variables $(x, \lambda) \in \R^n \times \R^l$. Por tanto, puntos estacionarios y multiplicadores de Lagrange asociados pueden ser encontrados aplicando a \eqref{v2:eq:4.97} el método de Newton, considerado en \cref{v2:sec:3.2.1}, lo que resulta en el esquema iterativo
+\[
+    (x^{k+1}, \lambda^{k+1}) = (x^k, \lambda^k) - (L''(x^k, \lambda^k))^{-1} L'(x^k, \lambda^k), \quad k = 0, 1, \dots
+\]
+
+Reescribimos la iteración de Newton, calculando las derivadas involucradas. Sean $x^k$ una aproximación dada a la solución $\bar{x}$ del problema \eqref{v2:eq:4.96} y $\lambda^k \in \R^l$ una aproximación al multiplicador de Lagrange asociado a $\bar{x}$. Como
+\[
+    L''(x^k, \lambda^k) = \begin{pmatrix} L''_{xx}(x^k, \lambda^k) & (h'(x^k))^\top \\ h'(x^k) & 0 \end{pmatrix},
+\]
+las aproximaciones siguientes $(x^{k+1}, \lambda^{k+1})$ son soluciones del sistema lineal
+\begin{equation}
+    L''_{xx}(x^k, \lambda^k)(x - x^k) + (h'(x^k))^\top(\lambda - \lambda^k) = -f'(x^k) - (h'(x^k))^\top \lambda^k,
+    \label{v2:eq:4.98}
+\end{equation}
+\begin{equation}
+    h'(x^k)(x - x^k) = -h(x^k),
+    \label{v2:eq:4.99}
+\end{equation}
+en relación a $(x, \lambda) \in \R^n \times \R^l$. El método de Newton para el sistema de Lagrange, por lo tanto, consiste en el siguiente procedimiento.
+
+\noindent \textbf{Algoritmo 4.4.1. (El método de Newton-Lagrange)} \\
+Elegir $(x^0, \lambda^0) \in \R^n \times \R^l$ y tomar $k := 0$.
+\begin{enumerate}
+    \item Calcular $(x^{k+1}, \lambda^{k+1}) \in \R^n \times \R^l$, una solución del sistema \eqref{v2:eq:4.98}, \eqref{v2:eq:4.99}.
+    \item Tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
+
+Observemos que la matriz del sistema lineal \eqref{v2:eq:4.98}, \eqref{v2:eq:4.99}, es simétrica. Sin embargo, como es fácil ver, ella no puede ser definida positiva (o definida negativa) cuando $l > 0$. Con efecto, tomando $\tilde{u} = (\tilde{x}, \tilde{\lambda}) \in \R^n \times \R^l$, con $\tilde{x} = 0, \tilde{\lambda} \neq 0$, obtenemos
+\begin{align*}
+    &\langle L''(x^k, \lambda^k)\tilde{u}, \tilde{u} \rangle \\
+    &= \langle L''_{xx}(x^k, \lambda^k)\tilde{x}, \tilde{x} \rangle + \langle (h'(x))^\top\tilde{\lambda}, \tilde{x} \rangle + \langle \tilde{\lambda}, h'(x)\tilde{x} \rangle \\
+    &= 0,
+\end{align*}
+lo que muestra que $L''(x^k, \lambda^k)$ no es ni definida positiva, ni definida negativa, por la propia estructura de esta matriz, independientemente del problema en consideración.
+
+El resultado siguiente provee condiciones naturales para que la matriz en cuestión sea no-singular. Para resolución de este sistema pueden ser utilizados tanto métodos de Álgebra Lineal computacional de uso general, como métodos que llevan en cuenta la estructura especial de la matriz que define el sistema.
+
+\begin{theorem}[Convergencia superlinear del método de Lagrange-Newton]\label{v2:thm:4.4.1}
+    Sean $f \colon \R^n \to \R$ y $h \colon \R^n \to \R^l$ funciones dos veces diferenciables en una vecindad del punto $\bar{x} \in \R^n$, con derivadas segundas continuas en $\bar{x}$. Supongamos que $\bar{x}$ satisface la condición de regularidad de las restricciones (1.9), y que este punto sea un punto estacionario del problema \eqref{v2:eq:4.96}, siendo $\bar{\lambda} \in \R^l$ el (único) multiplicador de Lagrange asociado. Supongamos, finalmente, que la condición suficiente de segunda orden del Teorema 1.2.2 se satisfaga.
+    Entonces todo punto inicial $(x^0, \lambda^0) \in \R^n \times \R^l$, suficientemente próximo al punto $(\bar{x}, \bar{\lambda})$, define unívocamente una sucesión del Algoritmo 4.4.1, que converge a $(\bar{x}, \bar{\lambda})$. La tasa de convergencia es superlinear, y se las derivadas segundas de $f$ y $h$ son Lipschitz-continuas en una vecindad de $\bar{x}$, entonces la convergencia es cuadrática.
+\end{theorem}
+\begin{proof}
+    El resultado es una consecuencia directa del Teorema 3.2.1. Basta probar que, bajo las hipótesis especificadas, la matriz
+    \[
+        L''(\bar{x}, \bar{\lambda}) = \begin{pmatrix} L''_{xx}(\bar{x}, \bar{\lambda}) & (h'(\bar{x}))^\top \\ h'(\bar{x}) & 0 \end{pmatrix}
+    \]
+    es no-singular.
+
+    Tomamos $\tilde{u} = (\tilde{x}, \tilde{\lambda}) \in \ker L''(\bar{x}, \bar{\lambda})$ arbitrario. Tenemos que
+    \begin{equation}
+        L''_{xx}(\bar{x}, \bar{\lambda})\tilde{x} + (h'(\bar{x}))^\top \tilde{\lambda} = 0,
+        \label{v2:eq:4.100}
+    \end{equation}
+    \begin{equation}
+        h'(\bar{x})\tilde{x} = 0.
+        \label{v2:eq:4.101}
+    \end{equation}
+    Multiplicando los dos lados de \eqref{v2:eq:4.100} por $\tilde{x}$ y utilizando \eqref{v2:eq:4.101}, obtenemos
+    \begin{align*}
+        0 &= \langle L''_{xx}(\bar{x}, \bar{\lambda})\tilde{x}, \tilde{x} \rangle + \langle (h'(\bar{x}))^\top \tilde{\lambda}, \tilde{x} \rangle \\
+        &= \langle L''_{xx}(\bar{x}, \bar{\lambda})\tilde{x}, \tilde{x} \rangle + \langle \tilde{\lambda}, h'(\bar{x})\tilde{x} \rangle \\
+        &= \langle L''_{xx}(\bar{x}, \bar{\lambda})\tilde{x}, \tilde{x} \rangle.
+    \end{align*}
+    Esto significa que $\tilde{x} = 0$, porque en caso contrario la condición suficiente de segunda orden sería violada. Ahora, de \eqref{v2:eq:4.100}, obtenemos que
+    \begin{equation}
+        (h'(\bar{x}))^\top \tilde{\lambda} = 0.
+        \label{v2:eq:4.102}
+    \end{equation}
+    La condición de regularidad de las restricciones (1.9) es equivalente a $\ker (h'(\bar{x}))^\top = \{0\}$. Luego, \eqref{v2:eq:4.102} solo puede ser satisfecha cuando $\tilde{\lambda} = 0$. Acabamos de mostrar que $\tilde{u} = (\tilde{x}, \tilde{\lambda}) = 0$, i.e., la matriz $L''(\bar{x}, \bar{\lambda})$ es no-singular.
+\end{proof}
+
+Notemos que, en general, convergencia cuadrática de la sucesión primal-dual no implica en una convergencia siquiera superlinear de la sucesión primal (vea el Ejemplo 2.2.1). La cuestión de la convergencia superlinear primal, así como la globalización del método de Newton-Lagrange, serán tratadas más adelante, en el contexto de métodos de programación cuadrática secuencial; vea la \cref{v2:sec:4.6}.
+
+% [Ejercicios 4.4.1 y 4.4.2 movidos a exercises.tex]
+
+Existen métodos, de gran importancia práctica, que en cada iteración $k$, en vez de la matriz $L''_{xx}(x^k, \lambda^k)$ utilizan la matriz $M_k^\top L''_{xx}(x^k, \lambda^k) M_k$, donde las columnas de $M_k \in \R(n, \dim \ker h'(x^k))$ forman una base del subespacio $\ker h'(x^k)$, que depende de manera continua de $x^k$. Técnicas de este tipo se llaman \textit{métodos de Hessiana reducida}. Los detalles pueden ser consultados en [5].
+
+Para resolver el sistema de Lagrange \eqref{v2:eq:4.97}, podemos utilizar no solamente el método de Newton puro, mas también varias modificaciones (vea \cref{v2:sec:3.2.1} y [3]), además de otras técnicas para la resolución de ecuaciones no-lineales [13].
+
+Podemos también intentar resolver el sistema \eqref{v2:eq:4.97} aplicando métodos de optimización irrestricta al problema
+\begin{equation}
+    \min \|L'(x, \lambda)\|^2, \quad (x, \lambda) \in \R^n \times \R^l.
+    \label{v2:eq:4.103}
+\end{equation}
+Obviamente, soluciones globales de este problema coinciden con las soluciones del sistema \eqref{v2:eq:4.97} (cuando este último posee soluciones). La deficiencia principal de esta abordaje, así como la de otros métodos de resolución directa del sistema de Lagrange, es que estamos ignorando, de cierto modo, la naturaleza del problema original \eqref{v2:eq:4.96}, que es la de minimización. Con efecto, es bien claro que el sistema de Lagrange caracteriza tanto minimizadores como maximizadores del problema original, sin preferencia. A seguir, consideramos algunos métodos que son menos afectados por este tipo de deficiencias.
