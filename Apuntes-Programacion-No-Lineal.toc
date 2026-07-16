@@ -78,7 +78,7 @@
 \contentsline {section}{\numberline {8.1}Métodos de descenso}{92}{section.8.1}%
 \contentsline {subsection}{\numberline {8.1.1}Esquema general de los métodos de descenso. Búsqueda lineal}{92}{subsection.8.1.1}%
 \contentsline {subsection}{\numberline {8.1.2}El método del gradiente}{99}{subsection.8.1.2}%
-\contentsline {section}{\numberline {8.2}El método de Newton. Métodos cuasi-Newton}{108}{section.8.2}%
+\contentsline {section}{\numberline {8.2}El método de Newton. Métodos cuasi-Newton}{107}{section.8.2}%
 \contentsline {subsection}{\numberline {8.2.1}El método de Newton para ecuaciones}{108}{subsection.8.2.1}%
 \contentsline {subsection}{\numberline {8.2.2}El método de Newton para optimización irrestricta}{110}{subsection.8.2.2}%
 \contentsline {subsection}{\numberline {8.2.3}Métodos cuasi-Newton}{112}{subsection.8.2.3}%

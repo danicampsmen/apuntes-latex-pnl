@@ -1,0 +1,481 @@
+% --- Archivo: 06_restricciones_mixtas.tex ---
+
+% =========================================================
+\section{Métodos para problemas con restricciones mixtas}\label{v2:sec:4.5}
+% =========================================================
+
+A seguir, consideraremos el problema con restricciones mixtas de igualdad y desigualdad. Como fue mencionado en \S~1.6, el sistema de optimalidad de Karush-Kuhn-Tucker (KKT) para este problema puede ser escrito en la forma de un sistema de ecuaciones no-lineales, pero en general no-diferenciables. Primero, serán presentados métodos de Newton generalizados para sistemas de ecuaciones no-diferenciables generales (no necesariamente ligados a optimización). Después de esto, consideraremos métodos específicos para resolver reformulaciones no-diferenciables de sistemas KKT.
+
+% ---------------------------------------------------------
+\subsection{Métodos de Newton generalizados}\label{v2:sec:4.5.1}
+% ---------------------------------------------------------
+
+Consideremos una función $\Phi: \Rn \to \Rn$, no necesariamente diferenciable, y la ecuación
+\begin{equation}
+    \Phi(x) = 0
+    \label{v2:eq:4.129}
+\end{equation}
+asociada. Una extensión natural del método de Newton viene dada por el esquema iterativo
+\begin{equation}
+    x^{k+1} = x^k - H_k^{-1} \Phi(x^k), \quad k = 0, 1, \dots,
+    \label{v2:eq:4.130}
+\end{equation}
+donde $H_k \in \partial \Phi(x^k)$ o $H_k \in \partial_B \Phi(x^k)$, i.e., en vez de la derivada clásica está siendo utilizado el subdiferencial de Clarke o el subdiferencial de Bouligand (vea \S~1.6). Así, obtenemos el método de Newton generalizado.
+
+\vspace{0.3cm}
+\noindent\textbf{Algoritmo 4.5.1. (El método de Newton generalizado)}\\
+Elegir la versión $B$ o $C$ del método. Elegir $x^0 \in \Rn$ y tomar $k:=0$.
+\begin{enumerate}
+    \item Calcular una matriz $H_k \in \partial_B \Phi(x^k)$ en el caso de la versión B, o $H_k \in \partial \Phi(x^k)$ en el caso de la versión C.
+    Calcular $x^{k+1} \in \Rn$, una solución del sistema de ecuaciones lineales
+    \[
+        H_k(x - x^k) = -\Phi(x^k),
+    \]
+    en relación a $x \in \Rn$.
+    \item Tomar $k:=k+1$ y retornar al Paso 1.
+\end{enumerate}
+\vspace{0.3cm}
+
+Las condiciones de regularidad que utilizaremos para probar la convergencia del método de Newton generalizado son las siguientes.
+La función $\Phi : \Rn \to \Rn$ se llama $BD$-regular ($CD$-regular) en el punto $\bar{x} \in \Rn$, si todas las matrices $H \in \partial_B \Phi(\bar{x})$ ($H \in \partial \Phi(\bar{x})$) son no-singulares.
+
+\begin{theorem}[Convergencia del método de Newton generalizado]\label{v2:thm:4.5.1}
+    Sea $\Phi : \Rn \to \Rn$ una función Lipschitz-continua en una vecindad del punto $\bar{x} \in \Rn$ que satisface en este punto la condición de Kummer \eqref{v2:eq:1.48}. Sea $\bar{x}$ una solución de \eqref{v2:eq:4.129}, tal que $\Phi$ es $BD$-regular en $\bar{x}$ en el caso de la versión B del Algoritmo 4.5.1, y $CD$-regular en el caso de la versión C.
+    
+    Entonces para cualquier punto inicial $x^0 \in \Rn$ suficientemente próximo a $\bar{x}$, el Algoritmo 4.5.1 genera una secuencia bien definida que converge a $\bar{x}$. La tasa de convergencia es superlineal, y si $\Phi$ satisface en $\bar{x}$ la condición de Kummer fuerte \eqref{v2:eq:1.49}, la tasa es cuadrática.
+\end{theorem}
+
+\begin{proof}
+    La demostración es bastante similar a aquella para el método de Newton clásico (Teorema 3.2.1). Por eso, vamos a presentar apenas los pasos principales. Consideremos la versión B del algoritmo (la prueba para la versión C es análoga).
+    
+    Por el resultado del Ejercicio 1.6.1, por las definiciones de $B$-diferencial y de diferencial de Clarke, utilizando el Teorema 1.5.1 (de perturbaciones pequeñas de una matriz no-singular) y un raciocinio por absurdo, obtenemos que existen una vecindad $U$ del punto $\bar{x}$ y un número $M > 0$ tales que
+    \begin{equation}
+        \det H \neq 0, \quad \|H^{-1}\| \le M \quad \forall H \in \partial_B \Phi(x), \ \forall x \in U.
+        \label{v2:eq:4.131}
+    \end{equation}
+    En particular, la iteración del Algoritmo 4.5.1 está bien definida para $x^k \in U$ cualquiera.
+    Ahora, por \eqref{v2:eq:4.130}, \eqref{v2:eq:4.131}, y la condición de Kummer \eqref{v2:eq:1.48} en $\bar{x}$, podemos tomar una vecindad $U$ tal que, si $x^k \in U$ e $H_k \in \partial_B \Phi(x^k)$, entonces
+    \begin{align}
+        \|x^{k+1} - \bar{x}\| &= \|x^k - \bar{x} - H_k^{-1}\Phi(x^k)\| \nonumber \\
+        &\le \|H_k^{-1}\| \|\Phi(x^k) - \Phi(\bar{x}) - H_k(x^k - \bar{x})\| \nonumber \\
+        &= o(\|x^k - \bar{x}\|). \label{v2:eq:4.132}
+    \end{align}
+    De aquí se sigue que, primero, para cualquier punto inicial $x^0$ suficientemente próximo a $\bar{x}$, el Algoritmo 4.5.1 genera una secuencia bien definida y, segundo, que esta secuencia converge a $\bar{x}$ con tasa superlineal.
+    Finalmente, si en $\bar{x}$ vale la condición de Kummer fuerte \eqref{v2:eq:1.49}, la estimativa \eqref{v2:eq:4.132} se transforma en
+    \[
+        \|x^{k+1} - \bar{x}\| = O(\|x^k - \bar{x}\|^2),
+    \]
+    i.e., la convergencia es cuadrática.
+\end{proof}
+
+% ---------------------------------------------------------
+\subsection{Métodos de Newton generalizados para el sistema de Karush-Kuhn-Tucker}\label{v2:sec:4.5.2}
+% ---------------------------------------------------------
+
+Consideremos el problema
+\begin{equation}
+    \min f(x) \quad \text{sujeto a } x \in D = \left\{ x \in \Rn \mathrel{\bigg|} \begin{array}{l} h(x) = 0, \\ g(x) \le 0. \end{array} \right\},
+    \label{v2:eq:4.133}
+\end{equation}
+donde $f : \Rn \to \R$, $h : \Rn \to \R^l$ y $g : \Rn \to \R^m$ son funciones diferenciables.
+Puntos estacionarios de este problema son caracterizados por el sistema KKT
+\begin{align}
+    L'_x(x, \lambda, \mu) &= 0, \quad h(x) = 0, \label{v2:eq:4.134} \\
+    g_i(x) \le 0, \quad \mu_i &\ge 0, \quad \mu_i g_i(x) = 0, \quad i = 1, \dots, m, \label{v2:eq:4.135}
+\end{align}
+donde
+\[
+    L : \Rn \times \R^l \times \R^m \to \R,
+\]
+\[
+    L(x, \lambda, \mu) = f(x) + \interno{\lambda}{h(x)} + \interno{\mu}{g(x)},
+\]
+es la Lagrangiana del problema.
+Sea $(\bar{x}, \bar{\lambda}, \bar{\mu})$ una solución del sistema \eqref{v2:eq:4.134}--\eqref{v2:eq:4.135}. Sea como siempre, $I(\bar{x}) = \{i = 1, \dots, m \mid g_i(\bar{x}) = 0\}$ el conjunto de las restricciones activas en el punto $\bar{x}$. Bajo la condición de \textit{complementaridad estricta}, i.e.,
+\[
+    \bar{\mu}_i > 0 \quad \forall i \in I(\bar{x}),
+\]
+es bien fácil ver que, en torno del punto $(\bar{x}, \bar{\lambda}, \bar{\mu})$, las relaciones \eqref{v2:eq:4.135} son equivalentes al sistema de ecuaciones
+\begin{equation}
+    \mu_i = 0, \ i \in \{1, \dots, m\} \setminus I(\bar{x}), \quad g_i(x) = 0, \ i \in I(\bar{x}).
+    \label{v2:eq:4.136}
+\end{equation}
+Por lo tanto, en este caso, el sistema KKT \eqref{v2:eq:4.134}--\eqref{v2:eq:4.135}, es localmente equivalente al sistema \eqref{v2:eq:4.134}, \eqref{v2:eq:4.136}, de $n + l + m$ ecuaciones en relación a las variables $(x, \lambda, \mu) \in \Rn \times \R^l \times \R^m$. Si $f, h$ y $g$ son dos veces diferenciables, este último sistema puede ser resuelto por el método de Newton clásico, como fue hecho en \S~4.4.1 en el caso de problemas con restricciones de igualdad (cuando no hay restricciones de desigualdad). Naturalmente, la aplicación práctica del método de Newton clásico es limitada por el hecho de que el conjunto $I(\bar{x})$ no es conocido a priori. Sin embargo, existen varias técnicas de identificación de restricciones activas (inclusive cuando no hay complementaridad estricta, vea \S~4.7). En el caso de complementaridad estricta, esta identificación es, en cierto sentido, hasta trivial. Por lo menos, en principio. El asunto de identificación de restricciones activas será tratado con más cuidado en \S~4.7.
+
+Aquí, presentaremos métodos de solución del sistema KKT que no necesitan de la condición de complementaridad estricta, ni de la identificación del conjunto $I(\bar{x})$. Cabe mencionar que cuando hay complementaridad estricta, las iteraciones de estos métodos son localmente equivalentes a las iteraciones del método de Newton clásico para el sistema \eqref{v2:eq:4.134}, \eqref{v2:eq:4.136}. De hecho, esto es completamente natural y hasta deseable: en un cierto sentido puede ser afirmado que cualquier método Newtoniano debe ser equivalente al método de Newton clásico para el sistema \eqref{v2:eq:4.134}, \eqref{v2:eq:4.136}, cuando este sistema es equivalente al sistema KKT del problema original.
+
+La idea es reformular las relaciones en \eqref{v2:eq:4.135} en un sistema de ecuaciones que no contengan elementos o parámetros a priori desconocidos. Mas es claro que la ventaja de lidiar con ecuaciones (en vez de ecuaciones e inecuaciones, lo que siempre es más complicado) tiene un precio a ser pagado. En este contexto, el precio consiste en la pérdida de diferenciabilidad, o en la inevitable singularidad de una solución, como veremos a seguir. En un cierto sentido, la primera dificultad no es tan grave así, y actualmente es considerada preferible a la segunda.
+
+Recordamos que una función $\psi : \R \times \R \to \R$ se llama \textit{función de complementaridad}, si el conjunto de soluciones de la ecuación
+\[
+    \psi(a, b) = 0
+\]
+coincide con el conjunto de soluciones del sistema
+\[
+    a \ge 0, \quad b \ge 0, \quad ab = 0.
+\]
+Como ya mencionamos en \S~1.6, entre las funciones de complementaridad más populares están el \textit{residuo natural}
+\begin{equation}
+    \psi(a, b) = \min\{a, b\}, \quad a, b \in \R,
+    \label{v2:eq:4.137}
+\end{equation}
+y la función de Fischer-Burmeister
+\begin{equation}
+    \psi(a, b) = \sqrt{a^2 + b^2} - a - b, \quad a, b \in \R.
+    \label{v2:eq:4.138}
+\end{equation}
+
+\begin{proposition}[Semi-diferenciabilidad de las reformulaciones del sistema KKT]\label{v2:prop:4.5.1}
+    Sean $f : \Rn \to \R$, $h : \Rn \to \R^l$ y $g : \Rn \to \R^m$ funciones diferenciables en $\Rn$, con derivadas semi-diferenciables en el punto $\bar{x} \in \Rn$.
+    Entonces para todo $\lambda \in \R^l$ y $\mu \in \R^m$, la función $\Phi$ dada por \eqref{v2:eq:4.145}, donde la función $\psi$ es dada por \eqref{v2:eq:4.137}, o por \eqref{v2:eq:4.138}, es semi-diferenciable en el punto $(\bar{x}, \lambda, \mu)$.
+    
+    Si $f, h$ y $g$ son dos veces diferenciables en una vecindad de $\bar{x}$, con derivadas segundas Lipschitz-continuas en esta vecindad, entonces $\Phi$ es fuertemente semi-diferenciable en $(\bar{x}, \lambda, \mu)$.
+\end{proposition}
+
+Ahora probaremos un resultado que garantiza la regularidad de las soluciones de la reformulación no-diferenciable del sistema KKT en el caso de la función de complementaridad del residuo natural \eqref{v2:eq:4.137}.
+
+\begin{proposition}[Regularidad de la reformulación del sistema KKT en el caso del residuo natural]\label{v2:prop:4.5.2}
+    Sean $f : \Rn \to \R$, $h : \Rn \to \R^l$ y $g : \Rn \to \R^m$ funciones diferenciables en $\Rn$, dos veces diferenciables en el punto $\bar{x} \in \Rn$, con derivadas primeras Lipschitz-continuas en una vecindad de $\bar{x}$. Supongamos que $\bar{x}$ satisfaga la condición de independencia lineal de los gradientes de las restricciones activas \eqref{v2:eq:1.17}, y que $\bar{x}$ sea un punto estacionario del problema \eqref{v2:eq:4.133}, con (únicos) multiplicadores de Lagrange asociados $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R^m_+$. Finalmente, supongamos que valga la condición suficiente de segunda orden fuerte, i.e., que
+    \begin{equation}
+        \langle L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})d, d \rangle > 0 \quad \forall d \in \mathcal{K}_+(\bar{x}) \setminus \{0\},
+        \label{v2:eq:4.146}
+    \end{equation}
+    donde
+    \[
+        \mathcal{K}_+(\bar{x}) = \{ d \in \ker h'(\bar{x}) \mid \interno{g'_i(\bar{x})}{d} = 0 \ \forall i \in I_+(\bar{x}) \},
+    \]
+    \[
+        I_+(\bar{x}) = \{ i \in I(\bar{x}) \mid \bar{\mu}_i > 0 \}.
+    \]
+    Entonces la función $\Phi$ definida en \eqref{v2:eq:4.145}, con $\psi$ dada por \eqref{v2:eq:4.137}, es $CD$-regular (luego, también $BD$-regular) en el punto $(\bar{x}, \bar{\lambda}, \bar{\mu})$.
+\end{proposition}
+
+\begin{proof}
+    Para cualquier matriz $H \in \partial \Phi(\bar{x}, \bar{\lambda}, \bar{\mu})$, por las reglas del diferencial de Clarke, es posible que los últimos $m$ componentes de la función $\Phi$ tengan que ser reindexados para obtener esta representación, lo que puede ser hecho en este contexto sin cambiar las propiedades del problema): existe un conjunto de índices $J_0 \subset I_0(\bar{x}) = \{i \in I(\bar{x}) \mid \bar{\mu}_i = 0\}$ tal que, definiendo $J_+ = I(\bar{x}) \setminus J_0$ y $J_- = \{1, \dots, m\} \setminus I(\bar{x})$, se tiene que
+    \[
+        H = \begin{pmatrix} L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu}) & (h'(\bar{x}))^\top & (g'_{J_+}(\bar{x}))^\top & (g'_{J_0}(\bar{x}))^\top & (g'_{J_-}(\bar{x}))^\top \\
+        h'(\bar{x}) & 0 & 0 & 0 & 0 \\
+        -g'_{J_+}(\bar{x}) & 0 & 0 & 0 & 0 \\
+        -A g'_{J_0}(\bar{x}) & 0 & 0 & E_{J_0} - A & 0 \\
+        0 & 0 & 0 & 0 & E_{J_-} \end{pmatrix},
+    \]
+    donde $A(\bar{x}, \bar{\mu})$ y $B(\bar{x}, \bar{\mu})$ son las matrices diagonales $m \times m$ con elementos $a_i = a_i(\bar{x}, \bar{\mu})$ y $e b_i = b_i(\bar{x}, \bar{\mu}), \ i = 1, \dots, m$, definidos en \eqref{v2:eq:4.140} y \eqref{v2:eq:4.141}, respectivamente.
+    
+    Para $\tilde{u} = (\tilde{x}, \tilde{\lambda}, \tilde{\mu}) \in \ker H$ cualquiera, tenemos que
+    \begin{equation}
+        L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})\tilde{x} + (h'(\bar{x}))^\top \tilde{\lambda} + (g'(\bar{x}))^\top \tilde{\mu} = 0,
+        \label{v2:eq:4.153}
+    \end{equation}
+    donde $A$ es la matriz diagonal $|J_0| \times |J_0|$ con elementos $a_i \in [0, 1]$, $i = 1, \dots, |J_0|$; para el conjunto de índices $J \subset \{1, \dots, m\}$, $E_J$ es la matriz identidad $|J| \times |J|$; $g'_J(\bar{x})$ es la matriz compuesta por las líneas de la matriz $g'(\bar{x})$ con índices en $J$.
+    
+    Tomamos cualquier
+    \[
+        \tilde{u} = (\tilde{x}, \tilde{\lambda}, \tilde{\mu}^+, \tilde{\mu}^0, \tilde{\mu}^-) \in \ker H,
+    \]
+    donde $\tilde{x} \in \Rn$, $\tilde{\lambda} \in \R^l$, $\tilde{\mu}^+ \in \R^{|J_+|}$, $\tilde{\mu}^0 \in \R^{|J_0|}$, $\tilde{\mu}^- \in \R^{|J_-|}$. Tenemos entonces que
+    \begin{align}
+        L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})\tilde{x} &+ (h'(\bar{x}))^\top \tilde{\lambda} + (g'_{J_+}(\bar{x}))^\top \tilde{\mu}^+ \nonumber \\
+        &+ (g'_{J_0}(\bar{x}))^\top \tilde{\mu}^0 + (g'_{J_-}(\bar{x}))^\top \tilde{\mu}^- = 0, \label{v2:eq:4.147} \\
+        h'(\bar{x})\tilde{x} &= 0, \label{v2:eq:4.148} \\
+        \langle g'_i(\bar{x}), \tilde{x} \rangle &= 0, \quad i \in J_+, \label{v2:eq:4.149} \\
+        -a_i \langle g'_i(\bar{x}), \tilde{x} \rangle + (1 - a_i)\tilde{\mu}^0_i &= 0, \quad i \in J_0, \label{v2:eq:4.150} \\
+        \tilde{\mu}^-_i &= 0. \label{v2:eq:4.151}
+    \end{align}
+    Como
+    \[
+        I_+(\bar{x}) = I(\bar{x}) \setminus I_0(\bar{x}) \subset I(\bar{x}) \setminus J_0 = J_+,
+    \]
+    de \eqref{v2:eq:4.148} y \eqref{v2:eq:4.149} obtenemos que
+    \[
+        \tilde{x} \in \mathcal{K}_+(\bar{x}).
+    \]
+    Multiplicando los dos lados en \eqref{v2:eq:4.147} por $\tilde{x}$ y utilizando \eqref{v2:eq:4.148}-\eqref{v2:eq:4.151}, obtenemos que
+    \begin{equation}
+        \langle L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})\tilde{x}, \tilde{x} \rangle + \sum_{i \in J_0} \tilde{\mu}^0_i \langle g'_i(\bar{x}), \tilde{x} \rangle = 0.
+        \label{v2:eq:4.152}
+    \end{equation}
+    Ahora, multiplicando \eqref{v2:eq:4.150} por $\tilde{\mu}^0_i$, para todo $i \in J_0$ tenemos que
+    \[
+        a_i \tilde{\mu}^0_i \langle g'_i(\bar{x}), \tilde{x} \rangle = (1 - a_i)(\tilde{\mu}^0_i)^2.
+    \]
+    Como $a_i \in [0, 1]$, se sigue que
+    \[
+        \tilde{\mu}^0_i \langle g'_i(\bar{x}), \tilde{x} \rangle \ge 0 \quad \forall i \in J_0.
+    \]
+    Ahora, de \eqref{v2:eq:4.152}, tenemos
+    \[
+        \langle L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})\tilde{x}, \tilde{x} \rangle \le 0,
+    \]
+    donde $\tilde{x} \in \mathcal{K}_+(\bar{x})$. De \eqref{v2:eq:4.146} concluimos que $\tilde{x} = 0$.
+    Además de esto, utilizando \eqref{v2:eq:4.151}, de \eqref{v2:eq:4.147} obtenemos que
+    \[
+        (h'(\bar{x}))^\top \tilde{\lambda} + (g'_{J_+}(\bar{x}))^\top \tilde{\mu}^+ + (g'_{J_0}(\bar{x}))^\top \tilde{\mu}^0 = 0,
+    \]
+    donde $J_+ \cup J_0 = I(\bar{x})$.
+    Esta relación y la condición \eqref{v2:eq:1.17} de independencia lineal de los gradientes de las restricciones activas en $\bar{x}$, se sigue que $\tilde{\lambda} = 0$, $\tilde{\mu}^+ = 0$, $\tilde{\mu}^0 = 0$, i.e., $\tilde{u} = 0$.
+    Acabamos de mostrar que para todo $H \in \partial \Phi(\bar{x}, \bar{\lambda}, \bar{\mu})$, se tiene que $\ker H = \{0\}$.
+\end{proof}
+
+Consideremos ahora el caso de la función de complementaridad de Fischer-Burmeister \eqref{v2:eq:4.138}.
+
+\begin{proposition}[Regularidad de la reformulación del sistema KKT en el caso de la función de Fischer-Burmeister]\label{v2:prop:4.5.3}
+    Bajo las hipótesis de la Proposición \ref{v2:prop:4.5.2}, la función $\Phi$ definida por \eqref{v2:eq:4.145}, con la función $\psi$ dada en \eqref{v2:eq:4.138}, es $CD$-regular (luego, también $BD$-regular) en el punto $(\bar{x}, \bar{\lambda}, \bar{\mu})$.
+\end{proposition}
+
+\begin{proof}
+    Para una matriz $H \in \partial \Phi(\bar{x}, \bar{\lambda}, \bar{\mu})$ cualquiera,
+    \[
+        H = \begin{pmatrix} L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu}) & (h'(\bar{x}))^\top & (g'(\bar{x}))^\top \\
+        h'(\bar{x}) & 0 & 0 \\
+        A(\bar{x}, \bar{\mu})g'(\bar{x}) & 0 & B(\bar{x}, \bar{\mu}) \end{pmatrix},
+    \]
+    donde $A(\bar{x}, \bar{\mu})$ y $B(\bar{x}, \bar{\mu})$ son las matrices diagonales $m \times m$ con elementos $a_i = a_i(\bar{x}, \bar{\mu})$ y $b_i = b_i(\bar{x}, \bar{\mu})$, $i = 1, \dots, m$, definidos en \eqref{v2:eq:4.140} y \eqref{v2:eq:4.141}, respectivamente.
+    
+    Para $\tilde{u} = (\tilde{x}, \tilde{\lambda}, \tilde{\mu}) \in \ker H$ cualquiera, tenemos que
+    \begin{align}
+        L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})\tilde{x} + (h'(\bar{x}))^\top \tilde{\lambda} + (g'(\bar{x}))^\top \tilde{\mu} &= 0, \label{v2:eq:4.153_extra} \\
+        h'(\bar{x})\tilde{x} &= 0, \label{v2:eq:4.154} \\
+        a_i \langle g'_i(\bar{x}), \tilde{x} \rangle + b_i \tilde{\mu}_i &= 0, \quad i = 1, \dots, m. \label{v2:eq:4.155}
+    \end{align}
+    Notemos que, de acuerdo con \eqref{v2:eq:4.140} y \eqref{v2:eq:4.141}, para $i \in I_+(\bar{x})$ tenemos que $a_i = 1$, $b_i = 0$. Por lo tanto, de \eqref{v2:eq:4.155} se sigue que
+    \begin{equation}
+        \langle g'_i(\bar{x}), \tilde{x} \rangle = 0 \quad \forall i \in I_+(\bar{x}). \label{v2:eq:4.156}
+    \end{equation}
+    En particular, de \eqref{v2:eq:4.154} y \eqref{v2:eq:4.156} obtenemos que
+    \[
+        \tilde{x} \in \mathcal{K}_+(\bar{x}).
+    \]
+    Por las relaciones \eqref{v2:eq:4.140} y \eqref{v2:eq:4.141}, para $i \in \{1, \dots, m\} \setminus I(\bar{x})$ se tiene $a_i = 0$, $b_i = -1$, y para $i \in I_0(\bar{x}) = \{i \in I(\bar{x}) \mid \bar{\mu}_i = 0\}$ se tiene que $a_i \ge 1$, $b_i \le 0$. Por lo tanto, de \eqref{v2:eq:4.155} obtenemos
+    \begin{align}
+        \tilde{\mu}_i &= 0 \quad \forall i \in \{1, \dots, m\} \setminus I(\bar{x}), \label{v2:eq:4.157} \\
+        \tilde{\mu}_i \langle g'_i(\bar{x}), \tilde{x} \rangle &\ge 0 \quad \forall i \in I_0(\bar{x}). \label{v2:eq:4.158}
+    \end{align}
+    Multiplicando los dos lados en \eqref{v2:eq:4.153_extra} por $\tilde{x}$ y utilizando \eqref{v2:eq:4.154}, \eqref{v2:eq:4.156}, \eqref{v2:eq:4.157}, obtenemos que
+    \[
+        \langle L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})\tilde{x}, \tilde{x} \rangle + \sum_{i \in I_0(\bar{x})} \tilde{\mu}_i \langle g'_i(\bar{x}), \tilde{x} \rangle = 0.
+    \]
+    Teniendo en cuenta \eqref{v2:eq:4.158}, tenemos que
+    \[
+        \langle L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu})\tilde{x}, \tilde{x} \rangle \le 0,
+    \]
+    y como $\tilde{x} \in \mathcal{K}_+(\bar{x})$, de \eqref{v2:eq:4.146} se sigue que $\tilde{x} = 0$.
+    A continuación, utilizando \eqref{v2:eq:4.157}, de \eqref{v2:eq:4.153_extra} obtenemos que
+    \[
+        (h'(\bar{x}))^\top \tilde{\lambda} + \sum_{i \in I(\bar{x})} \tilde{\mu}_i g'_i(\bar{x}) = 0.
+    \]
+    La condición de independencia lineal de los gradientes de las restricciones activas \eqref{v2:eq:1.17} ahora implica que $\tilde{\lambda} = 0$, $\tilde{\mu}_i = 0 \ \forall i \in I(\bar{x})$. Por lo tanto, $\tilde{u} = 0$.
+    Acabamos de mostrar que para todo $H \in \partial \Phi(\bar{x}, \bar{\lambda}, \bar{\mu})$, se tiene que $\ker H = \{0\}$.
+\end{proof}
+
+Los resultados anteriores justifican la resolución del sistema KKT del problema \eqref{v2:eq:4.133} por los métodos de Newton generalizados.
+
+\begin{algorithm}[Método de Newton generalizado para el sistema KKT]
+    Elegir $\psi : \R \times \R \to \R$, de acuerdo con \eqref{v2:eq:4.137} o \eqref{v2:eq:4.138}. Elegir $(x^0, \lambda^0, \mu^0) \in \Rn \times \R^l \times \R^m$ y tomar $k:=0$.
+\begin{enumerate}
+    \item Calcular una matriz $H_k \in \R(n+l+m, n+l+m)$.
+    Calcular $(x^{k+1}, \lambda^{k+1}, \mu^{k+1}) \in \Rn \times \R^l \times \R^m$, una solución del sistema de ecuaciones lineales
+    \[
+        H_k ((x, \lambda, \mu) - (x^k, \lambda^k, \mu^k)) = -\Phi(x^k, \lambda^k, \mu^k),
+    \]
+    en relación a $(x, \lambda, \mu) \in \Rn \times \R^l \times \R^m$, donde $\Phi$ es dada por \eqref{v2:eq:4.145}.
+    \item Tomar $k:=k+1$ y retornar al Paso 1.
+\end{enumerate}
+    \end{algorithm}
+
+Si para cada iteración $k$ en el método presentado arriba tomamos $H_k \in \partial_B \Phi(x^k, \lambda^k, \mu^k)$ o $H_k \in \partial \Phi(x^k, \lambda^k, \mu^k)$, obtenemos el método de Newton generalizado puro para el sistema KKT. Para cualquiera de estas matrices pueden ser utilizadas fórmulas dadas arriba (vea los Ejercicios 4.5.3 y 4.5.4). Esto torna los métodos en cuestión completamente explícitos e implementables (hablaremos sobre las elecciones de $H_k$ también más adelante). Resultados de convergencia local y de tasa de convergencia para métodos de Newton generalizados puros para el sistema KKT siguen directamente del Teorema 4.5.1 y de las Proposiciones \ref{v2:prop:4.5.1}--\ref{v2:prop:4.5.3}.
+
+\begin{theorem}[Convergencia local del método de Newton generalizado para el sistema KKT]\label{v2:thm:4.5.2}
+    Además de las hipótesis de la Proposición \ref{v2:prop:4.5.2}, supongamos que las funciones $f : \Rn \to \R$, $h : \Rn \to \R^l$ y $g : \Rn \to \R^m$ sean dos veces diferenciables en una vecindad del punto $\bar{x} \in \Rn$, con derivadas segundas Lipschitz-continuas en esta vecindad.
+    Entonces cualquier punto inicial $(x^0, \lambda^0, \mu^0) \in \Rn \times \R^l \times \R^m$, suficientemente próximo a $(\bar{x}, \bar{\lambda}, \bar{\mu})$, define unívocamente una secuencia del Algoritmo 4.5.2, donde $H_k \in \partial \Phi(x^k, \lambda^k, \mu^k)$ para todo $k = 0, 1, \dots$, y esta secuencia converge a $(\bar{x}, \bar{\lambda}, \bar{\mu})$. La tasa de convergencia es cuadrática.
+\end{theorem}
+
+Notemos que, de acuerdo con el Ejercicio 4.5.3, la función $\Phi$ definida por \eqref{v2:eq:4.145} con $\psi$ dada en \eqref{v2:eq:4.137}, es $BD$-regular en el punto $(\bar{x}, \bar{\lambda}, \bar{\mu})$ se, y solamente si, este punto satisface la condición de cuasi-regularidad que consiste en lo siguiente: la matriz
+\[
+    \begin{pmatrix} L''_{xx}(\bar{x}, \bar{\lambda}, \bar{\mu}) & (h'(\bar{x}))^\top & (g'_{I_+(\bar{x})}(\bar{x}))^\top & (g'_J(\bar{x}))^\top \\
+    h'(\bar{x}) & 0 & 0 & 0 \\
+    g'_{I_+(\bar{x})}(\bar{x}) & 0 & 0 & 0 \\
+    g'_J(\bar{x}) & 0 & 0 & 0 \end{pmatrix}
+\]
+es no-singular para todo conjunto de índices $J \subset I_0(\bar{x})$. La condición de cuasi-regularidad contiene la condición de independencia lineal de los gradientes de las restricciones activas \eqref{v2:eq:1.17}. Mas en el caso en que \eqref{v2:eq:1.17} es satisfecha, la cuasi-regularidad es una condición más débil de lo que la condición suficiente de segunda orden fuerte. Como se sigue del Teorema 4.5.1, la condición de cuasi-regularidad es suficiente para probar la convergencia cuadrática del método de Newton generalizado asociado a la función $\psi$ dada en \eqref{v2:eq:4.137}.
+
+Notemos también que las hipótesis de diferenciabilidad del Teorema \ref{v2:thm:4.5.2} pueden ser relajadas de acuerdo con la Proposición 4.5.1. En este caso, podemos probar convergencia superlineal en vez de cuadrática.
+
+% ---------------------------------------------------------
+\subsection{Métodos de penalización cuadrática}\label{v2:sec:4.5.3}
+% ---------------------------------------------------------
+
+A continuación, extenderemos los resultados sobre penalización cuadrática, obtenidos en \S~\ref{v2:sec:4.4.2} para restricciones de igualdad, al caso de restricciones mixtas del problema \eqref{v2:eq:4.133}. Para esto, utilizaremos la técnica de introducción de variables de holgura. Resulta que la penalización cuadrática, así como las Lagrangianas aumentadas (que serán consideradas más adelante), son unos de los pocos casos donde la introducción de variables de holgura es una técnica eficiente, y no lleva a resultados más débiles de los que pueden ser obtenidos considerando las desigualdades directamente.
+
+El problema \eqref{v2:eq:4.133} es equivalente al problema con restricciones de igualdad
+\begin{equation}
+    \min f(x) \quad \text{sujeto a } (x, t) \in \tilde{D},
+    \label{v2:eq:4.182}
+\end{equation}
+donde
+\begin{equation}
+    \tilde{D} = \left\{ (x, t) \in \Rn \times \R^m \mathrel{\bigg|} \begin{array}{l} h(x) = 0, \\ g_i(x) + t_i^2 = 0, \quad i = 1, \dots, m \end{array} \right\}.
+    \label{v2:eq:4.183}
+\end{equation}
+
+Como puede demostrarse (vea el Ejercicio \ref{v2:ejer:4.5.7}), un punto $\bar{x}$ es solución local de \eqref{v2:eq:4.133} si, y solamente si, el punto $(\bar{x}, \bar{t})$, donde
+\begin{equation}
+    \bar{t} = (\sqrt{-g_1(\bar{x})}, \dots, \sqrt{-g_m(\bar{x})}),
+    \label{v2:eq:4.184}
+\end{equation}
+está bien definido y es una solución local del problema \eqref{v2:eq:4.182}-\eqref{v2:eq:4.183}. 
+
+Consideremos el término de penalización cuadrática para el problema \eqref{v2:eq:4.133}, i.e.,
+\begin{equation}
+    \psi(x) = \frac{1}{2} \left( \|h(x)\|^2 + \sum_{i=1}^m (\max\{0, g_i(x)\})^2 \right), \quad x \in \Rn,
+    \label{v2:eq:4.185}
+\end{equation}
+donde introducimos el multiplicador $1/2$ por conveniencia a la hora de tomar derivadas. La familia asociada de funciones penalizadas viene dada por
+\begin{equation}
+    \varphi(\cdot; c) \colon \Rn \to \R, \quad \varphi(x; c) = f(x) + c\psi(x),
+    \label{v2:eq:4.186}
+\end{equation}
+y los problemas penalizados asociados son
+\begin{equation}
+    \min \varphi(x; c), \quad x \in \Rn.
+    \label{v2:eq:4.187}
+\end{equation}
+El método en cuestión, entonces, es el siguiente.
+
+\begin{algorithm}[El método de penalización cuadrática]\label{v2:alg:4.5.3}
+Elegir $c_0 > 0$ y tomar $k := 0$.
+\begin{enumerate}
+    \item Calcular $x^k \in \Rn$, un punto estacionario del problema \eqref{v2:eq:4.187}, donde la función objetivo es dada por \eqref{v2:eq:4.186} con $c = c_k$.
+    \item Elegir $c_{k+1} > c_k$, tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
+\end{algorithm}
+
+Los comentarios sobre la aplicación de este método son, en gran parte, los mismos que en el caso de la penalización cuadrática de restricciones de igualdad. Existe, sin embargo, una diferencia que merece ser mencionada. La función $\varphi(\cdot; c)$ definida en \eqref{v2:eq:4.186} es diferenciable cuando $f$, $h$ y $g$ son diferenciables. Sin embargo, no es dos veces diferenciable en los puntos $x \in \Rn$ para los cuales el conjunto de restricciones activas $I(x)$ es no vacío. Esto tiene que ser llevado en consideración a la hora de elegir un método de optimización irrestricta para resolver los subproblemas \eqref{v2:eq:4.187}.
+
+Para extender los resultados teóricos, necesitamos la formulación extendida de las condiciones de regularidad: decimos que un punto satisface la independencia lineal de los gradientes extendida en relación a las variables $(x, t)$ si se cumple la condición:
+\begin{equation}
+    \begin{pmatrix}
+        h'(x)^\top & g'(x)^\top \\
+        0 & 2 \diag(t_i)
+    \end{pmatrix} \begin{pmatrix} \lambda \\ \mu \end{pmatrix} = 0 \implies \lambda = 0, \mu = 0.
+    \label{v2:eq:4.191}
+\end{equation}
+
+Si consideramos el problema penalizado extendido en las variables $(x, t)$:
+\begin{equation}
+    \min \tilde{\varphi}(x, t; c), \quad (x, t) \in \Rn \times \R^m,
+    \label{v2:eq:4.197}
+\end{equation}
+con la penalización extendida:
+\begin{align}
+    \tilde{\varphi}(x, t; c) &= f(x) + c\tilde{\psi}(x, t), \label{v2:eq:4.195} \\
+    \tilde{\psi}(x, t) &= \frac{1}{2} \left( \|h(x)\|^2 + \sum_{i=1}^m (g_i(x) + t_i^2)^2 \right), \label{v2:eq:4.196}
+\end{align}
+podemos evaluar la holgura óptima definida por:
+\begin{equation}
+    t_i(x) = \begin{cases} 0, & \text{si } g_i(x) \ge 0, \\ \sqrt{-g_i(x)}, & \text{si } g_i(x) < 0, \end{cases} \quad i = 1, \dots, m.
+    \label{v2:eq:4.198}
+\end{equation}
+
+\begin{theorem}[Convergencia del método de penalización cuadrática]\label{v2:thm:4.5.4}
+Sean $f \colon \Rn \to \R$, $h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ funciones diferenciables en $\Rn$, con derivadas continuas. Sea $\bar{x} \in \Rn$ un punto de acumulación de una secuencia $\{x^k\}$ generada por el \cref{v2:alg:4.5.3}, donde $c_k \to +\infty \ (k \to \infty)$, que satisface la condición de regularidad de independencia lineal de los gradientes. Entonces $\bar{x}$ es un punto estacionario del problema \eqref{v2:eq:4.133}. Además, para cualquier subsecuencia $\{x^{k_j}\}$ que converge a $\bar{x}$, se tiene que
+\begin{align}
+    c_{k_j} h(x^{k_j}) &\to \bar{\lambda} \quad (j \to \infty), \label{v2:eq:4.202} \\
+    c_{k_j} \max\{0, g_i(x^{k_j})\} &\to \bar{\mu}_i \quad (j \to \infty), \quad \forall i = 1, \dots, m, \label{v2:eq:4.203}
+\end{align}
+donde $\bar{\lambda} \in \R^l$ y $\bar{\mu} \in \R^m_+$ son los únicos multiplicadores de Lagrange asociados a $\bar{x}$.
+\end{theorem}
+
+\begin{theorem}[Estimativas de tasa de convergencia de los métodos de penalización cuadrática]\label{v2:thm:4.5.5}
+Sean $f \colon \Rn \to \R$, $h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ funciones dos veces diferenciables en una vecindad del punto $\bar{x} \in \Rn$, con derivadas segundas continuas en este punto. Supongamos que $\bar{x}$ satisface la condición de independencia lineal de los gradientes, y que $\bar{x}$ es un punto estacionario del problema original, con multiplicadores de Lagrange $\bar{\lambda}$ y $\bar{\mu}$ asociados. Supongamos, finalmente, que se satisfaga la condición suficiente de segunda orden y la condición de complementariedad estricta.
+
+Entonces existe un número $\delta > 0$ tal que para cualquier solución local $x(c)$ del problema $\min \varphi(x; c)$ sujeto a $x \in B(\bar{x}, \delta)$, se tiene que $x(c) \to \bar{x} \ (c \to +\infty)$. Más aún, para todo $c > 0$ suficientemente grande,
+\begin{equation}
+    \|x(c) - \bar{x}\| = O(1/c), \quad \|c h(x(c)) - \bar{\lambda}\| = O(1/c). \label{v2:eq:4.205}
+\end{equation}
+\end{theorem}
+
+% ---------------------------------------------------------
+\subsection{Lagrangianas aumentadas}\label{v2:sec:4.5.4}
+% ---------------------------------------------------------
+
+A continuación, extenderemos los resultados sobre Lagrangianas aumentadas al caso de restricciones mixtas del problema original. Para esto, de nuevo utilizaremos la técnica de introducción de variables de holgura. Para todo $c > 0$, definimos la Lagrangiana aumentada para el problema extendido \eqref{v2:eq:4.182}-\eqref{v2:eq:4.183} con restricciones transformadas en igualdades:
+\begin{align}
+    \tilde{L}((x, t), (\lambda, \mu); c) &= L(x, \lambda, \mu) + \sum_{i=1}^m \mu_i t_i^2 \nonumber \\
+    &\quad + \frac{c}{2}\|h(x)\|^2 + \frac{c}{2}\sum_{i=1}^m (g_i(x) + t_i^2)^2. \label{v2:eq:4.206}
+\end{align}
+
+Minimizando esta función respecto a las variables de holgura $t \in \R^m$, obtenemos la Lagrangiana aumentada en las variables originales:
+\begin{align}
+    L(x, \lambda, \mu; c) &= \min_{t \in \R^m} \tilde{L}((x, t), (\lambda, \mu); c) \nonumber \\
+    &= f(x) + \interno{\lambda}{h(x)} + \frac{c}{2}\|h(x)\|^2 \nonumber \\
+    &\quad + \frac{1}{2c}\sum_{i=1}^m \left( (\max\{0, cg_i(x) + \mu_i\})^2 - \mu_i^2 \right). \label{v2:eq:4.210}
+\end{align}
+
+Por lo tanto, en vez de los subproblemas penalizados puros, consideramos el problema:
+\begin{equation}
+    \min L(x, \lambda, \mu; c), \quad x \in \Rn. \label{v2:eq:4.211}
+\end{equation}
+
+El Teorema \ref{v2:thm:4.5.6} a continuación, muestra que los puntos KKT del problema original corresponden a puntos estacionarios irrestrictos de la Lagrangiana aumentada de este problema, para $c > 0$ cualquiera. Para ello, precisamos de un resultado auxiliar.
+
+\begin{lemma}\label{v2:lem:4.5.5}
+Sean $a \in \R$ y $b \in \R$. Entonces
+\begin{equation}
+    a = \max\{0, b\} \label{v2:eq:4.212}
+\end{equation}
+si, y solamente si,
+\begin{equation}
+    a - b \ge 0, \quad a(a - b) = 0, \quad a \ge 0. \label{v2:eq:4.213}
+\end{equation}
+\end{lemma}
+\begin{proof}
+Observamos que \eqref{v2:eq:4.212} significa que $a \ge 0$, $a \ge b$, y que o bien $a=0$ o bien $a=b$. Estas condiciones pueden ser escritas exactamente como \eqref{v2:eq:4.213}.
+\end{proof}
+
+\begin{theorem}[Puntos estacionarios de la Lagrangiana aumentada]\label{v2:thm:4.5.6}
+Sean $f \colon \Rn \to \R$, $h \colon \Rn \to \R^l$ y $g \colon \Rn \to \R^m$ funciones diferenciables en el punto $\bar{x} \in \Rn$. Si $\bar{x}$ es un punto estacionario del problema original con multiplicadores $\bar{\lambda}$ y $\bar{\mu}$, entonces para todo $c > 0$, el punto $\bar{x}$ es un punto estacionario del problema \eqref{v2:eq:4.211}.
+\end{theorem}
+
+El método de la Lagrangiana aumentada o método de los multiplicadores para el problema de restricciones mixtas es el siguiente.
+
+\begin{algorithm}[Método de la Lagrangiana aumentada]\label{v2:alg:4.5.4}
+Elegir $\lambda^0 \in \R^l$, $\mu^0 \in \R^m_+$ y $c_0 > 0$. Tomar $k := 0$.
+\begin{enumerate}
+    \item Calcular $x^k \in \Rn$, un punto estacionario del problema \eqref{v2:eq:4.211}, donde la función objetivo es dada por \eqref{v2:eq:4.210} con $c = c_k$, $\lambda = \lambda^k$, y $\mu = \mu^k$.
+    \item Actualizar los multiplicadores mediante las fórmulas:
+    \begin{align*}
+        \lambda^{k+1} &= \lambda^k + c_k h(x^k), \\
+        \mu_i^{k+1} &= \max\{0, c_k g_i(x^k) + \mu_i^k\}, \quad i = 1, \dots, m,
+    \end{align*}
+    y elegir $c_{k+1} \ge c_k$.
+    \item Tomar $k := k + 1$ y retornar al Paso 1.
+\end{enumerate}
+\end{algorithm}
+
+\begin{theorem}[Convergencia del método de la Lagrangiana aumentada]\label{v2:thm:4.5.7}
+Si el problema original cumple las condiciones suficientes de segunda orden fuerte y la independencia lineal de los gradientes, las fórmulas del \cref{v2:alg:4.5.4} definen unívocamente secuencias que convergen localmente a la solución $\bar{x}$ y a sus multiplicadores óptimos. La tasa de convergencia de las secuencias $\{\lambda^k\}$ y $\{\mu^k\}$ es lineal, y si $\{c_k\} \to \infty$, la tasa es superlineal.
+\end{theorem}
+
+% ---------------------------------------------------------
+\subsection{Penalización exacta diferenciable}\label{v2:sec:4.5.5}
+% ---------------------------------------------------------
+
+Haremos ahora unos breves comentarios sobre la penalización exacta diferenciable para el problema con restricciones mixtas. Tras realizar un tratamiento algebraico análogo de la Lagrangiana aumentada combinada con la norma del gradiente del sistema (eliminando las variables de holgura y los multiplicadores), se obtiene la siguiente función penalizada diferenciable en el espacio primal-dual:
+\begin{align}
+    \varphi(x, \lambda, \mu; c_1, c_2) &= L(x, \lambda, \mu) + \frac{c_1}{2} \|h(x)\|^2 + \frac{1}{2} \|L'_x(x, \lambda, \mu)\|^2 \nonumber \\
+    &\quad + \frac{c_1}{2} \sum_{i=1}^m \left( \max\left\{0, g_i(x) + \frac{\mu_i(1 + 2c_2 \mu_i)}{c_1}\right\} \right)^2 \nonumber \\
+    &\quad - \frac{1}{2c_1} \sum_{i=1}^m \mu_i^2 (1 + 2c_2 \mu_i)^2. \label{v2:eq:4.219}
+\end{align}
+
+Consideremos el problema irrestricto asociado:
+\begin{equation}
+    \min \varphi(x, \lambda, \mu; c_1, c_2), \quad (x, \lambda, \mu) \in \Rn \times \R^l \times \R^m. \label{v2:eq:4.220}
+\end{equation}
+
+\begin{theorem}[Penalización exacta en el espacio primal-dual]\label{v2:thm:4.5.8}
+Suponiendo que se satisfacen las hipótesis del Teorema \ref{v2:thm:4.5.5}. Entonces existe un número $\bar{c}_2 > 0$ tal que, si $c_2 \in (0, \bar{c}_2]$, existe $\bar{c}_1(c_2) \ge 0$ tal que para todo $c_1 > \bar{c}_1(c_2)$ el problema \eqref{v2:eq:4.220} posee en una vecindad de $(\bar{x}, \bar{\lambda}, \bar{\mu})$ un único punto estacionario, que es precisamente $(\bar{x}, \bar{\lambda}, \bar{\mu})$ y es un minimizador local estricto.
+\end{theorem}
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: "../../../Apuntes-Programacion-No-Lineal"
+%%% End:
