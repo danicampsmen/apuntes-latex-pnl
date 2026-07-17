@@ -10,7 +10,7 @@ Supongamos que la función $f$ sea diferenciable en $\R^n$. En el caso de métod
 
 El método del gradiente es de primer orden y, en general, es poco eficiente para resolver problemas prácticos. Aun así, el estudio de este método es un paso importante para entender los fundamentos de la optimización computacional.
 
-\begin{algorithm}[Método del gradiente]
+\begin{algorithm}[Método del gradiente]\label{v2:alg:3.1.1}
     Elegir $x^0 \in \R^n$ y tomar $k := 0$. Elegir una entre las tres primeras reglas de búsqueda lineal en \S 3.1.1 y los parámetros asociados: $\hat{\alpha} > 0$ (o $\hat{\alpha} = +\infty$) en el caso de la minimización unidimensional, $\hat{\alpha} > 0$, $\sigma, \theta \in (0,1)$ en el caso de la regla de Armijo, y $\bar{\alpha} > 0$ en el caso de longitud de paso fijo.
 \begin{enumerate}
     \item Calcular la longitud de paso $\alpha_k$ en la dirección del anti-gradiente $d^k = -f'(x^k)$ de acuerdo con la regla elegida (si $f'(x^k) = 0$, en la práctica el método para; para fines teóricos, podemos tomar $\alpha_k$ arbitrario).

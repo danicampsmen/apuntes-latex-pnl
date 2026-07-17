@@ -168,7 +168,7 @@ donde $\hat{\alpha} > 0$ es un parámetro (que puede variar con $k$). De aquí e
 
 \textbf{La regla de Armijo.} Otra estrategia natural es computar una longitud de paso que resulte en un decrecimiento suficiente de la función $f$ en relación al valor $f(x^k)$. La idea es que esto puede ser bien más económico desde el punto de vista computacional que la minimización unidimensional, garantizando de la misma forma la convergencia.
 
-\begin{algorithm}[Regla de Armijo]
+\begin{algorithm}[Regla de Armijo] \label{v2:alg:armijo}
     Supongamos que $f$ sea diferenciable en el punto $x^k$. Fijamos los parámetros $\hat{\alpha} > 0$, $\sigma, \theta \in (0, 1)$. Tomamos $\alpha := \hat{\alpha}$.
 \begin{enumerate}
     \item Verificamos si la desigualdad
@@ -325,7 +325,7 @@ Cuando el cálculo de la derivada de $f$ no es muy caro, la regla de Wolfe es co
 
 A continuación presentamos un procedimiento de implementación de la regla de Wolfe (cabe notar que la regla de Goldstein puede ser implementada de manera análoga).
 
-\begin{algorithm}[Regla de Wolfe]
+\begin{algorithm}[Regla de Wolfe]\label{v2:alg:wolfe}
     Fijamos los parámetros $0 < \sigma_1 < \sigma_2 < 1$. Tomar $\hat{\alpha} := 0$. Tomar un valor inicial $\alpha > 0$.
 \begin{enumerate}
     \item Si \eqref{v2:eq:3.11} y \eqref{v2:eq:3.12} se satisfacen, pasar al Ítem 6.
