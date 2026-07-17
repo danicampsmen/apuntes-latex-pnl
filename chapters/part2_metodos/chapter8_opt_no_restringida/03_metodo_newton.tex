@@ -222,7 +222,7 @@ donde $Q \in \R^{n \times n}$ es una matriz simétrica no singular y $b \in \Rn$
     \]
     donde $\tau > 0$ es un parámetro. Como es fácil de verificar, para cualquier $\tau > 0$ la función $f$ es dos veces diferenciable en $\R$, con segunda derivada continua. Además, el problema \eqref{v2:eq:3.58} definido por esta $f$ tiene un único punto estacionario $\bar{x} = 0$, y se tiene que $f''(\bar{x}) = 1 + 3/\tau > 0$. En particular, todas las hipótesis del \cref{v2:cor:3.2.2} son satisfechas.
     
-    Tomaremos $x^0 = \tau$. La secuencia $\{x^k\}$ generada por el Algoritmo 3.2.2 tiene la siguiente forma: $x^k = 2(-1)^k$, $k=1, 2, \dots$ En particular, $\bar{x}$ no es punto de acumulación de $\{x^k\}$, independientemente de cuán pequeño sea $\tau$ (i.e., cuán próximo $x^0$ sea a $\bar{x}$).
+    Tomaremos $x^0 = \tau$. La secuencia $\{x^k\}$ generada por el Algoritmo 3.2.2 tiene la siguiente forma: $x^k = 2(-1)^k \tau $, $k=1, 2, \dots$ En particular, $\bar{x}$ no es punto de acumulación de $\{x^k\}$, independientemente de cuán pequeño sea $\tau$ (i.e., cuán próximo $x^0$ sea a $\bar{x}$).
 \end{example}
 
 La globalización de métodos newtonianos será considerada en \S~3.3. Por ahora, mencionaremos que para este fin puede ser útil la interpretación \eqref{v2:eq:3.61} de la iteración del método en términos de problemas de optimización, así como la introducción de la longitud de paso, i.e., sustitución del esquema \eqref{v2:eq:3.60} por

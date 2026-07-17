@@ -19,7 +19,7 @@ El método del gradiente es de primer orden y, en general, es poco eficiente par
 \end{enumerate}
 \end{algorithm}
 
-El método del gradiente con minimización unidimensional se llama \textit{método de máxima caída} (cabe destacar que este nombre no debe ser entendido como caracterización de las cualidades de este método en la práctica). Una propiedad importante del método de máxima caída (por lo menos en el caso $\hat{\alpha} = +\infty$) es la igualdad
+El método del gradiente con minimización unidimensional se llama \textit{método de máximo descenso} (cabe destacar que este nombre no debe ser entendido como caracterización de las cualidades de este método en la práctica). Una propiedad importante del método de máximo descenso (por lo menos en el caso $\hat{\alpha} = +\infty$) es la igualdad
 \[
     \langle f'(x^{k+1}), f'(x^k) \rangle = 0,
 \]
@@ -129,7 +129,7 @@ En el caso de una función convexa, las propiedades de convergencia global del m
         \sum_{i=0}^{\infty} \alpha_i \|f'(x^i)\|^2 \le \frac{f(x^0) - f(\bar{x})}{\sigma} < +\infty.
         \label{v2:eq:3.23}
     \end{equation}
-    Por la convexidad de $f$ y por la otimalidad de $\bar{x}$,
+    Por la convexidad de $f$ y por la optimalidad de $\bar{x}$,
     \[
         \langle f'(x^k), \bar{x} - x^k \rangle \le f(\bar{x}) - f(x^k) \le 0.
     \]
@@ -350,7 +350,7 @@ Presentamos ahora el resultado principal sobre la convergencia local del método
 
 % [Ejercicios 3.1.7 y 3.1.8 movidos a exercises.tex]
 
-Por la estimativa \eqref{v2:eq:3.34}, en la regla de Armijo es preferible elegir el parámetro $\sigma$ próximo a 1/2. Mas incluso para $\sigma = 1/2$, la estimativa \eqref{v2:eq:3.34} es un poco peor de lo que \eqref{v2:eq:3.32} en el caso del método de máxima caída, así como la estimativa \eqref{v2:eq:3.35}. En relación a esta última, es preferible elegir $\theta$ próximo a 1 (sin embargo, cuanto más próximo está $\theta$ a 1, más cara es la implementación computacional de la regla de Armijo, por lo menos en principio). Finalmente, la elección óptima de la longitud de paso fijo, por la estimativa \eqref{v2:eq:3.36}, viene dada por $\bar{\alpha} = 1/L$ (en este caso, la estimativa \eqref{v2:eq:3.36} coincide con \eqref{v2:eq:3.32}).
+Por la estimativa \eqref{v2:eq:3.34}, en la regla de Armijo es preferible elegir el parámetro $\sigma$ próximo a 1/2. Mas incluso para $\sigma = 1/2$, la estimativa \eqref{v2:eq:3.34} es un poco peor de lo que \eqref{v2:eq:3.32} en el caso del método de máximo descenso, así como la estimativa \eqref{v2:eq:3.35}. En relación a esta última, es preferible elegir $\theta$ próximo a 1 (sin embargo, cuanto más próximo está $\theta$ a 1, más cara es la implementación computacional de la regla de Armijo, por lo menos en principio). Finalmente, la elección óptima de la longitud de paso fijo, por la estimativa \eqref{v2:eq:3.36}, viene dada por $\bar{\alpha} = 1/L$ (en este caso, la estimativa \eqref{v2:eq:3.36} coincide con \eqref{v2:eq:3.32}).
 
 Otros resultados sobre convergencia local del método del gradiente están basados en la sustitución de la condición suficiente de segunda orden por una condición de crecimiento cuadrático de la función objetivo, en el sentido más débil que \eqref{v2:eq:3.26} (recordamos que \eqref{v2:eq:3.26} es una consecuencia de la condición suficiente de segunda orden). Esto tiene sentido, porque la condición de segunda orden es violada cuando $\bar{x}$ es una solución del problema \eqref{v2:eq:3.1}, que no es aislada (i.e., en toda vecindad de $\bar{x}$ existen otros puntos del conjunto $S$ de minimizadores globales de $f$). Este es un caso perfectamente posible, por ejemplo, en el problema de minimizar la violación de viabilidad en un sistema de ecuaciones donde el número de ecuaciones es menor que el número de variables, i.e.,
 \begin{equation}

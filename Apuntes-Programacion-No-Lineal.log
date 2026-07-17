@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  17 JUL 2026 10:11
+This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)  (format=lualatex 2026.5.28)  17 JUL 2026 10:54
  restricted system commands enabled.
  file:line:error style messages enabled.
 **Apuntes-Programacion-No-Lineal.tex
@@ -2871,13 +2871,6 @@ Package csquotes Info: Redefining alias 'default' -> 'spanish'.
 (./Apuntes-Programacion-No-Lineal.aux
 Package babel Info: 'spanish' activates 'spanish' shorthands.
 (babel)             Reported on input line 18.
-
-
-LaTeX Warning: Label `v2:eq:3.120' multiply defined.
-
-
-LaTeX Warning: Label `v2:eq:3.120@cref' multiply defined.
-
 )
 \openout1 = Apuntes-Programacion-No-Lineal.aux
 
@@ -4119,7 +4112,7 @@ chapter without number
 
 
 ] (./Apuntes-Programacion-No-Lineal.ind)
-runsystem(latexminted cleantemp  --timestamp 20260717101147 619C487146398D9C4DAF
+runsystem(latexminted cleantemp  --timestamp 20260717105413 619C487146398D9C4DAF
 123F9D510570)...executed.
 
 (./Apuntes-Programacion-No-Lineal.aux
@@ -4134,9 +4127,6 @@ L3 programming layer <2020/03/25>
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: There were multiply-defined labels.
-
-
 Package biblatex Warning: Please (re)run Biber on the file:
 (biblatex)                Apuntes-Programacion-No-Lineal
 (biblatex)                and rerun LaTeX afterwards.
@@ -4148,7 +4138,7 @@ l'.
 )
 
 Here is how much of LuaTeX's memory you used:
- 88907 strings out of 475891
+ 88906 strings out of 475891
  381507,4101490 words of node,token memory allocated
  80326 words of node memory still in use:
    8 hlist, 2 vlist, 5 rule, 1 local_par, 18 glue, 4 kern, 1 penalty, 6 sub_mlis
@@ -4159,8 +4149,6 @@ t, 1 margin_kern, 3 glyph, 29780 attribute, 102 glue_spec, 9924 attribute_list,
  107510 multiletter control sequences out of 65536+600000
  153 fonts using 67789127 bytes
  125i,21n,128p,11236b,4829s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-warning  (pdf backend): unreferenced destination with name 'equation.8.142'
 </usr/local/texlive/2026/texmf-dist/fonts/opentype/public/inconsolata/Inconsolat
 azi4-Regular.otf></usr/share/fonts/opentype/stix/STIXTwoMath-Regular.otf></usr/s
 hare/fonts/truetype/stix/STIXTwoText-BoldItalic.ttf></usr/share/fonts/opentype/s
@@ -4171,11 +4159,11 @@ old.ttf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/tex-gyre/texgy
 reheros-regular.otf></usr/local/texlive/2026/texmf-dist/fonts/opentype/public/te
 x-gyre/texgyreheros-bold.otf></usr/local/texlive/2026/texmf-dist/fonts/type1/pub
 lic/amsfonts/symbols/msam10.pfb>
-Output written on Apuntes-Programacion-No-Lineal.pdf (269 pages, 2065848 bytes).
+Output written on Apuntes-Programacion-No-Lineal.pdf (269 pages, 2065874 bytes).
 
 
-PDF statistics: 6410 PDF objects out of 7423 (max. 8388607)
- 6043 compressed objects within 61 object streams
- 2124 named destinations out of 2487 (max. 1048576)
+PDF statistics: 6409 PDF objects out of 7423 (max. 8388607)
+ 6042 compressed objects within 61 object streams
+ 2123 named destinations out of 2487 (max. 1048576)
  1088 words of extra memory for PDF output out of 10000 (max. 100000000)
 
